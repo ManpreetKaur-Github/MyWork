@@ -1,0 +1,15 @@
+C:\Users\Manpreet Kaur\source\repos\PerformaceTestAutomation\PerformaceTestAutomation\bin\Debug\PerformaceTestAutomation.exe.config
+C:\Users\Manpreet Kaur\source\repos\PerformaceTestAutomation\PerformaceTestAutomation\bin\Debug\PerformaceTestAutomation.exe
+C:\Users\Manpreet Kaur\source\repos\PerformaceTestAutomation\PerformaceTestAutomation\bin\Debug\PerformaceTestAutomation.pdb
+C:\Users\Manpreet Kaur\source\repos\PerformaceTestAutomation\PerformaceTestAutomation\bin\Debug\DocumentFormat.OpenXml.dll
+C:\Users\Manpreet Kaur\source\repos\PerformaceTestAutomation\PerformaceTestAutomation\bin\Debug\EPPlus.dll
+C:\Users\Manpreet Kaur\source\repos\PerformaceTestAutomation\PerformaceTestAutomation\bin\Debug\Microsoft.IO.RecyclableMemoryStream.dll
+C:\Users\Manpreet Kaur\source\repos\PerformaceTestAutomation\PerformaceTestAutomation\bin\Debug\System.ComponentModel.Annotations.dll
+C:\Users\Manpreet Kaur\source\repos\PerformaceTestAutomation\PerformaceTestAutomation\bin\Debug\DocumentFormat.OpenXml.xml
+C:\Users\Manpreet Kaur\source\repos\PerformaceTestAutomation\PerformaceTestAutomation\bin\Debug\EPPlus.xml
+C:\Users\Manpreet Kaur\source\repos\PerformaceTestAutomation\PerformaceTestAutomation\bin\Debug\Microsoft.IO.RecyclableMemoryStream.xml
+C:\Users\Manpreet Kaur\source\repos\PerformaceTestAutomation\PerformaceTestAutomation\obj\Debug\PerformaceTestAutomation.csproj.CoreCompileInputs.cache
+C:\Users\Manpreet Kaur\source\repos\PerformaceTestAutomation\PerformaceTestAutomation\obj\Debug\PerformaceTestAutomation.csproj.CopyComplete
+C:\Users\Manpreet Kaur\source\repos\PerformaceTestAutomation\PerformaceTestAutomation\obj\Debug\PerformaceTestAutomation.exe
+C:\Users\Manpreet Kaur\source\repos\PerformaceTestAutomation\PerformaceTestAutomation\obj\Debug\PerformaceTestAutomation.pdb
+C:\Users\Manpreet Kaur\source\repos\PerformaceTestAutomation\PerformaceTestAutomation\obj\Debug\PerformaceTestAutomation.csprojAssemblyReference.cache

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<DataIntegratorExport repositoryVersion="14.2.7.0000" productVersion="14.2.7.1156">
+<DIFileLocationDatastore name="AmazonS3" typeId="3" >
+<DIAttributes>
+<DIAttribute name="DBLiveLoad" value="no"/>
+<DIAttribute name="application_type" value="File Location"/>
+<DIAttribute name="cdc_enabled" value="no"/>
+<DIAttribute name="cdc_type" value="native"/>
+<DIAttribute name="datastore_repotype" value="local"/>
+<DIAttribute name="ds_configuration_enabled" value="yes"/>
+<DIAttribute name="ds_configurations" hasNestedXMLTree ="true">
+
+<DSConfigurations>
+<DSConfiguration default="true" name="Configuration1">
+<case_sensitive></case_sensitive>
+<fl_bucket>%bucketname%</fl_bucket>
+<fl_communication>https</fl_communication>
+<fl_compression_type>none</fl_compression_type>
+<fl_conn_retry_count>10</fl_conn_retry_count>
+<fl_download_chunk_size>5</fl_download_chunk_size>
+<fl_number_of_threads>1</fl_number_of_threads>
+<fl_protocol>Amazon S3 Cloud Storage</fl_protocol>
+<fl_remote_dir>DA FILES</fl_remote_dir>
+<fl_s3_accesskey></fl_s3_accesskey>
+<fl_s3_region>us-west-2</fl_s3_region>
+<fl_s3_secretkey></fl_s3_secretkey>
+<fl_upload_chunk_size>5</fl_upload_chunk_size>
+<locale_codepage>&lt;default&gt;</locale_codepage>
+<locale_language>&lt;default&gt;</locale_language>
+<locale_territory>&lt;default&gt;</locale_territory>
+</DSConfiguration>
+</DSConfigurations>
+
+</DIAttribute>
+<DIAttribute name="enable_data_transfer" value="yes"/>
+<DIAttribute name="import_unknown_type" value="no"/>
+<DIAttribute name="name" value="AmazonS3"/>
+<DIAttribute name="pcache_force_utf16" value="no"/>
+<DIAttribute name="unknown_type_size" value="255"/>
+</DIAttributes>
+</DIFileLocationDatastore>
+
+</DataIntegratorExport>
+

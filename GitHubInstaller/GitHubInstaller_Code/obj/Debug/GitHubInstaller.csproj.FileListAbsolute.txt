@@ -1,0 +1,12 @@
+C:\Users\mkaur24\Desktop\github_12\fri_kapil\ConsoleApplication3\bin\Debug\ConsoleApplication3.exe.config
+C:\Users\mkaur24\Desktop\github_12\fri_kapil\ConsoleApplication3\bin\Debug\ConsoleApplication3.exe
+C:\Users\mkaur24\Desktop\github_12\fri_kapil\ConsoleApplication3\bin\Debug\ConsoleApplication3.pdb
+C:\Users\mkaur24\Desktop\github_12\fri_kapil\ConsoleApplication3\obj\Debug\ConsoleApplication3.exe
+C:\Users\mkaur24\Desktop\github_12\fri_kapil\ConsoleApplication3\obj\Debug\ConsoleApplication3.pdb
+C:\Users\mkaur24\Desktop\github_12\fri_kapil\ConsoleApplication3\obj\Debug\GitHubInstaller.csprojResolveAssemblyReference.cache
+C:\Users\mkaur24\Desktop\github_12\fri_kapil\GitHubInstaller\bin\Debug\GitHubInstaller.exe.config
+C:\Users\mkaur24\Desktop\github_12\fri_kapil\GitHubInstaller\bin\Debug\GitHubInstaller.exe
+C:\Users\mkaur24\Desktop\github_12\fri_kapil\GitHubInstaller\bin\Debug\GitHubInstaller.pdb
+C:\Users\mkaur24\Desktop\github_12\fri_kapil\GitHubInstaller\obj\Debug\GitHubInstaller.exe
+C:\Users\mkaur24\Desktop\github_12\fri_kapil\GitHubInstaller\obj\Debug\GitHubInstaller.pdb
+C:\Users\mkaur24\Desktop\github_12\fri_kapil\GitHubInstaller\obj\Debug\GitHubInstaller.csprojResolveAssemblyReference.cache

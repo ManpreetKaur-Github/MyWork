@@ -1,0 +1,20 @@
+Create PROCEDURE [dbo].[LoadTraceFileToTable] 
+  (@traceFileName varchar(200), 
+  @newTraceTableName sysname)
+AS
+BEGIN 
+  DECLARE @tsqlStmt varchar(400)
+  SET NOCOUNT ON
+  SET @tsqlStmt = 
+
+-- BEGIN CALLOUT A
+  'SELECT IDENTITY(bigInt,1,1) AS Row_Number,' +
+  '* ' + ' INTO ' + RTRIM(LTRIM(@newTraceTableName)) +
+  ' FROM ::fn_trace_gettable ( ' + '''' + 
+  @traceFileName + '''' + ',default)'
+-- END CALLOUT A
+
+  PRINT @tsqlStmt
+  EXEC (@tsqlStmt)
+  SET NOCOUNT OFF
+END

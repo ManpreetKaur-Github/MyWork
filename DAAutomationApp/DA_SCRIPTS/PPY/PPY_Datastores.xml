@@ -1,0 +1,1638 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<DataIntegratorExport formatVersion="1.0" repositoryVersion="14.2.7.0000" productVersion="14.2.7.1156" repositoryName="MICROSOFT_SQL_SERVER.RMDEVDB.CZZS5UFIRIT6.US-WEST-2.RDS.AMAZONAWS.COM.REPO_PPY_1.RMUSER" timestamp="2019-10-22 12:50:03">
+<DIDatabaseDatastore name="DS_RMDB" id="85be3700-2d42-44bd-92f4-b49c8cdb666b" typeId="3" >
+<DIAttributes>
+<DIAttribute name="DBLiveLoad" value="no"/>
+<DIAttribute name="application_type" value="Custom"/>
+<DIAttribute name="cdc_enabled" value="no"/>
+<DIAttribute name="cdc_type" value="native"/>
+<DIAttribute name="datastore_repotype" value="local"/>
+<DIAttribute name="ds_configuration_enabled" value="yes"/>
+<DIAttribute name="ds_configurations" hasNestedXMLTree ="true">
+
+<DSConfigurations>
+<DSConfiguration default="false" name="MSSQL_2012">
+<case_sensitive>no</case_sensitive>
+<cdc_ra_password>+0400000000120303000803E8AA16242C8265402F203424ED3998DBF283BDB6F56270A1C7580983B45D2B98B9010648F5ECF258B8</cdc_ra_password>
+<cdc_ra_server>DS_RA</cdc_ra_server>
+<cdc_ra_user>sa</cdc_ra_user>
+<cdc_rs_password>+0400000000120303000803E89AF71F4432DD0D87C6A8DF0106A657395D23D8129F60CC577278BDC448A6353B943A6F511847E28A</cdc_rs_password>
+<cdc_rs_retention>0</cdc_rs_retention>
+<cdc_rs_server>SAMPLE_RS</cdc_rs_server>
+<cdc_rs_user>ds</cdc_rs_user>
+<database_subtype>On Premise</database_subtype>
+<database_type>Microsoft_SQL_Server</database_type>
+<db_alias_name1>DBO</db_alias_name1>
+<db_alias_user1>DBO</db_alias_user1>
+<db_mssql_change_data_tracking_method>MSSQL_Replication</db_mssql_change_data_tracking_method>
+<loader_xact_size>1000</loader_xact_size>
+<locale_codepage>&lt;default&gt;</locale_codepage>
+<locale_language>&lt;default&gt;</locale_language>
+<locale_territory>&lt;default&gt;</locale_territory>
+<mssql_windows_authentication>no</mssql_windows_authentication>
+<server_codepage>&lt;default&gt;</server_codepage>
+<sql_server_database>RISKMASTER DB</sql_server_database>
+<sql_server_dataserver>SQL Server Name</sql_server_dataserver>
+<sql_server_version>Microsoft SQL Server 2012</sql_server_version>
+<use_ssl_encryption>no</use_ssl_encryption>
+<user>RMDBUSER</user>
+</DSConfiguration>
+<DSConfiguration default="false" name="MSSQL_2014">
+<case_sensitive>no</case_sensitive>
+<cdc_ra_password>+0400000000120303000803E847DAF6A397976AEFD0C14B40F2E56D36A09631297E1A8BD906A44CA8BC7E2B482CAF4F2BAA6AFE33</cdc_ra_password>
+<cdc_ra_server>DS_RA</cdc_ra_server>
+<cdc_ra_user>sa</cdc_ra_user>
+<cdc_rs_password>+0400000000120303000803E8C4DDAE8ACB2616E710FC1C550955B9DA9706DF380D3D610DF379D47CA200E93DE9871F0D85F6D901</cdc_rs_password>
+<cdc_rs_retention>0</cdc_rs_retention>
+<cdc_rs_server>SAMPLE_RS</cdc_rs_server>
+<cdc_rs_user>ds</cdc_rs_user>
+<database_subtype>On Premise</database_subtype>
+<database_type>Microsoft_SQL_Server</database_type>
+<db_alias_name1>DBO</db_alias_name1>
+<db_alias_user1>DBO</db_alias_user1>
+<db_mssql_change_data_tracking_method>MSSQL_Replication</db_mssql_change_data_tracking_method>
+<loader_xact_size>1000</loader_xact_size>
+<locale_codepage>&lt;default&gt;</locale_codepage>
+<locale_language>&lt;default&gt;</locale_language>
+<locale_territory>&lt;default&gt;</locale_territory>
+<mssql_windows_authentication>no</mssql_windows_authentication>
+<password></password>
+<server_codepage>&lt;default&gt;</server_codepage>
+<sql_server_database>RISKMASTER DB</sql_server_database>
+<sql_server_dataserver>SQL Server Name</sql_server_dataserver>
+<sql_server_version>Microsoft SQL Server 2014</sql_server_version>
+<use_ssl_encryption>no</use_ssl_encryption>
+<user>RMDBUSER</user>
+</DSConfiguration>
+<DSConfiguration default="false" name="ORACLE_11g">
+<Oracle_default_number_precision>28</Oracle_default_number_precision>
+<Oracle_default_number_scale>7</Oracle_default_number_scale>
+<case_sensitive>no</case_sensitive>
+<cdc_ra_password>+0400000000120303000803E8ECFA0701FEEAB2797990C55E3F4429326F96141BAB1FC6080824DBA3EF02E88842FD2DF349632A60</cdc_ra_password>
+<cdc_ra_server>DS_RA</cdc_ra_server>
+<cdc_ra_user>sa</cdc_ra_user>
+<cdc_rs_password>+0400000000120303000803E831605C6C98B53448D8990094464E028806E2241D9E765582D50B4ABF539ACFA120C4B2BAA550CFE3</cdc_rs_password>
+<cdc_rs_retention>0</cdc_rs_retention>
+<cdc_rs_server>SAMPLE_RS</cdc_rs_server>
+<cdc_rs_user>ds</cdc_rs_user>
+<database_type>Oracle</database_type>
+<db_alias_name1>DBO</db_alias_name1>
+<db_alias_user1>RMDBUSER</db_alias_user1>
+<db_dsnless>no</db_dsnless>
+<loader_xact_size>1000</loader_xact_size>
+<locale_codepage>&lt;default&gt;</locale_codepage>
+<locale_language>&lt;default&gt;</locale_language>
+<locale_territory>&lt;default&gt;</locale_territory>
+<oracle_host_string>Oracle Connection</oracle_host_string>
+<oracle_version>Oracle 11g</oracle_version>
+<server_codepage>&lt;default&gt;</server_codepage>
+<user>RMDBUSER</user>
+</DSConfiguration>
+<DSConfiguration default="false" name="Oracle_12c">
+<Oracle_default_number_precision>28</Oracle_default_number_precision>
+<Oracle_default_number_scale>7</Oracle_default_number_scale>
+<case_sensitive>no</case_sensitive>
+<cdc_ra_password>+0400000000120303000803E840A597CF4B138447316682AF6E4CDA99E1CF0210BBA55A779F3D53E49ADAA393377C4D42416B9446</cdc_ra_password>
+<cdc_ra_server>DS_RA</cdc_ra_server>
+<cdc_ra_user>sa</cdc_ra_user>
+<cdc_rs_password>+0400000000120303000803E835D7CAC84AF5B9006650EAC9D05CD2438A24C176F3611FFE582733741C3B0C9B767F5AF11119E87A</cdc_rs_password>
+<cdc_rs_retention>0</cdc_rs_retention>
+<cdc_rs_server>SAMPLE_RS</cdc_rs_server>
+<cdc_rs_user>ds</cdc_rs_user>
+<database_type>Oracle</database_type>
+<db_alias_name1>DBO</db_alias_name1>
+<db_alias_user1>RMDBUSER</db_alias_user1>
+<db_dsnless>no</db_dsnless>
+<loader_xact_size>1000</loader_xact_size>
+<locale_codepage>&lt;default&gt;</locale_codepage>
+<locale_language>&lt;default&gt;</locale_language>
+<locale_territory>&lt;default&gt;</locale_territory>
+<oracle_host_string>Oracle Connection</oracle_host_string>
+<oracle_version>Oracle 12c</oracle_version>
+<password></password>
+<server_codepage>&lt;default&gt;</server_codepage>
+<user>RMDBUSER</user>
+</DSConfiguration>
+<DSConfiguration default="true" name="MSSQL_2008">
+<case_sensitive>yes</case_sensitive>
+<cdc_ra_password>+0400000000120303000803E89F357F4556BDC25E1F0C6BF7B41A84F226CEB77DD4AAA55B7F8F918BC1D9B6B31E60F4306C41CC15</cdc_ra_password>
+<cdc_ra_server>DS_RA</cdc_ra_server>
+<cdc_ra_user>sa</cdc_ra_user>
+<cdc_rs_password>+0400000000120303000803E8385124D2572738CD409D72363BE52DB16B0C7AFBFA76B9FF09EF86E917117B36A59E0D4ED4247CE4</cdc_rs_password>
+<cdc_rs_retention>0</cdc_rs_retention>
+<cdc_rs_server>SAMPLE_RS</cdc_rs_server>
+<cdc_rs_user>ds</cdc_rs_user>
+<database_subtype>On Premise</database_subtype>
+<database_type>Microsoft_SQL_Server</database_type>
+<db_alias_name1>DBO</db_alias_name1>
+<db_alias_user1>DBO</db_alias_user1>
+<loader_xact_size>1000</loader_xact_size>
+<locale_codepage>&lt;default&gt;</locale_codepage>
+<locale_language>&lt;default&gt;</locale_language>
+<locale_territory>&lt;default&gt;</locale_territory>
+<mssql_windows_authentication>no</mssql_windows_authentication>
+<password></password>
+<server_codepage>&lt;default&gt;</server_codepage>
+<sql_server_database>RISKMASTER DB</sql_server_database>
+<sql_server_dataserver>SQL Server Name</sql_server_dataserver>
+<sql_server_version>Microsoft SQL Server 2008</sql_server_version>
+<use_ssl_encryption>no</use_ssl_encryption>
+<user>RMDBUSER</user>
+</DSConfiguration>
+<DSConfiguration default="false" name="Oracle_10g">
+<Oracle_default_number_precision>28</Oracle_default_number_precision>
+<Oracle_default_number_scale>7</Oracle_default_number_scale>
+<case_sensitive>no</case_sensitive>
+<cdc_ra_password>+0400000000120303000803E88FFBB12D0A338311250857F9D0E57FB2AD5527577924E13B0350AF3A9971DEA3284AFEA32EF0512F</cdc_ra_password>
+<cdc_ra_server>DS_RA</cdc_ra_server>
+<cdc_ra_user>sa</cdc_ra_user>
+<cdc_rs_password>+0400000000120303000803E82D69140991E86FB1E4A3E3A8E41D5A1213A1EC91BAAB669A998B63FE4A8EE8FB2B20D292E4D35640</cdc_rs_password>
+<cdc_rs_retention>0</cdc_rs_retention>
+<cdc_rs_server>SAMPLE_RS</cdc_rs_server>
+<cdc_rs_user>ds</cdc_rs_user>
+<database_type>Oracle</database_type>
+<db_alias_name1>DBO</db_alias_name1>
+<db_alias_user1>RMDBUSER</db_alias_user1>
+<db_dsnless>no</db_dsnless>
+<loader_xact_size>1000</loader_xact_size>
+<locale_codepage>&lt;default&gt;</locale_codepage>
+<locale_language>&lt;default&gt;</locale_language>
+<locale_territory>&lt;default&gt;</locale_territory>
+<oracle_host_string>Oracle Connection</oracle_host_string>
+<oracle_version>Oracle 10g</oracle_version>
+<server_codepage>&lt;default&gt;</server_codepage>
+<user>RMDBUSER</user>
+</DSConfiguration>
+</DSConfigurations>
+
+</DIAttribute>
+<DIAttribute name="enable_data_transfer" value="yes"/>
+<DIAttribute name="import_unknown_type" value="no"/>
+<DIAttribute name="name" value="DS_RMDB"/>
+<DIAttribute name="pcache_force_utf16" value="no"/>
+<DIAttribute name="unknown_type_size" value="255"/>
+</DIAttributes>
+</DIDatabaseDatastore>
+<DIDatabaseDatastore name="DS_STAGING" id="82a26522-2d9d-4287-bd8d-43fb041588a9" typeId="3" >
+<DIAttributes>
+<DIAttribute name="DBLiveLoad" value="no"/>
+<DIAttribute name="application_type" value="Custom"/>
+<DIAttribute name="cdc_enabled" value="no"/>
+<DIAttribute name="cdc_type" value="native"/>
+<DIAttribute name="datastore_repotype" value="local"/>
+<DIAttribute name="ds_configuration_enabled" value="yes"/>
+<DIAttribute name="ds_configurations" hasNestedXMLTree ="true">
+
+<DSConfigurations>
+<DSConfiguration default="false" name="Oracle_11g">
+<Oracle_default_number_precision>28</Oracle_default_number_precision>
+<Oracle_default_number_scale>7</Oracle_default_number_scale>
+<case_sensitive>no</case_sensitive>
+<cdc_ra_password>+0400000000120303000803E82A588847C2C7C418A688192EA9364CB2F9C6AA79AA8DFD78283800BCECDFE5C9338E8D0C4F33E117</cdc_ra_password>
+<cdc_ra_server>DS_RA</cdc_ra_server>
+<cdc_ra_user>sa</cdc_ra_user>
+<cdc_rs_password>+0400000000120303000803E8E8BBFDE523CEF52010EE1411F8B952832E7FAF0C9134893FA8CD4A4EA7F614E5A06932A548D757F0</cdc_rs_password>
+<cdc_rs_retention>0</cdc_rs_retention>
+<cdc_rs_server>SAMPLE_RS</cdc_rs_server>
+<cdc_rs_user>ds</cdc_rs_user>
+<database_type>Oracle</database_type>
+<db_alias_name1>DBO</db_alias_name1>
+<db_alias_user1>STAGINGDBUSER</db_alias_user1>
+<db_dsnless>no</db_dsnless>
+<loader_xact_size>1000</loader_xact_size>
+<locale_codepage>&lt;default&gt;</locale_codepage>
+<locale_language>&lt;default&gt;</locale_language>
+<locale_territory>&lt;default&gt;</locale_territory>
+<oracle_host_string>Oracle Connection</oracle_host_string>
+<oracle_version>Oracle 11g</oracle_version>
+<server_codepage>&lt;default&gt;</server_codepage>
+<user>STAGINGDBUser</user>
+</DSConfiguration>
+<DSConfiguration default="true" name="MSSQL_2008">
+<case_sensitive>yes</case_sensitive>
+<cdc_ra_password>+0400000000120303000803E8B1BD5D9484239D925D8E6972C472C2E5DD7427F7132ADE686FB03D66EE12649D146E190CA8DCA786</cdc_ra_password>
+<cdc_ra_server>DS_RA</cdc_ra_server>
+<cdc_ra_user>sa</cdc_ra_user>
+<cdc_rs_password>+0400000000120303000803E88CE336F65A6C83349439FCCDFDAEB456BEFA4F886F40A3559C7A0D0A55315B1F50A27C77B8A58ECD</cdc_rs_password>
+<cdc_rs_retention>0</cdc_rs_retention>
+<cdc_rs_server>SAMPLE_RS</cdc_rs_server>
+<cdc_rs_user>ds</cdc_rs_user>
+<database_subtype>On Premise</database_subtype>
+<database_type>Microsoft_SQL_Server</database_type>
+<db_alias_name1>DBO</db_alias_name1>
+<db_alias_user1>DBO</db_alias_user1>
+<loader_xact_size>1000</loader_xact_size>
+<locale_codepage>&lt;default&gt;</locale_codepage>
+<locale_language>&lt;default&gt;</locale_language>
+<locale_territory>&lt;default&gt;</locale_territory>
+<mssql_windows_authentication>no</mssql_windows_authentication>
+<password></password>
+<server_codepage>&lt;default&gt;</server_codepage>
+<sql_server_database>STAGING DB</sql_server_database>
+<sql_server_dataserver>SQL Server Name</sql_server_dataserver>
+<sql_server_version>Microsoft SQL Server 2008</sql_server_version>
+<use_ssl_encryption>no</use_ssl_encryption>
+<user>STAGINGDBUser</user>
+</DSConfiguration>
+<DSConfiguration default="false" name="MSSQL_2012">
+<case_sensitive>no</case_sensitive>
+<cdc_ra_password>+0400000000120303000803E88C0BCBE34DE4AB20402B9DCDB4580539C6361E4197067E9E1751CE08A451BF051D848E5CA7D6ADFF</cdc_ra_password>
+<cdc_ra_server>DS_RA</cdc_ra_server>
+<cdc_ra_user>sa</cdc_ra_user>
+<cdc_rs_password>+0400000000120303000803E80A45519557AC7CF9A999D2F53C5F9CC60D703DCB9140DED3F674D9D3218FD9B57E6624114B2C1A7A</cdc_rs_password>
+<cdc_rs_retention>0</cdc_rs_retention>
+<cdc_rs_server>SAMPLE_RS</cdc_rs_server>
+<cdc_rs_user>ds</cdc_rs_user>
+<database_subtype>On Premise</database_subtype>
+<database_type>Microsoft_SQL_Server</database_type>
+<db_alias_name1>DBO</db_alias_name1>
+<db_alias_user1>DBO</db_alias_user1>
+<db_mssql_change_data_tracking_method>MSSQL_Replication</db_mssql_change_data_tracking_method>
+<loader_xact_size>1000</loader_xact_size>
+<locale_codepage>&lt;default&gt;</locale_codepage>
+<locale_language>&lt;default&gt;</locale_language>
+<locale_territory>&lt;default&gt;</locale_territory>
+<mssql_windows_authentication>no</mssql_windows_authentication>
+<server_codepage>&lt;default&gt;</server_codepage>
+<sql_server_database>STAGING DB</sql_server_database>
+<sql_server_dataserver>SQL Server Name</sql_server_dataserver>
+<sql_server_version>Microsoft SQL Server 2012</sql_server_version>
+<use_ssl_encryption>no</use_ssl_encryption>
+<user>STAGINGDBUser</user>
+</DSConfiguration>
+<DSConfiguration default="false" name="MSSQL_2014">
+<case_sensitive>no</case_sensitive>
+<cdc_ra_password>+0400000000120303000803E8A024972C911F1DE313CEA6F290B4330188DE5C0B8CA4E2771CC41A8D9DFD293D983CCF2B55C3D59D</cdc_ra_password>
+<cdc_ra_server>DS_RA</cdc_ra_server>
+<cdc_ra_user>sa</cdc_ra_user>
+<cdc_rs_password>+0400000000120303000803E872242CC6D6A3469102BD6FAF2178E5CBC0CBBDC90075419D993FCC45CAF9D52DBD65AD1CAE4A8859</cdc_rs_password>
+<cdc_rs_retention>0</cdc_rs_retention>
+<cdc_rs_server>SAMPLE_RS</cdc_rs_server>
+<cdc_rs_user>ds</cdc_rs_user>
+<database_subtype>On Premise</database_subtype>
+<database_type>Microsoft_SQL_Server</database_type>
+<db_alias_name1>DBO</db_alias_name1>
+<db_alias_user1>DBO</db_alias_user1>
+<db_mssql_change_data_tracking_method>MSSQL_Replication</db_mssql_change_data_tracking_method>
+<loader_xact_size>1000</loader_xact_size>
+<locale_codepage>&lt;default&gt;</locale_codepage>
+<locale_language>&lt;default&gt;</locale_language>
+<locale_territory>&lt;default&gt;</locale_territory>
+<mssql_windows_authentication>no</mssql_windows_authentication>
+<password></password>
+<server_codepage>&lt;default&gt;</server_codepage>
+<sql_server_database>STAGING DB</sql_server_database>
+<sql_server_dataserver>SQL Server Name</sql_server_dataserver>
+<sql_server_version>Microsoft SQL Server 2014</sql_server_version>
+<use_ssl_encryption>no</use_ssl_encryption>
+<user>STAGINGDBUser</user>
+</DSConfiguration>
+<DSConfiguration default="false" name="Oracle_10g">
+<Oracle_default_number_precision>28</Oracle_default_number_precision>
+<Oracle_default_number_scale>7</Oracle_default_number_scale>
+<case_sensitive>no</case_sensitive>
+<cdc_ra_password>+0400000000120303000803E87224BB9F9F51DA7515C6FC5F7FE064864962189C96B47615DE9FD82E950FE48E6C0B2622D89EA7F1</cdc_ra_password>
+<cdc_ra_server>DS_RA</cdc_ra_server>
+<cdc_ra_user>sa</cdc_ra_user>
+<cdc_rs_password>+0400000000120303000803E876D30E32E870629C23EF27770CE195C94E18BABDB1DB4498107C638BC8386318D14E4EB9A0A2BB91</cdc_rs_password>
+<cdc_rs_retention>0</cdc_rs_retention>
+<cdc_rs_server>SAMPLE_RS</cdc_rs_server>
+<cdc_rs_user>ds</cdc_rs_user>
+<database_type>Oracle</database_type>
+<db_alias_name1>DBO</db_alias_name1>
+<db_alias_user1>STAGINGDBUSER</db_alias_user1>
+<db_dsnless>no</db_dsnless>
+<loader_xact_size>1000</loader_xact_size>
+<locale_codepage>&lt;default&gt;</locale_codepage>
+<locale_language>&lt;default&gt;</locale_language>
+<locale_territory>&lt;default&gt;</locale_territory>
+<oracle_host_string>Oracle Connection</oracle_host_string>
+<oracle_version>Oracle 10g</oracle_version>
+<server_codepage>&lt;default&gt;</server_codepage>
+<user>STAGINGDBUser</user>
+</DSConfiguration>
+<DSConfiguration default="false" name="Oracle_12c">
+<Oracle_default_number_precision>28</Oracle_default_number_precision>
+<Oracle_default_number_scale>7</Oracle_default_number_scale>
+<case_sensitive>no</case_sensitive>
+<cdc_ra_password>+0400000000120303000803E8E3FA94CCC3169329507D708F7246D1146F6981ED13675574C305CD0C25B018A53393BC7DC25C4149</cdc_ra_password>
+<cdc_ra_server>DS_RA</cdc_ra_server>
+<cdc_ra_user>sa</cdc_ra_user>
+<cdc_rs_password>+0400000000120303000803E8BED8C4F74ADB75CDC14AAD9E6A3BEFA46C235BEA1377AC480DD52EE433C508EC8EBCEA45F1AD7AFC</cdc_rs_password>
+<cdc_rs_retention>0</cdc_rs_retention>
+<cdc_rs_server>SAMPLE_RS</cdc_rs_server>
+<cdc_rs_user>ds</cdc_rs_user>
+<database_type>Oracle</database_type>
+<db_alias_name1>DBO</db_alias_name1>
+<db_alias_user1>STAGINGDBUSER</db_alias_user1>
+<db_dsnless>no</db_dsnless>
+<loader_xact_size>1000</loader_xact_size>
+<locale_codepage>&lt;default&gt;</locale_codepage>
+<locale_language>&lt;default&gt;</locale_language>
+<locale_territory>&lt;default&gt;</locale_territory>
+<oracle_host_string>Oracle Connection</oracle_host_string>
+<oracle_version>Oracle 12c</oracle_version>
+<password></password>
+<server_codepage>&lt;default&gt;</server_codepage>
+<user>STAGINGDBUser</user>
+</DSConfiguration>
+</DSConfigurations>
+
+</DIAttribute>
+<DIAttribute name="enable_data_transfer" value="yes"/>
+<DIAttribute name="import_unknown_type" value="no"/>
+<DIAttribute name="name" value="DS_STAGING"/>
+<DIAttribute name="pcache_force_utf16" value="no"/>
+<DIAttribute name="unknown_type_size" value="255"/>
+</DIAttributes>
+</DIDatabaseDatastore>
+<DITable name="ACCOUNT" owner="DBO" datastore="DS_RMDB" database="RISKMASTER DB" description="" >
+<DIProperties>
+<DIAttribute name="Database_Object_Type" value="TABLE" />
+<DIAttribute name="Table_Type" value="TABLE" />
+<DIAttribute name="Estimated_Row_Count" value="50000" />
+<DIAttribute name="SavedAfterCheckOut" value="YES" />
+<DIAttribute name="Loader_Is_Template_Table" value="no" />
+<DIAttribute name="Date_modified" value="Tue Oct 22 12:37:55 2019" />
+<DIAttribute name="db_alias_name" value="DBO" />
+</DIProperties>
+<DIColumn name="ACCOUNT_NUMBER" datatype="VARCHAR" size="20" nullable="true" >
+</DIColumn>
+<DIColumn name="OWNER_EID" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="ACCOUNT_ID" datatype="INT" nullable="false" >
+</DIColumn>
+<DIColumn name="ACCOUNT_NAME" datatype="VARCHAR" size="100" nullable="true" >
+</DIColumn>
+<DIColumn name="ACCT_TYPE_CODE" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="BANK_EID" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="NEXT_CHECK_NUMBER" datatype="DECIMAL" precision="19" scale="0" nullable="true" >
+</DIColumn>
+<DIColumn name="NEXT_BATCH_NUMBER" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="DEFAULT_ACCOUNT" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="OWNER_LOB" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="EFF_TRIGGER" datatype="VARCHAR" size="50" nullable="true" >
+</DIColumn>
+<DIColumn name="TRIGGER_FROM_DATE" datatype="VARCHAR" size="8" nullable="true" >
+</DIColumn>
+<DIColumn name="TRIGGER_TO_DATE" datatype="VARCHAR" size="8" nullable="true" >
+</DIColumn>
+<DIColumn name="MAST_BANK_ACCT_ID" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="SERVICE_CODE" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="PRIORITY" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="IS_EFT_ACCOUNT" datatype="INT" nullable="false" >
+</DIColumn>
+<DIColumn name="ROUTING_NUMBER" datatype="VARCHAR" size="10" nullable="true" >
+</DIColumn>
+<DIColumn name="BANK_CODE" datatype="VARCHAR" size="50" nullable="true" >
+</DIColumn>
+<DIColumn name="DTTM_RCD_ADDED" datatype="VARCHAR" size="14" nullable="true" >
+</DIColumn>
+<DIColumn name="DTTM_RCD_LAST_UPD" datatype="VARCHAR" size="14" nullable="true" >
+</DIColumn>
+<DIColumn name="ADDED_BY_USER" datatype="VARCHAR" size="50" nullable="true" >
+</DIColumn>
+<DIColumn name="UPDATED_BY_USER" datatype="VARCHAR" size="50" nullable="true" >
+</DIColumn>
+<DIColumn name="ESCROW_ACCOUNT" datatype="INT" nullable="false" >
+</DIColumn>
+<DIPrimaryKey>
+<DIPrimaryKeyColumn name="ACCOUNT_ID" />
+</DIPrimaryKey>
+<DITableIndex name="PK_ACCOUNT" unique="true">
+<DIIndexColumn name="ACCOUNT_ID" />
+</DITableIndex>
+</DITable>
+<DITable name="CODES" owner="DBO" datastore="DS_RMDB" database="RISKMASTER DB" description="" >
+<DIProperties>
+<DIAttribute name="Database_Object_Type" value="TABLE" />
+<DIAttribute name="Table_Type" value="TABLE" />
+<DIAttribute name="Estimated_Row_Count" value="50000" />
+<DIAttribute name="SavedAfterCheckOut" value="YES" />
+<DIAttribute name="Loader_Is_Template_Table" value="no" />
+<DIAttribute name="Date_modified" value="Tue Oct 22 12:37:55 2019" />
+<DIAttribute name="db_alias_name" value="DBO" />
+</DIProperties>
+<DIColumn name="IND_STANDARD_CODE" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="LINE_OF_BUS_CODE" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="CODE_ID" datatype="INT" nullable="false" >
+</DIColumn>
+<DIColumn name="TABLE_ID" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="SHORT_CODE" datatype="VARCHAR" size="25" nullable="true" >
+</DIColumn>
+<DIColumn name="RELATED_CODE_ID" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="DELETED_FLAG" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="TRIGGER_DATE_FIELD" datatype="VARCHAR" size="50" nullable="true" >
+</DIColumn>
+<DIColumn name="EFF_START_DATE" datatype="VARCHAR" size="8" nullable="true" >
+</DIColumn>
+<DIColumn name="EFF_END_DATE" datatype="VARCHAR" size="8" nullable="true" >
+</DIColumn>
+<DIColumn name="ORG_GROUP_EID" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="DTTM_RCD_ADDED" datatype="VARCHAR" size="14" nullable="true" >
+</DIColumn>
+<DIColumn name="DTTM_RCD_LAST_UPD" datatype="VARCHAR" size="14" nullable="true" >
+</DIColumn>
+<DIColumn name="ADDED_BY_USER" datatype="VARCHAR" size="50" nullable="true" >
+</DIColumn>
+<DIColumn name="UPDATED_BY_USER" datatype="VARCHAR" size="50" nullable="true" >
+</DIColumn>
+<DIPrimaryKey>
+<DIPrimaryKeyColumn name="CODE_ID" />
+</DIPrimaryKey>
+<DITableIndex name="DC005B" unique="false">
+<DIIndexColumn name="TABLE_ID" />
+<DIIndexColumn name="SHORT_CODE" />
+<DIIndexColumn name="LINE_OF_BUS_CODE" />
+</DITableIndex>
+<DITableIndex name="IDX_CODES_1" unique="false">
+<DIIndexColumn name="LINE_OF_BUS_CODE" />
+<DIIndexColumn name="DELETED_FLAG" />
+<DIIndexColumn name="ORG_GROUP_EID" />
+</DITableIndex>
+<DITableIndex name="IDX_CODES_2" unique="false">
+<DIIndexColumn name="RELATED_CODE_ID" />
+<DIIndexColumn name="LINE_OF_BUS_CODE" />
+<DIIndexColumn name="DELETED_FLAG" />
+<DIIndexColumn name="ORG_GROUP_EID" />
+</DITableIndex>
+<DITableIndex name="IDX_CODES_MULTI_1" unique="false">
+<DIIndexColumn name="TABLE_ID" />
+<DIIndexColumn name="SHORT_CODE" />
+<DIIndexColumn name="LINE_OF_BUS_CODE" />
+</DITableIndex>
+<DITableIndex name="PK_CODES" unique="true">
+<DIIndexColumn name="CODE_ID" />
+</DITableIndex>
+<DITableIndex name="RMA_IDX_DELETED_FLAG" unique="false">
+<DIIndexColumn name="DELETED_FLAG" />
+</DITableIndex>
+<DITableIndex name="RMA_IDX_LINE_OF_BUS_CODE" unique="false">
+<DIIndexColumn name="LINE_OF_BUS_CODE" />
+</DITableIndex>
+<DITableIndex name="RMA_IDX_ORG_GROUP_EID" unique="false">
+<DIIndexColumn name="ORG_GROUP_EID" />
+</DITableIndex>
+<DITableIndex name="RMA_IDX_TABLE_ID" unique="false">
+<DIIndexColumn name="TABLE_ID" />
+</DITableIndex>
+</DITable>
+<DITable name="DATA_INTEGRATOR" owner="DBO" datastore="DS_RMDB" database="RISKMASTER DB" description="" >
+<DIProperties>
+<DIAttribute name="Database_Object_Type" value="TABLE" />
+<DIAttribute name="Table_Type" value="TABLE" />
+<DIAttribute name="Estimated_Row_Count" value="50000" />
+<DIAttribute name="SavedAfterCheckOut" value="YES" />
+<DIAttribute name="Loader_Is_Template_Table" value="no" />
+<DIAttribute name="Date_modified" value="Tue Oct 22 12:37:55 2019" />
+<DIAttribute name="Date_last_loaded" value="Wed Feb 20 02:17:16 2019" />
+<DIAttribute name="Total_Number_Of_Rows_Processed" value="1" />
+<DIAttribute name="Number_Of_Rows_Rejected" value="0" />
+<DIAttribute name="Number_Of_Inserts" value="0" />
+<DIAttribute name="Number_Of_Updates" value="1" />
+<DIAttribute name="Number_Of_Deletes" value="0" />
+<DIAttribute name="Elapsed_Time_For_Load" value="0 Seconds" />
+<DIAttribute name="db_alias_name" value="DBO" />
+</DIProperties>
+<DIColumn name="OPTIONSET_ID" datatype="INT" nullable="false" >
+</DIColumn>
+<DIColumn name="USER_ID" datatype="INT" nullable="false" >
+</DIColumn>
+<DIColumn name="MODULE_NAME" datatype="VARCHAR" size="50" nullable="false" >
+</DIColumn>
+<DIColumn name="OPTIONSET_NAME" datatype="VARCHAR" size="50" nullable="false" >
+</DIColumn>
+<DIColumn name="XML_STRING" datatype="LONG" nullable="true" >
+<DIProperties>
+<DIAttribute name="Long Type" value="CLOB"/>
+<DIAttribute name="Native Type" value="text"/>
+</DIProperties>
+</DIColumn>
+<DIColumn name="DTTM_LAST_RUN" datatype="VARCHAR" size="16" nullable="true" >
+</DIColumn>
+<DIColumn name="FILE_COUNT" datatype="INT" nullable="true" >
+</DIColumn>
+<DIPrimaryKey>
+<DIPrimaryKeyColumn name="OPTIONSET_ID" />
+</DIPrimaryKey>
+<DITableIndex name="PK__DATA_INT__E4AADDDD1472AF86" unique="true">
+<DIIndexColumn name="OPTIONSET_ID" />
+</DITableIndex>
+</DITable>
+<DITable name="ENTITY" owner="DBO" datastore="DS_RMDB" database="RISKMASTER DB" description="" >
+<DIProperties>
+<DIAttribute name="Database_Object_Type" value="TABLE" />
+<DIAttribute name="Table_Type" value="TABLE" />
+<DIAttribute name="Estimated_Row_Count" value="50000" />
+<DIAttribute name="SavedAfterCheckOut" value="YES" />
+<DIAttribute name="Loader_Is_Template_Table" value="no" />
+<DIAttribute name="Date_modified" value="Tue Oct 22 12:37:56 2019" />
+<DIAttribute name="db_alias_name" value="DBO" />
+</DIProperties>
+<DIColumn name="BUSINESS_TYPE_CODE" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="COUNTY" datatype="VARCHAR" size="30" nullable="true" >
+</DIColumn>
+<DIColumn name="NATURE_OF_BUSINESS" datatype="VARCHAR" size="50" nullable="true" >
+</DIColumn>
+<DIColumn name="SIC_CODE" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="SIC_CODE_DESC" datatype="VARCHAR" size="150" nullable="true" >
+</DIColumn>
+<DIColumn name="WC_FILING_NUMBER" datatype="VARCHAR" size="30" nullable="true" >
+</DIColumn>
+<DIColumn name="ENTITY_ID" datatype="INT" nullable="false" >
+</DIColumn>
+<DIColumn name="ENTITY_TABLE_ID" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="LAST_NAME" datatype="VARCHAR" size="255" nullable="true" >
+</DIColumn>
+<DIColumn name="LAST_NAME_SOUNDEX" datatype="VARCHAR" size="8" nullable="true" >
+</DIColumn>
+<DIColumn name="FIRST_NAME" datatype="VARCHAR" size="255" nullable="true" >
+</DIColumn>
+<DIColumn name="ALSO_KNOWN_AS" datatype="VARCHAR" size="50" nullable="true" >
+</DIColumn>
+<DIColumn name="ABBREVIATION" datatype="VARCHAR" size="25" nullable="true" >
+</DIColumn>
+<DIColumn name="COST_CENTER_CODE" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="ADDR1" datatype="VARCHAR" size="100" nullable="true" >
+</DIColumn>
+<DIColumn name="ADDR2" datatype="VARCHAR" size="100" nullable="true" >
+</DIColumn>
+<DIColumn name="CITY" datatype="VARCHAR" size="50" nullable="true" >
+</DIColumn>
+<DIColumn name="COUNTRY_CODE" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="STATE_ID" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="ZIP_CODE" datatype="VARCHAR" size="10" nullable="true" >
+</DIColumn>
+<DIColumn name="PARENT_EID" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="TAX_ID" datatype="VARCHAR" size="20" nullable="true" >
+</DIColumn>
+<DIColumn name="CONTACT" datatype="VARCHAR" size="50" nullable="true" >
+</DIColumn>
+<DIColumn name="COMMENTS" datatype="LONG" nullable="true" >
+<DIProperties>
+<DIAttribute name="Long Type" value="CLOB"/>
+<DIAttribute name="Native Type" value="text"/>
+</DIProperties>
+</DIColumn>
+<DIColumn name="EMAIL_TYPE_CODE" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="EMAIL_ADDRESS" datatype="VARCHAR" size="100" nullable="true" >
+</DIColumn>
+<DIColumn name="SEX_CODE" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="BIRTH_DATE" datatype="VARCHAR" size="8" nullable="true" >
+</DIColumn>
+<DIColumn name="PHONE1" datatype="VARCHAR" size="30" nullable="true" >
+</DIColumn>
+<DIColumn name="PHONE2" datatype="VARCHAR" size="30" nullable="true" >
+</DIColumn>
+<DIColumn name="FAX_NUMBER" datatype="VARCHAR" size="30" nullable="true" >
+</DIColumn>
+<DIColumn name="DTTM_RCD_ADDED" datatype="VARCHAR" size="14" nullable="true" >
+</DIColumn>
+<DIColumn name="DTTM_RCD_LAST_UPD" datatype="VARCHAR" size="14" nullable="true" >
+</DIColumn>
+<DIColumn name="UPDATED_BY_USER" datatype="VARCHAR" size="50" nullable="true" >
+</DIColumn>
+<DIColumn name="ADDED_BY_USER" datatype="VARCHAR" size="50" nullable="true" >
+</DIColumn>
+<DIColumn name="DELETED_FLAG" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="SEC_DEPT_EID" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="TRIGGER_DATE_FIELD" datatype="VARCHAR" size="50" nullable="true" >
+</DIColumn>
+<DIColumn name="EFF_START_DATE" datatype="VARCHAR" size="8" nullable="true" >
+</DIColumn>
+<DIColumn name="EFF_END_DATE" datatype="VARCHAR" size="8" nullable="true" >
+</DIColumn>
+<DIColumn name="PARENT_1099_EID" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="REPORT_1099_FLAG" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="MIDDLE_NAME" datatype="VARCHAR" size="255" nullable="true" >
+</DIColumn>
+<DIColumn name="TITLE" datatype="VARCHAR" size="50" nullable="true" Content_Type="TITLE" >
+<DIProperties>
+<DIAttribute name="Content_Type" value="TITLE"/>
+</DIProperties>
+</DIColumn>
+<DIColumn name="NAICS_CODE" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="RM_USER_ID" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="FREEZE_PAYMENTS" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="ORGANIZATION_TYPE" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="NPI_NUMBER" datatype="VARCHAR" size="10" nullable="true" >
+</DIColumn>
+<DIColumn name="HTMLCOMMENTS" datatype="LONG" nullable="true" >
+<DIProperties>
+<DIAttribute name="Long Type" value="CLOB"/>
+<DIAttribute name="Native Type" value="text"/>
+</DIProperties>
+</DIColumn>
+<DIColumn name="MMSEA_TIN_EDT_FLAG" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="AUTO_DISCOUNT" datatype="DOUBLE" nullable="true" >
+</DIColumn>
+<DIColumn name="DISCOUNT_FLAG" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="FROI_ACORD_PASSWORD" datatype="VARCHAR" size="15" nullable="true" >
+</DIColumn>
+<DIColumn name="MMSEA_REPRTER_TEXT" datatype="VARCHAR" size="9" nullable="true" >
+</DIColumn>
+<DIColumn name="MMSEA_OFE_STE_TEXT" datatype="VARCHAR" size="9" nullable="true" >
+</DIColumn>
+<DIColumn name="TIME_ZONE_TRACKING" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="TIME_ZONE_CODE" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="CONF_FLAG" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="CONF_EVENT_ID" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="ENTITY_APPROVAL_STATUS" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="ENTITY_REJECT_COMMENTS" datatype="LONG" nullable="true" >
+<DIProperties>
+<DIAttribute name="Long Type" value="CLOB"/>
+<DIAttribute name="Native Type" value="text"/>
+</DIProperties>
+</DIColumn>
+<DIColumn name="ENTITY_REJECT_HTMLCOMMENTS" datatype="LONG" nullable="true" >
+<DIProperties>
+<DIAttribute name="Long Type" value="CLOB"/>
+<DIAttribute name="Native Type" value="text"/>
+</DIProperties>
+</DIColumn>
+<DIColumn name="OVERRIDE_OFAC_CHECK" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="ORG_CURR_CODE" datatype="INT" nullable="false" >
+</DIColumn>
+<DIColumn name="HOSPITAL_AMT" datatype="DOUBLE" nullable="true" >
+</DIColumn>
+<DIColumn name="HOSPITAL_LINES" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="MEDICAL_AMT" datatype="DOUBLE" nullable="true" >
+</DIColumn>
+<DIColumn name="MEDICAL_LINES" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="PREFIX" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="SUFFIX_COMMON" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="SUFFIX_LEGAL" datatype="VARCHAR" size="50" nullable="true" >
+</DIColumn>
+<DIColumn name="ID_TYPE" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="LEGAL_NAME" datatype="VARCHAR" size="255" nullable="true" >
+</DIColumn>
+<DIColumn name="EFFECTIVE_DATE" datatype="VARCHAR" size="10" nullable="true" >
+</DIColumn>
+<DIColumn name="EXPIRATION_DATE" datatype="VARCHAR" size="10" nullable="true" >
+</DIColumn>
+<DIColumn name="REFERENCE_NUMBER" datatype="VARCHAR" size="50" nullable="true" >
+</DIColumn>
+<DIColumn name="CLIENT_SEQ_NUM" datatype="VARCHAR" size="30" nullable="true" >
+</DIColumn>
+<DIColumn name="ADDRESS_SEQ_NUM" datatype="VARCHAR" size="30" nullable="true" >
+</DIColumn>
+<DIColumn name="NAME_TYPE" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="ASSIGNADJ_EID" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="LEGACY_UNIQUE_IDENTIFIER" datatype="VARCHAR" size="100" nullable="true" >
+</DIColumn>
+<DIColumn name="NCCI_CARRIER_CODE" datatype="VARCHAR" size="5" nullable="true" >
+</DIColumn>
+<DIColumn name="CLUE_DUNS_NUM" datatype="VARCHAR" size="9" nullable="true" >
+</DIColumn>
+<DIColumn name="CLUE_AUS_TETRA_NUM" datatype="VARCHAR" size="9" nullable="true" >
+</DIColumn>
+<DIColumn name="CLUE_EXPN_BIN_NUM" datatype="VARCHAR" size="9" nullable="true" >
+</DIColumn>
+<DIColumn name="ADDR3" datatype="VARCHAR" size="100" nullable="true" >
+</DIColumn>
+<DIColumn name="ADDR4" datatype="VARCHAR" size="100" nullable="true" >
+</DIColumn>
+<DIColumn name="GST_REGISTERED" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="GST_NUMBER" datatype="VARCHAR" size="50" nullable="true" >
+</DIColumn>
+<DIColumn name="GST_STATUS" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="ESTABLISHMENT_ID" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="OSHA_SUBMITTED_DATETIME" datatype="VARCHAR" size="16" nullable="true" >
+</DIColumn>
+<DIPrimaryKey>
+<DIPrimaryKeyColumn name="ENTITY_ID" />
+</DIPrimaryKey>
+<DITableIndex name="IDX_ENT_LAST_NAME" unique="false">
+<DIIndexColumn name="LAST_NAME" />
+</DITableIndex>
+<DITableIndex name="IDX_ENT_LAST_NAME_SOUNDEX" unique="false">
+<DIIndexColumn name="LAST_NAME_SOUNDEX" />
+</DITableIndex>
+<DITableIndex name="IDX_ENT_MULTI_1" unique="false">
+<DIIndexColumn name="ENTITY_TABLE_ID" />
+<DIIndexColumn name="ABBREVIATION" />
+</DITableIndex>
+<DITableIndex name="IDX_ENT_MULTI_2" unique="false">
+<DIIndexColumn name="ENTITY_TABLE_ID" />
+<DIIndexColumn name="LAST_NAME" />
+</DITableIndex>
+<DITableIndex name="IDX_ENT_TAX_ID" unique="false">
+<DIIndexColumn name="TAX_ID" />
+</DITableIndex>
+<DITableIndex name="PK_ENTITY" unique="true">
+<DIIndexColumn name="ENTITY_ID" />
+</DITableIndex>
+<DITableIndex name="RMA_IDX_PARENT_EID" unique="false">
+<DIIndexColumn name="PARENT_EID" />
+</DITableIndex>
+<DITableIndex name="RMA_IDX_RMX_ENTITY_DF" unique="false">
+<DIIndexColumn name="DELETED_FLAG" />
+</DITableIndex>
+<DITableIndex name="RMX_ENTITY_DF" unique="false">
+<DIIndexColumn name="DELETED_FLAG" />
+</DITableIndex>
+</DITable>
+<DITable name="ERROR_LOG" owner="DBO" datastore="DS_STAGING" database="STAGING DB" description="" >
+<DIProperties>
+<DIAttribute name="Database_Object_Type" value="TABLE" />
+<DIAttribute name="Table_Type" value="TABLE" />
+<DIAttribute name="Estimated_Row_Count" value="50000" />
+<DIAttribute name="SavedAfterCheckOut" value="YES" />
+<DIAttribute name="Loader_Is_Template_Table" value="no" />
+<DIAttribute name="Date_modified" value="Tue Oct 22 12:37:56 2019" />
+<DIAttribute name="Date_last_loaded" value="Wed Feb 20 02:08:43 2019" />
+<DIAttribute name="Total_Number_Of_Rows_Processed" value="1" />
+<DIAttribute name="Number_Of_Rows_Rejected" value="0" />
+<DIAttribute name="Number_Of_Inserts" value="1" />
+<DIAttribute name="Number_Of_Updates" value="0" />
+<DIAttribute name="Number_Of_Deletes" value="0" />
+<DIAttribute name="Elapsed_Time_For_Load" value="0 Seconds" />
+<DIAttribute name="db_alias_name" value="DBO" />
+</DIProperties>
+<DIColumn name="ERR_LOG_ROW_ID" datatype="INT" nullable="false" >
+</DIColumn>
+<DIColumn name="JOBID" datatype="INT" nullable="false" >
+</DIColumn>
+<DIColumn name="INPUT_ROW_ID" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="MODULE_NAME" datatype="VARCHAR" size="50" nullable="true" >
+</DIColumn>
+<DIColumn name="WORK_FLOW_NAME" datatype="VARCHAR" size="50" nullable="true" >
+</DIColumn>
+<DIColumn name="DATA_FLOW_NAME" datatype="VARCHAR" size="50" nullable="true" >
+</DIColumn>
+<DIColumn name="ERROR_TIME" datatype="VARCHAR" size="14" nullable="true" >
+</DIColumn>
+<DIColumn name="ERROR_TITLE" datatype="VARCHAR" size="100" nullable="true" >
+</DIColumn>
+<DIColumn name="ERROR_DESC" datatype="VARCHAR" size="4000" nullable="true" >
+</DIColumn>
+<DIColumn name="IS_VALIDATION" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="ERROR_TABLE" datatype="VARCHAR" size="50" nullable="true" >
+</DIColumn>
+<DIColumn name="TABLE_ROW_ID" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="ERROR_COLUMNS" datatype="VARCHAR" size="4000" nullable="true" >
+</DIColumn>
+<DIPrimaryKey>
+<DIPrimaryKeyColumn name="ERR_LOG_ROW_ID" />
+<DIPrimaryKeyColumn name="JOBID" />
+</DIPrimaryKey>
+<DITableIndex name="PK_ERROR_LOG" unique="true">
+<DIIndexColumn name="ERR_LOG_ROW_ID" />
+<DIIndexColumn name="JOBID" />
+</DITableIndex>
+</DITable>
+<DITable name="FUNDS" owner="DBO" datastore="DS_RMDB" database="RISKMASTER DB" description="" >
+<DIProperties>
+<DIAttribute name="Database_Object_Type" value="TABLE" />
+<DIAttribute name="Table_Type" value="TABLE" />
+<DIAttribute name="Estimated_Row_Count" value="50000" />
+<DIAttribute name="SavedAfterCheckOut" value="YES" />
+<DIAttribute name="Loader_Is_Template_Table" value="no" />
+<DIAttribute name="Date_modified" value="Tue Oct 22 12:37:57 2019" />
+<DIAttribute name="db_alias_name" value="DBO" />
+</DIProperties>
+<DIColumn name="AUTO_CHECK_DETAIL" datatype="VARCHAR" size="30" nullable="true" >
+</DIColumn>
+<DIColumn name="ROLLUP_ID" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="VOID_DATE" datatype="VARCHAR" size="8" nullable="true" >
+</DIColumn>
+<DIColumn name="ADDR1" datatype="VARCHAR" size="100" nullable="true" >
+</DIColumn>
+<DIColumn name="ADDR2" datatype="VARCHAR" size="100" nullable="true" >
+</DIColumn>
+<DIColumn name="AUTO_CHECK_FLAG" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="CITY" datatype="VARCHAR" size="50" nullable="true" >
+</DIColumn>
+<DIColumn name="CLAIMANT_EID_ARCHIVE" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="COUNTRY_CODE" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="FIRST_NAME" datatype="VARCHAR" size="255" nullable="true" >
+</DIColumn>
+<DIColumn name="LAST_NAME" datatype="VARCHAR" size="255" nullable="true" >
+</DIColumn>
+<DIColumn name="PRECHECK_FLAG" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="STATE_ID" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="UNIT_ID_ARCHIVE" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="ZIP_CODE" datatype="VARCHAR" size="10" nullable="true" >
+</DIColumn>
+<DIColumn name="TRANS_ID" datatype="INT" nullable="false" >
+</DIColumn>
+<DIColumn name="CLAIM_ID" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="CLAIM_NUMBER" datatype="VARCHAR" size="25" nullable="true" >
+</DIColumn>
+<DIColumn name="CTL_NUMBER" datatype="VARCHAR" size="25" nullable="true" >
+</DIColumn>
+<DIColumn name="VOID_FLAG" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="DATE_OF_CHECK" datatype="VARCHAR" size="8" nullable="true" >
+</DIColumn>
+<DIColumn name="CHECK_MEMO" datatype="VARCHAR" size="4000" nullable="true" >
+</DIColumn>
+<DIColumn name="TRANS_NUMBER" datatype="DECIMAL" precision="19" scale="0" nullable="true" >
+</DIColumn>
+<DIColumn name="TRANS_DATE" datatype="VARCHAR" size="8" nullable="false" >
+</DIColumn>
+<DIColumn name="PAYEE_EID" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="PAYEE_TYPE_CODE" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="ACCOUNT_ID" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="AMOUNT" datatype="DOUBLE" nullable="true" >
+</DIColumn>
+<DIColumn name="STATUS_CODE" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="FILED_1099_FLAG" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="CLEARED_FLAG" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="PAYMENT_FLAG" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="COLLECTION_FLAG" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="COMMENTS" datatype="LONG" nullable="true" >
+<DIProperties>
+<DIAttribute name="Long Type" value="CLOB"/>
+<DIAttribute name="Native Type" value="text"/>
+</DIProperties>
+</DIColumn>
+<DIColumn name="NOTES" datatype="VARCHAR" size="2000" nullable="true" >
+</DIColumn>
+<DIColumn name="CRC" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="DTTM_RCD_LAST_UPD" datatype="VARCHAR" size="14" nullable="true" >
+</DIColumn>
+<DIColumn name="DTTM_RCD_ADDED" datatype="VARCHAR" size="14" nullable="true" >
+</DIColumn>
+<DIColumn name="UPDATED_BY_USER" datatype="VARCHAR" size="50" nullable="true" >
+</DIColumn>
+<DIColumn name="ADDED_BY_USER" datatype="VARCHAR" size="50" nullable="true" >
+</DIColumn>
+<DIColumn name="BATCH_NUMBER" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="SEC_DEPT_EID" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="ENCLOSURE_FLAG" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="APPROVE_USER" datatype="VARCHAR" size="50" nullable="true" >
+</DIColumn>
+<DIColumn name="DTTM_APPROVAL" datatype="VARCHAR" size="14" nullable="true" >
+</DIColumn>
+<DIColumn name="SUB_ACCOUNT_ID" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="SETTLEMENT_FLAG" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="APPROVER_ID" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="VOUCHER_FLAG" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="WEEKS_PAID_CODE" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="NUM_OF_PAID_DAYS" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="TAX_PAYMENT_FLAG" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="RESUBMIT_EDI" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="SUPP_PAYMENT_FLAG" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="HTMLCOMMENTS" datatype="LONG" nullable="true" >
+<DIProperties>
+<DIAttribute name="Long Type" value="CLOB"/>
+<DIAttribute name="Native Type" value="text"/>
+</DIProperties>
+</DIColumn>
+<DIColumn name="REISSUE_FLAG" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="REISSUE_BY" datatype="VARCHAR" size="50" nullable="true" >
+</DIColumn>
+<DIColumn name="REISSUE_DATE" datatype="VARCHAR" size="8" nullable="true" >
+</DIColumn>
+<DIColumn name="REISSUE_PARENT_ID" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="NOTES_HTMLCOMMENTS" datatype="LONG" nullable="true" >
+<DIProperties>
+<DIAttribute name="Long Type" value="CLOB"/>
+<DIAttribute name="Native Type" value="text"/>
+</DIProperties>
+</DIColumn>
+<DIColumn name="REISSUE_REASON_CODE" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="MIDDLE_NAME" datatype="VARCHAR" size="255" nullable="true" >
+</DIColumn>
+<DIColumn name="REASON" datatype="VARCHAR" size="255" nullable="true" >
+</DIColumn>
+<DIColumn name="CONF_FLAG" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="CONF_EVENT_ID" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="VOID_REASON" datatype="LONG" nullable="true" >
+<DIProperties>
+<DIAttribute name="Long Type" value="CLOB"/>
+<DIAttribute name="Native Type" value="varchar"/>
+</DIProperties>
+</DIColumn>
+<DIColumn name="VOID_REASON_HTMLCOMMENTS" datatype="LONG" nullable="true" >
+<DIProperties>
+<DIAttribute name="Long Type" value="CLOB"/>
+<DIAttribute name="Native Type" value="varchar"/>
+</DIProperties>
+</DIColumn>
+<DIColumn name="DORMANCY_STATUS" datatype="INT" nullable="false" >
+</DIColumn>
+<DIColumn name="WITHHOLDING_PMT_FLAG" datatype="INT" nullable="false" >
+</DIColumn>
+<DIColumn name="WITHHOLDING_TYPE" datatype="INT" nullable="false" >
+</DIColumn>
+<DIColumn name="WITHHOLDING_CHILD_FLAG" datatype="INT" nullable="false" >
+</DIColumn>
+<DIColumn name="PARENT_TRANS_ID" datatype="INT" nullable="false" >
+</DIColumn>
+<DIColumn name="COMBINED_PAY_FLAG" datatype="INT" nullable="false" >
+</DIColumn>
+<DIColumn name="PAY_TO_THE_ORDER_OF" datatype="LONG" nullable="true" >
+<DIProperties>
+<DIAttribute name="Long Type" value="CLOB"/>
+<DIAttribute name="Native Type" value="varchar"/>
+</DIProperties>
+</DIColumn>
+<DIColumn name="EFT_FLAG" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="EFT_FILE_NAME" datatype="VARCHAR" size="255" nullable="true" >
+</DIColumn>
+<DIColumn name="EFT_DATE" datatype="VARCHAR" size="8" nullable="true" >
+</DIColumn>
+<DIColumn name="PMT_CURRENCY_CODE" datatype="INT" nullable="false" >
+</DIColumn>
+<DIColumn name="PMT_CURRENCY_AMOUNT" datatype="DOUBLE" nullable="false" >
+</DIColumn>
+<DIColumn name="PMT_TO_BASE_CUR_RATE_AR" datatype="DOUBLE" nullable="true" >
+</DIColumn>
+<DIColumn name="CLAIM_CURRENCY_CODE" datatype="INT" nullable="false" >
+</DIColumn>
+<DIColumn name="CLAIM_CURRENCY_AMOUNT" datatype="DOUBLE" nullable="false" >
+</DIColumn>
+<DIColumn name="PMT_TO_CLAIM_CUR_RATE_AR" datatype="DOUBLE" nullable="true" >
+</DIColumn>
+<DIColumn name="BASE_TO_PMT_CUR_RATE_AR" datatype="DOUBLE" nullable="true" >
+</DIColumn>
+<DIColumn name="BASE_TO_CLAIM_CUR_RATE_AR" datatype="DOUBLE" nullable="true" >
+</DIColumn>
+<DIColumn name="FINAL_PAYMENT_FLAG" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="BILL_TYPE" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="MANUAL_CHECK" datatype="INT" nullable="false" >
+</DIColumn>
+<DIColumn name="CHECK_MEMO_HTMLCOMMENTS" datatype="LONG" nullable="true" >
+<DIProperties>
+<DIAttribute name="Long Type" value="CLOB"/>
+<DIAttribute name="Native Type" value="varchar"/>
+</DIProperties>
+</DIColumn>
+<DIColumn name="RES_SUPP_PAYMENT_FLAG" datatype="INT" nullable="false" >
+</DIColumn>
+<DIColumn name="OFFSET_FLAG" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="STOP_PAY_FLAG" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="STOP_PAY_DATE" datatype="VARCHAR" size="8" nullable="true" >
+</DIColumn>
+<DIColumn name="CHECK_TOTAL" datatype="DOUBLE" nullable="false" >
+</DIColumn>
+<DIColumn name="ADDR3" datatype="VARCHAR" size="100" nullable="true" >
+</DIColumn>
+<DIColumn name="ADDR4" datatype="VARCHAR" size="100" nullable="true" >
+</DIColumn>
+<DIColumn name="DSTRBN_TYPE_CODE" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="DEDUCTIBLE_CATEGORY" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="TRANSACTION_REASON" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="COUNTY" datatype="VARCHAR" size="200" nullable="true" >
+</DIColumn>
+<DIColumn name="POLICY_CURRENCY_CODE" datatype="INT" nullable="false" >
+</DIColumn>
+<DIColumn name="POLICY_CURRENCY_AMOUNT" datatype="DOUBLE" nullable="false" >
+</DIColumn>
+<DIColumn name="POLICY_TO_BASE_CUR_RATE_AR" datatype="DOUBLE" nullable="true" >
+</DIColumn>
+<DIColumn name="BASE_TO_POLICY_CUR_RATE_AR" datatype="DOUBLE" nullable="true" >
+</DIColumn>
+<DIColumn name="MAIL_TO_EID" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="MAIL_TO_ADDRESS_ID" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="EOB_PRINT_DATE" datatype="VARCHAR" size="8" nullable="true" >
+</DIColumn>
+<DIColumn name="EOB_PRINTED_BY_USER" datatype="VARCHAR" size="50" nullable="true" >
+</DIColumn>
+<DIColumn name="DISABLE_OVERRIDE_DED" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="REGEOB_BATCH_ID" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="STOP_PAY_STATUS" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="STOP_PAY_REASON" datatype="VARCHAR" size="4000" nullable="true" >
+</DIColumn>
+<DIColumn name="STOPPAY_REASON_CODE" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="DISABILITY_CLASS_ROW_ID" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="RECOVERABLE_STATUS_CODE" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="GST_SETTLEMENT_FLAG" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="GST_APPLIED_FLAG" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="GST_CATEGORY" datatype="INT" nullable="false" >
+</DIColumn>
+<DIColumn name="CHECK_TOTAL_CURRENCY_CODE" datatype="INT" nullable="false" >
+</DIColumn>
+<DIColumn name="SUPER_FUND_PAY" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="PAYG_APPLIED" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="IAIABC_ADJUST_DATE" datatype="VARCHAR" size="8" nullable="true" >
+</DIColumn>
+<DIColumn name="IAIABC_CREDIT_DATE" datatype="VARCHAR" size="8" nullable="true" >
+</DIColumn>
+<DIColumn name="IAIABC_REDIST_DATE" datatype="VARCHAR" size="8" nullable="true" >
+</DIColumn>
+<DIColumn name="EDI_BATCH_NUMBER" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="EDI_MED_EXTRACTED" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="PS_EXTRACTED" datatype="VARCHAR" size="14" nullable="true" >
+</DIColumn>
+<DIPrimaryKey>
+<DIPrimaryKeyColumn name="TRANS_ID" />
+</DIPrimaryKey>
+<DITableIndex name="FUNDS_CTL" unique="false">
+<DIIndexColumn name="CTL_NUMBER" />
+</DITableIndex>
+<DITableIndex name="IDX_FUNDS_ACCOUNT_ID" unique="false">
+<DIIndexColumn name="ACCOUNT_ID" />
+</DITableIndex>
+<DITableIndex name="IDX_FUNDS_BATCH_NUMBER" unique="false">
+<DIIndexColumn name="BATCH_NUMBER" />
+</DITableIndex>
+<DITableIndex name="IDX_FUNDS_CLAIM_ID" unique="false">
+<DIIndexColumn name="CLAIM_ID" />
+</DITableIndex>
+<DITableIndex name="IDX_FUNDS_CTL_NUMBER" unique="false">
+<DIIndexColumn name="CTL_NUMBER" />
+</DITableIndex>
+<DITableIndex name="IDX_FUNDS_DATE_OF_CHECK" unique="false">
+<DIIndexColumn name="DATE_OF_CHECK" />
+</DITableIndex>
+<DITableIndex name="IDX_FUNDS_PAYEE_EID" unique="false">
+<DIIndexColumn name="PAYEE_EID" />
+</DITableIndex>
+<DITableIndex name="IDX_FUNDS_REGEOB_BATCHID" unique="false">
+<DIIndexColumn name="REGEOB_BATCH_ID" />
+</DITableIndex>
+<DITableIndex name="IDX_FUNDS_STATUS_CODE" unique="false">
+<DIIndexColumn name="STATUS_CODE" />
+</DITableIndex>
+<DITableIndex name="IDX_FUNDS_TRANS_DATE" unique="false">
+<DIIndexColumn name="TRANS_DATE" />
+</DITableIndex>
+<DITableIndex name="IX1_FUNDS" unique="false">
+<DIIndexColumn name="CLAIMANT_EID_ARCHIVE" />
+<DIIndexColumn name="UNIT_ID_ARCHIVE" />
+<DIIndexColumn name="CLAIM_ID" />
+<DIIndexColumn name="VOID_FLAG" />
+<DIIndexColumn name="TRANS_DATE" />
+<DIIndexColumn name="PAYMENT_FLAG" />
+</DITableIndex>
+<DITableIndex name="PK_FUNDS" unique="true">
+<DIIndexColumn name="TRANS_ID" />
+</DITableIndex>
+<DITableIndex name="RMA_IDX_IX3_FUNDS" unique="false">
+<DIIndexColumn name="TRANS_ID" />
+<DIIndexColumn name="ADDED_BY_USER" />
+<DIIndexColumn name="DTTM_RCD_ADDED" />
+<DIIndexColumn name="DTTM_RCD_LAST_UPD" />
+</DITableIndex>
+<DITableIndex name="RMA_IDX_PAYMENT_NOTIFICATION1" unique="false">
+<DIIndexColumn name="VOID_FLAG" />
+<DIIndexColumn name="TRANS_DATE" />
+<DIIndexColumn name="STATUS_CODE" />
+<DIIndexColumn name="PAYMENT_FLAG" />
+</DITableIndex>
+</DITable>
+<DITable name="GLOSSARY" owner="DBO" datastore="DS_RMDB" database="RISKMASTER DB" description="" >
+<DIProperties>
+<DIAttribute name="Database_Object_Type" value="TABLE" />
+<DIAttribute name="Table_Type" value="TABLE" />
+<DIAttribute name="Estimated_Row_Count" value="50000" />
+<DIAttribute name="SavedAfterCheckOut" value="YES" />
+<DIAttribute name="Loader_Is_Template_Table" value="no" />
+<DIAttribute name="Date_modified" value="Tue Oct 22 12:37:58 2019" />
+<DIAttribute name="db_alias_name" value="DBO" />
+</DIProperties>
+<DIColumn name="IND_STAND_TABLE_ID" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="LINE_OF_BUS_FLAG" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="REQD_IND_TABL_FLAG" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="TABLE_ID" datatype="INT" nullable="false" >
+</DIColumn>
+<DIColumn name="SYSTEM_TABLE_NAME" datatype="VARCHAR" size="30" nullable="true" >
+</DIColumn>
+<DIColumn name="GLOSSARY_TYPE_CODE" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="ATTACHMENTS_FLAG" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="RELATED_TABLE_ID" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="REQD_REL_TABL_FLAG" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="NEXT_UNIQUE_ID" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="RM_USER_ID" datatype="VARCHAR" size="50" nullable="true" >
+</DIColumn>
+<DIColumn name="DTTM_LAST_UPDATE" datatype="VARCHAR" size="14" nullable="true" >
+</DIColumn>
+<DIColumn name="DELETED_FLAG" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="TREE_DISPLAY_FLAG" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="PRIMARY_KEY_COLUMN" datatype="VARCHAR" size="100" nullable="true" >
+</DIColumn>
+<DIPrimaryKey>
+<DIPrimaryKeyColumn name="TABLE_ID" />
+</DIPrimaryKey>
+<DITableIndex name="DC012B" unique="false">
+<DIIndexColumn name="SYSTEM_TABLE_NAME" />
+</DITableIndex>
+<DITableIndex name="IDX_GL_GLOSSSARY_TYPE_CODE" unique="false">
+<DIIndexColumn name="GLOSSARY_TYPE_CODE" />
+</DITableIndex>
+<DITableIndex name="IDX_GL_SYSTEM_TABLE_NAME" unique="false">
+<DIIndexColumn name="SYSTEM_TABLE_NAME" />
+</DITableIndex>
+<DITableIndex name="PK_GLOSSARY" unique="true">
+<DIIndexColumn name="TABLE_ID" />
+</DITableIndex>
+</DITable>
+<DITable name="PARMS_NAME_VALUE" owner="DBO" datastore="DS_RMDB" database="RISKMASTER DB" description="" >
+<DIProperties>
+<DIAttribute name="Database_Object_Type" value="TABLE" />
+<DIAttribute name="Table_Type" value="TABLE" />
+<DIAttribute name="Estimated_Row_Count" value="50000" />
+<DIAttribute name="SavedAfterCheckOut" value="YES" />
+<DIAttribute name="Loader_Is_Template_Table" value="no" />
+<DIAttribute name="Date_modified" value="Tue Oct 22 12:37:58 2019" />
+<DIAttribute name="db_alias_name" value="DBO" />
+</DIProperties>
+<DIColumn name="PARM_CATEGORY" datatype="INT" nullable="false" >
+</DIColumn>
+<DIColumn name="PARM_NAME" datatype="VARCHAR" size="20" nullable="false" >
+</DIColumn>
+<DIColumn name="STR_PARM_VALUE" datatype="VARCHAR" size="2000" nullable="true" >
+</DIColumn>
+<DIColumn name="PARM_DESC" datatype="VARCHAR" size="2000" nullable="true" >
+</DIColumn>
+<DIColumn name="ROW_ID" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="PARM_DATA_TYPE" datatype="VARCHAR" size="20" nullable="true" >
+</DIColumn>
+<DIColumn name="STR_PARM_VALUE_LARGE_TEXT" datatype="LONG" nullable="true" >
+<DIProperties>
+<DIAttribute name="Long Type" value="CLOB"/>
+<DIAttribute name="Native Type" value="text"/>
+</DIProperties>
+</DIColumn>
+<DIPrimaryKey>
+<DIPrimaryKeyColumn name="PARM_CATEGORY" />
+<DIPrimaryKeyColumn name="PARM_NAME" />
+</DIPrimaryKey>
+<DITableIndex name="PARMS_PK" unique="false">
+<DIIndexColumn name="PARM_CATEGORY" />
+<DIIndexColumn name="PARM_NAME" />
+</DITableIndex>
+<DITableIndex name="PK_PARMS_NAME_VALUE" unique="true">
+<DIIndexColumn name="PARM_CATEGORY" />
+<DIIndexColumn name="PARM_NAME" />
+</DITableIndex>
+</DITable>
+<DITable name="STATES" owner="DBO" datastore="DS_RMDB" database="RISKMASTER DB" description="" >
+<DIProperties>
+<DIAttribute name="Database_Object_Type" value="TABLE" />
+<DIAttribute name="Table_Type" value="TABLE" />
+<DIAttribute name="Estimated_Row_Count" value="50000" />
+<DIAttribute name="SavedAfterCheckOut" value="YES" />
+<DIAttribute name="Loader_Is_Template_Table" value="no" />
+<DIAttribute name="Date_modified" value="Tue Oct 22 12:37:58 2019" />
+<DIAttribute name="db_alias_name" value="DBO" />
+</DIProperties>
+<DIColumn name="STATE_ROW_ID" datatype="INT" nullable="false" >
+</DIColumn>
+<DIColumn name="STATE_ID" datatype="VARCHAR" size="4" nullable="true" >
+</DIColumn>
+<DIColumn name="STATE_NAME" datatype="VARCHAR" size="25" nullable="true" >
+</DIColumn>
+<DIColumn name="EMPLOYER_LIABILITY" datatype="DOUBLE" nullable="true" >
+</DIColumn>
+<DIColumn name="MAX_CLAIM_AMOUNT" datatype="DOUBLE" nullable="true" >
+</DIColumn>
+<DIColumn name="RATING_METHOD_CODE" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="USL_LIMIT" datatype="DOUBLE" nullable="true" >
+</DIColumn>
+<DIColumn name="WEIGHTING_STEP_VAL" datatype="DOUBLE" nullable="true" >
+</DIColumn>
+<DIColumn name="DELETED_FLAG" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="DUR_CALC_OPTION" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="AWW_FORM_OPTION" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="FROI_COPIES" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="COUNTRY_ID" datatype="VARCHAR" size="50" nullable="true" >
+</DIColumn>
+<DIColumn name="DTTM_RCD_ADDED" datatype="VARCHAR" size="14" nullable="true" >
+</DIColumn>
+<DIColumn name="ADDED_BY_USER" datatype="VARCHAR" size="50" nullable="true" >
+</DIColumn>
+<DIColumn name="DTTM_RCD_LAST_UPD" datatype="VARCHAR" size="14" nullable="true" >
+</DIColumn>
+<DIColumn name="UPDATED_BY_USER" datatype="VARCHAR" size="50" nullable="true" >
+</DIColumn>
+<DIColumn name="EOB_APPEAL_TEXT_DESC" datatype="LONG" nullable="true" >
+<DIProperties>
+<DIAttribute name="Long Type" value="CLOB"/>
+<DIAttribute name="Native Type" value="text"/>
+</DIProperties>
+</DIColumn>
+<DIColumn name="EOB_APP_TXT_DESC_HTMCOMMENTS" datatype="LONG" nullable="true" >
+<DIProperties>
+<DIAttribute name="Long Type" value="CLOB"/>
+<DIAttribute name="Native Type" value="varchar"/>
+</DIProperties>
+</DIColumn>
+<DIPrimaryKey>
+<DIPrimaryKeyColumn name="STATE_ROW_ID" />
+</DIPrimaryKey>
+<DITableIndex name="IDX_STATES_STATE_ID" unique="false">
+<DIIndexColumn name="COUNTRY_ID" />
+<DIIndexColumn name="STATE_ID" />
+</DITableIndex>
+<DITableIndex name="PK_STATES" unique="true">
+<DIIndexColumn name="STATE_ROW_ID" />
+</DITableIndex>
+</DITable>
+<DITable name="T_PPY_ACCOUNTNUMBER" owner="DBO" datastore="DS_STAGING" database="STAGING DB" description="" >
+<DIProperties>
+<DIAttribute name="Database_Object_Type" value="TABLE" />
+<DIAttribute name="Table_Type" value="TABLE" />
+<DIAttribute name="Estimated_Row_Count" value="50000" />
+<DIAttribute name="SavedAfterCheckOut" value="YES" />
+<DIAttribute name="Loader_Is_Template_Table" value="no" />
+<DIAttribute name="Date_modified" value="Tue Oct 22 12:37:58 2019" />
+<DIAttribute name="Date_last_loaded" value="Wed Feb 20 02:16:51 2019" />
+<DIAttribute name="Total_Number_Of_Rows_Processed" value="1" />
+<DIAttribute name="Number_Of_Rows_Rejected" value="0" />
+<DIAttribute name="Number_Of_Inserts" value="1" />
+<DIAttribute name="Number_Of_Updates" value="0" />
+<DIAttribute name="Number_Of_Deletes" value="0" />
+<DIAttribute name="Elapsed_Time_For_Load" value="0 Seconds" />
+<DIAttribute name="db_alias_name" value="DBO" />
+</DIProperties>
+<DIColumn name="ROW_ID" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="JOBID" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="ACCOUNT_NUMBER" datatype="VARCHAR" size="20" nullable="true" >
+</DIColumn>
+</DITable>
+<DITable name="T_PPY_CHECKSNOTVOID" owner="DBO" datastore="DS_STAGING" database="STAGING DB" description="" >
+<DIProperties>
+<DIAttribute name="Database_Object_Type" value="TABLE" />
+<DIAttribute name="Table_Type" value="TABLE" />
+<DIAttribute name="Estimated_Row_Count" value="50000" />
+<DIAttribute name="SavedAfterCheckOut" value="YES" />
+<DIAttribute name="Loader_Is_Template_Table" value="no" />
+<DIAttribute name="Date_modified" value="Tue Oct 22 12:37:58 2019" />
+<DIAttribute name="db_alias_name" value="DBO" />
+</DIProperties>
+<DIColumn name="JOBID" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="ACCOUNTNUMBER" datatype="VARCHAR" size="20" nullable="true" >
+</DIColumn>
+<DIColumn name="CHECKNUMBER" datatype="DECIMAL" precision="10" scale="0" nullable="true" >
+</DIColumn>
+<DIColumn name="INPUT_AMOUNT" datatype="DOUBLE" nullable="true" >
+</DIColumn>
+<DIColumn name="CHECKDATE" datatype="VARCHAR" size="8" nullable="true" >
+</DIColumn>
+<DIColumn name="ACCOUNT_ID" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="ROLLUP_ID" datatype="INT" nullable="true" >
+</DIColumn>
+</DITable>
+<DITable name="T_PPY_DETAILHOLD" owner="DBO" datastore="DS_STAGING" database="STAGING DB" description="" >
+<DIProperties>
+<DIAttribute name="Database_Object_Type" value="TABLE" />
+<DIAttribute name="Table_Type" value="TABLE" />
+<DIAttribute name="Estimated_Row_Count" value="50000" />
+<DIAttribute name="SavedAfterCheckOut" value="YES" />
+<DIAttribute name="Loader_Is_Template_Table" value="no" />
+<DIAttribute name="Date_modified" value="Tue Oct 22 12:37:58 2019" />
+<DIAttribute name="Date_last_loaded" value="Wed Feb 20 02:17:00 2019" />
+<DIAttribute name="Total_Number_Of_Rows_Processed" value="2" />
+<DIAttribute name="Number_Of_Rows_Rejected" value="0" />
+<DIAttribute name="Number_Of_Inserts" value="2" />
+<DIAttribute name="Number_Of_Updates" value="0" />
+<DIAttribute name="Number_Of_Deletes" value="0" />
+<DIAttribute name="Elapsed_Time_For_Load" value="0 Seconds" />
+<DIAttribute name="db_alias_name" value="DBO" />
+</DIProperties>
+<DIColumn name="JOBID" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="TRANS_NUMBER" datatype="DECIMAL" precision="19" scale="0" nullable="true" >
+</DIColumn>
+<DIColumn name="S_AMOUNT" datatype="DOUBLE" nullable="true" >
+</DIColumn>
+<DIColumn name="DATE_OF_CHECK" datatype="VARCHAR" size="8" nullable="true" >
+</DIColumn>
+<DIColumn name="VOID_FLAG" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="VOID_DATE" datatype="VARCHAR" size="8" nullable="true" >
+</DIColumn>
+<DIColumn name="STATUS_CODE" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="CLEARED_FLAG" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="FIRST_NAME" datatype="VARCHAR" size="255" nullable="true" >
+</DIColumn>
+<DIColumn name="LAST_NAME" datatype="VARCHAR" size="255" nullable="true" >
+</DIColumn>
+<DIColumn name="PAYEE_EID" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="ACCOUNT_NUMBER" datatype="VARCHAR" size="50" nullable="true" >
+</DIColumn>
+<DIColumn name="ACCOUNT_NAME" datatype="VARCHAR" size="50" nullable="true" >
+</DIColumn>
+<DIColumn name="TAX_ID" datatype="VARCHAR" size="20" nullable="true" >
+</DIColumn>
+<DIColumn name="PAY_TO_THE_ORDER_OF" datatype="VARCHAR" size="255" nullable="true" >
+</DIColumn>
+</DITable>
+<DITable name="T_PPY_FUNDS" owner="DBO" datastore="DS_STAGING" database="STAGING DB" description="" >
+<DIProperties>
+<DIAttribute name="Database_Object_Type" value="TABLE" />
+<DIAttribute name="Table_Type" value="TABLE" />
+<DIAttribute name="Estimated_Row_Count" value="50000" />
+<DIAttribute name="SavedAfterCheckOut" value="YES" />
+<DIAttribute name="Loader_Is_Template_Table" value="no" />
+<DIAttribute name="Date_modified" value="Tue Oct 22 12:37:58 2019" />
+<DIAttribute name="Date_last_loaded" value="Wed Feb 20 02:16:53 2019" />
+<DIAttribute name="Total_Number_Of_Rows_Processed" value="2" />
+<DIAttribute name="Number_Of_Rows_Rejected" value="0" />
+<DIAttribute name="Number_Of_Inserts" value="2" />
+<DIAttribute name="Number_Of_Updates" value="0" />
+<DIAttribute name="Number_Of_Deletes" value="0" />
+<DIAttribute name="Elapsed_Time_For_Load" value="0 Seconds" />
+<DIAttribute name="db_alias_name" value="DBO" />
+</DIProperties>
+<DIColumn name="JOBID" datatype="INT" nullable="false" >
+</DIColumn>
+<DIColumn name="TRANS_NUMBER" datatype="DECIMAL" precision="30" scale="0" nullable="true" >
+</DIColumn>
+<DIColumn name="AMOUNT" datatype="DOUBLE" nullable="true" >
+</DIColumn>
+<DIColumn name="DATE_OF_CHECK" datatype="VARCHAR" size="8" nullable="true" >
+</DIColumn>
+<DIColumn name="VOID_FLAG" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="VOID_DATE" datatype="VARCHAR" size="8" nullable="true" >
+</DIColumn>
+<DIColumn name="STATUS_CODE" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="CLEARED_FLAG" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="FIRST_NAME" datatype="VARCHAR" size="255" nullable="true" >
+</DIColumn>
+<DIColumn name="LAST_NAME" datatype="VARCHAR" size="255" nullable="true" >
+</DIColumn>
+<DIColumn name="PAYEE_EID" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="PAY_TO_THE_ORDER_OF" datatype="VARCHAR" size="255" nullable="true" >
+</DIColumn>
+<DIColumn name="ACCOUNT_ID" datatype="INT" nullable="true" >
+</DIColumn>
+</DITable>
+<DITable name="T_PPY_HEADERHOLD" owner="DBO" datastore="DS_STAGING" database="STAGING DB" description="" >
+<DIProperties>
+<DIAttribute name="Database_Object_Type" value="TABLE" />
+<DIAttribute name="Table_Type" value="TABLE" />
+<DIAttribute name="Estimated_Row_Count" value="50000" />
+<DIAttribute name="SavedAfterCheckOut" value="YES" />
+<DIAttribute name="Loader_Is_Template_Table" value="no" />
+<DIAttribute name="Date_modified" value="Tue Oct 22 12:37:59 2019" />
+<DIAttribute name="Date_last_loaded" value="Wed Feb 20 02:16:58 2019" />
+<DIAttribute name="Total_Number_Of_Rows_Processed" value="1" />
+<DIAttribute name="Number_Of_Rows_Rejected" value="0" />
+<DIAttribute name="Number_Of_Inserts" value="1" />
+<DIAttribute name="Number_Of_Updates" value="0" />
+<DIAttribute name="Number_Of_Deletes" value="0" />
+<DIAttribute name="Elapsed_Time_For_Load" value="0 Seconds" />
+<DIAttribute name="db_alias_name" value="DBO" />
+</DIProperties>
+<DIColumn name="JOBID" datatype="INT" nullable="false" >
+</DIColumn>
+<DIColumn name="ACCOUNT_NUMBER" datatype="VARCHAR" size="20" nullable="true" >
+</DIColumn>
+<DIColumn name="ACCOUNT_ID" datatype="INT" nullable="false" >
+</DIColumn>
+<DIColumn name="ACCOUNT_NAME" datatype="VARCHAR" size="50" nullable="true" >
+</DIColumn>
+<DIColumn name="STATE_ID" datatype="VARCHAR" size="4" nullable="true" >
+</DIColumn>
+</DITable>
+<DITable name="T_PPY_IMPORT" owner="DBO" datastore="DS_STAGING" database="STAGING DB" description="" >
+<DIProperties>
+<DIAttribute name="Database_Object_Type" value="TABLE" />
+<DIAttribute name="Table_Type" value="TABLE" />
+<DIAttribute name="Estimated_Row_Count" value="50000" />
+<DIAttribute name="SavedAfterCheckOut" value="YES" />
+<DIAttribute name="Loader_Is_Template_Table" value="no" />
+<DIAttribute name="Date_modified" value="Tue Oct 22 12:37:59 2019" />
+<DIAttribute name="db_alias_name" value="DBO" />
+</DIProperties>
+<DIColumn name="JOBID" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="ACCOUNTNUMBER" datatype="VARCHAR" size="20" nullable="true" >
+</DIColumn>
+<DIColumn name="CHECKNUMBER" datatype="DECIMAL" precision="10" scale="0" nullable="true" >
+</DIColumn>
+<DIColumn name="INPUT_AMOUNT" datatype="DOUBLE" nullable="true" >
+</DIColumn>
+<DIColumn name="CHECKDATE" datatype="VARCHAR" size="8" nullable="true" >
+</DIColumn>
+</DITable>
+<DITable name="T_PPY_POSITIVEPAYOUTPUT" owner="DBO" datastore="DS_STAGING" database="STAGING DB" description="" >
+<DIProperties>
+<DIAttribute name="Database_Object_Type" value="TABLE" />
+<DIAttribute name="Table_Type" value="TABLE" />
+<DIAttribute name="Estimated_Row_Count" value="50000" />
+<DIAttribute name="SavedAfterCheckOut" value="YES" />
+<DIAttribute name="Loader_Is_Template_Table" value="no" />
+<DIAttribute name="Date_modified" value="Tue Oct 22 12:37:59 2019" />
+<DIAttribute name="Date_last_loaded" value="Wed Feb 20 02:17:11 2019" />
+<DIAttribute name="Total_Number_Of_Rows_Processed" value="0" />
+<DIAttribute name="Number_Of_Rows_Rejected" value="0" />
+<DIAttribute name="Number_Of_Inserts" value="0" />
+<DIAttribute name="Number_Of_Updates" value="0" />
+<DIAttribute name="Number_Of_Deletes" value="0" />
+<DIAttribute name="Elapsed_Time_For_Load" value="1 Seconds" />
+<DIAttribute name="db_alias_name" value="DBO" />
+</DIProperties>
+<DIColumn name="JOBID" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="ACCOUNTNUMBER" datatype="VARCHAR" size="1050" nullable="true" >
+</DIColumn>
+<DIColumn name="SEGMENT" datatype="VARCHAR" size="50" nullable="true" >
+</DIColumn>
+<DIColumn name="ALLDATA" datatype="VARCHAR" size="157" nullable="true" >
+</DIColumn>
+</DITable>
+<DITable name="T_PPY_SETTING" owner="DBO" datastore="DS_STAGING" database="STAGING DB" description="" >
+<DIProperties>
+<DIAttribute name="Database_Object_Type" value="TABLE" />
+<DIAttribute name="Table_Type" value="TABLE" />
+<DIAttribute name="Estimated_Row_Count" value="50000" />
+<DIAttribute name="SavedAfterCheckOut" value="YES" />
+<DIAttribute name="Loader_Is_Template_Table" value="no" />
+<DIAttribute name="Date_modified" value="Tue Oct 22 12:37:59 2019" />
+<DIAttribute name="Date_last_loaded" value="Wed Feb 20 02:16:49 2019" />
+<DIAttribute name="Total_Number_Of_Rows_Processed" value="1" />
+<DIAttribute name="Number_Of_Rows_Rejected" value="0" />
+<DIAttribute name="Number_Of_Inserts" value="1" />
+<DIAttribute name="Number_Of_Updates" value="0" />
+<DIAttribute name="Number_Of_Deletes" value="0" />
+<DIAttribute name="Elapsed_Time_For_Load" value="0 Seconds" />
+<DIAttribute name="db_alias_name" value="DBO" />
+</DIProperties>
+<DIColumn name="JOBID" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="POSITIVE_PAY_TYPE" datatype="VARCHAR" size="1024" nullable="true" >
+</DIColumn>
+<DIColumn name="ACCOUNTLEN" datatype="VARCHAR" size="1024" nullable="true" >
+</DIColumn>
+<DIColumn name="BANKFORMAT" datatype="VARCHAR" size="1024" nullable="true" >
+</DIColumn>
+<DIColumn name="ACCOUNT_ID" datatype="VARCHAR" size="1024" nullable="true" >
+</DIColumn>
+<DIColumn name="MANUALLYCHANGEDATERANGE" datatype="VARCHAR" size="1024" nullable="true" >
+</DIColumn>
+<DIColumn name="FROM_DATE" datatype="VARCHAR" size="1024" nullable="true" >
+</DIColumn>
+<DIColumn name="TO_DATE" datatype="VARCHAR" size="1024" nullable="true" >
+</DIColumn>
+<DIColumn name="COMPANY_NAME" datatype="VARCHAR" size="1024" nullable="true" >
+</DIColumn>
+<DIColumn name="FILE_FORMAT" datatype="VARCHAR" size="1024" nullable="true" >
+</DIColumn>
+<DIColumn name="TARGET_FILE" datatype="VARCHAR" size="1024" nullable="true" >
+</DIColumn>
+<DIColumn name="DESTINATION_CITY" datatype="VARCHAR" size="1024" nullable="true" >
+</DIColumn>
+</DITable>
+<DITable name="T_PPY_VALIDATED_INPUT" owner="DBO" datastore="DS_STAGING" database="STAGING DB" description="" >
+<DIProperties>
+<DIAttribute name="Database_Object_Type" value="TABLE" />
+<DIAttribute name="Table_Type" value="TABLE" />
+<DIAttribute name="Estimated_Row_Count" value="50000" />
+<DIAttribute name="SavedAfterCheckOut" value="YES" />
+<DIAttribute name="Loader_Is_Template_Table" value="no" />
+<DIAttribute name="Date_modified" value="Tue Oct 22 12:37:59 2019" />
+<DIAttribute name="db_alias_name" value="DBO" />
+</DIProperties>
+<DIColumn name="JOBID" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="ACCOUNTNUMBER" datatype="VARCHAR" size="20" nullable="true" >
+</DIColumn>
+<DIColumn name="CHECKNUMBER" datatype="DECIMAL" precision="10" scale="0" nullable="true" >
+</DIColumn>
+<DIColumn name="INPUT_AMOUNT" datatype="DOUBLE" nullable="true" >
+</DIColumn>
+<DIColumn name="CHECKDATE" datatype="VARCHAR" size="8" nullable="true" >
+</DIColumn>
+<DIColumn name="ACCOUNT_ID" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="VOID_FLAG" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="ROLLUP_ID" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="STOP_PAY_FLAG" datatype="INT" nullable="true" >
+</DIColumn>
+</DITable>
+
+</DataIntegratorExport>
+

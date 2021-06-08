@@ -1,0 +1,25 @@
+Create PROCEDURE [dbo].[CommonProcedure]
+@OLD_TABLE SYSNAME, @NEW_TABLE SYSNAME
+AS
+if exists (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = N'Temp1')
+drop table [Temp1]
+Declare @DynamicSQL NVARCHAR(4000)
+set @DynamicSQL = N'
+select * into Temp1 from '+ @NEW_TABLE+' where CONVERT(nvarchar(max),TextData) not in
+(select CONVERT(nvarchar(max),TextData) from '+ @NEW_TABLE+' where CONVERT(nvarchar(max),TextData) in 
+(Select CONVERT(nvarchar(max),TextData) from '+ @OLD_TABLE+'))'
+if exists (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = N'Temp2')
+drop table [Temp2]
+Declare @DynamicSQL1 NVARCHAR(4000)
+set @DynamicSQL1 = N'
+select * into Temp2 from '+ @OLD_TABLE+' where CONVERT(nvarchar(max),TextData) not in
+(select CONVERT(nvarchar(max),TextData) from '+@OLD_TABLE+' where CONVERT(nvarchar(max),TextData) in
+(Select CONVERT(nvarchar(max),TextData) from '+ @NEW_TABLE+'))'
+if exists (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = N'Temp3')
+drop table [Temp3]
+Execute sp_executesql @DynamicSQL
+Execute sp_executesql @DynamicSQL1
+select * into Temp3 from [Temp1] where CONVERT(nvarchar(max),Substring(TextData,0,45)) not in (Select CONVERT(nvarchar(max),Substring(TextData,0,45)) from [Temp2])
+--Select * from Temp1
+--Select * From Temp2
+select * from Temp3
