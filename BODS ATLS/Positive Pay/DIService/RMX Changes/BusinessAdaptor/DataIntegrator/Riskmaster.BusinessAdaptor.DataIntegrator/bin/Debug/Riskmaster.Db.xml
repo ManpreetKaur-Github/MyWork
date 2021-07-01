@@ -1,0 +1,2288 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Riskmaster.Db</name>
+    </assembly>
+    <members>
+        <member name="T:Riskmaster.Db.DbWriter">
+            <summary>
+            This class is designed to take a DataReader  and it's currently selected DataRow and create an insert or 
+            update statement bound with parameters as appropriate.
+            This is used instead of the standard commandbuilder with each adapter because we can avoid the overhead 
+            of making the schema query over again and it gives us finer control over the concurrency checking in the where clause.
+            
+            Note: This class does not have to be retrieved from
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Db.DbWriter.#ctor(Riskmaster.Db.DbConnection,System.String,System.String,System.String)">
+            <summary>Internal constructor Riskmaster.Db.DbWriter.DbWriter provided for use by DbFactory.
+            This overload allows a DbConnection to be passed in for transaction support. Locking is assumed to be
+            on using this constructor since the Lock information is also passed in.  </summary>
+            <param name="objConn">Connection on which to execute the writer commands.</param>
+            <param name="timeStamp"></param>
+            <param name="userStamp"></param>
+            <param name="sourceTimeStamp"></param>
+            <remarks>Used only when RMOptimistic locking is desired.</remarks>
+        </member>
+        <member name="M:Riskmaster.Db.DbWriter.#ctor(Riskmaster.Db.DbConnection)">
+            <summary>Internal constructor Riskmaster.Db.DbWriter.DbWriter provided for use by DbFactory.
+            This overload allows a DbConnection to be passed in for transaction support. Locking is assumed to be
+            on using this constructor since the Lock information is also passed in.  </summary>
+            <param name="objConn">Connection on which to execute the writer commands.</param>
+            <remarks>Used only when No locking is desired.</remarks>
+        </member>
+        <member name="M:Riskmaster.Db.DbWriter.#ctor(Riskmaster.Db.DbReader,System.Boolean,Riskmaster.Db.eLockType)">
+            <summary>Internal constructor Riskmaster.Db.DbWriter.DbWriter provided for use by DbFactory.
+            This overload allows a DbReader to be passed in for schema and the initializeValues parameter determines
+             whether the current reader row values are placed into the writer.  The optLock parameter allows a lock type to be specified.</summary>
+            <param name="reader">DbReader with the schema and optionally value data to incorporate in this DbWriter.</param>
+            <param name="initializeValues">Bool specifies whether the DbReader current row values should be added to this DbWriter.</param>
+            <param name="optLock">eLockType specifying what lock type to use.  (Currently None or RMOptimistic)</param>
+            <remarks>none</remarks>
+        </member>
+        <member name="M:Riskmaster.Db.DbWriter.#ctor(System.String)">
+            <summary>Internal constructor Riskmaster.Db.DbWriter.DbWriter provided for use by DbFactory.
+            This overload allows a clean DbWriter to be created against a connection string.  
+            The Table, DataFields, Values and Where clause must be specified explicitly before Execute() is called.</summary>
+            <param name="connectionString">Connection string providing access to the target Database.</param>
+            <remarks>A connection will be created and destroyed internally as necessary for Execute()</remarks>
+        </member>
+        <member name="M:Riskmaster.Db.DbWriter.#ctor(Riskmaster.Db.DbReader,System.Boolean)">
+            <summary>Internal constructor Riskmaster.Db.DbWriter.DbWriter provided for use by DbFactory.
+            This overload allows a DbReader to be passed in for schema and the initializeValues parameter determines
+             whether the current reader row values are placed into the writer.  Lock type defaults to None.</summary>
+            <param name="reader">DbReader with the schema and optionally value data to incorporate in this DbWriter.</param>
+            <param name="initializeValues">Bool specifies whether the DbReader current row values should be added to this DbWriter.</param>
+            <remarks>none</remarks>
+        </member>
+        <member name="M:Riskmaster.Db.DbWriter.InitFromReader(Riskmaster.Db.DbReader,System.Boolean)">
+            <summary>Internal method Riskmaster.Db.DbWriter.InitFromReader is shared by the various constructors.  
+            It implements the "schema scrape" and optionally the "value scrape" of Database schema and value information from
+            the DbReader parameter into the current DbWriter.</summary>
+            <param name="reader">DbReader with the schema and optionally value data to incorporate in this DbWriter.</param>
+            <param name="initializeValues">Bool specifies whether the DbReader current row values should be added to this DbWriter.</param>
+            <remarks>none</remarks>
+        </member>
+        <member name="M:Riskmaster.Db.DbWriter.ParseSelectClause(System.String)">
+            <summary>Riskmaster.Db.DbWriter.ParseSelectClause attempts rudimentary validation
+             on the SQL statement passed via the SQL parameter.</summary>
+            <param name="SQL">String containing the SQL Select statement to validate.</param>
+            <remarks>Checks only the number of occurences of the SELECT keyword expecting exactly one.</remarks>
+        </member>
+        <member name="M:Riskmaster.Db.DbWriter.ParseFromClause(System.String)">
+            <summary>Riskmaster.Db.DbWriter.ParseFromClause attempts to pick up a single 
+            table name from the SQL statement passed in the SQL parameter.</summary>
+            <param name="SQL">String containing the SQL Select statement to examine.</param>
+            <remarks>Picks up only the FIRST table in the From clause since the DbWriter can only work with a single table at a time.</remarks>
+        </member>
+        <member name="M:Riskmaster.Db.DbWriter.ParseWhereClause(System.String)">
+            <summary>Riskmaster.Db.DbWriter.ParseWhereClause splits the SQL query at the 
+            where clause adding everything after the WHERE keyword as a single entry in the Where collection property.</summary>
+            <param name="SQL">String containing the SQL Select statement to examine.</param>
+            <remarks>We generally treat the full where clause as 1 big string not each individual condition.
+            The where clause can only contain parameters IF the clause is coming from a DbReader.  
+            This is becuase there is currently no way to specifiy the desired Parameter values to this class other than 
+            the reading from the DbReader.Command.Parameters collection during the call to InitFromReader().</remarks>
+        </member>
+        <member name="M:Riskmaster.Db.DbWriter.ParseFieldList(Riskmaster.Db.DbReader,System.Boolean)">
+            <summary>Riskmaster.Db.DbWriter.ParseFieldList populates the fields collection 
+            from the columns and optionally the values of the supplied DbReader.</summary>
+            <param name="reader">DbReader containing the column collection and current values.</param>
+            <param name="initializeValues">Specifies whether to gather the values from the current row of DbReader as well as the schema.</param>
+            <remarks>none</remarks>
+        </member>
+        <member name="M:Riskmaster.Db.DbWriter.Reset(System.Boolean)">
+            <summary>Riskmaster.Db.DbWriter.Reset places the DbWriter back to an uninitialized state.
+            Clears all collections, Resets the lock type to None and clears any time stamp information.
+              Optionally closes the internal connection if one is open based on the PreserveConnection parameter.</summary>
+            <param name="preserveConnection">Boolean specifies whether to close the DbWriter's internal connection if one is 
+            open.</param>
+            <remarks>none</remarks>
+        </member>
+        <member name="M:Riskmaster.Db.DbWriter.IsNumeric(System.Type)">
+            <summary>Private utility function Riskmaster.Db.DbWriter.IsNumeric tests if type represents any known numeric type.</summary>
+            <param name="type">The type to test.</param>
+            <returns>Boolean true if the type is numeric.</returns>
+            <remarks>none</remarks>
+        </member>
+        <member name="M:Riskmaster.Db.DbWriter.Execute(Riskmaster.Db.DbTransaction)">
+            <summary>
+            Executes the specified SQL statement as a transaction
+            </summary>
+            <param name="objTrans">Database transaction</param>
+            <returns>integer indicating success or failure for the database execution</returns>
+        </member>
+        <member name="M:Riskmaster.Db.DbWriter.Execute">
+            <summary>Riskmaster.Db.DbWriter.Execute takes all supplied information and 
+            builds parameterized update\insert SQL and populates a Parameters 
+            collection accordingly.  The end result is update\insert command execution 
+            at the database using the lock type specified.</summary>
+            <returns>The integer returned by ExecuteNonQuery()</returns>
+            <remarks>Will create a temporary connection if necessary.  
+            This function also enforces the Legacy RMOptimistic lock type if specified.
+            This function is very similar to that of a Dataset and a "CommandBuilder" but 
+            is more "legacy friendly" in it's usage pattern and the ability to use RMOptimistic locking instead
+            of the default for ADO.Net which checks every single field and expects consistent key schema information 
+            from all datasource types.</remarks>
+            <example>No example available.</example>
+        </member>
+        <member name="M:Riskmaster.Db.DbWriter.FetchTimeStamp(Riskmaster.Db.DbCommand)">
+            <summary>Private utiltiy function Riskmaster.Db.DbWriter.FetchTimeStamp returns the User and Time stamp currently
+            on the record which DbCommand object tried to update.</summary>
+            <param name="cmd">DbCommand previously used to process an Execute() call which failed 
+            to complete because of an RMOptimistic lock violation.</param>
+            <remarks>This function is used to provide more information to the user about who was working on the same data and
+            when that person saved changes.</remarks>
+        </member>
+        <member name="M:Riskmaster.Db.DbWriter.BuildSql">
+            <summary>Riskmaster.Db.DbWriter.BuildSql implements the building of a SQL Update or Insert statement 
+            taking into account parameterization and the current locking type in force..</summary>
+            <returns>String containing the SQL statement to be executed.</returns>
+            <remarks>Time stamp and User stamp are expected to be specified by the client if 
+            RMOptimistic locking is in force.  These are the values that must be identical in the DB in order 
+            to ensure no intermediate changes are being over-written.</remarks>
+        </member>
+        <member name="P:Riskmaster.Db.DbWriter.Connection">
+            <summary>Riskmaster.Db.DbWriter.Connection property allows full set\get access 
+            to the Connection that this DbWriter will use to execute updates and inserts.</summary>
+            <remarks>If this connection is in use when the DbWriter tries to Execute, the writer will clone the 
+            connection and use a fresh copy to accomplish the execute.</remarks>
+        </member>
+        <member name="P:Riskmaster.Db.DbWriter.Fields">
+            <summary>Riskmaster.Db.DbWriter.Fields allows access to the FieldList of this DbWriter.</summary>
+            <remarks>These fields will be parameterized into the Insert\Update statement and command 
+             used inside of Execute().</remarks>
+            <example>No example available.</example>
+        </member>
+        <member name="P:Riskmaster.Db.DbWriter.Tables">
+            <summary>Riskmaster.Db.DbWriter.Tables allows access to the table which is to be 
+            the target for all updates\inserts.</summary>
+            <remarks>There is typically only a single table.  We have left this as a possible area for future enhancement.</remarks>
+        </member>
+        <member name="P:Riskmaster.Db.DbWriter.Where">
+            <summary>Riskmaster.Db.DbWriter.Where allows access to the Where clause(es) to be
+            applied to all updates\inserts..</summary>
+            <remarks>If the where clause is parsed from a DbReader then it will be a single entry in this collection.
+            It is also possible to explicitly add where clauses individually. Individual where clauses will be joined with an " AND ".  
+            Therefore for individual clauses to function as expected they should be "stackable" using the "AND" keyword.</remarks>
+            <example>Example: <code>
+            writer.where.add("CLAIM_ID = 2");
+            writer.where.add("EVENT_ID=12");
+            writer.where.add("(PI_ROW_ID IS NULL OR PI_ROW_ID IN (1,2,3))")
+            </code>
+            In this example, the writer would actually use:
+            <code> "WHERE CLAIM_ID=2 AND EVENT_ID=12 AND (PI_ROW_ID IS NULL OR PI_ROW_ID IN (1,2,3))"</code></example>
+        </member>
+        <member name="P:Riskmaster.Db.DbWriter.GetTables">
+            <summary>Riskmaster.Db.DbWriter.GetTables allows access to the table which is to be 
+            the target for all updates\inserts.</summary>
+            <remarks>The same list of tables as contained in the Tables ArrayList property with the difference that they 
+            are returned in a strongly typed string array.</remarks>
+            <example>No example available.</example>
+        </member>
+        <member name="P:Riskmaster.Db.DbWriter.Sql">
+            <summary>Riskmaster.Db.DbWriter.Sql allows read only access to the SQL 
+            which the DbWriter would generate and use if an Execute call were to be called at this point.</summary>
+            <remarks>Simply calls the private BuildSQL method for implementation.</remarks>
+            <example>No example available.</example>
+        </member>
+        <member name="T:Riskmaster.Db.DbField">
+            <summary>Riskmaster.Db.DbField is a name\value class 
+            with methods to render the name as a SQL parameter and the value as a string valid with inline SQL.</summary>
+            <remarks>none</remarks>
+        </member>
+        <member name="F:Riskmaster.Db.DbField.Name">
+            <summary>The name of this field in the database.</summary>
+        </member>
+        <member name="F:Riskmaster.Db.DbField.Value">
+            <summary>The value to store in this database field.</summary>
+        </member>
+        <member name="M:Riskmaster.Db.DbField.#ctor(System.String)">
+            <summary>This overload of the Riskmaster.Db.DbField.DbField applies the supplied name during creation.</summary>
+            <param name="name">The field name.</param>
+            <remarks>none</remarks>
+        </member>
+        <member name="M:Riskmaster.Db.DbField.#ctor(System.String,System.Object)">
+            <summary>This overload of the Riskmaster.Db.DbField.DbField applies 
+            the supplied name and value during creation.</summary>
+            <param name="name">The field name.</param>
+            <param name="value">The field value.</param>
+            <remarks>none</remarks>
+        </member>
+        <member name="P:Riskmaster.Db.DbField.SqlFormat">
+            <summary>Riskmaster.Db.DbField.SqlFormat returns the value formatted appropriately for use in 
+            inline SQL.</summary>
+            <returns>String containing inline SQL of the value.</returns>
+            <remarks>The preferred method for this is via a fully parameterized query.</remarks>
+        </member>
+        <member name="P:Riskmaster.Db.DbField.ParameterName">
+            <summary>Riskmaster.Db.DbField.ParameterName supports DBWriter using fully parameterized queries 
+            by providing an appropriate Parameter name for this field based on the field name.</summary>
+            <returns>A provider independant query parameter string.</returns>
+            <remarks>none</remarks>
+        </member>
+        <member name="T:Riskmaster.Db.DbFactory">
+            <summary>
+            Factory is the base gatekeeper to the Riskmaster Database layer object instances.
+            It is intended to be an "interception" point.  
+            For example: when a request for a Riskmaster.DbConnection object type comes in, the static methods of 
+            this class may either simply create and return the object OR they may use configuration information 
+            and hand back fully configured derived object that is actually a remote proxy.
+            To this end, most Db object methods are also marked as virtual.
+             Implementation of the actual derived remotable object versions will be a phase 2 item.
+            </summary>
+            <summary>
+            Extension methods that conform to the methods that are provided
+            by the Microsoft Enterprise Library Data Application Block
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Db.DbFactory.GetDbConnection(System.String)">
+            <summary>
+            GetDbConnection returns a DbConnection object pointing to the connection string passed in the connectionString parameter..
+            </summary>
+            <param name="connectionString">The connection string to use for this conneciton.</param>
+        </member>
+        <member name="M:Riskmaster.Db.DbFactory.GetDbConnection(Riskmaster.Db.DbConnection)">
+            <summary>
+            GetDbConnection clones an existing connection object.  This is usefull for providers such as SQL Server 
+            where only  a single query may be executed at a time on the connection.  This function can be used to easily create 
+            a second connection in order to run some secondary query while still looking at connected results from the first query.
+            </summary>
+            <param name="srcConnection">The existing connection object from which to make a copy.</param>
+        </member>
+        <member name="M:Riskmaster.Db.DbFactory.GetDbReader(System.Data.IDataReader,Riskmaster.Db.DbCommand)">
+            <summary>
+            GetDbReader used only inside this class  to create a new DbReader based on the Native Reader and a DbCommand.
+            </summary>
+            <param name="anyReader">A native reader to wrap.</param>
+            <param name="anyCmd">A command to run which generates the results for the reader.</param>
+        </member>
+        <member name="M:Riskmaster.Db.DbFactory.GetDbReader(System.String,System.String,System.Data.CommandBehavior,Riskmaster.Db.eLockType)">
+            <summary>
+            GetDbReader is used to get a connected recordset (reader) in a single call.  The connection used will be closed 
+            automatically when the returned reader is closed.
+            </summary>
+            <param name="connectionString">The connection information used when creating the database connection internally.</param>
+            <param name="SQL">The query who's results should be placed into the reader.</param>
+            <param name="behaviorFlags">ADO.Net specific flags for the behavior of the reader.</param>
+            <param name="optLock">Riskmaster specific enumeration denoting the type of locking to be used.
+             Currently only supports optimistic locking based on a date-time stamp field in the database.  If this
+             option is used, then the stamp field MUST be included as a returned column in the SQL query.</param>
+        </member>
+        <member name="M:Riskmaster.Db.DbFactory.GetDbReader(System.String,System.String,System.Data.CommandBehavior)">
+            <summary>
+            GetDbReader is used to get a connected recordset (reader) in a single call.  The connection used will be closed 
+            automatically when the returned reader is closed.
+            </summary>
+            <param name="connectionString">The connection information used when creating the database connection internally.</param>
+            <param name="SQL">The query who's results should be placed into the reader.</param>
+            <param name="behaviorFlags">ADO.Net specific flags for the behavior of the reader.</param>
+        </member>
+        <member name="M:Riskmaster.Db.DbFactory.GetDbReader_Local(System.String,System.String,System.Data.CommandBehavior,Riskmaster.Db.eLockType)">
+            <summary>
+            GetDbReader_Local is the internal implementation supporting the GetDbReader overloads.
+            </summary>
+            <param name="connectionString">The connection information used when creating the database connection internally.</param>
+            <param name="SQL">The query who's results should be placed into the reader.</param>
+            <param name="behaviorFlags">ADO.Net specific flags for the behavior of the reader.</param>
+            <param name="optLock">Riskmaster specific enumeration denoting the type of locking to be used.
+             Currently only supports optimistic locking based on a date-time stamp field in the database.  If this
+             option is used, then the stamp field MUST be included as a returned column in the SQL query.</param>
+        </member>
+        <member name="M:Riskmaster.Db.DbFactory.GetDbReader(System.String,System.String)">
+            <summary>
+            GetDbReader is used to get a connected recordset (reader) in a single call.  The connection used will be closed 
+            automatically when the returned reader is closed.
+            </summary>
+            <param name="connectionString">The connection information used when creating the database connection internally.</param>
+            <param name="SQL">The query who's results should be placed into the reader.</param>
+        </member>
+        <member name="M:Riskmaster.Db.DbFactory.GetDbReader(System.String,System.String,Riskmaster.Db.eLockType)">
+            <summary>
+            GetDbReader is used to get a connected recordset (reader) in a single call.  The connection used will be closed 
+            automatically when the returned reader is closed.
+            </summary>
+            <param name="connectionString">The connection information used when creating the database connection internally.</param>
+            <param name="SQL">The query who's results should be placed into the reader.</param>
+            <param name="optLock">Riskmaster specific enum value denoting the type of locking to be used.
+             Currently only supports optimistic locking based on a date-time stamp field in the database.  If this
+             option is used, then the stamp field MUST be included as a returned column in the SQL query.</param>
+        </member>
+        <member name="M:Riskmaster.Db.DbFactory.GetDbWriter(System.String)">
+            <summary>GetDbWriter returns a "blank" writer object.  A reader is not required to create a writer although it is simpler. 
+            Ad-hoc fields and values can be added along with a where clause specified directly on the writer.</summary>
+            <param name="connectionString">The connection information used when creating the database connection internally.</param>
+            <returns>A "blank" writer object</returns>
+            <remarks>DbWriter is the closest DbXXX object to the old Rocket behavior for updating based on an open recordset.
+            Note: the DbWriter also has the ability to write to the Database without requiring initialization from a Reader.
+            Note: YOU must get your DbWriter from a connection object if you want to use the old optimistic locking mechanism.
+            This is based on the DTTM_... fields in the database.</remarks>
+        </member>
+        <member name="M:Riskmaster.Db.DbFactory.GetDbWriter(Riskmaster.Db.DbConnection,System.String,System.String,System.String)">
+            <summary>Internal constructor Riskmaster.Db.DbWriter.DbWriter provided for use by DbFactory.
+            This overload allows a DbConnection to be passed in for transaction support. Locking is assumed to be
+            on RMOptimistic using this constructor since the locking information is also passed in.  </summary>
+            <param name="objConn">DbConnection presumably with the transaction context desired for this DbWriter if any.</param>
+            <param name="timeStamp">String specifies the timeStamp to be applied to the record at DbWriter.Execute()</param>
+            <param name="userStamp">String specifies the user Stamp to be applied to the record at DbWriter.Execute()</param>
+            <param name="sourceTimeStamp">String specifies the record Stamp to be checked for changes during DbWriter.Execute()</param>
+            <remarks>Used only when RMOptimistic locking is desired.</remarks>
+        </member>
+        <member name="M:Riskmaster.Db.DbFactory.GetDbWriter(Riskmaster.Db.DbConnection)">
+            <summary>Internal constructor Riskmaster.Db.DbWriter.DbWriter provided for use by DbFactory.
+            This overload allows a DbConnection to be passed in for transaction support. Locking is assumed to be
+            off using this constructor since the Lock information is not provided.  </summary>
+            <param name="objConn">Connection on which to execute the writer commands.</param>
+            <remarks>Used only when No locking is desired.</remarks>
+        </member>
+        <member name="M:Riskmaster.Db.DbFactory.GetDbWriter(Riskmaster.Db.DbReader,System.Boolean)">
+            <summary>GetDbWriter returns a writer object that contains the schema and optionally data values gathered from the reader parameter..</summary>
+            <returns>A DbWriter object</returns>
+            <remarks>DbWriter is the closest DbXXX object to the old Rocket behavior for updating based on an open recordset.
+            Note: the DbWriter also has the ability to write to the Database without requiring initialization from a Reader.
+            Note: YOU must get your DbWriter from a connection object if you want to use the old optimistic locking mechanism.
+            This is based on the DTTM_... fields in the database.</remarks>
+            <param name="reader">A populated DbReader from which the DbWriter will gather schema information for the update\add logic.</param>
+            <param name="initializeValues">If true, the Writer will populate fields with initial values from the current row of the DbReader.</param>
+        </member>
+        <member name="M:Riskmaster.Db.DbFactory.GetDataAdapter(Riskmaster.Db.DbConnection,System.String)">
+            <summary>
+            Returns a DbDataAdapter ready to run the "fill" command against the database connection
+            passed in and using the specified SQL statement.  Also used internally by GetDataSet() 
+            DataAdapter is the ADO.Net "feed" object for creating a disconnected recordset called a DataSet.
+            </summary>
+            <param name="conn">The connection object from which the adapter is to retrieve data.</param>
+            <param name="SQL">The select statement specifying what data to retrieve.</param>
+        </member>
+        <member name="M:Riskmaster.Db.DbFactory.GetDataAdapter(Riskmaster.Db.DbCommand)">
+            <summary>
+            Returns a DbDataAdapter ready to run the "fill" command against the database connection
+            passed in and using the specified SQL statement.  
+            </summary>
+            <param name="cmd">The fully configured command object from which the adapter is to retrieve data.</param>
+            <remarks>The cmd object supplied must exist on a valid connection and have it's
+            CommandText already set.</remarks>
+        </member>
+        <member name="M:Riskmaster.Db.DbFactory.GetDataAdapter_Local(Riskmaster.Db.DbCommand)">
+            <summary>
+            Implementation for a local data layer instance of GetDataAdapter()
+            </summary>
+            <param name="dbCmd">The command object from which the adapter is to retrieve data.</param>
+        </member>
+        <member name="M:Riskmaster.Db.DbFactory.GetDataAdapter_Local(Riskmaster.Db.DbConnection,System.String)">
+            <summary>
+            Implementation for a local data layer instance of GetDataAdapter()
+            </summary>
+            <param name="conn">The connection object from which the adapter is to retrieve data.</param>
+            <param name="selectSQL">The select statement specifying what data to retrieve.</param>
+        </member>
+        <member name="M:Riskmaster.Db.DbFactory.GetDataSet(System.String,System.String)">
+            <summary>GetDataSet connects to the database specified by connectionString, 
+            and gathers the results of the SQL statement into the ADO.Net 
+            disconnected recordset called a DataSet.</summary>
+            <param name="connectionString">The connection information for the database from which to fetch the information.</param>
+            <param name="SQL">The SQL statement for which the DataSet shall contain results. </param>
+        </member>
+        <member name="F:Riskmaster.Db.DbFactory.m_PendingGCRequestFlag">
+            <summary>Internal Flag for "Pending GC Request".
+            This flag can be set when the system suspects db connections are leaking.  The 
+            full GC will be performed the next time a connection open is requested and the flag reset.</summary>
+            <remarks>Set by DbConnection finalizer when cleaning up a "leaked" connection.  
+            This will cause other leaked connections to be reclaimed.</remarks>
+        </member>
+        <member name="M:Riskmaster.Db.DbFactory.ExecuteReader(System.String,System.String)">
+            <summary>
+            Creates a DbReader object based on a SQL statement to be executed
+            </summary>
+            <param name="connectionString">string containing the specified database connection string</param>
+            <param name="strSQLStmt">string containing the SQL statement to be executed</param>
+            <returns>DbReader containing with an open connection handle to the database</returns>
+            <remarks>NOTE: Since this method returns a DbReader, the DbReader should be promptly closed after completion of the operation.
+            Perhaps, one of the best ways to do this is to enclose the returned DbReader within a using block
+            </remarks>
+            <exception cref="T:System.Data.DataException">DataException that occurs with database connection problems etc.</exception>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.Db.DbFactory.ExecuteReader``2(System.String,System.String,System.Collections.Generic.Dictionary{``0,``1})" -->
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.Db.DbFactory.ExecuteScalar``2(System.String,System.String,System.Collections.Generic.Dictionary{``0,``1})" -->
+        <member name="M:Riskmaster.Db.DbFactory.ExecuteScalar(System.String,System.String)">
+            <summary>
+            Returns a scalar object value from the database through a simple select-based SQL query
+            </summary>
+            <param name="connectionString">string containing the specified database connection string</param>
+            <param name="strSQLStmt">string containing the SQL statement to be executed containing parameter placeholders</param>
+            <returns>object containing scalar value returned from the database query</returns>
+            <seealso cref="M:Riskmaster.Db.DbFactory.ExecuteReader(System.String,System.String)"/>
+        </member>
+        <member name="P:Riskmaster.Db.DbFactory.ProtectPool">
+            <summary>
+            Gets the Connection Pool
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Db.DbFactory.TraceDetail">
+            <summary>
+            Gets the Trace Detail
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Db.DbFactory.TracePath">
+            <summary>
+            Gets the Trace Path
+            </summary>
+        </member>
+        <member name="T:Riskmaster.Db.DBDriverTypes">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Db.DBDriverTypes.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Db.DBDriverTypes.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Db.DBDriverTypes.Access">
+            <summary>
+              Looks up a localized string similar to Access.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Db.DBDriverTypes.DB2">
+            <summary>
+              Looks up a localized string similar to DB2.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Db.DBDriverTypes.Informix">
+            <summary>
+              Looks up a localized string similar to Informix.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Db.DBDriverTypes.Oracle">
+            <summary>
+              Looks up a localized string similar to Oracle.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Db.DBDriverTypes.SQLServer2005">
+            <summary>
+              Looks up a localized string similar to SQL Native Client.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Db.DBDriverTypes.SQLServer2008">
+            <summary>
+              Looks up a localized string similar to SQL Server Native Client 10.0.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Db.DBDriverTypes.SQLServerLegacy">
+            <summary>
+              Looks up a localized string similar to SQL Server.
+            </summary>
+        </member>
+        <member name="T:Riskmaster.Db.DBDrivers">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Db.DBDrivers.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Db.DBDrivers.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Db.DBDrivers.DatabaseDriverPath">
+            <summary>
+              Looks up a localized string similar to SOFTWARE\ODBC\ODBCINST.INI.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Db.DBDrivers.Driver">
+            <summary>
+              Looks up a localized string similar to Driver.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Db.DBDrivers.LoadDriverError">
+            <summary>
+              Looks up a localized string similar to Could not load ODBC Driver list.
+            </summary>
+        </member>
+        <member name="T:Riskmaster.Db.DbCommand">
+            <summary>Riskmaster.Db.DbCommand wraps the Native .Net provider command objects  for ODBC, SQL Server, Oracle and DB2.</summary>
+        </member>
+        <member name="M:Riskmaster.Db.DbCommand.#ctor(System.Data.IDbCommand,System.Boolean)">
+            <summary>
+            Used internally only by the DbFactory to produce new instances of this class.
+            </summary>
+            <param name="anyCommand">Is the IDbCommand interface of the native provider Command to wrap inside of this object.</param>
+            <param name="exclusiveConnection">indicates whether or not the connection should be exclusive</param>
+        </member>
+        <member name="M:Riskmaster.Db.DbCommand.Cancel">
+            <summary>Wraps this method from the Native provider.  See ADO.Net documentation for details.</summary>
+            <value>See ADO.Net documentation..</value>
+            <remarks>none</remarks>
+            <example>No example available.</example>
+        </member>
+        <member name="M:Riskmaster.Db.DbCommand.System#Data#IDbCommand#CreateParameter">
+            <summary>Wraps this method from the Native provider.  Present only to satisfy the interface mapping requirements.</summary>
+            <value>See ADO.Net documentation..</value>
+            <remarks>Really returns a DbParameter object</remarks>
+            <example>No example available.</example>
+        </member>
+        <member name="M:Riskmaster.Db.DbCommand.CreateParameter">
+            <summary>Wraps this method from the Native provider.</summary>
+            <value>See ADO.Net documentation..</value>
+            <remarks>none</remarks>
+            <example>No example available.</example>
+        </member>
+        <member name="M:Riskmaster.Db.DbCommand.ExecuteNonQuery">
+            <summary>
+            ExecuteNonQuery is intended for commands that do not return results, instead returning only the number
+             of records affected.  Please see the ADO.Net documentation for more detail on this item.
+            </summary>
+            <remarks> Before calling this method you must set the Connection property to a valid closed DbConnection object.
+            This function can take parameterized SQL statements in the via the CommandText property 
+            only if the Parameters collection has been correctly populated.</remarks>
+        </member>
+        <member name="M:Riskmaster.Db.DbCommand.System#Data#IDbCommand#ExecuteReader">
+            <summary>Wraps this method from the Native provider.  Present only to satisfy the interface mapping requirements.</summary>
+        </member>
+        <member name="M:Riskmaster.Db.DbCommand.ExecuteReader">
+            <summary>
+            ExecuteReader will retrieve results from the data source  and return a DataReader that allows the user to process 
+             the results. </summary>
+            <remarks> Before calling this method you must set the Connection property to a valid closed DbConnection object.
+            This function can take parameterized SQL statements in the via the CommandText property 
+            only if the Parameters collection has been correctly populated.</remarks>
+        </member>
+        <member name="M:Riskmaster.Db.DbCommand.ExecuteReader(Riskmaster.Db.eLockType)">
+            <summary>
+            ExecuteReader will retrieve results from the data source  and return a DataReader that allows the user to process 
+             the results. </summary>
+            <param name="optLock">Used to determine what locking option the DbReader is expected to use.</param>
+            <returns>Not specified.</returns>
+            <remarks>If you plan to use a DbWriter against the result set in an optimistic locking mode you must specify that here.</remarks>
+            <example>No example available.</example>
+        </member>
+        <member name="M:Riskmaster.Db.DbCommand.System#Data#IDbCommand#ExecuteReader(System.Data.CommandBehavior)">
+            <summary>
+            This function is used internally to achieve proper interface mapping..
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Db.DbCommand.ExecuteReader(System.Data.CommandBehavior)">
+            <summary>
+            ExecuteReader will retrieve results from the data source  and return a DataReader that allows the user to process 
+             the results. </summary>
+            <returns>A fully populated DbDataReader.</returns>
+            <remarks>See the ADO.Net documentation for help understanding the CommandBehavior options.</remarks>
+            <example>No example available.</example>
+            <param name="behavior">Alters the way the Reader handles it's connection.</param>
+        </member>
+        <member name="M:Riskmaster.Db.DbCommand.ExecuteReader(System.Data.CommandBehavior,Riskmaster.Db.eLockType)">
+            <summary>
+            ExecuteReader will retrieve results from the data source  and return a DataReader that allows the user to process 
+             the results.  This overload allows client code to specify both the Rikmaster locking type and an ADO.Net behavior.
+            </summary>
+            <param name="behavior">See: ADO.Net CommandBehavior</param>
+            <param name="optLock">Riskmaster locking type.</param>
+        </member>
+        <member name="M:Riskmaster.Db.DbCommand.ExecuteScalar">
+            <summary>
+              ExecuteScalar assumes that the command will return a single
+              row with a single column, or if more rows/columns are returned
+              it will return only the value in the first column of the first row.
+             </summary>
+        </member>
+        <member name="M:Riskmaster.Db.DbCommand.Prepare">
+            <summary>
+            Please see the ADO.Net help for this item.
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Db.DbCommand.System#IDisposable#Dispose">
+            <summary>
+            Please see the ADO.Net help for this item.
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Db.DbCommand.Dispose(System.Boolean)">
+            <summary>
+            Please see the ADO.Net help for this item.
+            </summary>
+            <param name="disposing"></param>
+        </member>
+        <member name="M:Riskmaster.Db.DbCommand.AsNative">
+            <summary>
+            Provides our internal provider classes access to the ACTUAL original provider object.
+             NOT to be shared outside this assembly...</summary>
+        </member>
+        <member name="M:Riskmaster.Db.DbCommand.ApplyProviderSpecificParamTokens(System.String)">
+            <summary>
+            Utility function strips out our DbProvider Param Tokens and replaces them appropriately for our selected Native Provider.
+            </summary>
+            <param name="value">Query string to be made provider specific.</param>
+            <returns>Provider specific query string.</returns>
+        </member>
+        <member name="P:Riskmaster.Db.DbCommand.CommandText">
+            <summary>Riskmaster.Db.DbCommand.CommandText provides the place to specify the SQL to execute.  
+            Within this property set we are changing out our proprietary SQL parameter markers (Example: "CLAIM_ID=~myvalue~") 
+            and replacing them with provider specific markers.  (Example in SQL Server: "CLAIM_ID=@myvalue")</summary>
+            <value>The command string to be executed.</value>
+            <remarks>The parameter marker replacement happens on the Set of this property and any "Get" against this 
+            property returns provider specific SQL. Therefore, this property is no longer "reflexive"... Will that be a problem?</remarks>
+            <example>No example available.</example>
+        </member>
+        <member name="P:Riskmaster.Db.DbCommand.CommandTimeout">
+            <summary>Wraps this property from the Native provider.  See ADO.Net documentation for details.</summary>
+            <value>See ADO.Net documentation..</value>
+            <remarks>none</remarks>
+            <example>No example available.</example>
+        </member>
+        <member name="P:Riskmaster.Db.DbCommand.CommandType">
+            <summary>Wraps this property from the Native provider.  See ADO.Net documentation for details.</summary>
+            <value>See ADO.Net documentation..</value>
+            <remarks>none</remarks>
+            <example>No example available.</example>
+        </member>
+        <member name="P:Riskmaster.Db.DbCommand.System#Data#IDbCommand#Connection">
+            <summary>Wraps this property from the Native provider.  Present only to satisfy the interface mapping requirements.</summary>
+            <value>See ADO.Net documentation..</value>
+            <remarks>It is valid for this guy to throw an exception if the value being assigned is not a DbConnection.</remarks>
+            <example>No example available.</example>
+        </member>
+        <member name="P:Riskmaster.Db.DbCommand.Connection">
+            <summary>Wraps this property from the Native provider.  
+            The command will attempt to use this connection when it is executed.</summary>
+            <value>See ADO.Net documentation..</value>
+            <remarks>It is valid for this guy to throw an exception if the value being assigned is not a DbConnection.</remarks>
+            <example>No example available.</example>
+        </member>
+        <member name="P:Riskmaster.Db.DbCommand.Parameters">
+            <summary>Wraps this property from the Native provider.  See ADO.Net documentation for details.</summary>
+            <value>See ADO.Net documentation..</value>
+            <remarks>Read Only</remarks>
+            <example>No example available.</example>
+        </member>
+        <member name="P:Riskmaster.Db.DbCommand.System#Data#IDbCommand#Parameters">
+            <summary>Wraps this property from the Native provider.  
+            Present only to satisfy the interface mapping requirements.</summary>
+            <value>See ADO.Net documentation..</value>
+            <remarks>Read Only</remarks>
+            <example>No example available.</example>
+        </member>
+        <member name="P:Riskmaster.Db.DbCommand.System#Data#IDbCommand#Transaction">
+            <summary>Wraps this property from the Native provider.  Present only to satisfy the interface mapping requirements.</summary>
+            <value>See ADO.Net documentation..</value>
+            <remarks>It is valid for this guy to throw an exception if the value being assigned is not a DbTransaction.</remarks>
+            <example>No example available.</example>
+        </member>
+        <member name="P:Riskmaster.Db.DbCommand.Transaction">
+            <summary>Wraps this property from the Native provider.</summary>
+            <value>See ADO.Net documentation..</value>
+            <remarks>Get\Set the transaction. Consider additional steps to ensure that the transaction 
+             is compatible with the connection, because the two are usually linked.</remarks>
+            <example>No example available.</example>
+        </member>
+        <member name="P:Riskmaster.Db.DbCommand.UpdatedRowSource">
+            <summary>Wraps this property from the Native provider.  See ADO.Net documentation for details.</summary>
+            <value>See ADO.Net documentation..</value>
+            <remarks>Read\Write</remarks>
+            <example>No example available.</example>
+        </member>
+        <member name="T:Riskmaster.Db.DbParameterCollection">
+            <summary>
+            This Class wraps a parameter collection.  
+            It uses an internal IParameterCollection interface from 
+            whatever ParameterCollection type it is passed in it's constructor.
+            The constructor is only available internally and is only used internally by the 
+            DbCommand implementation.
+            
+            If we need provider specific behaviors we can use the "as" or "is" keywords to case 
+            out the actual object type behind the IParameterCollection interface.  Then using this strongly typed 
+             actual object reference we can provide different provider specific implementation details.
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Db.DbParameterCollection.#ctor(System.Data.IDataParameterCollection)">
+            <summary>TODO: Summary of Riskmaster.Db.DbParameterCollection.DbParameterCollection.</summary>
+            <param name="anyParameterCollection"></param>
+            <returns>Not specified.</returns>
+            <remarks>none</remarks>
+        </member>
+        <member name="M:Riskmaster.Db.DbParameterCollection.GetEnumerator">
+            <summary>TODO: Summary of Riskmaster.Db.DbParameterCollection.GetEnumerator.</summary>
+            <returns>Not specified.</returns>
+            <remarks>none</remarks>
+            <example>No example available.</example>
+        </member>
+        <member name="M:Riskmaster.Db.DbParameterCollection.CopyTo(System.Array,System.Int32)">
+            <summary>TODO: Summary of Riskmaster.Db.DbParameterCollection.CopyTo.</summary>
+            <param name="arr"></param>
+            <param name="idx"></param>
+            <remarks>none</remarks>
+            <example>No example available.</example>
+        </member>
+        <member name="M:Riskmaster.Db.DbParameterCollection.System#Collections#IList#Contains(System.Object)">
+            <summary>TODO: Summary of Riskmaster.Db.DbParameterCollection.IList.Contains.</summary>
+            <param name="o"></param>
+            <returns>Not specified.</returns>
+            <remarks>none</remarks>
+        </member>
+        <member name="M:Riskmaster.Db.DbParameterCollection.Contains(System.String)">
+            <summary>TODO: Summary of Riskmaster.Db.DbParameterCollection.Contains.</summary>
+            <param name="parameterName"></param>
+            <returns>Not specified.</returns>
+            <remarks>none</remarks>
+            <example>No example available.</example>
+        </member>
+        <member name="M:Riskmaster.Db.DbParameterCollection.System#Collections#IList#IndexOf(System.Object)">
+            <summary>TODO: Summary of Riskmaster.Db.DbParameterCollection.IList.IndexOf.</summary>
+            <param name="o"></param>
+            <returns>Not specified.</returns>
+            <remarks>none</remarks>
+        </member>
+        <member name="M:Riskmaster.Db.DbParameterCollection.IndexOf(System.String)">
+            <summary>TODO: Summary of Riskmaster.Db.DbParameterCollection.IndexOf.</summary>
+            <param name="parameterName"></param>
+            <returns>Not specified.</returns>
+            <remarks>none</remarks>
+            <example>No example available.</example>
+        </member>
+        <member name="M:Riskmaster.Db.DbParameterCollection.Insert(System.Int32,System.Object)">
+            <summary>TODO: Summary of Riskmaster.Db.DbParameterCollection.Insert.</summary>
+            <param name="idx"></param>
+            <param name="value"></param>
+            <remarks>none</remarks>
+            <example>No example available.</example>
+        </member>
+        <member name="M:Riskmaster.Db.DbParameterCollection.System#Collections#IList#Remove(System.Object)">
+            <summary>TODO: Summary of Riskmaster.Db.DbParameterCollection.IList.Remove.</summary>
+            <param name="value"></param>
+            <remarks>none</remarks>
+        </member>
+        <member name="M:Riskmaster.Db.DbParameterCollection.Remove(Riskmaster.Db.DbParameter)">
+            <summary>TODO: Summary of Riskmaster.Db.DbParameterCollection.Remove.</summary>
+            <param name="p"></param>
+            <remarks>none</remarks>
+            <example>No example available.</example>
+        </member>
+        <member name="M:Riskmaster.Db.DbParameterCollection.RemoveAt(System.Int32)">
+            <summary>TODO: Summary of Riskmaster.Db.DbParameterCollection.RemoveAt.</summary>
+            <param name="idx"></param>
+            <remarks>none</remarks>
+            <example>No example available.</example>
+        </member>
+        <member name="M:Riskmaster.Db.DbParameterCollection.RemoveAt(System.String)">
+            <summary>TODO: Summary of Riskmaster.Db.DbParameterCollection.RemoveAt.</summary>
+            <param name="parameterName"></param>
+            <remarks>none</remarks>
+            <example>No example available.</example>
+        </member>
+        <member name="M:Riskmaster.Db.DbParameterCollection.Add(System.Object)">
+            <summary>TODO: Summary of Riskmaster.Db.DbParameterCollection.Add.</summary>
+            <param name="value"></param>
+            <returns>Not specified.</returns>
+            <remarks>none</remarks>
+            <example>No example available.</example>
+        </member>
+        <member name="M:Riskmaster.Db.DbParameterCollection.Clear">
+            <summary>TODO: Summary of Riskmaster.Db.DbParameterCollection.Clear.</summary>
+            <remarks>none</remarks>
+            <example>No example available.</example>
+        </member>
+        <member name="M:Riskmaster.Db.DbParameterCollection._cultureAwareCompare(System.String,System.String)">
+            <summary>TODO: Summary of Riskmaster.Db.DbParameterCollection._cultureAwareCompare.</summary>
+            <param name="strA"></param>
+            <param name="strB"></param>
+            <returns>Not specified.</returns>
+            <remarks>none</remarks>
+        </member>
+        <member name="P:Riskmaster.Db.DbParameterCollection.Item(System.Int32)">
+            <summary>TODO: Summary of Riskmaster.Db.DbParameterCollection.this.</summary>
+            <returns>Not specified.</returns>
+            <value>TODO: Value of Riskmaster.Db.DbParameterCollection.this.</value>
+            <remarks>none</remarks>
+            <example>No example available.</example>
+        </member>
+        <member name="P:Riskmaster.Db.DbParameterCollection.Item(System.String)">
+            <summary>TODO: Summary of Riskmaster.Db.DbParameterCollection.this.</summary>
+            <returns>Not specified.</returns>
+            <value>TODO: Value of Riskmaster.Db.DbParameterCollection.this.</value>
+            <remarks>none</remarks>
+            <example>No example available.</example>
+        </member>
+        <member name="P:Riskmaster.Db.DbParameterCollection.Count">
+            <summary>TODO: Summary of Riskmaster.Db.DbParameterCollection.Count.</summary>
+            <returns>Not specified.</returns>
+            <value>TODO: Value of Riskmaster.Db.DbParameterCollection.Count.</value>
+            <remarks>none</remarks>
+            <example>No example available.</example>
+        </member>
+        <member name="P:Riskmaster.Db.DbParameterCollection.IsReadOnly">
+            <summary>TODO: Summary of Riskmaster.Db.DbParameterCollection.IsReadOnly.</summary>
+            <returns>Not specified.</returns>
+            <value>TODO: Value of Riskmaster.Db.DbParameterCollection.IsReadOnly.</value>
+            <remarks>none</remarks>
+            <example>No example available.</example>
+        </member>
+        <member name="P:Riskmaster.Db.DbParameterCollection.IsFixedSize">
+            <summary>TODO: Summary of Riskmaster.Db.DbParameterCollection.IsFixedSize.</summary>
+            <returns>Not specified.</returns>
+            <value>TODO: Value of Riskmaster.Db.DbParameterCollection.IsFixedSize.</value>
+            <remarks>none</remarks>
+            <example>No example available.</example>
+        </member>
+        <member name="P:Riskmaster.Db.DbParameterCollection.IsSynchronized">
+            <summary>TODO: Summary of Riskmaster.Db.DbParameterCollection.IsSynchronized.</summary>
+            <returns>Not specified.</returns>
+            <value>TODO: Value of Riskmaster.Db.DbParameterCollection.IsSynchronized.</value>
+            <remarks>none</remarks>
+            <example>No example available.</example>
+        </member>
+        <member name="P:Riskmaster.Db.DbParameterCollection.SyncRoot">
+            <summary>TODO: Summary of Riskmaster.Db.DbParameterCollection.SyncRoot.</summary>
+            <returns>Not specified.</returns>
+            <value>TODO: Value of Riskmaster.Db.DbParameterCollection.SyncRoot.</value>
+            <remarks>none</remarks>
+            <example>No example available.</example>
+        </member>
+        <member name="T:Riskmaster.Db.DbFieldList">
+            <summary>Riskmaster.Db.DbFieldList used by the DbWriter object as a 
+            strongly typed collection for Field objects.  It is exposed through the DbWriter.Fields property.
+            The class offers several Add overloads to make populating the collection easier.</summary>
+        </member>
+        <member name="M:Riskmaster.Db.DbFieldList.Add(System.String,System.String)">
+            <summary>This Riskmaster.Db.DbFieldList.Add overload creates 
+            a new DbField using the name and string value provided.</summary>
+            <param name="fieldName">Name of the DbField to be created and added.</param>
+            <param name="value">String value of the DbField to be created and added.</param>
+        </member>
+        <member name="M:Riskmaster.Db.DbFieldList.Add(System.String,System.Int32)">
+            <summary>This Riskmaster.Db.DbFieldList.Add overload creates 
+            a new DbField using the name and integer value provided.</summary>
+            <param name="fieldName">Name of the DbField to be created and added.</param>
+            <param name="value">Integer value of the DbField to be created and added.</param>
+        </member>
+        <member name="M:Riskmaster.Db.DbFieldList.Add(System.String,System.Single)">
+            <summary>This Riskmaster.Db.DbFieldList.Add overload creates 
+            a new DbField using the name and float value provided.</summary>
+            <param name="fieldName">Name of the DbField to be created and added.</param>
+            <param name="value">Float value of the DbField to be created and added.</param>
+        </member>
+        <member name="M:Riskmaster.Db.DbFieldList.Add(System.String,System.Object)">
+             <summary>This Riskmaster.Db.DbFieldList.Add overload creates 
+             a new DbField using the name and object value provided.  
+            This is the override to use when a stronger typed version is not available.</summary>
+             <param name="fieldName">Name of the DbField to be created and added.</param>
+             <param name="value">Object value of the DbField to be created and added.</param>
+        </member>
+        <member name="M:Riskmaster.Db.DbFieldList.Add(Riskmaster.Db.DbField)">
+             <summary>This Riskmaster.Db.DbFieldList.Add overload creates 
+             a new DbField using the name provided.  
+            This is the override to use when the value is still unknown.</summary>
+             <param name="value">Name of the DbField to be created and added.</param>
+        </member>
+        <member name="M:Riskmaster.Db.DbFieldList.Contains(Riskmaster.Db.DbField)">
+            <summary>This Riskmaster.Db.DbFieldList.Contains overload checks to see 
+            whether the collection contains a DbField object with a matching name.</summary>
+            <param name="value">DbField who's name to look for.</param>
+            <returns>Boolean true if the collection contains a matching field.</returns>
+        </member>
+        <member name="M:Riskmaster.Db.DbFieldList.Contains(System.String)">
+            <summary>This Riskmaster.Db.DbFieldList.Contains overload checks to see 
+            whether the collection contains a DbField object with a matching name.</summary>
+            <param name="fieldName">String  field name to look for.</param>
+            <returns>Boolean true if the collection contains a matching field.</returns>
+        </member>
+        <member name="M:Riskmaster.Db.DbFieldList.Remove(Riskmaster.Db.DbField)">
+            <summary>This Riskmaster.Db.DbFieldList.Remove overload 
+            removes the specified DbField from the collection.</summary>
+            <param name="value">DbField to be removed.</param>
+        </member>
+        <member name="M:Riskmaster.Db.DbFieldList.Remove(System.String)">
+            <summary>This Riskmaster.Db.DbFieldList.Remove overload 
+            removes the specified DbField from the collection.</summary>
+            <param name="fieldName">String field name to be removed.</param>
+        </member>
+        <member name="M:Riskmaster.Db.DbFieldList.CopyTo(Riskmaster.Db.DbField[],System.Int32)">
+            <summary>This Riskmaster.Db.DbFieldList.CopyTo overload populates 
+            a DbField array starting at a given index with the DbField objects 
+            of this collection.</summary>
+            <param name="array">DbField array to populate.</param>
+            <param name="arrayIndex">Integer index at which to place the first DbField object.</param>
+        </member>
+        <member name="M:Riskmaster.Db.DbFieldList.CopyTo(Riskmaster.Db.DbField[])">
+            <summary>This Riskmaster.Db.DbFieldList.CopyTo overload populates 
+            a DbField array with the DbField objects 
+            of this collection.</summary>
+            <param name="array">DbField array to populate.</param>
+        </member>
+        <member name="P:Riskmaster.Db.DbFieldList.Item(System.String)">
+            <summary>Riskmaster.Db.DbFieldList.this string indexed iterator retrieves\sets 
+            a DbField object based on it's name.</summary>
+            <returns>DbField object or throws an exception to indicate that the requested field was not found.</returns>
+        </member>
+        <member name="P:Riskmaster.Db.DbFieldList.Item(System.Int32)">
+            <summary>Riskmaster.Db.DbFieldList.this integer based iterator retrieves\sets 
+            a DbField object based on it's position.</summary>
+            <returns>DbField object or throws an exception to indicate that the requested field was not found.</returns>
+        </member>
+        <member name="P:Riskmaster.Db.DbFieldList.Count">
+            <summary>Riskmaster.Db.DbFieldList.Count provides a count of the DbFields currently in the collection.</summary>
+            <returns>Integer count of the DbFields currently in the collection.</returns>
+        </member>
+        <member name="T:Riskmaster.Db.eDatabaseType">
+            <summary>Specifies the DBMS that is in use.  Constants should match those previously used in DTGRocket.</summary>
+        </member>
+        <member name="F:Riskmaster.Db.eDatabaseType.DBMS_IS_ACCESS">
+            <summary>Riskmaster.Db.eDatabaseType.DBMS_IS_ACCESS indicates that the database management system
+            is some flavor of Microsoft Access.</summary>
+            <remarks>Microsoft Access is no longer directly supported by Riskmaster.</remarks>
+        </member>
+        <member name="F:Riskmaster.Db.eDatabaseType.DBMS_IS_SQLSRVR">
+            <summary>Riskmaster.Db.eDatabaseType.DBMS_IS_SQLSRVR indicates that the database management system
+            is some flavor of Microsoft SQL Server.</summary>
+            <remarks>Microsoft SQL Server is supported as a native Provider where possible and through ODBC otherwise.
+            You can use the "driver=RMSQLSERVER" name value in a connection string to indicate this to the Riskmaster Database Layer.
+            </remarks>
+        </member>
+        <member name="F:Riskmaster.Db.eDatabaseType.DBMS_IS_SYBASE">
+            <summary>Riskmaster.Db.eDatabaseType.DBMS_IS_SYBASE indicates that the database management system
+            is some flavor of Sybase.</summary>
+            <remarks>Sybase is supported only through the ODBC provider.</remarks>
+        </member>
+        <member name="F:Riskmaster.Db.eDatabaseType.DBMS_IS_INFORMIX">
+            <summary>Riskmaster.Db.eDatabaseType.DBMS_IS_INFORMIX indicates that the database management system
+            is some flavor of Informix.</summary>
+            <remarks>Informix is supported only through the ODBC provider.</remarks>
+        </member>
+        <member name="F:Riskmaster.Db.eDatabaseType.DBMS_IS_ORACLE">
+            <summary>Riskmaster.Db.eDatabaseType.DBMS_IS_ORACLE indicates that the database management system
+            is some flavor of Oracle.</summary>
+            <remarks>Oracleis supported as a native Provider where possible and through ODBC otherwise.
+            You can use the "driver=RMORACLE" name value in a connection string to indicate this to the Riskmaster Database Layer.
+            </remarks>
+        </member>
+        <member name="F:Riskmaster.Db.eDatabaseType.DBMS_IS_ODBC">
+            <summary>Riskmaster.Db.eDatabaseType.DBMS_IS_ODBC indicates that the specific database management system
+            could not be determined but is running through the ODBC Provider.</summary>
+            <remarks>none</remarks>
+        </member>
+        <member name="F:Riskmaster.Db.eDatabaseType.DBMS_IS_DB2">
+            <summary>Riskmaster.Db.eDatabaseType.DBMS_IS_DB2 indicates that the database management system
+            is some flavor of DB2.</summary>
+            <remarks>IBM DB2 is supported as a native Provider where possible and through ODBC otherwise.
+            You can use the "driver=RMDB2" name value in a connection string to indicate this to the Riskmaster Database Layer.
+            </remarks>
+        </member>
+        <member name="T:Riskmaster.Db.eConnectionType">
+            <summary>Specifies the Native .Net Data Provider  that is in use.</summary>
+            <remarks>This indicates the type of Provider objects being used internally by the Riskmaster Data Layer.
+              These objects can be accessed ONLY from inside of this assembly using the AsNative() methods.</remarks>
+        </member>
+        <member name="F:Riskmaster.Db.eConnectionType.Odbc">
+            <summary>
+            Managed ODBC Driver
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Db.eConnectionType.ManagedSqlServer">
+            <summary>
+            Managed SQL Server driver
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Db.eConnectionType.ManagedOracleServer">
+            <summary>
+            Managed Oracle Server driver
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Db.eConnectionType.ManagedDB2Server">
+            <summary>
+            Managed DB2 driver
+            </summary>
+        </member>
+        <member name="T:Riskmaster.Db.eLockType">
+            <summary>Riskmaster.Db.eLockType enumerates the available locking schemes.  
+            Currently only RMOptimistic or None are supported.</summary>
+            <remarks>none</remarks>
+        </member>
+        <member name="F:Riskmaster.Db.eLockType.None">
+            <summary>Riskmaster.Db.eLockType.None is the default behavior in which no locking is enforced.</summary>
+            <remarks>none</remarks>
+        </member>
+        <member name="F:Riskmaster.Db.eLockType.RMOptimistic">
+            <summary>Riskmaster.Db.eLockType.RMOptimistic is the legacy locking scheme from DTGRocket.</summary>
+            <remarks>This locking scheme uses DTTM_xxx fields to check for optimistic locking violations.  
+            Note that these fields MUST be included in the query result record being updated.  
+            Otherwise there will be no original stamp (as read from DB initially) to which the current (possibly updated) db stamp can be compared.</remarks>
+        </member>
+        <member name="T:Riskmaster.Db.DbInfoMessageArgs">
+            <summary> Event Argument Implementation for Riskmaster.Db.DbInfoMessageArgs.</summary>
+            <remarks>Passed to Event recipients of the InfoMessage event which can be fired upon opening a connection.</remarks>
+        </member>
+        <member name="M:Riskmaster.Db.DbInfoMessageArgs.#ctor(System.Object)">
+            <summary>Riskmaster.Db.DbInfoMessageArgs.DbInfoMessageArgs wraps the Native Provider implementations.</summary>
+            <param name="e">The native provider InfoMessageEventArgs object to wrap.</param>
+            <remarks>none</remarks>
+        </member>
+        <member name="P:Riskmaster.Db.DbInfoMessageArgs.Message">
+            <summary>Wraps the Native property of the same name.</summary>
+            <returns>String containing the message information.</returns>
+            <remarks>See ADO.NET documentation for details.</remarks>
+            <example>No example available.</example>
+        </member>
+        <member name="P:Riskmaster.Db.DbInfoMessageArgs.Source">
+            <summary>Wraps the Native property of the same name.</summary>
+            <returns>String containing the message source information.</returns>
+            <remarks>See ADO.NET documentation for details.</remarks>
+            <example>No example available.</example>
+        </member>
+        <member name="P:Riskmaster.Db.DbInfoMessageArgs.Errors">
+            <summary>Wraps the Native property of the same name.</summary>
+            <returns>The errors collection returns a Native Provider collection object if available.</returns>
+            <remarks>See ADO.NET documentation for details.</remarks>
+            <example>No example available.</example>
+        </member>
+        <member name="T:Riskmaster.Db.DbInfoMessageEventHandler">
+            <summary>Provides the Delegate Type required of clients who wish to recieve the DbInfoMessage event.</summary>
+            <remarks>See .NET event handling documentation for details.</remarks>
+        </member>
+        <member name="T:Riskmaster.Db.DbConnection">
+            <summary>
+            This object is the core data layer object responsible for handing out:
+            readers, transactions and commands.  Any derived version of this class
+            will have to take responsibility for handing out sub-objects appropriately (i.e. - remotable proxies)
+            </summary> 
+            //Component,
+        </member>
+        <member name="F:Riskmaster.Db.DbConnection.RM_PROVIDER_SQLSRVR">
+            <summary>Riskmaster Proprietary Connection String SQL Server Driver Constant (RMSQL)</summary>
+        </member>
+        <member name="F:Riskmaster.Db.DbConnection.RM_PROVIDER_DB2">
+            <summary>Riskmaster Proprietary Connection String DB2 Server Driver Constant (RMDB2)</summary>
+        </member>
+        <member name="F:Riskmaster.Db.DbConnection.RM_PROVIDER_ORACLE">
+            <summary>Riskmaster Proprietary Connection String Oracle Server Driver Constant (RMORACLE)</summary>
+        </member>
+        <member name="M:Riskmaster.Db.DbConnection.#cctor">
+            <summary>The static Riskmaster.Db.DbConnection.DbConnection constructor reads the 
+            system ODBC registry entries into HashTables for later use intelligently determining the DBMS vendor type 
+            and native .Net data provider to use based on only a connection string..</summary>
+            <remarks>These hash tables may be slightly different from machine to machine based on what ODBC drivers 
+            the administrator has installed.</remarks>
+        </member>
+        <member name="M:Riskmaster.Db.DbConnection.LoadDbDrivers">
+            <summary>
+            Loads the Database Drivers from the 32-bit portion of the Window Registry
+            </summary>
+            <remarks>This method will continue to work on 64-bit OSes, however,
+            only a small portion of the drivers will be available such as Oracle and SQL Server
+            since these drivers natively support 64-bit platforms and therefore 
+            also write to the 32-bit portion of the Windows Registry</remarks>
+        </member>
+        <member name="M:Riskmaster.Db.DbConnection.#ctor(System.Data.IDbConnection)">
+            <summary>
+            Riskmaster.Db.DbConnection.DbConnection used internally by DbTransaction object to wrap the returned
+            native connection object.</summary>
+            <param name="anyConnection">IDbConnection interface of the Native provider connection to wrap.</param>
+            <remarks>This is a hack to support getting the DbConnection object through the Connection property of the DbTransaction
+            object.  It has two main issues: first, the connection string credentials will probably be lost. 
+            (They are munged for security reasons by most native providers instead of being returned..)
+            Second, the DatabaseType and ConnectionType properties may not be properly initialized if the connection
+            was using ODBC and relied upon testing performed in the "Open" method.  </remarks>
+        </member>
+        <member name="M:Riskmaster.Db.DbConnection.#ctor(System.String)">
+             <summary>
+             Allows only the static DBFactory  class to create new instances of DbConnection class.
+             </summary>
+             <param name="connectionstring">Database Connection String</param>
+             <remarks>The connection string here is checked for a a "Driver=value" pair.  If no such pair exists in the string, then
+               we are forced to assume ODBC and the selection process for a .Net data provider is over.
+               Otherwise, the pair does exist and is examined further.  First the we check to see if the value is one of the 
+               Riskmaster specific driver tokens ("RMSQL","RMDB2","RMORACLE").   If any of these tokens is detected 
+               in the "Driver=value" pair then the code will attempt to use the specific .Net Data provider from that DBMS vendor.  
+              Otherwise the code falls back to checking if the value specified in the "Driver=value" pair  can be 
+              found in the hash tables filled by the static constructor.  If it is found in the hash tables  then 
+              we attempt to hueristically "guess" the "best fit" native provider based on the "provider names" from the registry.
+            </remarks>
+        </member>
+        <member name="M:Riskmaster.Db.DbConnection.#ctor(Riskmaster.Db.DbConnection)">
+            <summary>
+            Allows DbFactory to produce a duplicate connection.  Returns a fully connected copy of the Src  connection object.  
+            Intended for use when each connection is restricted to hosting a single recordset at a time (SQLServer).
+            </summary>
+            <param name="Src">A source DbConnection object to Clone.</param>
+        </member>
+        <member name="M:Riskmaster.Db.DbConnection.ConnectionStringChanged">
+             <summary>Riskmaster.Db.DbConnection.ConnectionStringChanged  implements the 
+             detailed .Net Native Provider selection logic used by the DbConnection constructor(s).</summary>
+             <remarks>Uses the internal stored connection string for these checks.
+              The connection string here is checked for a a "Driver=value" pair.  If no such pair exists in the string, then
+               we are forced to assume ODBC and the selection process for a .Net data provider is over.
+               Otherwise, the pair does exist and is examined further.  First the we check to see if the value is one of the 
+               Riskmaster specific driver tokens ("RMSQL","RMDB2","RMORACLE").   If any of these tokens is detected 
+               in the "Driver=value" pair then the code will attempt to use the specific .Net Data provider from that DBMS vendor.  
+              Otherwise the code falls back to checking if the value specified in the "Driver=value" pair  can be 
+              found in the hash tables filled by the static constructor.  If it is found in the hash tables  then 
+              we attempt to hueristically "guess" the "best fit" native provider based on the "provider names" from the registry.
+            </remarks>         
+        </member>
+        <member name="M:Riskmaster.Db.DbConnection.Open">
+            <summary>
+            Opens connection to database specified by connection string.
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Db.DbConnection.GetRMProprietaryMake(System.String)">
+            <summary>Utility function Riskmaster.Db.DbConnection.GetRMProprietaryMake 
+            maps the Riskmaster proprietary "Driver=value" values to .Net Native Provider types.</summary>
+            <param name="sProvider">From a connection string, the "value" chunk of the "Driver=value" pair.</param>
+            <returns>DBMS vendor type which indicates what .Net Native provider should be used.</returns>
+            <remarks>Will return ODBC for all unknown values of the sProvider parameter.</remarks>
+        </member>
+        <member name="M:Riskmaster.Db.DbConnection.GetODBCMake">
+            <summary>Riskmaster.Db.DbConnection.GetODBCMake attempts to determine from an open ODBC connection
+            which DBMS system is in use.</summary>
+            <returns>An eDatabaseType representing the DBMS determined to be in use.</returns>
+            <remarks> Uses a static Hashtable of Registry Known ODBC Providers\Drivers
+             to determine the connection type.
+             Steps:
+             1.) Find the currently in-use driver from the odbc connection object.
+             2.) Pull in it's provider list from the registry Hashtable.
+             3.) Search the provider list for a "strongly suggestive" dbmake string.
+             		Note: Relies on the static constructor to have populated the Hashtable
+             		 called m_SystemOdbcDllToFullProviderList.</remarks>
+        </member>
+        <member name="M:Riskmaster.Db.DbConnection.GetODBCMake(System.String)">
+            <summary>Riskmaster.Db.DbConnection.GetODBCMake attempts to determine from the passed in sDriver string
+            which DBMS system is in use.</summary>
+            <param name="sDriver">The odbc driver .dll file name from which to pick a DBMS type.</param>
+            <returns>An eDatabaseType representing the DBMS determined to be in use.</returns>
+            <remarks> Uses a static Hashtable of Registry Known ODBC Providers\Drivers
+             to determine the connection type.
+             Steps:
+             1.) Pull in the provider list from the registry Hashtable using the sDriver value as a key.
+             2.) Search the provider list for a "strongly suggestive" dbmake string.
+             		Note: Relies on the static constructor to have populated the Hashtable
+             		 called m_SystemOdbcDllToFullProviderList.</remarks>
+        </member>
+        <member name="M:Riskmaster.Db.DbConnection.TranslateConnectionStringToNative(System.String)">
+            <summary>Provides ODBC name\value pair translation to Native name\value pairs for each provider.</summary>
+            <param name="sConnectionString">Connection string to be translated to Native name\value pairs from ODBC pairs.</param>
+            <returns>Provider Specific Connection String</returns>
+            <remarks>This may need to be enhanced as more unusual connection strings are discovered.</remarks>
+        </member>
+        <member name="M:Riskmaster.Db.DbConnection.ReplaceItemName(System.String,System.String,System.String)">
+            <summary>Riskmaster.Db.DbConnection.ReplaceItemName supports the TranslateConnectionString method
+            by simply changing the name portion of a name\value pair if found from sOldItemName to sNewItemName and
+            returning the fully modified connection string.</summary>
+            <param name="sSource">The connection string in which to effect the change.</param>
+            <param name="sOldItemName">The ODBC name token to be replaced.</param>
+            <param name="sNewItemName">The Native name token to substitute.</param>
+            <returns>An updated version of the connection string from sSource.</returns>
+            <remarks>There may be ODBC niceties like {} or escape sequences that are not handled properly here yet.</remarks>
+        </member>
+        <member name="M:Riskmaster.Db.DbConnection.RemoveNameValuePair(System.String,System.String)">
+            <summary>Riskmaster.Db.DbConnection.RemoveNameValuePair supports the TranslateConnectionString method
+            by simply removing a name\value pair and returning the fully modified connection string.</summary>
+            <param name="sSource">The connection string in which to effect the change.</param>
+            <param name="sItemName">The ODBC name token of the name\value pair to be removed.</param>
+            <returns>An updated version of the connection string from sSource.</returns>
+            <remarks>There may be ODBC niceties like {} or escape sequences that are not handled properly here yet.</remarks>
+        </member>
+        <member name="M:Riskmaster.Db.DbConnection.FetchDSN(System.String)">
+            <summary>Riskmaster.Db.DbConnection.FetchDSN utility function just parses 
+            out the xxx from a connection string containing DSN=xxx;</summary>
+            <param name="sConnect">The connection string to be parsed.</param>
+            <returns>The xxx from the DSN=xxx; named value pair if present.</returns>
+            <remarks>none</remarks>
+        </member>
+        <member name="M:Riskmaster.Db.DbConnection.ExecuteNonQuery(System.String)">
+            <summary>
+            Executes a SQL statement and returns the number of rows affected.
+            </summary>
+            <param name="nonQueryCommand">SQL Query to execute.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Riskmaster.Db.DbConnection.ExecuteNonQuery(System.String,Riskmaster.Db.DbTransaction)">
+            <summary>
+            Executes a SQL statement and returns the number of rows affected.
+            </summary>
+            <param name="nonQueryCommand">SQL Query to execute.</param>
+            <param name="objTrans">SQL Transaction in which to execute.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Riskmaster.Db.DbConnection.ExecuteNonQueryImp(System.String,Riskmaster.Db.DbTransaction)">
+            <summary>
+            Executes a SQL statement and returns the number of rows affected.
+            </summary>
+            <param name="nonQueryCommand">SQL Query to execute.</param>
+            <param name="objTrans">transaction to execute</param>
+            <returns></returns>
+        </member>
+        <member name="M:Riskmaster.Db.DbConnection.ExecuteString(System.String)">
+            <summary>
+            Executes the query, and returns the first column of the first row in the resultset returned by the query. Extra columns or rows are ignored.
+            </summary>
+            <param name="queryCommand">SQL Query to execute.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Riskmaster.Db.DbConnection.ExecuteInt(System.String)">
+            <summary>
+            Executes the query, and returns the first column of the first row in the resultset returned by the query. Extra columns or rows are ignored.
+            </summary>
+            <param name="queryCommand">SQL Query to execute.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Riskmaster.Db.DbConnection.ExecuteDouble(System.String)">
+            <summary>
+            Executes the query, and returns the first column of the first row in the resultset returned by the query. Extra columns or rows are ignored.
+            </summary>
+            <param name="queryCommand">SQL Query to execute.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Riskmaster.Db.DbConnection.ExecuteScalar(System.String)">
+            <summary>
+            Executes the query, and returns the first column of the first row in the resultset returned by the query. Extra columns or rows are ignored.
+            </summary>
+            <param name="queryCommand">SQL Query to execute.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Riskmaster.Db.DbConnection.ExecuteReader(System.String)">
+            <summary>
+            Sends the CommandText to the Connection and builds a DbReader
+            </summary>
+            <param name="queryCommand">SQL Query</param>
+            <returns>DbReader containing the query result set.</returns>
+        </member>
+        <member name="M:Riskmaster.Db.DbConnection.ExecuteReader(System.String,Riskmaster.Db.DbTransaction)">
+            <summary>
+            Sends the CommandText to the Connection and builds a DbReader
+            in a given transaction context.
+            </summary>
+            <param name="queryCommand">SQL Query</param>
+            <param name="objTrans">Existing transaction context</param>
+            <returns>DbReader containing the query result set.</returns>
+        </member>
+        <member name="M:Riskmaster.Db.DbConnection.Dispose">
+            <summary>
+            Disposes this object and closes database connection if needed.
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Db.DbConnection.Close">
+            <summary>
+            Closes database connection.
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Db.DbConnection.System#Data#IDbConnection#BeginTransaction">
+            <summary>Wraps this method from the Native provider.  Present only to satisfy the interface mapping requirements.</summary>
+            <returns>DbTransaction</returns>
+        </member>
+        <member name="M:Riskmaster.Db.DbConnection.BeginTransaction">
+            <summary>Riskmaster.Db.DbConnection.BeginTransaction begins a transaction on this connection.</summary>
+            <returns>DbTransaction object which must be assigned to individual commands in order to enlist them into this transaction.</returns>
+            <remarks>none</remarks>
+            <example>No example available.</example>
+        </member>
+        <member name="M:Riskmaster.Db.DbConnection.System#Data#IDbConnection#BeginTransaction(System.Data.IsolationLevel)">
+            <summary>Wraps this method from the Native provider.  Present only to satisfy the interface mapping requirements.</summary>
+        </member>
+        <member name="M:Riskmaster.Db.DbConnection.BeginTransaction(System.Data.IsolationLevel)">
+            <summary>Riskmaster.Db.DbConnection.BeginTransaction wraps the native method of the same signature.</summary>
+            <param name="il">See the ADO.Net documentation for details.</param>
+            <returns>DbTransaction object.</returns>
+            <remarks>none</remarks>
+            <example>No example available.</example>
+        </member>
+        <member name="M:Riskmaster.Db.DbConnection.ChangeDatabase(System.String)">
+            <summary>
+            Wraps the Native method of the same signature.
+            </summary>
+            <param name="databaseName">See the ADO.Net documentation.</param>
+        </member>
+        <member name="M:Riskmaster.Db.DbConnection.System#Data#IDbConnection#CreateCommand">
+            <summary>Wraps this method from the Native provider.  Present only to satisfy the interface mapping requirements.</summary>
+        </member>
+        <member name="M:Riskmaster.Db.DbConnection.CreateCommand">
+            <summary>
+            Creates and returns a Command object associated with the connection.
+            </summary>
+            <returns>DbCommand object with the connection property set.</returns>
+        </member>
+        <member name="M:Riskmaster.Db.DbConnection.AsNative">
+            <summary>Riskmaster.Db.DbConnection.AsNative provides our internal provider classes
+             access to the ACTUAL original provider object.
+             NOT to be shared outside this assembly...</summary>
+            <returns>Generic Interface on the Native provider connection object. </returns>
+            <remarks>none</remarks>
+        </member>
+        <member name="M:Riskmaster.Db.DbConnection.SQLInfoMessageRecieved(System.Object,System.Data.SqlClient.SqlInfoMessageEventArgs)">
+            <summary>Riskmaster.Db.DbConnection.SQLInfoMessageRecieved is internal handler for SQLInfoMessage event.</summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+            <remarks>none</remarks>
+        </member>
+        <member name="M:Riskmaster.Db.DbConnection.OracleInfoMessageRecieved(System.Object,Oracle.DataAccess.Client.OracleInfoMessageEventArgs)">
+            <summary>Riskmaster.Db.DbConnection.OracleInfoMessageRecieved is internal handler for OracleInfoMessage event.</summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+            <remarks>none</remarks>
+        </member>
+        <member name="M:Riskmaster.Db.DbConnection.OdbcInfoMessageRecieved(System.Object,System.Data.Odbc.OdbcInfoMessageEventArgs)">
+            <summary>Riskmaster.Db.DbConnection.OdbcInfoMessageRecieved is internal handler for ODBCInfoMessage event.</summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+            <remarks>none</remarks>
+        </member>
+        <member name="M:Riskmaster.Db.DbConnection.DbInfoMessageRecieved(System.Object,System.EventArgs)">
+            <summary>Riskmaster.Db.DbConnection.DbInfoMessageRecieved is the end recipient of all the Provider specific event recieved handlers
+            and is responsible for preparing the arguments and raising the DbInfoMessageRecievedEvent accordingly.</summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+            <remarks>Event Implementation (Handler for all Provider types)</remarks>
+        </member>
+        <member name="E:Riskmaster.Db.DbConnection.InfoMessage">
+            <summary>Event raised for our clients when our internal Data provider sends additional connection information to us via the InfoMessage event.</summary>
+        </member>
+        <member name="P:Riskmaster.Db.DbConnection.ConnectionType">
+            <summary>
+            Returns the type of the database connection used.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Db.DbConnection.DatabaseVersion">
+             <summary>
+             Returns the database version string for the database in use.
+             The version is of the form ##.##.####, where 
+             the first two digits are the major version,
+              the next two digits are the minor version, and 
+              the last four digits are the release version. 
+              The string is of the form major.minor.build, 
+              where major and minor are exactly two digits and 
+              build is exactly four digits.
+             The driver must render the product version in this form but 
+             can also append the product-specific version as a string 
+             (for example, "04.01.0000 Rdb 4.1"). 
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Db.DbConnection.DatabaseType">
+            <summary>
+            Returns the type of the database connection used.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Db.DbConnection.ConnectionString">
+            <summary>
+            Returns connection string.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Db.DbConnection.ConnectionTimeout">
+            <summary>
+            Gets the time to wait while trying to establish a connection before terminating the attempt and generating an error.
+            This is must be specified in the connection string and is read-only through this property.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Db.DbConnection.Database">
+            <summary>
+            Gets the name of the current database or the database to be used once a connection is open.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Db.DbConnection.State">
+            <summary>
+            Gets the current state of the connection.
+            </summary>
+        </member>
+        <member name="T:Riskmaster.Db.DbParameter">
+            <summary>Riskmaster.Db.DbParameter wraps the native data 
+            provider DataParameter object. It also provides automatic provider 
+            specific parameter naming.  Therefore parameter names when specified to 
+            this object may be completely undecorated. </summary>
+            <remarks>For example @param1 for SQL server can 
+            and should be named simply "param1"</remarks>
+        </member>
+        <member name="F:Riskmaster.Db.DbParameter.NameDelimiter">
+            <summary>The NameDelimiter is the string that must be present surrounding a paramater name in a SQL Query run by DbCommand.  Currently: "~" </summary>
+        </member>
+        <member name="F:Riskmaster.Db.DbParameter.cNameDelimiter">
+            <summary>The NameDelimiter is the string that must be present surrounding a paramater name in a SQL Query run by DbCommand.  Currently: "~" </summary>
+        </member>
+        <member name="M:Riskmaster.Db.DbParameter.#ctor(System.Data.IDbDataParameter)">
+            <summary>Riskmaster.Db.DbParameter.DbParameter constructor must take 
+            a reference to the native provider parameter being wrapped.</summary>
+            <param name="anyParameter">IDbDataParameter interface of the native parameter object to be wrapped.</param>
+            <remarks>The fact that we must have the IDbDataParameter interface of an 
+            externally created parameter means that we cannot provide several other 
+            convenient constructor overloads.  This is because we have no real knowledge of 
+            what native provider is being used so we cannot decide which native parameter type to 
+            create for ourselves.  As a future enhancement we could add the ConnectionType as a 
+            parameter to the overloaded constructors and created the specific native parameter ourselves.</remarks>
+        </member>
+        <member name="M:Riskmaster.Db.DbParameter.AsNative">
+            <summary>Riskmaster.Db.DbParameter.AsNative provides our internal provider classes
+             access to the ACTUAL original provider object.
+             NOT to be shared outside this assembly...</summary>
+            <returns>Generic Interface on the Native provider parameter object. </returns>
+            <remarks>none</remarks>
+        </member>
+        <member name="M:Riskmaster.Db.DbParameter.ToNativeParameterName(System.String)">
+            <summary>Private utility function  Riskmaster.Db.DbParameter.ToNativeParameterName 
+            cleans and re-decorates the parameter name in sName appropriately 
+            for the native provider in use.</summary>
+            <param name="sName">String value of the Parameter name to convert.</param>
+            <returns>Not specified.</returns>
+            <remarks>none</remarks>
+        </member>
+        <member name="M:Riskmaster.Db.DbParameter.ToDbParameterName(System.String)">
+            <summary>Private utility function Riskmaster.Db.DbParameter.ToDbParameterName
+            cleans the parameter in sName and adds the appropriate decoration for the Riskmaster provider 
+            using DbParameter.NameDelimiter.</summary>
+            <param name="sName">String value to re-decorate.</param>
+            <returns>String redecorated with the base name surrounded by DbParameter.NameDelimiter tokens..</returns>
+        </member>
+        <member name="M:Riskmaster.Db.DbParameter.ToGenericParameterName(System.String)">
+            <summary>Private utility function Riskmaster.Db.DbParameter.ToGenericParameterName
+            strips all known parameter name decoration from sName.</summary>
+            <param name="sName">String parameter name to be un-decorated.</param>
+            <returns>Un-decorated version of sName string.</returns>
+            <remarks>none</remarks>
+        </member>
+        <member name="P:Riskmaster.Db.DbParameter.DbType">
+            <summary>Riskmaster.Db.DbParameter.DbType wraps the Native property of the same name.</summary>
+            <remarks>See ADO.NET documentation for details.</remarks>
+            <example>No example available.</example>
+        </member>
+        <member name="P:Riskmaster.Db.DbParameter.Direction">
+            <summary>Riskmaster.Db.DbParameter.Direction wraps the Native property of the same name.</summary>
+            <remarks>See ADO.NET documentation for details.</remarks>
+            <example>No example available.</example>
+        </member>
+        <member name="P:Riskmaster.Db.DbParameter.Size">
+            <summary>Riskmaster.Db.DbParameter.Size wraps the Native property of the same name.</summary>
+            <remarks>See ADO.NET documentation for details.</remarks>
+            <example>No example available.</example>
+        </member>
+        <member name="P:Riskmaster.Db.DbParameter.Precision">
+            <summary>Riskmaster.Db.DbParameter.Precision wraps the Native property of the same name.</summary>
+            <remarks>See ADO.NET documentation for details.</remarks>
+            <example>No example available.</example>
+        </member>
+        <member name="P:Riskmaster.Db.DbParameter.Scale">
+            <summary>Riskmaster.Db.DbParameter.Scale wraps the Native property of the same name.</summary>
+            <remarks>See ADO.NET documentation for details.</remarks>
+            <example>No example available.</example>
+        </member>
+        <member name="P:Riskmaster.Db.DbParameter.IsNullable">
+            <summary>Riskmaster.Db.DbParameter.IsNullable wraps the Native property of the same name.</summary>
+            <remarks>See ADO.NET documentation for details.</remarks>
+            <example>No example available.</example>
+        </member>
+        <member name="P:Riskmaster.Db.DbParameter.ParameterName">
+            <summary>Riskmaster.Db.DbParameter.ParameterName wraps the Native property of the same name.</summary>
+            <value>Returns a string reprsenting the Provider specific name.</value>
+            <remarks>This function is modified from the ADO.net implementation to accept any 
+            decorated or un-decorated parameter name and set the decoration appropriately for 
+            the native provider currently in use before applying the change to the native parameter object..</remarks>
+            <example>No example available.</example>
+        </member>
+        <member name="P:Riskmaster.Db.DbParameter.SourceColumn">
+            <summary>Riskmaster.Db.DbParameter.SourceColumn  wraps the Native property of the same name.</summary>
+            <remarks>See ADO.NET documentation for details.</remarks>
+            <example>No example available.</example>
+        </member>
+        <member name="P:Riskmaster.Db.DbParameter.SourceVersion">
+            <summary>Riskmaster.Db.DbParameter.SourceVersion wraps the Native property of the same name.</summary>
+            <remarks>See ADO.NET documentation for details.</remarks>
+            <example>No example available.</example>
+        </member>
+        <member name="P:Riskmaster.Db.DbParameter.Value">
+            <summary>Riskmaster.Db.DbParameter.Value wraps the Native property of the same name.</summary>
+            <remarks>See ADO.NET documentation for details.</remarks>
+            <example>No example available.</example>
+        </member>
+        <member name="T:Riskmaster.Db.DbDataAdapter">
+            <summary>Riskmaster.Db.DbDataAdapter wraps a native provider DataAdapter object.</summary>
+            <remarks>This object also raises two events for the ODBC, Oracle, SQLServer and IBM DB2 providers.  
+            These events are "RowUpdating" and "RowUpdated."  It is possible to get at native provider objects
+            via the parameters of these events...This may need to be removed.</remarks>
+        </member>
+        <member name="M:Riskmaster.Db.DbDataAdapter.#ctor(System.Data.IDbDataAdapter)">
+            <summary>
+            Internal DbDataAdapter constructor taking a the IDbDataAdapter interface of the native Data provider
+            object to wrap. Used only by DbFactory.</summary>
+            <param name="anyAdapter">IDbDataAdapter interface of the native Adapter to wrap.</param>
+            <remarks>This constructor also creates the appropriate provider specific event handlers and hooks 
+            them up on</remarks>
+        </member>
+        <member name="M:Riskmaster.Db.DbDataAdapter.OracleRowUpdatingConsumer(System.Object,Oracle.DataAccess.Client.OracleRowUpdatingEventArgs)">
+            <summary>Private function OracleRowUpdatingConsumer handles a
+            native provider event by sending it to a generic handler.</summary>
+            <param name="sender">Reference to the object raising the event.</param>
+            <param name="e">EventArgs style event information.</param>
+        </member>
+        <member name="M:Riskmaster.Db.DbDataAdapter.OracleRowUpdatedConsumer(System.Object,Oracle.DataAccess.Client.OracleRowUpdatedEventArgs)">
+            <summary>Private function OracleRowUpdatedConsumer handles a
+            native provider event by sending it to a generic handler.</summary>
+            <param name="sender">Reference to the object raising the event.</param>
+            <param name="e">EventArgs style event information.</param>
+        </member>
+        <member name="M:Riskmaster.Db.DbDataAdapter.SqlRowUpdatingConsumer(System.Object,System.Data.SqlClient.SqlRowUpdatingEventArgs)">
+            <summary>Private function SqlRowUpdatingConsumer handles a
+            native provider event by sending it to a generic handler.</summary>
+            <param name="sender">Reference to the object raising the event.</param>
+            <param name="e">EventArgs style event information.</param>
+        </member>
+        <member name="M:Riskmaster.Db.DbDataAdapter.SqlRowUpdatedConsumer(System.Object,System.Data.SqlClient.SqlRowUpdatedEventArgs)">
+            <summary>Private function SqlRowUpdatedConsumer handles a
+            native provider event by sending it to a generic handler.</summary>
+            <param name="sender">Reference to the object raising the event.</param>
+            <param name="e">EventArgs style event information.</param>
+        </member>
+        <member name="M:Riskmaster.Db.DbDataAdapter.OdbcRowUpdatingConsumer(System.Object,System.Data.Odbc.OdbcRowUpdatingEventArgs)">
+            <summary>Private function OdbcRowUpdatingConsumer handles a
+            native provider event by sending it to a generic handler.</summary>
+            <param name="sender">Reference to the object raising the event.</param>
+            <param name="e">EventArgs style event information.</param>
+        </member>
+        <member name="M:Riskmaster.Db.DbDataAdapter.OdbcRowUpdatedConsumer(System.Object,System.Data.Odbc.OdbcRowUpdatedEventArgs)">
+            <summary>Private function OdbcRowUpdatedConsumer handles a
+            native provider event by sending it to a generic handler.</summary>
+            <param name="sender">Reference to the object raising the event.</param>
+            <param name="e">EventArgs style event information.</param>
+        </member>
+        <member name="M:Riskmaster.Db.DbDataAdapter.RowUpdatingConsumer(System.Object,System.Data.Common.RowUpdatingEventArgs)">
+            <summary>Private function RowUpdatingConsumer handles all
+            native provider RowUpdating events by wrapping the arguments and raising
+            the event to any interested client.</summary>
+            <param name="sender">Reference to the object that originally raised the event.</param>
+            <param name="e">EventArgs style event information.</param>
+            <remarks>It is possible to get to provider specific objects this way... Consumer beware.</remarks>
+        </member>
+        <member name="M:Riskmaster.Db.DbDataAdapter.RowUpdatedConsumer(System.Object,System.Data.Common.RowUpdatedEventArgs)">
+            <summary>Private function RowUpdatedConsumer handles all
+            native provider RowUpdated events by wrapping the arguments and raising
+            the event to any interested client.</summary>
+            <param name="sender">Reference to the object that originally raised the event.</param>
+            <param name="e">EventArgs style event information.</param>
+            <remarks>It is possible to get to provider specific objects this way... Consumer beware.</remarks>
+        </member>
+        <member name="M:Riskmaster.Db.DbDataAdapter.System#Data#IDataAdapter#GetFillParameters">
+            <summary>Wraps the method of the same name from the native data provider.  
+            Present only to satisfy the interface mapping requirements.</summary>
+            <remarks>none</remarks>
+        </member>
+        <member name="M:Riskmaster.Db.DbDataAdapter.GetFillParameters">
+            <summary>GetFillParameters wraps  the method of the same name from the native data provider.</summary>  
+            <remarks>See the ADO.Net documentation for details.</remarks>
+        </member>
+        <member name="M:Riskmaster.Db.DbDataAdapter.FillSchema(System.Data.DataSet,System.Data.SchemaType)">
+            <summary>FillSchema wraps  the method of the same name from the native data provider.  </summary>
+            <param name="ds"></param>
+            <param name="schemaType"></param>
+            <remarks>See the ADO.Net documentation for details.</remarks>
+        </member>
+        <member name="M:Riskmaster.Db.DbDataAdapter.Update(System.Data.DataSet)">
+            <summary>Update wraps  the method of the same name from the native data provider.</summary>
+            <param name="ds"></param>
+            <remarks>See the ADO.Net documentation for details.</remarks>
+        </member>
+        <member name="M:Riskmaster.Db.DbDataAdapter.Fill(System.Data.DataSet)">
+            <summary>Fill wraps  the method of the same name from the native data provider.</summary>
+            <param name="ds"></param>
+            <remarks>See the ADO.Net documentation for details.</remarks>
+        </member>
+        <member name="P:Riskmaster.Db.DbDataAdapter.System#Data#IDbDataAdapter#SelectCommand">
+            <summary>Wraps the method of the same name from the native data provider.  
+            Present only to satisfy the interface mapping requirements.</summary>
+            <remarks>none</remarks>
+        </member>
+        <member name="P:Riskmaster.Db.DbDataAdapter.SelectCommand">
+            <summary>Riskmaster.Db.DbDataAdapter.SelectCommand wraps the Native property of the same name.</summary>
+            <remarks>See ADO.NET documentation for details.</remarks>
+            <example>No example available.</example>
+        </member>
+        <member name="P:Riskmaster.Db.DbDataAdapter.System#Data#IDbDataAdapter#DeleteCommand">
+            <summary>Wraps the method of the same name from the native data provider.  
+            Present only to satisfy the interface mapping requirements.</summary>
+            <remarks>none</remarks>
+        </member>
+        <member name="P:Riskmaster.Db.DbDataAdapter.DeleteCommand">
+            <summary>Riskmaster.Db.DbDataAdapter.DeleteCommand wraps the Native property of the same name.</summary>
+            <remarks>See ADO.NET documentation for details.</remarks>
+            <example>No example available.</example>
+        </member>
+        <member name="P:Riskmaster.Db.DbDataAdapter.System#Data#IDbDataAdapter#UpdateCommand">
+            <summary>Wraps the method of the same name from the native data provider.  
+            Present only to satisfy the interface mapping requirements.</summary>
+            <remarks>none</remarks>
+        </member>
+        <member name="P:Riskmaster.Db.DbDataAdapter.UpdateCommand">
+            <summary>Riskmaster.Db.DbDataAdapter.UpdateCommand wraps the Native property of the same name.</summary>
+            <remarks>See ADO.NET documentation for details.</remarks>
+            <example>No example available.</example>
+        </member>
+        <member name="P:Riskmaster.Db.DbDataAdapter.System#Data#IDbDataAdapter#InsertCommand">
+            <summary>Wraps the method of the same name from the native data provider.  
+            Present only to satisfy the interface mapping requirements.</summary>
+            <remarks>none</remarks>
+        </member>
+        <member name="P:Riskmaster.Db.DbDataAdapter.InsertCommand">
+            <summary>Riskmaster.Db.DbDataAdapter.UpdateCommand wraps the Native property of the same name.</summary>
+            <remarks>See ADO.NET documentation for details.</remarks>
+            <example>No example available.</example>
+        </member>
+        <member name="P:Riskmaster.Db.DbDataAdapter.MissingMappingAction">
+            <summary>MissingMappingAction wraps  the property of the same name from the native data provider.</summary>
+            <remarks>See the ADO.Net documentation for details.</remarks>
+        </member>
+        <member name="P:Riskmaster.Db.DbDataAdapter.MissingSchemaAction">
+            <summary>MissingSchemaAction wraps  the property of the same name from the native data provider.</summary>
+            <remarks>See the ADO.Net documentation for details.</remarks>
+        </member>
+        <member name="P:Riskmaster.Db.DbDataAdapter.System#Data#IDataAdapter#TableMappings">
+            <summary>Wraps the method of the same name from the native data provider.  
+            Present only to satisfy the interface mapping requirements.</summary>
+            <remarks>none</remarks>
+        </member>
+        <member name="P:Riskmaster.Db.DbDataAdapter.TableMappings">
+            <summary>TableMappings wraps  the property of the same name from the native data provider.</summary>
+            <remarks>See the ADO.Net documentation for details.</remarks>
+        </member>
+        <member name="E:Riskmaster.Db.DbDataAdapter.RowUpdating">
+            <summary>The DbDataAdapter is about to update a row in the Dataset.</summary>
+        </member>
+        <member name="E:Riskmaster.Db.DbDataAdapter.RowUpdated">
+            <summary>The DbDataAdapter has just updated a row in the Dataset.</summary>
+        </member>
+        <member name="T:Riskmaster.Db.DbRowUpdatingEventHandler">
+            <summary>Riskmaster.Db.DbRowUpdatingEventHandler is the delegate type used to consume DbRowUpdating events.</summary>
+            <remarks>none</remarks>
+        </member>
+        <member name="T:Riskmaster.Db.DbRowUpdatedEventHandler">
+            <summary>Riskmaster.Db.DbRowUpdatedEventHandler is the delegate type used to consuem DbRowUpdated evetns.</summary>
+            <remarks>none</remarks>
+        </member>
+        <member name="T:Riskmaster.Db.DbRowUpdatingEventArgs">
+            <summary>Riskmaster.Db.DbRowUpdatingEventArgs wraps the native RowUpdated event arguments.</summary>
+            <remarks>The only pure native object type accessible to consumers of this class is 
+            the errors collection which can vary by native provider.</remarks>   
+        </member>
+        <member name="M:Riskmaster.Db.DbRowUpdatingEventArgs.#ctor(System.Data.Common.RowUpdatingEventArgs)">
+            <summary>Constructor Riskmaster.Db.DbRowUpdatingEventArgs.DbRowUpdatingEventArgs 
+            delegates responsibility to our base class using the property values present in our anyRowUpdatingEventArgs
+            parameter.</summary>
+            <param name="anyRowUpdatingEventArgs">The event args object that we are "cloning"</param>
+        </member>
+        <member name="P:Riskmaster.Db.DbRowUpdatingEventArgs.Errors">
+            <summary>Riskmaster.Db.DbRowUpdatingEventArgs.Errors wraps  the property of the same name from the native data provider.</summary>
+            <remarks>See the ADO.Net documentation for details.</remarks>
+        </member>
+        <member name="P:Riskmaster.Db.DbRowUpdatingEventArgs.Row">
+            <summary>Riskmaster.Db.DbRowUpdatingEventArgs.Row 
+            wraps  the property of the same name from the native data provider.</summary>
+            <remarks>See the ADO.Net documentation for details.</remarks>
+        </member>
+        <member name="P:Riskmaster.Db.DbRowUpdatingEventArgs.StatementType">
+            <summary>Riskmaster.Db.DbRowUpdatingEventArgs.StatementType 
+            wraps  the property of the same name from the native data provider.</summary>
+            <remarks>See the ADO.Net documentation for details.</remarks>
+        </member>
+        <member name="P:Riskmaster.Db.DbRowUpdatingEventArgs.Status">
+            <summary>Riskmaster.Db.DbRowUpdatingEventArgs.Status
+            wraps  the property of the same name from the native data provider.</summary>
+            <remarks>See the ADO.Net documentation for details.</remarks>
+        </member>
+        <member name="P:Riskmaster.Db.DbRowUpdatingEventArgs.TableMapping">
+            <summary>Riskmaster.Db.DbRowUpdatingEventArgs.TableMapping
+            wraps  the property of the same name from the native data provider.</summary>
+            <remarks>See the ADO.Net documentation for details.</remarks>
+        </member>
+        <member name="P:Riskmaster.Db.DbRowUpdatingEventArgs.Command">
+            <summary>Riskmaster.Db.DbRowUpdatingEventArgs.Command
+            wraps  the property of the same name from the native data provider.</summary>
+            <remarks>See the ADO.Net documentation for details.</remarks>
+        </member>
+        <member name="T:Riskmaster.Db.DbRowUpdatedEventArgs">
+            <summary>Riskmaster.Db.DbRowUpdatedEventArgs wraps the native RowUpdated event arguments.</summary>
+            <remarks>The only pure native object type accessible to consumers of this class is 
+            the errors collection which can vary by native provider.</remarks>
+        </member>
+        <member name="M:Riskmaster.Db.DbRowUpdatedEventArgs.#ctor(System.Data.Common.RowUpdatedEventArgs)">
+            <summary>Constructor Riskmaster.Db.DbRowUpdatedEventArgs.DbRowUpdatedEventArgs 
+            delegates responsibility to our base class using the property values present in our anyRowUpdatedEventArgs
+            parameter.</summary>
+        </member>
+        <member name="P:Riskmaster.Db.DbRowUpdatedEventArgs.Errors">
+             <summary>Riskmaster.Db.DbRowUpdatedEventArgs.Errors  wraps  
+             the property of the same name from the native data provider.</summary>
+            <remarks>The only pure native object type accessible to consumers of this class is 
+             the errors collection which can vary by native provider.</remarks>
+        </member>
+        <member name="P:Riskmaster.Db.DbRowUpdatedEventArgs.RecordsAffected">
+            <summary>Riskmaster.Db.DbRowUpdatedEventArgs.RecordsAffected
+            wraps  the property of the same name from the native data provider.</summary>
+            <remarks>See the ADO.Net documentation for details.</remarks>
+        </member>
+        <member name="P:Riskmaster.Db.DbRowUpdatedEventArgs.Row">
+            <summary>Riskmaster.Db.DbRowUpdatedEventArgs.Row
+            wraps  the property of the same name from the native data provider.</summary>
+            <remarks>See the ADO.Net documentation for details.</remarks>
+        </member>
+        <member name="P:Riskmaster.Db.DbRowUpdatedEventArgs.StatementType">
+            <summary>Riskmaster.Db.DbRowUpdatedEventArgs.StatementType
+            wraps  the property of the same name from the native data provider.</summary>
+            <remarks>See the ADO.Net documentation for details.</remarks>
+        </member>
+        <member name="P:Riskmaster.Db.DbRowUpdatedEventArgs.Status">
+            <summary>Riskmaster.Db.DbRowUpdatedEventArgs.Status
+            wraps  the property of the same name from the native data provider.</summary>
+            <remarks>See the ADO.Net documentation for details.</remarks>
+        </member>
+        <member name="P:Riskmaster.Db.DbRowUpdatedEventArgs.TableMapping">
+            <summary>Riskmaster.Db.DbRowUpdatedEventArgs.TableMapping
+            wraps  the property of the same name from the native data provider.</summary>
+            <remarks>See the ADO.Net documentation for details.</remarks>
+        </member>
+        <member name="P:Riskmaster.Db.DbRowUpdatedEventArgs.Command">
+            <summary>Riskmaster.Db.DbRowUpdatedEventArgs.Command
+            wraps  the property of the same name from the native data provider.</summary>
+            <remarks>See the ADO.Net documentation for details.</remarks>
+        </member>
+        <member name="T:Riskmaster.Db.DbTransaction">
+            <summary>
+            DbTransaction wraps the native ADO.Net transaction object.  Note that transactions only make sense 
+            when data is used in a  "connected" fashion holding a Connection and using Commands.
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Db.DbTransaction.#ctor(System.Data.IDbTransaction)">
+            <summary>
+            Allows for a DbTransaction to be created internally (by DbConnection) wrapping the native transaction object provided in the "trans" argument.
+            </summary>
+            <param name="trans">The native transaction object to wrap.</param>
+        </member>
+        <member name="M:Riskmaster.Db.DbTransaction.Dispose">
+            <summary>
+            Release the resources used by component.
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Db.DbTransaction.Commit">
+            <summary>
+            Commits the database transaction.
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Db.DbTransaction.Rollback">
+            <summary>
+            Rolls back a transaction from a pending state.
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Db.DbTransaction.AsNative">
+            <summary>
+            Provides our internal provider classes access to the ACTUAL original provider object.
+             NOT to be shared outside this assembly...</summary>
+        </member>
+        <member name="P:Riskmaster.Db.DbTransaction.System#Data#IDbTransaction#Connection">
+            <summary>
+            Deprecated: Returns  the DbConnection object currently associated with this transaction.
+            </summary>
+            <remarks>Avoid using this method if possible.  It causes DbConnection class to try to wrap an 
+            existing native connection in it's constructor which it was never intended to do. 
+            Getting the DbConnection object through the Connection property of the DbTransaction
+            object has two main issues: first, the connection string credentials will probably be lost. 
+            (They are munged for security reasons by most native providers instead of being fully returned in the connection string.)
+            Second, the DatabaseType and ConnectionType properties may not be properly initialized if the connection
+            was using ODBC and relied upon testing performed in the DbConnection classes "Open" method.</remarks>
+        </member>
+        <member name="P:Riskmaster.Db.DbTransaction.Connection">
+            <summary>
+            Deprecated: Returns  the DbConnection object currently associated with this transaction.
+            </summary>
+            <remarks>Avoid using this method if possible.  It causes DbConnection class to try to wrap an existing native connection in it's constructor 
+            which it was never intended to do.  Getting the DbConnection object through the Connection property of the DbTransaction
+            object has two main issues: first, the connection string credentials will probably be lost. 
+            (They are munged for security reasons by most native providers instead of being fully returned in the connection string.)
+            Second, the DatabaseType and ConnectionType properties may not be properly initialized if the connection
+            was using ODBC and relied upon testing performed in the DbConnection classes "Open" method.</remarks>
+        </member>
+        <member name="P:Riskmaster.Db.DbTransaction.IsolationLevel">
+            <summary>
+            Returns the IsolationLevel for this transaction.
+            </summary>
+        </member>
+        <member name="T:Riskmaster.Db.DbReader">
+            <summary>
+            DbReader wraps the Native .Net reader objects.  In addition it is used to create DbWriter objects 
+            and has added support for the RMOptimistic locktype feature from DTGRocket.
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Db.DbReader.#ctor(System.Data.IDataReader,Riskmaster.Db.DbCommand,Riskmaster.Db.eLockType)">
+            <summary>
+            This DbReader constructor overload allows internal Data Layer classes to wrap a native reader and specify 
+            the a command and the LockType to use..
+            </summary>
+            <param name="reader">The native reader to wrap.</param>
+            <param name="command">The command that was used to create the reader dataset.  
+            This is used internally only to have access through it to the db connection in order to preserve\manage it.</param>
+            <param name="optLock">Riskmaster Locking type desired.</param>
+        </member>
+        <member name="M:Riskmaster.Db.DbReader.#ctor(System.Data.IDataReader,Riskmaster.Db.DbCommand)">
+            <summary>
+            This DbReader constructor overload allows internal Data Layer classes to wrap a native reader.
+            </summary>
+            <param name="reader">The native reader to wrap.</param>
+            <param name="command">The command that was used to create the reader dataset.  
+            This is used internally only to have access through it to the db connection in order to preserve\manage it.</param>
+        </member>
+        <member name="M:Riskmaster.Db.DbReader.Dispose(System.Boolean)">
+            <summary>
+            Releases the resources used by the Component.
+            Responsible for disposing of the command object and it's connection.
+            </summary>
+            
+        </member>
+        <member name="M:Riskmaster.Db.DbReader.Dispose">
+            <summary>
+            Performs garbage collection/cleanup of existing Database connections
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Db.DbReader.Close">
+            <summary>
+            Closes the DbReader 0bject.
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Db.DbReader.GetSchemaTable">
+            <summary>
+            Returns a DataTable that describes the column metadata of the DbReader.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Riskmaster.Db.DbReader.NextResult">
+            <summary>
+            Advances the data reader to the next result, when reading the results of batch SQL statements.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Riskmaster.Db.DbReader.Read">
+            <summary>
+            Advances the IDataReader to the next record.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Riskmaster.Db.DbReader.GetBoolean(System.Int32)">
+            <summary>
+            Gets the value of the specified column as a Boolean.
+            </summary>
+            <param name="i">The zero-based column ordinal.</param>
+            <returns>The value of the column.</returns>
+        </member>
+        <member name="M:Riskmaster.Db.DbReader.GetBoolean(System.String)">
+            <summary>
+            Gets the value of the specified column as a Boolean.
+            </summary>
+            <param name="name">The name of the column.</param>
+            <returns>The value of the column.</returns>
+        </member>
+        <member name="M:Riskmaster.Db.DbReader.GetByte(System.Int32)">
+            <summary>
+            Gets the 8-bit unsigned integer value of the specified column.
+            </summary>
+            <param name="i">The zero-based column ordinal. </param>
+            <returns>The 8-bit unsigned integer value of the specified column.</returns>
+        </member>
+        <member name="M:Riskmaster.Db.DbReader.GetByte(System.String)">
+            <summary>
+            Gets the 8-bit unsigned integer value of the specified column.
+            </summary>
+            <param name="name">The name of the column. </param>
+            <returns>The 8-bit unsigned integer value of the specified column.</returns>
+        </member>
+        <member name="M:Riskmaster.Db.DbReader.GetBytes(System.Int32,System.Int64,System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            Reads a stream of bytes from the specified column offset into the buffer as an array, starting at the given buffer offset.
+            </summary>
+            <param name="i">The zero-based column ordinal.</param>
+            <param name="fieldOffset">The index within the field from which to begin the read operation. </param>
+            <param name="buffer">The buffer into which to read the stream of bytes. </param>
+            <param name="bufferoffset">The index for buffer to begin the read operation. </param>
+            <param name="length">The number of bytes to read. </param>
+            <returns></returns>
+        </member>
+        <member name="M:Riskmaster.Db.DbReader.GetAllBytes(System.Int32)">
+            <summary>
+            Reads a stream of bytes from the specified column offset into the buffer as an array, starting at the given buffer offset.
+            </summary>
+            <param name="i">The zero-based column ordinal.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Riskmaster.Db.DbReader.GetBytes(System.String,System.Int64,System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            Reads a stream of bytes from the specified column offset into the buffer as an array, starting at the given buffer offset.
+            </summary>
+            <param name="name">The name of the column.</param>
+            <param name="fieldOffset">The index within the field from which to begin the read operation. </param>
+            <param name="buffer">The buffer into which to read the stream of bytes. </param>
+            <param name="bufferoffset">The index for buffer to begin the read operation. </param>
+            <param name="length">The number of bytes to read. </param>
+            <returns></returns>
+        </member>
+        <member name="M:Riskmaster.Db.DbReader.GetAllBytes(System.String)">
+            <summary>
+            Reads a stream of bytes from the specified column offset into the buffer as an array, starting at the given buffer offset.
+            </summary>
+            <param name="name">The name of the column.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Riskmaster.Db.DbReader.GetChar(System.Int32)">
+            <summary>
+            Gets the character value of the specified column.
+            </summary>
+            <param name="i">The zero-based column ordinal. </param>
+            <returns>The character value of the specified column.</returns>
+        </member>
+        <member name="M:Riskmaster.Db.DbReader.GetChar(System.String)">
+            <summary>
+            Gets the character value of the specified column.
+            </summary>
+            <param name="name">The name of the column. </param>
+            <returns>The character value of the specified column.</returns>
+        </member>
+        <member name="M:Riskmaster.Db.DbReader.GetChars(System.Int32,System.Int64,System.Char[],System.Int32,System.Int32)">
+            <summary>
+            Reads a stream of characters from the specified column offset into the buffer as an array starting at the given buffer offset.
+            </summary>
+            <param name="i">The zero-based column ordinal. </param>
+            <param name="fieldoffset">The index within the row from which to begin the read operation.</param>
+            <param name="buffer">The buffer into which to copy data.</param>
+            <param name="bufferoffset">The index for buffer to begin the read operation. </param>
+            <param name="length">The maximum number of characters to read.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Riskmaster.Db.DbReader.GetChars(System.String,System.Int64,System.Char[],System.Int32,System.Int32)">
+            <summary>
+            Reads a stream of characters from the specified column offset into the buffer as an array starting at the given buffer offset.
+            </summary>
+            <param name="name">Field Name</param>
+            <param name="fieldoffset">The index within the row from which to begin the read operation.</param>
+            <param name="buffer">The buffer into which to copy data.</param>
+            <param name="bufferoffset">The index for buffer to begin the read operation.</param>
+            <param name="length">The maximum number of characters to read.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Riskmaster.Db.DbReader.GetData(System.Int32)">
+            <summary>
+            Gets an IDataReader to be used when the field points to more remote structured data.
+            </summary>
+            <param name="i">The index of the field to find. </param>
+            <returns>An IDataReader to be used when the field points to more remote structured data.</returns>
+        </member>
+        <member name="M:Riskmaster.Db.DbReader.GetData(System.String)">
+            <summary>
+            Gets an IDataReader to be used when the field points to more remote structured data.
+            </summary>
+            <param name="name">The name of the field to find. </param>
+            <returns>An IDataReader to be used when the field points to more remote structured data.</returns>
+        </member>
+        <member name="M:Riskmaster.Db.DbReader.GetDataTypeName(System.Int32)">
+            <summary>
+            Gets the data type information for the specified field.
+            </summary>
+            <param name="i">The index of the field to find. </param>
+            <returns>The data type information for the specified field.</returns>
+        </member>
+        <member name="M:Riskmaster.Db.DbReader.GetDataTypeName(System.String)">
+            <summary>
+            Gets the data type information for the specified field.
+            </summary>
+            <param name="name">The name of the field to find. </param>
+            <returns>The data type information for the specified field.</returns>
+        </member>
+        <member name="M:Riskmaster.Db.DbReader.GetDateTime(System.Int32)">
+            <summary>
+            Gets the date and time data value of the spcified field.
+            </summary>
+            <param name="i">The index of the field to find. </param>
+            <returns>The date and time data value of the spcified field.</returns>
+        </member>
+        <member name="M:Riskmaster.Db.DbReader.GetDateTime(System.String)">
+            <summary>
+            Gets the date and time data value of the spcified field.
+            </summary>
+            <param name="name">The name of the field to find. </param>
+            <returns>The date and time data value of the spcified field.</returns>
+        </member>
+        <member name="M:Riskmaster.Db.DbReader.GetDecimal(System.Int32)">
+            <summary>
+            Gets the fixed-position numeric value of the specified field.
+            </summary>
+            <param name="i">The index of the field to find. </param>
+            <returns>The fixed-position numeric value of the specified field.</returns>
+        </member>
+        <member name="M:Riskmaster.Db.DbReader.GetDecimal(System.String)">
+            <summary>
+            Gets the fixed-position numeric value of the specified field.
+            </summary>
+            <param name="name">The name of the field to find. </param>
+            <returns>The fixed-position numeric value of the specified field.</returns>
+        </member>
+        <member name="M:Riskmaster.Db.DbReader.GetDouble(System.Int32)">
+            <summary>
+            Gets the double-precision floating point number of the specified field.
+            </summary>
+            <param name="i">The index of the field to find. </param>
+            <returns>The double-precision floating point number of the specified field.</returns>
+        </member>
+        <member name="M:Riskmaster.Db.DbReader.GetDouble(System.String)">
+            <summary>
+            Gets the double-precision floating point number of the specified field.
+            </summary>
+            <param name="name">The name of the field to find. </param>
+            <returns>The double-precision floating point number of the specified field.</returns>
+        </member>
+        <member name="M:Riskmaster.Db.DbReader.GetFieldType(System.Int32)">
+            <summary>
+            Gets the Type information corresponding to the type of Object that would be returned from GetValue.
+            </summary>
+            <param name="i">The index of the field to find. </param>
+            <returns>The Type information corresponding to the type of Object that would be returned from GetValue.</returns>
+        </member>
+        <member name="M:Riskmaster.Db.DbReader.GetFieldType(System.String)">
+            <summary>
+            Gets the Type information corresponding to the type of Object that would be returned from GetValue.
+            </summary>
+            <param name="name">The name of the field to find. </param>
+            <returns>The Type information corresponding to the type of Object that would be returned from GetValue.</returns>
+        </member>
+        <member name="M:Riskmaster.Db.DbReader.GetFloat(System.Int32)">
+            <summary>
+            Gets the single-precision floating point number of the specified field.
+            </summary>
+            <param name="i">The index of the field to find. </param>
+            <returns>The single-precision floating point number of the specified field.</returns>
+        </member>
+        <member name="M:Riskmaster.Db.DbReader.GetFloat(System.String)">
+            <summary>
+            Gets the single-precision floating point number of the specified field.
+            </summary>
+            <param name="name">The name of the field to find. </param>
+            <returns>The single-precision floating point number of the specified field.</returns>
+        </member>
+        <member name="M:Riskmaster.Db.DbReader.GetGuid(System.Int32)">
+            <summary>
+            Returns the guid value of the specified field.
+            </summary>
+            <param name="i">The index of the field to find. </param>
+            <returns>The guid value of the specified field.</returns>
+        </member>
+        <member name="M:Riskmaster.Db.DbReader.GetGuid(System.String)">
+            <summary>
+            Returns the guid value of the specified field.
+            </summary>
+            <param name="name">The name of the field to find. </param>
+            <returns>The guid value of the specified field.</returns>
+        </member>
+        <member name="M:Riskmaster.Db.DbReader.GetInt16(System.Int32)">
+            <summary>
+            Gets the 16-bit signed integer value of the specified field.
+            </summary>
+            <param name="i">The index of the field to find. </param>
+            <returns>The 16-bit signed integer value of the specified field.</returns>
+        </member>
+        <member name="M:Riskmaster.Db.DbReader.GetInt16(System.String)">
+            <summary>
+            Gets the 16-bit signed integer value of the specified field.
+            </summary>
+            <param name="name">The name of the field to find. </param>
+            <returns>The 16-bit signed integer value of the specified field.</returns>
+        </member>
+        <member name="M:Riskmaster.Db.DbReader.GetInt32(System.Int32)">
+            <summary>
+            Gets the 32-bit signed integer value of the specified field.
+            </summary>
+            <param name="i">The index of the field to find. </param>
+            <returns>The 32-bit signed integer value of the specified field.</returns>
+        </member>
+        <member name="M:Riskmaster.Db.DbReader.GetInt32(System.String)">
+            <summary>
+            Gets the 32-bit signed integer value of the specified field.
+            </summary>
+            <param name="name">The name of the field to find. </param>
+            <returns>The 32-bit signed integer value of the specified field.</returns>
+        </member>
+        <member name="M:Riskmaster.Db.DbReader.GetInt(System.Int32)">
+            <summary>
+            Gets the 32-bit signed integer value of the specified field.
+            </summary>
+            <param name="i">Field Index.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Riskmaster.Db.DbReader.GetInt(System.String)">
+            <summary>
+            Gets the 32-bit signed integer value of the specified field.
+            </summary>
+            <param name="name">Field Name</param>
+            <returns></returns>
+        </member>
+        <member name="M:Riskmaster.Db.DbReader.GetInt64(System.Int32)">
+            <summary>
+            Gets the 64-bit signed integer value of the specified field.
+            </summary>
+            <param name="i">The index of the field to find. </param>
+            <returns>The 64-bit signed integer value of the specified field.</returns>
+        </member>
+        <member name="M:Riskmaster.Db.DbReader.GetInt64(System.String)">
+            <summary>
+            Gets the 64-bit signed integer value of the specified field.
+            </summary>
+            <param name="name">The name of the field to find. </param>
+            <returns>The 64-bit signed integer value of the specified field.</returns>
+        </member>
+        <member name="M:Riskmaster.Db.DbReader.GetName(System.Int32)">
+            <summary>
+            Gets the name for the field to find.
+            </summary>
+            <param name="i">The index of the field to find. </param>
+            <returns>The name of the field or the empty string (""), if there is no value to return.</returns>
+        </member>
+        <member name="M:Riskmaster.Db.DbReader.GetOrdinal(System.String)">
+            <summary>
+            Return the index of the named field.
+            </summary>
+            <param name="name">The name of the field to find. </param>
+            <returns>The index of the named field.</returns>
+        </member>
+        <member name="M:Riskmaster.Db.DbReader.GetString(System.Int32)">
+            <summary>
+            Gets the string value of the specified field.
+            </summary>
+            <param name="i">The index of the field to find. </param>
+            <returns>The string value of the specified field.</returns>
+        </member>
+        <member name="M:Riskmaster.Db.DbReader.GetString(System.String)">
+            <summary>
+            Gets the string value of the specified field.
+            </summary>
+            <param name="name">The name of the field to find. </param>
+            <returns>The string value of the specified field.</returns>
+        </member>
+        <member name="M:Riskmaster.Db.DbReader.GetValue(System.Int32)">
+            <summary>
+            Return the value of the specified field.
+            </summary>
+            <param name="i">The index of the field to find. </param>
+            <returns>The Object which will contain the field value upon return.</returns>
+        </member>
+        <member name="M:Riskmaster.Db.DbReader.GetValue(System.String)">
+            <summary>
+            Return the value of the specified field.
+            </summary>
+            <param name="name">The name of the field to find. </param>
+            <returns>The Object which will contain the field value upon return.</returns>
+        </member>
+        <member name="M:Riskmaster.Db.DbReader.GetValues(System.Object[])">
+            <summary>
+            Gets all the attribute fields in the collection for the current record.
+            </summary>
+            <param name="values">An array of Object to copy the attribute fields into. </param>
+            <returns>The number of instances of Object in the array.</returns>
+        </member>
+        <member name="M:Riskmaster.Db.DbReader.IsDBNull(System.Int32)">
+            <summary>
+            Return whether the specified field is set to null.
+            </summary>
+            <param name="i">The index of the field to find. </param>
+            <returns>true if the specified field is set to null, otherwise false.</returns>
+        </member>
+        <member name="M:Riskmaster.Db.DbReader.IsDBNull(System.String)">
+            <summary>
+            Return whether the specified field is set to null.
+            </summary>
+            <param name="name">The name of the field to find. </param>
+            <returns>true if the specified field is set to null, otherwise false.</returns>
+        </member>
+        <member name="M:Riskmaster.Db.DbReader.System#Collections#IEnumerable#GetEnumerator">
+            <summary>Wraps this method from the Native provider.  Present only to satisfy the interface mapping requirements.</summary>
+        </member>
+        <member name="M:Riskmaster.Db.DbReader.CreateWriterWithData(Riskmaster.Db.eLockType)">
+            <summary>
+            CreateWriterWithData creates a writer based on the schema of this data reader and populates it's field collection 
+            with the current row's data.  The locking option can be specified as well.
+            </summary>
+            <param name="optLock">Specifies the locking type for the writer.</param>
+            <remarks>Note that the Date Time Stamp fields must be present on this reader before Optimistic locking can be 
+            actually be used.</remarks>
+        </member>
+        <member name="M:Riskmaster.Db.DbReader.CreateWriter">
+            <summary>
+             CreateWriter creates a writer based on the schema of this data reader and does NOT populates it's field collection 
+             with the current row's data.  The locking option is defaulted to None.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Db.DbReader.Depth">
+            <summary>
+            Gets a value indicating the depth of nesting for the current row.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Db.DbReader.IsClosed">
+            <summary>
+            Gets a value indicating whether the data reader is closed.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Db.DbReader.RecordsAffected">
+            <summary>
+            Gets the number of rows changed, inserted, or deleted by execution of the SQL statement.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Db.DbReader.FieldCount">
+            <summary>
+            Gets the number of columns in the current row.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Db.DbReader.Item(System.String)">
+            <summary>
+            Gets the specified column. In C#, this property is the indexer for the IDataRecord class.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Db.DbReader.Item(System.Int32)">
+            <summary>
+            Gets the specified column. In C#, this property is the indexer for the IDataRecord class.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Db.DbReader.ConnectionType">
+            <summary>
+            Returns the type of the database connection used.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Db.DbReader.TimeStamp">
+            <summary>Riskmaster.Db.DbReader.TimeStamp returns or sets the time stamp to be applied if a write is successfull.</summary>
+            <value>String containing the TimeStamp value.(typically "YYYYMMDDHHmmSS")</value>
+            <remarks>This value must be explicitly set for each update in order to use Optimistic Locking.</remarks>
+        </member>
+        <member name="P:Riskmaster.Db.DbReader.UserStamp">
+            <summary>Riskmaster.Db.DbReader.UserStamp returns or sets the UserStamp to be applied if a write is successfull.</summary>
+            <returns>String containing the .UserStamp value. (typically a login name) </returns>
+            <remarks>This value must be explicitly set for each update in order to use Optimistic Locking.</remarks>
+        </member>
+        <member name="P:Riskmaster.Db.DbReader.SourceTimeStamp">
+            <summary>Riskmaster.Db.DbReader.SourceTimeStamp will return the TimeStamp of the current 
+            record that was in place when the record was read into this reader.</summary>
+            <value>String containing the TimeStamp field value from the current ResultSet. (Typically in "YYYYMMDDHHmmSS" format.)</value>
+            <remarks>Will return an empty string if RMOptimistic Locking is not enabled.
+             Will raise an exception if Optimistic locking is enabled and the DTTM_RCD_LAST_UPD  Stamp field is not available.</remarks>
+            <example>No example available.</example>
+        </member>
+        <member name="T:Riskmaster.Db.DatabaseDrivers">
+            <summary>
+            Manages the retrieval of Database Drivers present on the system
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Db.DatabaseDrivers.GetDatabaseDriverType(System.String)">
+            <summary>
+            Gets the type of database driver for the database provider
+            </summary>
+            <param name="strDBProvider">string containing database provider information</param>
+            <returns>enumeration for the database type</returns>
+        </member>
+        <member name="M:Riskmaster.Db.DatabaseDrivers.IsSQLServerDriver(System.String)">
+            <summary>
+            Determines whether or not a particular database provider
+            is one of the supported SQL Server platforms
+            </summary>
+            <param name="strDBProvider">string containing database provider-specific information</param>
+            <returns>boolean indicating whether or not the database driver is a supported SQL Server Driver</returns>
+        </member>
+    </members>
+</doc>

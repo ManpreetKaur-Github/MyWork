@@ -1,0 +1,6 @@
+C:\Documents and Settings\mcapps3\Desktop\PandP\UIpandp\J_POSITVE_PAY\J_POSITVE_PAY\bin\J_POSITVE_PAY.dll
+C:\Documents and Settings\mcapps3\Desktop\PandP\UIpandp\J_POSITVE_PAY\J_POSITVE_PAY\bin\J_POSITVE_PAY.pdb
+C:\Documents and Settings\mcapps3\Desktop\PandP\UIpandp\J_POSITVE_PAY\J_POSITVE_PAY\obj\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\mcapps3\Desktop\PandP\UIpandp\J_POSITVE_PAY\J_POSITVE_PAY\obj\Debug\J_POSITVE_PAY.dll
+C:\Documents and Settings\mcapps3\Desktop\PandP\UIpandp\J_POSITVE_PAY\J_POSITVE_PAY\obj\Debug\J_POSITVE_PAY.pdb
+C:\Documents and Settings\mcapps3\Desktop\PandP\UIpandp\J_POSITVE_PAY\J_POSITVE_PAY\bin\DI_SettingsHandler.dll

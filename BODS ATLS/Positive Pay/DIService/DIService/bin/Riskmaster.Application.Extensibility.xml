@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Riskmaster.Application.Extensibility</name>
+    </assembly>
+    <members>
+        <member name="T:Riskmaster.Application.Extensibility.ExtensionFactory">
+            <summary>
+            Implementation Extensions are defined in riskmaster.config as follows:
+            
+            
+            <ImplementationExtension 	
+            	name="IVerifyCoverage" 
+            	assembly="Riskmaster.Extension.MCICExtensions.dll" 
+                 typename="Riskmaster.Extension.MCICVerifyCoverage" />
+            </summary>
+        </member>
+        <member name="T:Riskmaster.Application.Extensibility.CustomNavTree">
+            <summary>
+            Summary description for NavTree.
+            </summary>
+        </member>
+    </members>
+</doc>

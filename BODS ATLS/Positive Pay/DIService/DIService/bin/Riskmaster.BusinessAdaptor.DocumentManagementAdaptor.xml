@@ -1,0 +1,602 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Riskmaster.BusinessAdaptor.DocumentManagementAdaptor</name>
+    </assembly>
+    <members>
+        <member name="T:Riskmaster.BusinessAdaptor.DocumentManagementAdaptor">
+            ************************************************************** 
+            * $File		: DocumentManagerAdaptor.cs 
+            * $Revision	: 1.0.0.0 
+            * $Date		: 15-Mar-2005 
+            * $Author	: Aditya Babbar
+            * $Comment	: 
+            * $Source	: 
+            **************************************************************
+            **************************************************************
+            * Amendment  -->
+              1.Date		: 7 Feb 06 
+                Desc		: Replacing RMO_ACCESS use, and changing params of permission
+            				  violation exception so it can be correctly called. 
+                Author	: Sumit
+            **************************************************************
+             <summary>	
+             Provides access to the application layer functionalities
+             related to documents, attachments and folders; including add,
+             update, copy, transfer and move.
+             </summary>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.DocumentManagementAdaptor.AddFolderNew(Riskmaster.Models.FolderTypeRequest,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            Name			: AddFolder
+            Author			: Aditya Babbar
+            Date Created	: 15-Mar-2005
+            ************************************************************
+            Amendment History
+            ************************************************************
+            Date Amended	*   Amendment   *    Author
+            				*				*
+            				*				*	
+            ************************************************************
+            <summary>
+            Wrapper to DocumentManager.AddFolder method of application layer
+            that creates new folder record in the database table DOC_FOLDERS. 
+            </summary>
+            <param name="p_objXmlDocIn"> 
+            Input Xml structure.
+            	<AddFolder>
+            		<ParentId>Parent FolderId of the folder to be created</ParentId>
+            		<FolderName>Name of the folder to be created</FolderName>			
+            	</AddFolder>	
+            </param>
+            <param name="p_objXmlDocOut">
+            Method output in xml format.
+            Structure:
+            	<AddFolderResult>
+            		<FolderId>FolderId of newly created folder</FolderId>		
+            	</AddFolderResult>
+            </param>
+            <param name="p_objErrors">
+            	Collection of errors/messages
+            </param>
+            <returns>
+            	true - success
+            	false - failure
+            </returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.DocumentManagementAdaptor.AddFolder(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            Name			: AddFolder
+            Author			: Aditya Babbar
+            Date Created	: 15-Mar-2005
+            ************************************************************
+            Amendment History
+            ************************************************************
+            Date Amended	*   Amendment   *    Author
+            				*				*
+            				*				*	
+            ************************************************************
+            <summary>
+            Wrapper to DocumentManager.AddFolder method of application layer
+            that creates new folder record in the database table DOC_FOLDERS. 
+            </summary>
+            <param name="p_objXmlDocIn"> 
+            Input Xml structure.
+            	<AddFolder>
+            		<ParentId>Parent FolderId of the folder to be created</ParentId>
+            		<FolderName>Name of the folder to be created</FolderName>			
+            	</AddFolder>	
+            </param>
+            <param name="p_objXmlDocOut">
+            Method output in xml format.
+            Structure:
+            	<AddFolderResult>
+            		<FolderId>FolderId of newly created folder</FolderId>		
+            	</AddFolderResult>
+            </param>
+            <param name="p_objErrors">
+            	Collection of errors/messages
+            </param>
+            <returns>
+            	true - success
+            	false - failure
+            </returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.DocumentManagementAdaptor.GetAttachments(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            Name			: GetAttachments
+            Author			: Aditya Babbar
+            Date Created	: 15-Mar-2005
+            ************************************************************
+            Amendment History
+            ************************************************************
+            Date Amended	*   Amendment   *    Author
+            				*				*
+            				*				*	
+            ************************************************************
+            <summary>
+            Wrapper to DocumentManager.GetAttachments method of 
+            application layer that retrieves attachments data. 
+            </summary>
+            <param name="p_objXmlDocIn"> 
+            Input paramters in xml format.
+            Structure:
+            	<GetAttachments>
+            		<TableName>
+            			Table name to which document is attached
+            		</TableName>
+            		<FormName>
+            			Form name set as an attribute in data element
+            			of output XML
+            		</FormName>
+            		<RecordId>
+            			Specific record id to which the document
+            			is attached
+            		</RecordId>
+            	</GetAttachments>
+            </param>
+            <param name="p_objXmlDocOut"> 
+            Method output in xml format.
+            Structure:		
+            	<GetAttachmentsResult>
+            		<data name="" pid="" sid="" table="" form="">
+            			<folder pid="">
+            				<document pid="" title="" folderid="" 
+            					keywords="" createdate="" filename="" 
+            					userid="" subject="" type="" class="" 
+            					category="">
+            				</document>
+            			</folder>
+            		</data>
+            	</GetAttachmentsResult>
+            </param>
+            <param name="p_objErrors">
+            Collection of errors/messages.	
+            </param>
+            <returns>
+            	true - success
+            	false - failure
+            </returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.DocumentManagementAdaptor.IsOrgHierarchyType(System.Int64,System.String)">
+            <summary>
+            Function check for orgnisation hierarchy permissions, restricts user to 
+            edit, add company,dept client.. depending upon permission
+            </summary>
+            <param name="lRecordId">entity id</param>
+            /// <param name="sTableName">table name</param>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.DocumentManagementAdaptor.GetFolderDetails(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            Name			: GetFolderDetails
+            Author			: Aditya Babbar
+            Date Created	: 15-Mar-2005
+            ************************************************************
+            Amendment History
+            ************************************************************
+            Date Amended	*   Amendment   *    Author
+            				*				*
+            				*				*	
+            ************************************************************
+            <summary>
+            Wrapper to DocumentManager.GetFolderDetails of application
+            layer that retrieves details for a folder.
+            </summary>
+            <param name="p_objXmlDocIn"> 
+            Input paramters in xml format.
+            Structure:
+            	<GetFolderDetails>
+            		<FolderId>
+            			Id of the folder whose details are required
+            		</FolderId>
+            	</GetFolderDetails>
+            </param>
+            <param name="p_objXmlDocOut"> 
+            Method output in xml format.
+            Structure:
+            	<GetFolderDetailsResult>
+            		<data name="FolderDetails">
+            			<folder folderid="" pid="" folderpath="" 
+            				userid="">
+            			</folder>
+            		</data>
+            	</GetFolderDetailsResult>		
+            </param>
+            <param name="p_objErrors">
+            Collection of errors/messages.	
+            </param>
+            <returns>
+            	true - success
+            	false - failure
+            </returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.DocumentManagementAdaptor.GetFoldersAsOption(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            Name			: GetFoldersAsOption
+            Author			: Aditya Babbar
+            Date Created	: 15-Mar-2005
+            ************************************************************
+            Amendment History
+            ************************************************************
+            Date Amended	*   Amendment   *    Author
+            				*				*
+            				*				*	
+            ************************************************************
+            <summary>
+            Wrapper to DocumentManager.GetFoldersAsOption of Application
+            layer that returns folder details in form of XML including the 
+            folder hierarchy.
+            </summary>
+            <param name="p_objXmlDocIn"> 
+            Input paramters in xml format.
+            Structure:
+            	<GetFoldersAsOption>
+            		<SelectFolderId>
+            			A specific attribute 'def' is set in the xml 
+            			tag for this selected folder id.
+            		</SelectFolderId>
+            	</GetFoldersAsOption>
+            </param>
+            <param name="p_objXmlDocOut"> 
+            Method output in xml format.
+            Structure:
+            	<GetFoldersAsOptionResult>
+            		<data>
+            			<dir1 parent="" id="">
+            				<dir2 parent="33" id="34">
+            					<dir3 parent="34" id="35">
+            					</dir3>
+            				</dir2>
+            			</dir1>
+            		</data>
+            	</GetFoldersAsOptionResult>
+            </param>
+            <param name="p_objErrors">
+            Collection of errors/messages.	
+            </param>
+            <returns>
+            	true - success
+            	false - failure
+            </returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.BusinessAdaptor.DocumentManagementAdaptor.GetDocumentDetailsIntegrated(Riskmaster.Models.DocumentType,Riskmaster.Models.DocumentType@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)" -->
+        <member name="M:Riskmaster.BusinessAdaptor.DocumentManagementAdaptor.MoveDocuments(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            Name			: MoveDocuments
+            Author			: Aditya Babbar
+            Date Created	: 15-Mar-2005
+            ************************************************************
+            Amendment History
+            ************************************************************
+            Date Amended	*   Amendment   *    Author
+            				*				*
+            				*				*	
+            ************************************************************
+            <summary>
+            Wrapper to DocumentManager.MoveDocuments of application layer
+            that moves documents to a different folder.
+            </summary>
+            <param name="p_objXmlDocIn"> 
+            Input paramters in xml format.
+            Structure:
+            	<MoveDocuments>
+            		<DocumentIds>
+            			Comma separated list of DocumentIds to be moved
+            		</DocumentIds>
+            		<NewFolderId>
+            			Id of the new folder
+            		</NewFolderId>	
+            	</MoveDocuments>
+            </param>
+            <param name="p_objXmlDocOut"> 
+            	Empty		
+            </param>
+            <param name="p_objErrors">
+            Collection of errors/messages.	
+            </param>
+            <returns>
+            	true - success
+            	false - failure
+            </returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.DocumentManagementAdaptor.UpdateDocument(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            Name			: UpdateDocument
+            Author			: Aditya Babbar
+            Date Created	: 15-Mar-2005
+            ************************************************************
+            Amendment History
+            ************************************************************
+            Date Amended	*   Amendment   *    Author
+            				*				*
+            				*				*	
+            ************************************************************
+            <summary>
+            Wrapper to DocumentManager.UpdateDocument of application layer
+            that updates document details.
+            </summary>
+            <param name="p_objXmlDocIn"> 
+            Input paramters in xml format.
+            Structure:
+            	<UpdateDocument>
+            		<DocumentXml>
+            			<data>
+            				<Document>
+            					<DocumentId/>
+            					<FolderId/>
+            					<CreateDate/>
+            					<Category/>
+            					<Name/>
+            					<Class/>
+            					<Subject/>
+            					<Type/>
+            					<Notes/>
+            					<UserLoginName/>
+            					<FileName/>
+            					<FilePath/>
+            					<Keywords/>
+            					<AttachTable/>
+            					<AttachRecordId/>
+            				</Document>
+            			</data>	
+            		</DocumentXml>	
+            	</UpdateDocument>
+            </param>
+            <param name="p_objXmlDocOut"> 
+            	Empty.
+            </param>
+            <param name="p_objErrors">
+            Collection of errors/messages.	
+            </param>
+            <returns>
+            	true - success
+            	false - failure
+            </returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.BusinessAdaptor.DocumentManagementAdaptor.RetrieveDocument(Riskmaster.Models.DocumentType,Riskmaster.Models.DocumentType@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)" -->
+        <member name="M:Riskmaster.BusinessAdaptor.DocumentManagementAdaptor.CopyDocuments(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            Name			: CopyDocuments
+            Author			: Aditya Babbar
+            Date Created	: 15-Mar-2005
+            ************************************************************
+            Amendment History
+            ************************************************************
+            Date Amended	*   Amendment   *    Author
+            				*				*
+            				*				*	
+            ************************************************************
+            <summary>
+            Wrapper to DocumentManager.CopyDocuments of application layer
+            that creates copy of documents for specified users.
+            </summary>
+            <param name="p_objXmlDocIn"> 
+            Input paramters in xml format.
+            Structure:
+            	<CopyDocuments>
+            		<DocumentIds>
+            			Comma separated list of DocumentIds.
+            		</DocumentIds>
+            		<UserLoginNames>
+            			Comma separated list of UserLoginNames.
+            		</UserLoginNames>	
+            	</CopyDocuments>
+            </param>
+            <param name="p_objXmlDocOut"> 
+            	Empty.
+            </param>
+            <param name="p_objErrors">
+            Collection of errors/messages.	
+            </param>
+            <returns>
+            	true - success
+            	false - failure
+            </returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.DocumentManagementAdaptor.TransferDocuments(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            Name			: TransferDocuments
+            Author			: Aditya Babbar
+            Date Created	: 15-Mar-2005
+            ************************************************************
+            Amendment History
+            ************************************************************
+            Date Amended	*   Amendment   *    Author
+            				*				*
+            				*				*	
+            ************************************************************
+            <summary>
+            Wrapper to DocumentManager.TransferDocuments of application
+            layer that transfers documents to specified users. 
+            </summary>
+            <param name="p_objXmlDocIn"> 
+            Input paramters in xml format.
+            Structure:
+            	<TransferDocuments>
+            		<DocumentIds>
+            			Comma separated list of DocumentIds.
+            		</DocumentIds>
+            		<UserLoginNames>
+            			Comma separated list of UserIds.
+            		</UserLoginNames>	
+            	</TransferDocuments>
+            </param>
+            <param name="p_objXmlDocOut"> 
+            	Empty
+            </param>
+            <param name="p_objErrors">
+            Collection of errors/messages.	
+            </param>
+            <returns>
+            	true - success
+            	false - failure
+            </returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.DocumentManagementAdaptor.EmailDocuments(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            Name			: EmailDocuments
+            Author			: Mohit Yadav
+            Date Created	: 05-June-2005
+            ************************************************************
+            Amendment History
+            ************************************************************
+            Date Amended	*   Amendment   *    Author
+            				*				*
+            				*				*	
+            ************************************************************
+            <summary>
+            Wrapper to DocumentManager.EmailDocuments of application
+            layer that send emails with documents to specified users. 
+            </summary>
+            <param name="p_objXmlDocIn"> 
+            Input paramters in xml format.
+            Structure:
+            	<EmailDocuments>
+            		<EmailIds>
+            			Comma separated list of EmailIds.
+            		</EmailIds>
+            		<DocumentIds>
+            			Comma separated list of DocumentIds.
+            		</DocumentIds>
+            		<Message>
+            			Comma separated list of UserIds.
+            		</Message>	
+            	</EmailDocuments>
+            </param>
+            <param name="p_objXmlDocOut"> 
+            	Empty
+            </param>
+            <param name="p_objErrors">
+            Collection of errors/messages.	
+            </param>
+            <returns>
+            	true - success
+            	false - failure
+            </returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.DocumentManagementAdaptor.AddDocument(Riskmaster.Models.DocumentType,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            Name			: AddDocument
+            Author			: Mohit Yadav
+            Date Created	: 12-May-2005
+            ************************************************************
+            Amendment History
+            ************************************************************
+            Date Amended	*   Amendment   *    Author
+            				*				*
+            				*				*	
+            ************************************************************
+            <summary>
+            Adding the document to the specified folder 
+            </summary>
+            <param name="p_objXmlDocIn"> 
+            Input paramters in xml format.
+            Structure:
+            <AddDocument>
+            	<DocumentXml>
+            		<data>
+            			<Document>
+            				<DocumentId></DocumentId>
+            				<FolderId>20</FolderId>
+            				<CreateDate>20040617172300</CreateDate>
+            				<Category></Category>
+            				<Name>New</Name>
+            				<Class></Class>
+            				<Subject></Subject>
+            				<Type>0</Type>
+            				<Notes>NN</Notes>
+            				<UserLoginName>ABABBAR3</UserLoginName>
+            				<FileName>Cmd-2.txt</FileName>
+            				<FilePath></FilePath>
+            				<Keywords>Key</Keywords>
+            				<AttachTable></AttachTable>
+            				<AttachRecordId></AttachRecordId>
+            			</Document>
+            		</data>
+            	</DocumentXml>
+            	<File></File>
+            </AddDocument>
+            </param>
+            <param name="p_objXmlDocOut"> 
+            Method output in xml format.
+            Structure:
+            	
+            </param>
+            <param name="p_objErrors">
+            Collection of errors/messages.	
+            </param>
+            <returns>
+            	true - success
+            	false - failure
+            </returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.DocumentManagementAdaptor.DeleteNew(Riskmaster.Models.DocumentsDeleteRequest,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            Name			: Delete
+            Author			: Aditya Babbar
+            Date Created	: 15-Mar-2005
+            ************************************************************
+            Amendment History
+            ************************************************************
+            Date Amended	*   Amendment   *    Author
+            				*				*
+            				*				*	
+            ************************************************************
+            <summary>
+            Wrapper to DocumentManager.Delete of application layer that
+            deletes the specified documents, folders and all the child folders
+            along with the documents inside recursively. 
+            </summary>
+            <param name="p_objXmlDocIn"> 
+            Input paramters in xml format.
+            Structure:
+            	<Delete>
+            		<DocumentIds>
+            			Comma separated list of DocumentIds.
+            		</DocumentIds>
+            		<FolderIds>
+            			Comma separated list of FolderIds.
+            		</FolderIds>
+            	</Delete>
+            </param>
+            <param name="p_objXmlDocOut"> 
+            	Empty		
+            </param>
+            <param name="p_objErrors">
+            Collection of errors/messages.	
+            </param>
+            <returns>
+            	true - success
+            	false - failure
+            </returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.DocumentManagementAdaptor.Delete(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            Name			: Delete
+            Author			: Aditya Babbar
+            Date Created	: 15-Mar-2005
+            ************************************************************
+            Amendment History
+            ************************************************************
+            Date Amended	*   Amendment   *    Author
+            				*				*
+            				*				*	
+            ************************************************************
+            <summary>
+            Wrapper to DocumentManager.Delete of application layer that
+            deletes the specified documents, folders and all the child folders
+            along with the documents inside recursively. 
+            </summary>
+            <param name="p_objXmlDocIn"> 
+            Input paramters in xml format.
+            Structure:
+            	<Delete>
+            		<DocumentIds>
+            			Comma separated list of DocumentIds.
+            		</DocumentIds>
+            		<FolderIds>
+            			Comma separated list of FolderIds.
+            		</FolderIds>
+            	</Delete>
+            </param>
+            <param name="p_objXmlDocOut"> 
+            	Empty		
+            </param>
+            <param name="p_objErrors">
+            Collection of errors/messages.	
+            </param>
+            <returns>
+            	true - success
+            	false - failure
+            </returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.BusinessAdaptor.DocumentManagementAdaptor.GetUsers(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)" -->
+    </members>
+</doc>

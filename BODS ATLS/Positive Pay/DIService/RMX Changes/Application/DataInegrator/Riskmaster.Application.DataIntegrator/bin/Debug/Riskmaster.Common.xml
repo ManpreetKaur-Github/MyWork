@@ -1,0 +1,1484 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Riskmaster.Common</name>
+    </assembly>
+    <members>
+        <member name="T:Riskmaster.Common.Win32.Functions">
+            <summary>
+            Riskmaster.Common.Win32 contains dll function imports, enumerations and other constructs useful for dealing directly with 
+            the Win32 API.  All such imports common to Riskmaster code should reside here.
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Common.Win32.Functions.ProcessIdToSessionId(System.Int32,System.Int32@)">
+            <summary>
+            Riskmaster.Common.Win32.Functions.ProcessIdToSessionId.</summary>
+            <param name="lProcessId"></param>
+            <param name="lSessionId"></param>
+            <returns>.</returns>
+            <remarks>Consult a Win32 API reference.</remarks>
+        </member>
+        <member name="M:Riskmaster.Common.Win32.Functions.GetCurrentProcessId">
+            <summary>
+            Riskmaster.Common.Win32.Functions.GetCurrentProcessId.</summary>
+            <returns>The Win32 processId of the currently executing process space.</returns>
+            <remarks>Consult a Win32 API reference.</remarks>
+        </member>
+        <member name="M:Riskmaster.Common.Win32.Functions.MapViewOfFile(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Riskmaster.Common.Win32.Functions.MapViewOfFile supports handling the Shared Memory Map Section used by Login.</summary>
+            <param name="hFileMappingObject"></param>
+            <param name="dwDesiredAccess"></param>
+            <param name="dwFileOffsetHigh"></param>
+            <param name="dwFileOffsetLow"></param>
+            <param name="dwNumBytesToMap"></param>
+            <returns>Not specified.</returns>
+            <remarks>Consult a Win32 API reference.</remarks>
+        </member>
+        <member name="M:Riskmaster.Common.Win32.Functions.UnMapViewOfFile(System.Int32)">
+            <summary>
+            Riskmaster.Common.Win32.Functions.UnMapViewOfFile supports handling the Shared Memory Map section used by Login.</summary>
+            <param name="hFileMappingObject"></param>
+            <returns>Not specified.</returns>
+            <remarks>Consult a Win32 API reference.</remarks>
+        </member>
+        <member name="M:Riskmaster.Common.Win32.Functions.CreateFileMapping(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.String)">
+            <summary>
+            Riskmaster.Common.Win32.Functions.CreateFileMapping supports handling the Shared Memory Map section used by Login..</summary>
+            <param name="hFile"></param>
+            <param name="lpAttributes"></param>
+            <param name="flProtect"></param>
+            <param name="dwMaximumSizeLow"></param>
+            <param name="dwMaximumSizeHigh"></param>
+            <param name="lpName"></param>
+            <returns>Not specified.</returns>
+            <remarks>Consult a Win32 API reference.</remarks>
+        </member>
+        <member name="M:Riskmaster.Common.Win32.Functions.CloseHandle(System.Int32)">
+            <summary>
+            Riskmaster.Common.Win32.Functions.CloseHandle.</summary>
+            <param name="hObject"></param>
+            <remarks>Consult a Win32 API reference.</remarks>
+        </member>
+        <member name="M:Riskmaster.Common.Win32.Functions.GetLastError">
+            <summary>
+            Riskmaster.Common.Win32.Functions.GetLastError.</summary>
+            <returns>Not specified.</returns>
+            <remarks>Consult a Win32 API reference.</remarks>
+        </member>
+        <member name="M:Riskmaster.Common.Win32.Functions.GetDesktopWindow">
+            <summary>
+            Riskmaster.Common.Win32.Functions.GetDesktopWindow.</summary>
+            <returns>hWnd of the current desktop.</returns>
+            <remarks>Consult a Win32 API reference.</remarks>
+        </member>
+        <member name="M:Riskmaster.Common.Win32.Functions.CopyMemory(System.Void*,System.Void*,System.Int32)">
+            <summary>
+            Riskmaster.Common.Win32.Functions.CopyMemory.</summary>
+            <param name="Dest"></param>
+            <param name="Src"></param>
+            <param name="cBytes"></param>
+            <remarks>Consult a Win32 API reference.</remarks>
+        </member>
+        <member name="M:Riskmaster.Common.Win32.Functions.SQLAllocEnv(System.Int32@)">
+            <summary>
+            Used to allocate the environment handle passed as ref.
+            </summary>
+            <param name="EnvironmentHandle">Handle passed as ref.</param>
+            <returns>If an error occurred, the function returns 0 (use GetLastError to get
+            the error code). If successful, the function returns a non-zero value.
+            </returns>
+        </member>
+        <member name="M:Riskmaster.Common.Win32.Functions.SQLFreeEnv(System.Int32)">
+            <summary>
+            Used to free the environment.
+            </summary>
+            <param name="EnvironmentHandle">The environment handle.</param>
+            <returns>If an error occurred, the function returns 0 (use GetLastError to get
+             the error code). If successful, the function returns a non-zero value.
+            </returns>
+        </member>
+        <member name="M:Riskmaster.Common.Win32.Functions.SQLDataSources(System.Int32,System.Int32,System.Text.StringBuilder,System.Int32,System.Int32@,System.Text.StringBuilder,System.Int32,System.Int32@)">
+            <summary>
+            SQLDataSources() returns a list of target databases available, one at a time.
+            </summary>
+            <param name="EnvironmentHandle">Environment handle.</param>
+            <param name="Direction">Used by application to request the first data source 
+            name in the list or the next one in the list. Direction can take on only the 
+            following values:SQL_FETCH_FIRST, SQL_FETCH_NEXT.
+            </param>
+            <param name="ServerName">Pointer to buffer in which to return the data source
+            name.
+            </param>
+            <param name="BufferLength1">Length of the ServerName buffer, in bytes. This 
+            should be less than or equal to SQL_MAX_DSN_LENGTH + 1.
+            </param>
+            <param name="NameLength1Ptr">Pointer to a buffer in which to return the total
+            number of bytes (excluding the null-termination byte) available to return 
+            in *ServerName.</param>
+            <param name="Description">Pointer to buffer where the description of the data
+            source is returned.</param>
+            <param name="BufferLength2">Maximum length of the Description buffer.</param>
+            <param name="NameLength2Ptr">Pointer to a buffer in which to return the total
+            number of bytes (excluding the null-termination byte) available to return in
+            *Description.
+            </param>
+            <returns>If an error occurred, the function returns 0 (use GetLastError to get 
+            the error code). If successful, the function returns a non-zero value.
+            </returns>
+        </member>
+        <member name="M:Riskmaster.Common.Win32.Functions.SQLDrivers(System.Int32,System.Int32,System.Text.StringBuilder,System.Int32,System.Int32@,System.Text.StringBuilder,System.Int32,System.Int32@)">
+            <summary>
+            SQLDrivers lists driver descriptions and driver attribute keywords. This 
+            function is implemented solely by the Driver Manager.
+            </summary>
+            <param name="hEnv">[Input]Environment handle.</param>
+            <param name="fDirection">[Input]Determines whether the Driver Manager fetches
+            the next driver description in the list (SQL_FETCH_NEXT) or whether the 
+            search starts from the beginning of the list (SQL_FETCH_FIRST).
+            </param>
+            <param name="szDriverDesc">[Output]Pointer to a buffer in which to return the
+            driver description.
+            </param>
+            <param name="cbDriverDescMax">[Input]Length of the *DriverDescription buffer,
+            in bytes.
+            </param>
+            <param name="pcbDriverDesc">[Output]Pointer to a buffer in which to return 
+            the total number of bytes (excluding the null-termination byte) available to 
+            return in *DriverDescription. If the number of bytes available to return is 
+            greater than or equal to BufferLength1, the driver description in 
+            *DriverDescription is truncated to BufferLength1 minus the length of a 
+            null-termination character.
+            </param>
+            <param name="szDriverAttributes">[Output]Pointer to a buffer in which to 
+            return the list of driver attribute value pairs.
+            </param>
+            <param name="cbDrvrAttrMax">[Input]Length of the *DriverAttributes buffer, in bytes.
+            If the *DriverDescription value is a Unicode string (when calling SQLDriversW)
+            , the BufferLength argument must be an even number.
+            </param>
+            <param name="pcbDrvrAttr">[Output]Pointer to a buffer in which to return the 
+            total number of bytes (excluding the null-termination byte) available to 
+            return in *DriverAttributes. If the number of bytes available to return is 
+            greater than or equal to BufferLength2, the list of attribute value pairs in 
+            *DriverAttributes is truncated to BufferLength2 minus the length of the 
+            null-termination character.</param>
+            <returns>SQL_SUCCESS, SQL_SUCCESS_WITH_INFO, SQL_NO_DATA, SQL_ERROR, or 
+            SQL_INVALID_HANDLE.</returns>
+        </member>
+        <member name="M:Riskmaster.Common.Win32.Functions.GetFileVersionInfoSize(System.String,System.Int32@)">
+            <summary>
+            GetFileVersionInfoSize determines the length of the version information 
+            resource stored with a 32-bit executable-type file.
+            </summary>
+            <param name="lptstrFilename">The full path and filename of the file.</param>
+            <param name="lpdwHandle">Receives a value of 0. Although this parameter is 
+            effectively reserved, you must pass a variable to receive this meaningless 
+            value.
+            </param>
+            <returns>If successful, the function returns the size in bytes of the file's 
+            version information resource. If an error occurred, the function returns 0 
+            (use GetLastError to get the error code). 
+            </returns>
+        </member>
+        <member name="M:Riskmaster.Common.Win32.Functions.GetFileVersionInfo(System.String,System.String,System.Int32,System.Byte@)">
+            <summary>
+            GetFileVersionInfo extracts the version information resource stored inside a 
+            32-bit executable-type file. 
+            </summary>
+            <param name="lptstrFilename">The full path and filename of the file.</param>
+            <param name="lpdwHandle">Reserved -- set to 0.</param>
+            <param name="dwlen">The size in bytes of the buffer passed as lpData.</param>
+            <param name="lpData">A buffer, such as a byte array, that receives the 
+            version information resource of the file.
+            </param>
+            <returns>If successful, the function returns a non-zero value. If an error 
+            occurred, the function returns 0 (use GetLastError to get the error code).
+            </returns>
+        </member>
+        <member name="M:Riskmaster.Common.Win32.Functions.VerQueryValue(System.Byte@,System.String,System.Int32@,System.Int32@)">
+            <summary>
+            VerQueryValue extracts information from a version information resource. This 
+            resource stores version-related information about a 32-bit executable-type 
+            file.
+            </summary>
+            <param name="pBlock">The byte array or similar object that holds the version 
+            information resource extracted from a file. To obtain such a block, use 
+            GetFileVersionInfo.
+            </param>
+            <param name="lpSubBlock">One of the following strings specifying what 
+            information to extract from the resource. A pointer to the extracted 
+            information is placed into lplpBuffer.
+            </param>
+            <param name="lplpBuffer">Receives a pointer to the data extracted from the 
+            version information resource. The memory referenced by this pointer is 
+            automatically freed when the memory used by pBlock is freed.
+            </param>
+            <param name="lpData">Pointer to a buffer that receives the length, in 
+            characters, of the version-information value.
+            </param>
+            <returns>If successful, the function returns a non-zero value. If an error 
+            occurred, the function returns 0.
+            </returns>
+        </member>
+        <member name="M:Riskmaster.Common.Win32.Functions.RtlMoveMemory(System.Byte@,System.Int32,System.Int32)">
+            <summary>
+            MoveMemory moves the contents of a portion of memory from one location to 
+            another. The two locations are identified by pointers to the memory addresses.
+            After the copy, the original contents in the source are set to zeros. 
+            </summary>
+            <param name="dest">A pointer to the memory address to use as the target, 
+            which receives the transfered data.
+            </param>
+            <param name="Source">A pointer to the memory address to use as the source, 
+            which initially holds the data to be transfered.
+            </param>
+            <param name="Length">The number of bytes of data to copy from the source 
+            memory location to the target memory location.
+            </param>
+            <returns>MoveMemory does not return a value.</returns>
+        </member>
+        <member name="M:Riskmaster.Common.Win32.Functions.lstrcpy(System.Text.StringBuilder,System.Int32)">
+            <summary>
+            lstrcpy copies the entire contents of one string into another string.
+            </summary>
+            <param name="lpString1">String that receives the copied contents of lpString2.
+            This could be either the string itself or a pointer to the string.
+            </param>
+            <param name="lpString2">Either an actual string to copy into lpString1 or a 
+            pointer to the string to copy into lpString1.
+            </param>
+            <returns>If an error occurred, the function returns 0 (use GetLastError to get 
+            the error code). If successful, the function returns a non-zero value.
+            </returns>
+        </member>
+        <member name="M:Riskmaster.Common.Win32.Functions.RegOpenKeyExA(System.UInt32,System.String,System.Int32,System.Int32,System.Int32@)">
+            <summary>
+            RegOpenKeyEx opens a key in the Windows registry.
+            </summary>
+            <param name="hKey">[in]Handle to an open key.</param>
+            <param name="lpSubKey">[in]Pointer to a null-terminated string containing 
+            the name of the subkey to open.
+            </param>
+            <param name="ulOptions">Reserved; must be zero.</param>
+            <param name="samDesired">[in]Access mask that specifies the desired access 
+            rights to the key.
+            </param>
+            <param name="phkResult">[out]Pointer to a variable that receives a handle to 
+            the opened key. When you no longer need the returned handle, call the 
+            RegCloseKey function to close it. 
+            </param>
+            <returns>The function returns 0 if successful, or a non-zero value error code 
+            if an error occurred.
+            </returns>
+        </member>
+        <member name="M:Riskmaster.Common.Win32.Functions.RegQueryValueExNULL(System.Int32,System.String,System.Int32,System.Int32@,System.Int32,System.Int32@)">
+            <summary>
+            RegQueryValueEx reads a value from a registry key.
+            </summary>
+            <param name="hKey">[in]Handle to an open key.</param>
+            <param name="lpValueName">[in]Pointer to a null-terminated string containing 
+            the name of the value to query.
+            </param>
+            <param name="lpReserved">Reserved; must be NULL.</param>
+            <param name="lpType">[out] Pointer to a variable that receives a code 
+            indicating the type of data stored in the specified value. For a list of the 
+            possible type codes,Example REG_SZ, REG_DWORD etc.
+            </param>
+            <param name="lpData">[out] Pointer to a buffer that receives the value's data.
+            This parameter can be NULL if the data is not required.
+            </param>
+            <param name="lpcbData">[in, out] Pointer to a variable that specifies the 
+            size of the buffer pointed to by the lpData parameter, in bytes. When the
+            function returns, this variable contains the size of the data copied to 
+            lpData. 
+            </param>
+            <returns>If an error occued, the function returns a non-zero error code 
+            defined in Winerror.h.If successful, the function returns 0.
+            </returns>
+        </member>
+        <member name="M:Riskmaster.Common.Win32.Functions.RegQueryValueExString(System.Int32,System.String,System.String,System.Int32@,System.Text.StringBuilder,System.Int32@)">
+            <summary>
+            RegQueryValueEx reads a value from a registry key.
+            </summary>
+            <param name="hKey">[in]Handle to an open key.</param>
+            <param name="lpValueName">[in]Pointer to a null-terminated string containing 
+            the name of the value to query.
+            </param>
+            <param name="lpReserved">Reserved; must be NULL.</param>
+            <param name="lpType">[out] Pointer to a variable that receives a code 
+            indicating the type of data stored in the specified value. For a list of the 
+            possible type codes,Example REG_SZ, REG_DWORD etc.
+            </param>
+            <param name="lpData">[out] Pointer to a buffer that receives the value's data.
+            This parameter can be NULL if the data is not required.
+            </param>
+            <param name="lpcbData">[in, out] Pointer to a variable that specifies the 
+            size of the buffer pointed to by the lpData parameter, in bytes. When the
+            function returns, this variable contains the size of the data copied to 
+            lpData. 
+            </param>
+            <returns>If an error occued, the function returns a non-zero error code 
+            defined in Winerror.h.If successful, the function returns 0.
+            </returns>
+        </member>
+        <member name="M:Riskmaster.Common.Win32.Functions.RegQueryValueExLong(System.Int32,System.String,System.String,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            RegQueryValueEx reads a value from a registry key.
+            </summary>
+            <param name="hKey">[in]Handle to an open key.</param>
+            <param name="lpValueName">[in]Pointer to a null-terminated string containing 
+            the name of the value to query.
+            </param>
+            <param name="lpReserved">Reserved; must be NULL.</param>
+            <param name="lpType">[out] Pointer to a variable that receives a code 
+            indicating the type of data stored in the specified value. For a list of the 
+            possible type codes,Example REG_SZ, REG_DWORD etc.
+            </param>
+            <param name="lpData">[out] Pointer to a buffer that receives the value's data.
+            This parameter can be NULL if the data is not required.
+            </param>
+            <param name="lpcbData">[in, out] Pointer to a variable that specifies the 
+            size of the buffer pointed to by the lpData parameter, in bytes. When the
+            function returns, this variable contains the size of the data copied to 
+            lpData. 
+            </param>
+            <returns>If an error occued, the function returns a non-zero error code 
+            defined in Winerror.h.If successful, the function returns 0.
+            </returns>
+        </member>
+        <member name="M:Riskmaster.Common.Win32.Functions.RegCloseKey(System.Int32)">
+            <summary>
+            RegCloseKey closes a registry key that had previously been opened with 
+            RegCreateKeyEx or RegOpenKeyEx.
+            </summary>
+            <param name="hKey">A handle to the registry key to close.</param>
+            <returns>If successful, the function returns zero. If an error occurred, the 
+            function returns a non-zero error code.
+            </returns>
+        </member>
+        <member name="M:Riskmaster.Common.Win32.Functions.LogonUser(System.String,System.String,System.String,System.Int32,System.Int32,System.IntPtr@)">
+            <summary>
+            LogonUser attempts to perform a windows logon with the supplied user credentials.
+            </summary>
+            <param name="lpszUsername">Logon User Name</param>
+            <param name="lpszDomain">Logon Domain</param>
+            <param name="lpszPassword">Logon Password</param>
+            <param name="dwLogonType">Interactive\Batch\Etc.</param>
+            <param name="dwLogonProvider">Default provider - currently the only valid value.</param>
+            <param name="phToken">An IntPtr handle to the userToken (if successfull).</param>
+            <returns>If successful, the function returns zero. If an error occurred, the 
+            function returns a non-zero error code.
+            </returns>
+        </member>
+        <member name="T:Riskmaster.Common.Win32.eMemMapRights">
+            <summary>
+            Riskmaster.Common.Win32.eMemMapRights supports the shared Memory Map section used by Login.</summary>
+        </member>
+        <member name="F:Riskmaster.Common.Win32.eMemMapRights.PAGE_READONLY">
+            <summary>
+            Riskmaster.Common.Win32.eMemMapRights.PAGE_READONLY.</summary>
+        </member>
+        <member name="F:Riskmaster.Common.Win32.eMemMapRights.PAGE_READWRITE">
+            <summary>
+            Riskmaster.Common.Win32.eMemMapRights.PAGE_READWRITE.</summary>
+        </member>
+        <member name="T:Riskmaster.Common.Win32.eMemViewRights">
+            <summary>
+            Riskmaster.Common.Win32.eMemViewRights.</summary>
+        </member>
+        <member name="F:Riskmaster.Common.Win32.eMemViewRights.FILE_MAP_WRITE">
+             <summary>
+            Riskmaster.Common.Win32.eMemViewRights.FILE_MAP_WRITE.</summary>
+        </member>
+        <member name="T:Riskmaster.Common.Win32.Const">
+            <summary>
+            Riskmaster.Common.Win32.Const.</summary>
+        </member>
+        <member name="F:Riskmaster.Common.Win32.Const.ERROR_ALREADY_EXISTS">
+            <summary>Riskmaster.Common.Win32.Const.FILE_ALREADY_EXISTS.</summary>
+        </member>
+        <member name="F:Riskmaster.Common.Win32.Const.SQL_FETCH_NEXT">
+            <summary>
+            Direction parameter, used in SQLDatasources() and SQLDrivers() API.
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Common.Win32.Const.SQL_FETCH_FIRST">
+            <summary>
+            Direction parameter, used in SQLDatasources() and SQLDrivers() API.
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Common.Win32.Const.SQL_SUCCESS">
+            <summary>
+            Represents the success condition while loading the ODBC Drivers and 
+            datasources.
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Common.Win32.Const.REG_SZ">
+            <summary>
+            Null-terminated string. It will be a Unicode or ANSI string, depending on 
+            whether you use the Unicode or ANSI functions.
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Common.Win32.Const.HKEY_LOCAL_MACHINE">
+            <summary>
+            The HKEY_LOCAL_MACHINE\Enum key contains subkeys for the specific hardware 
+            components your computer uses. 
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Common.Win32.Const.KEY_ALL_ACCESS">
+            <summary>
+            Access mask that specifies the desired access rights to the key.Used in 
+            RegOpenKeyEx API.
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Common.Win32.Const.REG_DWORD">
+            <summary>
+            A 32-bit number.
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Common.Win32.Const.ERROR_NONE">
+            <summary>
+            Used when API gives no error.
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Common.Win32.LogonType.LOGON32_LOGON_INTERACTIVE">
+            <summary>
+            This logon type is intended for users who will be interactively using the computer, such as a user being logged on  
+            by a terminal server, remote shell, or similar process.
+            This logon type has the additional expense of caching logon information for disconnected operations; 
+            therefore, it is inappropriate for some client/server applications,
+            such as a mail server.
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "F:Riskmaster.Common.Win32.LogonType.LOGON32_LOGON_NETWORK" -->
+        <member name="F:Riskmaster.Common.Win32.LogonType.LOGON32_LOGON_BATCH">
+            <summary>
+            This logon type is intended for batch servers, where processes may be executing on behalf of a user without 
+            their direct intervention. This type is also for higher performance servers that process many plaintext
+            authentication attempts at a time, such as mail or Web servers. 
+            The LogonUser function does not cache credentials for this logon type.
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Common.Win32.LogonType.LOGON32_LOGON_SERVICE">
+            <summary>
+            Indicates a service-type logon. The account provided must have the service privilege enabled. 
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Common.Win32.LogonType.LOGON32_LOGON_UNLOCK">
+            <summary>
+            This logon type is for GINA DLLs that log on users who will be interactively using the computer. 
+            This logon type can generate a unique audit record that shows when the workstation was unlocked. 
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Common.Win32.LogonType.LOGON32_LOGON_NETWORK_CLEARTEXT">
+            <summary>
+            This logon type preserves the name and password in the authentication package, which allows the server to make 
+            connections to other network servers while impersonating the client. A server can accept plaintext credentials 
+            from a client, call LogonUser, verify that the user can access the system across the network, and still 
+            communicate with other servers.
+            NOTE: Windows NT:  This value is not supported. 
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Common.Win32.LogonType.LOGON32_LOGON_NEW_CREDENTIALS">
+            <summary>
+            This logon type allows the caller to clone its current token and specify new credentials for outbound connections.
+            The new logon session has the same local identifier but uses different credentials for other network connections. 
+            NOTE: This logon type is supported only by the LOGON32_PROVIDER_WINNT50 logon provider.
+            NOTE: Windows NT:  This value is not supported. 
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Common.Win32.LogonProvider.LOGON32_PROVIDER_DEFAULT">
+            <summary>
+            Use the standard logon provider for the system. 
+            The default security provider is negotiate, unless you pass NULL for the domain name and the user name 
+            is not in UPN format. In this case, the default provider is NTLM. 
+            NOTE: Windows 2000/NT:   The default security provider is NTLM.
+            </summary>
+        </member>
+        <member name="T:Riskmaster.Common.Win32.hWnd">
+            <summary>
+            Riskmaster.Common.Win32.hWnd wraps a Window Handle.</summary>
+            <remarks>none</remarks>
+        </member>
+        <member name="M:Riskmaster.Common.Win32.hWnd.#ctor(System.IntPtr)">
+            <summary>
+            Constructor of Riskmaster.Common.Win32.hWnd.hWnd accepts an IntPtr representing the Window Handle.</summary>
+            <param name="handle">The IntPtr handle to wrap.</param>
+            <remarks>.Net defaults handles to IntPtr.</remarks>
+        </member>
+        <member name="M:Riskmaster.Common.Win32.hWnd.#ctor(System.Int32)">
+            <summary>
+            Constructor Riskmaster.Common.Win32.hWnd.hWnd accepts an int representing the Window Handle.</summary>
+            <param name="handle">The integer representing the window handle to wrap.</param>
+            <remarks>Win32 defaults handles to raw integers.</remarks>
+        </member>
+        <member name="P:Riskmaster.Common.Win32.hWnd.Handle">
+            <summary>
+            Riskmaster.Common.Win32.hWnd.Handle.</summary>
+            <returns>IntPtr</returns>
+            <remarks>Always returns a fully wrapped handle, regardless of the constructor used.</remarks>
+        </member>
+        <member name="T:Riskmaster.Common.PerfTimer">
+            <summary>
+            Summary description for LoggingManager.
+            </summary>
+            
+        </member>
+        <member name="T:Riskmaster.Common.RMSessionManager">
+            <summary>
+            Manages Information stored in the RISKMASTER X Session Database
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Common.RMSessionManager.GetCustomizedContent(System.String)">
+            <summary>
+            Gets a DbReader containing the specified customized content
+            stored in the Session Database
+            </summary>
+            <param name="strContentField">string containing the customization file
+            to query</param>
+            <returns>DbReader containing the results of the customize query</returns>
+        </member>
+        <member name="T:Riskmaster.Common.LogItem">
+            <summary>
+            Summary description for EventInformationForm.
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Common.LogItem.#ctor">
+            <summary>
+            Default class constructor for LogItem
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Common.LogItem.EventId">
+            <summary>
+            Unique identification for event to be logged.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Common.LogItem.Message">
+            <summary>
+            Message for event to be logged.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Common.LogItem.Category">
+            <summary>
+            Category of event to be logged.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Common.LogItem.Priority">
+            <summary>
+            Priority of event to be logged.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Common.LogItem.RMExeptMessage">
+            <summary>
+            Riskmaster Exception Message to be logged.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Common.LogItem.RMExceptType">
+            <summary>
+            Riskmaster Exception Type to be logged.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Common.LogItem.RMExceptSource">
+            <summary>
+            Riskmaster Exception Source to be logged.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Common.LogItem.RMExceptStack">
+            <summary>
+            Riskmaster Exception Stack Trace to be logged.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Common.LogItem.RMParamList">
+            <summary>
+            Gets and sets the 
+            Riskmaster StringDictionary list of additional items to be logged.
+            </summary>
+        </member>
+        <member name="T:Riskmaster.Common.Log">
+            <summary>
+            Summary description for LoggingManager.
+            </summary>
+            
+        </member>
+        <member name="M:Riskmaster.Common.Log.Write(System.String)">
+            <summary>
+            Log just a message with a timestamp
+            </summary>
+            <param name="sMessage"></param>
+        </member>
+        <member name="M:Riskmaster.Common.Log.Write(System.String,System.String)">
+            <summary>
+            Log the message as well as a category
+            </summary>
+            <param name="sMessage">string containing the specified message</param>
+            <param name="sCategory">string containing the category of the error</param>
+        </member>
+        <member name="M:Riskmaster.Common.Log.Write(Riskmaster.Common.LogItem)">
+            <summary>
+            Log the specific RISKMASTER EventItem
+            </summary>
+            <param name="eventItem">EventItem to be logged</param>
+        </member>
+        <member name="P:Riskmaster.Common.Log.LOG_CATEGORY_SCRIPT">
+            <summary>
+            Gets the value for the Log Category
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Common.Log.LOG_CATEGORY_DEFAULT">
+            <summary>
+            Gets the value for the default Logging category
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Common.RMPermissions.FormatPermissionError(System.Int32)">
+            <summary>
+            Generates a permission error message for a single permission violation. Use when
+            checking for individual "special" permissions like whether or not to allow Claim Closure or not.
+            </summary>
+            <param name="permissionID">Absolute id (function id) of permission being checked.</param>
+            <returns>String message to display to user regarding permission violation.</returns>
+        </member>
+        <member name="M:Riskmaster.Common.RMPermissions.FormatPermissionError(System.Int32,System.Int32)">
+             <summary>
+             Generates a permission error message for a single permission violation. Use when
+             checking for individual standard permissions on modules like whether or not to allow Update on a Claim Closure or not.
+             </summary>
+             <param name="accessType">The type of access that was requested in the permission check. Can be RMO_ACCESS (0), RMO_VIEW(1), etc.</param>
+             <param name="module">The security module id that was requested in the permission check.</param>
+             <returns>String message to display to user regarding permission violation.</returns>
+            * Amendment  -->
+              1.Date		: 7 Feb 06 
+                Desc		: Adding RMO_ALLOW_CHANGE_CHECK_NUMBER,RMO_FUNDS_PRINTCHK
+            				  for decoding 
+            				  string messages.
+                Author	: Sumit
+            **************************************************************
+        </member>
+        <member name="T:Riskmaster.Common.RMConfigurationSettings">
+            <summary>
+            Centrally handles all operations required for RMConfigurator
+            in terms of retrieving application settings, connection strings etc.
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Common.RMConfigurationSettings.GetSessionDSN">
+            <summary>
+            Gets the connection string for the Riskmaster Session database
+            </summary>
+            <returns>string containing the Session DSN</returns>
+        </member>
+        <member name="M:Riskmaster.Common.RMConfigurationSettings.GetSMTPServer">
+            <summary>
+            Gets the currently configured SMTP Server from the RISKMASTER Security database
+            </summary>
+            <returns>string containing the value for the SMTP Server</returns>
+            <exception cref="T:System.Net.Mail.SmtpException">Throws an SmtpException if the Smtp Server has not yet been configured.</exception>
+        </member>
+        <!-- Badly formed XML comment ignored for member "T:Riskmaster.Common.Utilities" -->
+        <member name="F:Riskmaster.Common.Utilities.CODE_ACCESS_PUBLIC_KEY">
+            <summary>
+            This is code access key control.
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Common.Utilities.CRYPTKEY">
+            <summary>
+            Crypt Key value
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Common.Utilities.FindSoundexValue(System.String)">
+            <summary>
+            SoundEx is a simple scheme for assigning searchable 
+            keys to Names based on Sound instead of spelling.
+            Initially used by the U.S. Census.  See:
+            www.archives.gov/research_room/geneology/censuse/soundex.html
+            for implementation specifics.
+            </summary>
+            <param name="lastName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Riskmaster.Common.Utilities.IsNumeric(System.String)">
+            <summary>		
+            This method checks whether the string passed is numeric or not		
+            </summary>		
+            <param name="p_sCheckString">The string that has to be checked for valid number</param>												
+            <returns>True/False</returns>
+        </member>
+        <member name="M:Riskmaster.Common.Utilities.AppendComma(System.String)">
+            <summary>
+            Appends "," in the input string parameter
+            </summary>
+            <param name="p_sText"></param>
+            <returns>string appended with ',' character</returns>
+        </member>
+        <member name="M:Riskmaster.Common.Utilities.IndexInArray(System.Collections.ArrayList,System.String)">
+            <summary>
+            Finds the index corresponding to the input string in the Arraylist
+            </summary>
+            <param name="p_arrlstArray">Arraylist containing display table names</param>
+            <param name="p_sItem">string for which index is to be find</param>
+            <returns>Arraylist index corresponding to the input string</returns>
+        </member>
+        <member name="M:Riskmaster.Common.Utilities.ExistsInArray(System.Collections.ArrayList,System.String)">
+            <summary>
+            Finds whether a string is present in an Arraylist or not
+            </summary>
+            <param name="p_arrlstArray">Arraylist containing name of the Query tables</param>
+            <param name="p_sItem">string containing name of a single Query table</param>
+            <returns>True if string is present in an ArrayList else false</returns>
+        </member>
+        <member name="M:Riskmaster.Common.Utilities.IsDate(System.String)">
+            <summary>
+            This function formats a string into a valid date.
+            </summary>
+            <returns>True if string is successfully formatted into date.</returns>
+        </member>
+        <member name="M:Riskmaster.Common.Utilities.FormatSqlFieldValue(System.String)">
+             Name		: FormatSqlFieldValue
+             Author		: Parag Sarin
+             Date Created: 11/29/2004		
+            ************************************************************
+             Amendment History
+            ************************************************************
+             Date Amended   *   Amendment   *    Author
+            ************************************************************
+             <summary>
+             Returns a string value to be used for insertion/updation into database
+             Quotes the string if not empty. Double quotes any single quotes so they will work.
+             </summary>
+             <param name="p_sArg">SQL query to be formatted</param>
+             <returns>Formatted SQL query</returns>
+        </member>
+        <member name="M:Riskmaster.Common.Utilities.AddDelimited(System.String@,System.String,System.String)">
+            <summary>
+            creates string by concatanating a given string i.e. A and another string i.e B seperated by given seperator string
+            </summary>
+            <param name="p_sOriginal">string value passed i.e. A</param>
+            <param name="p_sToAppend">string value to append i.e. B</param>
+            <param name="p_sSep">seperator string value</param>
+        </member>
+        <member name="M:Riskmaster.Common.Utilities.AddSep(System.String,System.String)">
+            <summary>
+            Creates a string concatanating a given string value A and a seperator string B
+            </summary>
+            <param name="p_sStr">string value passed i.e A</param>
+            <param name="p_sSep">seperator i.e. B</param>
+            <returns></returns>
+        </member>
+        <member name="M:Riskmaster.Common.Utilities.GetNextUID(System.String,System.String)">
+            Name			: GetNextUID
+            Author			: Rajeev Chauhan
+            Date Created	: 08-Feb-2005
+            **************************************************************************
+            Amendment History
+            **************************************************************************
+            Date Amended	*   Amendment							*   Author
+            				*										*
+            10-Feb-2005		*	Pass the open connection and close	*	Rajeev Chauhan
+            **************************************************************************
+            <summary>
+            Retrieves and increments the current unique id counter for 
+            "p_sTableName" from the Riskmaster Glossary.
+            </summary>
+            <param name="p_sConnectString">
+            	Database connection string.
+            </param>
+            <param name="p_sTableName">
+            	The name of the table who's next unique row id should be
+            	retrieved and incremented.
+            </param>
+            <returns>Integer containing the requested unique id value.</returns>
+        </member>
+        <member name="M:Riskmaster.Common.Utilities.GetNextUID(Riskmaster.Db.DbConnection,System.String)">
+            Name			: GetNextUID
+            Author			: Aditya Babbar
+            Date Created	: 10-Nov-2004
+            ***********************************************************************
+            Amendment History
+            ***********************************************************************
+            Date Amended	*   Amendment						*    Author
+            				*									*
+            08-Feb-2005		*	Added connection in parameter	*    Rajeev Chauhan	
+            10-Feb-2005		*	Accepts the open connection and *    Rajeev Chauhan
+            				*   leaves the connection opened	*    	
+            08-Sep-2005		*	Modified to call overloaded		*	 Aditya Babbar
+            					GetNextUID() with null			*
+            					DbTransaction object			*    
+            ***********************************************************************
+            <summary>
+            Retrieves and increments the current unique id counter for 
+            "p_sTableName" from the Riskmaster Glossary.
+            </summary>
+            <param name="p_oDBConnection">
+            	Connection object assumed to be open
+            </param>
+            <param name="p_sTableName">
+            	The name of the table who's next unique row id should be
+            	retrieved and incremented.
+            </param>
+            <returns>Integer containing the requested unique id value.</returns>
+            <remarks>Let the connection be open</remarks> 
+        </member>
+        <member name="M:Riskmaster.Common.Utilities.GetNextUID(Riskmaster.Db.DbConnection,System.String,Riskmaster.Db.DbTransaction)">
+            Name			: GetNextUID
+            Author			: Aditya Babbar
+            Date Created	: 08-Sep-2004
+            ***********************************************************************
+            Amendment History
+            ***********************************************************************
+            Date Amended	*   Amendment						*    Author
+            				*									*
+            ***********************************************************************
+            <summary>
+            Retrieves and increments the current unique id counter for 
+            "p_sTableName" from the Riskmaster Glossary.
+            </summary>
+            <param name="p_oDBConnection">
+            	Connection object assumed to be open
+            </param>
+            <param name="p_sTableName">
+            	The name of the table who's next unique row id should be
+            	retrieved and incremented.
+            </param>
+            <param name="p_objTrans">
+            	Existing transaction context.
+            </param>
+            <returns>Integer containing the requested unique id value.</returns>
+            <remarks>Let the connection be open</remarks> 
+        </member>
+        <member name="M:Riskmaster.Common.Utilities.XPointerDoc(System.String,System.Xml.XmlDocument)">
+            <summary>
+            Picks an element from srcDom using sXPath to be returned as it's own new document.
+            </summary>
+            <param name="sXPath"></param>
+            <param name="srcDom"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Riskmaster.Common.Utilities.XmlElement2XmlDoc(System.Xml.XmlElement)">
+            <summary>
+            Copies an element into it's own new XmlDocument..
+            </summary>
+            <param name="elt"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Riskmaster.Common.Utilities.GetDateDiffInYears(System.String,System.String)">
+             Name		: GetDateDiff
+             Author		: Parag Sarin
+             Date Created: 12/27/2004		
+            ************************************************************
+             Amendment History
+            ************************************************************
+             Date Amended   *   Amendment   *    Author
+            ************************************************************
+             <summary>
+             Returns the difference between two dates in years
+             </summary>
+             <param name="p_sDateFrom">From date</param>
+             <param name="p_sDateTo">To date</param>
+             <returns>Difference between two dates in years</returns>
+        </member>
+        <member name="M:Riskmaster.Common.Utilities.ConvertFilestreamToMemorystream(System.String)">
+            Name			: ConvertFilestreamToMemorystream
+            Author			: Tanuj Narula
+            Date Created	: 30-Mar-2005
+            **************************************************************************
+            Amendment History
+            **************************************************************************
+            Date Amended	*   Amendment							*   Author
+            **************************************************************************
+            <summary>
+            This method converts file stream to memory stream.
+            </summary>
+            <param name="p_sFilePath">Name of the file to be converted to memory stream.</param>
+            <returns>Memory stream</returns>
+        </member>
+        <member name="M:Riskmaster.Common.Utilities.GetOrgTableName(System.Int32)">
+             <summary>
+            GetOrgTableName returns the Table Name.
+             </summary>
+             <param name="p_iTableId">Table ID for which the Table Name is required</param>
+        </member>
+        <member name="M:Riskmaster.Common.Utilities.ReadFileStream(System.String)">
+            Name			: ReadFileStream
+            Author			: Jasbinder Singh Bali
+            Date Created	: 05-May-2005
+            **************************************************************************
+            Amendment History
+            **************************************************************************
+            Date Amended	*   Amendment							*   Author
+            **************************************************************************
+            <summary>
+            This method read a file stream 
+            </summary>
+            <param name="p_sFilePath">Name of the file to be be read.</param>
+            <returns>String (File Content)</returns>
+        </member>
+        <member name="M:Riskmaster.Common.Utilities.FileTranfer(System.String,System.String)">
+             Name		: FileTransfer
+             Author		: Ratheen Chaturvedi
+             Date Created:13-September-2005		
+            ************************************************************
+             Amendment History
+            ************************************************************
+             Date Amended   *   Amendment   *    Author
+            ************************************************************
+             <param name="p_sValue">Value</param>
+             <param name="p_sFieldName">Field name</param>
+             <summary>
+             writes the file on the hard disk
+             </summary>
+             <param name="p_sXml">Xml string containing report data</param>
+             <param name="p_objMemory">Memory object containing report</param>
+             <returns>Success 1 or Failure 0 in execution of the function</returns>
+        </member>
+        <member name="M:Riskmaster.Common.Utilities.EncryptDocPathCredentials(System.String,System.Int32)">
+            <summary>
+            Encypt document path connection string's UID/Password
+            if database is used as document storage.
+            </summary>
+            <param name="p_sDocPath">Document storage page</param>
+            <param name="p_iDocPathType">Document storage type: 0 - File; 1 - Database</param>
+            <returns></returns>
+        </member>
+        <member name="M:Riskmaster.Common.Utilities.ParseDocPathCredentials(System.String,System.Int32)">
+            <summary>Riskmaster.Db.DbConnection.ParseDocPathCredentials supports the Document Database
+            by decrypting the uid and pwd sections of the connection string and 
+            returning the fully modified connection string.</summary>
+            <param name="p_sDocPath">The connection string in which to effect the change.</param>
+            <param name="p_iDocPathType">Document storage type 0 - File; 1 - Database</param>
+            <returns>An updated version of the connection string from docPath.</returns>
+            <remarks>There may be ODBC niceties like {} or escape sequences that are not handled properly here yet.</remarks>
+        </member>
+        <member name="T:Riskmaster.Common.Conversion">
+            <summary>
+            Conversion is a static class library of commonly used conversion functionality within Riskmaster .
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Common.Conversion.EntityTableIdToOrgTableName(System.Int32)">
+            <summary>
+            Return string representing the Organizational Hierarchy Entity Table Name matching the 
+            provided Entity Table Id provided in the "tableIdvalue" parameter.
+            </summary>
+            <param name="tableId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Riskmaster.Common.Conversion.GetDate(System.String)">
+            <summary>
+            Return passed string value as Date in yyyymmdd format
+            </summary>
+            <param name="s"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Riskmaster.Common.Conversion.ToDate(System.String)">
+            <summary>
+            Takes a Riskmaster Database formatted date string "YYYYMMDD" and returns a strongly typed DateTime value.</summary>
+            <param name="s">The "YYYYMMDD" string to convert into a DateTime value.</param>
+            <returns>String s as a DateTime or if s is invalid returns DateTime.MinValue.</returns>
+        </member>
+        <member name="M:Riskmaster.Common.Conversion.GetTimeHHMM00(System.String)">
+            <summary>
+            Returns time in HHMM00 and takes time in HH:MM
+            </summary>
+            <param name="s">Format HH:MM</param>
+            <returns>HHMM00</returns>
+        </member>
+        <member name="M:Riskmaster.Common.Conversion.ToDbDateTime(System.DateTime)">
+            <summary>Riskmaster.Common.Conversion.ToDbDateTime.</summary>
+            <param name="date">DateTime to be converted into Riskmaster Database date format "YYYYMMDDHHMMSS."</param>
+            <returns>String value for DateTime date in "YYYYMMDDHHMMSS" format.</returns>
+            <remarks>Returns "00000000000000" if DateTime is equal to DateTime.MinValue.
+            Note: Modified 08.04.2005 to return 14 characters rather than 12.  This means
+            seconds are included properly now.</remarks>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.Common.Conversion.ToDbTime(System.DateTime)" -->
+        <member name="M:Riskmaster.Common.Conversion.ToDbDate(System.DateTime)">
+            <summary>Riskmaster.Common.Conversion.ToDbDate.</summary>
+            <param name="date">DateTime to be converted into Riskmaster Database date format "YYYYMMDD."</param>
+            <returns>String value for DateTime date in "YYYYMMDD" format.</returns>
+            <remarks>Returns "" if DateTime is equal to DateTime.MinValue.</remarks>
+        </member>
+        <member name="M:Riskmaster.Common.Conversion.GetByteArr(System.UInt32[])">
+            <summary>
+            This overload of Riskmaster.Common.Conversion.GetByteArr breaks an uint Array into an equivalent byte Array.</summary>
+            <param name="uintArr">Unsigned Integer array  for which to provide an equivalent byte Array.</param>
+            <returns>byte[] representing uintArr</returns>
+            <remarks>It is perfectly acceptable to us in this implementation to have the value "roll negative" during conversion.</remarks>
+            <example>This function might be usefull for encryption.</example>
+        </member>
+        <member name="M:Riskmaster.Common.Conversion.GetByteArr(System.Int32)">
+            <summary>This overload of Riskmaster.Common.Conversion.GetByteArr 
+            breaks an uint Array into an equivalent byte Array.</summary>
+            <param name="iSrc">An integer to be converted to a byte[4].</param>
+            <returns>byte[] representing int iSrc</returns>
+            <example>This function might be usefull for encryption.</example>
+        </member>
+        <member name="M:Riskmaster.Common.Conversion.GetByteArr(System.String)">
+            <summary>This overload of Riskmaster.Common.Conversion.GetByteArr breaks 
+            an uint Array into an equivalent byte Array.</summary>
+            <param name="s">A string  to be converted to a byte[].</param>
+            <returns>byte[] representing string s.</returns>
+            <remarks>Uses the ASCII.GetBytes framework routine but checks for an empty 
+            or null string before making the call returning {0} in that case.</remarks>
+            <example>This function might be useful for encryption.</example>
+        </member>
+        <member name="M:Riskmaster.Common.Conversion.GetHILOWord(System.Int32,System.UInt16@,System.UInt16@)">
+            <summary>
+            Riskmaster.Common.Conversion.GetHILOWord.</summary>
+            <param name="Src">Integer containing the dword size value to split.</param>
+            <param name="iLO">Unsigned short containing the word size value from the lower position of Src.</param>
+            <param name="iHI">Unsigned short containing the word size value from the upper position of Src.</param>
+            <example>This function might be useful for encryption.</example>
+        </member>
+        <member name="M:Riskmaster.Common.Conversion.GetHILOByte(System.UInt16,System.Byte@,System.Byte@)">
+            <summary>
+            Riskmaster.Common.Conversion.GetHILOByte.</summary>
+            <param name="Src">Word sized value to be split into a high and low byte.</param>
+            <param name="iLO">Byte sized value to contain the lower byte of Src.</param>
+            <param name="iHI">Byte sized value to contain the upper byte of Src.</param>
+            <example>This function might be useful for encryption.</example>
+        </member>
+        <member name="M:Riskmaster.Common.Conversion.GetAscii(System.String)">
+            <summary>
+            Deprecated Riskmaster.Common.Conversion.GetAscii.</summary>
+            <param name="s"></param>
+            <returns>Not specified.</returns>
+            <remarks>Deprecated - see source code..</remarks>
+        </member>
+        <member name="M:Riskmaster.Common.Conversion.InsertTransparencyChars(System.Byte[],System.Int32)">
+            <summary>
+            Riskmaster.Common.Conversion.InsertTransparencyChars 
+            turns 'buf' containing 'real' data into a hexadecimal string suitable for database
+            storage. Implemented because storing NUL characters (and possibly other binary data)
+            in a database creates problems.</summary>
+            <param name="buf">Byte array of input data to be sanitized.</param>
+            <param name="len">Integer number of bytes to sanitize.</param>
+            <returns>String sanitized version of buf.</returns>
+        </member>
+        <member name="M:Riskmaster.Common.Conversion.RemoveTransparencyChars(System.String)">
+            <summary>
+            Riskmaster.Common.Conversion.RemoveTransparencyChars "unsanitizes" a string of 
+            two character hex values converting each pair into a an ASCII character and 
+            returning the final byte array of converted ASCII characters.  Precisely reverses changes made by 
+            Riskmaster.Common.Conversion.InsertTransparencyChars</summary>
+            <param name="szStr">Sanitized string value to be "unsanitized."</param>
+            <returns>Unsanitized byte[]</returns>
+        </member>
+        <member name="M:Riskmaster.Common.Conversion.ConvertStrToLong(System.String)">
+            <summary>		
+            This method will convert a string to a long value 		
+            </summary>		
+            <param name="p_sValue">The string value that will be converted to a long value</param>												
+            <returns>A long value</returns>
+        </member>
+        <member name="M:Riskmaster.Common.Conversion.ConvertObjToStr(System.Object)">
+            <summary>		
+            This method will convert the passed object to a string value
+            </summary>		
+            <param name="p_obj">The object that will be converted to a string value</param>												
+            <returns>A string value</returns>
+        </member>
+        <member name="M:Riskmaster.Common.Conversion.ConvertStrToInteger(System.String)">
+            <summary>		
+            This method will convert a string to an integer value 		
+            </summary>		
+            <param name="p_sValue">The string value that will be converted to an integer value</param>												
+            <returns>An integer value</returns>
+        </member>
+        <member name="M:Riskmaster.Common.Conversion.GetDBDateFormat(System.String,System.String)">
+            <summary>		
+            This method will convert a valid date string in the specified date format		
+            </summary>		
+            <param name="p_sDataValue">Valid date string that will be formatted</param>	
+            <param name="p_sFormat">The format in which the date string will be converted</param>	
+            <returns>It will return date string in the specified format</returns>
+        </member>
+        <member name="M:Riskmaster.Common.Conversion.GetDBDTTMFormat(System.String,System.String,System.String)">
+            <summary>		
+            This method will return a valid date and time in the specified format		
+            </summary>		
+            <param name="p_sDataValue">A valid date time string that will be formatted</param>	
+            <param name="p_sDateFormat">The format in which the date part will be formatted</param>	
+            <param name="p_sTimeFormat">The format in which the time part will be formatted</param>	
+            <returns>It returns date time string the specified format</returns>
+        </member>
+        <member name="M:Riskmaster.Common.Conversion.GetDBTimeFormat(System.String,System.String)">
+            <summary>		
+            This method will return a valid time in the specified format		
+            </summary>		
+            <param name="p_sDataValue">A valid date time string that will be formatted</param>			
+            <param name="p_sFormat">The format in which the time part will be converted</param>	
+            <returns>It will return time in the specified format</returns>
+        </member>
+        <member name="M:Riskmaster.Common.Conversion.GetPercentFormat(System.Double)">
+            <summary>		
+            This method returns a value in the percent format		
+            </summary>		
+            <param name="p_dblValue">Value that has to be converted in percent format</param>					
+            <returns>It returns value in the percent format</returns>
+        </member>
+        <member name="M:Riskmaster.Common.Conversion.ConvertStrToDouble(System.String)">
+            <summary>
+            Convert string into double
+            </summary>
+            <param name="p_sValue">Input string value</param>
+            <returns>Double value</returns>
+        </member>
+        <member name="M:Riskmaster.Common.Conversion.ConvertBoolToInt(System.Boolean)">
+            <summary>
+            Converts boolean value to integer
+            </summary>
+            <param name="p_bVal">boolean value to convert to integer</param>
+            <returns>Converted integer value</returns>
+        </member>
+        <member name="M:Riskmaster.Common.Conversion.ConvertLongToBool(System.Int64)">
+            <summary>
+            Converts long value To boolean
+            </summary>
+            <param name="p_lValue">long value to convert</param>
+            <returns>Converted boolean value</returns>
+        </member>
+        <member name="M:Riskmaster.Common.Conversion.ConvertStringToUInt(System.String)">
+            <summary>
+            Converts passed String value  to unsigned integer value
+            </summary>
+            <param name="p_sValue">string value to convert</param>
+            <returns>Converted unsigned integer value</returns>
+        </member>
+        <member name="M:Riskmaster.Common.Conversion.ConvertObjToInt(System.Object)">
+            <summary>
+            Convert passed object to integer value
+            </summary>
+            <param name="p_objValue">object to convert</param>
+            <returns>Converted integer value</returns>
+        </member>
+        <member name="M:Riskmaster.Common.Conversion.ConvertObjToInt64(System.Object)">
+            <summary>
+            Converts Null or DBNull object to Int64
+            </summary>
+            <param name="p_ObjValue">object to convert</param>
+            <returns>Converted Int64 value</returns>
+        </member>
+        <member name="M:Riskmaster.Common.Conversion.GetOrgHierarchyLevel(System.String)">
+            <summary>Gets OrgHierarchy Level in Long</summary>
+            <param name="p_sLevel">Org Hierarchy Level string</param>	
+            <returns>Org Hierarchy Level Integer</returns>
+        </member>
+        <member name="M:Riskmaster.Common.Conversion.GetTimeAMPM(System.String)">
+            <summary>
+            This method will take in the time string (in the format HH24MMSS).
+            It will return the time in AM/PM corresponding to that time string.
+            </summary>
+            <param name="p_sTimeString">Time string (in HH24MMSS format)</param>
+            <example>
+            	Returns 12:00 AM for 120000
+            	Returns 12:00 AM for 000000
+            	Returns 5:00  PM  for 170000
+            </example>
+            <returns>Time string (in AM/PM format)</returns>
+        </member>
+        <member name="M:Riskmaster.Common.Conversion.ConvertStrToBool(System.String)">
+            <summary>
+            Convert string value to boolean value.
+            </summary>
+            <param name="p_sValue">Input string to convert to boolean value</param>
+            <returns>Converted boolean value </returns>
+        </member>
+        <member name="M:Riskmaster.Common.Conversion.ConvertToMoneyString(System.Int32,System.Int32)">
+            <summary>
+            Returns English-like sentence string equivalent To the input integer and decimal part of the money.
+            Example : 
+            1234.89 will be given input by assigning 1234 as Integer part, and 89 as decimal part.
+            The return string will be "One Thousand Two Hundred Thirty Four and 89/100 Dollars".
+            </summary>
+            <param name="p_iIntgerPart">Integer Part</param>
+            <param name="p_iDecimalPart">Decimal Part</param>
+            <returns>Returns the English-like sentence string.</returns>
+        </member>
+        <member name="M:Riskmaster.Common.Conversion.CreateMoneyGroup(System.Int32,System.String,System.String@,System.String[],System.String[])">
+            <summary>
+            Create money groups for the given scale.
+            </summary>
+            <param name="p_iIntegerPart">Integer Part</param>
+            <param name="p_sScale">Scale Value, Possible values : "Billion" , "Million" , "Thousand" and "" </param>
+            <param name="p_sValue">Reference string in which group is need to add</param>
+            <param name="p_arrUnits">Units Array</param>
+            <param name="p_arrTens">Tens Array</param>
+        </member>
+        <member name="M:Riskmaster.Common.Conversion.ConvertObjToBool(System.Object)">
+            <summary>
+            Converts Object value to bool
+            </summary>
+            <param name="p_objVal">Object to convert to bool</param>
+            <returns>Converted bool value</returns>
+        </member>
+        <member name="M:Riskmaster.Common.Conversion.ConvertObjToDouble(System.Object)">
+            <summary>
+            Converts Object value to Double
+            </summary>
+            <param name="p_objVal">Object to convert to Double</param>
+            <returns>Converted Double value</returns>
+        </member>
+        <member name="T:Riskmaster.Common.Constants">
+            <summary>
+            Author  :   Sumeet Rathod
+            Dated   :   07 Sep 2004
+            Purpose :  This is used for setting the constant values. All the constant values should be added in here.
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Common.Constants.DB_ACCESS">
+            <summary>
+            Represents the MS ACCESS Database
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Common.Constants.DB_SQLSRVR">
+            <summary>
+            Represents the SQLSERVER Database
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Common.Constants.DB_SYBASE">
+            <summary>
+            Represents the SYBASE Database
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Common.Constants.DB_INFORMIX">
+            <summary>
+            Represents the INFORMIX Database
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Common.Constants.DB_ORACLE">
+            <summary>
+            Represents the ORACLE Database
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Common.Constants.DB_ODBC">
+            <summary>
+            Represents any ODBC Database
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Common.Constants.DB_DB2">
+            <summary>
+            Represents the DB2 Database
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Common.Constants.CHECK_BOX">
+            <summary>
+            Represents field type Check box
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Common.Constants.CODE">
+            <summary>
+            Represents field type Code.
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Common.Constants.CODE_LIST">
+            <summary>
+            Represents field type Code list.
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Common.Constants.ORGH">
+            <summary>
+            Represents field type organization.
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Common.Constants.STATE">
+            <summary>
+            Represents field type State.
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Common.Constants.MULTI_STATE">
+            <summary>
+            Represents field type Multi state.
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Common.Constants.ENTITY_LIST">
+            <summary>
+            Represents field type Entity list.
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Common.Constants.ENTITY">
+            <summary>
+            Represents field type Entity.
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Common.Constants.CURRENCY">
+            <summary>
+            Represents field type Currency.
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Common.Constants.NUMERIC">
+            <summary>
+            Represents field type Numeric.
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Common.Constants.DOUBLE">
+            <summary>
+            Represents field type Double.
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Common.Constants.TEXT">
+            <summary>
+            Represents field type Text.
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Common.Constants.SSN">
+            <summary>
+            Represents field type SSN.
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Common.Constants.DATE">
+            <summary>
+            Represents field type Date.
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Common.Constants.TIME">
+            <summary>
+            Represents field type Time.
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Common.Constants.TABLE_LIST">
+            <summary>
+            Represents field type Table list.
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Common.Constants.TEXTML">
+            <summary>
+            Represents field type Textml.
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Common.Constants.#ctor">
+            <summary>
+            This is the default constructor
+            </summary>
+        </member>
+        <member name="T:Riskmaster.Common.Constants.NavDir">
+            <summary>
+            Enumerated type for Navigation Direction
+            </summary>		
+        </member>
+        <member name="F:Riskmaster.Common.Constants.NavDir.NavigationNone">
+            <summary>
+            No Navigation</summary>
+        </member>
+        <member name="F:Riskmaster.Common.Constants.NavDir.NavigationFirst">
+            <summary>
+            Navigate to first record</summary>
+        </member>
+        <member name="F:Riskmaster.Common.Constants.NavDir.NavigationPrev">
+            <summary>
+            Navigate to previous record</summary>
+        </member>
+        <member name="F:Riskmaster.Common.Constants.NavDir.NavigationNext">
+            <summary>
+            Navigate to next record</summary>
+        </member>
+        <member name="F:Riskmaster.Common.Constants.NavDir.NavigationLast">
+            <summary>
+            Navigate to last record</summary>
+        </member>
+        <member name="F:Riskmaster.Common.Constants.NavDir.NavigationGoTo">
+            <summary>
+            Navigate to a specific record by specifying the id</summary>
+        </member>
+        <member name="T:Riskmaster.Common.Mailer">
+            <summary>
+            Performs all e-mail operations using the System.Net.Mail library
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Common.Mailer.m_objMailMessage">
+            <summary>
+            Comprises the Mail Message for the e-mail message
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Common.Mailer.#ctor">
+            <summary>
+            Default constructor
+            which initializes all default values
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Common.Mailer.SendMail">
+            <summary>
+            Send an e-mail
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Common.Mailer.GetRecipients(System.String,System.String)">
+            <summary>
+            Get a list of all the specified recipients
+            </summary>
+            <param name="strRecipients">string specifying all available recipients for a mail message</param>
+            <param name="strDelimiter">string specifying a separation delimiter</param>
+            <returns>generic string list which contains all available recipients</returns>
+        </member>
+        <member name="M:Riskmaster.Common.Mailer.AddAttachment(System.String)">
+            Name			: AddAttachment
+            Author			: Aditya Babbar
+            Date Created	: 22-Dec-2004
+            ************************************************************
+            Amendment History
+            ************************************************************
+            Date Amended	*   Amendment       *           Author
+            2007.07.06		*	System.Net.Mail			*   Tom Regan
+            				*				    *	
+            ************************************************************		
+            <summary>
+            Adds an attachment to the mail message.
+            </summary>
+            <param name="p_sAttachmentFile">
+            	Fully Qualified Attachment Filename
+            </param>
+        </member>
+        <member name="M:Riskmaster.Common.Mailer.Dispose">
+            Name			: Dispose
+            Author			: Aditya Babbar
+            Date Created	: 22-Dec-2004
+            ************************************************************
+            Amendment History
+            ************************************************************
+            Date Amended	*   Amendment   *    Author
+            				*				*
+            				*				*	
+            ************************************************************		
+            <summary>
+            Release all the resources.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Common.Mailer.To">
+            <summary>
+            To address
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Common.Mailer.Cc">
+            <summary>
+            CC address
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Common.Mailer.Bcc">
+            <summary>
+            BCC address
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Common.Mailer.From">
+            <summary>
+            From address
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Common.Mailer.Subject">
+            <summary>
+            Subject of the mail
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Common.Mailer.Body">
+            <summary>
+            Body of the mail
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Common.Mailer.IsBodyHtml">
+            <summary>
+            Set true to display Body as an HTML page.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Common.Mailer.SmtpServer">
+            <summary>
+            Gets and sets the Smtp Server
+            used for sending e-mail messages
+            </summary>
+        </member>
+    </members>
+</doc>

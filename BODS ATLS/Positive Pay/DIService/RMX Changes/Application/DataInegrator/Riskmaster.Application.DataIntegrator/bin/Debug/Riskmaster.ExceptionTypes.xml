@@ -1,0 +1,110 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Riskmaster.ExceptionTypes</name>
+    </assembly>
+    <members>
+        <member name="T:Riskmaster.ExceptionTypes.CollectionException">
+            <summary>
+            Collects collection related exceptions
+            </summary>
+        </member>
+        <member name="T:Riskmaster.ExceptionTypes.InvalidLengthException">
+            <summary>
+            Data with invalid length
+            </summary>
+        </member>
+        <member name="T:Riskmaster.ExceptionTypes.ScriptException">
+            <summary>
+            Collects scripting related exceptions
+            </summary>
+        </member>
+        <member name="T:Riskmaster.ExceptionTypes.FileInputOutputException">
+            <summary>
+            Collects file upload related exception. Added by Atul Patel 07/02/2004.
+            </summary>
+        </member>
+        <member name="T:Riskmaster.ExceptionTypes.RecordNotFoundException">
+            <summary>
+            This exception will be thrown if one is trying to access persistable domain object 
+            with the key which no more exists in database.Added by Tanuj Narula on 04-July-2004.
+            </summary>
+        </member>
+        <member name="T:Riskmaster.ExceptionTypes.OverFlowException">
+            <summary>
+            This exception will be thrown while checking the object's maximum capacity for data storage.
+            Added by Tanuj Narula on 04-July-2004.
+            </summary>
+        </member>
+        <member name="T:Riskmaster.ExceptionTypes.XmlOperationException">
+            <summary>
+            This exception will be thrown if some Xml related exception occurs.
+            Added by Tanuj Narula on 04-July-2004.
+            </summary>
+        </member>
+        <member name="T:Riskmaster.ExceptionTypes.RegistryOperationException">
+            <summary>
+            Handles the exceptions generated while accesing the windows registry.
+            Added by Aashish Bhateja on 04-July-2004.
+            </summary>
+        </member>
+        <member name="T:Riskmaster.ExceptionTypes.InvalidValueException">
+            <summary>
+            This exception will be thrown if some invalid parameter value is passed to a method		 
+            Added by Neelima on 16-August-2004.
+            </summary>
+        </member>
+        <member name="T:Riskmaster.ExceptionTypes.StringException">
+            <summary>
+            Handles the exceptions generated while string manipulations.
+            Added by Sumeet on 24-August-2004.
+            </summary>
+        </member>
+        <member name="T:Riskmaster.ExceptionTypes.ConnectionStringInitializationException">
+            <summary>
+            Handles the exceptions generated while initializing the connection string.
+            Invalid Login information is input.
+            Added by Neelima on 6-October-2004.
+            </summary>
+        </member>
+        <member name="T:Riskmaster.ExceptionTypes.ExecSummaryReportEngineException">
+            <summary>
+            Handles the exceptions that would be raised while generating the executive summary report.		
+            Added by Neelima on 6-October-2004.
+            </summary>		
+        </member>
+        <member name="T:Riskmaster.ExceptionTypes.InvalidCriteriaException">
+            <summary>
+            Handles the exceptions that would be generated whenever any invalid 
+            criterion is encountered for the report.		
+            Added by Neelima on 6-October-2004.
+            </summary>		
+        </member>
+        <member name="T:Riskmaster.ExceptionTypes.AbortRequestedException">
+            <summary>
+            Handles the exceptions that would be generated whenever report generation gets aborted.
+            Added by Neelima on 6-October-2004.
+            </summary>		
+        </member>
+        <member name="T:Riskmaster.ExceptionTypes.FDMException">
+            <summary>
+            Base class for FDM exceptions
+            </summary>		
+        </member>
+        <member name="T:Riskmaster.ExceptionTypes.SysExDataNotFoundException">
+            <summary>
+            Thrown when data is not found under 'SysExData' node
+            </summary>		
+        </member>
+        <member name="T:Riskmaster.ExceptionTypes.PermissionViolationException">
+            <summary>
+            PermissionViolationException was designed to be caught and formatted appropriately.
+            </summary>
+        </member>
+        <member name="T:Riskmaster.ExceptionTypes.ExtensibilityException">
+            <summary>
+            Thrown when data is not found under 'SysExData' node
+            </summary>		
+        </member>
+    </members>
+</doc>

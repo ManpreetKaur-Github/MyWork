@@ -1,0 +1,340 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Riskmaster.BusinessAdaptor.Common</name>
+    </assembly>
+    <members>
+        <member name="T:Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrorType">
+            <summary>
+            BusinessAdaptorErrorType represents the types of errors that can be sent.
+            </summary>
+        </member>
+        <member name="T:Riskmaster.BusinessAdaptor.Common.BusinessAdaptorError">
+            <summary>
+            BusinessAdaptorError represents an error in the business adaptor.
+            </summary>
+        </member>
+        <member name="T:Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors">
+            <summary>
+            BusinessAdaptorErrors is a container class for adding errors that have occurred in
+            the Business Adaptor functions. These are extracted by the common web service and
+            formatted into the response XML message from the web service.
+            </summary>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors.Add(Riskmaster.BusinessAdaptor.Common.BusinessAdaptorError)">
+            <summary>
+            Allows a complete BusinessAdaptorError object to be added to the list.
+            </summary>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors.Add(System.String,System.String,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrorType)">
+            <summary>
+            Allows an error to be added by its base information (code, desc., type) rather
+            than requiring a BusinessAdaptorError object to be created.
+            </summary>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors.AddPermissionError(System.Int32,System.Int32)">
+            <summary>
+            Logs an error relating to a permission violation.
+            </summary>
+            <param name="accessType">The type of access that was requested in the permission check. Can be RMO_ACCESS (0), RMO_VIEW(1), etc.</param>
+            <param name="module">The security module id that was requested in the permission check.</param>
+            <returns>Index of error in error collection.</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors.Add(System.Exception,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrorType)">
+            <summary>
+            Adds an exception-based message to the error collection.
+            </summary>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors.Add(System.Exception,System.String,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrorType)">
+            <summary>
+            Adds an exception-based message to the error collection. Allows an alternate
+            message to be specified to use instead of the exception message.
+            </summary>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors.Clear">
+            <summary>
+            Removes all items from the error list.
+            </summary>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors.RemoveAt(System.Int32)">
+            <summary>
+            Removes error at given index.
+            </summary>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors.GetEnumerator">
+            <summary>
+            Returns the enumerator for the error list. Supports for-each iteration.
+            </summary>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors.OnlyWarningErrors">
+            <summary>
+            This function checks if the errors collection has only 'WarningScriptErrors'. If all the
+            errors in the collection are Warning errors for script, it should not be treated as an error
+            but should execute the complete flow as normal.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors.Count">
+            <summary>
+            Count returns the number of errors in the collection.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors.Item(System.Int32)">
+            <summary>
+            Default indexer allows get and set by index into the list.
+            </summary>
+        </member>
+        <member name="T:Riskmaster.BusinessAdaptor.Common.IBusinessAdaptor">
+            <summary>
+            Interface for communication from the common web service into the business adaptor.
+            All business adaptors must implement this interface.
+            </summary>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.Common.IBusinessAdaptor.SetSecurityInfo(Riskmaster.Security.UserLogin)">
+            <summary>
+            Sets security context (i.e. user and login) into the business adaptor.
+            </summary>
+            <param name="userLogin">Authenticated Riskmaster.Security.userLogin object for use by the business adaptor.</param>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.Common.IBusinessAdaptor.SetSessionObject(Riskmaster.BusinessAdaptor.Common.SessionManager)">
+            <summary>
+            Sets a pointer to the session manager from CWS.
+            </summary>
+            <param name="oSession">Reference to session object.</param>
+        </member>
+        <member name="T:Riskmaster.BusinessAdaptor.Common.BusinessAdaptorMethod">
+            <summary>
+            Delegate defines the method signature that business service entry-point
+            methods are expected to follow.
+            </summary>
+        </member>
+        <member name="T:Riskmaster.BusinessAdaptor.Common.BusinessAdaptorBase">
+            <summary>
+            Base class implementation for all business service adaptors. 
+            Method signature for adaptor entry point methods (i.e. methods
+            called from common web service) must be (note that individual parameter names are not important):
+            	bool MethodName(XmlDocument xmlIn, ref XmlDocument xmlOut, ref BusinessAdaptorErrors errOut)
+            Method is supplied xmlIn and must provide xmlOut as an XmlDocument containing its output message.
+            errOut must be a collection of errors or null if no errors occurred.
+            The method must return true for success or false for failure (note that error messages may still be returned
+            even if the result of the call is true).
+            </summary>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.Common.BusinessAdaptorBase.SetSecurityInfo(Riskmaster.Security.UserLogin)">
+            <summary>
+            Sets security context (i.e. user and login) into the business adaptor.
+            </summary>
+            <param name="userLogin">Authenticated Riskmaster.Security.userLogin object for use by the business adaptor.</param>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.Common.BusinessAdaptorBase.getCachedObject(System.String)">
+            <summary>
+            Retrieves a named object from session, deserializes it and returns it.
+            Note that exceptions may be thrown directly from this function if any failure occurs.
+            It is imperative that it be called within a try/catch block.
+            </summary>
+            <param name="sObjectName">Name of object to return. Usually defined as a constant in the class that is being requested.</param>
+            <returns>Deserialized object. Must be cast to expected time.</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.Common.BusinessAdaptorBase.setCachedObject(System.String,System.Object)">
+            <summary>
+            Stores a named object into session. Handles serialization automatically..
+            Note that exceptions may be thrown directly from this function if any failure occurs.
+            It is imperative that it be called within a try/catch block.
+            </summary>
+            <param name="sObjectName">Name of object to return. Usually defined as a constant in the class that is being requested.</param>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.Common.BusinessAdaptorBase.removeCachedObject(System.String)">
+            <summary>
+            Removes a named binary object from session.
+            </summary>
+            <param name="sObjectName">Name of object to return. Usually defined as a constant in the class that is being requested.</param>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.Common.BusinessAdaptorBase.cachedObjectExists(System.String)">
+            <summary>
+            Returns true if cached named object exists.
+            </summary>
+            <param name="sObjectName">Name of cached object.</param>
+            <returns>true if object exists.</returns>
+        </member>
+        <member name="P:Riskmaster.BusinessAdaptor.Common.BusinessAdaptorBase.userLogin">
+            <summary>
+            Returns the Riskmaster.Security.UserLogin object for the logged in user.
+            This is information about the user login including login name, doc path, and permission set.
+            </summary>
+            <returns>Riskmaster.Security.UserLogin object for logged in user.</returns>
+        </member>
+        <member name="P:Riskmaster.BusinessAdaptor.Common.BusinessAdaptorBase.connectionString">
+            <summary>
+            Returns the database connection string to the "data" database.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.BusinessAdaptor.Common.BusinessAdaptorBase.securityConnectionString">
+            <summary>
+            Returns the database connection string to the "security" database.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.BusinessAdaptor.Common.BusinessAdaptorBase.loginName">
+            <summary>
+            Returns the login name of the currently logged in user.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.BusinessAdaptor.Common.BusinessAdaptorBase.userID">
+            <summary>
+            Returns the user id number for the logged in user.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.BusinessAdaptor.Common.BusinessAdaptorBase.DSNID">
+            <summary>
+            Returns the DSN id number for the data source that web service is connected to.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.BusinessAdaptor.Common.BusinessAdaptorBase.groupID">
+            <summary>
+            Returns the group id number for the logged in user.
+            </summary>
+        </member>
+        <member name="T:Riskmaster.BusinessAdaptor.Common.AppConstants">
+            <summary>
+            AppConstants used to access Application and Session variables
+            The only real value that this gives is that a developer can look in here and 
+            know what variables should be available in each state object.
+            </summary>
+        </member>
+        <member name="T:Riskmaster.BusinessAdaptor.Common.SessionManager">
+            <summary>
+            SessionManager class contains the properties and methods to manipulate the
+            Custom Session Object.
+            </summary>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.Common.SessionManager.GetNextUID(System.String)">
+            <summary>
+            Retrieves and increments the current unique id counter for "tableName" from the Session Glossary.</summary>
+            <param name="tableName">The name of the table who's next unique row id should be retrieved and incremented.</param>
+            <returns>Integer containing the requested unique id value.</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.Common.SessionManager.#ctor(System.String)">
+            <summary>
+            Constructor for SessionManager class.
+            </summary>
+            <param name="connectionstring">Used to connect to WebFarmSession DB</param>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.Common.SessionManager.SessionExists(System.String)">
+            <summary>
+            Checks for the existence of a session with key p_sSessionId in the current
+            Session Database.
+            </summary>
+            <returns>Boolean (True if requested Session Found, False otherwise.)
+            </returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.Common.SessionManager.GetAllSessions">
+            <summary>
+            Returns all the Sessions with their related information.Used by the 
+            administrator to get the information for all the users that are logged in.
+            </summary>
+            <returns>An arrayList that contains the information about all the sessions.
+            </returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.Common.SessionManager.Dispose">
+            <summary>
+            Releases the resources used by the Component.
+            Responsible for disposing of the SessionManager object.
+            </summary>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.Common.SessionManager.InitFromString(System.String,System.String)">
+            <summary>
+            Called from GetAllSessions(), used to get data for a particular session.
+            </summary>
+            <param name="pSessionId">SessionId to fetch data from.</param>
+            <param name="pData">Pipe separated data provided to this function which
+            gets converted in the form of name-value pair. Eg. User=xyz can be
+            accessed as objSession["User"] = "xyz" after this function gets
+            executed.</param>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.Common.SessionManager.Init(System.String)">
+            <summary>
+            Used to initialize the session.
+            </summary>
+            <param name="sessionId">SessionId to be initialized.Blank if new 
+            SessionId is to be created.</param>
+            <returns>The SessionId that has been initialized.</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.Common.SessionManager.Init(System.String,System.Boolean)">
+            <summary>
+            Used to initialize the session.
+            </summary>
+            <param name="sessionId">SessionId to be initialized.Blank if new 
+            <param name="bUpdateLastAccess">If the last access field should be updated</param>
+            SessionId is to be created.</param>
+            <returns>The SessionId that has been initialized.</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.Common.SessionManager.LoadSession(System.Boolean)">
+            <summary>
+            Called from Init(). Loads the existing Session.
+            </summary>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.Common.SessionManager.GetBinaryItem(System.String)">
+            <summary>
+            Used to get individual Binary items by name.
+            </summary>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.Common.SessionManager.SetBinaryItem(System.String,System.Byte[])">
+            <summary>
+            Used to get individual Binary items by name.
+            </summary>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.Common.SessionManager.RemoveBinaryItem(System.String)">
+            <summary>
+            Used to remove individual Binary items by name.
+            </summary>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.Common.SessionManager.SaveSession">
+            <summary>
+            Used to save the existing session and the related values.
+            Note: This function CANNOT be used to create a new session. You MUST use Init() to
+            fully create a valid web farm session.
+            </summary>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.Common.SessionManager.DeleteSession(System.String)">
+            <summary>
+            Deletes the Session whose SessionId is provided.
+            </summary>
+            <param name="sessionId">SID of the session to be deleted.</param>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.Common.SessionManager.DeleteSession">
+            <summary>
+            Deletes the Session when SessionId is not provided.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.BusinessAdaptor.Common.SessionManager.ConnectionString">
+            <summary>
+            Returns the connection string.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.BusinessAdaptor.Common.SessionManager.Item(System.String)">
+            <summary>
+            Used to get the value of the session once key is provided. Calls SaveSession
+            to save the Session values to the database.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.BusinessAdaptor.Common.SessionManager.Items">
+            <summary>
+            Used to get the items of type Hashtable.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.BusinessAdaptor.Common.SessionManager.UserData1">
+            <summary>
+            Used to get/set the UserData.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.BusinessAdaptor.Common.SessionManager.SessionId">
+            <summary>
+            Used to get the SessionId.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.BusinessAdaptor.Common.SessionManager.LastChanged">
+            <summary>
+            Used to get/set the time when the Session was last changed.
+            </summary>
+        </member>
+    </members>
+</doc>

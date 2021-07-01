@@ -1,0 +1,7 @@
+Data Error Log for th execution of Job #1843 J_DDS.
+Job started at 2010.09.24 06:16:54 using optionset ID 1276.
+Job Totals: 4 system errors and  validation errors over 0 rows.
+System Error,ODBC data source <cscrmsupnor102> error message for operation <SQLExecute>: <[Microsoft][ODBC SQL Server Driver][SQL Server]Incorrect syntax near '='.>.,,,
+System Error,ODBC data source <cscrmsupnor102> error message for operation <SQLExecute>: <[Microsoft][ODBC SQL Server Driver][SQL Server]Violation of PRIMARY KEY constraint 'PK_DA_STATISTICS'. Cannot insert duplicate key in object 'dbo.DA_STATISTICS'.>.|<Regular Load Operations>|<DA_STATISTICS>,,,
+System Error,ODBC data source <cscrmsupnor102> error message for operation <SQLExecute>: <[Microsoft][ODBC SQL Server Driver][SQL Server]Violation of PRIMARY KEY constraint 'PK_DA_STATISTICS'. Cannot insert duplicate key in object 'dbo.DA_STATISTICS'.>.|<Regular Load Operations>|<DA_STATISTICS>,,,
+System Error,ODBC data source <cscrmsupnor102> error message for operation <SQLExecute>: <[Microsoft][ODBC SQL Server Driver][SQL Server]Violation of PRIMARY KEY constraint 'PK_DDS_OPTIONSET'. Cannot insert duplicate key in object 'dbo.DDS_OPTIONSET'.>.|<Regular Load Operations>|<DDS_OPTIONSET>,,,

@@ -1,0 +1,1695 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Riskmaster.Settings</name>
+    </assembly>
+    <members>
+        <member name="T:Riskmaster.Settings.SysSettings">
+            <summary>
+            SYS_PARMS settings.
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Settings.SysSettings.m_sConnectString">
+            <summary>The connection string used by the database layer for connection with the database.</summary>
+        </member>
+        <member name="M:Riskmaster.Settings.SysSettings.#ctor(System.String)">
+             <summary>
+            Riskmaster.Settings.SysParms.SysSettings overload sets the connection string.
+             </summary>
+             <param name="p_sConnectString">Connection string</param>
+        </member>
+        <member name="M:Riskmaster.Settings.SysSettings.SaveSettings">
+             <summary>
+            Riskmaster.Settings.SysParms.SysSettings.SaveSettings saves the system parameters.
+             </summary>	
+             <returns>True if saving is successful.</returns>
+        </member>
+        <member name="M:Riskmaster.Settings.SysSettings.LoadSettings">
+             <summary>
+            Riskmaster.Settings.SysParms.LoadSettings retrieves the system parameters.
+             </summary>	
+             <returns>True if loading is successful.</returns>
+        </member>
+        <member name="F:Riskmaster.Settings.SysSettings.m_sClientName">
+            <summary>Client name.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.SysSettings.m_sOCFacAddr1">
+            <summary>OC Fac Address 1.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.SysSettings.m_sOCFacAddr2">
+            <summary>OC Fac Address 2.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.SysSettings.m_sOCFacAddr3">
+            <summary>OC Fac Address 3.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.SysSettings.m_sOCFacAddr4">
+            <summary>OC Fac Address 4.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.SysSettings.m_sOCFacContact">
+            <summary>OC Fac Contact.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.SysSettings.m_sOCFacName">
+            <summary>OC Fac Name.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.SysSettings.m_sOCFacPhone">
+            <summary>OC Fac Phone.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.SysSettings.m_bWorkMon">
+            <summary>Work Monday.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.SysSettings.m_bWorkTue">
+            <summary>Work Tuesday.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.SysSettings.m_bWorkWed">
+            <summary>Work Wednesday.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.SysSettings.m_bWorkThu">
+            <summary>Work Thursday.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.SysSettings.m_bWorkFri">
+            <summary>Work Friday.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.SysSettings.m_bWorkSat">
+            <summary>Work Saturday.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.SysSettings.m_bWorkSun">
+            <summary>Work Sunday.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.SysSettings.m_bDateStampFlag">
+            <summary>Date stamp flag.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.SysSettings.m_bFreezeTextFlag">
+            <summary>Freeze text flag.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.SysSettings.m_sShift1Name">
+            <summary>Shift 1 name.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.SysSettings.m_sShift2Name">
+            <summary>Shift 2 name.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.SysSettings.m_sShift3Name">
+            <summary>Shift 3 name.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.SysSettings.m_sShift1Start">
+            <summary>Shift 1 start.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.SysSettings.m_sShift2Start">
+            <summary>Shift 2 start.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.SysSettings.m_sShift3Start">
+            <summary>Shift 3 start.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.SysSettings.m_sShift1End">
+            <summary>Shift 1 end.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.SysSettings.m_sShift2End">
+            <summary>Shift 2 end.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.SysSettings.m_sShift3End">
+            <summary>Shift 3 end.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.SysSettings.m_iClientStatusCode">
+            <summary>Client status code.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.SysSettings.m_sDateInstalled">
+            <summary>Install date.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.SysSettings.m_sAddr1">
+            <summary>Address 1.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.SysSettings.m_sAddr2">
+            <summary>Address 2.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.SysSettings.m_sCity">
+            <summary>City.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.SysSettings.m_sState">
+            <summary>State.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.SysSettings.m_sZipCode">
+            <summary>Zipcode.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.SysSettings.m_sPhoneNumber">
+            <summary>Phone number.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.SysSettings.m_sFaxNumber">
+            <summary>Fax number.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.SysSettings.m_sPrimaryContact">
+            <summary>Primary contact.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.SysSettings.m_sPrimaryTitle">
+            <summary>Primary title.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.SysSettings.m_sSecondaryContact">
+            <summary>Secondary contact.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.SysSettings.m_sSecondaryTitle">
+            <summary>Secondary title.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.SysSettings.m_sDataEntryContact">
+            <summary>Data entry contact.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.SysSettings.m_sDataEntryTitle">
+            <summary>Data entry title.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.SysSettings.m_sReportingContact">
+            <summary>Reporting contact.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.SysSettings.m_sReportingTitle">
+            <summary>Reporting title.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.SysSettings.m_sDeptMgrContact">
+            <summary>Department manager contact.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.SysSettings.m_sDeptMgrTitle">
+            <summary>Department manager title.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.SysSettings.m_sAccountingContact">
+            <summary>Accounting contact.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.SysSettings.m_sAccountingTitle">
+            <summary>Accounting title.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.SysSettings.m_sDTGProduct">
+            <summary>DTG product.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.SysSettings.m_sDTGVersion">
+            <summary>DTG version.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.SysSettings.m_sHardware">
+            <summary>Hardware.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.SysSettings.m_sPrinter">
+            <summary>Printer.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.SysSettings.m_sDistributionMedia">
+            <summary>Distribution media.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.SysSettings.m_sModemPhone">
+            <summary>Modem phone.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.SysSettings.m_sDTGSupportPhone">
+            <summary>DTG support phone.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.SysSettings.m_sEvPrefix">
+            <summary>Ev prefix.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.SysSettings.m_sDBReleaseNumber">
+            <summary>DB release number.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.SysSettings.m_bFundsAccountLink">
+            <summary>Funds account link.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.SysSettings.m_bUseFundsSubAcc">
+            <summary>Use funds sub account flag.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.SysSettings.m_bPrintOSHADesc">
+            <summary>Print OSHA description flag.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.SysSettings.m_sHierarchyLevel">
+            <summary>Heirarchy level.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.SysSettings.m_sSMPTServer">
+            <summary>SMTP server.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.SysSettings.m_bUseDefaultCarrier">
+            <summary>Use default carrier flag.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.SysSettings.m_iRateLevel">
+            <summary>Rate level.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.SysSettings.m_iFreezeDateFlag">
+            <summary>Freeze date flag.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.SysSettings.m_iDateAdjusterFlag">
+            <summary>Date adjuster flag.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.SysSettings.m_bDataChanged">
+            <summary>Stores whether the data has been modified or not.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.SysSettings.m_iRowId">
+            <summary>ID of the row of data.</summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.IsBRSInstalled">
+             <summary>
+            Gets whether or not BRS has been activated/installed
+             </summary>
+             <remarks>Removed dependency on the following Registry Key
+              (Registry.ClassesRoot.OpenSubKey("BRSWorld3.BRS")!=null);
+             </remarks>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.ClientName">
+             <summary>
+            Property to access m_sClientName.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.OCFacAddr1">
+             <summary>
+            Property to access m_sOCFacAddr1.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.OCFacAddr2">
+             <summary>
+            Property to access m_sOCFacAddr2.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.OCFacAddr3">
+             <summary>
+            Property to access OCFacAddr3.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.OCFacAddr4">
+             <summary>
+            Property to access m_sOCFacAddr4.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.OCFacContact">
+             <summary>
+            Property to access m_sOCFacContact.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.OCFacHCFANo">
+             <summary>
+            Property to access m_sOCFacHCFANo.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.OCFacName">
+             <summary>
+            Property to access m_sOCFacName.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.OCFacPhone">
+             <summary>
+            Property to access m_sOCFacPhone.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.WorkMon">
+             <summary>
+            Property to access m_bWorkMon.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.WorkTue">
+             <summary>
+            Property to access m_bWorkTue.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.WorkWed">
+             <summary>
+            Property to access m_bWorkWed.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.WorkThu">
+             <summary>
+            Property to access m_bWorkThu.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.WorkFri">
+             <summary>
+            Property to access m_bWorkFri.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.WorkSat">
+             <summary>
+            Property to access m_bWorkSat.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.WorkSun">
+             <summary>
+            Property to access m_bWorkSun.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.DateStampFlag">
+             <summary>
+            Property to access m_bDateStampFlag.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.FreezeTextFlag">
+             <summary>
+            Property to access m_bFreezeTextFlag.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.Shift1Name">
+             <summary>
+            Property to access m_sShift1Name.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.Shift2Name">
+             <summary>
+            Property to access m_sShift2Name.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.Shift3Name">
+             <summary>
+            Property to access m_sShift3Name.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.Shift1Start">
+             <summary>
+            Property to access m_sShift1Start.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.Shift2Start">
+             <summary>
+            Property to access m_sShift2Start.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.Shift3Start">
+             <summary>
+            Property to access m_sShift3Start.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.Shift1End">
+             <summary>
+            Property to access m_sShift1End.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.Shift2End">
+             <summary>
+            Property to access m_sShift2End.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.Shift3End">
+             <summary>
+            Property to access m_sShift3End.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.ESSP">
+             <summary>
+            Property to access m_iESSP.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.ClientStatusCode">
+             <summary>
+            Property to access m_iClientStatusCode.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.DateInstalled">
+             <summary>
+            Property to access m_sDateInstalled.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.Addr1">
+             <summary>
+            Property to access m_sAddr1.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.Addr2">
+             <summary>
+            Property to access m_sAddr2.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.City">
+             <summary>
+            Property to access m_sCity.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.State">
+             <summary>
+            Property to access m_sState.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.ZipCode">
+             <summary>
+            Property to access m_sZipCode.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.PhoneNumber">
+             <summary>
+            Property to access m_sPhoneNumber.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.FaxNumber">
+             <summary>
+            Property to access m_sFaxNumber.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.PrimaryContact">
+             <summary>
+            Property to access m_sPrimaryContact.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.PrimaryTitle">
+             <summary>
+            Property to access m_sPrimaryTitle.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.SecondaryContact">
+             <summary>
+            Property to access m_sSecondaryContact.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.SecondaryTitle">
+             <summary>
+            Property to access m_sSecondaryTitle.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.DataEntryContact">
+             <summary>
+            Property to access m_sDataEntryContact.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.DataEntryTitle">
+             <summary>
+            Property to access m_sDataEntryTitle.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.ReportingContact">
+             <summary>
+            Property to access m_sReportingContact.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.ReportingTitle">
+             <summary>
+            Property to access m_sReportingTitle.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.DeptMgrContact">
+             <summary>
+            Property to access m_sDeptMgrContact.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.DeptMgrTitle">
+             <summary>
+            Property to access m_sDeptMgrTitle.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.AccountingContact">
+             <summary>
+            Property to access m_sAccountingContact.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.AccountingTitle">
+             <summary>
+            Property to access m_sAccountingTitle.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.DTGProduct">
+             <summary>
+            Property to access m_sDTGProduct.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.DTGVersion">
+             <summary>
+            Property to access m_sDTGVersion.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.Hardware">
+             <summary>
+            Property to access m_sHardware.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.Printer">
+             <summary>
+            Property to access m_sPrinter.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.DistributionMedia">
+             <summary>
+            Property to access m_sDistributionMedia.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.ModemPhone">
+             <summary>
+            Property to access m_sModemPhone.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.DTGSupportPhone">
+             <summary>
+            Property to access m_sDTGSupportPhone.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.EvPrefix">
+             <summary>
+            Property to access m_sEvPrefix.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.EvIncYearFlag">
+             <summary>
+            Property to access m_bEvIncYearFlag.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.DBReleaseNumber">
+             <summary>
+            Property to access m_sDBReleaseNumber.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.FundsAccountLink">
+             <summary>
+            Property to access m_bFundsAccountLink.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.UseFundsSubAcc">
+             <summary>
+            Property to access m_bUseFundsSubAcc.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.PrintOSHADesc">
+             <summary>
+            Property to access m_bPrintOSHADesc.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.HierarchyLevel">
+             <summary>
+            Property to access m_sHierarchyLevel.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.PrintClaimsAdmin">
+             <summary>
+            Property to access m_iPrintClaimsAdmin.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.EVTypeAccFlag">
+             <summary>
+            Property to access m_bEVTypeAccFlag.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.SMLimitDirect">
+             <summary>
+            Property to access m_bSMLimitDirect.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.ResDoNotRecalc">
+             <summary>
+            Property to access m_bResDoNotRecalc.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.SMPTServer">
+             <summary>
+            Property to access m_sSMPTServer.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.ExclHolidays">
+             <summary>
+            Property to access m_bExclHolidays.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.UseDefaultCarrier">
+             <summary>
+            Property to access m_bUseDefaultCarrier.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.AttachDiaryVis">
+             <summary>
+            Property to access m_bAttachDiaryVis.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.UseDefCarrier">
+             <summary>
+            Property to access m_iUseDefCarrier.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.UseAcrosoftInterface">
+             <summary>
+            Property to access m_bUseAcrosoftInterface
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.UseFLMaxRate">
+             <summary>
+            Property to access m_bUseFLMaxRate
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.UseTAndE">
+             <summary>
+            Property to access m_bUseTAndE.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.RateLevel">
+             <summary>
+            Property to access m_iRateLevel.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.TandeAcctId">
+             <summary>
+            Property to access m_iTandeAcctId.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.FroiPreparer">
+             <summary>
+            Property to access m_bFroiPreparer.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.FreezeDateFlag">
+             <summary>
+            Property to access m_iFreezeDateFlag.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.DateAdjusterFlag">
+             <summary>
+            Property to access m_iDateAdjusterFlag.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.FroiBatHighLvl">
+             <summary>
+            Property to access m_iFroiBatHighLvl.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.FroiBatLowLvl">
+             <summary>
+            Property to access m_iFroiBatLowLvl.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.FroiBatCldClm">
+             <summary>
+            Property to access m_iFroiBatCldClm.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.AutoNumWCEmp">
+             <summary>
+            Property to access m_bAutoNumWCEmp.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.WCEmpPrefix">
+             <summary>
+            Property to access m_sWCEmpPrefix.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.EditWCEmpNum">
+             <summary>
+            Property to access m_bEditWCEmpNum.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.AutoNumVin">
+             <summary>
+            Property to access m_bAutoNumVin.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.AutoSelectPolicy">
+             <summary>
+            Property to access m_bAutoSelectPolicy.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.PrevResBackdating">
+             <summary>
+            Property to access m_bPrevResBackdating.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.PrevResModifyzero">
+             <summary>
+            Property to access m_bPrevResModifyzero.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.DiaryOrgLevel">
+             <summary>
+            Property to access m_iDiaryOrgLevel.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.AllowGlobalPeek">
+             <summary>
+            Property to access m_iAllowGlobalPeek.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.ResShowOrphans">
+             <summary>
+            Property to access m_iResShowOrphans.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.NoSubDepCheck">
+             <summary>
+            Property to access m_iNoSubDepCheck.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.BlankFieldFlag">
+             <summary>
+            Property to access m_sBlankFieldFlag.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.FinHostEval">
+             <summary>
+            Property to access m_iFinHostEval.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.WCPrinterSetup">
+             <summary>
+            Property to access m_sWCPrinterSetup.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.XAxis">
+             <summary>
+            Property to access m_dXAxis.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.YAxis">
+             <summary>
+            Property to access m_dYAxis.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.SecurityFlag">
+             <summary>
+            Property to access m_iSecurityFlag.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.DefaultTimeFlag">
+             <summary>
+            Property to access m_iDefaultTimeFlag.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.DefaultDeptFlag">
+             <summary>
+            Property to access m_iDefaultDeptFlag.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.FilterOthPeople">
+             <summary>
+            Property to access m_iFilterOthPeople.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.FreezeEventDesc">
+             <summary>
+            Property to access m_iFreezeEventDesc.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.FreezeLocDesc">
+             <summary>
+            Property to access m_iFreezeLocDesc.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.UseMastBankAcct">
+             <summary>
+            Property to access m_iUseMastBankAcct.
+             </summary>		
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.AssignCheckStockToSubAcc">
+             <summary>
+            Property to access m_bAssignCheckStockToSubAcc.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.FundsAcountBalanceDateCriteria">
+             <summary>
+            Property to access m_iFundsAcountBalanceDateCriteria.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.P2Login">
+             <summary>
+            Property to access m_sP2Login.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.P2Pass">
+             <summary>
+            Property to access m_sP2Pass.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.P2Url">
+             <summary>
+            Property to access m_sP2URL.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.DateEventDesc">
+             <summary>
+            Property to access m_iDateEventDesc.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.OrderBankAcc">
+             <summary>
+            Property to access m_iOrderBankAcc.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.SuppFldSecFlag">
+             <summary>
+            Property to access m_iSuppFldSecFlag.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.EnhHierarchyList">
+             <summary>
+            Property to access m_iEnhHierarchyList.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.EvCaptionLevel">
+             <summary>
+            Property to access m_iEvCaptionLevel.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.UseEnhPolFlag">
+             <summary>
+            Property to access m_iUseEnhPolFlag.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.UseBillingFlag">
+             <summary>
+            Property to access m_iUseBillingFlag.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.OracleCaseIns">
+             <summary>
+            Property to access m_iOracleCaseIns.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.MultipleInsurer">
+             <summary>
+            Property to access m_bMultipleInsurer // Mihika 01/12/2007 MITS 8656
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.MultipleReInsurer">
+             <summary>
+            Property to access m_bMultipleReInsurer // added by Navdeep
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.PolicyDropDown">
+             <summary>
+            Property to access m_bPolicyDropDown // Mihika 01/17/2007 MITS 8657
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysSettings.DataChanged">
+             <summary>
+            Property to access m_bDataChanged.
+             </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "P:Riskmaster.Settings.SysSettings.DeleteAllClaimDiaries" -->
+        <member name="T:Riskmaster.Settings.SysParms">
+            <summary>
+            Riskmaster.Settings.SysParms.CSettings class is a wrapper to initialize all
+            other classes in the project
+            </summary> 
+        </member>
+        <member name="F:Riskmaster.Settings.SysParms.m_sConnectString">
+            <summary>The connection string used by the database layer for connection with the database.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.SysParms.m_bSysSettingsLoaded">
+            <summary>Flag to store whether SysSettings class has been loaded or not.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.SysParms.m_bColLOBSettingsLoaded">
+            <summary>Flag to store whether CColLOBSettings class has been loaded or not.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.SysParms.m_bColFiscalYearLoaded">
+            <summary>Flag to store whether CColFiscalYear class has been loaded or not.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.SysParms.m_bBrsSettingsLoaded">
+            <summary>Flag to store whether BrsSettings class has been loaded or not.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.SysParms.m_oSysSettings">
+            <summary>Object of SysSettings</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.SysParms.m_oColLOBSettings">
+            <summary>Object of ColLobSettings</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.SysParms.m_oColFiscalYear">
+            <summary>Object of ColFYSettings</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.SysParms.m_oBrsSettings">
+            <summary>Object of BrsSettings</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.SysParms.m_oCacheFunctions">
+            <summary>Object of CCacheFunctions</summary>
+        </member>
+        <member name="M:Riskmaster.Settings.SysParms.#ctor(System.String)">
+             <summary>
+            Riskmaster.Settings.SysParms.CSettings.CSettings overload sets the connection string.
+             </summary>
+             <param name="p_sConnectString">Connection string</param>
+        </member>
+        <member name="M:Riskmaster.Settings.SysParms.Initialize">
+             <summary>
+            Riskmaster.Settings.SysParms.CSettings.Initialize initializes all classes in the project.
+             </summary>	
+        </member>
+        <member name="P:Riskmaster.Settings.SysParms.SysSettings">
+             <summary>
+            Property to access m_oSysSettings. Also initializes the object, if not initialized.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysParms.ColLobSettings">
+             <summary>
+            Property to access m_oColLOBSettings. Also initializes the object, if not initialized.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysParms.ColFiscalYear">
+             <summary>
+            Property to access m_oColFiscalYear. Also initializes the object, if not initialized.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.SysParms.BrsSettings">
+             <summary>
+            Property to access m_oBrsSettings. Also initializes the object, if not initialized.
+             </summary>		
+        </member>
+        <member name="P:Riskmaster.Settings.SysParms.CacheFunctions">
+             <summary>
+            Property to access m_oCacheFunctions. 
+             </summary>
+        </member>
+        <member name="T:Riskmaster.Settings.ColLobSettings">
+             <summary>SYS_PARMS_LOB settings</summary>
+            <remarks>Collection consists of one LobSettings object for each line of business in SYS_PARMS_LOB.</remarks>
+        </member>
+        <member name="F:Riskmaster.Settings.ColLobSettings.m_sConnectString">
+            <summary>The connection string used by the database layer for connection with the database.</summary>
+        </member>
+        <member name="M:Riskmaster.Settings.ColLobSettings.#ctor(System.String)">
+            <summary>This constructor creates enumerable collection of all LOB settings in SYS_PARMS_LOB</summary>
+            <value></value>
+            <remarks>Key for each entry in collection is the LOB.</remarks>
+            <example>ColLobSettings oCol = new ColLobSettings(connectionString);</example>
+        </member>
+        <member name="M:Riskmaster.Settings.ColLobSettings.Add(Riskmaster.Settings.LobSettings)">
+            <summary>Add a new LobSettings object to the collection of LOB settings</summary>
+            <value></value>
+            <remarks></remarks>
+            <example></example>
+        </member>
+        <member name="M:Riskmaster.Settings.ColLobSettings.SaveSettings">
+            <summary>Save changes in LOB settings to SYS_PARMS_LOB</summary>
+            <returns>True if saving is successful.</returns>
+        </member>
+        <member name="M:Riskmaster.Settings.ColLobSettings.LoadSettings">
+            <summary>Load LOB settings from SYS_PARMS_LOB</summary>
+            <returns>True if loading is successful.</returns>
+        </member>
+        <member name="P:Riskmaster.Settings.ColLobSettings.Item(System.Int32)">
+            <summary>Returns a single LobSettings object.  The object contains the settings for a line of business.</summary>
+            <value>LobSettings object</value>
+            <remarks>Key is LOB</remarks>
+            <example>LobSettings oLob = (LobSettings)oCol[241];</example>
+        </member>
+        <member name="T:Riskmaster.Settings.LobSettings">
+            <summary>Contains Line of Business settings for a single Line of Business</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.LobSettings.m_ColReserves">
+            <summary>Collection of reserve settings for a Line of Business, returns an enumerable hashtable.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.LobSettings.m_ColAdjNegResTypesPerRsv">
+            <summary>Collection of reserves for which auto adjust should occur. Only used if AdjRsvPerClaim is true.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.LobSettings.m_bDataChanged">
+            <summary>Stores whether the data has been modified or not.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.LobSettings.m_IsNew">
+            <summary>Stores whether a new row is to be entered or an existing one modified.</summary>
+        </member>
+        <member name="P:Riskmaster.Settings.LobSettings.Reserves">
+             <summary>
+            Property to access m_ColReserves.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.LobSettings.AdjNegResTypesPerRsv">
+             <summary>
+            Collection of reserves for which auto adjust should occur. Only used if AdjRsvPerClaim is true.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.LobSettings.ClmAccLmtFlag">
+             <summary>
+            Property to access m_bClmAccLmtFlag.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.LobSettings.DuplicateFlag">
+             <summary>
+            Property to access m_bDuplicateFlag.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.LobSettings.IncYearFlag">
+             <summary>
+            Property to access m_bIncYearFlag.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.LobSettings.InsufFundsFlag">
+             <summary>
+            Property to access m_bInsufFundsFlag.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.LobSettings.InsufFundsAutoFlag">
+             <summary>
+            Property to access m_bInsufFundsAutoFlag.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.LobSettings.PayDetLmtFlag">
+             <summary>
+            Property to access m_bPayDetLmtFlag.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.LobSettings.PerClaimLmtFlag">
+             <summary>
+            Property to access m_bPayDetLmtFlag.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.LobSettings.PayLmtFlag">
+             <summary>
+            Property to access m_bPayLmtFlag.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.LobSettings.PrtChkLmtFlag">
+             <summary>
+            Property to access m_bPrtChkLmtFlag.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.LobSettings.ResLmtFlag">
+             <summary>
+            Property to access m_bResLmtFlag.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.LobSettings.ReserveTracking">
+             <summary>
+            Property to access m_iReserveTracking.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.LobSettings.LineOfBusCode">
+             <summary>
+            Property to access m_iLineOfBusCode.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.LobSettings.AdjRsv">
+             <summary>
+            Property to access m_bAdjRsv.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.LobSettings.CollInRsvBal">
+             <summary>
+            Property to access m_bCollInRsvBal.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.LobSettings.CollInIncurred">
+             <summary>
+            Property to access m_bCollInIncurred.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.LobSettings.BalToZero">
+             <summary>
+            Property to access m_bBalToZero.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.LobSettings.NegBalToZero">
+             <summary>
+            Property to access m_bNegBalToZero.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.LobSettings.SetToZero">
+             <summary>
+            Property to access m_bSetToZero.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.LobSettings.EventTrigger">
+             <summary>
+            Property to access m_bEventTrigger.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.LobSettings.IncClmTypeFlag">
+             <summary>
+            Property to access m_bIncClmTypeFlag.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.LobSettings.IncLobCodeFlag">
+             <summary>
+            Property to access m_bIncLobCodeFlag.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.LobSettings.IncOrgFlag">
+             <summary>
+            Property to access m_bIncOrgFlag.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.LobSettings.OrgTableId">
+             <summary>
+            Property to access m_iOrgTableId.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.LobSettings.DurationCode">
+             <summary>
+            Property to access m_iDurationCode.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.LobSettings.DupPayCriteria">
+             <summary>
+            Property to access m_iDupPayCriteria.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.LobSettings.DupNumDays">
+             <summary>
+            Property to access m_iDupNumDays.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.LobSettings.EstNumOfClaims">
+             <summary>
+            Property to access m_iEstNumOfClaims.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.LobSettings.UseFiscalYear">
+             <summary>
+            Property to access m_bUseFiscalYear.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.LobSettings.AdjFundsFlag">
+             <summary>
+            Property to access m_bAdjFundsFlag.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.LobSettings.CaptionLevel">
+             <summary>
+            Property to access m_iCaptionLevel.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.LobSettings.NoNegResAdjFlag">
+             <summary>
+            Property to access m_iNoNegResAdjFlag.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.LobSettings.ResByClmType">
+             <summary>
+            Property to access m_bResByClmType.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.LobSettings.AdjRsvPerClaim">
+             <summary>
+            Property to access m_bResByClmType.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.LobSettings.UseAdjText">
+             <summary>
+            Property to access m_bUseAdjText.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.LobSettings.DataChanged">
+             <summary>
+            Property to access m_bDataChanged.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.LobSettings.IsNew">
+             <summary>
+            Property to access m_IsNew.
+             </summary>
+        </member>
+        <member name="M:Riskmaster.Settings.LobSettings.CColReserves.AddNew(Riskmaster.Settings.LobSettings.CReserve)">
+            <summary>
+            This method sets the .IsNew property "true".
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Settings.LobSettings.CColReserves.AddExisting(Riskmaster.Settings.LobSettings.CReserve)">
+            <summary>Public method marks as new.  this is for filling in LoadSettings()</summary>
+        </member>
+        <member name="T:Riskmaster.Settings.LobSettings.CReserve">
+            <summary>
+            Each reserve setting is a line of business + reserve type code + claim type code (claim type code only if Reserve By Claim Type is true).
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Settings.LobSettings.CReserve.m_iReserveTypeCode">
+            <summary>Reserve type code.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.LobSettings.CReserve.m_iClaimTypeCode">
+            <summary>Claim type code.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.LobSettings.CReserve.m_bDataChanged">
+            <summary>Stores whether the data has been modified or not.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.LobSettings.CReserve.m_sTableName">
+            <summary>Stores the table name from which the data is extracted.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.LobSettings.CReserve.m_IsNew">
+            <summary>Stores whether a new row is to be entered or an existing one modified.</summary>
+        </member>
+        <member name="P:Riskmaster.Settings.LobSettings.CReserve.ReserveTypeCode">
+             <summary>
+            Property to access m_iReserveTypeCode.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.LobSettings.CReserve.TableName">
+             <summary>
+            Property to access m_sTableName.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.LobSettings.CReserve.ClaimTypeCode">
+             <summary>
+            Property to access m_iClaimTypeCode.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.LobSettings.CReserve.DataChanged">
+             <summary>
+            Property to access m_bDataChanged.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.LobSettings.CReserve.IsNew">
+             <summary>
+            Property to access m_IsNew.
+             </summary>
+        </member>
+        <member name="T:Riskmaster.Settings.ColFYSettings">
+            <summary>SYS_PARMS_LOB settings.</summary>
+            <remarks>Collection contains one object of sys parms setting for each line of business</remarks>
+        </member>
+        <member name="F:Riskmaster.Settings.ColFYSettings.m_sConnectString">
+            <summary>The connection string used by the database layer for connection with the database.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.ColFYSettings.m_sColFiscalYear">
+            <summary>The Fiscal year value.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.ColFYSettings.m_iColOrgEid">
+            <summary>The organization ID.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.ColFYSettings.m_iColLineOfBusCode">
+            <summary>The Line of Business Code.</summary>
+        </member>
+        <member name="M:Riskmaster.Settings.ColFYSettings.#ctor(System.String,System.String,System.Int32,System.Int32)">
+             <summary>Constructor creates collection of all FY settings for desired fy,LOB,OrgEid</summary>
+             <param name="p_sConnectString"></param>
+             <param name="p_sFY">Pass a FY arg if desire to restrict collection to a fiscal year</param>
+             <param name="p_iLob">Pass zero to get settings for all Lines of Business</param>
+             <param name="p_iOrgEid">Pass zero to get settings for all Organizations</param>
+            <remarks>To get all Fiscal Years do not pass a FY arg</remarks>
+            <example>ColFYSettings oCol = new ColFYSettings(connectionString,FY,LOB,OrgEid);</example>
+        </member>
+        <member name="M:Riskmaster.Settings.ColFYSettings.#ctor(System.String,System.Int32,System.Int32)">
+            <remarks>This constructor overload lacks FY arg, creates collection with all Fiscal Years for the LOB and OrgEid</remarks>
+        </member>
+        <member name="M:Riskmaster.Settings.ColFYSettings.Add(Riskmaster.Settings.FYSettings,System.String,System.Int32,System.Int32)">
+            <summary>Add a new FYSettings object to the collection of FY settings</summary>
+        </member>
+        <member name="M:Riskmaster.Settings.ColFYSettings.SaveSettings">
+            <summary>Save changes in FY settings collection to FISCAL_YEAR and FISCAL_YEAR_PERIOD</summary>
+            <returns>True if saving is successful.</returns>
+        </member>
+        <member name="M:Riskmaster.Settings.ColFYSettings.LoadSettings(System.String,System.Int32,System.Int32)">
+            <summary>
+            Load all fiscal years that meet desired combination of FY,LOB,Org.
+            </summary>
+            <returns>True if success</returns>
+        </member>
+        <member name="P:Riskmaster.Settings.ColFYSettings.FiscalYear">
+            <summary>Read-only.  The collection is restricted to this fiscal year passed in constructor.</summary>
+        </member>
+        <member name="P:Riskmaster.Settings.ColFYSettings.LineOfBusCode">
+            <summary>Read-only.  The collection is restricted to this LOB passed in constructor.</summary>
+        </member>
+        <member name="P:Riskmaster.Settings.ColFYSettings.OrgEid">
+            <summary>Read-only.  The collection is restricted to this OrgEid passed in constructor.</summary>
+        </member>
+        <member name="P:Riskmaster.Settings.ColFYSettings.Item(System.String,System.Int32,System.Int32)">
+            <summary>Returns a single FYSettings object, containing the settings for a FY of desired FY|LOB|OrgEid</summary>
+            <example>FYSettings oFY = (FYSettings)oCol[FY,LOB,OrgEid];</example>
+        </member>
+        <member name="T:Riskmaster.Settings.FYSettings">
+            <summary></summary>
+        </member>
+        <member name="F:Riskmaster.Settings.FYSettings.m_sFyStartDate">
+            <summary>Fiscal year start date value.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.FYSettings.m_sFyEndDate">
+            <summary>Fiscal year end date value.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.FYSettings.m_sQtr1StartDate">
+            <summary>1st quarter start date value.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.FYSettings.m_sQtr1EndDate">
+            <summary>1st quarter end date value.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.FYSettings.m_sQtr2StartDate">
+            <summary>2nd quarter start date value.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.FYSettings.m_sQtr2EndDate">
+            <summary>2nd quarter end date value.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.FYSettings.m_sQtr3StartDate">
+            <summary>3rd quarter start date value.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.FYSettings.m_sQtr3EndDate">
+            <summary>3rd quarter end date value.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.FYSettings.m_sQtr4StartDate">
+            <summary>4th quarter start date value.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.FYSettings.m_sQtr4EndDate">
+            <summary>4th quarter end date value.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.FYSettings.m_iNumPeriods">
+            <summary>Number of periods.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.FYSettings.m_iWeekEndDay">
+            <summary>Weekend day.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.FYSettings.m_sFiscalYear">
+            <summary>Fiscal year.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.FYSettings.m_iLineOfBusCode">
+            <summary>Line of business code.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.FYSettings.m_iOrgEid">
+            <summary>Organization ID.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.FYSettings.m_bDataChanged">
+            <summary>Stores whether the data has been modified or not.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.FYSettings.m_IsNew">
+            <summary>Stores whether a new row is to be entered or an existing one modified.</summary>
+        </member>
+        <member name="P:Riskmaster.Settings.FYSettings.Periods">
+            <summary>
+            Collection of Periods for a Fiscal Year
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.FYSettings.FyStartDate">
+             <summary>
+            Property to access m_sFyStartDate.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.FYSettings.FyEndDate">
+             <summary>
+            Property to access m_sFyEndDate.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.FYSettings.Qtr1StartDate">
+             <summary>
+            Property to access m_sQtr1StartDate.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.FYSettings.Qtr1EndDate">
+             <summary>
+            Property to access m_sQtr1EndDate.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.FYSettings.Qtr2StartDate">
+             <summary>
+            Property to access m_sQtr2StartDate.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.FYSettings.Qtr2EndDate">
+             <summary>
+            Property to access m_sQtr2EndDate.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.FYSettings.Qtr3StartDate">
+             <summary>
+            Property to access m_sQtr3StartDate.
+             </summary>		
+        </member>
+        <member name="P:Riskmaster.Settings.FYSettings.Qtr3EndDate">
+             <summary>
+            Property to access m_sQtr3EndDate.
+             </summary>		
+        </member>
+        <member name="P:Riskmaster.Settings.FYSettings.Qtr4StartDate">
+             <summary>
+            Property to access m_sQtr4StartDate.
+             </summary>		
+        </member>
+        <member name="P:Riskmaster.Settings.FYSettings.Qtr4EndDate">
+             <summary>
+            Property to access m_sQtr4EndDate.
+             </summary>	
+        </member>
+        <member name="P:Riskmaster.Settings.FYSettings.NumPeriods">
+             <summary>
+            Property to access m_iNumPeriods.
+             </summary>	
+        </member>
+        <member name="P:Riskmaster.Settings.FYSettings.WeekEndDay">
+             <summary>
+            Property to access m_iWeekEndDay.
+             </summary>	
+        </member>
+        <member name="P:Riskmaster.Settings.FYSettings.FiscalYear">
+             <summary>
+            Property to access m_sFiscalYear.
+             </summary>	
+        </member>
+        <member name="P:Riskmaster.Settings.FYSettings.LineOfBusCode">
+             <summary>
+            Property to access m_iLineOfBusCode.
+             </summary>	
+        </member>
+        <member name="P:Riskmaster.Settings.FYSettings.OrgEid">
+             <summary>
+            Property to access m_iOrgEid.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.FYSettings.IsNew">
+             <summary>
+            Property to access m_IsNew.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.FYSettings.DataChanged">
+             <summary>
+            Property to access m_bDataChanged.
+             </summary>
+        </member>
+        <member name="M:Riskmaster.Settings.FYSettings.CColPeriods.AddNew(Riskmaster.Settings.FYSettings.CPeriod)">
+            <summary>
+            This method sets the .IsNew property "true".
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Settings.FYSettings.CColPeriods.AddExisting(Riskmaster.Settings.FYSettings.CPeriod)">
+            <summary>Public method marks as new.  This is for filling in LoadSettings()</summary>
+        </member>
+        <member name="T:Riskmaster.Settings.FYSettings.CPeriod">
+            <summary>Each period setting.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.FYSettings.CPeriod.m_sFiscalYear">
+            <summary>Fiscal year value.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.FYSettings.CPeriod.m_iLineOfBusCode">
+            <summary>Line of Business Code.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.FYSettings.CPeriod.m_iOrgEid">
+            <summary>Organization ID.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.FYSettings.CPeriod.m_sPeriodEndDate">
+            <summary>Period end date.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.FYSettings.CPeriod.m_iPeriodNumber">
+            <summary>Period number.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.FYSettings.CPeriod.m_sPeriodStartDate">
+            <summary>Period start date.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.FYSettings.CPeriod.m_bDataChanged">
+            <summary>Stores whether the data has been modified or not.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.FYSettings.CPeriod.m_IsNew">
+            <summary>Stores whether a new row is to be entered or an existing one modified.</summary>
+        </member>
+        <member name="P:Riskmaster.Settings.FYSettings.CPeriod.FiscalYear">
+             <summary>
+            Property to access m_sFiscalYear.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.FYSettings.CPeriod.LineOfBusCode">
+             <summary>
+            Property to access m_iLineOfBusCode.
+             </summary>			
+        </member>
+        <member name="P:Riskmaster.Settings.FYSettings.CPeriod.OrgEid">
+             <summary>
+            Property to access m_iOrgEid.
+             </summary>	
+        </member>
+        <member name="P:Riskmaster.Settings.FYSettings.CPeriod.PeriodEndDate">
+             <summary>
+            Property to access m_sPeriodEndDate.
+             </summary>	
+        </member>
+        <member name="P:Riskmaster.Settings.FYSettings.CPeriod.PeriodNumber">
+             <summary>
+            Property to access m_iPeriodNumber.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.FYSettings.CPeriod.PeriodStartDate">
+             <summary>
+            Property to access m_sPeriodStartDate.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.FYSettings.CPeriod.DataChanged">
+             <summary>
+            Property to access m_bDataChanged.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.FYSettings.CPeriod.IsNew">
+             <summary>
+            Property to access m_IsNew.
+             </summary>
+        </member>
+        <member name="T:Riskmaster.Settings.BrsSettings">
+            <summary>
+            BRS_SYS_PARAMS settings.
+            </summary>
+            <remarks>
+            Riskmaster.Settings.SysParms.BrsSettings.BrsSettings class is used to retrieve BRS system 
+            setting parameters
+            </remarks>
+        </member>
+        <member name="F:Riskmaster.Settings.BrsSettings.m_sConnectString">
+            <summary>The connection string used by the database layer for connection with the database.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.BrsSettings.m_iRowId">
+            <summary>ID of the row of data in BRS_SYS_PARAMS table.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.BrsSettings.m_sKeepOnNext">
+            <summary>KEEP_ON_NEXT value in BRS_SYS_PARAMS table.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.BrsSettings.m_iGenEOBCodeFlag">
+            <summary>GEN_EOB_CODE_FLAG value in BRS_SYS_PARAMS table.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.BrsSettings.m_iDiscOnSchdFlag">
+            <summary>DISC_ON_SCHD_FLAG value in BRS_SYS_PARAMS table.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.BrsSettings.m_iDiscOnBillFlag">
+            <summary>DISC_ON_BILL_FLAG value in BRS_SYS_PARAMS table.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.BrsSettings.m_iDisc2ndSchdFlag">
+            <summary>DISC_2ND_SCHD_FLAG value in BRS_SYS_PARAMS table.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.BrsSettings.m_iEOBMiPdf">
+            <summary>EOB_MI_PDF_FLAG value in BRS_SYS_PARAMS table.</summary>
+        </member>
+        <member name="F:Riskmaster.Settings.BrsSettings.m_bDataChanged">
+            <summary>Stores whether the data has been modified or not.</summary>
+        </member>
+        <member name="M:Riskmaster.Settings.BrsSettings.#ctor(System.String)">
+             <summary>
+            Riskmaster.Settings.SysParms.BrsSettings.UserLogin overload sets the connection string and loads the data from database.
+             </summary>
+             <param name="sConnectString">Connection string</param>
+        </member>
+        <member name="M:Riskmaster.Settings.BrsSettings.LoadSettings">
+             <summary>
+            Riskmaster.Settings.SysParms.BrsSettings.LoadSettings retrieves the BRS system parameters.
+             </summary>		
+             <returns>True if loading is successful.</returns>
+        </member>
+        <member name="M:Riskmaster.Settings.BrsSettings.SaveSettings">
+             <summary>
+            Riskmaster.Settings.SysParms.BrsSettings.SaveSettings saves the BRS system parameters.
+             </summary>	
+             <returns>True if saving is successful.</returns>
+        </member>
+        <member name="P:Riskmaster.Settings.BrsSettings.RowId">
+             <summary>
+            Property to access m_iRowId.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.BrsSettings.KeepOnNext">
+             <summary>
+            Property to access m_sKeepOnNext.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.BrsSettings.GenEOBCodeFlag">
+             <summary>
+            Property to access m_iGenEOBCodeFlag.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.BrsSettings.DiscOnSchdFlag">
+             <summary>
+            Property to access m_iDiscOnSchdFlag.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.BrsSettings.DiscOnBillFlag">
+             <summary>
+            Property to access m_iDiscOnBillFlag.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.BrsSettings.Disc2ndSchdFlag">
+             <summary>
+            Property to access m_iDisc2ndSchdFlag.
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Settings.BrsSettings.EOBMiPdf">
+             <summary>
+            Property to access m_iEOBMiPdf.
+             </summary>
+        </member>
+        <member name="T:Riskmaster.Settings.CCacheFunctions">
+            <summary>
+            Riskmaster.Settings.SysParms.CCacheFunctions class is used to retrieve system 
+            setting parameters for gloassary , codes and tables
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Settings.CCacheFunctions.m_sConnectString">
+            <summary>The connection string used by the database layer for connection with the database.</summary>
+        </member>
+        <member name="M:Riskmaster.Settings.CCacheFunctions.#ctor(System.String)">
+             <summary>
+            Riskmaster.Settings.SysParms.CCacheFunctions overload sets the connection string.
+             </summary>
+             <param name="sConnectString">Connection string</param>
+        </member>
+        <member name="M:Riskmaster.Settings.CCacheFunctions.GetRelatedCodeID(System.Int32)">
+             <summary>
+            Riskmaster.Settings.SysParms.GetRelatedCodeID returns the RELATED_CODE_ID
+            for a particular CODE_ID in the CODES table.
+             </summary>
+             <param name="p_iCodeID">CODE_ID for which the RELATED_CODE_ID is required</param>
+             <returns>Related Code ID</returns>
+        </member>
+        <member name="M:Riskmaster.Settings.CCacheFunctions.GetOrgAbbreviation(System.Int32)">
+             <summary>
+            Riskmaster.Settings.SysParms.GetOrgAbbreviation returns the ABBREVIATION
+            for a particular ENTITY_ID in the ENTITY table.
+             </summary>
+             <param name="p_iEntityID">ENTITY_ID for which the ABBREVIATION is required</param>
+             <returns>Abbreviation</returns>
+        </member>
+        <member name="M:Riskmaster.Settings.CCacheFunctions.GetShortCode(System.Int32)">
+             <summary>
+            Riskmaster.Settings.SysParms.GetShortCode returns the SHORT_CODE
+            for a particular CODE_ID in the CODES table.
+             </summary>
+             <param name="iCode">CODE_ID for which the SHORT_CODE is required</param>
+             <returns>Short code</returns>
+        </member>
+        <member name="M:Riskmaster.Settings.CCacheFunctions.GetCodeIDWithShort(System.String,System.String)">
+             <summary>
+            Riskmaster.Settings.SysParms.GetCodeIDWithShort returns the CODE_ID
+            for a particular SHORT_CODE and SYSTEM_TABLE_NAME in the CODES,GLOSSARY table.
+             </summary>
+             <param name="p_ShortCode">SHORT_CODE for which the CODE_ID is required</param>
+             <param name="p_sSysTableName">SYSTEM_TABLE_NAME for which the CODE_ID is required</param>
+             <returns>Code ID</returns>
+        </member>
+        <member name="M:Riskmaster.Settings.CCacheFunctions.GetStateCode(System.Int32)">
+             <summary>
+            Riskmaster.Settings.SysParms.GetStateCode returns the STATE_ID
+            for a particular STATE_ROW_ID in the STATES table.
+             </summary>
+             <param name="p_iState">STATE_ROW_ID for which the STATE_ID is required</param>
+             <returns>State ID</returns>
+        </member>
+        <member name="M:Riskmaster.Settings.CCacheFunctions.GetOrgInfo(System.Int32,System.String@,System.String@)">
+             <summary>
+            Riskmaster.Settings.SysParms.GetOrgInfo returns the ABBREVIATION, LAST_NAME
+            for a particular ENTITY_ID in the ENTITY table.
+             </summary>
+             <param name="p_iEntityID">ENTITY_ID for which the ABBREVIATION, LAST_NAME is required</param>
+             <param name="p_sAbbreviation">ABBREVIATION, reference parameter to store the value</param>
+             <param name="p_sName">LAST_NAME, reference parameter to store the value</param>
+        </member>
+        <member name="M:Riskmaster.Settings.CCacheFunctions.GetCodeInfo(System.Int32,System.String@,System.String@)">
+             <summary>
+            Riskmaster.Settings.SysParms.GetCodeInfo returns the SHORT_CODE, CODE_DESC
+            for a particular CODE_ID in the CODES,CODES_TEXT table.
+             </summary>
+             <param name="p_iCode">CODE_ID for which the SHORT_CODE, CODE_DESC is required</param>
+             <param name="p_ShortCode">SHORT_CODE, reference parameter to store the value</param>
+             <param name="p_sDesc">CODE_DESC, reference parameter to store the value</param>
+        </member>
+        <member name="M:Riskmaster.Settings.CCacheFunctions.GetStateInfo(System.Int32,System.String@,System.String@)">
+             <summary>
+            Riskmaster.Settings.SysParms.GetStateInfo returns the STATE_ID,STATE_NAME
+            for a particular STATE_ROW_ID in the STATES table.
+             </summary>
+             <param name="p_iState">STATE_ROW_ID for which the SHORT_CODE, CODE_DESC is required</param>
+             <param name="p_sAbbreviation">STATE_ID, reference parameter to store the value</param>
+             <param name="p_sName">STATE_NAME, reference parameter to store the value</param>
+        </member>
+        <member name="M:Riskmaster.Settings.CCacheFunctions.GetTableName(System.Int32)">
+             <summary>
+            Riskmaster.Settings.SysParms.GetTableName returns the SYSTEM_TABLE_NAME
+            for a particular TABLE_ID in the GLOSSARY table.
+             </summary>
+             <param name="p_iTableID">TABLE_ID for which the SYSTEM_TABLE_NAME is required</param>
+             <returns>System table name</returns>
+        </member>
+        <member name="M:Riskmaster.Settings.CCacheFunctions.GetOrgParent(System.Int32,System.Int32,System.Int32,System.Int32@)">
+             <summary>
+            Riskmaster.Settings.SysParms.GetOrgParent returns the ENTITY_ID,LAST_NAME
+            in the ENTITY table.
+             </summary>
+             <param name="p_iDeptEID"></param>
+             <param name="p_iTableIDLevel"></param>
+             <param name="p_iLevel"></param>
+             <param name="p_iReturnEID">LAST_NAME, reference parameter to store the value</param>
+             <returns>Last name</returns>
+        </member>
+        <member name="M:Riskmaster.Settings.CCacheFunctions.GetTables(System.String)">
+             <summary>
+            Riskmaster.Settings.SysParms.GetTables returns an array list containing 
+            TABLE_ID, SYSTEM_TABLE_NAME and TABLE_NAME for particular GLOSSARY_TYPE_CODE 
+            in the TABLES table.
+             </summary>
+             <param name="p_sGlossaryTypes">A comma separated list of GLOSSARY_TYPE_CODE values</param>
+             <returns>Array list of an array list containing table information</returns>
+        </member>
+    </members>
+</doc>

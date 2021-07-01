@@ -1,0 +1,346 @@
+#__AW_Repository_Version '12.2.2.0000';
+#__AW_Product_Version '12.2.2.2';
+#__AW_ATL_Locale 'eng_us.utf-8';
+
+ AlGUIComment (ActaName_1 = 'RTable_Type',ActaValue_1 = 'TABLE' , 
+ActaName_2 = 'RDescription',ActaValue_2 = '' , 
+ActaName_3 = 'REstimated_Row_Count',ActaValue_3 = '50000' , 
+ActaName_4 = 'RSavedAfterCheckOut',ActaValue_4 = 'YES' , 
+ActaName_5 = 'RLoader_Is_Template_Table',ActaValue_5 = 'no' , 
+ActaName_6 = 'RDate_created',ActaValue_6 = 'Thu Jun 21 13:41:25 2012' , 
+ActaName_7 = 'RDate_last_loaded',ActaValue_7 = 'NotYetLoaded' )
+CREATE TABLE DS_RMX_STAGING.dbo.EMP_SUPP(DA_ROW_ID INT  NOT NULL , 
+JOBID INT  NOT NULL , 
+INPUT_ROW_ID INT  NULL , 
+INVALID_ROW INT  NULL , 
+UPDATE_ROW INT  NULL , 
+EMPLOYEE_EID INT  NULL , 
+MVR_ANNUAL_TEXT VARCHAR(15)  NULL , 
+VALID_LICEN_CODE INT  NULL , 
+DRVR_FREQ_TEXT VARCHAR(8)  NULL , 
+GRDE_PNT_TEXT VARCHAR(25)  NULL , 
+FCRA_AUTH_TEXT VARCHAR(6)  NULL , 
+DRVR_STAT_TEXT VARCHAR(15)  NULL , 
+POSITION_TITLE VARCHAR(35)  NULL , 
+EMP_EID_SOURCE INT  NULL ) 
+PRIMARY KEY (DA_ROW_ID, JOBID) 
+CREATE_INDEX PK_EMP_SUPP ON (DA_ROW_ID, JOBID) PRIMARY 
+SET("db_alias_name" = 'DBO')
+;
+
+ AlGUIComment (ActaName_1 = 'RTable_Type',ActaValue_1 = 'TABLE' , 
+ActaName_2 = 'RDescription',ActaValue_2 = '' , 
+ActaName_3 = 'REstimated_Row_Count',ActaValue_3 = '50000' , 
+ActaName_4 = 'RSavedAfterCheckOut',ActaValue_4 = 'YES' , 
+ActaName_5 = 'RLoader_Is_Template_Table',ActaValue_5 = 'no' , 
+ActaName_6 = 'RDate_created',ActaValue_6 = 'Wed Jun 20 11:24:54 2012' , 
+ActaName_7 = 'RDate_last_loaded',ActaValue_7 = 'NotYetLoaded' , 
+ActaName_8 = 'RTotal_Number_Of_Rows_Processed',ActaValue_8 = '2' , 
+ActaName_9 = 'RNumber_Of_Rows_Rejected',ActaValue_9 = '0' , 
+ActaName_10 = 'RNumber_Of_Inserts',ActaValue_10 = '2' , 
+ActaName_11 = 'RNumber_Of_Updates',ActaValue_11 = '0' , 
+ActaName_12 = 'RNumber_Of_Deletes',ActaValue_12 = '0' , 
+ActaName_13 = 'RElapsed_Time_For_Load',ActaValue_13 = '9 Seconds' )
+CREATE TABLE DS_RMDB.DBO.EMP_SUPP(COPHYSEXAM_DATE VARCHAR(8)  NULL , 
+EMPLOYEE_EID INT  KEY  NOT NULL , 
+MVR_ANNUAL_TEXT VARCHAR(15)  NULL , 
+VALID_LICEN_CODE INT  NULL , 
+DRVR_FREQ_TEXT VARCHAR(8)  NULL , 
+GRDE_PNT_TEXT VARCHAR(25)  NULL , 
+FCRA_AUTH_TEXT VARCHAR(6)  NULL , 
+DRVR_STAT_TEXT VARCHAR(15)  NULL , 
+POSITION_TITLE VARCHAR(35)  NULL ) 
+PRIMARY KEY (EMPLOYEE_EID) 
+CREATE_INDEX PK_EMP_SUPP ON (EMPLOYEE_EID) PRIMARY 
+SET("db_alias_name" = 'DBO')
+;
+ALGUICOMMENT( x = '-1', y = '-1' , "ActaName_1" = 'RSavedAfterCheckOut' , "ActaValue_1" = 'YES' , "ActaName_2" = 'RDate_created' , "ActaValue_2" = 'Wed Jun 20 11:24:55 2012' , "ActaName_3" = 'Rcolumn_mapping_calculated' , "ActaValue_3" = 'no' , "ActaName_4" = 'RDate_modified' , "ActaValue_4" = 'Thu Jun 21 14:19:31 2012' )
+CREATE DATAFLOW DF_DIS_IMPORT_EMP_SUPP::'a494323f-0201-4cf6-8381-f3ebef79705b'
+
+BEGIN 
+ALGUICOMMENT( x = '484', y = '-743',UI_DATA_XML='<UIDATA><MAINICON><LOCATION><X>0</X><Y>0</Y></LOCATION><SIZE><CX>384</CX><CY>-182</CY></SIZE></MAINICON><DESCRIPTION><LOCATION><X>0</X><Y>-174</Y></LOCATION><SIZE><CX>200</CX><CY>200</CY></SIZE><VISIBLE>0</VISIBLE></DESCRIPTION></UIDATA>', UpperContainer_HeightProp = '51', InputSchema_WidthProp = '40', Input_Width_Description = '130', Output_Width_Decsription = '130', Input_Width_Type = '85', Output_Width_Type = '80', Output_Width_Mapping = '85', Input_Column_Width_3 = '100', Output_Column_Width_4 = '100', Input_Column_Width_4 = '100', Output_Column_Width_5 = '100', Input_1st_Column_Name = 'Type', Input_2nd_Column_Name = 'Description', Input_Column_Name_3 = 'Content_Type', Input_Column_Name_4 = 'Business_Name', Output_1st_Column_Name = 'Type', Output_2nd_Column_Name = 'Mapping', Output_3rd_Column_Name = 'Description', Output_Column_Name_4 = 'Content_Type', Output_Column_Name_5 = 'Business_Name' )
+GUID::'b26c6b8a-34eb-4b02-a0b2-0e547177316e' READ TABLE DS_RMX_STAGING.DBO.EMP_SUPP  OUTPUT ( EMP_SUPP ) SET (
+"array_fetch_size" = '1000',
+"cache" = 'yes',
+"connection_port" = 'no',
+"enable_partitioning" = 'no',
+"name" = 'DS_RMX_STAGING',
+"package_size" = '0',
+"reader_is_DB2CDC_table" = 'no',
+"reader_overflow_file" = 'overflow_file',
+"reader_template_table" = 'no',
+"reader_use_overflow_file" = 'no',
+"reader_use_trex_transaction" = 'no',
+"table_weight" = '0');
+ALGUICOMMENT( x = '3138', y = '-494',UI_DATA_XML='<UIDATA><MAINICON><LOCATION><X>0</X><Y>0</Y></LOCATION><SIZE><CX>419</CX><CY>-182</CY></SIZE></MAINICON><DESCRIPTION><LOCATION><X>0</X><Y>-174</Y></LOCATION><SIZE><CX>200</CX><CY>200</CY></SIZE><VISIBLE>0</VISIBLE></DESCRIPTION></UIDATA>', UpperContainer_HeightProp = '51', InputSchema_WidthProp = '40', Input_Width_Description = '130', Output_Width_Decsription = '130', Input_Width_Type = '85', Output_Width_Type = '80', Output_Width_Mapping = '85', Input_Column_Width_3 = '100', Output_Column_Width_4 = '100', Input_Column_Width_4 = '100', Output_Column_Width_5 = '100', Input_1st_Column_Name = 'Type', Input_2nd_Column_Name = 'Description', Input_Column_Name_3 = 'Content_Type', Input_Column_Name_4 = 'Business_Name', Output_1st_Column_Name = 'Type', Output_2nd_Column_Name = 'Mapping', Output_3rd_Column_Name = 'Description', Output_Column_Name_4 = 'Content_Type', Output_Column_Name_5 = 'Business_Name', UI_PASSTHRU_VSPLIT_PCT = '50' )
+GUID::'42ad0e87-731c-41db-89d9-f56d10f44457' LOAD TABLE DS_RMDB.DBO.EMP_SUPP  INPUT ( MO_INSERT ) SET (
+"LDRLiveLoad" = 'no',
+"Table_Type" = 'TABLE',
+"connection_port" = 'no',
+"ldr_configuration_enabled" = 'yes',
+"ldr_configurations" = '<?xml version="1.0" encoding="UTF-8"?>
+<LDRConfigurations>
+<LDRConfiguration database_type="Microsoft_SQL_Server" database_version="Microsoft SQL Server 2008">
+<auto_correct_using_merge>yes</auto_correct_using_merge>
+<bulk_ldr_all_rows></bulk_ldr_all_rows>
+<bulk_ldr_max_errors></bulk_ldr_max_errors>
+<bulk_ldr_rows_per_commit>1000</bulk_ldr_rows_per_commit>
+<enable_partitioning>no</enable_partitioning>
+<ignore_column_case>yes</ignore_column_case>
+<ignore_columns_null>no</ignore_columns_null>
+<ignore_columns_value></ignore_columns_value>
+<loader_auto_correct>no</loader_auto_correct>
+<loader_bulk_load></loader_bulk_load>
+<loader_compare_column>compare_by_name</loader_compare_column>
+<loader_delete_map></loader_delete_map>
+<loader_drop_and_create_table>yes</loader_drop_and_create_table>
+<loader_insert_map></loader_insert_map>
+<loader_load_choice>append</loader_load_choice>
+<loader_num_parallel_loaders>1</loader_num_parallel_loaders>
+<loader_overflow_file></loader_overflow_file>
+<loader_post_load1></loader_post_load1>
+<loader_pre_load1></loader_pre_load1>
+<loader_quote_names>0</loader_quote_names>
+<loader_transactional>no</loader_transactional>
+<loader_transactional_order>0</loader_transactional_order>
+<loader_update_key_columns>no</loader_update_key_columns>
+<loader_update_map></loader_update_map>
+<loader_use_user_defined_keys>no</loader_use_user_defined_keys>
+<loader_xact_size>1000</loader_xact_size>
+<mssql_bulk_ldr_mode>append</mssql_bulk_ldr_mode>
+<mssql_bulk_ldr_packet_size>0</mssql_bulk_ldr_packet_size>
+<overflow_file_format>write_data</overflow_file_format>
+<overriding_substitution_parameter_for_tablename></overriding_substitution_parameter_for_tablename>
+<use_overflow_file>no</use_overflow_file>
+<use_unicode_varchar>no</use_unicode_varchar>
+<sql_text></sql_text>
+</LDRConfiguration>
+</LDRConfigurations>',
+"loader_template_table" = 'no',
+"name" = 'DS_RMDB',
+"use_unicode_varchar" = 'no');
+ALGUICOMMENT( x = '2043', y = '-496' , ui_acta_from_schema_0 = 'C_UPDATE_OR_INSERT_INSERT_1'  , ui_display_name = 'Q_INSERT_EMP_SUPP' ,UI_DATA_XML='<UIDATA><MAINICON><LOCATION><X>0</X><Y>0</Y></LOCATION><SIZE><CX>388</CX><CY>-163</CY></SIZE></MAINICON><DESCRIPTION><LOCATION><X>0</X><Y>-174</Y></LOCATION><SIZE><CX>200</CX><CY>200</CY></SIZE><VISIBLE>0</VISIBLE></DESCRIPTION></UIDATA>', UpperContainer_HeightProp = '59', InputSchema_WidthProp = '44', Input_Width_Description = '130', Output_Width_Decsription = '130', Input_Width_Type = '85', Output_Width_Type = '80', Output_Width_Mapping = '85', Input_Column_Width_3 = '100', Output_Column_Width_4 = '100', Input_Column_Width_4 = '100', Output_Column_Width_5 = '100', Input_1st_Column_Name = 'Type', Input_2nd_Column_Name = 'Description', Input_Column_Name_3 = 'Content_Type', Input_Column_Name_4 = 'Business_Name', Output_1st_Column_Name = 'Type', Output_2nd_Column_Name = 'Mapping', Output_3rd_Column_Name = 'Description', Output_Column_Name_4 = 'Content_Type', Output_Column_Name_5 = 'Business_Name', UI_PASSTHRU_VSPLIT_PCT = '50' )
+GUID::'099c99aa-b05a-4a85-b4de-ce42d90e335a' CREATE VIEW Q_INSERT_EMP_SUPP ( EMPLOYEE_EID int SET("ui_mapping_text"='C_UPDATE_OR_INSERT_INSERT_1.EMPLOYEE_EID') ,
+ MVR_ANNUAL_TEXT varchar(15) SET("ui_mapping_text"='C_UPDATE_OR_INSERT_INSERT_1.MVR_ANNUAL_TEXT') ,
+ VALID_LICEN_CODE int SET("ui_mapping_text"='C_UPDATE_OR_INSERT_INSERT_1.VALID_LICEN_CODE') ,
+ DRVR_FREQ_TEXT varchar(8) SET("ui_mapping_text"='C_UPDATE_OR_INSERT_INSERT_1.DRVR_FREQ_TEXT') ,
+ GRDE_PNT_TEXT varchar(25) SET("ui_mapping_text"='C_UPDATE_OR_INSERT_INSERT_1.GRDE_PNT_TEXT') ,
+ FCRA_AUTH_TEXT varchar(6) SET("ui_mapping_text"='C_UPDATE_OR_INSERT_INSERT_1.FCRA_AUTH_TEXT') ,
+ DRVR_STAT_TEXT varchar(15) SET("ui_mapping_text"='C_UPDATE_OR_INSERT_INSERT_1.DRVR_STAT_TEXT') ,
+ POSITION_TITLE varchar(35) SET("ui_mapping_text"='C_UPDATE_OR_INSERT_INSERT_1.POSITION_TITLE')  ) 
+AS SELECT  C_UPDATE_OR_INSERT_INSERT_1.EMPLOYEE_EID
+ 
+ ,
+ C_UPDATE_OR_INSERT_INSERT_1.MVR_ANNUAL_TEXT
+ 
+ ,
+ C_UPDATE_OR_INSERT_INSERT_1.VALID_LICEN_CODE
+ 
+ ,
+ C_UPDATE_OR_INSERT_INSERT_1.DRVR_FREQ_TEXT
+ 
+ ,
+ C_UPDATE_OR_INSERT_INSERT_1.GRDE_PNT_TEXT
+ 
+ ,
+ C_UPDATE_OR_INSERT_INSERT_1.FCRA_AUTH_TEXT
+ 
+ ,
+ C_UPDATE_OR_INSERT_INSERT_1.DRVR_STAT_TEXT
+ 
+ ,
+ C_UPDATE_OR_INSERT_INSERT_1.POSITION_TITLE
+ 
+ 
+	FROM C_UPDATE_OR_INSERT_INSERT_1 SET (
+"distinct_run_as_separate_process" = 'no',
+"group_by_run_as_separate_process" = 'no',
+"join_run_as_separate_process" = 'no',
+"order_by_run_as_separate_process" = 'no',
+"run_as_separate_process" = 'no');
+ALGUICOMMENT( x = '3154', y = '-1065',UI_DATA_XML='<UIDATA><MAINICON><LOCATION><X>0</X><Y>0</Y></LOCATION><SIZE><CX>419</CX><CY>-182</CY></SIZE></MAINICON><DESCRIPTION><LOCATION><X>0</X><Y>-174</Y></LOCATION><SIZE><CX>200</CX><CY>200</CY></SIZE><VISIBLE>0</VISIBLE></DESCRIPTION></UIDATA>', UpperContainer_HeightProp = '51', InputSchema_WidthProp = '40', Input_Width_Description = '130', Output_Width_Decsription = '130', Input_Width_Type = '85', Output_Width_Type = '80', Output_Width_Mapping = '85', Input_Column_Width_3 = '100', Output_Column_Width_4 = '100', Input_Column_Width_4 = '100', Output_Column_Width_5 = '100', Input_1st_Column_Name = 'Type', Input_2nd_Column_Name = 'Description', Input_Column_Name_3 = 'Content_Type', Input_Column_Name_4 = 'Business_Name', Output_1st_Column_Name = 'Type', Output_2nd_Column_Name = 'Mapping', Output_3rd_Column_Name = 'Description', Output_Column_Name_4 = 'Content_Type', Output_Column_Name_5 = 'Business_Name', UI_PASSTHRU_VSPLIT_PCT = '50' )
+GUID::'5277cf55-5a46-4765-b352-fd53d41cef50' LOAD TABLE DS_RMDB.DBO.EMP_SUPP  INPUT ( MO_UPDATE ) SET (
+"LDRLiveLoad" = 'no',
+"Table_Type" = 'TABLE',
+"connection_port" = 'no',
+"ldr_configuration_enabled" = 'yes',
+"ldr_configurations" = '<?xml version="1.0" encoding="UTF-8"?>
+<LDRConfigurations>
+<LDRConfiguration database_type="Microsoft_SQL_Server" database_version="Microsoft SQL Server 2008">
+<auto_correct_using_merge>yes</auto_correct_using_merge>
+<bulk_ldr_all_rows></bulk_ldr_all_rows>
+<bulk_ldr_max_errors></bulk_ldr_max_errors>
+<bulk_ldr_rows_per_commit>1000</bulk_ldr_rows_per_commit>
+<enable_partitioning>no</enable_partitioning>
+<ignore_column_case>yes</ignore_column_case>
+<ignore_columns_null>no</ignore_columns_null>
+<ignore_columns_value></ignore_columns_value>
+<loader_auto_correct>no</loader_auto_correct>
+<loader_bulk_load></loader_bulk_load>
+<loader_compare_column>compare_by_name</loader_compare_column>
+<loader_delete_map></loader_delete_map>
+<loader_drop_and_create_table>yes</loader_drop_and_create_table>
+<loader_insert_map></loader_insert_map>
+<loader_load_choice>append</loader_load_choice>
+<loader_num_parallel_loaders>1</loader_num_parallel_loaders>
+<loader_overflow_file></loader_overflow_file>
+<loader_post_load1></loader_post_load1>
+<loader_pre_load1></loader_pre_load1>
+<loader_quote_names>0</loader_quote_names>
+<loader_transactional>no</loader_transactional>
+<loader_transactional_order>0</loader_transactional_order>
+<loader_update_key_columns>no</loader_update_key_columns>
+<loader_update_map></loader_update_map>
+<loader_use_user_defined_keys>no</loader_use_user_defined_keys>
+<loader_xact_size>1000</loader_xact_size>
+<mssql_bulk_ldr_mode>append</mssql_bulk_ldr_mode>
+<mssql_bulk_ldr_packet_size>0</mssql_bulk_ldr_packet_size>
+<overflow_file_format>write_data</overflow_file_format>
+<overriding_substitution_parameter_for_tablename></overriding_substitution_parameter_for_tablename>
+<use_overflow_file>no</use_overflow_file>
+<use_unicode_varchar>no</use_unicode_varchar>
+<sql_text></sql_text>
+</LDRConfiguration>
+</LDRConfigurations>',
+"loader_template_table" = 'no',
+"name" = 'DS_RMDB',
+"use_unicode_varchar" = 'no');
+ALGUICOMMENT( x = '1031', y = '-743' , ui_acta_from_schema_0 = 'EMP_SUPP'  , ui_display_name = 'Q_IMPORT_EMP_SUPP'  , ui_where_text = 'EMP_SUPP.INVALID_ROW = 0 and 
+EMP_SUPP.JOBID= $gJobId' ,UI_DATA_XML='<UIDATA><MAINICON><LOCATION><X>0</X><Y>0</Y></LOCATION><SIZE><CX>394</CX><CY>-163</CY></SIZE></MAINICON><DESCRIPTION><LOCATION><X>0</X><Y>-174</Y></LOCATION><SIZE><CX>200</CX><CY>200</CY></SIZE><VISIBLE>0</VISIBLE></DESCRIPTION></UIDATA>', UpperContainer_HeightProp = '51', InputSchema_WidthProp = '40', Input_Width_Description = '130', Output_Width_Decsription = '130', Input_Width_Type = '85', Output_Width_Type = '80', Output_Width_Mapping = '85', Input_Column_Width_3 = '100', Output_Column_Width_4 = '100', Input_Column_Width_4 = '100', Output_Column_Width_5 = '100', Input_1st_Column_Name = 'Type', Input_2nd_Column_Name = 'Description', Input_Column_Name_3 = 'Content_Type', Input_Column_Name_4 = 'Business_Name', Output_1st_Column_Name = 'Type', Output_2nd_Column_Name = 'Mapping', Output_3rd_Column_Name = 'Description', Output_Column_Name_4 = 'Content_Type', Output_Column_Name_5 = 'Business_Name', UI_PASSTHRU_VSPLIT_PCT = '50' )
+GUID::'b3c452e2-c1a2-4900-af90-3d4f4fe22879' CREATE VIEW Q_IMPORT_EMP_SUPP ( DA_ROW_ID int KEY  SET("ui_mapping_text"='EMP_SUPP.DA_ROW_ID') ,
+ JOBID int KEY  SET("ui_mapping_text"='EMP_SUPP.JOBID') ,
+ INPUT_ROW_ID int SET("ui_mapping_text"='EMP_SUPP.INPUT_ROW_ID') ,
+ INVALID_ROW int SET("ui_mapping_text"='EMP_SUPP.INVALID_ROW') ,
+ UPDATE_ROW int SET("ui_mapping_text"='EMP_SUPP.UPDATE_ROW') ,
+ EMPLOYEE_EID int SET("ui_mapping_text"='EMP_SUPP.EMPLOYEE_EID') ,
+ MVR_ANNUAL_TEXT varchar(15) SET("ui_mapping_text"='EMP_SUPP.MVR_ANNUAL_TEXT') ,
+ VALID_LICEN_CODE int SET("ui_mapping_text"='EMP_SUPP.VALID_LICEN_CODE') ,
+ DRVR_FREQ_TEXT varchar(8) SET("ui_mapping_text"='EMP_SUPP.DRVR_FREQ_TEXT') ,
+ GRDE_PNT_TEXT varchar(25) SET("ui_mapping_text"='EMP_SUPP.GRDE_PNT_TEXT') ,
+ FCRA_AUTH_TEXT varchar(6) SET("ui_mapping_text"='EMP_SUPP.FCRA_AUTH_TEXT') ,
+ DRVR_STAT_TEXT varchar(15) SET("ui_mapping_text"='EMP_SUPP.DRVR_STAT_TEXT') ,
+ POSITION_TITLE varchar(35) SET("ui_mapping_text"='EMP_SUPP.POSITION_TITLE')  ) 
+AS SELECT  EMP_SUPP.DA_ROW_ID
+ 
+ ,
+ EMP_SUPP.JOBID
+ 
+ ,
+ EMP_SUPP.INPUT_ROW_ID
+ 
+ ,
+ EMP_SUPP.INVALID_ROW
+ 
+ ,
+ EMP_SUPP.UPDATE_ROW
+ 
+ ,
+ EMP_SUPP.EMPLOYEE_EID
+ 
+ ,
+ EMP_SUPP.MVR_ANNUAL_TEXT
+ 
+ ,
+ EMP_SUPP.VALID_LICEN_CODE
+ 
+ ,
+ EMP_SUPP.DRVR_FREQ_TEXT
+ 
+ ,
+ EMP_SUPP.GRDE_PNT_TEXT
+ 
+ ,
+ EMP_SUPP.FCRA_AUTH_TEXT
+ 
+ ,
+ EMP_SUPP.DRVR_STAT_TEXT
+ 
+ ,
+ EMP_SUPP.POSITION_TITLE
+ 
+ 
+	FROM EMP_SUPP
+	WHERE EMP_SUPP.INVALID_ROW = 0 and 
+EMP_SUPP.JOBID= $gJobId
+ 
+ SET (
+"distinct_run_as_separate_process" = 'no',
+"group_by_run_as_separate_process" = 'no',
+"join_run_as_separate_process" = 'no',
+"order_by_run_as_separate_process" = 'no',
+"run_as_separate_process" = 'no');
+ALGUICOMMENT( x = '1497', y = '-745' , ui_acta_from_schema_0 = 'Q_IMPORT_EMP_SUPP'  , ui_display_name = 'C_UPDATE_OR_INSERT' ,UI_DATA_XML='<UIDATA><MAINICON><LOCATION><X>0</X><Y>0</Y></LOCATION><SIZE><CX>422</CX><CY>-163</CY></SIZE></MAINICON><DESCRIPTION><LOCATION><X>0</X><Y>-174</Y></LOCATION><SIZE><CX>200</CX><CY>200</CY></SIZE><VISIBLE>0</VISIBLE></DESCRIPTION></UIDATA>', UpperContainer_HeightProp = '51', InputSchema_WidthProp = '40', Input_Width_Description = '130', Output_Width_Decsription = '130', Input_Width_Type = '85', Output_Width_Type = '80', Output_Width_Mapping = '85', Input_Column_Width_3 = '100', Output_Column_Width_4 = '100', Input_Column_Width_4 = '100', Output_Column_Width_5 = '100', Input_1st_Column_Name = 'Type', Input_2nd_Column_Name = 'Description', Input_Column_Name_3 = 'Content_Type', Input_Column_Name_4 = 'Business_Name', Output_1st_Column_Name = 'Description', Output_2nd_Column_Name = 'Type', Output_3rd_Column_Name = 'Content_Type', Output_Column_Name_4 = 'Business_Name', Output_Column_Name_5 = '' ,  C_UPDATE_OR_INSERT_UPDATE = 'Q_IMPORT_EMP_SUPP.UPDATE_ROW = 1
+',  C_UPDATE_OR_INSERT_INSERT_1 = 'DEFAULT' )
+GUID::'c0926374-8912-4b8e-b781-af4bbc5b712a' CREATE VIEW C_UPDATE_OR_INSERT () 
+AS SELECT 
+	FROM Q_IMPORT_EMP_SUPP
+ 
+CASE 	 (Q_IMPORT_EMP_SUPP.UPDATE_ROW = 1) output C_UPDATE_OR_INSERT_UPDATE,
+	 DEFAULT output C_UPDATE_OR_INSERT_INSERT_1 SET (
+"Mutually_Exclusive" = 'yes',
+"Preserve_Expression_Order" = 'no');
+ALGUICOMMENT( x = '2091', y = '-1069' , ui_acta_from_schema_0 = 'C_UPDATE_OR_INSERT_UPDATE'  , ui_display_name = 'Q_UPDATE_EMP_SUPP' ,UI_DATA_XML='<UIDATA><MAINICON><LOCATION><X>0</X><Y>0</Y></LOCATION><SIZE><CX>403</CX><CY>-163</CY></SIZE></MAINICON><DESCRIPTION><LOCATION><X>0</X><Y>-174</Y></LOCATION><SIZE><CX>200</CX><CY>200</CY></SIZE><VISIBLE>0</VISIBLE></DESCRIPTION></UIDATA>', UpperContainer_HeightProp = '51', InputSchema_WidthProp = '40', Input_Width_Description = '130', Output_Width_Decsription = '130', Input_Width_Type = '85', Output_Width_Type = '80', Output_Width_Mapping = '85', Input_Column_Width_3 = '100', Output_Column_Width_4 = '100', Input_Column_Width_4 = '100', Output_Column_Width_5 = '100', Input_1st_Column_Name = 'Type', Input_2nd_Column_Name = 'Description', Input_Column_Name_3 = 'Content_Type', Input_Column_Name_4 = 'Business_Name', Output_1st_Column_Name = 'Type', Output_2nd_Column_Name = 'Mapping', Output_3rd_Column_Name = 'Description', Output_Column_Name_4 = 'Content_Type', Output_Column_Name_5 = 'Business_Name', UI_PASSTHRU_VSPLIT_PCT = '50' )
+GUID::'36b24f4e-7294-464c-b623-da8893329b86' CREATE VIEW Q_UPDATE_EMP_SUPP ( EMPLOYEE_EID int KEY  SET("ui_mapping_text"='C_UPDATE_OR_INSERT_UPDATE.EMPLOYEE_EID') ,
+ MVR_ANNUAL_TEXT varchar(15) SET("ui_mapping_text"='C_UPDATE_OR_INSERT_UPDATE.MVR_ANNUAL_TEXT') ,
+ VALID_LICEN_CODE int SET("ui_mapping_text"='C_UPDATE_OR_INSERT_UPDATE.VALID_LICEN_CODE') ,
+ DRVR_FREQ_TEXT varchar(8) SET("ui_mapping_text"='C_UPDATE_OR_INSERT_UPDATE.DRVR_FREQ_TEXT') ,
+ GRDE_PNT_TEXT varchar(25) SET("ui_mapping_text"='C_UPDATE_OR_INSERT_UPDATE.GRDE_PNT_TEXT') ,
+ FCRA_AUTH_TEXT varchar(6) SET("ui_mapping_text"='C_UPDATE_OR_INSERT_UPDATE.FCRA_AUTH_TEXT') ,
+ DRVR_STAT_TEXT varchar(15) SET("ui_mapping_text"='C_UPDATE_OR_INSERT_UPDATE.DRVR_STAT_TEXT') ,
+ POSITION_TITLE varchar(35) SET("ui_mapping_text"='C_UPDATE_OR_INSERT_UPDATE.POSITION_TITLE')  ) 
+AS SELECT  C_UPDATE_OR_INSERT_UPDATE.EMPLOYEE_EID
+ 
+ ,
+ C_UPDATE_OR_INSERT_UPDATE.MVR_ANNUAL_TEXT
+ 
+ ,
+ C_UPDATE_OR_INSERT_UPDATE.VALID_LICEN_CODE
+ 
+ ,
+ C_UPDATE_OR_INSERT_UPDATE.DRVR_FREQ_TEXT
+ 
+ ,
+ C_UPDATE_OR_INSERT_UPDATE.GRDE_PNT_TEXT
+ 
+ ,
+ C_UPDATE_OR_INSERT_UPDATE.FCRA_AUTH_TEXT
+ 
+ ,
+ C_UPDATE_OR_INSERT_UPDATE.DRVR_STAT_TEXT
+ 
+ ,
+ C_UPDATE_OR_INSERT_UPDATE.POSITION_TITLE
+ 
+ 
+	FROM C_UPDATE_OR_INSERT_UPDATE SET (
+"distinct_run_as_separate_process" = 'no',
+"group_by_run_as_separate_process" = 'no',
+"join_run_as_separate_process" = 'no',
+"order_by_run_as_separate_process" = 'no',
+"run_as_separate_process" = 'no');
+ALGUICOMMENT( x = '2615', y = '-1069' , ui_display_name = 'MO_UPDATE',UI_DATA_XML='<UIDATA><MAINICON><LOCATION><X>0</X><Y>0</Y></LOCATION><SIZE><CX>247</CX><CY>-163</CY></SIZE></MAINICON><DESCRIPTION><LOCATION><X>0</X><Y>-174</Y></LOCATION><SIZE><CX>200</CX><CY>200</CY></SIZE><VISIBLE>0</VISIBLE></DESCRIPTION></UIDATA>', UpperContainer_HeightProp = '51', InputSchema_WidthProp = '40', Input_Width_Description = '130', Output_Width_Decsription = '130', Input_Width_Type = '85', Output_Width_Type = '80', Output_Width_Mapping = '85', Input_Column_Width_3 = '100', Output_Column_Width_4 = '100', Input_Column_Width_4 = '100', Output_Column_Width_5 = '100', Input_1st_Column_Name = 'Type', Input_2nd_Column_Name = 'Description', Input_Column_Name_3 = 'Content_Type', Input_Column_Name_4 = 'Business_Name', Output_1st_Column_Name = 'Type', Output_2nd_Column_Name = 'Mapping', Output_3rd_Column_Name = 'Description', Output_Column_Name_4 = 'Content_Type', Output_Column_Name_5 = '' )
+GUID::'d23906c9-8cc3-472d-b4cc-bba1f3d60749' CALL TRANSFORM Map_Operation ( ) 
+INPUT ( Q_UPDATE_EMP_SUPP )
+OUTPUT ( MO_UPDATE() )
+SET ("delete" = 'discard',
+"insert" = 'discard',
+"normal" = 'update',
+"update" = 'discard');
+ALGUICOMMENT( x = '2569', y = '-493' , ui_display_name = 'MO_INSERT',UI_DATA_XML='<UIDATA><MAINICON><LOCATION><X>0</X><Y>0</Y></LOCATION><SIZE><CX>238</CX><CY>-163</CY></SIZE></MAINICON><DESCRIPTION><LOCATION><X>0</X><Y>-174</Y></LOCATION><SIZE><CX>200</CX><CY>200</CY></SIZE><VISIBLE>0</VISIBLE></DESCRIPTION></UIDATA>', UpperContainer_HeightProp = '51', InputSchema_WidthProp = '40', Input_Width_Description = '130', Output_Width_Decsription = '130', Input_Width_Type = '85', Output_Width_Type = '80', Output_Width_Mapping = '85', Input_Column_Width_3 = '100', Output_Column_Width_4 = '100', Input_Column_Width_4 = '100', Output_Column_Width_5 = '100', Input_1st_Column_Name = 'Type', Input_2nd_Column_Name = 'Description', Input_Column_Name_3 = 'Content_Type', Input_Column_Name_4 = 'Business_Name', Output_1st_Column_Name = 'Type', Output_2nd_Column_Name = 'Mapping', Output_3rd_Column_Name = 'Description', Output_Column_Name_4 = 'Content_Type', Output_Column_Name_5 = '' )
+GUID::'23eb9389-1f00-4027-a543-1cc47e0dba31' CALL TRANSFORM Map_Operation ( ) 
+INPUT ( Q_INSERT_EMP_SUPP )
+OUTPUT ( MO_INSERT() )
+SET ("delete" = 'discard',
+"insert" = 'discard',
+"normal" = 'insert',
+"update" = 'discard');
+END
+
+SET("Cache_type" = 'pageable_cache',
+"Parallelism_degree" = '0',
+"allows_both_input_and_output" = 'yes',
+"run_once" = 'no',
+"use_dataflow_links" = 'no',
+"use_datastore_links" = 'yes',
+"validation_xform_exists" = 'no',
+"validation_xform_stats" = 'no')

@@ -1,0 +1,6128 @@
+IF OBJECT_ID('DDS_VALIDATE_CLAIM','P') IS NOT NULL
+	DROP PROCEDURE DDS_VALIDATE_CLAIM
+GO
+CREATE PROCEDURE [dbo].[DDS_VALIDATE_CLAIM]
+@P_JOBID	INT ,
+@P_DBNAME	VARCHAR(255),
+@P_USER_ID INT
+WITH EXECUTE AS CALLER 
+AS 
+BEGIN ----BEGIN MAIN
+BEGIN TRY  ----BEGIN MAIN TRY
+	SET NOCOUNT ON
+
+	--*************************************************************************************************************************************************************
+	--****************************************** STRUCTURE OF DDS_VALIDATE_CLAIM PROCEDURE ************************************************************************
+	--*************************************************************************************************************************************************************
+	--****																																					   ****
+	--****	Declaration of  OptionSet Variables, Claims Record Variables, CODE_ID Variables, Other Local Variables 	                                           ****
+	--****	Fetching values from DDS_OPTIONSET Table from Staging																							   ****	
+	--****	Fetching carrier flag, date of loss settings, entity role settings from RISKMASTER																   ****	
+	--****  Total Rows from DDS_CLAIM corresponding to current JOBID																						   ****	
+	--****	Cursor declaration, start to fetch values from DDS_CLAIM Staging Table																			   ****
+	--****	Initialization of Variables to default values for each New Claims Record																		   ****	
+	--****		REQUIRED FIELD VALIDATIONS, SHORT CODE FIELDS VALIDATIONS, RESERVE BUCKET MAPPING VALIDATIONS,STATE CODE FIELDS VALIDATIONS					   ****	
+	--****		FLAG INITIALIZATIONS, DATE VALIDATIONS, TIME VALIDATIONS 																					   ****	
+	--****		Other Format/Conditional/Options Validations																								   ****	
+	--****		DEPARTMENT VALIDATION																														   ****	
+	--****		Claim Existence Check																														   ****	
+	--****		Event Existence check																														   ****	
+	--****		Existing Claim and Existing Event validations with Current import file data																       ****	
+	--****		SUPPLEMENTAL FIELDS VALIDATION																												   ****	
+	--****		                            																												   ****
+	--*************************************************************************************************************************************************************
+	--****	If there is any Validation Error till now then Procedure will fetch NEXT record and will log errors corresponding to current record.			   ****
+	--*************************************************************************************************************************************************************		
+	--****		                            																												   ****	
+	--****		If Disability Claim: Disability Plan and Disability Class Checks are performed																   ****	
+	--****		Create New unique Claim_ID	from glossary																									   ****	
+	--****		Create New unique Event_ID	from glossary																									   ****	
+	--****		Fetch Policy information: If found then No Error otherwise Error Log																		   ****	
+	--****		Fetch Values from CLAIM_X_POLICY 																											   ****	
+	--****		PROCESS CLAIMANT: Search Claimant in RiskMaster based on criteria selected by User for GC & VA												   ****	
+	--****		PROCESS ENTITY for CLAIMANT:																												   ****				   
+	--****      Search & Create Entity in RiskMaster Based on criteria selected by user for Employee & Non Employee Match.(Decide Claimant Insert or Update)   ****	
+	--****		PROCESS EMPLOYEE: Search Employee in RiskMaster based on Employee details provided in the import file.                                         ****	
+	--****		PROCESS ENTITY for EMPLOYEE:																												   ****				   
+	--****      Search & Create Entity in RiskMaster Based on criteria selected by user for Employee & Non Employee Match.(Decide Employee Insert or Update)   ****	
+	--****		PROCESS ENTITY for DEFENDENT:																												   ****
+	--****      Search & Create Entity in RiskMaster Based on criteria selected by user for Employee & Non Employee Match.(Decide Defendent Insert or Update)  ****	
+	--****		Decide EMP_X_DEPENDENT is NEW or is Existing . EMP_X_DEPENDENT is not updated as of now.													   ****	
+	--****		Decide PERSON_INVOLVED is NEW or Existing. Decide to Insert or update.																		   ****	
+	--****		Decide EVENT_X_OSHA is NEW or Existing. Decide to Insert or update.																			   ****	
+	--****		Decide Insert and Update for CLAIM_X_LITIGATION																								   ****	
+	--****		PROCESS ENTITY for DEFENDANT:																												   ****				   
+	--****      Search & Create Entity in RiskMaster Based on criteria selected by user for Employee & Non Employee Match.(Decide DEFENDANT Insert or Update)  ****	
+	--****		Search DEFENDANT and decide to Insert.     																								       ****	
+	--****		Search Vehicle	and decide whether to create or update vehicle																				   ****	
+	--****		Search UNIT_X_CLAIM for Vehicle Unit and decide to Insert or not																			   ****	
+	--****		Decide UNIT_STAT is NEW or Existing and decide to Insert or Update      																	   ****	
+	--****		PROCESS RESERVE	ONLY FOR CORPORATE																											   ****
+	--****		                            																												   ****			
+	--*************************************************************************************************************************************************************
+	--****	If there is any Validation Error till now then Procedure will fetch new record.																	   ****	
+	--*************************************************************************************************************************************************************	
+	--****		                            																												   ****	
+	--****		Insert/Update EVENT																															   ****	
+	--****		Insert CLAIM_STATUS_HIST																													   ****	
+	--****		Insert/Update CLAIM																															   ****	
+	--****		Insert Employee Department and Org Hierarchy																								   ****	
+	--****		Insert/Update Employee																														   ****	
+	--****		Insert into EMP_X_DEPT	(Employee x Dependent)																								   ****	
+	--****		Insert/Update PERSON_INVOLVED																												   ****	
+	--****		Insert into PI_X_BODY_PART,PI_X_INJURY, PI_X_DIAGNOSIS, PI_X_TREATMENT, PI_X_WORKLOSS, PI_X_RESTRICT										   ****	
+	--****		Insert CLAIMANT, Update ENTITY																												   ****	
+	--****		Insert EVENT_X_OSHA																															   ****	
+	--****		Insert/Update CLAIM_X_LITIGATION																											   ****	
+	--****		Insert DEFENDANT																															   ****
+	--****      Insert/Update VEHICLE, Insert UNIT_X_CLAIM																									   ****
+	--****      Insert/Update RESERVE_CURRENT, Insert RESERVE_HISTORY																						   ****
+	--****      Insert/Update UNIT_STAT																														   ****
+	--****      Insert ACTIVITY_TRACK																														   ****
+	--****      DDS_SUPPLEMENT Insertion																									   				   ****	
+	--****		                            																												   ****	
+	--*************************************************************************************************************************************************************
+	--*************************************************************************************************************************************************************
+
+
+	-- Variables for selected Options
+
+	DECLARE @CheckCreateNewCodes AS SMALLINT,
+	@CheckCreateNewClaim AS SMALLINT,
+	@CheckCreateNewEmployees AS SMALLINT,
+	@CheckCreateNewDepartment AS SMALLINT,
+	@IdentifyClaimantByNameGCVA AS SMALLINT,
+	@IdentifyClaimantBySuffixGCVA AS SMALLINT,
+	@UpdateClaimantNameGCVA AS SMALLINT,
+	@UpdateClaimantNameWC AS SMALLINT,
+	@EmployeeMatchByName AS SMALLINT,
+	@EmployeeMatchByTaxId AS SMALLINT,
+	@EmployeeMatchByEmpNumber AS SMALLINT,
+	@NonEmployeeMatchByName AS SMALLINT,
+	@NonEmployeeMatchByTaxId AS SMALLINT,
+	@NonEmployeeMatchByNameTaxId AS SMALLINT,
+	@CONFIG_ID AS SMALLINT,
+	@CreateEntityIfTaxIDEmptyGCVA SMALLINT,
+	@CreatePIEntityIfTaxIDEmpty SMALLINT,
+	@ChkDupEntity SMALLINT = 0,
+	@ForceCreateEntity SMALLINT = 0,
+	@Valid_Start_Date VARCHAR(8),
+	@Valid_End_Date VARCHAR(8)
+	
+	--dsharma70 hmi	
+	DECLARE @EmployeeMatchByDOB as SMALLINT,
+	@NonEmployeeMatchByDOB as SMALLINT
+	
+	-- Variables for Claims Record Fields
+
+	DECLARE @V_DA_ROW_ID INT ,
+	--@V_JOBID INT ,
+	--@V_INPUT_ROW_ID INT,
+	@V_INVALID_ROW INT,
+	--@V_UPDATE_ROW INT,
+	@V_RECORD_TYPE VARCHAR(1),
+	@V_CLAIM_NUMBER VARCHAR(25),
+	@V_CLAIM_SUFFIX INT,
+	@V_CLAIM_TYPE VARCHAR(25),
+	@V_DIVISION VARCHAR(25),
+	@V_LOCATION VARCHAR(25),
+	@V_DEPARTMENT VARCHAR(25),
+	@V_COMPANY VARCHAR(25),
+	--@V_COUNTRY VARCHAR(20),
+	@V_DIVISION_DESC VARCHAR(255),
+	@V_LOCATION_DESC VARCHAR(255),
+	@V_DEPARTMENT_DESC VARCHAR(255),
+	@V_COMPANY_DESC VARCHAR(255),
+	@V_TIME_OF_CLAIM VARCHAR(6),
+	@V_DATE_OF_LOSS VARCHAR(8),
+	@V_DATE_REPORTED VARCHAR(8),
+	@V_DATE_OF_CLAIM VARCHAR(8),
+	@V_DATE_CLOSED VARCHAR(14),
+	@V_DATE_REOPENED VARCHAR(8),
+	@V_CLAIM_STATUS VARCHAR(25),
+	--@V_RESERVE_A_OPENING DECIMAL(20,2),
+	@V_RESERVE_A_CURRENT DECIMAL(20,2),
+	@V_RESERVE_A_DATE VARCHAR(8),
+	--@V_PAID_A_TOTAL DECIMAL(20,2),
+	--@V_COLLECTION_A_TOTAL DECIMAL(20,2),
+	--@V_RESERVE_B_OPENING DECIMAL(20,2),
+	@V_RESERVE_B_CURRENT DECIMAL(20,2),
+	@V_RESERVE_B_DATE VARCHAR(8),
+	--@V_PAID_B_TOTAL DECIMAL(20,2),
+	--@V_COLLECTION_B_TOTAL DECIMAL(20,2),
+	--@V_RESERVE_C_OPENING DECIMAL(20,2),
+	@V_RESERVE_C_CURRENT DECIMAL(20,2),
+	@V_RESERVE_C_DATE VARCHAR(8),
+	--@V_PAID_C_TOTAL DECIMAL(20,2),
+	--@V_COLLECTION_C_TOTAL DECIMAL(20,2),
+	--@V_RESERVE_D_OPENING DECIMAL(20,2),
+	@V_RESERVE_D_CURRENT DECIMAL(20,2),
+	@V_RESERVE_D_DATE VARCHAR(8),
+	--@V_PAID_D_TOTAL DECIMAL(20,2),
+	--@V_COLLECTION_D_TOTAL DECIMAL(20,2),
+	@V_CAUSE_CODE VARCHAR(25),
+	@V_CLAIMANT_LASTNAME VARCHAR(255),
+	@V_CLAIMANT_FIRSTNAME VARCHAR(255),
+	@V_CLAIMANT_SSN VARCHAR(20),
+	@V_CLAIMANT_ADDRESS1 VARCHAR(100),
+	@V_CLAIMANT_ADDRESS2 VARCHAR(100),
+	@V_CLAIMANT_CITY VARCHAR(50),
+	@V_CLAIMANT_STATE VARCHAR(4),
+	@V_CLAIMANT_ZIP VARCHAR(10),
+	@V_CLAIMANT_SEX VARCHAR(25),
+	@V_CLAIMANT_BIRTH_DT VARCHAR(8),
+	@V_CLAIMANT_PHONE VARCHAR(30),
+	@V_CLAIMANT_COMMENT VARCHAR(MAX),
+	@V_DEF_LASTNAME VARCHAR(255),
+	@V_DEF_FIRSTNAME VARCHAR(255),
+	@V_DEF_ADDRESS VARCHAR(100),
+	@V_DEF_CITY VARCHAR(50),
+	@V_DEF_STATE VARCHAR(4),
+	@V_DEF_ZIP VARCHAR(10),
+	@V_DEF_PHONE VARCHAR(30),
+	@V_DEF_COMMENT VARCHAR(MAX),
+	@V_CLOSURE_METHOD VARCHAR (25),
+	@V_DESCRIPTION VARCHAR(MAX),
+	@V_SERVICE VARCHAR (25),
+	@V_ICD10_1 VARCHAR (25),--asharma590 74846
+	@V_ICD10_2 VARCHAR (25),
+	@V_ICD10_3 VARCHAR (25),
+	@V_ICD10_4 VARCHAR (25),
+	@V_ICD10_5 VARCHAR (25),
+	@V_DIAGNOSIS_1 VARCHAR (25),
+	@V_DIAGNOSIS_2 VARCHAR (25),
+	@V_DIAGNOSIS_3 VARCHAR (25),
+	@V_DIAGNOSIS_4 VARCHAR (25),
+	@V_DIAGNOSIS_5 VARCHAR (25),
+	@V_POLICY_NUMBER VARCHAR (40),
+	@V_POLICY_EFFECT_DATE VARCHAR (8),
+	@V_POLICY_EXPIRE_DATE VARCHAR (8),
+	@V_SUIT_DATE VARCHAR (8),
+	@V_CASE_NUMBER VARCHAR (22),
+	@V_EVENT_NUMBER VARCHAR (25),
+	@V_COMMENTS VARCHAR(MAX),
+	@V_ILLNESS_CODE VARCHAR (25),
+	@V_INJURY_CODE_1 VARCHAR (25),
+	@V_INJURY_CODE_2 VARCHAR (25),
+	@V_INJURY_CODE_3 VARCHAR (25),
+	@V_INJURY_CODE_4 VARCHAR (25),
+	@V_INJURY_CODE_5 VARCHAR (25),
+	@V_BODY_PART_1 VARCHAR (25),
+	@V_BODY_PART_2 VARCHAR (25),
+	@V_BODY_PART_3 VARCHAR (25),
+	@V_BODY_PART_4 VARCHAR (25),
+	@V_BODY_PART_5 VARCHAR (25),
+	@V_EMP_DEPARTMENT VARCHAR (25),
+	@V_OCCUPATION VARCHAR (25),
+	@V_DATE_OF_BIRTH VARCHAR (8),
+	@V_DATE_OF_HIRE VARCHAR (8),
+	@V_DATE_OF_DEATH VARCHAR (8),
+	@V_OSHA_RECORDABLE VARCHAR (1),
+	--@V_EMPLOYEE_SEX VARCHAR (25),
+	@V_WEEKLY_WAGE_RATE DECIMAL(20,2),
+	@V_HOURLY_WAGE_RATE DECIMAL(20,2),
+	@V_WEEKLY_HOURS DECIMAL(20,2),
+	@V_NCCI_CLASS_CODE VARCHAR (25),
+	@V_ACCIDENT_STATE VARCHAR (4),
+	@V_MARITAL_STATUS VARCHAR (25),
+	@V_DEPENDENT_LNAME VARCHAR (255),
+	@V_DEPENDENT_FNAME VARCHAR (255),
+	@V_DEPENDENT_BIRTH_DT VARCHAR (8),
+	@V_LICENSE_NUMBER VARCHAR (22),
+	@V_LICENSE_EXPIR_DATE VARCHAR (8),
+	@V_LICENSE_TYPE VARCHAR (25),
+	@V_LICENSE_RESTRICT VARCHAR (25),
+	@V_RETURN_WORK_DATE VARCHAR (8),
+	@V_ACTIVE_FLAG VARCHAR (1),
+	--@V_EMPLOYER_SIC_CODE VARCHAR (25),
+	--@V_EMPLOYER_PAYROLL_CLASS_CODE VARCHAR (25),
+	@V_VEHICLE_ID VARCHAR (20),
+	@V_VEHICLE_YEAR VARCHAR (4),
+	@V_VEHICLE_MAKE VARCHAR (20),
+	@V_EMPLOYEE_ID VARCHAR (20),
+	@V_VEHICLE_MODEL VARCHAR (50),
+	@V_FILE_NUMBER VARCHAR (32),
+	@V_DATE_LAST_WORKED VARCHAR (8),
+	@V_CLAIMANT_MIDDLENAME VARCHAR (255),
+	@V_ACCIDENT_DESC VARCHAR (25),
+	@V_ACCIDENT_PREVENTABLE VARCHAR (1),
+	--@V_USER_FIELD_A VARCHAR (MAX),
+	--@V_USER_FIELD_B VARCHAR (255),
+	--@V_USER_FIELD_C VARCHAR (255),
+	--@V_USER_FIELD_D VARCHAR (255),
+	--@V_USER_FIELD_E VARCHAR (255),
+	--@V_USER_FIELD_F VARCHAR (255),
+	--@V_USER_FIELD_G VARCHAR (255),
+	--@V_USER_FIELD_H VARCHAR (255),
+	--@V_USER_FIELD_I VARCHAR (255),
+	--@V_USER_FIELD_J VARCHAR (255),
+	--@V_USER_FIELD_K VARCHAR (255),
+	--@V_USER_FIELD_L VARCHAR (255),
+	--@V_USER_FIELD_M VARCHAR (255),
+	--@V_USER_FIELD_N VARCHAR (255),
+	--@V_USER_FIELD_O VARCHAR (255),
+	--@V_USER_FIELD_P VARCHAR (255),
+	--@V_USER_FIELD_Q VARCHAR (255),
+	--@V_USER_FIELD_R VARCHAR (255),
+	--@V_USER_FIELD_S VARCHAR (255),
+	--@V_USER_FIELD_T VARCHAR (255),
+	--@V_USER_FIELD_U VARCHAR (255),
+	--@V_USER_FIELD_V VARCHAR (255),
+	--@V_USER_FIELD_W VARCHAR (255),
+	--@V_USER_FIELD_X VARCHAR (255),
+	--@V_USER_FIELD_Y VARCHAR (255),
+	--@V_USER_FIELD_Z VARCHAR (255),
+	@V_PLAN_NAME VARCHAR (20),
+	@V_CLASS_NAME VARCHAR (20),
+	@V_DISABIL_FROM_DATE VARCHAR (8),
+	@V_DISABIL_TO_DATE VARCHAR (8),
+	@V_BENEFITS_START VARCHAR (8),
+	@V_BENEFITS_THROUGH VARCHAR (8),
+	@V_DIS_TYPE VARCHAR (25),
+	@V_BEN_CALC_PAY_START VARCHAR (8),
+	@V_BEN_CALC_PAY_TO VARCHAR (8),
+	@V_FEDERAL_TAX_FLAG VARCHAR (1),
+	@V_SOCIAL_SEC_TAX_FLAG VARCHAR (1),
+	@V_MEDICARE_TAX_FLAG VARCHAR (1),
+	@V_STATE_TAX_FLAG VARCHAR (1),
+	@V_STD_DISABIL_TYPE VARCHAR (25),
+	@V_MONTHLY_RATE DECIMAL(20,2),
+	@V_ELIG_DIS_BEN_FLAG VARCHAR (1),
+	@V_DIS_OPTION_CODE VARCHAR (25),
+	@V_PENSION_AMT DECIMAL(20,2),
+	@V_SS_AMT DECIMAL(20,2),
+	@V_OTHER_AMT DECIMAL(20,2),
+	--@V_RESERVE_E_OPENING DECIMAL(20,2),
+	@V_RESERVE_E_CURRENT DECIMAL(20,2),
+	@V_RESERVE_E_DATE VARCHAR(8),
+	--@V_PAID_E_TOTAL DECIMAL(20,2),
+	--@V_COLLECTION_E_TOTAL DECIMAL(20,2),
+	@V_CLAIMANT_TYPE VARCHAR (25),
+	@V_OSHA_ACC_DESC VARCHAR (16),
+	--@V_DATE_WORKED_LAST VARCHAR (8),
+	--@V_DATE_RETURNED VARCHAR (8),
+	@V_STATE_DURATION VARCHAR(4),
+	@V_DATE_FIRST_RESTRICT VARCHAR(8),
+	@V_DATE_LAST_RESTRICT VARCHAR(8),
+	@V_PERCENT_DISABLED VARCHAR(4),
+	@V_SETTLEMENT_METHOD VARCHAR(25),
+	@V_MGND_CARE_ORG_TYPE VARCHAR(25),
+	@V_DISPUTED_CASE_FLAG VARCHAR(1),
+	@V_NCCI_LOSS_TYPE_LOSS_CODE VARCHAR(25),
+	@V_NCCI_LOSS_TYPE_RECOV_CODE VARCHAR(25),
+	@V_TREATMENT_CODE VARCHAR(25),
+	@V_CLAIMANT_STATUS VARCHAR(25),
+	@V_NAME_TYPE VARCHAR(25),
+	@V_POLICY_LOB VARCHAR(25),
+	@V_CURR_CODE VARCHAR(25),	--JIRA 29954 knakra
+	@V_REVIEW_STATUS_CODE VARCHAR(25), ---ADDED BY AKUMAR523 RMA-61584
+	@V_REV_REASON VARCHAR(2000), 
+	@V_CLAIM_TYP_REASON VARCHAR(2000)----ADDED BY AKUMAR523 ENDS RMA -61584
+
+	--dsharma70 hmi
+	DECLARE @V_BENEFICIARY_CODE VARCHAR(25),
+	@V_INFO_REQ_DATE VARCHAR(8),
+	@V_PROOF_OF_LOSS_DATE VARCHAR(8),
+	@V_CLAIM_CAUSE_CODE VARCHAR(25),
+	@V_DEF_BIRTH_DT VARCHAR(8),
+	@V_CLAIM_TYPE_DT_CHA varchar(8),---akumar523 starts RMA-61584
+	@V_REV_STA_DT_CH varchar(8)
+	-- CODE_ID VARIABLES
+	DECLARE @V_CLAIM_TYPE_ID INT = 0 ,
+	@V_CLAIM_STATUS_ID INT = 0,
+	@V_CAUSE_CODE_ID INT = 0 ,
+	@V_CLAIMANT_SEX_ID INT = 0 ,
+	@V_CLOSURE_METHOD_ID INT = 0 ,
+	@V_SERVICE_ID INT = 0 ,
+	@V_ICD10_1_ID INT = 0 ,--asharma590 jira 74846
+	@V_ICD10_2_ID INT = 0 ,
+	@V_ICD10_3_ID INT = 0 ,
+	@V_ICD10_4_ID INT = 0 ,
+	@V_ICD10_5_ID INT = 0 ,
+	@V_DIAGNOSIS_1_ID INT = 0 ,
+	@V_DIAGNOSIS_2_ID INT = 0 ,
+	@V_DIAGNOSIS_3_ID INT = 0 ,
+	@V_DIAGNOSIS_4_ID INT = 0 ,
+	@V_DIAGNOSIS_5_ID INT = 0 ,
+	@V_ILLNESS_CODE_ID INT = 0 ,
+	@V_INJURY_CODE_1_ID INT = 0 ,
+	@V_INJURY_CODE_2_ID INT = 0 ,
+	@V_INJURY_CODE_3_ID INT = 0 ,
+	@V_INJURY_CODE_4_ID INT = 0 ,
+	@V_INJURY_CODE_5_ID INT = 0 ,
+	@V_BODY_PART_1_ID INT = 0 ,
+	@V_BODY_PART_2_ID INT = 0 ,
+	@V_BODY_PART_3_ID INT = 0 ,
+	@V_BODY_PART_4_ID INT = 0 ,
+	@V_BODY_PART_5_ID INT = 0 ,
+	@V_OCCUPATION_ID INT = 0 ,
+	--@V_EMPLOYEE_SEX_ID INT = 0 , 
+	@V_NCCI_CLASS_CODE_ID INT = 0 ,
+	@V_MARITAL_STATUS_ID INT = 0 ,
+	@V_LICENSE_TYPE_ID INT = 0 ,
+	@V_LICENSE_RESTRICT_ID INT = 0 ,
+	--@V_EMPLOYER_SIC_CODE_ID INT = 0 ,
+	--@V_EMPLOYER_PAYROLL_CLASS_CODE_ID INT = 0 ,
+	@V_ACCIDENT_DESC_ID INT = 0 ,
+	@V_STD_DISABIL_TYPE_ID INT = 0 ,
+	@V_DIS_OPTION_CODE_ID INT = 0 ,
+	@V_CLAIMANT_TYPE_ID INT = 0 ,
+	@V_SETTLEMENT_METHOD_ID INT = 0 ,
+	@V_MGND_CARE_ORG_TYPE_ID INT = 0 ,
+	@V_NCCI_LOSS_TYPE_LOSS_CODE_ID INT = 0 ,
+	@V_NCCI_LOSS_TYPE_RECOV_CODE_ID INT = 0 ,
+	@V_TREATMENT_CODE_ID INT = 0 ,
+	@V_CLAIMANT_STATUS_ID INT = 0 ,
+	@V_NAME_TYPE_ID INT = 0 ,
+	@V_POLICY_LOB_ID INT = 0 ,
+	@V_CLAIMANT_STATE_ID INT = 0,
+	@V_DEF_STATE_ID INT = 0,
+	@V_ACTIVE_FLAG_ID INT = 0,
+	@V_ELIG_DIS_BEN_FLAG_ID INT = 0,
+	@V_ACC_PREV_FLAG_ID INT = 0,
+	@V_EMP_PI_TYPE_CODE VARCHAR(25) = 'E',
+	@V_EMP_PI_TYPE_CODE_ID INT = 0,
+	@V_OTHR_PI_TYPE_CODE VARCHAR(25) = 'O',
+	@V_OTHR_PI_TYPE_CODE_ID INT = 0,
+	@V_PI_TYPE_CODE_ID INT = 0,
+	@V_OPENCLAIM_CODE VARCHAR(25) = 'O',
+	@V_OPENCLAIM_CODE_ID INT = 0,
+	@V_CLOSEDCLAIM_CODE VARCHAR(25) = 'C',
+	@V_CLOSEDCLAIM_CODE_ID INT = 0,
+	@V_STATE_ID INT = 0,
+	@V_FLAG_ID INT = 0,
+	@V_DISPUTED_CASE_FLAG_ID INT = 0,
+	@V_EMP_DEP_ROW_ID INT = 0,
+	@V_PI_WL_ROW_ID INT = 0,
+	@V_PI_RSTRCT_ROW_ID INT = 0,
+	@V_PI_DEP_ROW_ID INT = 0,
+	@V_EVENT_ID_RMDB INT = 0,
+	@V_CLAIMANT_ROW_ID INT = 0,
+	@V_PRIMARY_CLMNT_FLAG INT = 0,
+	@V_POLICY_ID INT = 0,
+	@V_POLICY_ID_RMDB INT =0,
+	@V_OPEN_FLAG_ID INT = 0,
+	@V_CL_STATUS_ROW_ID INT = 0,
+	@V_LITIGATION_ROW_ID INT = 0,
+	@V_DEFENDANT_ROW_ID INT = 0,
+	@V_CLAIM_DEFCOUNT INT = 0,
+	@V_VEHICLE_UNIT_ID INT = 0,
+	@V_CLAIMXUNIT_ROW_ID INT = 0,
+	@V_EVENT_REF_LENGTH INT = 25,  ------ MAX LENGHTH ALLOWED FOR EVENT NUMBER
+	@V_ERRORLOC VARCHAR(20),
+	@V_RECORD_TYPE2 VARCHAR(2),
+	@V_REASON VARCHAR(255) = 'DDS Claim Record',
+	@V_UPDATERESERVES INT = 0,
+	@V_CLASSROW_ID  INT = 0,
+	@V_PLAN_ID  INT,
+	@V_TAXFLAGS  INT,
+	@V_DIS_TYPE_ID INT,
+	@V_INSERTPLANINFO INT = 0,
+	@V_EMP_PERSON INT = 0,
+	@V_TABLE_ID INT = 0,
+	@V_ROW_ID INT = 0,
+	------akumar523  starts RMA-61584
+	@V_CLM_TYP_ROW_ID INT=0,
+	@V_REVIEW_STATUS_CODE_ID INT =0,
+	@V_REW_TYP_ROW_ID INT =0
+	--akumar523 ends  RMA-61584
+	--dsharma70 hmi	
+	DECLARE @V_BENEFICIARY_CODE_ID INT = 0,
+	@V_CLAIM_CAUSE_CODE_ID INT = 0
+
+	--- Other Local Variables
+	DECLARE @V_ROWCOUNT  INT = 0 ,
+	@V_CODE_ID_R INT  = 0 ,
+	@V_CODE_ID_RMDB INT = 0,
+	@V_MODULENAME VARCHAR(100) = 'CLAIM',
+	@V_DBNAME  VARCHAR(255),
+	@V_ERRORLOCATION NVARCHAR(MAX),
+	@V_CLAIM_ID INT = 0 ,
+	@V_SQL  NVARCHAR(MAX),
+	@V_PROCNAME  VARCHAR(30) = 'DDS_VALIDATE_CLAIM',
+	@V_TABLE_NAME  VARCHAR(30) = 'DDS_CLAIM',
+	@V_DDSUSER  VARCHAR(6) = 'DA DDS',
+	@V_ERRORCOUNT  INT = 0 ,
+	@V_CLAIM_LOB  INT = 0 ,
+	@V_CLAIM_LOB_RMDB  INT = 0 ,
+	@V_BCLOSEDCLAIM  INT = 0 ,
+	@V_BOPENCLAIM  INT = 0,
+	@V_TEMPSHORTCODE  VARCHAR(25) = NULL,
+	@V_DATE_CLOSED_DT  VARCHAR(14) = NULL,
+	@V_ACCIDENT_STATE_ID  INT = 0,
+	@V_DEPARTMENTEMPTY  INT = 0,
+	@V_ENTITY_ID  INT = 0 ,
+	@V_DEPT_ID  INT = 0 ,
+	@V_ENTITY_TABLE_ID  INT = 0 ,
+	@V_ABBREVIATION  VARCHAR(25) = NULL,
+	@V_DELETED_FLAG  INT = 0 ,
+	@V_DELETED_FLAG_EMP_DEPT INT = 0,
+	@V_DELETED_FLAG_DEPT INT = 0,
+	@V_ENTITY_TABLE_ID_INP  INT = 0 ,
+	@V_SYS_TABLE_NAME  VARCHAR(30) = NULL,
+	@V_EVENT_ID  INT = 0 ,
+	@V_DATE_OF_EVENT  VARCHAR(8),
+	@V_DEPT_EID  INT = 0 ,
+	@V_TIME_OF_EVENT  VARCHAR(6),
+	@DATEOFLOSSEMPTY  INT = 0 ,
+	@UPD_DATEOFCLAIM  INT = 0 ,
+	@DEPTEXISTS  INT = 0 ,
+	@LOCTIONNEXISTS  INT = 0,
+	@DIVISONEXISTS  INT = 0,
+	@COMPANYEXISTS  INT = 0,
+	@V_CLAIMANT_EID  INT = 0,
+	@V_CLAIMANT_EID_R INT = 0,
+	@V_ENTITY_LASTNAME  VARCHAR(255) = NULL,
+	@V_ENTITY_FIRSTNAME  VARCHAR(255) = NULL,
+	@V_EMPLOYEE_EID  INT = 0,
+	@V_EMPLOYEE_EID_RMDB INT = 0,
+	@V_EMPLOYEE_NUMBER  VARCHAR(25),
+	@V_DEPARTMENT_ID  INT = 0,
+	@V_EMP_DEPT_ID  INT = 0,
+	@V_DEPENDENT_EID  INT = 0,
+	@V_DEFENDANT_EID  INT = 0,
+	@V_PI_ROW_ID  INT = 0,
+	@V_DISABILITY_CODE_ID INT = 0,
+	@V_DISABILITY_CODE VARCHAR(25) = 'ILL', 
+	@V_OSHA_RECORDABLE_ID INT = 0,
+	@V_ROLE_TABLE_ID INT = 0,
+	@V_PARENT_ROW_ID INT = 0,
+	@V_PARENT_TABLE_NAME VARCHAR(10),
+	@VSQLINSERT NVARCHAR(MAX),
+	@VSQLUPDATE NVARCHAR(MAX),
+	@V_EVENT_STATUS_CODE VARCHAR(25) = 'O', ---- NEW CODE CANNOT BE CREATED ONLY PERMITTED VALUES ARE O OR C NOTE:
+	@V_EVENT_TYPE_CODE VARCHAR(25) = 'NA',
+	@V_EVENT_STATUS_CODE_ID INT = 0, 
+	@V_EVENT_TYPE_CODE_ID INT = 0,
+	@V_EVENT_IND_CODE_ID INT = 0,
+	@V_LASTNAME_RMDB VARCHAR(255),
+	@V_FIRSTNAME_RMDB VARCHAR(255),
+	@V_MIDNAME_RMDB VARCHAR(255),
+	@V_ERROR_MESSAGE NVARCHAR(MAX) = '',
+	@V_ERROR_MSG NVARCHAR(MAX),
+	@V_RC_ROW_ID INT = 0,
+	@V_RSV_ROW_ID INT = 0,
+	@V_DATETIME VARCHAR(14),
+	@V_DATE_STATUS_CHGD VARCHAR(8),
+	@V_OLDSTATUS_ID INT = 0,
+	@V_CUR_RSV_AMT DECIMAL(20,2) = 0,	
+	@V_COL_IN_RSV_BAL INT = 0,
+	@V_COL_IN_INC_BAL INT = 0,
+	@V_CHANGE_AMT DECIMAL(20,2) = 0,		
+	@V_COL_TOTAL DECIMAL(20,2) = 0,			
+	@V_PAID_TOTAL DECIMAL(20,2) = 0,		
+	@V_RESERVE_AMOUNT DECIMAL(20,2) = 0,	
+	@V_RESERVE_BALANCE DECIMAL(20,2) = 0,	
+	@V_INCURRED_AMOUNT DECIMAL(20,2) = 0,	
+	@V_NEW_RESERVE INT = 0,
+	@V_RESERVE_DATE VARCHAR(8) = NULL,
+	@V_BUCKETLIST VARCHAR(255) = '',
+	@V_SUPP_ERROR_COUNT INT = 0,
+	@V_CLAIM_SUPP INT = 0,
+	@V_DATE_RPTD_TO_RM VARCHAR(8),
+	@V_UNIT_ID_R INT = 0,
+	@VCLOSETIME VARCHAR(6),
+	@V_WORK_SUN INT ,
+	@V_WORK_MON INT,
+	@V_WORK_TUE INT,
+	@V_WORK_WED INT,
+	@V_WORK_THU INT,
+	@V_WORK_FRI INT,
+	@V_WORK_SAT INT,
+	@V_CURR_CODE_ID INT,		--JIRA 29954 knakra
+	@iOldClmCurrCode INT,		--JIRA 29954 knakra
+	--neha JIRA 33658 starts
+	@iRunStatCnt int=1,        
+	@vProcessMsg varchar(100),
+	@iRunCnt int=0,
+	@iTotalRows int=0,
+	--neha JIRA 33658 ends  
+	
+	---akumar523 starts  RMA-61584
+	@VSQLINSCLT NVARCHAR(MAX),
+	@VSQLUPDCLT NVARCHAR(MAX),
+	@V_SQL_CLT  NVARCHAR(MAX),
+	@ioldRevTypCode INT,
+	@VSQLINSREW NVARCHAR(MAX),
+	@V_SQL_REW NVARCHAR(MAX),
+	@VSQLUPDREW NVARCHAR(MAX)
+	----akumar523 ends  RMA-61584
+    
+	DECLARE
+	@vReqColumns  VARCHAR(MAX),
+	@ILEN  INT = 0,
+	@iPos1		  INT = 0,
+	@iPos2		  INT = 0,
+	@vColName1	  VARCHAR(100),
+	@vColName2	  VARCHAR(100),
+	@V_VAL		  VARCHAR(MAX),
+	@V_ERROR_TABLE  VARCHAR(10) = 'DDS_CLAIM',
+	@V_BUCKETFIELDS  VARCHAR(MAX),
+	@V_CODEFIELDS  VARCHAR(MAX),
+	@V_SYSTEMTABLENAME  VARCHAR(MAX),
+	@V_TABLENAME  VARCHAR(30),
+	@V_NEWCODESALLOWED  INT,
+	@V_NEWCODESALLOWEDST  VARCHAR(MAX)
+
+	-- USER DEFINED RESERVE MAPPING VARIABLE
+	DECLARE @V_UDRM_RSV_TYPE_CODE_ID INT = 0 ,
+	@V_UDRM_RSV_TYPE_A_CODE_ID INT = 0,
+	@V_UDRM_RSV_TYPE_B_CODE_ID INT = 0,
+	@V_UDRM_RSV_TYPE_C_CODE_ID INT = 0,
+	@V_UDRM_RSV_TYPE_D_CODE_ID INT = 0,
+	@V_UDRM_RSV_TYPE_E_CODE_ID INT = 0
+
+	DECLARE @V_UDRM_BUCKET_MAPPED VARCHAR(1),
+	@V_UDRM_BUCKET_A_MAPPED VARCHAR(1),
+	@V_UDRM_BUCKET_B_MAPPED VARCHAR(1),
+	@V_UDRM_BUCKET_C_MAPPED VARCHAR(1),
+	@V_UDRM_BUCKET_D_MAPPED VARCHAR(1),
+	@V_UDRM_BUCKET_E_MAPPED VARCHAR(1)
+
+	DECLARE @V_BUCKET VARCHAR(1),
+	@V_PARM_NAME VARCHAR(255),
+	@V_CARRIERFLAG INT = 0 , 
+	@V_POLICYINTERFACEFLAG INT = 0 ,
+	@V_RPT_DATE_AUTO_FLAG INT = 0 ,
+	@V_USE_ENTITY_ROLE_FLAG INT = 0,
+	@V_NEWCLAIM INT = 0 ,
+	@V_NEWEVENT INT = 0 ,
+	@V_RESERVE_TRACKING INT,
+	@V_DURATION INT = 0 ,
+	@TOTALROWS INT = 0,
+	@V_NEW_PI INT = 0,
+	@V_NEW_VEHICLE INT = 0,
+	@V_NEW_EMP INT = 0,
+	@V_NEW_POLICY INT = 0,
+	@V_NEW_CLAIMANT INT = 0,
+	@V_NEW_EVENTXOSHA INT = 0,
+	@V_NEW_CLAIMXLIT INT = 0,
+	@V_NEW_DEPENTDENT INT = 0,
+	@V_NEW_UNITXCLAIM INT = 0,
+	@V_NEW_UNITSTAT INT = 0,
+	@V_NEW_DEFENDANT INT = 0,
+	@V_UPDATE_ENTITYNAME INT = 0,
+	@V_UPDATE_CLAIMANT_ADDRESS INT = 0,
+	@V_INSERT_EMPXDEP INT = 0,
+	@V_NEW_CLAIMXPOLICY INT = 0,
+	@VTIMEERROR INT = 0,
+	@V_TIME_OF_CLAIM_RMDB VARCHAR(6),
+	@V_DTTM_CLOSED VARCHAR(14),
+	@V_CLAIMANT_EID_RMDB INT = 0,
+	@V_CLAIMANT_EID_RMDB_1 INT = 0, ----JIRA RMA-23225
+	@V_CLAIM_SUFFIX_RMDB INT = 0
+	
+	----JIRA RMA-22720 STARTS----
+	DECLARE @V_SHORT_CODE VARCHAR(25), 
+	@V_CODE_REL_TYPE VARCHAR(30),
+	@V_ADDClaimantASPI INT,
+	@V_EXCLUSIONERROR INT,
+	@V_DUPLICATECLAIMANT INT
+	----JIRA RMA-22720 ENDS----
+	DECLARE @V_SUFFIXERROR INT = 0 	----JIRA RMA-23225
+	--JIRA 23899 knakra starts
+	DECLARE @iVarFinKey INT = 0,
+	@fVersionNum DECIMAL(10,1),
+	@iRetVal INT = 0,
+	@iFinKeyFilter INT,
+	@iExtClmTypeCode INT,
+	@iExtPolLobCode INT,
+	@iIncClaimant INT,
+	@iIncRsvType INT,
+	@iIncRsvSubType INT,
+	@iIncPolCvgUnit INT,
+	@iIncLossType INT,
+	@iExtIncClaimant INT,
+	@iExtIncRsvType INT,
+	@iExtIncRsvSubType INT,
+	@iExtIncPolCvgUnit INT,
+	@iExtIncLossType INT,
+	@iRowId INT,
+	@iFinKeyErr INT,
+	@vErrorColumns VARCHAR(MAX),
+	--JIRA 23899 knarka ends
+	--JIRA 42212 knakra starts
+	@iFacEid INT, 
+	@iLocEid INT, 
+	@iDivEid INT, 
+	@iRegEid INT, 
+	@iOprEid INT, 
+	@iComEid INT, 
+	@iClntEid INT,
+	@nSqlExec NVARCHAR(MAX),
+	--JIRA 42212 knakra ends
+	--JIRA 42981 knakra starts
+	@vEvPrefix VARCHAR(3),
+	@iEvIncYear INT,
+	--JIRA 42981 knakra ends
+	@V_CLTP_CHA INT =0 ,  ---akumar523 RMA-61584
+	@V_REWTP_CHA INT=0,	---AKUMAR523
+	@iCount_islocked_reserve INT = 0 ---udoni RMA-75601
+	--dsharma70 hmi
+	DECLARE @V_TODAY	VARCHAR(8)
+	
+	
+	BEGIN TRY ---- FETCHING VALUES FROM DDS_OPTIONSET
+		------------------------- FOR SQL db name has to be suffixed by dbo -----------------------------------------
+		IF @P_DBName IS NOT NULL 
+		BEGIN
+		   SET @V_DBNAME = '[' + @P_DBNAME + '].DBO.';
+		END
+		----------------------------- Storing Values into Optionset variables ---------------------------------------
+		SET @V_ERRORLOC = 'Z001'
+
+		--JIRA 23899 knakra starts
+		EXECUTE spCheckVersion 'FINANCIAL_KEY','ROW_ID',@P_DBNAME,@iRetVal OUTPUT
+		IF @iRetVal <> 0 AND @iRetVal IS NOT NULL
+			SET @iVarFinKey = 1
+		--JIRA 23899 knarka ends
+
+		--RMA-25298 JIRA starts--
+         EXECUTE spCheckVersion 'UNIT_X_CLAIM','DTTM_RCD_ADDED',@P_DBNAME,@iRetVal OUTPUT                              
+         IF @iRetVal = 1                                      
+			SET @fVersionNum = 16.2
+		--RMA-25298 JIRA ends--
+
+		--JIRA 29954 knakra starts
+		SET @iRetVal = 0
+		EXECUTE spCheckVersion 'RESERVE_HISTORY','CLAIM_CURR_CHANGE_AMOUNT',@P_DBNAME,@iRetVal OUTPUT
+		IF @iRetVal <> 0 AND @iRetVal IS NOT NULL
+			SET @fVersionNum = 16.4
+		--JIRA 29954 knakra ends
+
+		SET @iRetVal = 0
+		EXECUTE spCheckVersion 'FUNDS','DISABILITY_CLASS_ROW_ID',@P_DBNAME,@iRetVal OUTPUT
+		IF @iRetVal <> 0 AND @iRetVal IS NOT NULL
+			SET @fVersionNum = 17.3
+		--AKUMAR523 STARTS RMA-61584
+		EXECUTE spCheckVersion 'CLAIM_TYPE_HIST','CLM_TYPE_CODE',@P_DBNAME,@iRetVal OUTPUT
+		IF @iRetVal <> 0 AND @iRetVal IS NOT NULL
+			SET @fVersionNum = 19.1
+		---AKUMAR523 ENDS RMA-61584
+		SET @iRetVal = 0
+		EXECUTE spCheckVersion 'RESERVE_CURRENT','IS_LOCKED',@P_DBNAME,@iRetVal OUTPUT
+		IF @iRetVal = 1
+			SET @fVersionNum = 20.2
+		--udoni RMA-75601
+			
+		SET @V_SQL = 'SELECT @CheckCreateNewClaim = ALLOW_NEW_CLAIMS, @CheckCreateNewCodes = ALLOW_NEW_CODES, @CheckCreateNewEmployees = ALLOW_NEW_EMPLOYEES,
+		@CheckCreateNewDepartment = ALLOW_NEW_DEPARTMENT, @IdentifyClaimantByNameGCVA = ID_CLAIMANT_BY_NAME_GCVA, @IdentifyClaimantBySuffixGCVA = ID_CLAIMANT_BY_SUFFIX_GCVA, 
+		@UpdateClaimantNameGCVA = UPDATE_CLAIMANT_NAME_GCVA, @UpdateClaimantNameWC = UPDATE_CLAIMANT_NAME_WC, @EmployeeMatchByName = EMPLOYEE_MATCH_BY_NAME,
+		@EmployeeMatchByTaxId = EMPLOYEE_MATCH_BY_TAX_ID, @EmployeeMatchByEmpNumber = EMPLOYEE_MATCH_BY_EMP_NUM,
+		@NonEmployeeMatchByName = NON_EMP_MATCH_BY_NAME, @NonEmployeeMatchByTaxId = NON_EMP_MATCH_BY_TAX_ID, @NonEmployeeMatchByNameTaxId = NON_EMP_MATCH_BY_NAME_TAX_ID, 
+		@CONFIG_ID = CONFIG_ID,	@CreatePIEntityIfTaxIDEmpty =  CREATE_PI_ENT_IF_TAXID_EMPTY, @Valid_Start_Date = VALID_START_DATE, @Valid_End_Date = VALID_END_DATE, @V_CLAIM_SUPP = CLAIM_SUPP'
+		
+		--DSHARMA70 HMI
+		SET @V_SQL = @V_SQL + ', @EmployeeMatchByDOB = EMPLOYEE_MATCH_BY_DOB, @NonEmployeeMatchByDOB = NON_EMP_MATCH_BY_DOB '
+		
+		SET @V_SQL = @V_SQL + ' FROM DDS_OPTIONSET 
+		WHERE JOBID = @P_JOBID';
+
+		Exec sp_Executesql @V_SQL,
+		N'@CheckCreateNewClaim INT OUTPUT,
+		@CheckCreateNewCodes INT OUTPUT, 
+		@CheckCreateNewEmployees INT OUTPUT,
+		@CheckCreateNewDepartment INT OUTPUT, 
+		@IdentifyClaimantByNameGCVA INT OUTPUT, 
+		@IdentifyClaimantBySuffixGCVA INT OUTPUT, 
+		@UpdateClaimantNameGCVA INT OUTPUT, 
+		@UpdateClaimantNameWC INT OUTPUT, 
+		@EmployeeMatchByName INT OUTPUT,
+		@EmployeeMatchByTaxId INT OUTPUT, 
+		@EmployeeMatchByEmpNumber INT OUTPUT,
+		@NonEmployeeMatchByName INT OUTPUT, 
+		@NonEmployeeMatchByTaxId INT OUTPUT, 
+		@NonEmployeeMatchByNameTaxId INT OUTPUT, 
+		@CONFIG_ID INT OUTPUT,	
+		@CreatePIEntityIfTaxIDEmpty INT OUTPUT, 
+		@Valid_Start_Date VARCHAR(8) OUTPUT, 
+		@Valid_End_Date VARCHAR(8) OUTPUT, 
+		@V_CLAIM_SUPP INT OUTPUT,
+		@P_JOBID INT,
+		@EmployeeMatchByDOB INT,
+		@NonEmployeeMatchByDOB INT', --DSHARMA70 HMI
+		@CheckCreateNewClaim = @CheckCreateNewClaim OUTPUT,
+		@CheckCreateNewCodes = @CheckCreateNewCodes OUTPUT, 
+		@CheckCreateNewEmployees = @CheckCreateNewEmployees OUTPUT,
+		@CheckCreateNewDepartment = @CheckCreateNewDepartment OUTPUT, 
+		@IdentifyClaimantByNameGCVA = @IdentifyClaimantByNameGCVA OUTPUT, 
+		@IdentifyClaimantBySuffixGCVA = @IdentifyClaimantBySuffixGCVA OUTPUT, 
+		@UpdateClaimantNameGCVA = @UpdateClaimantNameGCVA OUTPUT, 
+		@UpdateClaimantNameWC = @UpdateClaimantNameWC OUTPUT, 
+		@EmployeeMatchByName = @EmployeeMatchByName OUTPUT,
+		@EmployeeMatchByTaxId = @EmployeeMatchByTaxId OUTPUT, 
+		@EmployeeMatchByEmpNumber = @EmployeeMatchByEmpNumber OUTPUT,
+		@NonEmployeeMatchByName = @NonEmployeeMatchByName  OUTPUT, 
+		@NonEmployeeMatchByTaxId = @NonEmployeeMatchByTaxId OUTPUT, 
+		@NonEmployeeMatchByNameTaxId = @NonEmployeeMatchByNameTaxId OUTPUT, 
+		@CONFIG_ID = @CONFIG_ID OUTPUT,	
+		@CreatePIEntityIfTaxIDEmpty = @CreatePIEntityIfTaxIDEmpty OUTPUT, 
+		@Valid_Start_Date = @Valid_Start_Date OUTPUT, 
+		@Valid_End_Date = @Valid_End_Date OUTPUT, 
+		@V_CLAIM_SUPP = @V_CLAIM_SUPP OUTPUT,
+		@P_JOBID = @P_JOBID,
+		@EmployeeMatchByDOB = @EmployeeMatchByDOB,
+		@NonEmployeeMatchByDOB = @NonEmployeeMatchByDOB; --DSHARMA70 HMI
+
+
+		IF @CheckCreateNewClaim IS NULL 
+		BEGIN
+			EXECUTE DDS_ERROR_LOG_CAPTURE @P_JOBID, @V_DA_ROW_ID, @V_MODULENAME, @V_ERRORLOC, @V_ERRORLOC, @V_PROCNAME,
+			'No rows are there in DDS_Optionset.','JOB_ID', 'DDS_OPTIONSET', 'JOB_ID', @P_JOBID, 1
+			GOTO ENDMAIN
+		END
+		
+	END TRY
+	BEGIN CATCH
+		SET @V_ERROR_MESSAGE = ERROR_MESSAGE()
+		EXECUTE DDS_ERROR_LOG_CAPTURE @P_JOBID, @V_DA_ROW_ID, @V_MODULENAME, @V_ERRORLOC, @V_ERRORLOC, @V_PROCNAME,@V_ERROR_MESSAGE,'EXCEPTION', @V_ERROR_TABLE, 'CLAIM_NUMBER', @V_CLAIM_NUMBER,0
+		SET @V_ROWCOUNT = @V_ROWCOUNT + 1;
+	END CATCH
+
+	BEGIN TRY ---- FETCHING CARRIER FLAG	
+		SET @V_ERRORLOC = 'Z002'
+		
+		--JIRA 42981 knakra starts
+		SET @nSqlExec = 'SELECT @pEvPrefix = EV_PREFIX, @pEvIncYear = EV_INC_YEAR_FLAG FROM ' + @V_DBNAME + 'SYS_PARMS'
+
+		EXECUTE SP_EXECUTESQL @nSqlExec,
+		N'@pEvPrefix VARCHAR(3) OUTPUT, @pEvIncYear INT OUTPUT',
+		@pEvPrefix = @vEvPrefix OUTPUT,
+		@pEvIncYear = @iEvIncYear OUTPUT
+		--JIRA 42981 knakra ends
+
+		--JIRA 23899 knakra starts
+		IF @iVarFinKey <> 0
+			SET @V_PARM_NAME = 'FINANCIAL_KEY_FILTER'
+		ELSE
+			SET @V_PARM_NAME = 'MULTI_COVG_CLM'
+		--JIRA 23899 knakra ends
+		SET @V_SQL = 'SELECT @STR_PARM_VALUE_P = STR_PARM_VALUE FROM ' + @V_DBNAME+'PARMS_NAME_VALUE' + ' WHERE PARM_NAME = @V_PARM_NAME_P'
+
+		--JIRA 23899 knakra starts
+		IF @iVarFinKey <> 0
+		BEGIN
+			EXECUTE SP_EXECUTESQL @V_SQL,
+			N'@STR_PARM_VALUE_P INT OUTPUT,
+			@V_PARM_NAME_P VARCHAR(255)',
+			@STR_PARM_VALUE_P = @iFinKeyFilter OUTPUT,
+			@V_PARM_NAME_P = @V_PARM_NAME;
+		END
+		ELSE
+		BEGIN
+			Exec sp_Executesql @V_SQL,
+			N'@STR_PARM_VALUE_P INT OUTPUT,
+			@V_PARM_NAME_P VARCHAR(255)',
+			@STR_PARM_VALUE_P = @V_CARRIERFLAG OUTPUT,
+			@V_PARM_NAME_P = @V_PARM_NAME;
+		END
+		----PRINT 'CARRIER FLAG: ' + CAST(@V_CARRIERFLAG AS VARCHAR(2));
+	END TRY
+	BEGIN CATCH
+		SET @V_ERROR_MESSAGE = ERROR_MESSAGE()
+		EXECUTE DDS_ERROR_LOG_CAPTURE @P_JOBID, @V_DA_ROW_ID, @V_MODULENAME, @V_ERRORLOC, @V_ERRORLOC, @V_PROCNAME,@V_ERROR_MESSAGE,'EXCEPTION', @V_ERROR_TABLE, 'CLAIM_NUMBER', @V_CLAIM_NUMBER,0
+		SET @V_ROWCOUNT = @V_ROWCOUNT + 1;
+	END CATCH
+	
+	BEGIN TRY ---- FETCHING DATE OF LOSS SETTINGS	
+		SET @V_ERRORLOC = 'Z004'
+		SET @V_PARM_NAME = 'RPT_DATE_AUTO_FLAG'
+		SET @V_SQL = 'SELECT @STR_PARM_VALUE_P = STR_PARM_VALUE FROM ' + @V_DBNAME+'PARMS_NAME_VALUE' + ' WHERE PARM_NAME = @V_PARM_NAME_P'
+    	
+		Exec sp_Executesql @V_SQL,
+		N'@STR_PARM_VALUE_P INT OUTPUT,
+		@V_PARM_NAME_P VARCHAR(255)',
+		@STR_PARM_VALUE_P = @V_RPT_DATE_AUTO_FLAG OUTPUT,
+		@V_PARM_NAME_P = @V_PARM_NAME;
+
+		----PRINT 'DATE OF LOSS FLAG: ' + CAST(@V_RPT_DATE_AUTO_FLAG AS VARCHAR(2))
+
+	END TRY
+	BEGIN CATCH
+		SET @V_ERROR_MESSAGE = ERROR_MESSAGE()
+		EXECUTE DDS_ERROR_LOG_CAPTURE @P_JOBID, @V_DA_ROW_ID, @V_MODULENAME, @V_ERRORLOC, @V_ERRORLOC, @V_PROCNAME, @V_ERROR_MESSAGE,'EXCEPTION', @V_ERROR_TABLE, 'CLAIM_NUMBER', @V_CLAIM_NUMBER,0
+		SET @V_ROWCOUNT = @V_ROWCOUNT + 1;
+	END CATCH
+	
+	BEGIN TRY ---- FETCH ENTITY ROLE SETTINGS
+		
+		SET @V_ERRORLOC = 'Z005'
+		SET @V_PARM_NAME = 'USE_ENTITY_ROLE'
+		SET @V_SQL = 'SELECT @STR_PARM_VALUE_P = STR_PARM_VALUE FROM ' + @V_DBNAME+'PARMS_NAME_VALUE' + ' WHERE PARM_NAME = @V_PARM_NAME_P'
+
+		Exec sp_Executesql @V_SQL,
+		N'@STR_PARM_VALUE_P INT OUTPUT,
+		@V_PARM_NAME_P VARCHAR(255)',
+		@STR_PARM_VALUE_P = @V_USE_ENTITY_ROLE_FLAG OUTPUT,
+		@V_PARM_NAME_P = @V_PARM_NAME;
+
+		----PRINT 'USE ENTITY ROLE FLAG: ' + CAST(@V_USE_ENTITY_ROLE_FLAG AS VARCHAR(2))
+
+	END TRY
+	BEGIN CATCH
+		SET @V_ERROR_MESSAGE = ERROR_MESSAGE()
+		EXECUTE DDS_ERROR_LOG_CAPTURE @P_JOBID, @V_DA_ROW_ID, @V_MODULENAME, @V_ERRORLOC, @V_ERRORLOC, @V_PROCNAME, @V_ERROR_MESSAGE,'EXCEPTION', @V_ERROR_TABLE, 'CLAIM_NUMBER', @V_CLAIM_NUMBER,0
+		SET @V_ROWCOUNT = @V_ROWCOUNT + 1;
+	END CATCH
+	
+	----JIRA RMA-22720 STARTS----
+	BEGIN TRY ---- FETCHING ADD CLAIMANT AS PERSON INVOLVED SETTINGS	
+		SET @V_ERRORLOC = 'Z007'
+		SET @V_PARM_NAME = 'ADD_CLAIMANT_PI'
+		SET @V_SQL = 'SELECT @STR_PARM_VALUE_P = STR_PARM_VALUE FROM ' + @V_DBNAME+'PARMS_NAME_VALUE' + ' WHERE PARM_NAME = @V_PARM_NAME_P'
+    	
+		Exec sp_Executesql @V_SQL,
+		N'@STR_PARM_VALUE_P INT OUTPUT,
+		@V_PARM_NAME_P VARCHAR(255)',
+		@STR_PARM_VALUE_P = @V_ADDClaimantASPI OUTPUT,
+		@V_PARM_NAME_P = @V_PARM_NAME;
+
+		----PRINT 'ADD CLAIMANT AS PERSON INVOLVED FLAG: ' + CAST(@@V_ADDClaimantASPI AS VARCHAR(2))
+
+	END TRY
+	BEGIN CATCH
+		SET @V_ERROR_MESSAGE = ERROR_MESSAGE()
+		EXECUTE DDS_ERROR_LOG_CAPTURE @P_JOBID, @V_DA_ROW_ID, @V_MODULENAME, @V_ERRORLOC, @V_ERRORLOC, @V_PROCNAME, @V_ERROR_MESSAGE,'EXCEPTION', @V_ERROR_TABLE, 'CLAIM_NUMBER', @V_CLAIM_NUMBER,0
+		SET @V_ROWCOUNT = @V_ROWCOUNT + 1;
+	END CATCH
+	----JIRA RMA-22720 ENDS----
+	
+	BEGIN TRY ---- FETCHING TOTAL ROWS FROM DDS_CLAIM
+		SET @V_ERRORLOC = 'Z006'
+		SET @V_SQL = 'SELECT @TOTALROWS = COUNT(DA_ROW_ID) FROM DDS_CLAIM WHERE JOBID = @P_JOBID AND INVALID_ROW = 1'; 
+
+		Exec sp_Executesql @V_SQL,
+		N' @TOTALROWS INT OUTPUT,
+		@P_JOBID INT',
+		@TOTALROWS = @TOTALROWS OUTPUT,
+		@P_JOBID = @P_JOBID;
+		
+		----PRINT '@TOTALROWS: ' + CAST (@TOTALROWS AS VARCHAR(10));
+	END TRY
+	BEGIN CATCH
+		SET @V_ERROR_MESSAGE = ERROR_MESSAGE()
+		EXECUTE DDS_ERROR_LOG_CAPTURE @P_JOBID, @V_DA_ROW_ID, @V_MODULENAME, @V_ERRORLOC, @V_ERRORLOC, @V_PROCNAME, @V_ERROR_MESSAGE,'EXCEPTION', @V_ERROR_TABLE, 'CLAIM_NUMBER', @V_CLAIM_NUMBER,0
+		SET @V_ROWCOUNT = @V_ROWCOUNT + 1;
+	END CATCH
+	
+	SET @iTotalRows=@TOTALROWS  --neha 33658
+	----------------------------- Fetching Claim Records For Validation----------------------------------------------------
+		
+	--asharma590 jira 74846
+	DECLARE DDS_CLAIM_CUR CURSOR FOR  ------ DECLARING CURSOR	
+	SELECT 
+		DA_ROW_ID, RECORD_TYPE, CLAIM_NUMBER, CLAIM_SUFFIX, CLAIM_TYPE, DIVISION,
+		LOCATION, DEPARTMENT, COMPANY, DIVISION_DESC, LOCATION_DESC, DEPARTMENT_DESC, COMPANY_DESC, TIME_OF_CLAIM, DATE_OF_LOSS,
+		DATE_REPORTED, DATE_OF_CLAIM, DATE_CLOSED, DATE_REOPENED, CLAIM_STATUS, RESERVE_A_CURRENT, RESERVE_A_DATE,
+		RESERVE_B_CURRENT, RESERVE_B_DATE,  RESERVE_C_CURRENT, RESERVE_C_DATE,  RESERVE_D_CURRENT,
+		RESERVE_D_DATE,  CAUSE_CODE, CLAIMANT_LASTNAME, CLAIMANT_FIRSTNAME, CLAIMANT_SSN, CLAIMANT_ADDRESS1,
+		CLAIMANT_ADDRESS2, CLAIMANT_CITY, CLAIMANT_STATE, CLAIMANT_ZIP, CLAIMANT_SEX, CLAIMANT_BIRTH_DT, CLAIMANT_PHONE, CLAIMANT_COMMENT,
+		DEF_LASTNAME, DEF_FIRSTNAME, DEF_ADDRESS, DEF_CITY, DEF_STATE, DEF_ZIP, DEF_PHONE, DEF_COMMENT, CLOSURE_METHOD, DESCRIPTION, SERVICE,
+		ICD10_1,ICD10_2,ICD10_3,ICD10_4,ICD10_5,DIAGNOSIS_1, DIAGNOSIS_2, DIAGNOSIS_3, DIAGNOSIS_4, DIAGNOSIS_5, POLICY_NUMBER, POLICY_EFFECT_DATE, POLICY_EXPIRE_DATE, SUIT_DATE,
+		CASE_NUMBER, EVENT_NUMBER, COMMENTS, ILLNESS_CODE, INJURY_CODE_1, INJURY_CODE_2, INJURY_CODE_3, INJURY_CODE_4, INJURY_CODE_5,
+		BODY_PART_1, BODY_PART_2, BODY_PART_3, BODY_PART_4, BODY_PART_5, EMP_DEPARTMENT, OCCUPATION, DATE_OF_BIRTH, DATE_OF_HIRE,
+		DATE_OF_DEATH, OSHA_RECORDABLE, WEEKLY_WAGE_RATE, HOURLY_WAGE_RATE, WEEKLY_HOURS, NCCI_CLASS_CODE, ACCIDENT_STATE,
+		MARITAL_STATUS, DEPENDENT_LNAME, DEPENDENT_FNAME, DEPENDENT_BIRTH_DT, LICENSE_NUMBER, LICENSE_EXPIR_DATE, LICENSE_TYPE, LICENSE_RESTRICT,
+		RETURN_WORK_DATE, ACTIVE_FLAG, VEHICLE_ID, VEHICLE_YEAR, VEHICLE_MAKE, EMPLOYEE_ID,
+		VEHICLE_MODEL, FILE_NUMBER, DATE_LAST_WORKED, CLAIMANT_MIDDLENAME, ACCIDENT_DESC, ACCIDENT_PREVENTABLE,	PLAN_NAME, CLASS_NAME, DISABIL_FROM_DATE,
+		DISABIL_TO_DATE, BENEFITS_START, BENEFITS_THROUGH, DIS_TYPE, BEN_CALC_PAY_START, BEN_CALC_PAY_TO, FEDERAL_TAX_FLAG, SOCIAL_SEC_TAX_FLAG,
+		MEDICARE_TAX_FLAG, STATE_TAX_FLAG, STD_DISABIL_TYPE, MONTHLY_RATE, ELIG_DIS_BEN_FLAG, DIS_OPTION_CODE, PENSION_AMT, SS_AMT, OTHER_AMT,
+		RESERVE_E_CURRENT, RESERVE_E_DATE, CLAIMANT_TYPE, OSHA_ACC_DESC, STATE_DURATION, DATE_FIRST_RESTRICT, DATE_LAST_RESTRICT, PERCENT_DISABLED, SETTLEMENT_METHOD,
+		MGND_CARE_ORG_TYPE, DISPUTED_CASE_FLAG, NCCI_LOSS_TYPE_LOSS_CODE, NCCI_LOSS_TYPE_RECOV_CODE, TREATMENT_CODE, CLAIMANT_STATUS, NAME_TYPE, POLICY_LOB,
+		BENEFICIARY_CODE, INFO_REQ_DATE, PROOF_OF_LOSS_DATE, CLAIM_CAUSE_CODE, DEF_BIRTH_DT, CURR_CODE, 
+		CLAIM_TYPE_DATE_CHANGED, REVIEW_STATUS_CODE, REVIEW_STATUS_DATE_CHANGED, REVIEW_REASON, CLAIM_TYPE_REASON -----ADDED BY AKUMAR523 ENDS RMA-61584
+		----Below mentioned fields commented  as they are not required
+		--INVALID_ROW, JOBID, COUNTRY, EMPLOYEE_SEX, EMPLOYER_SIC_CODE, EMPLOYER_PAYROLL_CLASS_CODE, 
+		--RESERVE_A_OPENING, PAID_A_TOTAL, COLLECTION_A_TOTAL, 
+		--RESERVE_B_OPENING, PAID_B_TOTAL, COLLECTION_B_TOTAL, 
+		--RESERVE_C_OPENING, PAID_C_TOTAL, COLLECTION_C_TOTAL, 
+		--RESERVE_D_OPENING, PAID_D_TOTAL, COLLECTION_D_TOTAL,
+		--RESERVE_E_OPENING, PAID_E_TOTAL, COLLECTION_E_TOTAL,
+		--DATE_WORKED_LAST, DATE_RETURNED,
+		--USER_FIELD_A, USER_FIELD_B,
+		--USER_FIELD_C, USER_FIELD_D, USER_FIELD_E, USER_FIELD_F, USER_FIELD_G, USER_FIELD_H, USER_FIELD_I, USER_FIELD_J, USER_FIELD_K,
+		--USER_FIELD_L, USER_FIELD_M, USER_FIELD_N, USER_FIELD_O, USER_FIELD_P, USER_FIELD_Q, USER_FIELD_R, USER_FIELD_S, USER_FIELD_T,
+		--USER_FIELD_U, USER_FIELD_V, USER_FIELD_W, USER_FIELD_X, USER_FIELD_Y, USER_FIELD_Z,
+
+	FROM DDS_CLAIM
+	WHERE JOBID = @P_JOBID AND INVALID_ROW = 1 ; 
+
+	OPEN DDS_CLAIM_CUR;  ---- OPENING CURSOR
+	--asharma590 jira 74846
+	FETCH NEXT FROM DDS_CLAIM_CUR
+	INTO @V_DA_ROW_ID, @V_RECORD_TYPE, @V_CLAIM_NUMBER, @V_CLAIM_SUFFIX, @V_CLAIM_TYPE, @V_DIVISION,
+	 @V_LOCATION, @V_DEPARTMENT, @V_COMPANY, @V_DIVISION_DESC, @V_LOCATION_DESC, @V_DEPARTMENT_DESC, @V_COMPANY_DESC, @V_TIME_OF_CLAIM, @V_DATE_OF_LOSS,
+	 @V_DATE_REPORTED, @V_DATE_OF_CLAIM, @V_DATE_CLOSED, @V_DATE_REOPENED, @V_CLAIM_STATUS, 
+	 @V_RESERVE_A_CURRENT, @V_RESERVE_A_DATE, @V_RESERVE_B_CURRENT, @V_RESERVE_B_DATE, @V_RESERVE_C_CURRENT, @V_RESERVE_C_DATE, @V_RESERVE_D_CURRENT, @V_RESERVE_D_DATE,
+	 @V_CAUSE_CODE, @V_CLAIMANT_LASTNAME, @V_CLAIMANT_FIRSTNAME, @V_CLAIMANT_SSN, @V_CLAIMANT_ADDRESS1,
+	 @V_CLAIMANT_ADDRESS2, @V_CLAIMANT_CITY, @V_CLAIMANT_STATE, @V_CLAIMANT_ZIP, @V_CLAIMANT_SEX, @V_CLAIMANT_BIRTH_DT, @V_CLAIMANT_PHONE, @V_CLAIMANT_COMMENT,
+	 @V_DEF_LASTNAME, @V_DEF_FIRSTNAME, @V_DEF_ADDRESS, @V_DEF_CITY, @V_DEF_STATE, @V_DEF_ZIP, @V_DEF_PHONE, @V_DEF_COMMENT, @V_CLOSURE_METHOD, @V_DESCRIPTION, @V_SERVICE,
+	 @V_ICD10_1,@V_ICD10_2,@V_ICD10_3,@V_ICD10_4,@V_ICD10_5,@V_DIAGNOSIS_1, @V_DIAGNOSIS_2, @V_DIAGNOSIS_3, @V_DIAGNOSIS_4, @V_DIAGNOSIS_5, @V_POLICY_NUMBER, @V_POLICY_EFFECT_DATE, @V_POLICY_EXPIRE_DATE, @V_SUIT_DATE,
+	 @V_CASE_NUMBER, @V_EVENT_NUMBER, @V_COMMENTS, @V_ILLNESS_CODE, @V_INJURY_CODE_1, @V_INJURY_CODE_2, @V_INJURY_CODE_3, @V_INJURY_CODE_4, @V_INJURY_CODE_5,
+	 @V_BODY_PART_1, @V_BODY_PART_2, @V_BODY_PART_3, @V_BODY_PART_4, @V_BODY_PART_5, @V_EMP_DEPARTMENT, @V_OCCUPATION, @V_DATE_OF_BIRTH, @V_DATE_OF_HIRE,
+	 @V_DATE_OF_DEATH, @V_OSHA_RECORDABLE, @V_WEEKLY_WAGE_RATE, @V_HOURLY_WAGE_RATE, @V_WEEKLY_HOURS, @V_NCCI_CLASS_CODE, @V_ACCIDENT_STATE,
+	 @V_MARITAL_STATUS, @V_DEPENDENT_LNAME, @V_DEPENDENT_FNAME, @V_DEPENDENT_BIRTH_DT, @V_LICENSE_NUMBER, @V_LICENSE_EXPIR_DATE, @V_LICENSE_TYPE, @V_LICENSE_RESTRICT,
+	 @V_RETURN_WORK_DATE, @V_ACTIVE_FLAG, @V_VEHICLE_ID, @V_VEHICLE_YEAR, @V_VEHICLE_MAKE, @V_EMPLOYEE_ID,
+	 @V_VEHICLE_MODEL, @V_FILE_NUMBER, @V_DATE_LAST_WORKED, @V_CLAIMANT_MIDDLENAME, @V_ACCIDENT_DESC, @V_ACCIDENT_PREVENTABLE, 
+	 @V_PLAN_NAME, @V_CLASS_NAME, @V_DISABIL_FROM_DATE, @V_DISABIL_TO_DATE, @V_BENEFITS_START, @V_BENEFITS_THROUGH, @V_DIS_TYPE, @V_BEN_CALC_PAY_START, 
+	 @V_BEN_CALC_PAY_TO, @V_FEDERAL_TAX_FLAG, @V_SOCIAL_SEC_TAX_FLAG, @V_MEDICARE_TAX_FLAG, @V_STATE_TAX_FLAG, @V_STD_DISABIL_TYPE, @V_MONTHLY_RATE, 
+	 @V_ELIG_DIS_BEN_FLAG, @V_DIS_OPTION_CODE, @V_PENSION_AMT, @V_SS_AMT, @V_OTHER_AMT, @V_RESERVE_E_CURRENT, @V_RESERVE_E_DATE, @V_CLAIMANT_TYPE,
+	 @V_OSHA_ACC_DESC, @V_STATE_DURATION, @V_DATE_FIRST_RESTRICT, @V_DATE_LAST_RESTRICT, @V_PERCENT_DISABLED, @V_SETTLEMENT_METHOD, @V_MGND_CARE_ORG_TYPE,
+	 @V_DISPUTED_CASE_FLAG, @V_NCCI_LOSS_TYPE_LOSS_CODE, @V_NCCI_LOSS_TYPE_RECOV_CODE, @V_TREATMENT_CODE, @V_CLAIMANT_STATUS, @V_NAME_TYPE, @V_POLICY_LOB,
+	 @V_BENEFICIARY_CODE, @V_INFO_REQ_DATE, @V_PROOF_OF_LOSS_DATE, @V_CLAIM_CAUSE_CODE,	@V_DEF_BIRTH_DT, @V_CURR_CODE,	--JIRA 29954 knakra
+	 @V_CLAIM_TYPE_DT_CHA,@V_REVIEW_STATUS_CODE, @V_REV_STA_DT_CH, @V_REV_REASON, @V_CLAIM_TYP_REASON ---ADDED BY AKUMAR523 RMA-61584
+	
+	----Below mentioned fields commented  as they are not required
+	--@V_INVALID_ROW, @V_JOBID, @V_COUNTRY, @V_EMPLOYEE_SEX, @V_EMPLOYER_SIC_CODE, @V_EMPLOYER_PAYROLL_CLASS_CODE, 
+	--@V_RESERVE_A_OPENING, @V_PAID_A_TOTAL, @V_COLLECTION_A_TOTAL, 
+	--@V_RESERVE_B_OPENING, @V_PAID_B_TOTAL, @V_COLLECTION_B_TOTAL, 
+	--@V_RESERVE_C_OPENING, @V_PAID_C_TOTAL, @V_COLLECTION_C_TOTAL, 
+	--@V_RESERVE_D_OPENING, @V_PAID_D_TOTAL, @V_COLLECTION_D_TOTAL,
+	--@V_RESERVE_E_OPENING, @V_PAID_E_TOTAL, @V_COLLECTION_E_TOTAL,
+	--@V_DATE_WORKED_LAST, @V_DATE_RETURNED,
+	--@V_USER_FIELD_A, @V_USER_FIELD_B,
+	--@V_USER_FIELD_C, @V_USER_FIELD_D, @V_USER_FIELD_E, @V_USER_FIELD_F, @V_USER_FIELD_G, @V_USER_FIELD_H, @V_USER_FIELD_I, @V_USER_FIELD_J, @V_USER_FIELD_K,
+	--@V_USER_FIELD_L, @V_USER_FIELD_M, @V_USER_FIELD_N, @V_USER_FIELD_O, @V_USER_FIELD_P, @V_USER_FIELD_Q, @V_USER_FIELD_R, @V_USER_FIELD_S, @V_USER_FIELD_T,
+	--@V_USER_FIELD_U, @V_USER_FIELD_V, @V_USER_FIELD_W, @V_USER_FIELD_X, @V_USER_FIELD_Y, @V_USER_FIELD_Z,
+		
+	WHILE @TOTALROWS <> 0
+	BEGIN
+
+		SET @V_ERRORLOC = 'Z007'
+		----PRINT 'BEGIN STARTED WITH FETCH STATUS: ' + CAST(@TOTALROWS AS VARCHAR(1))
+		----FETCHING LOB TYPES NOTE: fetch these values from glossary
+		----PRINT '************************************************************************************************************************************************'
+
+		IF @V_RECORD_TYPE = 'G'	SET @V_RECORD_TYPE2 = 'GC' 
+
+		ELSE IF @V_RECORD_TYPE = 'W' SET @V_RECORD_TYPE2 = 'WC'
+
+		ELSE IF @V_RECORD_TYPE = 'V' SET @V_RECORD_TYPE2 = 'VA'
+
+		ELSE IF @V_RECORD_TYPE = 'D' SET @V_RECORD_TYPE2 = 'DI'
+		
+		ELSE IF @V_RECORD_TYPE = 'H' SET @V_RECORD_TYPE2 = 'HC'
+		ELSE 
+		BEGIN
+			EXECUTE DDS_ERROR_LOG_CAPTURE @P_JOBID, @V_DA_ROW_ID, @V_MODULENAME, @V_ERRORLOC, @V_ERRORLOC, @V_PROCNAME,'Unknown Record Type.','RECORD_TYPE', @V_ERROR_TABLE, 'CLAIM_NUMBER', @V_CLAIM_NUMBER, 1
+			SET @V_ERRORCOUNT = @V_ERRORCOUNT + 1;
+			
+			GOTO FETCHNEXT
+		END
+----************** INITIALIZATION OF VARIABLES ******************
+
+	SET @V_INVALID_ROW = 0
+	SET @V_ERRORCOUNT = 0
+	SET @V_DEPARTMENTEMPTY = 0
+	SET @V_CLAIM_TYPE_ID = 0  
+	SET @V_CLAIM_STATUS_ID = 0 
+	SET @V_CAUSE_CODE_ID = 0  
+	SET @V_CLAIMANT_SEX_ID = 0  
+	SET @V_CLOSURE_METHOD_ID = 0  
+	SET @V_SERVICE_ID = 0
+	SET @V_ICD10_1_ID = 0 ---asharma590 jira 74846  
+	SET @V_ICD10_2_ID = 0
+	SET @V_ICD10_3_ID = 0
+	SET @V_ICD10_4_ID = 0
+	SET @V_ICD10_5_ID = 0
+	SET @V_DIAGNOSIS_1_ID = 0  
+	SET @V_DIAGNOSIS_2_ID = 0  
+	SET @V_DIAGNOSIS_3_ID = 0  
+	SET @V_DIAGNOSIS_4_ID = 0  
+	SET @V_DIAGNOSIS_5_ID = 0  
+	SET @V_ILLNESS_CODE_ID = 0  
+	SET @V_INJURY_CODE_1_ID = 0  
+	SET @V_INJURY_CODE_2_ID = 0  
+	SET @V_INJURY_CODE_3_ID = 0  
+	SET @V_INJURY_CODE_4_ID = 0  
+	SET @V_INJURY_CODE_5_ID = 0  
+	SET @V_BODY_PART_1_ID = 0  
+	SET @V_BODY_PART_2_ID = 0  
+	SET @V_BODY_PART_3_ID = 0  
+	SET @V_BODY_PART_4_ID = 0  
+	SET @V_BODY_PART_5_ID = 0  
+	SET @V_OCCUPATION_ID = 0  
+	--SET @V_EMPLOYEE_SEX_ID = 0   
+	SET @V_NCCI_CLASS_CODE_ID = 0  
+	SET @V_MARITAL_STATUS_ID = 0  
+	SET @V_LICENSE_TYPE_ID = 0  
+	SET @V_LICENSE_RESTRICT_ID = 0  
+	--SET @V_EMPLOYER_SIC_CODE_ID = 0  
+	--SET @V_EMPLOYER_PAYROLL_CLASS_CODE_ID = 0  
+	SET @V_ACCIDENT_DESC_ID = 0  
+	SET @V_STD_DISABIL_TYPE_ID = 0  
+	SET @V_DIS_OPTION_CODE_ID = 0  
+	SET @V_CLAIMANT_TYPE_ID = 0  
+	SET @V_SETTLEMENT_METHOD_ID = 0  
+	SET @V_MGND_CARE_ORG_TYPE_ID = 0  
+	SET @V_NCCI_LOSS_TYPE_LOSS_CODE_ID = 0  
+	SET @V_NCCI_LOSS_TYPE_RECOV_CODE_ID = 0  
+	SET @V_TREATMENT_CODE_ID = 0  
+	SET @V_CLAIMANT_STATUS_ID = 0  
+	SET @V_NAME_TYPE_ID = 0  
+	SET @V_POLICY_LOB_ID = 0  
+	SET @V_PLAN_ID = 0
+	SET @V_TAXFLAGS = 0
+	
+	SET @V_CLAIMANT_STATE_ID = 0 
+	SET @V_DEF_STATE_ID = 0 
+	SET @V_ACTIVE_FLAG_ID = 0 
+	SET @V_ELIG_DIS_BEN_FLAG_ID = 0 
+	SET @V_ACC_PREV_FLAG_ID = 0 
+	SET @V_EMP_PI_TYPE_CODE_ID = 0 
+	SET @V_OTHR_PI_TYPE_CODE_ID = 0
+	SET @V_PI_TYPE_CODE_ID = 0
+	SET @V_OPENCLAIM_CODE_ID = 0 
+	SET @V_CLOSEDCLAIM_CODE_ID = 0 
+	SET @V_STATE_ID = 0 
+	SET @V_FLAG_ID = 0 
+	SET @V_DISPUTED_CASE_FLAG_ID = 0 
+	SET @V_EMP_DEP_ROW_ID = 0 
+	SET @V_PI_WL_ROW_ID = 0 
+	SET @V_PI_RSTRCT_ROW_ID = 0 
+	SET @V_PI_DEP_ROW_ID = 0 
+	SET @V_EVENT_ID_RMDB = 0 
+	SET @V_CLAIMANT_ROW_ID = 0 
+	SET @V_PRIMARY_CLMNT_FLAG = 0 
+	SET @V_POLICY_ID = 0 
+	SET @V_OPEN_FLAG_ID = 0 
+	SET @V_CL_STATUS_ROW_ID = 0 
+	SET @V_LITIGATION_ROW_ID = 0 
+	SET @V_DEFENDANT_ROW_ID = 0 
+	SET @V_CLAIM_DEFCOUNT = 0 
+	SET @V_VEHICLE_UNIT_ID = 0 
+	SET @V_CLAIMXUNIT_ROW_ID = 0 
+
+	SET @V_ROWCOUNT = 0 
+	SET @V_CODE_ID_R  = 0 
+	SET @V_CLAIM_ID = 0 
+	SET @V_BCLOSEDCLAIM = 0 
+	SET @V_BOPENCLAIM = 0
+	SET @V_TEMPSHORTCODE = ''
+	SET @V_ACCIDENT_STATE_ID = 0
+	SET @V_ENTITY_ID = 0 
+	SET @V_DEPT_ID = 0 
+	SET @V_ENTITY_TABLE_ID = 0 
+	SET @V_ABBREVIATION = ''
+	SET @V_DELETED_FLAG = 0 
+	SET @V_ENTITY_TABLE_ID_INP = 0 
+	SET @V_SYS_TABLE_NAME = ''
+	SET @V_EVENT_ID = 0 
+	SET @V_DEPT_EID = 0 
+	SET @DATEOFLOSSEMPTY = 0 
+	SET @UPD_DATEOFCLAIM = 0 
+	SET @V_UDRM_RSV_TYPE_CODE_ID  = 0 
+	SET @V_PARM_NAME = ''
+	SET @V_NEWCLAIM  = 0 
+	SET @V_NEWEVENT = 0
+	SET @V_RESERVE_TRACKING  = NULL
+	SET @V_DURATION  = 0 
+	SET @V_POLICY_ID = 0
+	SET @V_EMP_DEP_ROW_ID = 0
+	SET @V_ERRORLOC = ''
+
+	SET @V_DURATION = 0 
+	SET @V_NEW_PI = 0
+	SET @V_NEW_VEHICLE = 0
+	SET @V_NEW_EMP = 0
+	SET @V_NEW_POLICY = 0
+	SET @V_NEW_CLAIMANT = 0
+	SET @V_NEW_EVENTXOSHA = 0
+	SET @V_NEW_CLAIMXLIT = 0
+	SET @V_NEW_DEPENTDENT = 0
+	SET @V_NEW_UNITXCLAIM = 0
+	SET @V_NEW_UNITSTAT = 0
+	SET @V_NEW_DEFENDANT = 0
+	SET @V_UPDATE_ENTITYNAME = 0
+	SET @V_UPDATE_CLAIMANT_ADDRESS = 0
+	SET @V_INSERT_EMPXDEP = 0
+	SET @V_TABLE_ID = 0
+
+	SET @V_COL_IN_RSV_BAL  = 0
+	SET @V_COL_IN_INC_BAL  = 0
+	SET @V_EMP_PERSON = 0
+	
+	SET @V_CLAIM_SUFFIX_RMDB = 0
+	SET @V_CLAIMANT_EID_RMDB = 0
+	SET @V_CLAIMANT_EID_RMDB_1 = 0 ----JIRA RMA-23225
+
+	----JIRA RMA-22720 STARTS----	
+	SET @V_DATE_CLOSED_DT = NULL
+	SET @V_EXCLUSIONERROR = 0
+	SET @V_DUPLICATECLAIMANT = 0
+	----JIRA RMA-22720 ENDS----
+	SET @V_SUFFIXERROR = 0 ----JIRA RMA-23225
+	--JIRA 23899 knakra starts
+	SET @iExtClmTypeCode = NULL
+	SET @iExtPolLobCode = NULL
+	SET @iIncClaimant = NULL
+	SET @iIncLossType = NULL
+	SET @iIncPolCvgUnit = NULL
+	SET @iIncRsvSubType = NULL
+	SET @iIncRsvType = NULL
+	SET @iExtIncClaimant = NULL
+	SET @iExtIncLossType = NULL
+	SET @iExtIncPolCvgUnit = NULL
+	SET @iExtIncRsvSubType = NULL
+	SET @iExtIncRsvType = NULL
+	SET @iRowId = NULL
+	SET @V_CURR_CODE_ID = 0
+	SET @iOldClmCurrCode = 0
+	--JIRA 23899 knakra ends
+	--JIRA 42212 knakra starts
+	SET @iFacEid = 0
+	SET @iLocEid = 0
+	SET @iDivEid = 0
+	SET @iRegEid = 0
+	SET @iOprEid = 0
+	SET @iComEid = 0
+	SET @iClntEid = 0
+	--JIRA 42212 knakra ends
+	
+	--dsharma70 hmi
+	SET @V_BENEFICIARY_CODE_ID = 0
+	SET @V_CLAIM_CAUSE_CODE_ID = 0
+
+	IF @V_DATE_CLOSED IS NOT NULL AND LEN(@V_DATE_CLOSED) >= 8
+	   SET @V_DATE_CLOSED_DT = SUBSTRING(@V_DATE_CLOSED,1,8)
+
+	IF @V_ILLNESS_CODE IS NULL SET @V_DISABILITY_CODE = 'INJ'
+	
+	--IF @V_TIME_OF_CLAIM  IS NULL SET @V_TIME_OF_CLAIM = '000000'
+
+	--IF @V_DATE_OF_DEATH IS NULL SET @V_DATE_OF_DEATH = '00000000'
+	SET @V_CLTP_CHA=0 ----Aakumar523 RMA-61584
+	SET @V_REWTP_CHA=0 ----AKUMAR523 RMA-61584
+	--DSHARMA70 hmi
+	SET @V_TODAY = CONVERT(VARCHAR(8),GETDATE(),112)
+	SET @V_CLM_TYP_ROW_ID=0	  --AKUMAR523 STARTS 
+	SET @V_REVIEW_STATUS_CODE_ID=0	
+	set @V_REW_TYP_ROW_ID=0
+	SET @ioldRevTypCode=0   ----AKUMAR523 ENDS 
+	BEGIN TRY	--********* REQUIRED FIELD VALIDATION STARTS **********************************************
+		SET @V_ERRORLOC = 'V001'
+		SET @vReqColumns = 'RECORD_TYPE|CLAIM_NUMBER|CLAIM_TYPE|DEPARTMENT|'
+		SET @vReqColumns = @vReqColumns + 'DATE_OF_LOSS|DATE_REPORTED|DATE_OF_CLAIM|'
+		SET @vReqColumns = @vReqColumns + 'CLAIM_STATUS|CLAIMANT_LASTNAME|'		
+
+		--IF (@V_RECORD_TYPE ='W') OR (@V_RECORD_TYPE = 'D' AND @V_CARRIERFLAG = 0)	--JIRA 23899 knakra
+		IF (@V_RECORD_TYPE ='W' AND @iVarFinKey = 0) OR (@V_RECORD_TYPE = 'D' AND @V_CARRIERFLAG = 0 AND @iVarFinKey = 0) OR (@V_RECORD_TYPE IN('W','D') AND @iVarFinKey <> 0)	--JIRA 23899 knakra
+		BEGIN
+			SET @vReqColumns = @vReqColumns + 'EMPLOYEE_ID|EMP_DEPARTMENT|CLAIMANT_SSN|ACCIDENT_STATE|'
+		END
+		
+		--IF (@V_RECORD_TYPE ='D' AND @V_CARRIERFLAG = 0 )	--JIRA 23899 knakra
+		IF (@V_RECORD_TYPE ='D' AND @V_CARRIERFLAG = 0  AND @iVarFinKey = 0) OR (@V_RECORD_TYPE = 'D' AND @iVarFinKey <> 0)	--JIRA 23899 knakra
+		BEGIN
+			SET @vReqColumns = @vReqColumns + 'DISABIL_FROM_DATE|PLAN_NAME|'
+		END
+	
+		--IF (@V_CARRIERFLAG <> 0)	--JIRA 23899 knakra
+		IF (@V_CARRIERFLAG <> 0 AND @iVarFinKey = 0) OR (@iVarFinKey <> 0 AND @iFinKeyFilter <> 0)	--JIRA 23899 knakra
+		BEGIN
+			SET @vReqColumns = @vReqColumns + 'POLICY_LOB|'
+		END
+	
+		WHILE CHARINDEX('|',@vReqColumns,1) > 0		--CHECK FOR REQUIRED COLUMNS NULL IN IMPORT FILE
+		BEGIN
+			SET @iPos1 = CHARINDEX('|',@vReqColumns,1)
+			SET @vColName1 = LEFT(@vReqColumns,CHARINDEX('|',@vReqColumns,1) - 1)
+			SET @vReqColumns = RIGHT(@vReqColumns,LEN(@vReqColumns) - CHARINDEX('|',@vReqColumns,1))
+
+			SET @V_VAL = ( CASE 
+			WHEN @vColName1 = 'RECORD_TYPE' THEN @V_RECORD_TYPE 
+			WHEN @vColName1 = 'CLAIM_NUMBER' THEN @V_CLAIM_NUMBER 
+			WHEN @vColName1 = 'CLAIM_TYPE' THEN @V_CLAIM_TYPE  
+			WHEN @vColName1 = 'DEPARTMENT' THEN @V_DEPARTMENT  
+			WHEN @vColName1 = 'DATE_OF_LOSS' THEN @V_DATE_OF_LOSS
+			WHEN @vColName1 = 'DATE_REPORTED' THEN @V_DATE_REPORTED  
+			WHEN @vColName1 = 'DATE_OF_CLAIM' THEN @V_DATE_OF_CLAIM 
+			WHEN @vColName1 = 'CLAIM_STATUS' THEN @V_CLAIM_STATUS  
+			WHEN @vColName1 = 'CLAIMANT_LASTNAME' THEN @V_CLAIMANT_LASTNAME 
+			WHEN @vColName1 = 'EMPLOYEE_ID' THEN @V_EMPLOYEE_ID
+			WHEN @vColName1 = 'EMP_DEPARTMENT' THEN @V_EMP_DEPARTMENT 
+			WHEN @vColName1 = 'CLAIMANT_SSN' THEN @V_CLAIMANT_SSN  
+			WHEN @vColName1 = 'ACCIDENT_STATE' THEN @V_ACCIDENT_STATE  
+			WHEN @vColName1 = 'DISABIL_FROM_DATE' THEN @V_DISABIL_FROM_DATE  
+			WHEN @vColName1 = 'PLAN_NAME' THEN @V_PLAN_NAME  
+			WHEN @VCOLNAME1 = 'POLICY_LOB' THEN @V_POLICY_LOB
+			END )
+
+			IF @V_VAL IS NULL
+			BEGIN
+				EXECUTE DDS_ERROR_LOG_CAPTURE @P_JOBID, @V_DA_ROW_ID, @V_MODULENAME, @V_ERRORLOC, @V_ERRORLOC, @V_PROCNAME,'Required Fields are Null or Empty.',@vColName1, @V_ERROR_TABLE, 'CLAIM_NUMBER', @V_CLAIM_NUMBER,1
+				SET @V_ERRORCOUNT = @V_ERRORCOUNT + 1;	
+			END
+		END
+	END TRY
+	BEGIN CATCH
+		SET @V_ERROR_MESSAGE = ERROR_MESSAGE()
+		EXECUTE DDS_ERROR_LOG_CAPTURE @P_JOBID, @V_DA_ROW_ID, @V_MODULENAME, @V_ERRORLOC, @V_ERRORLOC, @V_PROCNAME,@V_ERROR_MESSAGE,'EXCEPTION', @V_ERROR_TABLE, 'CLAIM_NUMBER', @V_CLAIM_NUMBER,0;
+		SET @V_ROWCOUNT = @V_ROWCOUNT + 1;
+	END CATCH --***************** REQUIRED FIELD VALIDATION ENDS ******************************************
+		
+	BEGIN TRY	----***************** SHORT CODE FIELDS VALIDATION STARTS *********************************
+	SET @V_ERRORLOC = 'V002'
+	SET @V_CODEFIELDS = 'RECORD_TYPE|CLAIM_TYPE|CLAIM_STATUS|CAUSE_CODE|CLAIMANT_SEX|CLOSURE_METHOD|SERVICE|'
+	SET @V_CODEFIELDS = @V_CODEFIELDS + 'ICD10_1|ICD10_2|ICD10_3|ICD10_4|ICD10_5|DIAGNOSIS_1|DIAGNOSIS_2|DIAGNOSIS_3|DIAGNOSIS_4|DIAGNOSIS_5|'--asharma590 jira 74846
+	SET @V_CODEFIELDS = @V_CODEFIELDS + 'ILLNESS_CODE|'
+	SET @V_CODEFIELDS = @V_CODEFIELDS + 'INJURY_CODE_1|INJURY_CODE_2|INJURY_CODE_3|INJURY_CODE_4|INJURY_CODE_5|'
+	SET @V_CODEFIELDS = @V_CODEFIELDS + 'BODY_PART_1|BODY_PART_2|BODY_PART_3|BODY_PART_4|BODY_PART_5|'
+	SET @V_CODEFIELDS = @V_CODEFIELDS + 'OCCUPATION|NCCI_CLASS_CODE|MARITAL_STATUS|LICENSE_TYPE|LICENSE_RESTRICT|ACCIDENT_DESC|STD_DISABIL_TYPE|DIS_OPTION_CODE|'
+	SET @V_CODEFIELDS = @V_CODEFIELDS + 'CLAIMANT_TYPE|SETTLEMENT_METHOD|MGND_CARE_ORG_TYPE|NCCI_LOSS_TYPE_LOSS_CODE|NCCI_LOSS_TYPE_RECOV_CODE|TREATMENT_CODE|'
+	SET @V_CODEFIELDS = @V_CODEFIELDS + 'CLAIMANT_STATUS|NAME_TYPE|POLICY_LOB|DIS_TYPE|'
+	
+	--dsharma70 hmi
+	SET @V_CODEFIELDS = @V_CODEFIELDS + 'BENEFICIARY_CODE|CLAIM_CAUSE_CODE|'
+	SET @V_CODEFIELDS = @V_CODEFIELDS + 'CURR_CODE|'	--JIRA 29954 knakra
+	SET @V_CODEFIELDS =	@V_CODEFIELDS + 'REVIEW_STATUS_CODE|'----AKUMAR523 RMA-61584
+	---- BELOW MENTIONED CODES ARE NOT IN IMPORT FILE. THESE CODES ARE HARDCODED IN THE CODE AND NEEDS TO BE VERIFIED BEFORE IMPORTING VALUES.
+	---akumar523 RMA 62604
+	---SET @V_CODEFIELDS = @V_CODEFIELDS + 'DISABILITY_CODE|PERSON_INV_TYPE_E|PERSON_INV_TYPE_O|OPEN_CLAIM_STATUS|CLOSED_CLAIM_STATUS|EVENT_STATUS|EVENT_TYPE|'
+	SET @V_CODEFIELDS = @V_CODEFIELDS + 'DISABILITY_CODE|PERSON_INV_TYPE_E|PERSON_INV_TYPE_O|OPEN_CLAIM_STATUS|CLOSED_CLAIM_STATUS|EVENT_STATUS|'
+
+	SET @V_SYSTEMTABLENAME = 'LINE_OF_BUSINESS|CLAIM_TYPE|CLAIM_STATUS|CAUSE_CODE|SEX_CODE|CLOSE_METHOD|SERVICE_CODE|'
+	SET @V_SYSTEMTABLENAME = @V_SYSTEMTABLENAME + 'DIAGNOSIS_CODE_ICD10|DIAGNOSIS_CODE_ICD10|DIAGNOSIS_CODE_ICD10|DIAGNOSIS_CODE_ICD10|DIAGNOSIS_CODE_ICD10|DIAGNOSIS_CODE|DIAGNOSIS_CODE|DIAGNOSIS_CODE|DIAGNOSIS_CODE|DIAGNOSIS_CODE|' --asharma590 jira 74846
+	SET @V_SYSTEMTABLENAME = @V_SYSTEMTABLENAME + 'ILLNESS_TYPE|'
+	SET @V_SYSTEMTABLENAME = @V_SYSTEMTABLENAME + 'INJURY_TYPE|INJURY_TYPE|INJURY_TYPE|INJURY_TYPE|INJURY_TYPE|'
+	SET @V_SYSTEMTABLENAME = @V_SYSTEMTABLENAME + 'BODY_PART|BODY_PART|BODY_PART|BODY_PART|BODY_PART|'
+	SET @V_SYSTEMTABLENAME = @V_SYSTEMTABLENAME + 'POSITIONS|NCCI_CLASS_CODE|MARITAL_STATUS|LICENSE_TYPE_CODE|LIC_RESTRICTION|ACCIDENT_DESC_CODE|STD_DISABIL_TYPE|DIS_OPTION_CODE|'
+	SET @V_SYSTEMTABLENAME = @V_SYSTEMTABLENAME + 'CLAIMANT_TYPE|SETTLEMENT_METHOD|MGND_CARE_ORG_TYPE|NCCI_LOSS_CODE|NCCI_RECOV_CODE|TREATMENT_TYPE|'
+	SET @V_SYSTEMTABLENAME = @V_SYSTEMTABLENAME + 'CLAIMANT_STATUS|ENTITY_NAME_TYPE|POLICY_CLAIM_LOB|BENEFIT_DIS_TYPE|'
+	
+	--dsharma70 hmi
+	SET @V_SYSTEMTABLENAME = @V_SYSTEMTABLENAME + 'BENEFICIARY_CODE|CAUSE_DEATH|'
+	SET @V_SYSTEMTABLENAME += 'CURRENCY_TYPE|'	--JIRA 29954 knakra
+	SET @V_SYSTEMTABLENAME += 'CLAIM_REVIEW_STATUS|' ---AKUMAR523 RMA-61584
+	---- BELOW MENTIONED CODES ARE NOT IN IMPORT FILE. THESE CODES ARE HARDCODED IN THE CODE AND NEEDS TO BE VERIFIED BEFORE IMPORTING VALUES.
+	---akumar523 starts 
+	---SET @V_SYSTEMTABLENAME = @V_SYSTEMTABLENAME + 'DISABILITY_CODE|PERSON_INV_TYPE|PERSON_INV_TYPE|CLAIM_STATUS|CLAIM_STATUS|EVENT_STATUS|EVENT_TYPE|'
+	SET @V_SYSTEMTABLENAME = @V_SYSTEMTABLENAME + 'DISABILITY_CODE|PERSON_INV_TYPE|PERSON_INV_TYPE|CLAIM_STATUS|CLAIM_STATUS|EVENT_STATUS|'
+	---akumar523 ends
+	
+	WHILE CHARINDEX('|',@V_CODEFIELDS,1) > 0		--CHECK FOR CODE ID EXISTENCE AND THEIR CREATIONS
+	BEGIN
+		SET @iPos1 = CHARINDEX('|',@V_CODEFIELDS,1)
+		SET @VCOLNAME1 = LEFT(@V_CODEFIELDS,CHARINDEX('|',@V_CODEFIELDS,1) - 1)
+		SET @V_CODEFIELDS = RIGHT(@V_CODEFIELDS,LEN(@V_CODEFIELDS) - CHARINDEX('|',@V_CODEFIELDS,1))
+		
+		SET @iPos1 = CHARINDEX('|',@V_SYSTEMTABLENAME,1)
+		SET @V_TABLENAME = LEFT(@V_SYSTEMTABLENAME,CHARINDEX('|',@V_SYSTEMTABLENAME,1) - 1)
+		SET @V_SYSTEMTABLENAME = RIGHT(@V_SYSTEMTABLENAME,LEN(@V_SYSTEMTABLENAME) - CHARINDEX('|',@V_SYSTEMTABLENAME,1))
+
+		SET @V_VAL =( CASE 
+		WHEN @VCOLNAME1 = 'RECORD_TYPE' THEN @V_RECORD_TYPE2
+		WHEN @VCOLNAME1 = 'CLAIM_TYPE' THEN @V_CLAIM_TYPE
+		WHEN @VCOLNAME1 = 'CLAIM_STATUS' THEN @V_CLAIM_STATUS
+		WHEN @VCOLNAME1 = 'CAUSE_CODE' THEN @V_CAUSE_CODE
+		WHEN @VCOLNAME1 = 'CLAIMANT_SEX' THEN @V_CLAIMANT_SEX
+		WHEN @VCOLNAME1 = 'CLOSURE_METHOD' THEN @V_CLOSURE_METHOD
+		WHEN @VCOLNAME1 = 'SERVICE' THEN @V_SERVICE
+		WHEN @VCOLNAME1 = 'ICD10_1' THEN @V_ICD10_1--asharma590 jira 74846
+		WHEN @VCOLNAME1 = 'ICD10_2' THEN @V_ICD10_2
+		WHEN @VCOLNAME1 = 'ICD10_3' THEN @V_ICD10_3
+		WHEN @VCOLNAME1 = 'ICD10_4' THEN @V_ICD10_4
+		WHEN @VCOLNAME1 = 'ICD10_5' THEN @V_ICD10_5
+		WHEN @VCOLNAME1 = 'DIAGNOSIS_1' THEN @V_DIAGNOSIS_1
+		WHEN @VCOLNAME1 = 'DIAGNOSIS_2' THEN @V_DIAGNOSIS_2
+		WHEN @VCOLNAME1 = 'DIAGNOSIS_3' THEN @V_DIAGNOSIS_3
+		WHEN @VCOLNAME1 = 'DIAGNOSIS_4' THEN @V_DIAGNOSIS_4
+		WHEN @VCOLNAME1 = 'DIAGNOSIS_5' THEN @V_DIAGNOSIS_5
+		WHEN @VCOLNAME1 = 'ILLNESS_CODE' THEN @V_ILLNESS_CODE
+		WHEN @VCOLNAME1 = 'INJURY_CODE_1' THEN @V_INJURY_CODE_1
+		WHEN @VCOLNAME1 = 'INJURY_CODE_2' THEN @V_INJURY_CODE_2
+		WHEN @VCOLNAME1 = 'INJURY_CODE_3' THEN @V_INJURY_CODE_3
+		WHEN @VCOLNAME1 = 'INJURY_CODE_4' THEN @V_INJURY_CODE_4
+		WHEN @VCOLNAME1 = 'INJURY_CODE_5' THEN @V_INJURY_CODE_5
+		WHEN @VCOLNAME1 = 'BODY_PART_1' THEN @V_BODY_PART_1
+		WHEN @VCOLNAME1 = 'BODY_PART_2' THEN @V_BODY_PART_2
+		WHEN @VCOLNAME1 = 'BODY_PART_3' THEN @V_BODY_PART_3
+		WHEN @VCOLNAME1 = 'BODY_PART_4' THEN @V_BODY_PART_4
+		WHEN @VCOLNAME1 = 'BODY_PART_5' THEN @V_BODY_PART_5
+		WHEN @VCOLNAME1 = 'OCCUPATION' THEN @V_OCCUPATION
+		WHEN @VCOLNAME1 = 'NCCI_CLASS_CODE' THEN @V_NCCI_CLASS_CODE
+		WHEN @VCOLNAME1 = 'MARITAL_STATUS' THEN @V_MARITAL_STATUS
+		WHEN @VCOLNAME1 = 'LICENSE_TYPE' THEN @V_LICENSE_TYPE
+		WHEN @VCOLNAME1 = 'LICENSE_RESTRICT' THEN @V_LICENSE_RESTRICT
+		WHEN @VCOLNAME1 = 'ACCIDENT_DESC' THEN @V_ACCIDENT_DESC
+		WHEN @VCOLNAME1 = 'STD_DISABIL_TYPE' THEN @V_STD_DISABIL_TYPE
+		WHEN @VCOLNAME1 = 'DIS_OPTION_CODE' THEN @V_DIS_OPTION_CODE
+		WHEN @VCOLNAME1 = 'CLAIMANT_TYPE' THEN @V_CLAIMANT_TYPE
+		WHEN @VCOLNAME1 = 'SETTLEMENT_METHOD' THEN @V_SETTLEMENT_METHOD
+		WHEN @VCOLNAME1 = 'MGND_CARE_ORG_TYPE' THEN @V_MGND_CARE_ORG_TYPE
+		WHEN @VCOLNAME1 = 'NCCI_LOSS_TYPE_LOSS_CODE' THEN @V_NCCI_LOSS_TYPE_LOSS_CODE
+		WHEN @VCOLNAME1 = 'NCCI_LOSS_TYPE_RECOV_CODE' THEN @V_NCCI_LOSS_TYPE_RECOV_CODE
+		WHEN @VCOLNAME1 = 'TREATMENT_CODE' THEN @V_TREATMENT_CODE
+		WHEN @VCOLNAME1 = 'CLAIMANT_STATUS' THEN @V_CLAIMANT_STATUS
+		WHEN @VCOLNAME1 = 'NAME_TYPE' THEN @V_NAME_TYPE
+		WHEN @VCOLNAME1 = 'POLICY_LOB' THEN @V_POLICY_LOB
+		WHEN @VCOLNAME1 = 'DISABILITY_CODE' THEN @V_DISABILITY_CODE
+		WHEN @VCOLNAME1 = 'PERSON_INV_TYPE_E' THEN @V_EMP_PI_TYPE_CODE
+		WHEN @VCOLNAME1 = 'PERSON_INV_TYPE_O' THEN @V_OTHR_PI_TYPE_CODE
+		WHEN @VCOLNAME1 = 'OPEN_CLAIM_STATUS' THEN @V_OPENCLAIM_CODE
+		WHEN @VCOLNAME1 = 'CLOSED_CLAIM_STATUS' THEN @V_CLOSEDCLAIM_CODE
+		WHEN @VCOLNAME1 = 'EVENT_STATUS' THEN @V_EVENT_STATUS_CODE
+		---WHEN @VCOLNAME1 = 'EVENT_TYPE' THEN @V_EVENT_TYPE_CODE   akumar523 RMA62604
+		WHEN @VCOLNAME1 = 'DIS_TYPE' THEN @V_DIS_TYPE
+		
+		--dsharma70 hmi
+		WHEN @VCOLNAME1 = 'BENEFICIARY_CODE' THEN @V_BENEFICIARY_CODE
+		WHEN @VCOLNAME1 = 'CLAIM_CAUSE_CODE' THEN @V_CLAIM_CAUSE_CODE
+		WHEN @VCOLNAME1 = 'CURR_CODE' THEN @V_CURR_CODE	--JIRA 29954 knakra
+		WHEN @VCOLNAME1 = 'REVIEW_STATUS_CODE' THEN @V_REVIEW_STATUS_CODE  ----AKUMAR523 RMA-61584
+		END )
+		----PRINT 'CODE CHECK BEGINS'
+		----PRINT @V_VAL
+		IF @V_VAL IS NOT NULL 
+		BEGIN
+				----PRINT 'CODE CHECK BEGINS2'
+			EXECUTE DDS_CODE_VALIDATION_IMPORT 
+			@p_JOBID = @P_JOBID, 
+			@P_SHORT_CODE = @V_VAL, 
+			@P_SYS_TABLE_NAME = @V_TABLENAME, 
+			@P_CODE_CREATION_FLAG = @CheckCreateNewCodes, 
+			@P_DB_NAME = @V_DBNAME, 
+			@P_LOB = @V_CLAIM_LOB, 
+			@p_DA_ROW_ID = @V_DA_ROW_ID,
+			@p_MODULE_NAME = @V_MODULENAME, 
+			@p_ERROR_LOCATION = @V_ERRORLOC, 
+			@p_ERROR_PROC_NAME = @V_PROCNAME, 
+			@p_ERROR_KEY_COLUMN = 'CLAIM_NUMBER', 
+			@p_ERROR_COLUMN = @VCOLNAME1, 
+			@p_ERROR_TABLE_TO_CHECK = @V_ERROR_TABLE, 
+			@P_ERROR_COLUMN_KEY_VALUE = @V_CLAIM_NUMBER, 
+			@P_CODE_ID_R = @V_CODE_ID_R OUTPUT
+
+			IF @V_CODE_ID_R = 0 OR @V_CODE_ID_R IS NULL
+			BEGIN
+				SET @V_ERRORCOUNT = @V_ERRORCOUNT + 1;
+			END
+
+			IF @VCOLNAME1 = 'RECORD_TYPE' SET @V_CLAIM_LOB = @V_CODE_ID_R	
+			ELSE IF @VCOLNAME1 = 'CLAIM_TYPE' SET @V_CLAIM_TYPE_ID = @V_CODE_ID_R
+			ELSE IF @VCOLNAME1 = 'CLAIM_STATUS' SET @V_CLAIM_STATUS_ID = @V_CODE_ID_R
+			ELSE IF @VCOLNAME1 = 'CAUSE_CODE' SET @V_CAUSE_CODE_ID = @V_CODE_ID_R
+			ELSE IF @VCOLNAME1 = 'CLAIMANT_SEX' SET @V_CLAIMANT_SEX_ID = @V_CODE_ID_R
+			ELSE IF @VCOLNAME1 = 'CLOSURE_METHOD' SET @V_CLOSURE_METHOD_ID = @V_CODE_ID_R
+			ELSE IF @VCOLNAME1 = 'SERVICE' SET @V_SERVICE_ID = @V_CODE_ID_R
+			ELSE IF @VCOLNAME1 = 'ICD10_1' SET @V_ICD10_1_ID = @V_CODE_ID_R-- asharma590 jira 74846
+			ELSE IF @VCOLNAME1 = 'ICD10_2' SET @V_ICD10_2_ID = @V_CODE_ID_R
+			ELSE IF @VCOLNAME1 = 'ICD10_3' SET @V_ICD10_3_ID = @V_CODE_ID_R
+			ELSE IF @VCOLNAME1 = 'ICD10_4' SET @V_ICD10_4_ID = @V_CODE_ID_R
+			ELSE IF @VCOLNAME1 = 'ICD10_5' SET @V_ICD10_5_ID = @V_CODE_ID_R
+			ELSE IF @VCOLNAME1 = 'DIAGNOSIS_1' SET @V_DIAGNOSIS_1_ID = @V_CODE_ID_R
+			ELSE IF @VCOLNAME1 = 'DIAGNOSIS_2' SET @V_DIAGNOSIS_2_ID = @V_CODE_ID_R
+			ELSE IF @VCOLNAME1 = 'DIAGNOSIS_3' SET @V_DIAGNOSIS_3_ID = @V_CODE_ID_R
+			ELSE IF @VCOLNAME1 = 'DIAGNOSIS_4' SET @V_DIAGNOSIS_4_ID = @V_CODE_ID_R
+			ELSE IF @VCOLNAME1 = 'DIAGNOSIS_5' SET @V_DIAGNOSIS_5_ID = @V_CODE_ID_R
+			ELSE IF @VCOLNAME1 = 'ILLNESS_CODE' SET @V_ILLNESS_CODE_ID = @V_CODE_ID_R
+			ELSE IF @VCOLNAME1 = 'INJURY_CODE_1' SET @V_INJURY_CODE_1_ID = @V_CODE_ID_R
+			ELSE IF @VCOLNAME1 = 'INJURY_CODE_2' SET @V_INJURY_CODE_2_ID = @V_CODE_ID_R
+			ELSE IF @VCOLNAME1 = 'INJURY_CODE_3' SET @V_INJURY_CODE_3_ID = @V_CODE_ID_R
+			ELSE IF @VCOLNAME1 = 'INJURY_CODE_4' SET @V_INJURY_CODE_4_ID = @V_CODE_ID_R
+			ELSE IF @VCOLNAME1 = 'INJURY_CODE_5' SET @V_INJURY_CODE_5_ID = @V_CODE_ID_R
+			ELSE IF @VCOLNAME1 = 'BODY_PART_1' SET @V_BODY_PART_1_ID = @V_CODE_ID_R
+			ELSE IF @VCOLNAME1 = 'BODY_PART_2' SET @V_BODY_PART_2_ID = @V_CODE_ID_R
+			ELSE IF @VCOLNAME1 = 'BODY_PART_3' SET @V_BODY_PART_3_ID = @V_CODE_ID_R
+			ELSE IF @VCOLNAME1 = 'BODY_PART_4' SET @V_BODY_PART_4_ID = @V_CODE_ID_R
+			ELSE IF @VCOLNAME1 = 'BODY_PART_5' SET @V_BODY_PART_5_ID = @V_CODE_ID_R
+			ELSE IF @VCOLNAME1 = 'OCCUPATION' SET @V_OCCUPATION_ID = @V_CODE_ID_R
+			ELSE IF @VCOLNAME1 = 'NCCI_CLASS_CODE' SET @V_NCCI_CLASS_CODE_ID = @V_CODE_ID_R
+			ELSE IF @VCOLNAME1 = 'MARITAL_STATUS' SET @V_MARITAL_STATUS_ID = @V_CODE_ID_R
+			ELSE IF @VCOLNAME1 = 'LICENSE_TYPE' SET @V_LICENSE_TYPE_ID = @V_CODE_ID_R
+			ELSE IF @VCOLNAME1 = 'LICENSE_RESTRICT' SET @V_LICENSE_RESTRICT_ID = @V_CODE_ID_R
+			ELSE IF @VCOLNAME1 = 'ACCIDENT_DESC' SET @V_ACCIDENT_DESC_ID = @V_CODE_ID_R
+			ELSE IF @VCOLNAME1 = 'STD_DISABIL_TYPE' SET @V_STD_DISABIL_TYPE_ID = @V_CODE_ID_R
+			ELSE IF @VCOLNAME1 = 'DIS_OPTION_CODE' SET @V_DIS_OPTION_CODE_ID = @V_CODE_ID_R
+			ELSE IF @VCOLNAME1 = 'CLAIMANT_TYPE' SET @V_CLAIMANT_TYPE_ID = @V_CODE_ID_R
+			ELSE IF @VCOLNAME1 = 'SETTLEMENT_METHOD' SET @V_SETTLEMENT_METHOD_ID = @V_CODE_ID_R
+			ELSE IF @VCOLNAME1 = 'MGND_CARE_ORG_TYPE' SET @V_MGND_CARE_ORG_TYPE_ID = @V_CODE_ID_R
+			ELSE IF @VCOLNAME1 = 'NCCI_LOSS_TYPE_LOSS_CODE' SET @V_NCCI_LOSS_TYPE_LOSS_CODE_ID = @V_CODE_ID_R
+			ELSE IF @VCOLNAME1 = 'NCCI_LOSS_TYPE_RECOV_CODE' SET @V_NCCI_LOSS_TYPE_RECOV_CODE_ID = @V_CODE_ID_R
+			ELSE IF @VCOLNAME1 = 'TREATMENT_CODE' SET @V_TREATMENT_CODE_ID = @V_CODE_ID_R
+			ELSE IF @VCOLNAME1 = 'CLAIMANT_STATUS' SET @V_CLAIMANT_STATUS_ID = @V_CODE_ID_R
+			ELSE IF @VCOLNAME1 = 'NAME_TYPE' SET @V_NAME_TYPE_ID = @V_CODE_ID_R
+			ELSE IF @VCOLNAME1 = 'POLICY_LOB' SET @V_POLICY_LOB_ID = @V_CODE_ID_R
+			ELSE IF @VCOLNAME1 = 'DISABILITY_CODE' SET @V_DISABILITY_CODE_ID = @V_CODE_ID_R
+			ELSE IF @VCOLNAME1 = 'PERSON_INV_TYPE_E' SET @V_EMP_PI_TYPE_CODE_ID = @V_CODE_ID_R
+			ELSE IF @VCOLNAME1 = 'PERSON_INV_TYPE_O' SET @V_OTHR_PI_TYPE_CODE_ID = @V_CODE_ID_R
+			ELSE IF @VCOLNAME1 = 'OPEN_CLAIM_STATUS' SET @V_OPENCLAIM_CODE_ID = @V_CODE_ID_R
+			ELSE IF @VCOLNAME1 = 'CLOSED_CLAIM_STATUS' SET @V_CLOSEDCLAIM_CODE_ID = @V_CODE_ID_R
+			ELSE IF @VCOLNAME1 = 'EVENT_STATUS' SET @V_EVENT_STATUS_CODE_ID = @V_CODE_ID_R
+			---ELSE IF @VCOLNAME1 = 'EVENT_TYPE' SET @V_EVENT_TYPE_CODE_ID = @V_CODE_ID_R
+			ELSE IF @VCOLNAME1 = 'DIS_TYPE' SET @V_DIS_TYPE_ID = @V_CODE_ID_R
+			
+			--dsharma70 hmi
+			ELSE IF @VCOLNAME1 = 'BENEFICIARY_CODE' SET @V_BENEFICIARY_CODE_ID = @V_CODE_ID_R			
+			ELSE IF @VCOLNAME1 = 'CLAIM_CAUSE_CODE' SET @V_CLAIM_CAUSE_CODE_ID = @V_CODE_ID_R
+			ELSE IF @VCOLNAME1 = 'CURR_CODE' SET @V_CURR_CODE_ID = @V_CODE_ID_R		--JIRA 29954 knakra
+			ELSE IF @VCOLNAME1 = 'REVIEW_STATUS_CODE' SET @V_REVIEW_STATUS_CODE_ID = @V_CODE_ID_R ---AKUMAT523
+			SET @V_CODE_ID_R = NULL
+		END
+	END
+END TRY
+BEGIN CATCH
+		SET @V_ERROR_MESSAGE = ERROR_MESSAGE()
+		EXECUTE DDS_ERROR_LOG_CAPTURE @P_JOBID, @V_DA_ROW_ID, @V_MODULENAME, @V_ERRORLOC, @V_ERRORLOC, @V_PROCNAME,@V_ERROR_MESSAGE,'EXCEPTION', @V_ERROR_TABLE, 'CLAIM_NUMBER', @V_CLAIM_NUMBER,0;
+		SET @V_ROWCOUNT = @V_ROWCOUNT + 1;
+END CATCH ----***************** SHORT CODE FIELDS VALIDATION ENDS ******************************************
+
+	BEGIN TRY	--***************** RESERVE BUCKET MAPPING VALIDATIONS STARTS *****************************
+		SET @V_ERRORLOC = 'V003'
+
+		--IF @V_CARRIERFLAG = 0	--JIRA 23899 knakra
+		IF (@V_CARRIERFLAG = 0 AND @iVarFinKey = 0)	--JIRA 23899 knakra
+		BEGIN
+			SET @V_BUCKETLIST = ''
+			SET @V_UDRM_BUCKET_MAPPED = 'Y'
+			SET @V_BUCKETFIELDS = 'RESERVE_A_DATE|RESERVE_B_DATE|RESERVE_C_DATE|RESERVE_D_DATE|RESERVE_E_DATE|'
+	
+			WHILE CHARINDEX('|',@V_BUCKETFIELDS,1) > 0		--CHECK FOR DIFFERENT BUCKETS IN IMPORT FILE
+			BEGIN
+				SET @iPos1 = CHARINDEX('|',@V_BUCKETFIELDS,1)
+				SET @V_VAL = LEFT(@V_BUCKETFIELDS,CHARINDEX('|',@V_BUCKETFIELDS,1) - 1)
+				SET @V_BUCKETFIELDS = RIGHT(@V_BUCKETFIELDS,LEN(@V_BUCKETFIELDS) - CHARINDEX('|',@V_BUCKETFIELDS,1))
+				SET @V_UDRM_RSV_TYPE_CODE_ID = 0
+
+				SET @V_BUCKET = SUBSTRING(@V_VAL,9,1) ------ A OR B OR C OR D OR E	
+				SET @vColName1 = @V_VAL
+				
+				SET @V_VAL =( CASE 
+					WHEN @V_VAL = 'RESERVE_A_DATE' THEN @V_RESERVE_A_DATE
+					WHEN @V_VAL = 'RESERVE_B_DATE' THEN @V_RESERVE_B_DATE
+					WHEN @V_VAL = 'RESERVE_C_DATE' THEN @V_RESERVE_C_DATE
+					WHEN @V_VAL = 'RESERVE_D_DATE' THEN @V_RESERVE_D_DATE
+					WHEN @V_VAL = 'RESERVE_E_DATE' THEN @V_RESERVE_E_DATE
+				END)
+				
+				SET @V_SQL = 'SELECT @V_UDRM_RSV_TYPE_CODE_ID_P = RSV_TYPE_CODE FROM DDS_USR_DEF_RSV_MAP WHERE BUCKET = @V_BUCKET_P AND LOB_CODE = @V_CLAIM_LOB_P AND CONFIG_ID = @CONFIG_ID_P AND USERID = @V_USERID_P' 
+
+				Exec sp_Executesql @V_SQL,
+				N' @V_UDRM_RSV_TYPE_CODE_ID_P AS INT OUTPUT,
+				@V_BUCKET_P AS VARCHAR(1),
+				@V_CLAIM_LOB_P AS INT,
+				@CONFIG_ID_P VARCHAR(25),
+				@V_USERID_P INT',
+				@V_UDRM_RSV_TYPE_CODE_ID_P = @V_UDRM_RSV_TYPE_CODE_ID OUTPUT,
+				@V_BUCKET_P = @V_BUCKET ,
+				@V_CLAIM_LOB_P = @V_CLAIM_LOB ,
+				@CONFIG_ID_P = @CONFIG_ID,
+				@V_USERID_P = @P_USER_ID
+		
+				--PRINT 'USER DEFINED RESERVE MAP VALUE A: ' + CAST (@V_UDRM_RSV_TYPE_CODE_ID AS VARCHAR(10))
+
+				IF @V_UDRM_RSV_TYPE_CODE_ID > 0
+				BEGIN
+					IF (@V_VAL IS NULL) 
+					BEGIN
+						EXECUTE DDS_ERROR_LOG_CAPTURE @P_JOBID, @V_DA_ROW_ID, @V_MODULENAME, @V_ERRORLOC, @V_ERRORLOC, @V_PROCNAME,'Required Fields are Null or Empty.', @vColName1, @V_ERROR_TABLE, 'CLAIM_NUMBER', @V_CLAIM_NUMBER,1
+						SET @V_ERRORCOUNT = @V_ERRORCOUNT + 1;	
+					END
+					
+					ELSE IF @V_VAL = 'IGNORE'  SET @V_VAL = @V_VAL
+
+					ELSE IF DBO.DATEVALIDATE(@V_VAL) = -1
+					BEGIN
+						EXECUTE DDS_ERROR_LOG_CAPTURE @P_JOBID, @V_DA_ROW_ID, @V_MODULENAME, @V_ERRORLOC, @V_ERRORLOC, @V_PROCNAME, 'Date Provided is Not a Valid Date.', @vColName1, @V_ERROR_TABLE, 'CLAIM_NUMBER', @V_CLAIM_NUMBER,1
+						SET @V_ERRORCOUNT = @V_ERRORCOUNT + 1;	
+
+						--PRINT 'ERROR: Not a Valid Date'						
+					END	
+
+					ELSE IF (@V_VAL < @Valid_Start_Date) OR (@Valid_End_Date < @V_VAL)
+					BEGIN
+						EXECUTE DDS_ERROR_LOG_CAPTURE @P_JOBID, @V_DA_ROW_ID, @V_MODULENAME, @V_ERRORLOC, @V_ERRORLOC, @V_PROCNAME, 'Date provided is out of Valid Date Range.', @vColName1, @V_ERROR_TABLE, 'CLAIM_NUMBER', @V_CLAIM_NUMBER,1
+						SET @V_ERRORCOUNT = @V_ERRORCOUNT + 1;	
+						--PRINT 'ERROR: Date provided is out of Valid Date Range'
+					END
+					
+					ELSE IF (@V_BUCKET = 'A')
+					BEGIN
+						SET @V_UDRM_RSV_TYPE_A_CODE_ID = @V_UDRM_RSV_TYPE_CODE_ID
+						SET @V_BUCKETLIST = 'A' + @V_BUCKETLIST	
+					END
+					ELSE IF (@V_BUCKET = 'B') 
+					BEGIN
+						SET @V_UDRM_RSV_TYPE_B_CODE_ID = @V_UDRM_RSV_TYPE_CODE_ID
+						SET @V_BUCKETLIST = 'B' + @V_BUCKETLIST
+					END
+					ELSE IF (@V_BUCKET = 'C') 
+					BEGIN
+						SET @V_UDRM_RSV_TYPE_C_CODE_ID = @V_UDRM_RSV_TYPE_CODE_ID
+						SET @V_BUCKETLIST = 'C' +  @V_BUCKETLIST
+					END
+					ELSE IF (@V_BUCKET = 'D') 
+					BEGIN
+						SET @V_UDRM_RSV_TYPE_D_CODE_ID = @V_UDRM_RSV_TYPE_CODE_ID
+						SET @V_BUCKETLIST = 'D' + @V_BUCKETLIST
+					END
+					ELSE IF (@V_BUCKET = 'E') 
+					BEGIN
+						SET @V_UDRM_RSV_TYPE_E_CODE_ID = @V_UDRM_RSV_TYPE_CODE_ID
+						SET @V_BUCKETLIST = 'E' + @V_BUCKETLIST
+					END
+				
+				END
+			END
+		END
+	END TRY
+	BEGIN CATCH
+		SET @V_ERROR_MESSAGE = ERROR_MESSAGE()
+		EXECUTE DDS_ERROR_LOG_CAPTURE @P_JOBID, @V_DA_ROW_ID, @V_MODULENAME, @V_ERRORLOC, @V_ERRORLOC, @V_PROCNAME,@V_ERROR_MESSAGE,'EXCEPTION', @V_ERROR_TABLE, 'CLAIM_NUMBER', @V_CLAIM_NUMBER,0;
+		SET @V_ROWCOUNT = @V_ROWCOUNT + 1;
+	END CATCH	----***************** RESERVE BUCKET MAPPING VALIDATIONS ENDS ************************************
+
+	--IF @V_POLICY_NUMBER IS NOT NULL AND (@V_POLICY_EFFECT_DATE IS NULL OR @V_POLICY_EXPIRE_DATE IS NULL) --- POLICY FIELDS VALIDATIONS *******		JIRA 23899 knakra
+	IF @V_POLICY_NUMBER IS NOT NULL AND (@V_POLICY_EFFECT_DATE IS NULL OR @V_POLICY_EXPIRE_DATE IS NULL) AND @iVarFinKey = 0	--JIRA 23899 knakra
+	BEGIN 
+		 SET @V_ERRORLOC = 'V003A'
+		 EXECUTE DDS_ERROR_LOG_CAPTURE @P_JOBID, @V_DA_ROW_ID, @V_MODULENAME, @V_ERRORLOC, @V_ERRORLOC, @V_PROCNAME, 'Data in Policy related fields is not provided in the import file. Policy search cannot be performed without all required values.','POLICY_NUMBER,POLICY_EFFECT_DATE,POLICY_EXPIRE_DATE', @V_ERROR_TABLE, 'CLAIM_NUMBER', @V_CLAIM_NUMBER,1 ----JIRA RMA-21407
+		 SET @V_ERRORCOUNT = @V_ERRORCOUNT + 1;	
+	END
+
+
+	BEGIN TRY	----***************** STATE CODE FIELDS VALIDATION STARTS *********************************
+	SET @V_ERRORLOC = 'V004'
+	SET @vReqColumns = 'ACCIDENT_STATE|CLAIMANT_STATE|DEF_STATE|'
+	
+	WHILE CHARINDEX('|',@vReqColumns,1) > 0
+	BEGIN
+		SET @V_STATE_ID = 0
+		SET @iPos1 = CHARINDEX('|',@vReqColumns,1)
+		SET @vColName1 = LEFT(@vReqColumns,CHARINDEX('|',@vReqColumns,1) - 1)
+		SET @vReqColumns = RIGHT(@vReqColumns,LEN(@vReqColumns) - CHARINDEX('|',@vReqColumns,1))
+
+		SET @V_VAL = ( CASE 
+		WHEN @vColName1 = 'ACCIDENT_STATE' THEN @V_ACCIDENT_STATE
+		WHEN @vColName1 = 'CLAIMANT_STATE' THEN @V_CLAIMANT_STATE
+		WHEN @vColName1 = 'DEF_STATE' THEN @V_DEF_STATE
+		END )
+	
+		--PRINT 'STATE CODE FIELDS VALIDATION '
+	
+		IF @V_VAL IS NOT NULL
+		BEGIN
+		
+			SET @V_SQL = 'SELECT @V_STATE_ROW_ID_P = STATE_ROW_ID FROM ' + @V_DBNAME+'STATES' + ' WHERE STATE_ID = @P_STATECODE_P'
+
+			EXEC SP_EXECUTESQL @V_SQL,
+			N'@V_STATE_ROW_ID_P INT OUTPUT,
+			@P_STATECODE_P VARCHAR(25)',
+			@V_STATE_ROW_ID_P = @V_STATE_ID OUTPUT,
+			@P_STATECODE_P = @V_VAL;
+
+			IF @VCOLNAME1 = 'ACCIDENT_STATE' SET @V_ACCIDENT_STATE_ID = @V_STATE_ID
+			ELSE IF @VCOLNAME1 = 'CLAIMANT_STATE' SET @V_CLAIMANT_STATE_ID = @V_STATE_ID
+			ELSE IF @VCOLNAME1 = 'DEF_STATE' SET @V_DEF_STATE_ID = @V_STATE_ID
+		
+			--PRINT @V_VAL;
+			--PRINT @V_STATE_ID;
+			--PRINT @V_DEF_STATE_ID;
+		
+			IF @V_STATE_ID = 0 OR @V_STATE_ID IS NULL
+			BEGIN
+				EXECUTE DDS_ERROR_LOG_CAPTURE @P_JOBID, @V_DA_ROW_ID, @V_MODULENAME, @V_ERRORLOC, @V_ERRORLOC, @V_PROCNAME, 'State provided does not exists.', @vColName1, @V_ERROR_TABLE, 'CLAIM_NUMBER', @V_CLAIM_NUMBER,1
+				SET @V_ERRORCOUNT = @V_ERRORCOUNT + 1;	
+			END		
+		END
+	END
+	END TRY
+	BEGIN CATCH
+		SET @V_ERROR_MESSAGE = ERROR_MESSAGE()
+		EXECUTE DDS_ERROR_LOG_CAPTURE @P_JOBID, @V_DA_ROW_ID, @V_MODULENAME, @V_ERRORLOC, @V_ERRORLOC, @V_PROCNAME,@V_ERROR_MESSAGE,'EXCEPTION', @V_ERROR_TABLE, 'CLAIM_NUMBER', @V_CLAIM_NUMBER,0;
+		SET @V_ROWCOUNT = @V_ROWCOUNT + 1;
+	END CATCH	----***************** STATE CODE FIELDS VALIDATION ENDS ******************************************
+
+	BEGIN TRY	----***************** FLAG INITIALIZATION STARTS ******************************************
+		SET @V_ERRORLOC = 'V005'
+		SET @vReqColumns = 'ACTIVE_FLAG|ELIG_DIS_BEN_FLAG|DISPUTED_CASE_FLAG|OSHA_RECORDABLE|ACCIDENT_PREVENTABLE|' 
+	
+		WHILE CHARINDEX('|',@vReqColumns,1) > 0	
+		BEGIN
+			SET @iPos1 = CHARINDEX('|',@vReqColumns,1)
+			SET @vColName1 = LEFT(@vReqColumns,CHARINDEX('|',@vReqColumns,1) - 1)
+			SET @vReqColumns = RIGHT(@vReqColumns,LEN(@vReqColumns) - CHARINDEX('|',@vReqColumns,1))
+
+			SET @V_FLAG_ID = 0
+
+			SET @V_VAL = ( CASE 
+			WHEN @vColName1 = 'ACTIVE_FLAG' THEN @V_ACTIVE_FLAG
+			WHEN @vColName1 = 'ELIG_DIS_BEN_FLAG' THEN @V_ELIG_DIS_BEN_FLAG 
+			WHEN @vColName1 = 'DISPUTED_CASE_FLAG' THEN @V_DISPUTED_CASE_FLAG
+			WHEN @vColName1 = 'OSHA_RECORDABLE' THEN @V_OSHA_RECORDABLE
+			WHEN @vColName1 = 'ACCIDENT_PREVENTABLE' THEN @V_ACCIDENT_PREVENTABLE
+			END )
+
+			IF @V_VAL IS NOT NULL
+			BEGIN
+				IF @V_VAL = 'Y'
+					SET @V_FLAG_ID = -1
+				ELSE IF @V_VAL = 'N' OR @V_VAL = '0' ---BY DEFAULT FLAG WILL BE 0
+					SET @V_FLAG_ID = 0
+				ELSE
+				BEGIN
+					EXECUTE DDS_ERROR_LOG_CAPTURE @P_JOBID, @V_DA_ROW_ID, @V_MODULENAME, @V_ERRORLOC, @V_ERRORLOC, @V_PROCNAME, 'Not a Valid Flag Value. Permitted Values are ''Y'' or ''N'' or ''0''.', @vColName1, @V_ERROR_TABLE, 'CLAIM_NUMBER', @V_CLAIM_NUMBER,1
+					SET @V_ERRORCOUNT = @V_ERRORCOUNT + 1;	
+				 END
+			END
+			
+			IF @VCOLNAME1 = 'ACTIVE_FLAG' SET @V_ACTIVE_FLAG_ID = @V_FLAG_ID
+			ELSE IF @VCOLNAME1 = 'ELIG_DIS_BEN_FLAG' SET @V_ELIG_DIS_BEN_FLAG_ID = @V_FLAG_ID
+			ELSE IF @VCOLNAME1 = 'DISPUTED_CASE_FLAG' SET @V_DISPUTED_CASE_FLAG_ID = @V_FLAG_ID
+			ELSE IF @VCOLNAME1 = 'OSHA_RECORDABLE' SET @V_OSHA_RECORDABLE_ID  = @V_FLAG_ID
+			ELSE IF @VCOLNAME1 = 'ACCIDENT_PREVENTABLE' SET @V_ACC_PREV_FLAG_ID  = @V_FLAG_ID
+
+		END
+	END TRY
+	BEGIN CATCH
+		SET @V_ERROR_MESSAGE = ERROR_MESSAGE()
+		EXECUTE DDS_ERROR_LOG_CAPTURE @P_JOBID, @V_DA_ROW_ID, @V_MODULENAME, @V_ERRORLOC, @V_ERRORLOC, @V_PROCNAME,@V_ERROR_MESSAGE,'EXCEPTION', @V_ERROR_TABLE, 'CLAIM_NUMBER', @V_CLAIM_NUMBER,0;
+		SET @V_ROWCOUNT = @V_ROWCOUNT + 1;
+	END CATCH	--***************** FLAG INITIALIZATION ENDS *****************************************************
+
+	BEGIN TRY	-- **************** DATE VALIDATION STARTS   **********************************************
+	SET @V_ERRORLOC = 'V006'
+	
+	SET @vReqColumns = 'DATE_OF_LOSS|DATE_REPORTED|DATE_OF_CLAIM|DATE_CLOSED|DATE_REOPENED|CLAIMANT_BIRTH_DT|DATE_OF_BIRTH|DATE_OF_HIRE|DATE_OF_DEATH|'
+	SET @vReqColumns = @vReqColumns + 'DEPENDENT_BIRTH_DT|LICENSE_EXPIR_DATE|RETURN_WORK_DATE|DATE_LAST_WORKED|DISABIL_FROM_DATE|DISABIL_TO_DATE|BENEFITS_START|'
+	SET @vReqColumns = @vReqColumns + 'BENEFITS_THROUGH|BEN_CALC_PAY_START|BEN_CALC_PAY_TO|DATE_FIRST_RESTRCT|DATE_LAST_RESTRCT|'
+
+	--dsharma70 hmi
+	SET @vReqColumns = @vReqColumns + 'INFO_REQ_DATE|PROOF_OF_LOSS_DATE|DEF_BIRTH_DT|'
+	---IF @fVersionNum >=19.1  ---AKUMAR523 
+	--BEGIN
+	---SET @vReqColumns = @vReqColumns + 'CLAIM_TYPE_DATE_CHANGED|REVIEW_STATUS_DATE_CHANGED'  ----akumar523 RMA-61584
+	--END 		 ----AKUMAR523
+	WHILE CHARINDEX('|',@vReqColumns,1) > 0		--NOTE:CHECK FOR REQUIRED COLUMNS NULL IN IMPORT FILE
+	BEGIN
+		SET @iPos1 = CHARINDEX('|',@vReqColumns,1)
+		SET @vColName1 = LEFT(@vReqColumns,CHARINDEX('|',@vReqColumns,1) - 1)
+		SET @vReqColumns = RIGHT(@vReqColumns,LEN(@vReqColumns) - CHARINDEX('|',@vReqColumns,1))
+		
+		SET @V_VAL = ( CASE 
+		WHEN @vColName1 = 'DATE_OF_LOSS' THEN @V_DATE_OF_LOSS
+		WHEN @vColName1 = 'DATE_REPORTED' THEN @V_DATE_REPORTED  
+		WHEN @vColName1 = 'DATE_OF_CLAIM' THEN @V_DATE_OF_CLAIM  
+		WHEN @vColName1 = 'DATE_CLOSED' THEN @V_DATE_CLOSED_DT  
+		WHEN @vColName1 = 'DATE_REOPENED' THEN @V_DATE_REOPENED  
+		WHEN @vColName1 = 'CLAIMANT_BIRTH_DT' THEN @V_CLAIMANT_BIRTH_DT  
+		WHEN @vColName1 = 'DATE_OF_BIRTH' THEN @V_DATE_OF_BIRTH  
+		WHEN @vColName1 = 'DATE_OF_HIRE' THEN @V_DATE_OF_HIRE  
+		WHEN @vColName1 = 'DATE_OF_DEATH' THEN @V_DATE_OF_DEATH  
+		WHEN @vColName1 = 'DEPENDENT_BIRTH_DT' THEN @V_DEPENDENT_BIRTH_DT  
+		WHEN @vColName1 = 'LICENSE_EXPIR_DATE' THEN @V_LICENSE_EXPIR_DATE  
+		WHEN @vColName1 = 'RETURN_WORK_DATE' THEN @V_RETURN_WORK_DATE  
+		WHEN @vColName1 = 'DATE_LAST_WORKED' THEN @V_DATE_LAST_WORKED  
+		WHEN @vColName1 = 'DISABIL_FROM_DATE' THEN @V_DISABIL_FROM_DATE  
+		WHEN @vColName1 = 'DISABIL_TO_DATE' THEN @V_DISABIL_TO_DATE  
+		WHEN @vColName1 = 'BENEFITS_START' THEN @V_BENEFITS_START  
+		WHEN @vColName1 = 'BENEFITS_THROUGH' THEN @V_BENEFITS_THROUGH  
+		WHEN @vColName1 = 'BEN_CALC_PAY_START' THEN @V_BEN_CALC_PAY_START  
+		WHEN @vColName1 = 'BEN_CALC_PAY_TO' THEN @V_BEN_CALC_PAY_TO  
+		
+ 		WHEN @vColName1 = 'DATE_FIRST_RESTRCT' THEN @V_DATE_FIRST_RESTRICT  
+		WHEN @vColName1 = 'DATE_LAST_RESTRCT' THEN @V_DATE_LAST_RESTRICT  
+
+		--dsharma70 hmi
+		WHEN @vColName1 = 'INFO_REQ_DATE' THEN @V_INFO_REQ_DATE 
+		WHEN @vColName1 = 'PROOF_OF_LOSS_DATE' THEN @V_PROOF_OF_LOSS_DATE 
+		WHEN @vColName1 = 'DEF_BIRTH_DT' THEN @V_DEF_BIRTH_DT
+		
+		--when @vColName1 = 'CLAIM_TYPE_DATE_CHANGED' THEN @V_CLAIM_TYPE_DT_CHA  ---AKUMAR523	 RMA-61584
+		--when @vColName1 = 'REVIEW_STATUS_DATE_CHANGED' THEN @V_REV_STA_DT_CH   ---AKUMAR523  RMA-61584
+	
+		END)
+		
+		IF @V_VAL IS NOT NULL
+		BEGIN
+			IF DBO.DATEVALIDATE(@V_VAL) = -1
+			BEGIN
+				EXECUTE DDS_ERROR_LOG_CAPTURE @P_JOBID, @V_DA_ROW_ID, @V_MODULENAME, @V_ERRORLOC, @V_ERRORLOC, @V_PROCNAME, 'Date Provided is Not a Valid Date.', @vColName1, @V_ERROR_TABLE, 'CLAIM_NUMBER', @V_CLAIM_NUMBER,1
+				SET @V_ERRORCOUNT = @V_ERRORCOUNT + 1;	
+				--PRINT 'ERROR: Not a Valid Date'
+			END
+			ELSE IF (@V_VAL < @Valid_Start_Date) OR (@Valid_End_Date < @V_VAL)
+			BEGIN
+				EXECUTE DDS_ERROR_LOG_CAPTURE @P_JOBID, @V_DA_ROW_ID, @V_MODULENAME, @V_ERRORLOC, @V_ERRORLOC, @V_PROCNAME, 'Date provided is out of Valid Date Range.', @vColName1, @V_ERROR_TABLE, 'CLAIM_NUMBER', @V_CLAIM_NUMBER,1
+				SET @V_ERRORCOUNT = @V_ERRORCOUNT + 1;	
+				--PRINT 'ERROR: Date provided is out of Valid Date Range'
+				--PRINT @V_VAL
+			END
+			ELSE IF (@vColName1 = 'DATE_CLOSED')
+			BEGIN
+				SET @VCLOSETIME = SUBSTRING(@V_DATE_CLOSED,9,6)
+				
+				IF LEN(@VCLOSETIME) > 0
+				BEGIN
+					IF ISNUMERIC(@VCLOSETIME) = 0 OR SUBSTRING(@VCLOSETIME,1,2) > 24 OR SUBSTRING(@VCLOSETIME,3,2) > 60 OR SUBSTRING(@VCLOSETIME,5,2) > 60
+					BEGIN
+						EXECUTE DDS_ERROR_LOG_CAPTURE @P_JOBID, @V_DA_ROW_ID, @V_MODULENAME, @V_ERRORLOC, @V_ERRORLOC, @V_PROCNAME, 'Invalid Time. Please check format.', @vColName1, @V_ERROR_TABLE, 'CLAIM_NUMBER', @V_CLAIM_NUMBER,1
+						SET @V_ERRORCOUNT = @V_ERRORCOUNT + 1;	
+					END
+				END		
+				ELSE
+				BEGIN
+					SET @VCLOSETIME = '120000'
+					SET @V_DATE_CLOSED = @V_DATE_CLOSED + @VCLOSETIME
+				END
+			END
+		END
+	END
+	END TRY
+	BEGIN CATCH
+		SET @V_ERROR_MESSAGE = ERROR_MESSAGE()
+		EXECUTE DDS_ERROR_LOG_CAPTURE @P_JOBID, @V_DA_ROW_ID, @V_MODULENAME, @V_ERRORLOC, @V_ERRORLOC, @V_PROCNAME,@V_ERROR_MESSAGE,'EXCEPTION', @V_ERROR_TABLE, 'CLAIM_NUMBER', @V_CLAIM_NUMBER,0;
+		SET @V_ROWCOUNT = @V_ROWCOUNT + 1;
+	END CATCH	----**************** DATE VALIDATION ENDS    *****************************************************
+
+	BEGIN TRY
+	BEGIN ---- ********************** TIME VALIDATION STARTS
+		IF @V_TIME_OF_CLAIM IS NOT NULL
+		BEGIN
+			SET @V_ERRORLOC = 'V006A'
+			 ----PRINT 'CHECK TIME IS TIME OR NOT'
+			 IF ISNUMERIC(@V_TIME_OF_CLAIM) = 0 OR SUBSTRING(@V_TIME_OF_CLAIM,1,2) > 24 OR SUBSTRING(@V_TIME_OF_CLAIM,3,2) > 60 OR SUBSTRING(@V_TIME_OF_CLAIM,5,2) > 60
+			 BEGIN
+ 				EXECUTE DDS_ERROR_LOG_CAPTURE @P_JOBID, @V_DA_ROW_ID, @V_MODULENAME, @V_ERRORLOC, @V_ERRORLOC, @V_PROCNAME,
+				'Invalid Time. Please check format.', 'TIME_OF_CLAIM', @V_ERROR_TABLE, 'CLAIM_NUMBER', @V_CLAIM_NUMBER,1
+				SET @V_ERRORCOUNT = @V_ERRORCOUNT + 1;
+			 END
+		END 
+	END ---- ************************ TIME VALIDATION ENDS
+	END TRY
+	BEGIN CATCH
+		SET @V_ERROR_MESSAGE = ERROR_MESSAGE()
+		EXECUTE DDS_ERROR_LOG_CAPTURE @P_JOBID, @V_DA_ROW_ID, @V_MODULENAME, @V_ERRORLOC, @V_ERRORLOC, @V_PROCNAME,@V_ERROR_MESSAGE,'EXCEPTION', @V_ERROR_TABLE, 'CLAIM_NUMBER', @V_CLAIM_NUMBER,0;
+		SET @V_ROWCOUNT = @V_ROWCOUNT + 1;
+	END CATCH	----**************** TIME VALIDATION ENDS    *****************************************************
+
+	
+	BEGIN TRY   -- OTHER VALIDATIONS STARTS ***************************************************************
+		
+		--JIRA 42212 knakra starts
+		IF @V_BENEFITS_START IS NOT NULL AND @V_BENEFITS_THROUGH IS NOT NULL AND @V_BENEFITS_START > @V_BENEFITS_THROUGH
+		BEGIN
+			SET @V_ERRORLOC = 'ErrBenStrtThrough'
+			SET @V_ERROR_MESSAGE = 'Benefit Start Date: ' + @V_BENEFITS_START + ' cannot be greater than Benefit Through Date: ' + @V_BENEFITS_THROUGH + '.'
+			EXECUTE DDS_ERROR_LOG_CAPTURE @P_JOBID, @V_DA_ROW_ID, @V_MODULENAME, @V_ERRORLOC, @V_ERRORLOC, @V_PROCNAME,@V_ERROR_MESSAGE, 'BENEFITS_START, BENEFITS_THROUGH', @V_ERROR_TABLE, 'CLAIM_NUMBER', @V_CLAIM_NUMBER,1
+			SET @V_ROWCOUNT += 1
+		END
+
+		IF @V_DISABIL_FROM_DATE IS NOT NULL AND @V_DISABIL_TO_DATE IS NOT NULL AND @V_DISABIL_TO_DATE < @V_DISABIL_FROM_DATE
+		BEGIN
+			SET @V_ERRORLOC = 'ErrDisDatesComp'
+			SET @V_ERROR_MESSAGE = 'Disability From Date: ' + @V_DISABIL_FROM_DATE + ' cannot be greater than Disability To Date: ' + @V_DISABIL_TO_DATE + '.'
+			EXECUTE DDS_ERROR_LOG_CAPTURE @P_JOBID, @V_DA_ROW_ID, @V_MODULENAME, @V_ERRORLOC, @V_ERRORLOC, @V_PROCNAME,@V_ERROR_MESSAGE, 'DISABIL_FROM_DATE, DISABIL_TO_DATE', @V_ERROR_TABLE, 'CLAIM_NUMBER', @V_CLAIM_NUMBER,1
+			SET @V_ROWCOUNT += 1
+		END
+
+		IF @V_BEN_CALC_PAY_START IS NOT NULL AND @V_BEN_CALC_PAY_TO IS NOT NULL AND @V_BEN_CALC_PAY_START > @V_BEN_CALC_PAY_TO
+		BEGIN
+			SET @V_ERRORLOC = 'ErrBenCalDatesComp'
+			SET @V_ERROR_MESSAGE = 'Benefit Calculate Start Date: ' + @V_BEN_CALC_PAY_START + ' cannot be greater than Benefit Calculate To Date: ' + @V_BEN_CALC_PAY_TO + '.'
+			EXECUTE DDS_ERROR_LOG_CAPTURE @P_JOBID, @V_DA_ROW_ID, @V_MODULENAME, @V_ERRORLOC, @V_ERRORLOC, @V_PROCNAME,@V_ERROR_MESSAGE, 'BEN_CALC_PAY_START, BEN_CALC_PAY_TO', @V_ERROR_TABLE, 'CLAIM_NUMBER', @V_CLAIM_NUMBER,1
+			SET @V_ROWCOUNT += 1
+		END
+		--JIRA 42212 knakra ends
+
+		SET @V_ERRORLOC = 'V007'
+
+		IF (@V_CLAIMANT_SSN IS NOT NULL) AND (ISNUMERIC(REPLACE(@V_CLAIMANT_SSN,'-','')) = 0 OR LEN(REPLACE(@V_CLAIMANT_SSN,'-','')) <> 9)	
+		BEGIN
+			SET @V_ERRORLOC = 'L007'
+			EXECUTE DDS_ERROR_LOG_CAPTURE @P_JOBID, @V_DA_ROW_ID, @V_MODULENAME, @V_ERRORLOC, @V_ERRORLOC, @V_PROCNAME,
+			'Invalid Tax-ID. Check Format.', 'CLAIMANT_SSN', @V_ERROR_TABLE, 'CLAIM_NUMBER', @V_CLAIM_NUMBER,1
+			SET @V_ERRORCOUNT = @V_ERRORCOUNT + 1;
+			--PRINT 'Invalid Tax-ID. Check Format'
+		END
+		
+		IF (@V_CLAIMANT_ZIP IS NOT NULL) 
+		   AND
+		  --- ((ISNUMERIC(REPLACE(@V_CLAIMANT_ZIP,'-','')) = 0) OR
+		   (LEN(REPLACE(REPLACE(@V_CLAIMANT_ZIP,'-',''),' ','')) NOT IN (9,5,6)) ---/RMA-71257
+		BEGIN
+			SET @V_ERRORLOC = 'L007A'
+			EXECUTE DDS_ERROR_LOG_CAPTURE @P_JOBID, @V_DA_ROW_ID, @V_MODULENAME, @V_ERRORLOC, @V_ERRORLOC, @V_PROCNAME,
+			'Invalid ZIP CODE. Check Format.', 'CLAIMANT_ZIP', @V_ERROR_TABLE, 'CLAIM_NUMBER', @V_CLAIM_NUMBER,1
+			SET @V_ERRORCOUNT = @V_ERRORCOUNT + 1
+			--PRINT 'Invalid ZIP CODE. Check Format'
+		END
+		
+		IF (@V_DEF_ZIP IS NOT NULL) 
+		   AND
+		  --- (ISNUMERIC(REPLACE(@V_DEF_ZIP,'-','')) = 0 OR 
+		  (LEN(REPLACE(REPLACE(@V_DEF_ZIP,'-',''),' ','')) NOT IN (9,5,6))
+		BEGIN
+			SET @V_ERRORLOC = 'L007B'
+			EXECUTE DDS_ERROR_LOG_CAPTURE @P_JOBID, @V_DA_ROW_ID, @V_MODULENAME, @V_ERRORLOC, @V_ERRORLOC, @V_PROCNAME,
+			'Invalid ZIP CODE. Check Format.', 'DEF_ZIP', @V_ERROR_TABLE, 'CLAIM_NUMBER', @V_CLAIM_NUMBER,1
+			SET @V_ERRORCOUNT = @V_ERRORCOUNT + 1
+			--PRINT 'Invalid ZIP CODE. Check Format'
+		END
+
+		IF (@EmployeeMatchByTaxId = 1 OR @NonEmployeeMatchByTaxId = 1) AND (@V_CLAIMANT_SSN IS NULL)
+		BEGIN
+			SET @V_ERRORLOC = 'L008'
+			EXECUTE DDS_ERROR_LOG_CAPTURE @P_JOBID, @V_DA_ROW_ID, @V_MODULENAME, @V_ERRORLOC, @V_ERRORLOC, @V_PROCNAME,
+			'Match by Tax-ID is selected as search criteria but Tax_ID is not provided.', 'CLAIMANT_SSN', @V_ERROR_TABLE, 'CLAIM_NUMBER', @V_CLAIM_NUMBER,1
+			SET @V_ERRORCOUNT = @V_ERRORCOUNT + 1
+			--PRINT 'Match by Tax-ID is selected as search criteria but Tax_ID is not provided'
+		END
+
+		--DSHARMA70 hmi IF (@V_EMPLOYEE_ID IS NOT NULL) AND (@V_CLAIMANT_SSN IS NULL) AND ((@V_RECORD_TYPE ='G') OR (@V_RECORD_TYPE ='V'))
+		IF (@V_EMPLOYEE_ID IS NOT NULL) AND (@V_CLAIMANT_SSN IS NULL) AND ((@V_RECORD_TYPE ='G') OR (@V_RECORD_TYPE ='V') OR (@V_RECORD_TYPE ='H'))
+		BEGIN
+			SET @V_ERRORLOC = 'L009'
+			EXECUTE DDS_ERROR_LOG_CAPTURE @P_JOBID, @V_DA_ROW_ID, @V_MODULENAME, @V_ERRORLOC, @V_ERRORLOC, @V_PROCNAME,
+			'If Employee_ID is populated then Claimant_SSN must be populated.', 'CLAIMANT_SSN', @V_ERROR_TABLE, 'CLAIM_NUMBER', @V_CLAIM_NUMBER,1
+			SET @V_ERRORCOUNT = @V_ERRORCOUNT + 1
+			--PRINT 'ERROR 620: If Employee_ID is populated then Claimant_SSN must be populated.'
+		END
+
+		IF (@V_ILLNESS_CODE IS NOT NULL) 
+		   AND
+		   (@V_INJURY_CODE_1 IS NOT NULL OR @V_INJURY_CODE_2 IS NOT NULL OR @V_INJURY_CODE_3 IS NOT NULL OR @V_INJURY_CODE_4 IS NOT NULL OR @V_INJURY_CODE_5 IS NOT NULL)	
+		BEGIN
+			SET @V_ERRORLOC = 'L011'
+			EXECUTE DDS_ERROR_LOG_CAPTURE @P_JOBID, @V_DA_ROW_ID, @V_MODULENAME, @V_ERRORLOC, @V_ERRORLOC, @V_PROCNAME,
+			'Illness Code and Injury Code both contain values. Only one of them may.', 'ILLNESS_CODE, INJURY_CODE', @V_ERROR_TABLE, 'CLAIM_NUMBER', @V_CLAIM_NUMBER,1
+			SET @V_ERRORCOUNT = @V_ERRORCOUNT + 1
+			--PRINT 'Illness Code and Injury Code both contain values. Only one of them may'
+		END
+
+	END TRY
+	BEGIN CATCH
+		SET @V_ERROR_MESSAGE = ERROR_MESSAGE()
+		EXECUTE DDS_ERROR_LOG_CAPTURE @P_JOBID, @V_DA_ROW_ID, @V_MODULENAME, @V_ERRORLOC, @V_ERRORLOC, @V_PROCNAME,@V_ERROR_MESSAGE,'EXCEPTION', @V_ERROR_TABLE, 'CLAIM_NUMBER', @V_CLAIM_NUMBER,0;
+		SET @V_ROWCOUNT = @V_ROWCOUNT + 1;
+	END CATCH	-- **************** OTHER VALIDATIONS ENDS ******************************************************
+	
+	BEGIN TRY	-- **************** DEPARTMENT VALIDATION STARTS   ****************************************
+	SET @V_ERRORLOC = 'V008'
+		SET @vReqColumns = 'DEPARTMENT|EMP_DEPARTMENT|'
+	
+		WHILE CHARINDEX('|',@vReqColumns,1) > 0		--CHECK FOR REQUIRED COLUMNS NULL IN IMPORT FILE
+		BEGIN --- WHILE LOOP BEGIN
+			SET @V_DEPT_ID = 0
+			SET @iPos1 = CHARINDEX('|',@vReqColumns,1)
+			SET @vColName1 = LEFT(@vReqColumns,CHARINDEX('|',@vReqColumns,1) - 1)
+			SET @vReqColumns = RIGHT(@vReqColumns,LEN(@vReqColumns) - CHARINDEX('|',@vReqColumns,1))
+
+			SET @V_VAL = ( CASE 
+			WHEN @vColName1 = 'DEPARTMENT' THEN @V_DEPARTMENT
+			WHEN @vColName1 = 'EMP_DEPARTMENT' THEN @V_EMP_DEPARTMENT
+			END )
+	
+			--PRINT 'DEPARTMENT VALIDATION :'
+	
+			IF @V_VAL IS NOT NULL
+			BEGIN
+				SET @V_SYS_TABLE_NAME = 'DEPARTMENT'
+				SET @V_DELETED_FLAG = 0
+
+				SET @V_SQL = 'SELECT @V_ENTITY_ID_P = E.ENTITY_ID, @V_ENTITY_TABLE_ID_P = E.ENTITY_TABLE_ID, @V_ABBREVIATION_P = E.ABBREVIATION, @V_DELETED_FLAG_P = E.DELETED_FLAG ' 
+				SET @V_SQL = @V_SQL + 'FROM ' + @V_DBNAME+'ENTITY E, ' + @V_DBNAME+'GLOSSARY G ' + ' WHERE E.ENTITY_TABLE_ID = G.TABLE_ID AND G.SYSTEM_TABLE_NAME = @V_SYS_TABLE_NAME_P AND E.ABBREVIATION = @V_DEPARTMENT_P';
+	
+				Exec sp_Executesql @V_SQL,
+				N'@V_ENTITY_ID_P INT OUTPUT,
+				@V_ENTITY_TABLE_ID_P INT OUTPUT,
+				@V_ABBREVIATION_P VARCHAR(25) OUTPUT,
+				@V_DELETED_FLAG_P INT OUTPUT,
+				@V_SYS_TABLE_NAME_P VARCHAR(30),
+				@V_DEPARTMENT_P VARCHAR(25)',
+				@V_ENTITY_ID_P = @V_DEPT_ID OUTPUT,
+				@V_ENTITY_TABLE_ID_P = @V_ENTITY_TABLE_ID OUTPUT,
+				@V_ABBREVIATION_P = @V_ABBREVIATION OUTPUT,
+				@V_DELETED_FLAG_P = @V_DELETED_FLAG OUTPUT,
+				@V_SYS_TABLE_NAME_P = @V_SYS_TABLE_NAME,
+				@V_DEPARTMENT_P = @V_VAL;
+				
+				IF @VCOLNAME1 = 'DEPARTMENT'
+				BEGIN
+					SET @V_DEPARTMENT_ID = @V_DEPT_ID
+					SET @V_DELETED_FLAG_DEPT = @V_DELETED_FLAG
+				END
+				ELSE IF @VCOLNAME1 = 'EMP_DEPARTMENT'
+				BEGIN
+					SET @V_EMP_DEPT_ID = @V_DEPT_ID
+					SET @V_DELETED_FLAG_EMP_DEPT = @V_DELETED_FLAG
+				END
+				
+				IF (@V_DEPT_ID = 0 OR @V_DELETED_FLAG = -1)
+				BEGIN
+					IF (@CheckCreateNewDepartment = 0)
+					BEGIN
+						EXECUTE DDS_ERROR_LOG_CAPTURE @P_JOBID, @V_DA_ROW_ID, @V_MODULENAME, @V_ERRORLOC, @V_ERRORLOC, @V_PROCNAME,
+						'Department does not exists and its creation is not allowed.', 'DEPARTMENT', @V_ERROR_TABLE, 'CLAIM_NUMBER', @V_CLAIM_NUMBER,1
+					
+						SET @V_ERRORCOUNT = @V_ERRORCOUNT + 1;					
+						--PRINT 'DEPARTMENT DOES NOT EXISTS AND ITS CREATION IS NOT ALLOWED';
+					END
+				END						
+			END
+		END		-- WHILE LOOP ENDS
+	END TRY
+	BEGIN CATCH
+		SET @V_ERROR_MESSAGE = ERROR_MESSAGE()
+		EXECUTE DDS_ERROR_LOG_CAPTURE @P_JOBID, @V_DA_ROW_ID, @V_MODULENAME, @V_ERRORLOC, @V_ERRORLOC, @V_PROCNAME,@V_ERROR_MESSAGE,'EXCEPTION', @V_ERROR_TABLE, 'CLAIM_NUMBER', @V_CLAIM_NUMBER,0;
+		SET @V_ROWCOUNT = @V_ROWCOUNT + 1;
+	END CATCH	-- **************** DEPARTMENT VALIDATION ENDS   *************************************************
+	
+---**************** COMMON VALIDATIONS *************************************************************************************************************************
+
+	BEGIN TRY	---**************** CHECK IF AN EXISTING CLAIM OR A NEW CLAIM **********************************************************************************
+	IF @V_CLAIM_NUMBER IS NOT NULL
+	BEGIN
+		SET @V_ERRORLOC = 'V009' 
+		--JIRA 29954 knakra starts
+		--IF @fVersionNum < 16.4
+	--		SET @V_SQL = 'SELECT @V_CLAIM_ID_P = CLAIM_ID, @V_CLAIM_LOB_RMDB_P = LINE_OF_BUS_CODE , @V_EVENT_ID_P = EVENT_ID, @V_EVENT_NUMBER_P = EVENT_NUMBER, @V_TIME_OF_CLAIM_P = TIME_OF_CLAIM, @V_OLDSTATUS_ID_P = CLAIM_STATUS_CODE FROM ' + @V_DBNAME+'CLAIM' + ' WHERE CLAIM_NUMBER = @V_CLAIM_NUMBER_P';
+	--	ELSE IF @fVersionNum >= 16.4
+	--		SET @V_SQL = 'SELECT @V_CLAIM_ID_P = CLAIM_ID, @V_CLAIM_LOB_RMDB_P = LINE_OF_BUS_CODE , @V_EVENT_ID_P = EVENT_ID, @V_EVENT_NUMBER_P = EVENT_NUMBER, @V_TIME_OF_CLAIM_P = TIME_OF_CLAIM, @V_OLDSTATUS_ID_P = CLAIM_STATUS_CODE , @pClmCurrCode = CLAIM_CURR_CODE FROM ' + @V_DBNAME+'CLAIM' + ' WHERE CLAIM_NUMBER = @V_CLAIM_NUMBER_P';
+		--AKUMAR523 
+		--JIRA 29954 knakra ends
+		 IF @fVersionNum >= 19.1
+			SET @V_SQL = 'SELECT @V_CLAIM_ID_P = CLAIM_ID, @V_CLAIM_LOB_RMDB_P = LINE_OF_BUS_CODE , @V_EVENT_ID_P = EVENT_ID, @V_EVENT_NUMBER_P = EVENT_NUMBER, @V_TIME_OF_CLAIM_P = TIME_OF_CLAIM, @V_OLDSTATUS_ID_P = CLAIM_STATUS_CODE , @pClmCurrCode = CLAIM_CURR_CODE , @V_ReviewTypCode_P = REVIEW_STATUS_CODE FROM ' + @V_DBNAME+'CLAIM' + ' WHERE CLAIM_NUMBER = @V_CLAIM_NUMBER_P';
+		 ELSE IF @fVersionNum >= 16.4
+			SET @V_SQL = 'SELECT @V_CLAIM_ID_P = CLAIM_ID, @V_CLAIM_LOB_RMDB_P = LINE_OF_BUS_CODE , @V_EVENT_ID_P = EVENT_ID, @V_EVENT_NUMBER_P = EVENT_NUMBER, @V_TIME_OF_CLAIM_P = TIME_OF_CLAIM, @V_OLDSTATUS_ID_P = CLAIM_STATUS_CODE , @pClmCurrCode = CLAIM_CURR_CODE FROM ' + @V_DBNAME+'CLAIM' + ' WHERE CLAIM_NUMBER = @V_CLAIM_NUMBER_P';
+		 ELSE IF @fVersionNum < 16.4
+		 SET @V_SQL = 'SELECT @V_CLAIM_ID_P = CLAIM_ID, @V_CLAIM_LOB_RMDB_P = LINE_OF_BUS_CODE , @V_EVENT_ID_P = EVENT_ID, @V_EVENT_NUMBER_P = EVENT_NUMBER, @V_TIME_OF_CLAIM_P = TIME_OF_CLAIM, @V_OLDSTATUS_ID_P = CLAIM_STATUS_CODE FROM ' + @V_DBNAME+'CLAIM' + ' WHERE CLAIM_NUMBER = @V_CLAIM_NUMBER_P';
+	
+			
+		Exec sp_Executesql @V_SQL,
+		N' @V_CLAIM_ID_P INT OUTPUT,
+		@V_CLAIM_LOB_RMDB_P INT OUTPUT,
+		@V_EVENT_ID_P INT OUTPUT,
+		@V_EVENT_NUMBER_P VARCHAR(25) OUTPUT,
+		@V_OLDSTATUS_ID_P INT OUTPUT,
+		@V_TIME_OF_CLAIM_P VARCHAR(6) OUTPUT,
+		@V_CLAIM_NUMBER_P VARCHAR(25),
+		@pClmCurrCode INT OUTPUT,
+		@V_ReviewTypCode_P INT OUTPUT',  ---akumar523
+		@V_CLAIM_ID_P = @V_CLAIM_ID OUTPUT,
+		@V_CLAIM_LOB_RMDB_P = @V_CLAIM_LOB_RMDB OUTPUT,
+		@V_EVENT_ID_P = @V_EVENT_ID OUTPUT,
+		@V_EVENT_NUMBER_P = @V_EVENT_NUMBER OUTPUT,
+		@V_OLDSTATUS_ID_P = @V_OLDSTATUS_ID OUTPUT,
+		@V_TIME_OF_CLAIM_P = @V_TIME_OF_CLAIM_RMDB OUTPUT,
+		@pClmCurrCode = @iOldClmCurrCode OUTPUT,
+		@V_CLAIM_NUMBER_P = @V_CLAIM_NUMBER,
+		@V_ReviewTypCode_P = @ioldRevTypCode OUTPUT;----akumar523 
+		IF @V_CLAIM_ID > 0
+		BEGIN -- BEGIN CLAIM ID > 0
+			--PRINT 'EXISTING CLAIM';
+			IF @V_CLAIM_LOB_RMDB <> @V_CLAIM_LOB
+			BEGIN
+				SET @V_ERRORLOC = 'L76A';
+				EXECUTE DDS_ERROR_LOG_CAPTURE @P_JOBID, @V_DA_ROW_ID, @V_MODULENAME, @V_ERRORLOC, @V_ERRORLOC, @V_PROCNAME,
+				'Line of business of this existing Claim in RiskMaster and Import file are different.', 'RECORD_TYPE', @V_ERROR_TABLE, 'CLAIM_NUMBER', @V_CLAIM_NUMBER,1			
+				SET @V_ERRORCOUNT = @V_ERRORCOUNT + 1;
+			END
+			ELSE
+			BEGIN
+				SET @V_NEWCLAIM = 0;
+				SET @V_ERRORLOC = 'L76B'
+				SET @V_SQL = 'SELECT TOP 1 @V_DATE_STATUS_CHGD_P = DATE_STATUS_CHGD FROM ' + @V_DBNAME + 'CLAIM_STATUS_HIST WHERE CLAIM_ID = @V_CLAIM_ID_P ORDER BY DATE_STATUS_CHGD DESC'
+				BEGIN TRY
+					EXECUTE SP_EXECUTESQL @V_SQL,
+					N'@V_CLAIM_ID_P INT,
+					@V_DATE_STATUS_CHGD_P VARCHAR(8) OUTPUT',
+					@V_CLAIM_ID_P = @V_CLAIM_ID,
+					@V_DATE_STATUS_CHGD_P = @V_DATE_STATUS_CHGD OUTPUT
+
+					IF @V_DATE_STATUS_CHGD IS NULL SET @V_DATE_STATUS_CHGD = '00000000'
+				END TRY
+				BEGIN CATCH
+					SET @V_ERROR_MESSAGE = ERROR_MESSAGE()
+					EXECUTE DDS_ERROR_LOG_CAPTURE @P_JOBID, @V_DA_ROW_ID, @V_MODULENAME, @V_ERRORLOC, @V_ERRORLOC, @V_PROCNAME,@V_ERROR_MESSAGE,'EXCEPTION', @V_ERROR_TABLE, 'CLAIM_NUMBER', @V_CLAIM_NUMBER,0;
+					SET @V_ROWCOUNT = @V_ROWCOUNT + 1;
+				END CATCH
+			END
+			--JIRA 29954 knakra starts
+			IF @fVersionNum >= 16.4 AND @iOldClmCurrCode <> @V_CURR_CODE_ID AND @V_CURR_CODE_ID IS NOT NULL AND @V_CURR_CODE_ID > 0
+			BEGIN
+				SET @V_ERRORLOC = 'CURR_UPD'
+				EXECUTE DDS_ERROR_LOG_CAPTURE @P_JOBID, @V_DA_ROW_ID, @V_MODULENAME, @V_ERRORLOC, @V_ERRORLOC, @V_PROCNAME,
+				'Claim Currency can not be updated and different currency provided in the import file than the existing claim currency. ', 'CURR_CODE', @V_ERROR_TABLE, 'CLAIM_NUMBER', @V_CLAIM_NUMBER,1			
+				SET @V_ERRORCOUNT = @V_ERRORCOUNT + 1;
+			END
+			---udoni RMA-75601 starts
+			ELSE IF @fVersionNum >= 20.2 and @V_CLAIM_STATUS_ID != @V_OLDSTATUS_ID
+			BEGIN
+				SET @V_SQL = 'SELECT @iCount_islocked_reserve = COUNT(IS_LOCKED) from'+ @V_DBNAME +'RESERVE_CURRENT where CLAIM_ID = @V_CLAIM_ID and ((IS_LOCKED = -1) or (IS_LOCKED = 1))'
+			BEGIN TRY
+				EXECUTE SP_EXECUTESQL @V_SQL,
+				N'@iCount_islocked_reserve INT OUTPUT,
+				@V_CLAIM_ID INT',
+				@iCount_islocked_reserve = @iCount_islocked_reserve OUTPUT,
+				@V_CLAIM_ID = @V_CLAIM_ID;
+
+				if @iCount_islocked_reserve > 0 
+				BEGIN
+					SET @V_ERRORLOC = 'RL1';
+					EXECUTE DDS_ERROR_LOG_CAPTURE @P_JOBID, @V_DA_ROW_ID, @V_MODULENAME, @V_ERRORLOC, @V_ERRORLOC, @V_PROCNAME,
+					'Reserve is locked on following claim, claim status cannot be updated.', 'CLAIM_NUMBER', @V_ERROR_TABLE, 'CLAIM_NUMBER', @V_CLAIM_NUMBER,1 
+					SET @V_ERRORCOUNT = @V_ERRORCOUNT + 1;
+					GOTO FETCHNEXT
+				END
+			END TRY
+			BEGIN CATCH
+				SET @V_ERROR_MESSAGE = ERROR_MESSAGE();
+				EXECUTE DDS_ERROR_LOG_CAPTURE @P_JOBID, @V_DA_ROW_ID, @V_MODULENAME, @V_ERRORLOC, @V_ERRORLOC, @V_PROCNAME,@V_ERROR_MESSAGE,'EXCEPTION', @V_ERROR_TABLE, 'CLAIM_NUMBER', @V_CLAIM_NUMBER,0;
+				SET @V_ERRORCOUNT += 1
+			END CATCH
+			END
+			---udoni RMA-75601 ends
+			--JIRA 29954 knakra ends
+		END -- END CLAIM ID > 0
+		ELSE IF @CheckCreateNewClaim = 0 --CLAIM DOES NOT EXIST IN RISKMASTER DATABASE AND ALSO IS NOT ALLOWED TO BE CREATED BY THE USER AS THE OPTION IS NOT CHECKED
+		BEGIN
+			SET @V_ERRORLOC = 'L76';
+			EXECUTE DDS_ERROR_LOG_CAPTURE @P_JOBID, @V_DA_ROW_ID, @V_MODULENAME, @V_ERRORLOC, @V_ERRORLOC, @V_PROCNAME,
+			'Claim Number does not exists. Please Check "Allow Creation of New Claim " to create a New Claim.', 'CLAIM_NUMBER', @V_ERROR_TABLE, 'CLAIM_NUMBER', @V_CLAIM_NUMBER,1			
+			SET @V_ERRORCOUNT = @V_ERRORCOUNT + 1;
+			GOTO FETCHNEXT
+		END
+		ELSE
+		BEGIN
+			--PRINT 'CREATE NEW CLAIM';
+			SET @V_NEWCLAIM = 1;
+			SET @V_DATE_STATUS_CHGD = '00000000'
+		END
+
+		--JIRA 23899 knakra starts
+		IF @V_NEWCLAIM = 0 AND @iVarFinKey <> 0
+		BEGIN
+
+			SET @V_SQL = 'SELECT @pExtPolLobCode = POLICY_LOB_CODE, @pExtClaimTypeCode = CLAIM_TYPE_CODE FROM ' + @V_DBNAME + 'CLAIM WHERE CLAIM_ID = @pClaimId'
+
+			EXECUTE SP_EXECUTESQL @V_SQL,
+			N' @pExtPolLobCode INT OUTPUT, @pExtClaimTypeCode INT OUTPUT, @pClaimId INT',
+			@pExtPolLobCode = @iExtPolLobCode OUTPUT,
+			@pExtClaimTypeCode = @iExtClmTypeCode OUTPUT,
+			@pClaimId = @V_CLAIM_ID
+			
+			SET @V_SQL = 'SELECT @pRowId = ROW_ID, @pIncClaimant = INC_CLAIMANT, @pIncRsvType = INC_RSVTYPE, @pIncRsvSubType = INC_RSVSUBTYPE, '
+			SET @v_SQL += '@pIncPolCvg = INC_POL_COVERAGE, @pIncLossType = INC_LOSS_TYPE FROM ' + @V_DBNAME + 'FINANCIAL_KEY WHERE'
+			SET @V_SQL += ' LOB_CODE = @pLob'
+			IF @iFinKeyFilter <> 0
+				SET @V_SQL += ' AND POLICY_LOB = @pPolLobCode'
+			ELSE
+				SET @V_SQL += ' AND CLAIM_TYPE = @pClaimTypeCode'
+			BEGIN TRY
+				SET @iRowId = NULL
+				SET @V_ERRORLOC = 'ErrFinKeyExt'
+				EXECUTE SP_EXECUTESQL @V_SQL,
+				N' @pRowId INT OUTPUT, @pIncClaimant INT OUTPUT, @pIncRsvType INT OUTPUT, @pIncRsvSubType INT OUTPUT,
+				   @pIncPolCvg INT OUTPUT, @pIncLossType INT OUTPUT, @pLob INT, @pPolLobCode INT, @pClaimTypeCode INT',
+				   @pRowId = @iRowId OUTPUT,
+				   @pIncClaimant = @iExtIncClaimant OUTPUT,
+				   @pIncRsvType = @iExtIncRsvType OUTPUT,
+				   @pIncRsvSubType = @iExtIncRsvSubType OUTPUT,
+				   @pIncPolCvg = @iExtIncPolCvgUnit OUTPUT,
+				   @pIncLossType = @iExtIncLossType OUTPUT,
+				   @pLob = @V_CLAIM_LOB,
+				   @pPolLobCode = @iExtPolLobCode,
+				   @pClaimTypeCode = @iExtClmTypeCode
+
+				IF @iRowId IS NULL OR @iRowId = 0
+				BEGIN
+					SET @V_ERRORLOC = 'ErrFinKeyDefExt'
+					EXECUTE SP_EXECUTESQL @V_SQL,
+					N' @pRowId INT OUTPUT, @pIncClaimant INT OUTPUT, @pIncRsvType INT OUTPUT, @pIncRsvSubType INT OUTPUT,
+					   @pIncPolCvg INT OUTPUT, @pIncLossType INT OUTPUT, @pLob INT, @pPolLobCode INT, @pClaimTypeCode INT',
+					   @pRowId = @iRowId OUTPUT,
+					   @pIncClaimant = @iExtIncClaimant OUTPUT,
+					   @pIncRsvType = @iExtIncRsvType OUTPUT,
+					   @pIncRsvSubType = @iExtIncRsvSubType OUTPUT,
+					   @pIncPolCvg = @iExtIncPolCvgUnit OUTPUT,
+					   @pIncLossType = @iExtIncLossType OUTPUT,
+					   @pLob = @V_CLAIM_LOB,
+					   @pPolLobCode = -1,
+					   @pClaimTypeCode = -1
+
+					IF @iRowId IS NULL OR @iRowId = 0
+					BEGIN
+						SET @V_ERROR_MESSAGE = 'Claim Number: ' + @V_CLAIM_NUMBER + ', No Default or user defined key found. '
+						IF @iFinKeyFilter <> 0
+							SET @vErrorColumns = 'POLICY_LOB'
+						ELSE
+							SET @vErrorColumns = 'CLAIM_TYPE'
+						EXECUTE DDS_ERROR_LOG_CAPTURE @P_JOBID, @V_DA_ROW_ID, @V_MODULENAME, 'NoFinKeyExt', 'NoFinKeyExt', @V_PROCNAME,@V_ERROR_MESSAGE,@vErrorColumns, @V_ERROR_TABLE, 'CLAIM_NUMBER', @V_CLAIM_NUMBER,1;
+						SET @V_ERRORCOUNT += 1
+						SET @iFinKeyErr = 1
+					END
+				END
+					
+					
+				SET @iRowId = NULL
+				SET @V_ERRORLOC = 'ErrFinKeyCur'
+				EXECUTE SP_EXECUTESQL @V_SQL,
+				N' @pRowId INT OUTPUT, @pIncClaimant INT OUTPUT, @pIncRsvType INT OUTPUT, @pIncRsvSubType INT OUTPUT,
+					@pIncPolCvg INT OUTPUT, @pIncLossType INT OUTPUT, @pLob INT, @pPolLobCode INT, @pClaimTypeCode INT',
+					@pRowId = @iRowId OUTPUT,
+					@pIncClaimant = @iIncClaimant OUTPUT,
+					@pIncRsvType = @iIncRsvType OUTPUT,
+					@pIncRsvSubType = @iIncRsvSubType OUTPUT,
+					@pIncPolCvg = @iIncPolCvgUnit OUTPUT,
+					@pIncLossType = @iIncLossType OUTPUT,
+					@pLob = @V_CLAIM_LOB,
+					@pPolLobCode = @V_POLICY_LOB_ID,
+					@pClaimTypeCode = @V_CLAIM_TYPE_ID
+
+				IF @iRowId IS NULL OR @iRowId = 0
+				BEGIN
+					SET @V_ERRORLOC = 'ErrFinKeyDefCur'
+					EXECUTE SP_EXECUTESQL @V_SQL,
+					N' @pRowId INT OUTPUT, @pIncClaimant INT OUTPUT, @pIncRsvType INT OUTPUT, @pIncRsvSubType INT OUTPUT,
+						@pIncPolCvg INT OUTPUT, @pIncLossType INT OUTPUT, @pLob INT, @pPolLobCode INT, @pClaimTypeCode INT',
+						@pRowId = @iRowId OUTPUT,
+						@pIncClaimant = @iIncClaimant OUTPUT,
+						@pIncRsvType = @iIncRsvType OUTPUT,
+						@pIncRsvSubType = @iIncRsvSubType OUTPUT,
+						@pIncPolCvg = @iIncPolCvgUnit OUTPUT,
+						@pIncLossType = @iIncLossType OUTPUT,
+						@pLob = @V_CLAIM_LOB,
+						@pPolLobCode = -1,
+						@pClaimTypeCode = -1
+
+					IF @iRowId IS NULL OR @iRowId = 0
+					BEGIN
+						SET @V_ERROR_MESSAGE = 'Claim Number: ' + @V_CLAIM_NUMBER + ', No Default or user defined key found. '
+						IF @iFinKeyFilter <> 0
+							SET @vErrorColumns = 'POLICY_LOB'
+						ELSE
+							SET @vErrorColumns = 'CLAIM_TYPE'
+						EXECUTE DDS_ERROR_LOG_CAPTURE @P_JOBID, @V_DA_ROW_ID, @V_MODULENAME, 'NoFinKeyCur', 'NoFinKeyCur', @V_PROCNAME,@V_ERROR_MESSAGE,@vErrorColumns, @V_ERROR_TABLE, 'CLAIM_NUMBER', @V_CLAIM_NUMBER,1;
+						SET @V_ERRORCOUNT += 1
+						SET @iFinKeyErr = 1
+					END
+				END
+
+				IF @iFinKeyErr IS NULL OR @iFinKeyErr = 0
+				BEGIN
+					IF @iExtIncClaimant <> @iIncClaimant OR @iExtIncLossType <> @iIncLossType OR @iExtIncPolCvgUnit <> @iIncPolCvgUnit OR @iExtIncRsvSubType <> @iIncRsvSubType OR @iExtIncRsvType <> @iIncRsvType
+					BEGIN
+						SET @V_ERROR_MESSAGE = 'Existing and Current Financial Key is different for Claim: ' + @V_CLAIM_NUMBER + ', Claim not updated. '
+						IF @iFinKeyFilter <> 0
+							SET @vErrorColumns = 'POLICY_LOB'
+						ELSE
+							SET @vErrorColumns = 'CLAIM_TYPE'
+						EXECUTE DDS_ERROR_LOG_CAPTURE @P_JOBID, @V_DA_ROW_ID, @V_MODULENAME, 'FinKeyNotMatch', 'FinKeyNotMatch', @V_PROCNAME,@V_ERROR_MESSAGE,@vErrorColumns, @V_ERROR_TABLE, 'CLAIM_NUMBER', @V_CLAIM_NUMBER,1;
+						SET @V_ERRORCOUNT += 1
+					END
+				END
+
+			END TRY
+			BEGIN CATCH
+				SET @V_ERROR_MESSAGE = ERROR_MESSAGE();
+				EXECUTE DDS_ERROR_LOG_CAPTURE @P_JOBID, @V_DA_ROW_ID, @V_MODULENAME, @V_ERRORLOC, @V_ERRORLOC, @V_PROCNAME,@V_ERROR_MESSAGE,'EXCEPTION', @V_ERROR_TABLE, 'CLAIM_NUMBER', @V_CLAIM_NUMBER,0;
+				SET @V_ERRORCOUNT += 1
+			END CATCH
+		END	
+		--JIRA 23899 knakra ends
+
+	END
+	END TRY
+	BEGIN CATCH
+		SET @V_ERROR_MESSAGE = ERROR_MESSAGE()
+		EXECUTE DDS_ERROR_LOG_CAPTURE @P_JOBID, @V_DA_ROW_ID, @V_MODULENAME, @V_ERRORLOC, @V_ERRORLOC, @V_PROCNAME,@V_ERROR_MESSAGE,'EXCEPTION', @V_ERROR_TABLE, 'CLAIM_NUMBER', @V_CLAIM_NUMBER,0;
+		SET @V_ROWCOUNT = @V_ROWCOUNT + 1;
+	END CATCH	
+	
+	BEGIN TRY	-----************** CHECK IF CLAIM STATUS PARENT IS CLOSED OR OPEN *****************************************************************************
+		SET @V_ERRORLOC = 'V010'
+		SET @V_SQL = 'SELECT @TEMPSHORTCODE_P = CODES1.SHORT_CODE FROM ' + @V_DBNAME+'CODES' + ' AS CODES1, ' + @V_DBNAME+'CODES ' + 'AS CODES2 WHERE CODES2.CODE_ID = @V_CLAIM_STATUS_ID_P AND CODES1.CODE_ID = CODES2.RELATED_CODE_ID';
+			
+		Exec sp_Executesql @V_SQL,
+		N' @TEMPSHORTCODE_P VARCHAR(25) OUTPUT,
+		@V_CLAIM_STATUS_ID_P INT',
+		@TEMPSHORTCODE_P = @V_TEMPSHORTCODE OUTPUT,
+		@V_CLAIM_STATUS_ID_P = @V_CLAIM_STATUS_ID;
+
+		IF @V_TEMPSHORTCODE = 'C'
+		BEGIN
+			SET	@V_BCLOSEDCLAIM = 1;
+			SET @V_OPEN_FLAG_ID = 0
+		END
+		ELSE IF	@V_TEMPSHORTCODE = 'O'
+		BEGIN
+			SET	@V_BOPENCLAIM = 1;
+			SET @V_OPEN_FLAG_ID = -1
+		END
+	END TRY
+	BEGIN CATCH
+		SET @V_ERROR_MESSAGE = ERROR_MESSAGE()
+		EXECUTE DDS_ERROR_LOG_CAPTURE @P_JOBID, @V_DA_ROW_ID, @V_MODULENAME, @V_ERRORLOC, @V_ERRORLOC, @V_PROCNAME,@V_ERROR_MESSAGE,'EXCEPTION', @V_ERROR_TABLE, 'CLAIM_NUMBER', @V_CLAIM_NUMBER,0;
+		SET @V_ROWCOUNT = @V_ROWCOUNT + 1;
+	END CATCH
+
+	BEGIN TRY	-------************************* EVENTS EXISTS IN RISKMASTER OR NOT ************************************************************************
+	IF @V_CLAIM_NUMBER IS NOT NULL
+	BEGIN	  	
+		SET @V_ERRORLOC = 'V011'
+		SET @V_SQL = 'SELECT @V_EVENT_ID_P = EVENT_ID, @V_DATE_OF_EVENT_P = DATE_OF_EVENT, @V_DEPT_EID_P = DEPT_EID, @V_TIME_OF_EVENT_P = TIME_OF_EVENT FROM ' 
+		SET @V_SQL = @V_SQL + @V_DBNAME+'EVENT' + ' WHERE EVENT_NUMBER = @V_EVENT_NUMBER_P';	
+
+		Exec sp_Executesql @V_SQL,
+		N' @V_EVENT_ID_P AS INT OUTPUT,
+		@V_DATE_OF_EVENT_P AS VARCHAR(8) OUTPUT,
+		@V_DEPT_EID_P AS INT OUTPUT,
+		@V_TIME_OF_EVENT_P AS VARCHAR(6) OUTPUT,
+		@V_EVENT_NUMBER_P VARCHAR(25)',
+		@V_EVENT_ID_P = @V_EVENT_ID OUTPUT,
+		@V_DATE_OF_EVENT_P = @V_DATE_OF_EVENT OUTPUT,
+		@V_DEPT_EID_P = @V_DEPT_EID OUTPUT,
+		@V_TIME_OF_EVENT_P = @V_TIME_OF_EVENT OUTPUT,
+		@V_EVENT_NUMBER_P = @V_EVENT_NUMBER;
+		
+		--PRINT 'EVENT ID: ' + CAST(@V_EVENT_ID AS VARCHAR(10));
+		
+		IF @V_EVENT_ID > 0 AND @V_CLAIM_ID = 0
+		BEGIN
+			--PRINT 'EXISTING EVENT WITH EVENT NUMBER: ' + CAST(@V_EVENT_ID AS VARCHAR(10))
+			SET @V_NEWEVENT = 0
+		END
+		ELSE IF @V_EVENT_ID = 0
+		BEGIN
+			--PRINT 'NEW EVENT WITH EVENT ID: ' + CAST(@V_EVENT_ID AS VARCHAR(10))
+			SET @V_NEWEVENT = 1
+		END
+	END
+	END TRY
+	BEGIN CATCH
+		SET @V_ERROR_MESSAGE = ERROR_MESSAGE()
+		EXECUTE DDS_ERROR_LOG_CAPTURE @P_JOBID, @V_DA_ROW_ID, @V_MODULENAME, @V_ERRORLOC, @V_ERRORLOC, @V_PROCNAME,@V_ERROR_MESSAGE,'EXCEPTION', @V_ERROR_TABLE, 'CLAIM_NUMBER', @V_CLAIM_NUMBER,0;
+		SET @V_ROWCOUNT = @V_ROWCOUNT + 1;
+	END CATCH
+
+BEGIN TRY	-------************************** DATE VALIDATIONS STARTS ************************************************************************************
+	SET @V_ERRORLOC = 'V012'
+	IF @V_CLAIM_NUMBER IS NOT NULL 
+	BEGIN	
+		IF @V_DATE_REOPENED IS NOT NULL AND @V_DATE_CLOSED IS NOT NULL 
+		BEGIN ---BEGIN LEVEL 1
+		
+			IF (DBO.DATEVALIDATE(@V_DATE_REOPENED) = 1) AND (@V_BOPENCLAIM = 1)
+			BEGIN --BEGIN LEVEL 3
+				
+				IF (DBO.DATEVALIDATE(@V_DATE_OF_CLAIM) = 0) AND (@V_NEWCLAIM = 1)	
+				BEGIN
+					SET @V_ERRORLOC = 'V013'
+					EXECUTE DDS_ERROR_LOG_CAPTURE @P_JOBID, @V_DA_ROW_ID, @V_MODULENAME, @V_ERRORLOC, @V_ERRORLOC, @V_PROCNAME,
+					'If Date Reopened is populated, then both Date of Claim and Date Closed are required.', 'DATE_OF_CLAIM, DATE_CLOSED', @V_ERROR_TABLE, 'CLAIM_NUMBER', @V_CLAIM_NUMBER,1			
+					SET @V_ERRORCOUNT = @V_ERRORCOUNT + 1
+					--PRINT 'ERROR 147: If DATE_REOPENED is populated, then both DATE OF CLAIM and DATE CLOSED are required'
+				END
+			
+				IF (DBO.DATEVALIDATE(@V_DATE_CLOSED_DT) = 1) AND (@V_DATE_REOPENED < @V_DATE_CLOSED_DT)
+				BEGIN
+					SET @V_ERRORLOC = 'V014'
+					--PRINT @V_DATE_REOPENED;
+					--PRINT @V_DATE_CLOSED_DT;
+					EXECUTE DDS_ERROR_LOG_CAPTURE @P_JOBID, @V_DA_ROW_ID, @V_MODULENAME, @V_ERRORLOC, @V_ERRORLOC, @V_PROCNAME,
+					'Date Reopened is Less than Date Closed.', 'DATE_REOPENED, DATE_CLOSED', @V_ERROR_TABLE, 'CLAIM_NUMBER', @V_CLAIM_NUMBER,1			
+					SET @V_ERRORCOUNT = @V_ERRORCOUNT + 1;
+					--PRINT 'ERROR 148: DATE_REOPENED Less Than DATE_CLOSED';
+				END
+				
+				IF (@V_NEWCLAIM = 0)
+				   AND
+				   ((@V_DATE_REOPENED < @V_DATE_STATUS_CHGD ) AND (@V_OLDSTATUS_ID <> @V_CLAIM_STATUS_ID))         --ddhupar JIRA 79203
+				BEGIN
+				    SET @V_ERRORLOC = 'V014A'
+					EXECUTE DDS_ERROR_LOG_CAPTURE @P_JOBID, @V_DA_ROW_ID, @V_MODULENAME, @V_ERRORLOC, @V_ERRORLOC, @V_PROCNAME,
+					'Date Reopened is Less than Date status changed.', 'DATE_REOPENED', @V_ERROR_TABLE, 'CLAIM_NUMBER', @V_CLAIM_NUMBER,1			
+					SET @V_ERRORCOUNT = @V_ERRORCOUNT + 1;
+					--PRINT 'ERROR 148: DATE_REOPENED Less Date status changed';
+				END
+				
+				IF (DBO.DATEVALIDATE(@V_DATE_OF_CLAIM) = 1 AND DBO.DATEVALIDATE(@V_DATE_CLOSED_DT) = 1 ) AND (@V_DATE_CLOSED_DT < @V_DATE_OF_CLAIM) 
+				BEGIN
+					SET @V_ERRORLOC = 'V015'
+					EXECUTE DDS_ERROR_LOG_CAPTURE @P_JOBID, @V_DA_ROW_ID, @V_MODULENAME, @V_ERRORLOC, @V_ERRORLOC, @V_PROCNAME,
+					'Date on which Claim was Closed is Less Than Claim Date.', 'DATE_CLOSED', @V_ERROR_TABLE, 'CLAIM_NUMBER', @V_CLAIM_NUMBER,1
+					SET @V_ERRORCOUNT = @V_ERRORCOUNT + 1;
+					--PRINT 'ERROR 144: Date Claim was Closed is Less Than Claim Date '
+				END
+			END --END LEVEL 3
+
+			ELSE IF (DBO.DATEVALIDATE(@V_DATE_REOPENED) = 1) AND (@V_BCLOSEDCLAIM = 1) AND (@V_NEWCLAIM = 1)	
+			BEGIN	
+				SET @V_ERRORLOC = 'V016'
+				EXECUTE DDS_ERROR_LOG_CAPTURE @P_JOBID, @V_DA_ROW_ID, @V_MODULENAME, @V_ERRORLOC, @V_ERRORLOC, @V_PROCNAME,
+				'If DATE_REOPENED is populated, CLAIM_STATUS must be ''O'' or ''R'' (or status with a parent code of ''O''), and cannot be Closed (or status code with parent code C).', 'CLAIM_STATUS', @V_ERROR_TABLE, 'CLAIM_NUMBER', @V_CLAIM_NUMBER,1
+				SET @V_ERRORCOUNT = @V_ERRORCOUNT + 1;
+				--PRINT 'ERROR: 149: If DATE_REOPENED is populated, CLAIM_STATUS must be O or R (or status with a parent code of O), and cannot be Closed (or status code with parent code C)';
+			END
+
+			ELSE IF (@V_NEWCLAIM = 0) AND (@V_BCLOSEDCLAIM = 1)
+			        AND (DBO.DATEVALIDATE(@V_DATE_CLOSED_DT) = 1 AND DBO.DATEVALIDATE(@V_DATE_OF_CLAIM) = 1)
+			        AND (@V_DATE_CLOSED_DT < @V_DATE_OF_CLAIM)
+			BEGIN	
+				SET @V_ERRORLOC = 'V016A'
+				EXECUTE DDS_ERROR_LOG_CAPTURE @P_JOBID, @V_DA_ROW_ID, @V_MODULENAME, @V_ERRORLOC, @V_ERRORLOC, @V_PROCNAME,
+				'Date on which claim was closed is Less than Date of Claim.', 'DATE_CLOSED', @V_ERROR_TABLE, 'CLAIM_NUMBER', @V_CLAIM_NUMBER,1
+				SET @V_ERRORCOUNT = @V_ERRORCOUNT + 1;
+				--PRINT 'ERROR: 144: Date on which claim was closed is Less than Date of Claim.';
+			END
+
+		END ---END LEVEL 1
+			
+		IF (@V_EVENT_ID = 0)
+		BEGIN
+			SET @V_DATE_OF_EVENT = @V_DATE_OF_LOSS
+			IF @V_TIME_OF_EVENT IS NULL SET @V_TIME_OF_EVENT = '000000'
+		END
+	
+		IF ( DBO.DATEVALIDATE(@V_DATE_OF_EVENT) = 1 AND DBO.DATEVALIDATE(@V_DATE_OF_CLAIM) = 1 ) AND (@V_DATE_OF_CLAIM < @V_DATE_OF_EVENT)
+		BEGIN
+			IF  (@V_DATE_OF_CLAIM < @V_DATE_OF_EVENT) 
+			BEGIN
+				SET @V_ERRORLOC = 'V017'
+				EXECUTE DDS_ERROR_LOG_CAPTURE @P_JOBID, @V_DA_ROW_ID, @V_MODULENAME, @V_ERRORLOC, @V_ERRORLOC, @V_PROCNAME,
+				'Date of Claim is Less Than Event Date.', 'DATE_OF_CLAIM', @V_ERROR_TABLE, 'CLAIM_NUMBER', @V_CLAIM_NUMBER,1
+				SET @V_ERRORCOUNT = @V_ERRORCOUNT + 1;
+				--PRINT 'ERROR 145: Claim Date Less Than Event Date DATE_OF_CLAIM < DATE_OF_EVENT'
+			END
+		END
+
+		ELSE IF (DBO.DATEVALIDATE(@V_DATE_OF_EVENT) = 1 AND DBO.DATEVALIDATE(@V_DATE_OF_CLAIM) = 1) AND (@V_DATE_OF_CLAIM = @V_DATE_OF_EVENT)
+		BEGIN
+			IF (@V_TIME_OF_CLAIM IS NOT NULL) AND (@V_TIME_OF_CLAIM < @V_TIME_OF_EVENT)	
+			BEGIN
+				SET @V_ERRORLOC = 'V019'
+				EXECUTE DDS_ERROR_LOG_CAPTURE @P_JOBID, @V_DA_ROW_ID, @V_MODULENAME, @V_ERRORLOC, @V_ERRORLOC, @V_PROCNAME,
+				'Date of Claim and Date of Event is same. Hence, Time of Claim cannot be earlier than Time of Event.', 'TIME_OF_CLAIM', @V_ERROR_TABLE, 'CLAIM_NUMBER', @V_CLAIM_NUMBER,1
+				SET @V_ERRORCOUNT = @V_ERRORCOUNT + 1;
+				--PRINT 'ERROR 151: Same claim and event/loss date, claim time cannot be earlier than event time'
+			END
+		END
+		
+		ELSE IF (DBO.DATEVALIDATE(@V_DATE_REPORTED) = 1) AND (DBO.DATEVALIDATE(@V_DATE_OF_EVENT) = 1 ) AND (@V_DATE_REPORTED < @V_DATE_OF_EVENT) 
+		BEGIN
+			SET @V_ERRORLOC = 'V020'
+			EXECUTE DDS_ERROR_LOG_CAPTURE @P_JOBID, @V_DA_ROW_ID, @V_MODULENAME, @V_ERRORLOC, @V_ERRORLOC, @V_PROCNAME,
+			'Date Reported Less Than Event Date.', 'DATE_REPORTED', @V_ERROR_TABLE, 'CLAIM_NUMBER', @V_CLAIM_NUMBER,1
+			SET @V_ERRORCOUNT = @V_ERRORCOUNT + 1;
+			--PRINT 'ERROR 146: Date Reported Less Than Event Date';
+		END
+
+		IF (DBO.DATEVALIDATE(@V_DATE_OF_BIRTH) = 1 AND DBO.DATEVALIDATE(@V_DATE_OF_EVENT) = 1) AND (@V_DATE_OF_BIRTH > @V_DATE_OF_EVENT)
+		BEGIN
+			SET @V_ERRORLOC = 'V021'
+			EXECUTE DDS_ERROR_LOG_CAPTURE @P_JOBID, @V_DA_ROW_ID, @V_MODULENAME, @V_ERRORLOC, @V_ERRORLOC, @V_PROCNAME,
+			'Date of Birth is greater than Event Date.', 'DATE_OF_BIRTH', @V_ERROR_TABLE, 'CLAIM_NUMBER', @V_CLAIM_NUMBER,1
+			SET @V_ERRORCOUNT = @V_ERRORCOUNT + 1;
+		END
+
+		IF (DBO.DATEVALIDATE(@V_DATE_OF_DEATH) = 1 AND DBO.DATEVALIDATE(@V_DATE_OF_EVENT) = 1) AND (@V_DATE_OF_DEATH < @V_DATE_OF_EVENT)	
+		BEGIN
+			SET @V_ERRORLOC = 'V022'
+			EXECUTE DDS_ERROR_LOG_CAPTURE @P_JOBID, @V_DA_ROW_ID, @V_MODULENAME, @V_ERRORLOC, @V_ERRORLOC, @V_PROCNAME,
+			'Date of Death is less than Event Date.', 'DATE_OF_DEATH', @V_ERROR_TABLE, 'CLAIM_NUMBER', @V_CLAIM_NUMBER,1
+			SET @V_ERRORCOUNT = @V_ERRORCOUNT + 1;
+		END
+
+		IF (DBO.DATEVALIDATE(@V_DATE_CLOSED_DT) = 1 AND DBO.DATEVALIDATE(@V_DATE_OF_EVENT) = 1) AND (@V_DATE_CLOSED_DT < @V_DATE_OF_EVENT)
+		BEGIN
+			SET @V_ERRORLOC = 'V023'
+			EXECUTE DDS_ERROR_LOG_CAPTURE @P_JOBID, @V_DA_ROW_ID, @V_MODULENAME, @V_ERRORLOC, @V_ERRORLOC, @V_PROCNAME,
+			'Claim Date closed is less than Event Date.', 'DATE_CLOSED', @V_ERROR_TABLE, 'CLAIM_NUMBER', @V_CLAIM_NUMBER,1
+			SET @V_ERRORCOUNT = @V_ERRORCOUNT + 1;
+		END
+
+		--dsharma70 hmi
+		IF @V_RECORD_TYPE = 'H'	AND @V_CLAIM_LOB > 0
+		BEGIN
+			IF (DBO.DATEVALIDATE(@V_DATE_OF_CLAIM) = 1 AND DBO.DATEVALIDATE(@V_INFO_REQ_DATE ) = 1) AND ((@V_DATE_OF_CLAIM > @V_INFO_REQ_DATE) OR (@V_INFO_REQ_DATE > @V_TODAY))
+			BEGIN
+				SET @V_ERRORLOC = 'V023'
+				EXECUTE DDS_ERROR_LOG_CAPTURE @P_JOBID, @V_DA_ROW_ID, @V_MODULENAME, @V_ERRORLOC, @V_ERRORLOC, @V_PROCNAME,
+				'INFO_REQ_DATE should be greater than DATE_OF_CLAIM and less than Current Date, skipping record.', 'INFO_REQ_DATE', @V_ERROR_TABLE, 'CLAIM_NUMBER', @V_CLAIM_NUMBER,1
+				SET @V_ERRORCOUNT = @V_ERRORCOUNT + 1;
+			END
+			
+			IF (DBO.DATEVALIDATE(@V_DATE_OF_CLAIM) = 1 AND DBO.DATEVALIDATE(@V_PROOF_OF_LOSS_DATE ) = 1) AND ((@V_DATE_OF_CLAIM > @V_PROOF_OF_LOSS_DATE) OR (@V_PROOF_OF_LOSS_DATE > @V_TODAY))
+			BEGIN
+				SET @V_ERRORLOC = 'V023'
+				EXECUTE DDS_ERROR_LOG_CAPTURE @P_JOBID, @V_DA_ROW_ID, @V_MODULENAME, @V_ERRORLOC, @V_ERRORLOC, @V_PROCNAME,
+				'PROOF_OF_LOSS_DATE should be greater than DATE_OF_CLAIM and less than Current Date, skipping record.', 'PROOF_OF_LOSS_DATE', @V_ERROR_TABLE, 'CLAIM_NUMBER', @V_CLAIM_NUMBER,1
+				SET @V_ERRORCOUNT = @V_ERRORCOUNT + 1;
+			END
+		END
+	END
+END TRY
+BEGIN CATCH
+		SET @V_ERROR_MESSAGE = ERROR_MESSAGE()
+		EXECUTE DDS_ERROR_LOG_CAPTURE @P_JOBID, @V_DA_ROW_ID, @V_MODULENAME, @V_ERRORLOC, @V_ERRORLOC, @V_PROCNAME,@V_ERROR_MESSAGE,'EXCEPTION', @V_ERROR_TABLE, 'CLAIM_NUMBER', @V_CLAIM_NUMBER,0;
+		SET @V_ROWCOUNT = @V_ROWCOUNT + 1;
+END CATCH
+	
+	IF @V_CLAIM_NUMBER IS NOT NULL ----****************************** DATE VALIDATIONS ENDS ****************************************************************************
+	BEGIN
+	BEGIN TRY
+		IF @V_RECORD_TYPE = 'W' 
+		BEGIN ---BEGIN LEVEL 1
+
+			IF (DBO.DATEVALIDATE(@V_RETURN_WORK_DATE) = 1 AND DBO.DATEVALIDATE(@V_DATE_LAST_WORKED) = 1) AND (@V_DATE_LAST_WORKED > @V_RETURN_WORK_DATE)
+			BEGIN
+				SET @V_ERRORLOC = 'V024'
+				EXECUTE DDS_ERROR_LOG_CAPTURE @P_JOBID, @V_DA_ROW_ID, @V_MODULENAME, @V_ERRORLOC, @V_ERRORLOC, @V_PROCNAME,
+				'Last Worked Date is greater then the Returned Date.', 'DATE_LAST_WORKED', @V_ERROR_TABLE, 'CLAIM_NUMBER', @V_CLAIM_NUMBER,1
+				SET @V_ERRORCOUNT = @V_ERRORCOUNT + 1;
+				--PRINT 'ERROR: Last Worked Date is greater then the Returned Date';
+			END
+
+			IF (DBO.DATEVALIDATE(@V_DATE_FIRST_RESTRICT) = 1 AND DBO.DATEVALIDATE(@V_DATE_LAST_RESTRICT) = 1) AND (@V_DATE_LAST_RESTRICT < @V_DATE_FIRST_RESTRICT)
+			BEGIN
+				SET @V_ERRORLOC = 'V025'
+				EXECUTE DDS_ERROR_LOG_CAPTURE @P_JOBID, @V_DA_ROW_ID, @V_MODULENAME, @V_ERRORLOC, @V_ERRORLOC, @V_PROCNAME,
+				'Restricted First Date is greater than Restricted Last Date.', 'DATE_FIRST_RESTRICT, DATE_LAST_RESTRICT', @V_ERROR_TABLE, 'CLAIM_NUMBER', @V_CLAIM_NUMBER,1
+				SET @V_ERRORCOUNT = @V_ERRORCOUNT + 1;
+				--PRINT 'ERROR: Restricted First Date is greater then Restricted Last Date';
+			END
+
+		END ---END LEVEL 1
+	END TRY
+	BEGIN CATCH
+		SET @V_ERROR_MESSAGE = ERROR_MESSAGE()
+		EXECUTE DDS_ERROR_LOG_CAPTURE @P_JOBID, @V_DA_ROW_ID, @V_MODULENAME, @V_ERRORLOC, @V_ERRORLOC, @V_PROCNAME,@V_ERROR_MESSAGE,'EXCEPTION', @V_ERROR_TABLE, 'CLAIM_NUMBER', @V_CLAIM_NUMBER,0;
+		SET @V_ROWCOUNT = @V_ROWCOUNT + 1;
+	END CATCH
+
+
+	IF @V_CLAIM_SUPP = 1
+	BEGIN -- BEGIN SUPPLEMENTAL FIELDS VALIDATION
+		BEGIN TRY
+			SET @V_ERRORLOC = 'V025A'
+			EXECUTE DDS_SUPPLEMENT
+			@P_JOBID, @CONFIG_ID, @P_USER_ID, @V_MODULENAME, @V_DBNAME, @V_DA_ROW_ID, @CheckCreateNewCodes, @V_CLAIM_LOB,
+			@V_ERRORCOUNT,	-- TO CHECK THERE IS ANY ERROR IN BASE RECORD (INPUT PARAMETER TO CHECK BASE ERROR)
+			'V',			-- VALIDATION OR INSERT (V OR I)
+			0,0,0,0,0,0,0,0,0,0,0,0,
+			0,0,  --added new parameters for 16.2                                 
+			'CLAIM_NUMBER',                               	-- USED FOR ERROR LOGGING FOR WHICH RECORD WE HAVE GOT AN ERROR
+			@V_CLAIM_NUMBER,                                	-- USED FOR ERROR LOGGING FOR WHICH RECORD WE HAVE GOT AN ERROR
+			@V_SUPP_ERROR_COUNT OUTPUT --(OUT PARAMETER TO INTIMATE BASE THAT THERE IS AND ERROR IN SUPP)
+		
+		SET @V_ERRORCOUNT = @V_ERRORCOUNT + @V_SUPP_ERROR_COUNT
+		
+		END TRY
+		BEGIN CATCH
+			SET @V_ERROR_MESSAGE = ERROR_MESSAGE()
+			EXECUTE DDS_ERROR_LOG_CAPTURE @P_JOBID, @V_DA_ROW_ID, @V_MODULENAME, @V_ERRORLOC, @V_ERRORLOC, @V_PROCNAME,@V_ERROR_MESSAGE,'EXCEPTION', @V_ERROR_TABLE, 'CLAIM_NUMBER', @V_CLAIM_NUMBER,0;
+			SET @V_ROWCOUNT = @V_ROWCOUNT + 1;
+		END CATCH
+	END -- END SUPPLEMENTAL FIELDS VALIDATION
+	END	---END CLAIM NUMBER NOT NULL
+
+----------************************** ALL VALIDATION ENDS ************************************************************************************
+
+	SET @V_ERRORLOC = 'V026'
+	--PRINT 'ERROR COUNT : ' + CAST(@V_ERRORCOUNT AS VARCHAR(3))
+		
+	IF @V_ERRORCOUNT + @V_ROWCOUNT > 0 SET @V_INVALID_ROW = 1
+ 
+	ELSE IF (@V_ERRORCOUNT + @V_ROWCOUNT = 0) SET @V_INVALID_ROW = 0
+
+--------**************************** INSERT/UPDATE PREPRATION *******************************************************************************
+
+IF @V_INVALID_ROW = 0 ---- NO VALIDATION ERRORS ARE THERE
+BEGIN ---- BEGIN INVALID ROW 0
+	SET @V_ROWCOUNT = 0
+	--PRINT 'IMPORT STARTS FOR RECORD NUMBER: ' + CAST(@V_DA_ROW_ID AS VARCHAR(10))
+	
+
+	IF @V_RPT_DATE_AUTO_FLAG = 2 SET @V_DATE_RPTD_TO_RM = CONVERT(VARCHAR(8),GETDATE(),112)
+	ELSE SET @V_DATE_RPTD_TO_RM = @V_DATE_OF_CLAIM
+
+	--IF @V_RECORD_TYPE = 'D' AND @V_CARRIERFLAG = 0	--JIRA 23899 knakra
+	IF (@V_RECORD_TYPE = 'D' AND @V_CARRIERFLAG = 0 AND @iVarFinKey = 0) OR (@iVarFinKey <> 0 AND @V_RECORD_TYPE = 'D')	--JIRA 23899 knakra
+	BEGIN --BEGIN LEVEL 4
+		
+		--JIRA 42212 knakra starts
+   		--SET @V_SQL = 'SELECT @V_PLAN_ID_P = PLAN_ID FROM ' + @V_DBNAME+'DISABILITY_PLAN WHERE PLAN_NAME = @V_PLAN_NAME_P'
+		
+		SET @V_SQL = 'SELECT @pFacEid = FAC.ENTITY_ID, @pLocEid = LOC.ENTITY_ID, @pDivEid = DIV.ENTITY_ID, @pRegEid = REG.ENTITY_ID,'
+		SET @V_SQL += '@pOprEid = OPR.ENTITY_ID, @pComEid = COM.ENTITY_ID, @pClntEid = CLNT.ENTITY_ID'
+		SET @V_SQL += ' FROM ' + @V_DBNAME + 'ENTITY DEPT INNER JOIN ' + @V_DBNAME + 'ENTITY FAC ON FAC.ENTITY_ID = DEPT.PARENT_EID INNER JOIN ' + @V_DBNAME + 'ENTITY LOC ON LOC.ENTITY_ID = FAC.PARENT_EID INNER JOIN ' + @V_DBNAME +'ENTITY DIV ON DIV.ENTITY_ID = LOC.PARENT_EID'
+		SET @V_SQL += ' INNER JOIN ' + @V_DBNAME + 'ENTITY REG ON REG.ENTITY_ID = DIV.PARENT_EID INNER JOIN ' + @V_DBNAME + 'ENTITY OPR ON OPR.ENTITY_ID = REG.PARENT_EID'
+		SET @V_SQL += ' INNER JOIN ' + @V_DBNAME + 'ENTITY COM ON COM.ENTITY_ID = OPR.PARENT_EID INNER JOIN ' + @V_DBNAME + 'ENTITY CLNT ON CLNT.ENTITY_ID = COM.PARENT_EID WHERE DEPT.ENTITY_ID = @pDeptEid'
+
+		EXECUTE SP_EXECUTESQL @V_SQL,
+		N'@pFacEid INT OUTPUT, @pLocEid INT OUTPUT, @pDivEid INT OUTPUT, @pRegEid INT OUTPUT, @pOprEid INT OUTPUT, @pComEid INT OUTPUT, @pClntEid INT OUTPUT, @pDeptEid INT',
+		@pFacEid = @iFacEid OUTPUT,
+		@pLocEid = @iLocEid OUTPUT,
+		@pDivEid = @iDivEid OUTPUT,
+		@pRegEid = @iRegEid OUTPUT,
+		@pOprEid = @iOprEid OUTPUT,
+		@pComEid = @iComEid OUTPUT,
+		@pClntEid = @iClntEid OUTPUT,
+		@pDeptEid = @V_DEPARTMENT_ID
+
+		/*JIRA 42212 knakra starts
+		SET @V_SQL = 'SELECT @V_PLAN_ID_P = DP.PLAN_ID FROM ' + @V_DBNAME + 'DISABILITY_PLAN DP, ' + @V_DBNAME + 'DIS_PLAN_X_INSURED DPI, ' + @V_DBNAME + 'GLOSSARY G,'
+		SET @V_SQL += @V_DBNAME + 'CODES C WHERE C.TABLE_ID = G.TABLE_ID AND DP.PLAN_STATUS_CODE = C.CODE_ID AND G.SYSTEM_TABLE_NAME = ''PLAN_STATUS'' AND DP.PLAN_ID = DPI.PLAN_ID'
+		SET @V_SQL += ' AND C.SHORT_CODE = ''I'' AND ((DP.EFFECTIVE_DATE <= @pEventDate AND DP.EXPIRATION_DATE >= @pEventDate) OR (DP.EFFECTIVE_DATE <= @pClmDate AND DP.EXPIRATION_DATE >= @pClmDate))'
+		
+		SET @VSQLINSERT = ' AND DPI.INSURED_EID IN(@pDeptEid, @pFacEid, @pLocEid, @pDivEid, @pRegEid, @pComEid, @pClntEid)'
+		*/
+		SET @V_SQL = 'SELECT @V_PLAN_ID_P = DP.PLAN_ID FROM ' + @V_DBNAME + 'DISABILITY_PLAN DP INNER JOIN ' + @V_DBNAME + 'CODES C ON'
+		SET @V_SQL += ' C.CODE_ID = DP.PLAN_STATUS_CODE INNER JOIN ' + @V_DBNAME + 'GLOSSARY G ON G.TABLE_ID = C.TABLE_ID'
+		
+		SET @VSQLINSERT = ' INNER JOIN ' + @V_DBNAME + 'DIS_PLAN_X_INSURED DPI ON DPI.PLAN_ID = DP.PLAN_ID'
+		
+		SET @VSQLUPDATE = ' WHERE G.SYSTEM_TABLE_NAME = ''PLAN_STATUS'' AND C.SHORT_CODE = ''I'' AND ((DP.EFFECTIVE_DATE <= @pEventDate AND DP.EXPIRATION_DATE >= @pEventDate)'
+		SET @VSQLUPDATE += ' OR (DP.EFFECTIVE_DATE <= @pClaimDate AND DP.EXPIRATION_DATE >= @pClaimDate)) AND DP.PLAN_NAME = @pPlanName'
+
+		IF @fVersionNum < 17.3 OR (@fVersionNum >= 17.3 AND @iIncPolCvgUnit = 0)
+			SET @nSqlExec = @V_SQL + @VSQLINSERT + @VSQLUPDATE + ' AND DPI.INSURED_EID IN(@pDeptEid, @pFacEid, @pLocEid, @pDivEid, @pOprEid, @pRegEid, @pComEid, @pClntEid)'
+		ELSE IF (@fVersionNum >= 17.3 AND @iIncPolCvgUnit <> 0)
+			SET @nSqlExec = @V_SQL + @VSQLUPDATE
+		
+		BEGIN TRY
+			SET @V_ERRORLOC = 'V027'
+			EXECUTE SP_EXECUTESQL @nSqlExec,
+			N'@V_PLAN_ID_P INT OUTPUT, @pEventDate VARCHAR(8), @pClaimDate VARCHAR(8),
+			@pDeptEid INT, @pFacEid INT, @pLocEid INT, @pDivEid INT, @pOprEid INT, 
+			@pRegEid INT, @pComEid INT, @pClntEid INT, @pPlanName VARCHAR(20)',
+			@V_PLAN_ID_P = @V_PLAN_ID OUTPUT,
+			@pEventDate = @V_DATE_OF_EVENT,
+			@pClaimDate = @V_DATE_OF_CLAIM,
+			@pDeptEid = @V_DEPARTMENT_ID,
+			@pFacEid = @iFacEid,
+			@pLocEid = @iLocEid,
+			@pDivEid = @iDivEid,
+			@pRegEid = @iRegEid,
+			@pOprEid = @iOprEid,
+			@pComEid = @iComEid,
+			@pClntEid = @iClntEid,
+			@pPlanName = @V_PLAN_NAME
+
+			IF (@V_PLAN_ID IS NULL OR @V_PLAN_ID = 0) AND (@fVersionNum < 17.3 OR (@fVersionNum >= 17.3 AND @iIncPolCvgUnit = 0))
+			BEGIN
+				SET @nSqlExec = @V_SQL + @VSQLUPDATE
+
+				SET @V_ERRORLOC = 'ErrDisPlanInfo'
+				EXECUTE SP_EXECUTESQL @nSqlExec,
+				N'@V_PLAN_ID_P INT OUTPUT, @pEventDate VARCHAR(8), @pClaimDate VARCHAR(8),
+				@pPlanName VARCHAR(20)',
+				@V_PLAN_ID_P = @V_PLAN_ID OUTPUT,
+				@pEventDate = @V_DATE_OF_EVENT,
+				@pClaimDate = @V_DATE_OF_CLAIM,
+				@pPlanName = @V_PLAN_NAME
+				
+				IF @V_PLAN_ID IS NOT NULL AND @V_PLAN_ID > 0
+				BEGIN
+					SET @V_ERRORLOC = 'ErrPlanDept'
+					SET @V_ERROR_MESSAGE = 'Plan: ' + @V_PLAN_NAME + ', is not associated with the Department: ' + @V_DEPARTMENT + '.'
+					EXECUTE DDS_ERROR_LOG_CAPTURE @P_JOBID, @V_DA_ROW_ID, @V_MODULENAME, @V_ERRORLOC, @V_ERRORLOC, @V_PROCNAME,@V_ERROR_MESSAGE,'PLAN_NAME', @V_ERROR_TABLE, 'CLAIM_NUMBER', @V_CLAIM_NUMBER,1;
+					SET @V_ROWCOUNT = @V_ROWCOUNT + 1;
+				END
+				ELSE IF @V_PLAN_ID IS NULL OR @V_PLAN_ID = 0
+				BEGIN
+					SET @V_ERRORLOC = 'ErrNoPlanFound'
+					SET @V_ERROR_MESSAGE = 'Plan: ' + @V_PLAN_NAME + ' doesnot exist in the database.'
+					EXECUTE DDS_ERROR_LOG_CAPTURE @P_JOBID, @V_DA_ROW_ID, @V_MODULENAME, @V_ERRORLOC, @V_ERRORLOC, @V_PROCNAME,@V_ERROR_MESSAGE,'PLAN_NAME', @V_ERROR_TABLE, 'CLAIM_NUMBER', @V_CLAIM_NUMBER,1;
+					SET @V_ROWCOUNT = @V_ROWCOUNT + 1;
+				END
+			END
+			ELSE IF (@V_PLAN_ID IS NULL OR @V_PLAN_ID = 0) AND @fVersionNum >= 17.3 AND @iIncPolCvgUnit <> 0
+			BEGIN
+				SET @V_ERRORLOC = 'ErrNoPlanFound'
+				SET @V_ERROR_MESSAGE = 'Plan: ' + @V_PLAN_NAME + ' doesnot exist in the database.'
+				EXECUTE DDS_ERROR_LOG_CAPTURE @P_JOBID, @V_DA_ROW_ID, @V_MODULENAME, @V_ERRORLOC, @V_ERRORLOC, @V_PROCNAME,@V_ERROR_MESSAGE,'PLAN_NAME', @V_ERROR_TABLE, 'CLAIM_NUMBER', @V_CLAIM_NUMBER,1;
+				SET @V_ROWCOUNT = @V_ROWCOUNT + 1;
+			END
+			ELSE IF @V_PLAN_ID > 0
+				SET @V_INSERTPLANINFO = 1
+
+			IF @V_PLAN_ID > 0 SET @V_INSERTPLANINFO = 1
+		END TRY
+		BEGIN CATCH
+			SET @V_ERROR_MESSAGE = ERROR_MESSAGE()
+			EXECUTE DDS_ERROR_LOG_CAPTURE @P_JOBID, @V_DA_ROW_ID, @V_MODULENAME, @V_ERRORLOC, @V_ERRORLOC, @V_PROCNAME,@V_ERROR_MESSAGE,'EXCEPTION', @V_ERROR_TABLE, 'CLAIM_NUMBER', @V_CLAIM_NUMBER,0;
+			SET @V_ROWCOUNT = @V_ROWCOUNT + 1;
+		END CATCH
+
+		IF @V_CLASS_NAME IS NOT NULL AND @V_PLAN_ID > 0
+		BEGIN
+
+			SET @V_SQL = 'SELECT @V_CLASSROW_ID_P = CLASS_ROW_ID FROM ' + @V_DBNAME+'DISABILITY_CLASS WHERE CLASS_NAME = @V_CLASS_NAME_P AND PLAN_ID = @V_PLAN_ID_P'
+			BEGIN TRY
+				SET @V_ERRORLOC = 'V028'
+				SET @V_CLASSROW_ID = NULL
+
+				Exec sp_Executesql @V_SQL,
+				N'@V_CLASSROW_ID_P INT OUTPUT,
+				@V_CLASS_NAME_P VARCHAR(20),
+				@V_PLAN_ID_P INT',
+				@V_CLASSROW_ID_P = @V_CLASSROW_ID OUTPUT,
+				@V_CLASS_NAME_P = @V_CLASS_NAME,
+				@V_PLAN_ID_P = @V_PLAN_ID	
+		
+			END TRY
+			BEGIN CATCH
+				SET @V_ERROR_MESSAGE = ERROR_MESSAGE()
+				EXECUTE DDS_ERROR_LOG_CAPTURE @P_JOBID, @V_DA_ROW_ID, @V_MODULENAME, @V_ERRORLOC, @V_ERRORLOC, @V_PROCNAME,@V_ERROR_MESSAGE,'EXCEPTION', @V_ERROR_TABLE, 'CLAIM_NUMBER', @V_CLAIM_NUMBER,0;
+				SET @V_ROWCOUNT = @V_ROWCOUNT + 1;
+			END CATCH
+		END
+
+		IF @V_DIS_TYPE_ID > 0
+		BEGIN
+			SET @V_TAXFLAGS = 0
+			IF @V_FEDERAL_TAX_FLAG = 'Y' SET @V_TAXFLAGS = @V_TAXFLAGS + 1
+			IF @V_SOCIAL_SEC_TAX_FLAG = 'Y' SET @V_TAXFLAGS = @V_TAXFLAGS + 2
+			IF @V_MEDICARE_TAX_FLAG = 'Y' SET @V_TAXFLAGS = @V_TAXFLAGS + 4
+			IF @V_STATE_TAX_FLAG = 'Y' SET @V_TAXFLAGS = @V_TAXFLAGS + 8
+		END
+	END --END LEVEL 4
+
+-----************************************ WORK SPECIFIC FOR NEW AND OLD CLAIM *********************************************************************
+---- ************************************** NEW CLAIM *********************************************************************************************
+
+	IF @V_NEWCLAIM = 1 AND @CheckCreateNewClaim = 1 ---- NEW CLAIM
+	BEGIN ----BEGIN LEVEL NEW CLAIM
+		--PRINT 'IMPORTING NEW CLAIM: '
+
+		SET @VSQLINSERT = 'SELECT @NEXTUNIQUEID_P = NEXT_UNIQUE_ID FROM ' + @V_DBNAME + 'GLOSSARY WHERE SYSTEM_TABLE_NAME = ''CLAIM'''
+		BEGIN TRY
+			SET @V_ERRORLOC = 'V029'
+			EXECUTE SP_EXECUTESQL @VSQLINSERT, N'@NEXTUNIQUEID_P INT OUTPUT', @NEXTUNIQUEID_P = @V_CLAIM_ID OUTPUT
+		END TRY
+		BEGIN CATCH
+			SET @V_ERROR_MESSAGE = ERROR_MESSAGE()
+			EXECUTE DDS_ERROR_LOG_CAPTURE @P_JOBID, @V_DA_ROW_ID, @V_MODULENAME, @V_ERRORLOC, @V_ERRORLOC, @V_PROCNAME,@V_ERROR_MESSAGE,'EXCEPTION', @V_ERROR_TABLE, 'CLAIM_NUMBER', @V_CLAIM_NUMBER,0;
+			SET @V_ROWCOUNT = @V_ROWCOUNT + 1;
+		END CATCH
+		
+		IF @V_NEWEVENT = 1 
+		BEGIN ----BEGIN LEVEL NEW EVENT
+			--PRINT 'IMPORTING NEW EVENT: '
+				
+			---- CREATE EVENT_NUMBER IF IT IS BLANK
+			BEGIN TRY
+				SET @V_ERRORLOC = 'V031'
+				SET @VSQLINSERT = 'SELECT @NEXTUNIQUEID_P = NEXT_UNIQUE_ID FROM ' + @V_DBNAME + 'GLOSSARY WHERE SYSTEM_TABLE_NAME = ''EVENT'''
+				EXECUTE SP_EXECUTESQL @VSQLINSERT, N'@NEXTUNIQUEID_P INT OUTPUT', @NEXTUNIQUEID_P = @V_EVENT_ID OUTPUT
+				
+				IF @V_EVENT_NUMBER IS NULL
+				BEGIN
+					--JIRA 42981 knakra starts
+					--IF LEN(@V_CLAIM_NUMBER) > (@V_EVENT_REF_LENGTH - 2) SET @V_EVENT_NUMBER = 'EV' + CAST(@V_CLAIM_ID AS VARCHAR(23))
+					--ELSE SET @V_EVENT_NUMBER = 'EV' + @V_CLAIM_NUMBER
+					IF @iEvIncYear <> 0 AND @iEvIncYear IS NOT NULL
+						SET @V_EVENT_NUMBER = CAST(YEAR(getdate()) AS VARCHAR(4)) + '0' + CAST(@V_EVENT_ID AS VARCHAR)
+					IF @vEvPrefix IS NOT NULL
+					BEGIN
+						IF @V_EVENT_NUMBER IS NOT NULL
+							SET @V_EVENT_NUMBER = @vEvPrefix + @V_EVENT_NUMBER
+						ELSE
+							SET @V_EVENT_NUMBER = @vEvPrefix + '0' + CAST(@V_EVENT_ID AS VARCHAR)
+					END
+					IF @V_EVENT_NUMBER IS NULL
+						SET @V_EVENT_NUMBER = '0' + CAST(@V_EVENT_ID AS VARCHAR)
+					--JIRA 42981 knakra ends
+				END
+			END TRY
+			BEGIN CATCH
+				SET @V_ERROR_MESSAGE = ERROR_MESSAGE()
+				EXECUTE DDS_ERROR_LOG_CAPTURE @P_JOBID, @V_DA_ROW_ID, @V_MODULENAME, @V_ERRORLOC, @V_ERRORLOC, @V_PROCNAME,@V_ERROR_MESSAGE,'EXCEPTION', @V_ERROR_TABLE, 'CLAIM_NUMBER', @V_CLAIM_NUMBER,0;
+				SET @V_ROWCOUNT = @V_ROWCOUNT + 1;
+			END CATCH
+						
+		END ----END LEVEL NEW EVENT
+	END ----END LEVEL NEW CLAIM
+		
+		
+		----********************************************* POLICY ******************************************************************************** 
+		
+		--IF @V_POLICY_NUMBER IS NOT NULL AND @V_POLICY_EFFECT_DATE IS NOT NULL AND @V_POLICY_EXPIRE_DATE IS NOT NULL AND @V_CARRIERFLAG = 0	JIRA 23899 knakra
+		IF @V_POLICY_NUMBER IS NOT NULL AND @V_POLICY_EFFECT_DATE IS NOT NULL AND @V_POLICY_EXPIRE_DATE IS NOT NULL AND @V_CARRIERFLAG = 0 AND @iVarFinKey = 0	--JIRA 23899 knakra
+		BEGIN ----BEGIN FOR POLICY
+		BEGIN TRY
+			SET @V_ERRORLOC = 'V032'
+			SET @V_POLICY_ID = 0
+
+			SET @V_SQL = 'SELECT @V_POLICY_ID_P = POLICY_ID FROM ' + @V_DBNAME+ 'POLICY WHERE POLICY_NUMBER = @V_POLICY_NUMBER_P AND EFFECTIVE_DATE = @V_POLICY_EFFECT_DATE_P AND EXPIRATION_DATE =  @V_POLICY_EXPIRE_DATE_P '
+			EXEC SP_EXECUTESQL @V_SQL,
+			N'@V_POLICY_ID_P INT OUTPUT,
+			@V_POLICY_NUMBER_P VARCHAR(40),
+			@V_POLICY_EFFECT_DATE_P VARCHAR(8),
+			@V_POLICY_EXPIRE_DATE_P VARCHAR(8)',
+			@V_POLICY_ID_P  = @V_POLICY_ID OUTPUT,
+			@V_POLICY_NUMBER_P = @V_POLICY_NUMBER,
+			@V_POLICY_EFFECT_DATE_P = @V_POLICY_EFFECT_DATE,
+			@V_POLICY_EXPIRE_DATE_P = @V_POLICY_EXPIRE_DATE
+			
+			IF @V_POLICY_ID = 0
+			BEGIN
+			 --PRINT 'POLICY NOT PRESENT ERROR' 
+				SET @V_ERRORLOC = 'V032A'
+				EXECUTE DDS_ERROR_LOG_CAPTURE @P_JOBID, @V_DA_ROW_ID, @V_MODULENAME, @V_ERRORLOC, @V_ERRORLOC, @V_PROCNAME,
+				'Policy Does not Exists.', 'POLICY_NUMBER, POLICY_EFFECT_DATE, POLICY_EXPIRE_DATE ', @V_ERROR_TABLE, 'CLAIM_NUMBER', @V_CLAIM_NUMBER,1
+				SET @V_ERRORCOUNT = @V_ERRORCOUNT + 1;
+			END
+
+		END TRY
+		BEGIN CATCH
+			SET @V_ERROR_MESSAGE = ERROR_MESSAGE()
+			EXECUTE DDS_ERROR_LOG_CAPTURE @P_JOBID, @V_DA_ROW_ID, @V_MODULENAME, @V_ERRORLOC, @V_ERRORLOC, @V_PROCNAME,@V_ERROR_MESSAGE,'EXCEPTION', @V_ERROR_TABLE, 'CLAIM_NUMBER', @V_CLAIM_NUMBER,0;
+			SET @V_ROWCOUNT = @V_ROWCOUNT + 1;
+		END CATCH
+		END ----END FOR POLICY
+
+		--IF @V_POLICY_ID > 0	--JIRA 23899 knakra
+		IF @V_POLICY_ID > 0 AND @iVarFinKey = 0	--JIRA 23899 knakra
+		BEGIN TRY
+			SET @V_ERRORLOC = 'V032B'
+
+			SET @V_SQL = 'SELECT @V_POLICY_ID_RMDB_P = POLICY_ID FROM ' + @V_DBNAME+ 'CLAIM_X_POLICY WHERE POLICY_ID = @V_POLICY_ID_P AND CLAIM_ID = @V_CLAIM_ID_P '
+			EXEC SP_EXECUTESQL @V_SQL,
+			N'@V_POLICY_ID_RMDB_P INT OUTPUT,
+			@V_POLICY_ID_P INT,
+			@V_CLAIM_ID_P INT',
+			@V_POLICY_ID_RMDB_P  = @V_POLICY_ID_RMDB OUTPUT,
+			@V_POLICY_ID_P = @V_POLICY_ID,
+			@V_CLAIM_ID_P = @V_CLAIM_ID
+			
+			IF @V_POLICY_ID_RMDB = 0 SET @V_NEW_CLAIMXPOLICY = 1
+			ELSE SET @V_NEW_CLAIMXPOLICY = 0
+
+		END TRY
+		BEGIN CATCH
+			SET @V_ERROR_MESSAGE = ERROR_MESSAGE()
+			EXECUTE DDS_ERROR_LOG_CAPTURE @P_JOBID, @V_DA_ROW_ID, @V_MODULENAME, @V_ERRORLOC, @V_ERRORLOC, @V_PROCNAME,@V_ERROR_MESSAGE,'EXCEPTION', @V_ERROR_TABLE, 'CLAIM_NUMBER', @V_CLAIM_NUMBER,0;
+			SET @V_ROWCOUNT = @V_ROWCOUNT + 1;
+		END CATCH
+
+
+		---- *********************** EXISTING CLAIM ****************************************************************************
+
+	IF @V_NEWCLAIM = 0 
+	BEGIN ----BEGIN EXISTING CLAIM
+		--PRINT 'UPDATING EXISTING CLAIM: '
+		IF @V_NEWEVENT = 0 ---- EXISTING EVENT
+		BEGIN ----BEGIN EXISTING CLAIM EXISTING EVENT
+			--PRINT 'UPDATING EXISTING EVENT: '
+			
+			IF (@V_EVENT_ID > 0) --EVENT UPDATE CASE
+			BEGIN	
+				----PRINT @V_DATE_OF_CLAIM;
+				----PRINT @V_DATE_OF_EVENT;
+				IF (@V_DATE_OF_CLAIM < @V_DATE_OF_LOSS) OR (@V_DATE_OF_CLAIM = @V_DATE_OF_EVENT) OR ((@V_TIME_OF_EVENT < @V_TIME_OF_CLAIM) AND (@V_TIME_OF_CLAIM IS NOT NULL ))
+				BEGIN
+					--PRINT 'DATE OF EVENT WILL BE UPDATED AS DATE OF LOSS';
+					SET @V_DATE_OF_EVENT = @V_DATE_OF_LOSS
+				END
+			END
+		END ----END EXISTING CLAIM EXISTING EVENT
+	END ----END EXISTING CLAIM
+
+
+------------------------------------ PROCESS CLAIMANT-----------------------------------------------------------------------
+
+		SET @V_EMPLOYEE_NUMBER = @V_EMPLOYEE_ID
+		IF @V_EMPLOYEE_ID IS NULL SET @V_EMPLOYEE_NUMBER = @V_CLAIMANT_SSN
+
+		--PRINT ' ADDClaimantASPI: ' + CAST(@V_ADDClaimantASPI AS VARCHAR(2))	----JIRA RMA-22720 ----
+		
+		IF @V_RECORD_TYPE = 'W' OR @V_RECORD_TYPE = 'D'
+		BEGIN
+			--PRINT 'Claimant is an EMPLOYEE'
+			SET @V_PARENT_TABLE_NAME = 'EVENT'
+			SET @V_PARENT_ROW_ID = @V_EVENT_ID	
+			SET @V_PI_TYPE_CODE_ID = @V_EMP_PI_TYPE_CODE_ID
+			SET @V_SYS_TABLE_NAME = 'EMPLOYEES'		
+		END
+
+		----ELSE IF @V_RECORD_TYPE = 'G' OR @V_RECORD_TYPE = 'V' 	----JIRA RMA-22720 ----
+		----ELSE IF (@V_RECORD_TYPE = 'G' OR @V_RECORD_TYPE = 'V') AND (@V_ADDClaimantASPI <> 0 OR @V_EMPLOYEE_ID IS NOT NULL) ----JIRA RMA-22720 ---- dsharma70 hmi
+		ELSE IF (@V_RECORD_TYPE = 'G' OR @V_RECORD_TYPE = 'V' OR @V_RECORD_TYPE = 'H') AND (@V_ADDClaimantASPI <> 0 OR @V_EMPLOYEE_ID IS NOT NULL) ---- dsharma70 hmi
+		BEGIN	
+		
+			SET @V_PARENT_TABLE_NAME = 'CLAIM'
+			SET @V_PARENT_ROW_ID = @V_CLAIM_ID	
+			
+			IF @V_EMPLOYEE_ID IS NOT NULL
+			BEGIN
+				--PRINT 'Claimant is an EMPLOYEE'
+				SET @V_SYS_TABLE_NAME = 'EMPLOYEES'
+				SET @V_PI_TYPE_CODE_ID = @V_EMP_PI_TYPE_CODE_ID
+			END
+			ELSE IF @V_EMPLOYEE_ID IS NULL
+			BEGIN
+				--PRINT 'CLAIMANT IS A CLAIMANTS'
+				--SET @V_SYS_TABLE_NAME = 'OTHER_PEOPLE' ----JIRA RMA-22720
+				SET @V_SYS_TABLE_NAME = 'CLAIMANTS' ----JIRA RMA-22720
+				SET @V_PI_TYPE_CODE_ID = @V_OTHR_PI_TYPE_CODE_ID
+			END
+		END
+		----JIRA RMA-22720 STARTS
+		ELSE
+		BEGIN
+			SET @V_PARENT_TABLE_NAME = 'CLAIM'
+			SET @V_SYS_TABLE_NAME = 'CLAIMANTS'
+			SET @V_PARENT_ROW_ID = @V_CLAIM_ID
+		END
+		----JIRA RMA-22720 ENDS
+		
+		------ CHECK IF CLAIMANT EXISTS OR NOT BASED ON CLAIMANT SELECTION CRITERIA ------------------------------------------------------------------------
+	BEGIN TRY ----JIRA RMA-23225
+		
+		SET @V_ERRORLOC = 'V034'
+		SET @V_CLAIMANT_EID = 0
+		SET @V_SQL = 'SELECT @V_CLAIMANT_EID_RMDB = CLAIMANT_EID FROM ' + @V_DBNAME + 'CLAIMANT CL, ' + @V_DBNAME + 'CLAIM C '			
+			
+		IF @V_RECORD_TYPE = 'W' OR @V_RECORD_TYPE = 'D'		--FETCH CLAIMANT EID FOR THE GIVEN CLAIM BASED ON LOB AND OPTIONS SELECTED ON UI
+		BEGIN
+			SET @V_SQL =  @V_SQL +	'WHERE C.CLAIM_ID = CL.CLAIM_ID AND C.CLAIM_ID = @V_CLAIM_ID_P'
+			--JIRA 42981 knakra starts
+			IF @V_CLAIM_SUFFIX IS NULL
+				SET @V_CLAIM_SUFFIX = 1
+			--JIRA 42981 knakra ends
+		END
+			
+		--DSHARMA70 hmi IF @V_RECORD_TYPE = 'G' OR @V_RECORD_TYPE = 'V'
+ ELSE IF @V_RECORD_TYPE = 'G' OR @V_RECORD_TYPE = 'V' OR @V_RECORD_TYPE = 'H' --dsharma70 hmi
+		BEGIN
+			IF @IdentifyClaimantBySuffixGCVA <> 0
+			BEGIN
+				IF @V_CLAIM_SUFFIX IS NOT NULL
+				BEGIN
+					SET @V_SQL = @V_SQL + 'WHERE C.CLAIM_ID = CL.CLAIM_ID AND CLAIMANT_NUMBER = @V_CLAIM_SUFFIX_P AND C.CLAIM_ID = @V_CLAIM_ID_P'
+					SET @V_ERRORLOC = 'V035'
+
+					IF @V_CLAIMANT_SSN IS NULL AND @CreateEntityIfTaxIDEmptyGCVA <> 0
+					BEGIN
+						SET @ForceCreateEntity = 1
+					END
+				END
+--DSHARMA70 HMI STARTS
+				ELSE
+				BEGIN
+					SET @V_ERRORLOC = 'V0351'
+					EXECUTE DDS_ERROR_LOG_CAPTURE @P_JOBID, @V_DA_ROW_ID, @V_MODULENAME, @V_ERRORLOC, @V_ERRORLOC, @V_PROCNAME,
+					'Identify Claimant by Suffix has been selected but Claimant suffix has not provided in the import file.Skipping the record.', 'CLAIM_SUFFIX', @V_ERROR_TABLE, 'CLAIM_NUMBER', @V_CLAIM_NUMBER,1
+					SET @V_ERRORCOUNT = @V_ERRORCOUNT + 1;
+				END
+--DSHARMA70 HMI ENDS
+			END	
+			ELSE IF @IdentifyClaimantByNameGCVA <> 0
+			BEGIN
+				SET @V_SQL = @V_SQL + ', ' + @V_DBNAME + 'ENTITY E WHERE C.CLAIM_ID = CL.CLAIM_ID AND CL.CLAIMANT_EID = E.ENTITY_ID AND E.LAST_NAME = ''' + @V_CLAIMANT_LASTNAME + ''''
+				SET @V_ERRORLOC = 'V036'
+				IF @V_CLAIMANT_FIRSTNAME IS NOT NULL AND @V_CLAIMANT_FIRSTNAME <> ''
+				BEGIN	
+					SET @V_SQL = @V_SQL + ' AND E.FIRST_NAME = ''' + @V_CLAIMANT_FIRSTNAME + ''''
+				END
+				SET @V_ERRORLOC = 'V037'
+				IF @V_CLAIMANT_SSN IS NOT NULL 
+				BEGIN
+					SET @V_SQL = @V_SQL + ' AND REPLACE(E.TAX_ID,''-'','''') = ''' + REPLACE(@V_CLAIMANT_SSN,'-','') + ''''
+					SET @V_SQL = @V_SQL + ' AND C.CLAIM_ID = @V_CLAIM_ID_P'
+					--PRINT @V_SQL
+				END
+				--DSHARMA70 hmi
+				IF @V_CLAIMANT_BIRTH_DT IS NOT NULL
+				BEGIN
+					SET @V_SQL = @V_SQL + ' AND E.BIRTH_DATE = @V_CLAIMANT_BIRTH_DT'
+				END
+				--JIRA 42981 knakra starts
+				IF @V_CLAIM_SUFFIX IS NULL
+					SET @V_CLAIM_SUFFIX = 1
+				--JIRA 42981 knakra ends
+			END
+		END
+  --MKAUR24 STARTS NOW
+  DECLARE @MatchPosition int 
+SET @MatchPosition=CHARINDEX('WHERE',@V_SQL);
+IF (@MatchPosition=0)
+BEGIN
+SET @V_SQL = @V_SQL +	'WHERE C.CLAIM_ID = CL.CLAIM_ID AND C.CLAIM_ID = @V_CLAIM_ID_P'
+END
+
+--MKAUR24 STARTS ENDS
+		BEGIN
+			EXECUTE SP_EXECUTESQL @V_SQL, ----JIRA RMA-23225
+			N' @V_CLAIMANT_EID_RMDB INT OUTPUT,
+			@V_CLAIM_ID_P INT,
+			@V_CLAIM_SUFFIX_P INT,
+			@V_CLAIMANT_BIRTH_DT varchar(8)',--dsharma70 hmi
+			@V_CLAIMANT_EID_RMDB = @V_CLAIMANT_EID_RMDB OUTPUT,
+			@V_CLAIM_ID_P = @V_CLAIM_ID,
+			@V_CLAIM_SUFFIX_P = @V_CLAIM_SUFFIX,
+			@V_CLAIMANT_BIRTH_DT = @V_CLAIMANT_BIRTH_DT --dsharma70
+		END ----JIRA RMA-23225
+	END TRY
+	BEGIN CATCH
+		SET @V_ERROR_MESSAGE = ERROR_MESSAGE()
+		EXECUTE DDS_ERROR_LOG_CAPTURE @P_JOBID, @V_DA_ROW_ID, @V_MODULENAME, @V_ERRORLOC, @V_ERRORLOC, @V_PROCNAME,@V_ERROR_MESSAGE,'EXCEPTION', @V_ERROR_TABLE, 'CLAIM_NUMBER', @V_CLAIM_NUMBER,0;
+		SET @V_ROWCOUNT = @V_ROWCOUNT + 1;
+	END CATCH
+
+		IF @V_CLAIM_SUFFIX = 0 OR @V_CLAIM_SUFFIX = 1
+		BEGIN
+			SET @V_CLAIM_SUFFIX = 1
+
+			--JIRA 42981 knakra starts
+			SET @iRetVal = 0
+			SET @nSqlExec = 'SELECT @pRetVal = CLAIMANT_ROW_ID FROM ' + @V_DBNAME + 'CLAIMANT WHERE CLAIM_ID = @pClaimId AND PRIMARY_CLMNT_FLAG <> 0'
+
+			EXECUTE SP_EXECUTESQL @nSqlExec,
+			N'@pClaimId INT, @pRetVal INT OUTPUT',
+			@pRetVal = @iRetVal OUTPUT,
+			@pClaimId = @V_CLAIM_ID
+
+			IF @iRetVal IS NOT NULL AND @iRetVal > 0
+				SET @V_PRIMARY_CLMNT_FLAG = 0
+			ELSE
+				SET @V_PRIMARY_CLMNT_FLAG = 1
+			--JIRA 42981 knakra ends
+		END
+----JIRA RMA-23225 STARTS
+	BEGIN TRY
+	IF @V_NEWCLAIM = 0
+	
+		IF @V_CLAIMANT_EID_RMDB > 0
+		BEGIN	
+		
+			SET @V_CLAIM_SUFFIX_RMDB =  @V_CLAIM_SUFFIX
+			SET @V_ERRORLOC = 'NA1'		
+		
+			SET @V_SQL = 'SELECT @V_CLAIM_SUFFIX_RMDB = CLAIMANT_NUMBER  FROM ' + @V_DBNAME+ 'CLAIMANT '
+			SET @V_SQL = @V_SQL + 'WHERE CLAIM_ID = @V_CLAIM_ID_P AND CLAIMANT_EID = @V_CLAIMANT_EID_RMDB'
+	
+			EXECUTE SP_EXECUTESQL @V_SQL,
+			N' @V_CLAIM_SUFFIX_RMDB INT OUTPUT,
+			@V_CLAIM_ID_P INT,
+			@V_CLAIMANT_EID_RMDB INT',
+			@V_CLAIM_SUFFIX_RMDB = @V_CLAIM_SUFFIX_RMDB OUTPUT,
+			@V_CLAIM_ID_P = @V_CLAIM_ID,
+			@V_CLAIMANT_EID_RMDB = @V_CLAIMANT_EID_RMDB
+
+			IF @V_CLAIM_SUFFIX <> @V_CLAIM_SUFFIX_RMDB 
+				SET @V_SUFFIXERROR = 1 
+		END
+		ELSE	
+		BEGIN	
+			SET @V_ERRORLOC = 'NA2'
+			SET @V_SQL = 'SELECT @V_CLAIMANT_EID_RMDB_1 = CLAIMANT_EID FROM ' + @V_DBNAME+ 'CLAIMANT '
+			SET @V_SQL = @V_SQL + 'WHERE CLAIM_ID = @V_CLAIM_ID_P AND CLAIMANT_NUMBER = @V_CLAIM_SUFFIX_P'
+							
+			EXECUTE SP_EXECUTESQL @V_SQL,
+			N' @V_CLAIMANT_EID_RMDB_1 INT OUTPUT,
+			@V_CLAIM_ID_P INT,
+			@V_CLAIM_SUFFIX_P INT',
+			@V_CLAIMANT_EID_RMDB_1 = @V_CLAIMANT_EID_RMDB_1 OUTPUT,
+			@V_CLAIM_ID_P = @V_CLAIM_ID,
+			@V_CLAIM_SUFFIX_P = @V_CLAIM_SUFFIX
+
+			IF @V_CLAIMANT_EID_RMDB = 0 AND @V_CLAIMANT_EID_RMDB_1 > 0
+				SET @V_SUFFIXERROR = 1 
+		END
+	END TRY
+	BEGIN CATCH
+		SET @V_ERROR_MESSAGE = ERROR_MESSAGE()
+		EXECUTE DDS_ERROR_LOG_CAPTURE @P_JOBID, @V_DA_ROW_ID, @V_MODULENAME, @V_ERRORLOC, @V_ERRORLOC, @V_PROCNAME,@V_ERROR_MESSAGE,'EXCEPTION', @V_ERROR_TABLE, 'CLAIM_NUMBER', @V_CLAIM_NUMBER,0;
+		SET @V_ROWCOUNT = @V_ROWCOUNT + 1;
+	END CATCH
+----JIRA RMA-23225 ENDS
+----------------- IF claimant found then update claimant details based on criteria selected -------------------------------------------------------
+
+		--IF @V_CLAIMANT_EID <> 0  ----JIRA RMA-23225
+		IF @V_CLAIMANT_EID_RMDB <> 0  ----JIRA RMA-23225		
+		BEGIN -- CLAIMANT EXISTS BEGIN l
+			SET @V_DUPLICATECLAIMANT = 1 ----JIRA RMA-22720
+			SET @V_CLAIMANT_EID = @V_CLAIMANT_EID_RMDB ----JIRA RMA-23225
+			--print 'claimant exists : ' ----JIRA RMA-22720
+			--IF (@UpdateClaimantNameWC <> 0) OR (@UpdateClaimantNameGCVA <> 0) ----JIRA RMA-23225
+			
+			--dsharma70 hmi IF (@UpdateClaimantNameWC <> 0 AND @V_RECORD_TYPE = 'W') OR (@UpdateClaimantNameGCVA <> 0 AND @V_RECORD_TYPE IN ('G','V')) ----JIRA RMA-23225
+			IF (@UpdateClaimantNameWC <> 0 AND @V_RECORD_TYPE = 'W') OR (@UpdateClaimantNameGCVA <> 0 AND @V_RECORD_TYPE IN ('G','V','H')) ----dsharma70 hmi
+			BEGIN
+			BEGIN TRY
+				--PRINT 'UPDATE ENTITY NAME'
+				SET @V_ERRORLOC = 'V038'
+
+				SET @V_SQL = 'SELECT @V_LASTNAME_RMDB_P = LAST_NAME, @V_FIRSTNAME_RMDB_P = FIRST_NAME, @V_MIDNAME_RMDB_P = MIDDLE_NAME FROM ' 
+				SET @V_SQL = @V_SQL + @V_DBNAME + 'ENTITY WHERE ENTITY_ID = @V_ENTITY_ID_P'
+				--PRINT @V_SQL
+				EXECUTE SP_EXECUTESQL @V_SQL,
+				N' @V_LASTNAME_RMDB_P VARCHAR(255) OUTPUT,
+				@V_FIRSTNAME_RMDB_P VARCHAR(255) OUTPUT,
+				@V_MIDNAME_RMDB_P VARCHAR(255) OUTPUT,
+				@V_ENTITY_ID_P INT',
+				@V_LASTNAME_RMDB_P = @V_LASTNAME_RMDB OUTPUT,
+				@V_FIRSTNAME_RMDB_P = @V_FIRSTNAME_RMDB OUTPUT,
+				@V_MIDNAME_RMDB_P = @V_MIDNAME_RMDB OUTPUT,
+				@V_ENTITY_ID_P = @V_CLAIMANT_EID
+
+				IF UPPER(@V_LASTNAME_RMDB) <> UPPER(@V_CLAIMANT_LASTNAME) OR UPPER(@V_FIRSTNAME_RMDB) <> UPPER(@V_CLAIMANT_FIRSTNAME) OR UPPER(@V_MIDNAME_RMDB) <> UPPER(@V_CLAIMANT_MIDDLENAME)
+				BEGIN
+					--PRINT 'UPDATE ENTITY NAME IS TRUE'
+					SET @V_UPDATE_ENTITYNAME = 1
+				END
+				--ELSE --PRINT 'NEW CLAIMANT FIRST NAME, LAST NAME IS NOT UPDATED '
+			END TRY
+			BEGIN CATCH
+				SET @V_ERROR_MESSAGE = ERROR_MESSAGE()
+				EXECUTE DDS_ERROR_LOG_CAPTURE @P_JOBID, @V_DA_ROW_ID, @V_MODULENAME, @V_ERRORLOC, @V_ERRORLOC, @V_PROCNAME,@V_ERROR_MESSAGE,'EXCEPTION', @V_ERROR_TABLE, 'CLAIM_NUMBER', @V_CLAIM_NUMBER,0;
+				SET @V_ROWCOUNT = @V_ROWCOUNT + 1;
+			END CATCH
+			END
+
+			--PRINT 'UPDATE CLAIMANT ADDRESS'
+			-- BELOW QUERY JUST TO MAKE SURE THE ENTITY TO BE UPDATED STILL EXISTS IN RMDB
+			SET @V_SQL = 'SELECT @V_ENTITY_ID_P = ENTITY_ID FROM ' + @V_DBNAME+'ENTITY' + ' WHERE ENTITY_ID = @V_CLAIMANT_EID_P';	
+			BEGIN TRY		
+				SET @V_ERRORLOC = 'V039'
+
+				EXECUTE SP_EXECUTESQL @V_SQL,
+				N' @V_CLAIMANT_EID_P INT,
+				@V_ENTITY_ID_P INT OUTPUT',
+				@V_CLAIMANT_EID_P = @V_CLAIMANT_EID,
+				@V_ENTITY_ID_P = @V_ENTITY_ID OUTPUT
+
+				--PRINT 'ENTITY ID IS : ' + CAST(@V_ENTITY_ID AS VARCHAR(10))
+			END TRY
+			BEGIN CATCH
+				SET @V_ERROR_MESSAGE = ERROR_MESSAGE()
+				EXECUTE DDS_ERROR_LOG_CAPTURE @P_JOBID, @V_DA_ROW_ID, @V_MODULENAME, @V_ERRORLOC, @V_ERRORLOC, @V_PROCNAME,@V_ERROR_MESSAGE,'EXCEPTION', @V_ERROR_TABLE, 'CLAIM_NUMBER', @V_CLAIM_NUMBER,0;
+				SET @V_ROWCOUNT = @V_ROWCOUNT + 1;
+			END CATCH
+
+			IF @V_ENTITY_ID <> 0
+			BEGIN ----begin entity_id <> 0
+				--PRINT 'UPDATE CLAIMANT ADDRESS'
+				SET @V_UPDATE_CLAIMANT_ADDRESS = 1
+			END ----END entity_id <> 0
+		END ----- END CLAIMANT EXISTS
+
+		--ELSE IF @V_CLAIMANT_EID = 0 ---- Create New Entity ----JIRA RMA-23225
+		ELSE IF @V_CLAIMANT_EID_RMDB = 0 ---- Create New Entity	----JIRA RMA-23225	
+		BEGIN
+		BEGIN TRY
+			--PRINT 'PROCESS ENTITY HERE'
+			SET @V_ERRORLOC = 'V040'
+
+			DECLARE @tENTITY tENTITY
+			INSERT INTO @tENTITY(vLastName, vFirstName, vMiddleName, vAbbr, vTaxId, vAddr1, vAddr2, vCity, vCountry, vState, vCounty, vZip, vPhone1, vPhone2, 
+			vFaxNumber, vBirthDate, vSexCode, vComment, iParentEid, vTableName, iRpt1099Flag, iPrefixCodeId, iSuffixCodeId, vSuffixLegal, iNameType, vEmpNum, iJobId, iDaRowId  )
+
+			VALUES (@V_CLAIMANT_LASTNAME, @V_CLAIMANT_FIRSTNAME, @V_CLAIMANT_MIDDLENAME, NULL, @V_CLAIMANT_SSN, @V_CLAIMANT_ADDRESS1, @V_CLAIMANT_ADDRESS2, @V_CLAIMANT_CITY, NULL, @V_CLAIMANT_STATE_ID, NULL, @V_CLAIMANT_ZIP, NULL, @V_CLAIMANT_PHONE,
+			NULL, @V_CLAIMANT_BIRTH_DT, @V_CLAIMANT_SEX_ID, @V_CLAIMANT_COMMENT, 0, @V_SYS_TABLE_NAME, NULL, NULL, NULL, NULL, @V_NAME_TYPE_ID, @V_EMPLOYEE_ID, @P_JOBID, @V_DA_ROW_ID  )
+			
+			--PRINT 'ENTITY IMPORT STARTS'
+
+			EXEC PROCESS_ENTITY @tENTITY, @P_JOBID,	@V_DA_ROW_ID, @V_DBNAME, @V_MODULENAME,	@ForceCreateEntity,	1, @V_ERRORLOC,	@V_CLAIM_NUMBER, @V_CLAIMANT_EID OUTPUT,
+			@V_ERROR_MESSAGE OUTPUT
+			, 1 --dsharma70 hmi
+
+			IF @V_ERROR_MESSAGE <> ''
+			BEGIN
+				SET @V_ERRORLOC = 'V040A'
+				EXECUTE DDS_ERROR_LOG_CAPTURE @P_JOBID, @V_DA_ROW_ID, @V_MODULENAME, @V_ERRORLOC, @V_ERRORLOC, @V_PROCNAME,
+				@V_ERROR_MESSAGE, 'CLAIMANT', @V_ERROR_TABLE, 'CLAIM_NUMBER', @V_CLAIM_NUMBER,1
+
+				SET @V_ERRORCOUNT = @V_ERRORCOUNT + 1;
+			END
+			----JIRA RMA-23225
+			ELSE IF @V_CLAIMANT_EID > 0
+				 BEGIN
+		 			SET @V_SQL = 'SELECT @V_CLAIM_SUFFIX_RMDB = CLAIMANT_NUMBER  FROM ' + @V_DBNAME+ 'CLAIMANT '
+					SET @V_SQL = @V_SQL + 'WHERE CLAIM_ID = @V_CLAIM_ID_P AND CLAIMANT_EID = @V_CLAIMANT_EID'
+	
+					EXECUTE SP_EXECUTESQL @V_SQL,
+					N' @V_CLAIM_SUFFIX_RMDB INT OUTPUT,
+					@V_CLAIM_ID_P INT,
+					@V_CLAIMANT_EID INT',
+					@V_CLAIM_SUFFIX_RMDB = @V_CLAIM_SUFFIX_RMDB OUTPUT,
+					@V_CLAIM_ID_P = @V_CLAIM_ID,
+					@V_CLAIMANT_EID = @V_CLAIMANT_EID
+
+					IF (@V_CLAIM_SUFFIX_RMDB > 0 AND @V_CLAIM_SUFFIX_RMDB <> @V_CLAIM_SUFFIX AND @IdentifyClaimantBySuffixGCVA <> 0) ---- SUFFIX DOES NOT EXISTS BUT CLAIMANT EXISTS IN CLAIM WITH ANOTHER CLAIMANT_SUFFIX
+						SET @V_SUFFIXERROR = 1 
+					ELSE
+						SET @V_NEW_CLAIMANT = 1
+				 END
+		END TRY
+		BEGIN CATCH
+			SET @V_ERROR_MESSAGE = ERROR_MESSAGE()
+			EXECUTE DDS_ERROR_LOG_CAPTURE @P_JOBID, @V_DA_ROW_ID, @V_MODULENAME, @V_ERRORLOC, @V_ERRORLOC, @V_PROCNAME,@V_ERROR_MESSAGE,'EXCEPTION', @V_ERROR_TABLE, 'CLAIM_NUMBER', @V_CLAIM_NUMBER,0;
+			SET @V_ROWCOUNT = @V_ROWCOUNT + 1;
+		END CATCH
+		END
+
+		IF @V_SUFFIXERROR = 1
+		BEGIN
+			EXECUTE DDS_ERROR_LOG_CAPTURE @P_JOBID, @V_DA_ROW_ID, @V_MODULENAME, @V_ERRORLOC, @V_ERRORLOC, @V_PROCNAME,
+			'Claimant for Claimant Suffix or Claimant Name provided in Import File exists in Riskmaster. New Claimant Not created. Record Skipped.', 'CLAIM_SUFFIX', @V_ERROR_TABLE, 'CLAIM_NUMBER', @V_CLAIM_NUMBER,1
+			SET @V_ERRORCOUNT = @V_ERRORCOUNT + 1;
+		END
+
+		----JIRA RMA-22720 STARTS----
+			
+		IF @V_USE_ENTITY_ROLE_FLAG <> 0 AND  @V_SYS_TABLE_NAME IS NOT NULL
+		BEGIN TRY
+			SET @V_ERRORLOC = 'ER01'
+			SET @V_SQL = 'SELECT @V_TABLE_ID_P = TABLE_ID FROM ' + @V_DBNAME+'GLOSSARY WHERE SYSTEM_TABLE_NAME = @V_SYS_TABLE_NAME_P' 
+				
+			Exec sp_Executesql @V_SQL,
+			N'@V_TABLE_ID_P INT OUTPUT,
+			@V_SYS_TABLE_NAME_P VARCHAR(30)',
+			@V_TABLE_ID_P = @V_TABLE_ID OUTPUT,
+			@V_SYS_TABLE_NAME_P = @V_SYS_TABLE_NAME
+
+			SET @V_ROLE_TABLE_ID = @V_TABLE_ID
+			
+			----ROLE COMBINATION EXCLUSION STARTS JIRA RMA-22720 STARTS----
+			---- ONLY IF ENTITY ROLE IS ON
+			---- CURRENTLY THIS FUNCTIONALITY IS IMPLEMENTED AT CLAIM LEVEL FOR PI, ADJUSTER AND CLAIMANT LEVEL ONLY
+
+			IF @V_PARENT_TABLE_NAME = 'CLAIM'----AT CLAIM LEVEL
+			BEGIN
+				SET @V_ERRORLOC = 'ER02'
+				--PRINT 'CHECKING FOR ENTITY IN PI: '
+				SET @V_SHORT_CODE = 'RECRT'
+				SET @V_CODE_REL_TYPE = 'CODE_REL_TYPE'
+				SET @V_PI_ROW_ID = 0
+
+				----CHECK FOR PERSON_INVOLVED
+				SET @V_SQL = 'SELECT @V_PI_ROW_ID_P = PI_ROW_ID FROM ' + @V_DBNAME + 'PERSON_INVOLVED WHERE PI_EID = @V_CLAIMANT_EID_P '
+				SET @V_SQL = @V_SQL + 'AND PARENT_ROW_ID = @V_PARENT_ROW_ID_P AND PARENT_TABLE_NAME = @V_PARENT_TABLE_NAME_P AND ROLE_TABLE_ID IN '
+				SET @V_SQL = @V_SQL + '(SELECT CODE1 FROM ' + @V_DBNAME+'CODE_X_CODE WHERE REL_TYPE_CODE IN '
+				SET @V_SQL = @V_SQL + '(SELECT CODE_ID FROM ' + @V_DBNAME+'CODES WHERE SHORT_CODE = @V_SHORT_CODE AND TABLE_ID IN '
+				SET @V_SQL = @V_SQL + '(SELECT TABLE_ID FROM ' + @V_DBNAME+'GLOSSARY WHERE SYSTEM_TABLE_NAME = @V_CODE_REL_TYPE)) '
+				SET @V_SQL = @V_SQL + 'AND CODE2 = @V_ROLE_TABLE_ID AND DELETED_FLAG = 0)'
+				
+				EXECUTE SP_EXECUTESQL @V_SQL,
+				N' @V_CLAIMANT_EID_P INT,
+				@V_ROLE_TABLE_ID INT,
+				@V_PARENT_ROW_ID_P INT,
+				@V_PARENT_TABLE_NAME_P VARCHAR(30),
+				@V_CODE_REL_TYPE VARCHAR(30),
+				@V_PI_ROW_ID_P INT OUTPUT,
+				@V_SHORT_CODE VARCHAR(25)',
+				@V_CLAIMANT_EID_P = @V_CLAIMANT_EID,
+				@V_ROLE_TABLE_ID = @V_ROLE_TABLE_ID,
+				@V_PARENT_ROW_ID_P = @V_PARENT_ROW_ID,
+				@V_PARENT_TABLE_NAME_P = @V_PARENT_TABLE_NAME,
+				@V_CODE_REL_TYPE = @V_CODE_REL_TYPE,
+				@V_PI_ROW_ID_P = @V_PI_ROW_ID OUTPUT,
+				@V_SHORT_CODE = @V_SHORT_CODE
+
+				--print @V_SQL
+				--print 'claimant eid : ' + cast(@V_CLAIMANT_EID as varchar(10))
+				--print 'role table id : ' + cast(@V_ROLE_TABLE_ID as varchar(10))
+				--print 'parent row id : ' + cast(@V_PARENT_ROW_ID as varchar(10))
+				--print 'parent table name: ' + cast(@V_PARENT_TABLE_NAME as varchar(10))
+				--PRINT 'PI ROW ID: ' + CAST( @V_PI_ROW_ID AS VARCHAR(10))
+
+				IF @V_PI_ROW_ID > 0 SET @V_EXCLUSIONERROR = 1
+				
+				IF @V_EXCLUSIONERROR = 0
+				BEGIN
+					SET @V_ERRORLOC = 'ER03'				
+					SET @V_SQL = 'SELECT @V_TABLE_ID = TABLE_ID FROM '+ @V_DBNAME+ 'GLOSSARY WHERE TABLE_ID IN (SELECT CODE1 FROM ' + @V_DBNAME+'CODE_X_CODE WHERE '
+					SET @V_SQL = @V_SQL + 'REL_TYPE_CODE IN (SELECT CODE_ID FROM ' + @V_DBNAME+'CODES WHERE SHORT_CODE = @V_SHORT_CODE AND TABLE_ID IN '
+					SET @V_SQL = @V_SQL + '(SELECT TABLE_ID FROM ' + @V_DBNAME+'GLOSSARY WHERE SYSTEM_TABLE_NAME = @V_CODE_REL_TYPE)) '
+					SET @V_SQL = @V_SQL + 'AND CODE2 = @V_ROLE_TABLE_ID AND DELETED_FLAG = 0) AND SYSTEM_TABLE_NAME = ''ADJUSTERS'''
+					--PRINT @V_SQL
+					EXECUTE SP_EXECUTESQL @V_SQL,
+					N' @V_TABLE_ID INT OUTPUT,
+					@V_ROLE_TABLE_ID INT,
+					@V_CODE_REL_TYPE VARCHAR(30),
+					@V_SHORT_CODE VARCHAR(25)',
+					@V_TABLE_ID = @V_TABLE_ID OUTPUT,
+					@V_ROLE_TABLE_ID = @V_ROLE_TABLE_ID,
+					@V_CODE_REL_TYPE = @V_CODE_REL_TYPE,
+					@V_SHORT_CODE = @V_SHORT_CODE
+					
+					--PRINT @V_TABLE_ID
+
+					IF @V_TABLE_ID > 0
+					BEGIN
+						SET @V_ERRORLOC = 'ER04'
+						--print 'ADJUSTER EXISTS CHECK FOR ENTITY ID IN ADJUSTER:'
+
+						SET @V_CODE_ID_R = 0
+						SET @V_SQL = 'SELECT @V_CODE_ID_R = ADJ_ROW_ID FROM '+ @V_DBNAME+ 'CLAIM_ADJUSTER WHERE CLAIM_ID = @V_CLAIM_ID AND ADJUSTER_EID = @V_CLAIMANT_EID'
+						EXECUTE SP_EXECUTESQL @V_SQL,
+						N'@V_CODE_ID_R INT OUTPUT, 
+						@V_CLAIM_ID INT,
+						@V_CLAIMANT_EID INT',
+						@V_CODE_ID_R = @V_CODE_ID_R OUTPUT,
+						@V_CLAIM_ID = @V_CLAIM_ID,
+						@V_CLAIMANT_EID = @V_CLAIMANT_EID
+									
+						--PRINT 'ENTITY FOUND IN ADJUSTERS ? : ' + CAST(@V_CODE_ID_R AS VARCHAR)
+						IF @V_CODE_ID_R > 0 SET @V_EXCLUSIONERROR = 1
+					END
+								
+					IF @V_EXCLUSIONERROR = 0
+					BEGIN
+						SET @V_ERRORLOC = 'ER05'
+						SET @V_TABLE_ID = 0
+						
+						SET @V_SQL = 'SELECT @V_TABLE_ID = TABLE_ID FROM '+ @V_DBNAME+ 'GLOSSARY WHERE TABLE_ID IN (SELECT CODE1 FROM ' + @V_DBNAME+'CODE_X_CODE WHERE '
+						SET @V_SQL = @V_SQL + 'REL_TYPE_CODE IN (SELECT CODE_ID FROM ' + @V_DBNAME+'CODES WHERE SHORT_CODE = @V_SHORT_CODE AND TABLE_ID IN '
+						SET @V_SQL = @V_SQL + '(SELECT TABLE_ID FROM ' + @V_DBNAME+'GLOSSARY WHERE SYSTEM_TABLE_NAME = @V_CODE_REL_TYPE)) '
+						SET @V_SQL = @V_SQL + 'AND CODE2 = @V_ROLE_TABLE_ID AND DELETED_FLAG = 0) AND SYSTEM_TABLE_NAME = ''CLAIMANTS'''
+				
+						EXECUTE SP_EXECUTESQL @V_SQL,
+						N' @V_TABLE_ID INT OUTPUT,
+						@V_ROLE_TABLE_ID INT,
+						@V_CODE_REL_TYPE VARCHAR(30),
+						@V_SHORT_CODE VARCHAR(25)',
+						@V_TABLE_ID = @V_TABLE_ID OUTPUT,
+						@V_ROLE_TABLE_ID = @V_ROLE_TABLE_ID,
+						@V_CODE_REL_TYPE = @V_CODE_REL_TYPE,
+						@V_SHORT_CODE = @V_SHORT_CODE
+
+						IF @V_TABLE_ID > 0 AND @V_DUPLICATECLAIMANT > 0
+						BEGIN
+							SET @V_ERRORLOC = 'ER09'										
+							--PRINT 'ENTITY FOUND IN CLAIMANT: ' + CAST(@V_CLAIMANT_EID AS VARCHAR)
+							SET @V_EXCLUSIONERROR = 1
+						END
+					END
+				END
+				
+				IF @V_EXCLUSIONERROR = 1
+				BEGIN
+					SET @V_ERRORLOC = 'ER10'
+					--print 'ROLE COMBINATION ERROR'
+					SET @V_ERROR_MESSAGE = @V_PARENT_TABLE_NAME + ': Role is Excluded with Existing Roles in Person Involved attached with this claim. Use Code Relationship on Riskmaster to change the Mapping.'
+
+					EXECUTE DDS_ERROR_LOG_CAPTURE @P_JOBID, @V_DA_ROW_ID, @V_MODULENAME, @V_ERRORLOC, @V_ERRORLOC, @V_PROCNAME,
+					@V_ERROR_MESSAGE , 'CODE RELATIONSHIP', @V_ERROR_TABLE, 'CLAIM_NUMBER', @V_CLAIM_NUMBER,1
+			
+					SET @V_ERRORCOUNT = @V_ERRORCOUNT + 1;
+				END
+			END
+		END	TRY
+		BEGIN CATCH
+			SET @V_ERROR_MESSAGE = ERROR_MESSAGE()
+			EXECUTE DDS_ERROR_LOG_CAPTURE @P_JOBID, @V_DA_ROW_ID, @V_MODULENAME, @V_ERRORLOC, @V_ERRORLOC, @V_PROCNAME,@V_ERROR_MESSAGE,'EXCEPTION', @V_ERROR_TABLE, 'CLAIM_NUMBER', @V_CLAIM_NUMBER,0;
+			SET @V_ROWCOUNT = @V_ROWCOUNT + 1;
+		END CATCH
+		----ROLE COMBINATION EXCLUSION STARTS JIRA RMA-22720 STARTS----											
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----***************************** REMEMBER PERSON INVOLVED FOR ENTITY ROLE ACCORDING TO NEW ENHANCEMENTS ****************************************************
+
+		IF @V_CLAIMANT_EID > 0 
+		   AND ( 
+		   (@V_RECORD_TYPE = 'W' )
+		   OR 
+		   (@V_RECORD_TYPE = 'D' )
+		   OR 
+   		   --(@V_RECORD_TYPE = 'V' AND @V_EMPLOYEE_ID IS NOT NULL) 		----JIRA RMA-22720 STARTS----
+		   (@V_RECORD_TYPE = 'V' AND (@V_EMPLOYEE_ID IS NOT NULL OR @V_ADDClaimantASPI <> 0)) 		----JIRA RMA-22720 STARTS----
+		   OR
+   		   --(@V_RECORD_TYPE = 'G' AND @V_EMPLOYEE_ID IS NOT NULL) 		----JIRA RMA-22720 STARTS----
+		   (@V_RECORD_TYPE = 'G' AND (@V_EMPLOYEE_ID IS NOT NULL OR @V_ADDClaimantASPI <> 0)) 		----JIRA RMA-22720 STARTS----
+		   OR --DSHARMA70 hmi
+		   (@V_RECORD_TYPE = 'H' AND (@V_EMPLOYEE_ID IS NOT NULL OR @V_ADDClaimantASPI <> 0)) --dsharma70 hmi
+		   ) 	
+		BEGIN ----EMPLOYEE BEGINS
+			SET @V_ERRORLOC = 'V041'
+			SET @V_EMPLOYEE_EID = 0
+			SET @V_EMP_PERSON = 1
+			--PRINT 'emp person: ' + cast(@V_EMP_PERSON as varchar(10))		----JIRA RMA-22720 STARTS----
+
+			SET @V_SQL = 'SELECT @V_EMPLOYEE_EID_P = EMPLOYEE_EID FROM ' + @V_DBNAME+'EMPLOYEE WHERE EMPLOYEE_EID = @V_CLAIMANT_EID_P'
+			
+			EXECUTE SP_EXECUTESQL @V_SQL,
+			N' @V_CLAIMANT_EID_P INT,
+			@V_EMPLOYEE_EID_P INT OUTPUT',
+			@V_CLAIMANT_EID_P = @V_CLAIMANT_EID,
+			@V_EMPLOYEE_EID_P = @V_EMPLOYEE_EID OUTPUT
+			--PRINT 'employee id : ' + cast(@V_EMPLOYEE_EID AS VARCHAR(10))
+			
+			IF @V_EMPLOYEE_EID = 0
+			BEGIN
+				SET @V_ERRORLOC = 'V041A'
+				
+				SET @V_SQL = 'SELECT @V_EMPLOYEE_EID_RMDB_P = EMPLOYEE_EID FROM ' + @V_DBNAME+'EMPLOYEE WHERE EMPLOYEE_NUMBER = @V_EMPLOYEE_NUMBER_P'
+			
+				EXECUTE SP_EXECUTESQL @V_SQL,
+				N' @V_EMPLOYEE_NUMBER_P varchar(20),
+				@V_EMPLOYEE_EID_RMDB_P INT OUTPUT',
+				@V_EMPLOYEE_NUMBER_P = @V_EMPLOYEE_NUMBER,
+				@V_EMPLOYEE_EID_RMDB_P = @V_EMPLOYEE_EID_RMDB OUTPUT
+
+				IF @V_EMPLOYEE_EID_RMDB > 0
+				BEGIN
+					EXECUTE DDS_ERROR_LOG_CAPTURE @P_JOBID, @V_DA_ROW_ID, @V_MODULENAME, @V_ERRORLOC, @V_ERRORLOC, @V_PROCNAME,
+					'Employee Number is associated with another entity. Provide a Unique Employee Number.', 'EMPLOYEE_ID', @V_ERROR_TABLE, 'CLAIM_NUMBER', @V_CLAIM_NUMBER,1
+					SET @V_ERRORCOUNT = @V_ERRORCOUNT + 1;
+				END
+
+				IF (@CheckCreateNewEmployees = 1) AND (@V_EMPLOYEE_EID_RMDB = 0)
+				SET @V_NEW_EMP = 1	
+
+			END
+			ELSE IF @V_EMPLOYEE_EID > 0----UPDATE CASE FOR EMPLOYEES
+			BEGIN 
+				--PRINT 'UPDATE CASE FOR EMPLOYEES: '
+				SET @V_NEW_EMP = 0
+			END
+
+			IF @V_DEPENDENT_LNAME IS NOT NULL OR @V_DEPENDENT_FNAME IS NOT NULL
+			BEGIN
+			BEGIN TRY	
+				--PRINT 'PROCESS DEPEPNDENT HERE'
+				SET @V_ERRORLOC = 'V042'
+				DECLARE @tdENTITY tENTITY
+				INSERT INTO @tdENTITY(vLastName, vFirstName, vMiddleName, vAbbr, vTaxId, vAddr1, vAddr2, vCity, vCountry, vState, vCounty, vZip, vPhone1, vPhone2, 
+				vFaxNumber, vBirthDate, vSexCode, vComment, iParentEid, vTableName, iRpt1099Flag, iPrefixCodeId, iSuffixCodeId, vSuffixLegal, iNameType, vEmpNum, iJobId, iDaRowId  )
+
+				VALUES (@V_DEPENDENT_LNAME, @V_DEPENDENT_FNAME, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+				NULL, @V_DEPENDENT_BIRTH_DT, NULL, NULL, 0, 'DEPENDENTS', NULL, NULL, NULL, NULL, @V_NAME_TYPE_ID, NULL, @P_JOBID, @V_DA_ROW_ID  )
+			
+				--PRINT 'ENTITY IMPORT STARTS FOR DEPEPNDENT: '
+
+				EXEC PROCESS_ENTITY @tdENTITY, @P_JOBID, @V_DA_ROW_ID, @V_DBNAME, @V_MODULENAME, 0, 0,	@V_ERRORLOC, @V_CLAIM_NUMBER, 
+					@V_DEPENDENT_EID OUTPUT,
+					@V_ERROR_MESSAGE OUTPUT
+					,1 --dsharma70 hmi
+
+				IF @V_ERROR_MESSAGE <> ''
+				BEGIN
+					SET @V_ERRORLOC = 'V042A'
+					
+					EXECUTE DDS_ERROR_LOG_CAPTURE @P_JOBID, @V_DA_ROW_ID, @V_MODULENAME, @V_ERRORLOC, @V_ERRORLOC, @V_PROCNAME,
+					@V_ERROR_MESSAGE, 'DEPENDENT', @V_ERROR_TABLE, 'CLAIM_NUMBER', @V_CLAIM_NUMBER,1
+
+					SET @V_ERRORCOUNT = @V_ERRORCOUNT + 1;
+				END
+	
+				IF @V_DEPENDENT_EID > 0 AND @V_CLAIMANT_EID > 0 
+				BEGIN
+					SET @V_ERRORLOC = 'V043'
+
+					SET @V_SQL = 'SELECT @V_EMP_DEP_ROW_ID_P = EMP_DEP_ROW_ID FROM ' + @V_DBNAME+'EMP_X_DEPENDENT WHERE EMPLOYEE_EID = @V_EMPLOYEE_EID_P AND DEPENDENT_EID = @V_DEPENDENT_EID_P'
+					
+					EXECUTE SP_EXECUTESQL @V_SQL,
+					N' @V_EMPLOYEE_EID_P INT,
+					@V_DEPENDENT_EID_P INT,
+					@V_EMP_DEP_ROW_ID_P INT OUTPUT',
+					@V_EMPLOYEE_EID_P = @V_CLAIMANT_EID,
+					@V_DEPENDENT_EID_P = @V_DEPENDENT_EID,
+					@V_EMP_DEP_ROW_ID_P = @V_EMP_DEP_ROW_ID OUTPUT
+
+					IF @V_EMP_DEP_ROW_ID = 0
+					BEGIN
+						SET @V_ERRORLOC = 'V044'
+						SET @VSQLINSERT = 'SELECT @NEXTUNIQUEID_P = NEXT_UNIQUE_ID FROM ' + @V_DBNAME + 'GLOSSARY WHERE SYSTEM_TABLE_NAME = ''EMP_X_DEPENDENT'''
+						EXECUTE SP_EXECUTESQL @VSQLINSERT, N'@NEXTUNIQUEID_P INT OUTPUT', @NEXTUNIQUEID_P = @V_EMP_DEP_ROW_ID OUTPUT
+
+						--PRINT 'iNSERT INTO EMPLOYEE_X_DEPENDENT'
+						SET @V_INSERT_EMPXDEP = 1
+					END
+				END
+			END TRY
+			BEGIN CATCH
+				SET @V_ERROR_MESSAGE = ERROR_MESSAGE()
+				EXECUTE DDS_ERROR_LOG_CAPTURE @P_JOBID, @V_DA_ROW_ID, @V_MODULENAME, @V_ERRORLOC, @V_ERRORLOC, @V_PROCNAME,@V_ERROR_MESSAGE,'EXCEPTION', @V_ERROR_TABLE, 'CLAIM_NUMBER', @V_CLAIM_NUMBER,0;
+				SET @V_ROWCOUNT = @V_ROWCOUNT + 1;
+			END CATCH				
+			END -- DEPPENDENT ENDS	
+		END	----EMPLOYEE ENDS
+
+		IF @V_EMP_PERSON = 1 --- PERSON INVOLVED SHOULD BE THERE FOR EMPLOYEES ONLY
+		BEGIN
+			BEGIN TRY
+				
+				---- ROLE TO COMPONENTS STARTS JIRA RMA-22720----
+				---- NO DEPENDENCY ON ENTITY ROLE ON/OFF
+
+				SET @V_ERRORLOC = 'V032CC'
+				SET @V_ROW_ID = 0
+				SET @V_SHORT_CODE = 'RCCRT'
+				SET @V_CODE_REL_TYPE = 'CODE_REL_TYPE'
+
+				SET @V_SQL = 'SELECT @V_ROW_ID = ROW_ID FROM ' + @V_DBNAME+'CODE_X_CODE' + ' WHERE '
+				SET @V_SQL = @V_SQL + 'REL_TYPE_CODE IN (SELECT CODE_ID FROM ' + @V_DBNAME+'CODES' + ' WHERE SHORT_CODE = @V_SHORT_CODE AND TABLE_ID IN (SELECT TABLE_ID FROM ' + @V_DBNAME+'GLOSSARY' + ' WHERE SYSTEM_TABLE_NAME = @V_CODE_REL_TYPE))'
+				SET @V_SQL = @V_SQL + ' AND CODE1 IN (SELECT TABLE_ID FROM ' + @V_DBNAME+'GLOSSARY' + ' WHERE SYSTEM_TABLE_NAME =  @V_PARENT_TABLE_NAME)'
+				SET @V_SQL = @V_SQL + ' AND CODE2 IN (SELECT TABLE_ID FROM ' + @V_DBNAME+'GLOSSARY' + ' WHERE SYSTEM_TABLE_NAME =  @V_SYS_TABLE_NAME)'
+				SET @V_SQL = @V_SQL + ' AND DELETED_FLAG = 0'
+
+				EXEC sp_Executesql @V_SQL,
+				N'@V_ROW_ID INT OUTPUT,
+				@V_SHORT_CODE VARCHAR(25),
+				@V_PARENT_TABLE_NAME VARCHAR(30),
+				@V_SYS_TABLE_NAME VARCHAR(30),
+				@V_CODE_REL_TYPE VARCHAR(30)',
+				@V_ROW_ID = @V_ROW_ID OUTPUT,
+				@V_SHORT_CODE = @V_SHORT_CODE,
+				@V_PARENT_TABLE_NAME = @V_PARENT_TABLE_NAME,
+				@V_SYS_TABLE_NAME = @V_SYS_TABLE_NAME,
+				@V_CODE_REL_TYPE = @V_CODE_REL_TYPE
+
+				--PRINT 'PARENT TABLE NAME2 ' + @V_PARENT_TABLE_NAME
+				--PRINT 'SYSTEM TABLE NAME2 ' + @V_SYS_TABLE_NAME
+
+				IF @V_ROW_ID = 0
+				BEGIN
+					SET @V_ERRORLOC = 'V032D'
+					SET @V_ERROR_MESSAGE = 'The Role to component mapping is missing for Component: ' + @V_PARENT_TABLE_NAME + ' with Role: ' + @V_SYS_TABLE_NAME + '. Use Code Relationship on Riskmaster for creating a Mapping. '
+
+					EXECUTE DDS_ERROR_LOG_CAPTURE @P_JOBID, @V_DA_ROW_ID, @V_MODULENAME, @V_ERRORLOC, @V_ERRORLOC, @V_PROCNAME,
+					@V_ERROR_MESSAGE , 'CODE RELATIONSHIP', @V_ERROR_TABLE, 'CLAIM_NUMBER', @V_CLAIM_NUMBER,1
+				
+					SET @V_ERRORCOUNT = @V_ERRORCOUNT + 1;
+				END
+				---- ROLE TO COMPONENTS ENDS JIRA RMA-22720----
+				ELSE IF @V_ROW_ID <> 0
+				BEGIN
+
+					SET @V_ERRORLOC = 'V045'
+					SET @V_PI_ROW_ID = 0
+					--print 'select PI::::'
+					SET @V_SQL = 'SELECT @V_PI_ROW_ID_P = PI_ROW_ID FROM ' + @V_DBNAME + 'PERSON_INVOLVED WHERE EVENT_ID = @V_EVENT_ID_P AND PI_EID = @V_CLAIMANT_EID_P '
+					SET @V_SQL = @V_SQL + 'AND ROLE_TABLE_ID = @V_ROLE_TABLE_ID_P AND PARENT_ROW_ID = @V_PARENT_ROW_ID_P AND PARENT_TABLE_NAME = @V_PARENT_TABLE_NAME_P'
+				
+					EXECUTE SP_EXECUTESQL @V_SQL,
+					N' @V_EVENT_ID_P INT,
+					@V_CLAIMANT_EID_P INT,
+					@V_ROLE_TABLE_ID_P INT,
+					@V_PARENT_ROW_ID_P INT,
+					@V_PARENT_TABLE_NAME_P VARCHAR(30),
+					@V_PI_ROW_ID_P INT OUTPUT',
+					@V_EVENT_ID_P = @V_EVENT_ID,
+					@V_CLAIMANT_EID_P = @V_CLAIMANT_EID,
+					@V_ROLE_TABLE_ID_P = @V_ROLE_TABLE_ID,
+					@V_PARENT_ROW_ID_P = @V_PARENT_ROW_ID,
+					@V_PARENT_TABLE_NAME_P = @V_PARENT_TABLE_NAME,
+					@V_PI_ROW_ID_P = @V_PI_ROW_ID OUTPUT
+
+					IF @V_PI_ROW_ID = 0
+					BEGIN -----PERSON INVOLVED IS NEW BEGIN
+						--PRINT 'PERSON INVOLVED INSERT'
+						SET @V_ERRORLOC = 'V046'
+
+				SET @VSQLINSERT = 'SELECT @NEXTUNIQUEID_P = NEXT_UNIQUE_ID FROM ' + @V_DBNAME + 'GLOSSARY WHERE SYSTEM_TABLE_NAME = ''PERSON_INVOLVED'''
+				EXECUTE SP_EXECUTESQL @VSQLINSERT, N'@NEXTUNIQUEID_P INT OUTPUT', @NEXTUNIQUEID_P = @V_PI_ROW_ID OUTPUT
+
+				SET @V_NEW_PI = 1
+
+				SET @V_ERRORLOC = 'V046A'
+				SET @V_SQL = 'SELECT @V_WORK_SUN = WORK_SUN, @V_WORK_MON = WORK_MON, @V_WORK_TUE = WORK_TUE, @V_WORK_WED = WORK_WED, @V_WORK_THU = WORK_THU, ' 
+				SET @V_SQL = @V_SQL + '@V_WORK_FRI = WORK_FRI, @V_WORK_SAT = WORK_SAT'
+		    	SET @V_SQL = @V_SQL + ' FROM ' + @V_DBNAME +'SYS_PARMS' 
+	
+						EXEC SP_EXECUTESQL @V_SQL,
+						N'@V_WORK_SUN INT OUTPUT,
+						@V_WORK_MON INT OUTPUT,
+						@V_WORK_TUE INT OUTPUT,
+						@V_WORK_WED INT OUTPUT,
+						@V_WORK_THU INT OUTPUT,
+						@V_WORK_FRI INT OUTPUT,
+						@V_WORK_SAT INT OUTPUT',
+						@V_WORK_SUN = @V_WORK_SUN OUTPUT,
+						@V_WORK_MON = @V_WORK_MON OUTPUT,
+						@V_WORK_TUE = @V_WORK_TUE OUTPUT,
+						@V_WORK_WED = @V_WORK_WED OUTPUT,
+						@V_WORK_THU = @V_WORK_THU OUTPUT,
+						@V_WORK_FRI = @V_WORK_FRI OUTPUT,
+						@V_WORK_SAT = @V_WORK_SAT OUTPUT
+					END 
+
+					ELSE IF @V_PI_ROW_ID > 0 			
+					BEGIN ---- PERSON INVOLVED EXISTS BEGIN
+						--PRINT 'PERSON INVOLVED EXISTS STARTS'
+						SET @V_NEW_PI = 0
+					END 
+				END
+			END TRY
+			BEGIN CATCH
+				SET @V_ERROR_MESSAGE = ERROR_MESSAGE()
+				EXECUTE DDS_ERROR_LOG_CAPTURE @P_JOBID, @V_DA_ROW_ID, @V_MODULENAME, @V_ERRORLOC, @V_ERRORLOC, @V_PROCNAME,@V_ERROR_MESSAGE,'EXCEPTION', @V_ERROR_TABLE, 'CLAIM_NUMBER', @V_CLAIM_NUMBER,0;
+				SET @V_ROWCOUNT = @V_ROWCOUNT + 1;
+			END CATCH	
+							
+		END
+
+---------***************************** EVENT X OSHA *********************************************************************************************
+		
+			IF @V_OSHA_RECORDABLE_ID <> 0
+			BEGIN  ---- EVENT_X_OSHA STARTS
+				BEGIN TRY
+					SET @V_ERRORLOC = 'V047'
+					SET @V_SQL = 'SELECT @V_EVENT_ID_P = EVENT_ID FROM ' + @V_DBNAME + 'EVENT_X_OSHA WHERE EVENT_ID = @V_EVENT_ID_R'
+					EXECUTE SP_EXECUTESQL @V_SQL,
+					N' @V_EVENT_ID_P INT OUTPUT,
+					@V_EVENT_ID_R INT',
+					@V_EVENT_ID_P = @V_EVENT_ID_RMDB OUTPUT,
+					@V_EVENT_ID_R = @V_EVENT_ID
+
+					IF @V_EVENT_ID_RMDB = 0
+					BEGIN
+						--PRINT 'EVENT_X_OSHA IS NEW'
+						SET @V_NEW_EVENTXOSHA = 1
+					END
+					ELSE
+					BEGIN
+						SET @V_NEW_EVENTXOSHA = 0
+						--PRINT 'UPDATE INTO EVENT_X_OSHA'					
+					END
+				END TRY
+				BEGIN CATCH
+					SET @V_ERROR_MESSAGE = ERROR_MESSAGE()
+					EXECUTE DDS_ERROR_LOG_CAPTURE @P_JOBID, @V_DA_ROW_ID, @V_MODULENAME, @V_ERRORLOC, @V_ERRORLOC, @V_PROCNAME,@V_ERROR_MESSAGE,'EXCEPTION', @V_ERROR_TABLE, 'CLAIM_NUMBER', @V_CLAIM_NUMBER,0;
+					SET @V_ROWCOUNT = @V_ROWCOUNT + 1;
+				END CATCH	
+			END ---- EVENT_X_OSHA ENDS
+			
+---------------- CLAIM_X_LITIGATION OR PROCESS DOCKET FUNCTIONS -----------------------------------------------------------------------------------
+ 
+ IF @V_CASE_NUMBER IS NOT NULL
+ BEGIN ---- BEGIN CLAIM X LITIGATION
+ 	 BEGIN TRY
+	 	SET @V_ERRORLOC = 'V048'
+		
+		SET @V_SQL = 'SELECT @V_LITIGATION_ROW_ID_P = LITIGATION_ROW_ID FROM ' + @V_DBNAME + 'CLAIM_X_LITIGATION WHERE CLAIM_ID = @V_CLAIM_ID_P AND DOCKET_NUMBER = @V_CASE_NUMBER_P'
+		EXEC SP_EXECUTESQL @V_SQL,
+		N'@V_CLAIM_ID_P INT,
+		@V_LITIGATION_ROW_ID_P INT OUTPUT,
+		@V_CASE_NUMBER_P VARCHAR(22)',
+		@V_CLAIM_ID_P = @V_CLAIM_ID,
+		@V_LITIGATION_ROW_ID_P = @V_LITIGATION_ROW_ID OUTPUT ,
+		@V_CASE_NUMBER_P = @V_CASE_NUMBER
+		
+		--PRINT 'LITIGATION::::'
+		--PRINT @V_LITIGATION_ROW_ID
+		
+		IF @V_LITIGATION_ROW_ID = 0
+		BEGIN
+			----INSERT INTO CLAIM X LITIGATION
+			SET @V_NEW_CLAIMXLIT = 1
+		END	
+
+		ELSE IF @V_LITIGATION_ROW_ID > 0
+		BEGIN -----UPDATE CLAIM X LITIGATION
+			SET @V_NEW_CLAIMXLIT = 0
+		END
+	END TRY
+	BEGIN CATCH
+		SET @V_ERROR_MESSAGE = ERROR_MESSAGE()
+		EXECUTE DDS_ERROR_LOG_CAPTURE @P_JOBID, @V_DA_ROW_ID, @V_MODULENAME, @V_ERRORLOC, @V_ERRORLOC, @V_PROCNAME,@V_ERROR_MESSAGE,'EXCEPTION', @V_ERROR_TABLE, 'CLAIM_NUMBER', @V_CLAIM_NUMBER,0;
+		SET @V_ROWCOUNT = @V_ROWCOUNT + 1;
+	END CATCH	
+ END	----END CLAIM X LITIGATION
+
+----------------------------------------------- DEFENDANT -----------------------------------------------------------------------------------------
+	BEGIN TRY		
+	IF (@V_DEF_LASTNAME IS NOT NULL OR @V_DEF_FIRSTNAME IS NOT NULL)
+	BEGIN	
+		SET @V_ERRORLOC = 'V049'
+
+		DECLARE @tdefENTITY tENTITY
+		INSERT INTO @tdefENTITY(vLastName, vFirstName, vMiddleName, vAbbr, vTaxId, vAddr1, vAddr2, vCity, vCountry, vState, vCounty, vZip, vPhone1, vPhone2, 
+		vFaxNumber, vBirthDate, vSexCode, vComment, iParentEid, vTableName, iRpt1099Flag, iPrefixCodeId, iSuffixCodeId, vSuffixLegal, iNameType, vEmpNum, iJobId, iDaRowId  )
+
+		VALUES (@V_DEF_LASTNAME, @V_DEF_FIRSTNAME, NULL, NULL, NULL, @V_DEF_ADDRESS, NULL, @V_DEF_CITY, NULL, @V_DEF_STATE_ID, NULL, @V_DEF_ZIP, @V_DEF_PHONE, NULL,
+		NULL, @V_DEF_BIRTH_DT, NULL, @V_DEF_COMMENT, 0, 'DEFENDANT', NULL, NULL, NULL, NULL, @V_NAME_TYPE_ID, NULL, @P_JOBID, @V_DA_ROW_ID  )
+		
+		--DSHARMA70 hmi @V_DEF_BIRTH_DT	used IN ABOVE INSERT STATEMENT above instead of NULL
+		--PRINT 'ENTITY IMPORT STARTS FOR DEFENDANT: '
+
+		EXEC PROCESS_ENTITY  @tdefENTITY, @P_JOBID, @V_DA_ROW_ID, @V_DBNAME, @V_MODULENAME,	0, 0, @V_ERRORLOC, @V_CLAIM_NUMBER,
+		@V_DEFENDANT_EID OUTPUT,
+		@V_ERROR_MESSAGE OUTPUT
+		,1--dsharma70 hmi
+
+		IF @V_ERROR_MESSAGE <> ''
+		BEGIN
+			SET @V_ERRORLOC = 'V049A'
+			EXECUTE DDS_ERROR_LOG_CAPTURE @P_JOBID, @V_DA_ROW_ID, @V_MODULENAME, @V_ERRORLOC, @V_ERRORLOC, @V_PROCNAME,
+			@V_ERROR_MESSAGE, 'DEFENDANT', @V_ERROR_TABLE, 'CLAIM_NUMBER', @V_CLAIM_NUMBER,1
+
+			SET @V_ERRORCOUNT = @V_ERRORCOUNT + 1;
+		END
+
+		--PRINT @V_DEFENDANT_EID
+		IF @V_DEFENDANT_EID > 0		
+		BEGIN											
+			SET @V_ERRORLOC = 'V050'
+			SET @V_CLAIM_DEFCOUNT = 0
+			SET @V_SQL = 'SELECT @V_CLAIM_DEFCOUNT_P = CLAIM.CLAIM_ID FROM ' + @V_DBNAME + 'CLAIM, ' + @V_DBNAME + 'DEFENDANT WHERE ' + @V_DBNAME + 'CLAIM.CLAIM_ID = ' + @V_DBNAME+ 'DEFENDANT.CLAIM_ID'
+			SET @V_SQL = @V_SQL + ' AND ' + @V_DBNAME + 'DEFENDANT.DEFENDANT_EID = @V_DEFENDANT_EID_P AND ' + @V_DBNAME + 'CLAIM.CLAIM_ID = @V_CLAIM_ID_P'
+			
+			--PRINT @v_sql
+			
+			EXEC SP_EXECUTESQL @V_SQL,
+			N'@V_CLAIM_ID_P INT,
+			@V_DEFENDANT_EID_P INT,
+			@V_CLAIM_DEFCOUNT_P INT OUTPUT',
+			@V_CLAIM_ID_P = @V_CLAIM_ID,
+			@V_DEFENDANT_EID_P = @V_DEFENDANT_EID,
+			@V_CLAIM_DEFCOUNT_P = @V_CLAIM_DEFCOUNT OUTPUT;
+			
+			--PRINT @V_CLAIM_DEFCOUNT
+			IF @V_CLAIM_DEFCOUNT = 0
+			BEGIN
+				SET @V_NEW_DEFENDANT = 1
+			END
+		END
+	END
+	END TRY
+	BEGIN CATCH
+		SET @V_ERROR_MESSAGE = ERROR_MESSAGE()
+		EXECUTE DDS_ERROR_LOG_CAPTURE @P_JOBID, @V_DA_ROW_ID, @V_MODULENAME, @V_ERRORLOC, @V_ERRORLOC, @V_PROCNAME,@V_ERROR_MESSAGE,'EXCEPTION', @V_ERROR_TABLE, 'CLAIM_NUMBER', @V_CLAIM_NUMBER,0;
+		SET @V_ROWCOUNT = @V_ROWCOUNT + 1;
+	END CATCH	
+
+---- ************************ VEHICLE ************************************************************
+
+IF @V_RECORD_TYPE = 'V' AND @V_VEHICLE_ID IS NOT NULL
+BEGIN ---- begin vehicle
+	BEGIN TRY
+		--PRINT ' VEHICLE PART STARTS'
+													
+		SET @V_ERRORLOC = 'V051'
+		SET @V_CLAIM_DEFCOUNT = 0
+		SET @V_SQL = 'SELECT @V_CLAIM_DEFCOUNT_P = UNIT_ID FROM ' + @V_DBNAME + 'VEHICLE WHERE VIN = @V_VEHICLE_ID_P AND DELETED_FLAG = 0'
+				EXEC SP_EXECUTESQL @V_SQL,
+				N'@V_VEHICLE_ID_P VARCHAR(20),
+				@V_CLAIM_DEFCOUNT_P INT OUTPUT',
+				@V_VEHICLE_ID_P = @V_VEHICLE_ID,
+				@V_CLAIM_DEFCOUNT_P = @V_CLAIM_DEFCOUNT OUTPUT;
+	
+		IF @V_CLAIM_DEFCOUNT = 0
+		BEGIN
+			SET @V_ERRORLOC = 'V052'
+			--PRINT 'VEHICLE IMPORT'
+			SET @VSQLINSERT = 'SELECT @NEXTUNIQUEID_P = NEXT_UNIQUE_ID FROM ' + @V_DBNAME + 'GLOSSARY WHERE SYSTEM_TABLE_NAME = ''VEHICLE'''
+			EXECUTE SP_EXECUTESQL @VSQLINSERT, N'@NEXTUNIQUEID_P INT OUTPUT', @NEXTUNIQUEID_P = @V_VEHICLE_UNIT_ID OUTPUT
+			
+			SET @V_NEW_VEHICLE = 1
+		END
+		ELSE IF @V_CLAIM_DEFCOUNT > 0
+		BEGIN
+		
+			--PRINT 'VEHICLE UPDATE'
+			SET @V_NEW_VEHICLE = 0
+			SET @V_VEHICLE_UNIT_ID = @V_CLAIM_DEFCOUNT
+		END
+		
+		SET @V_ERRORLOC = 'V053'		
+		SET @V_CLAIM_DEFCOUNT = 0	
+		SET @V_SQL = 'SELECT @V_CLAIM_DEFCOUNT_P = CLAIM_ID FROM ' + @V_DBNAME + 'UNIT_X_CLAIM WHERE CLAIM_ID = @V_CLAIM_ID_P AND UNIT_ID = @V_VEHICLE_UNIT_ID_P'
+			EXEC SP_EXECUTESQL @V_SQL,
+			N'@V_VEHICLE_UNIT_ID_P INT,
+			@V_CLAIM_ID_P INT,
+			@V_CLAIM_DEFCOUNT_P INT OUTPUT',
+			@V_VEHICLE_UNIT_ID_P = @V_VEHICLE_UNIT_ID,
+			@V_CLAIM_ID_P = @V_CLAIM_ID,
+			@V_CLAIM_DEFCOUNT_P = @V_CLAIM_DEFCOUNT OUTPUT
+
+			IF @V_CLAIM_DEFCOUNT = 0
+			BEGIN
+				SET @V_ERRORLOC = 'V054'
+				SET @VSQLINSERT = 'SELECT @NEXTUNIQUEID_P = NEXT_UNIQUE_ID FROM ' + @V_DBNAME + 'GLOSSARY WHERE SYSTEM_TABLE_NAME = ''UNIT_X_CLAIM'''
+				EXECUTE SP_EXECUTESQL @VSQLINSERT, N'@NEXTUNIQUEID_P INT OUTPUT', @NEXTUNIQUEID_P = @V_CLAIMXUNIT_ROW_ID OUTPUT
+				
+				SET @V_NEW_UNITXCLAIM = 1
+			END
+	END TRY
+	BEGIN CATCH
+		SET @V_ERROR_MESSAGE = ERROR_MESSAGE()
+		EXECUTE DDS_ERROR_LOG_CAPTURE @P_JOBID, @V_DA_ROW_ID, @V_MODULENAME, @V_ERRORLOC, @V_ERRORLOC, @V_PROCNAME,@V_ERROR_MESSAGE,'EXCEPTION', @V_ERROR_TABLE, 'CLAIM_NUMBER', @V_CLAIM_NUMBER,0;
+		SET @V_ROWCOUNT = @V_ROWCOUNT + 1;
+	END CATCH	
+END ---- end vehicle
+
+---- ************************** UNIT_STAT **********************************************
+
+	--PRINT 'RECORD TYPE'
+	--PRINT @V_RECORD_TYPE
+	IF @V_RECORD_TYPE = 'W'
+	BEGIN  ---- BEGIN UNIT STAT
+		BEGIN TRY
+			SET @V_ERRORLOC = 'V055'
+			SET @V_CLAIM_DEFCOUNT = 0
+			SET @V_SQL = 'SELECT @V_CLAIM_DEFCOUNT_P = CLAIM_ID FROM ' + @V_DBNAME + 'UNIT_STAT WHERE CLAIM_ID = @V_CLAIM_ID_P'
+	
+			EXEC SP_EXECUTESQL @V_SQL,
+			N'@V_CLAIM_ID_P INT,
+			@V_CLAIM_DEFCOUNT_P INT OUTPUT',
+			@V_CLAIM_ID_P = @V_CLAIM_ID,
+			@V_CLAIM_DEFCOUNT_P = @V_CLAIM_DEFCOUNT OUTPUT
+
+			IF @V_CLAIM_DEFCOUNT = 0
+			BEGIN
+				SET @V_ERRORLOC = 'V056'
+				SET @VSQLINSERT = 'SELECT @NEXTUNIQUEID_P = NEXT_UNIQUE_ID FROM ' + @V_DBNAME + 'GLOSSARY WHERE SYSTEM_TABLE_NAME = ''UNIT_STAT'''
+				EXECUTE SP_EXECUTESQL @VSQLINSERT, N'@NEXTUNIQUEID_P INT OUTPUT', @NEXTUNIQUEID_P = @V_CLAIMXUNIT_ROW_ID OUTPUT
+
+				SET @V_NEW_UNITSTAT = 1
+			END
+			ELSE ---- UPDATE UNIT STAT
+			BEGIN
+				--PRINT 'UPDATE UNIT STAT'
+				SET @V_NEW_UNITSTAT = 0
+			END
+		END TRY
+		BEGIN CATCH
+			SET @V_ERROR_MESSAGE = ERROR_MESSAGE()
+			EXECUTE DDS_ERROR_LOG_CAPTURE @P_JOBID, @V_DA_ROW_ID, @V_MODULENAME, @V_ERRORLOC, @V_ERRORLOC, @V_PROCNAME,@V_ERROR_MESSAGE,'EXCEPTION', @V_ERROR_TABLE, 'CLAIM_NUMBER', @V_CLAIM_NUMBER,0;
+			SET @V_ROWCOUNT = @V_ROWCOUNT + 1;
+		END CATCH	
+	END ---- END UNIT STAT
+
+
+-------------------- PROCESS RESERVE CURRENT---------------ONLY FOR CORPORATE CLIENTS-------------------------------------
+
+		--IF @V_CARRIERFLAG = 0 AND @V_BUCKETLIST <> ''		--JIRA 23899 knakra
+		IF @V_CARRIERFLAG = 0 AND @V_BUCKETLIST <> '' AND @iVarFinKey = 0		--JIRA 23899 knakra
+		BEGIN ----BEGIN PROCESS RESERVE
+			
+			SET @V_ERRORLOC = 'V057'
+			SET @V_SQL = 'SELECT @V_RESERVE_TRACKING_P = RESERVE_TRACKING FROM ' + @V_DBNAME+'SYS_PARMS_LOB' + '  WHERE LINE_OF_BUS_CODE = @V_CLAIM_LOB_P';
+		 
+			--PRINT @V_SQL;
+			BEGIN TRY
+				Exec sp_Executesql @V_SQL,
+				N' @V_RESERVE_TRACKING_P AS INT OUTPUT,
+				@V_CLAIM_LOB_P INT',
+				@V_RESERVE_TRACKING_P = @V_RESERVE_TRACKING OUTPUT,
+				@V_CLAIM_LOB_P = @V_CLAIM_LOB;
+				
+				----### RESERVE TRACKING LOGIC ##### RRRR
+				---- IF RESERVE TRACKING = 0 THEN CLAIM LEVEL RESERVES TRACKING IS ON THEN CLAIMANT_EID = 0 AND UNIT_ID = 0
+				---- IF RESERVE TRACKING = 1 THEN DETAIL LEVEL TRACKING IS ON
+						---- IF VEHICLE CLAIM THEN
+							---- IF UNIT_ID IS NOT NULL THEN UNIT_ID = UNIT ID AND CLAIMANT_EID = 0
+							---- IF UNIT_ID NULL THEN UNIT_ID = 0 AND CLAIMANT_EID = CLAIMANT EID
+						---- IF NOT VEHICLE CLAIM THEN UNIT_ID = 0 AND CLAIMANT_EID = CLAIMANT EID
+				---- G: CLAIM LEVEL AND CLAIMANT LEVEL
+				---- W & D: DETAIL: CLAIMANT LEVEL TRACKING ONLY
+				---- V: DETAIL: LEVEL TRACKING ONLY
+
+				IF @V_RECORD_TYPE = 'V' AND @V_VEHICLE_ID IS NOT NULL 
+				BEGIN
+					SET @V_CLAIMANT_EID_R = 0
+					SET @V_UNIT_ID_R = @V_VEHICLE_UNIT_ID
+				END
+				ELSE
+				BEGIN
+					SET @V_CLAIMANT_EID_R = @V_CLAIMANT_EID
+					SET @V_UNIT_ID_R = 0
+				END
+
+				IF @V_RESERVE_TRACKING = 0 ---- CLAIM LEVEL TRACKING
+				BEGIN
+					--PRINT 'CLAIM LEVEL RESERVES TRACKING';
+					IF @V_RECORD_TYPE = 'G'
+					BEGIN
+						SET @V_CLAIMANT_EID_R = 0
+						SET @V_UNIT_ID_R = 0
+					END
+				END
+
+				SET @V_ERRORLOC = 'V058'								
+					
+				SET @V_SQL = 'SELECT @V_COL_IN_RSV_BAL_P = COLL_IN_RSV_BAL, @V_COL_IN_INC_BAL_P = COLL_IN_INCUR_BAL FROM ' + @V_DBNAME + 'SYS_PARMS_LOB'
+				SET @V_SQL = @V_SQL + ' WHERE LINE_OF_BUS_CODE = @V_CLAIM_LOB_P'
+					
+				EXECUTE SP_EXECUTESQL @V_SQL,
+				N' @V_COL_IN_RSV_BAL_P INT OUTPUT, @V_COL_IN_INC_BAL_P INT OUTPUT, @V_CLAIM_LOB_P INT',
+				@V_COL_IN_RSV_BAL_P = @V_COL_IN_RSV_BAL OUTPUT,
+				@V_COL_IN_INC_BAL_P = @V_COL_IN_INC_BAL OUTPUT,
+				@V_CLAIM_LOB_P = @V_CLAIM_LOB
+
+			END TRY
+			BEGIN CATCH
+				SET @V_ERROR_MESSAGE = ERROR_MESSAGE()
+				EXECUTE DDS_ERROR_LOG_CAPTURE @P_JOBID, @V_DA_ROW_ID, @V_MODULENAME, @V_ERRORLOC, @V_ERRORLOC, @V_PROCNAME,@V_ERROR_MESSAGE,'EXCEPTION', @V_ERROR_TABLE, 'CLAIM_NUMBER', @V_CLAIM_NUMBER,0;
+				SET @V_ROWCOUNT = @V_ROWCOUNT + 1;
+			END CATCH	
+
+		END ----END PROCESS RESERVE
+
+		
+------------------------------------------------------------------------------------------------------------		
+--DSHARMA70 CHANGES DONE ON 1/29/2016
+	
+	SET @V_ERRORLOC = 'V059'
+			
+	IF @V_ROWCOUNT + @V_ERRORCOUNT > 0 SET @V_INVALID_ROW = 1
+ 
+	ELSE IF @V_ROWCOUNT + @V_ERRORCOUNT = 0 SET @V_INVALID_ROW = 0
+
+END  -------- END INVALID ROW 0
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
+					
+BEGIN TRY  ------------INSERT WORK STARTS
+
+IF @V_INVALID_ROW = 0
+BEGIN	 ----BEGIN LEVEL INSERT/UPDATE
+	SET @V_DATETIME = REPLACE(REPLACE(REPLACE(CONVERT(VARCHAR(19), GETDATE(), 120),'-',''), ':', ''),' ','')
+	
+	IF (@CheckCreateNewDepartment = 1) AND (@V_DEPARTMENT_ID = 0 OR @V_DELETED_FLAG_DEPT = -1)	
+	BEGIN
+
+		DECLARE @tORG_HRCHY tORG_HIERARCHY
+		INSERT INTO @tORG_HRCHY(IJOBID, IDAROWID, VDEPARTMENT, VLOCATION, VDIVISION, VCOMPANY, VDEPARTMENT_DESC, VLOCATION_DESC, VDIVISION_DESC, VCOMPANY_DESC)
+		VALUES (@P_JOBID, @V_DA_ROW_ID, @V_DEPARTMENT, @V_LOCATION, @V_DIVISION, @V_COMPANY,@V_DEPARTMENT_DESC, @V_LOCATION_DESC, @V_DIVISION_DESC, @V_COMPANY_DESC)
+			
+		--PRINT 'ORG HIERARCHY IMPORT STARTS'
+
+		EXEC DDS_PROCESSORG_HIERARCHY @tORG_HIERARCHY = @tORG_HRCHY,
+		@P_JOBID = @P_JOBID,
+		@P_DA_ROW_ID = @V_DA_ROW_ID,
+		@P_DBNAME = @P_DBNAME,
+		@P_KEYCOLUMN = 'CLAIM_NUMBER', 
+		@P_KEY_VALUE = @V_CLAIM_NUMBER,
+		@P_ENTITY_ID = @V_DEPARTMENT_ID OUTPUT
+		
+		IF @V_DEPARTMENT_ID < 0 
+		BEGIN
+			SET @V_ERRORCOUNT = @V_ERRORCOUNT + 1;
+			GOTO FETCHNEXT ---- IF ANY EXCEPTION OCCURS IN PROCESS ORG HIERARCHY
+		END
+	END
+				
+	IF @V_NEWEVENT = 1	----****************** EVENT INSERT *************************************************************
+	BEGIN ----BEGIN EVENT INSERT
+		SET @V_ERRORLOC = 'INSERT052'
+		SET @V_SQL = 'SELECT @V_CODEID_P = c.CODE_ID FROM ' + @V_DBNAME +'CODES C, '+ @V_DBNAME +'GLOSSARY G WHERE c.TABLE_ID = G.TABLE_ID';      
+        SET @V_SQL = @V_SQL + ' AND UPPER(c.SHORT_CODE) = @SHORT_CODE_P AND G.system_TABLE_NAME = ''EVENT_TYPE'''
+                                                              
+		Exec sp_Executesql @V_SQL,
+		N' @SHORT_CODE_P VARCHAR(255),
+		@V_CODEID_P INT OUTPUT',
+		@V_CODEID_P = @V_EVENT_TYPE_CODE_ID OUTPUT,
+		@SHORT_CODE_P = @V_EVENT_TYPE_CODE
+		
+               
+		
+		SET @V_SQL = 'INSERT INTO ' + @V_DBNAME + 'EVENT(EVENT_ID, EVENT_NUMBER, CAUSE_CODE, DATE_OF_EVENT, DATE_REPORTED, TIME_OF_EVENT, TIME_REPORTED, DEPT_HEAD_ADVISED, RELEASE_SIGNED, '
+		SET @V_SQL = @V_SQL + 'TREATMENT_GIVEN, ON_PREMISE_FLAG, EVENT_STATUS_CODE, EVENT_TYPE_CODE, EVENT_IND_CODE, DEPT_EID, DTTM_RCD_ADDED, ADDED_BY_USER, DTTM_RCD_LAST_UPD, '
+		SET @V_SQL = @V_SQL + 'UPDATED_BY_USER, EVENT_DESCRIPTION, STATE_ID ) ' 
+		SET @V_SQL = @V_SQL + 'VALUES(@V_EVENT_ID_P, @V_EVENT_NUMBER_P, @V_CAUSE_CODE_ID_P, @V_DATE_OF_EVENT_P, @V_DATE_REPORTED_P, @V_TIME_OF_EVENT_P, ''000000'',0, '
+		SET @V_SQL = @V_SQL + '0, 0, 0, @V_EVENT_STATUS_CODE_ID_P, @V_EVENT_TYPE_CODE_ID_P, @V_EVENT_IND_CODE_ID_P, '
+		SET @V_SQL = @V_SQL + '@V_DEPT_EID_P, @V_DATETIME_P, @V_DDSUSER_P, @V_DATETIME_P, @V_DDSUSER_P, @V_EVENT_DESCRIPTION_P, 0 )'
+		--PRINT @V_SQL
+				
+		EXECUTE SP_EXECUTESQL @V_SQL,
+		N'@V_EVENT_ID_P INT ,
+		@V_EVENT_NUMBER_P VARCHAR(25),
+		@V_CAUSE_CODE_ID_P INT, 
+		@V_DATE_OF_EVENT_P VARCHAR(8),
+		@V_DATE_REPORTED_P VARCHAR(8),
+		@V_TIME_OF_EVENT_P VARCHAR(6),
+		@V_EVENT_STATUS_CODE_ID_P INT, 
+		@V_EVENT_TYPE_CODE_ID_P INT,   
+		@V_EVENT_IND_CODE_ID_P INT,
+		@V_DEPT_EID_P INT, 
+		@V_DDSUSER_P VARCHAR(6),
+		@V_DATETIME_P VARCHAR(14),
+		@V_EVENT_DESCRIPTION_P VARCHAR(MAX)',
+		@V_EVENT_ID_P = @V_EVENT_ID,
+		@V_EVENT_NUMBER_P = @V_EVENT_NUMBER, 
+		@V_CAUSE_CODE_ID_P = @V_CAUSE_CODE_ID,
+		@V_DATE_OF_EVENT_P = @V_DATE_OF_EVENT,
+		@V_DATE_REPORTED_P = @V_DATE_REPORTED,
+		@V_TIME_OF_EVENT_P = @V_TIME_OF_EVENT,
+		@V_EVENT_STATUS_CODE_ID_P = @V_EVENT_STATUS_CODE_ID,
+		@V_EVENT_TYPE_CODE_ID_P = @V_EVENT_TYPE_CODE_ID,  
+		@V_EVENT_IND_CODE_ID_P = @V_EVENT_IND_CODE_ID,
+		@V_DEPT_EID_P = @V_DEPARTMENT_ID, 
+		@V_DDSUSER_P = @V_DDSUSER,
+		@V_DATETIME_P = @V_DATETIME,
+		@V_EVENT_DESCRIPTION_P = @V_DESCRIPTION
+		
+		SET @VSQLINSERT = 'UPDATE ' + @V_DBNAME + 'GLOSSARY SET NEXT_UNIQUE_ID = NEXT_UNIQUE_ID + 1 WHERE SYSTEM_TABLE_NAME = ''EVENT'''
+		EXECUTE SP_EXECUTESQL @VSQLINSERT
+
+	END ----END EVENT INSERT
+			
+	ELSE IF @V_NEWEVENT	= 0 
+	BEGIN	----BEGIN EVENT UPDATE
+		SET @V_ERRORLOC = 'INSERT053'
+
+		SET @V_SQL = 'UPDATE ' + @V_DBNAME + 'EVENT SET EVENT_ID = @V_EVENT_ID_P'
+		SET @V_SQL = @V_SQL + ', DATE_OF_EVENT = @V_DATE_OF_EVENT_P'
+		SET @V_SQL = @V_SQL + ', EVENT_STATUS_CODE = @V_EVENT_STATUS_CODE_ID_P'
+		SET @V_SQL = @V_SQL + ', DEPT_EID = @V_DEPT_EID_P'
+		SET @V_SQL = @V_SQL + ' WHERE EVENT_ID = @V_EVENT_ID_P'
+		--PRINT @V_SQL
+				
+		SET @V_ERRORLOC = 'INSERT053'
+		EXECUTE SP_EXECUTESQL @V_SQL,
+		N'@V_EVENT_ID_P INT,
+		@V_DATE_OF_EVENT_P VARCHAR(8),
+		@V_EVENT_STATUS_CODE_ID_P VARCHAR(8),
+		@V_DEPT_EID_P INT',
+		@V_EVENT_ID_P = @V_EVENT_ID, 
+		@V_DATE_OF_EVENT_P = @V_DATE_OF_EVENT,
+		@V_EVENT_STATUS_CODE_ID_P = @V_EVENT_STATUS_CODE_ID,
+		@V_DEPT_EID_P = @V_DEPT_EID 
+	END ---- END EVENT UPDATE
+	
+	BEGIN ---- COMMON QUERY STATEMENTS FOR CLAIM STATUS HIST TABLE. EXEC STATEMENTS ARE PRESENT MULTIPLE TIMES UNDER VARIOUS CONDITIONS
+		
+		SET @VSQLINSERT = 'SELECT @NEXTUNIQUEID_P = NEXT_UNIQUE_ID FROM ' + @V_DBNAME + 'GLOSSARY WHERE SYSTEM_TABLE_NAME = ''CLAIM_STATUS_HIST'''
+		----PRINT @VSQLINSERT
+		
+		SET @V_SQL = 'INSERT INTO ' + @V_DBNAME + 'CLAIM_STATUS_HIST(CL_STATUS_ROW_ID, CLAIM_ID, STATUS_CODE, DATE_STATUS_CHGD, STATUS_CHGD_BY) VALUES( '
+		SET @V_SQL = @V_SQL + '@V_CL_STATUS_ROW_ID_P, @V_CLAIM_ID_P, @V_CLAIM_STATUS_ID_P, @V_DATE_P, @V_DDSUSER_P)'
+		----PRINT @V_SQL
+		
+		SET @VSQLUPDATE = 'UPDATE ' + @V_DBNAME + 'GLOSSARY SET NEXT_UNIQUE_ID = NEXT_UNIQUE_ID + 1 WHERE SYSTEM_TABLE_NAME = ''CLAIM_STATUS_HIST'''
+		----PRINT @VSQLUPDATE
+	---AKUMAR523 STARTS WRITTING COMMMON QUERRY FOR RMA-61584
+	
+		IF @fVersionNum >= 19.1
+		BEGIN
+		
+			SET @VSQLINSCLT = 'SELECT @NEXTUNIQUEID_P = NEXT_UNIQUE_ID FROM ' + @V_DBNAME + 'GLOSSARY WHERE SYSTEM_TABLE_NAME = ''CLAIM_TYPE_HIST'''
+		
+			SET @V_SQL_CLT = 'INSERT INTO ' + @V_DBNAME + 'CLAIM_TYPE_HIST(CLM_TYPE_ROW_ID, CLAIM_ID, CLM_TYPE_CODE, DATE_CLM_TYPE_CHGD, CLM_TYPE_CHGD_BY,DTTM_RCD_ADDED,REASON) VALUES( '
+			SET @V_SQL_CLT = @V_SQL_CLT + '@V_CLM_TYP_ROW_ID_P, @V_CLAIM_ID_P, @V_CLAIM_TYP_CODE_P, @V_DATE_P, @V_DDSUSER_P, @V_DATETIME_P, @V_CLM_TYPE_REASON_P)'
+		----PRINT @V_SQL_CLT
+		
+			SET @VSQLUPDCLT = 'UPDATE ' + @V_DBNAME + 'GLOSSARY SET NEXT_UNIQUE_ID = NEXT_UNIQUE_ID + 1 WHERE SYSTEM_TABLE_NAME = ''CLAIM_TYPE_HIST'''
+			
+		------FOR REWIEW START
+			SET @VSQLINSREW = 'SELECT @NEXTUNIQUEID_P = NEXT_UNIQUE_ID FROM ' + @V_DBNAME + 'GLOSSARY WHERE SYSTEM_TABLE_NAME = ''CLAIM_REVIEW_HIST'''
+		
+			SET @V_SQL_REW = 'INSERT INTO ' + @V_DBNAME + 'CLAIM_REVIEW_HIST(CL_REVIEW_ROW_ID, CLAIM_ID, STATUS_CODE, DATE_STATUS_CHGD, STATUS_CHGD_BY,REASON) VALUES( '
+			SET @V_SQL_REW = @V_SQL_REW + '@V_REW_TYP_ROW_ID_P, @V_CLAIM_ID_P, @V_REW_TYP_CODE_P, @V_DATE_P, @V_DDSUSER_P, @V_REW_TYPE_REASON_P)'
+																																					
+		
+			SET @VSQLUPDREW = 'UPDATE ' + @V_DBNAME + 'GLOSSARY SET NEXT_UNIQUE_ID = NEXT_UNIQUE_ID + 1 WHERE SYSTEM_TABLE_NAME = ''CLAIM_REVIEW_HIST'''
+
+			IF @V_CLAIM_TYPE_DT_CHA IS NULL OR @V_CLAIM_TYPE_DT_CHA=0 ----FOR CLAIM TYPE HISTORY
+			BEGIN 
+				SET @V_CLAIM_TYPE_DT_CHA=@V_TODAY
+			END 
+			IF @V_REV_STA_DT_CH IS NULL OR @V_REV_STA_DT_CH=0   -----FOR REVIEW TYPE HISTORY
+			BEGIN
+				SET @V_REV_STA_DT_CH=@V_TODAY
+			END 
+
+			IF @V_NEWCLAIM = 0
+			BEGIN 
+				IF @V_CLAIM_TYPE_ID <> @iExtClmTypeCode
+				BEGIN
+					SET @V_CLTP_CHA=1
+				END
+				IF @ioldRevTypCode <> @V_REVIEW_STATUS_CODE_ID
+				BEGIN
+					SET @V_REWTP_CHA=1
+				END 
+			END 		
+		
+		END
+	--	CLM_TYPE_ROW_ID INT,
+--CLAIM_ID INT,
+--DATE_CLM_TYPE_CHGD VARCHAR(8),
+--CLM_TYPE_CODE INT,
+--CLM_TYPE_CHGD_BY VARCHAR(50),
+--REASON VARCHAR(4000),
+--DTTM_RCD_ADDED
+--@V_DATETIME_P = @V_DATETIME, 
+	END		
+	
+IF @V_NEWCLAIM = 1
+BEGIN
+	IF (DBO.DATEVALIDATE(@V_DATE_REOPENED) = 1 AND @V_BOPENCLAIM = 1) ------ REOPEN CASE. ----1. OPEN, 2. CLOSE, 3. REOPEN
+	BEGIN --BEGIN LEVEL 1
+		IF @V_OPENCLAIM_CODE_ID > 0	
+		BEGIN  
+			--PRINT 'INSERT INTO CLAIM_STATUS_HIST @V_DATE_OF_CLAIM FOR OPEN CLAIM STATUS'
+			
+			SET @V_ERRORLOC = 'INSERT054'
+
+			EXECUTE SP_EXECUTESQL @VSQLINSERT, N'@NEXTUNIQUEID_P INT OUTPUT', @NEXTUNIQUEID_P = @V_CL_STATUS_ROW_ID OUTPUT
+			
+			EXEC SP_EXECUTESQL @V_SQL,
+			N'@V_CLAIM_ID_P INT,
+			@V_CL_STATUS_ROW_ID_P INT,
+			@V_CLAIM_STATUS_ID_P INT,
+			@V_DATE_P VARCHAR(8),
+			@V_DDSUSER_P VARCHAR(6)',
+			@V_CLAIM_ID_P = @V_CLAIM_ID,
+			@V_CL_STATUS_ROW_ID_P = @V_CL_STATUS_ROW_ID,
+			@V_CLAIM_STATUS_ID_P = @V_OPENCLAIM_CODE_ID,
+			@V_DATE_P = @V_DATE_OF_CLAIM,
+			@V_DDSUSER_P = @V_DDSUSER
+
+			EXECUTE SP_EXECUTESQL @VSQLUPDATE
+
+		END
+		
+		IF (@V_CLOSEDCLAIM_CODE_ID > 0)
+		BEGIN
+			--PRINT 'INSERT INTO CLAIM_STATUS_HIST @V_DATE_CLOSED FOR CLOSED CLAIM STATUS'
+			
+			SET @V_ERRORLOC = 'INSERT055'
+
+			EXECUTE SP_EXECUTESQL @VSQLINSERT, N'@NEXTUNIQUEID_P INT OUTPUT', @NEXTUNIQUEID_P = @V_CL_STATUS_ROW_ID OUTPUT
+
+			EXEC SP_EXECUTESQL @V_SQL,
+			N'@V_CLAIM_ID_P INT,
+			@V_CL_STATUS_ROW_ID_P INT,
+			@V_CLAIM_STATUS_ID_P INT,
+			@V_DATE_P VARCHAR(8),
+			@V_DDSUSER_P VARCHAR(6)',
+			@V_CLAIM_ID_P = @V_CLAIM_ID,
+			@V_CL_STATUS_ROW_ID_P = @V_CL_STATUS_ROW_ID,
+			@V_CLAIM_STATUS_ID_P = @V_CLOSEDCLAIM_CODE_ID,
+			@V_DATE_P = @V_DATE_CLOSED,
+			@V_DDSUSER_P = @V_DDSUSER
+
+			EXECUTE SP_EXECUTESQL @VSQLUPDATE
+
+			SET @V_DTTM_CLOSED = @V_DATE_CLOSED
+		END
+
+		IF @V_CLAIM_STATUS_ID > 0
+		BEGIN
+			--PRINT 'INSERT INTO CLAIM_STATUS_HIST @V_DATE_REOPENED FOR CLAIM STATUS GIVEN IN IMPORT FILE'
+			
+			EXECUTE SP_EXECUTESQL @VSQLINSERT, N'@NEXTUNIQUEID_P INT OUTPUT', @NEXTUNIQUEID_P = @V_CL_STATUS_ROW_ID OUTPUT
+
+			EXEC SP_EXECUTESQL @V_SQL,
+			N'@V_CLAIM_ID_P INT,
+			@V_CL_STATUS_ROW_ID_P INT,
+			@V_CLAIM_STATUS_ID_P INT,
+			@V_DATE_P VARCHAR(8),
+			@V_DDSUSER_P VARCHAR(6)',
+			@V_CLAIM_ID_P = @V_CLAIM_ID,
+			@V_CL_STATUS_ROW_ID_P = @V_CL_STATUS_ROW_ID,
+			@V_CLAIM_STATUS_ID_P = @V_CLAIM_STATUS_ID,
+			@V_DATE_P = @V_DATE_REOPENED,
+			@V_DDSUSER_P = @V_DDSUSER
+
+			EXECUTE SP_EXECUTESQL @VSQLUPDATE
+
+		END
+	END --END LEVEL 1
+
+	ELSE IF (DBO.DATEVALIDATE(@V_DATE_REOPENED) = 0) AND (@V_BOPENCLAIM = 1) ----- OPEN CASE. ----1. OPEN
+	BEGIN
+		--PRINT 'INSERT INTO CLAIM_STATUS_HIST @V_DATE_OF_CLAIM FOR OPEN CLAIM STATUS'
+		
+		SET @V_ERRORLOC = 'INSERT057'
+		
+		EXECUTE SP_EXECUTESQL @VSQLINSERT, N'@NEXTUNIQUEID_P INT OUTPUT', @NEXTUNIQUEID_P = @V_CL_STATUS_ROW_ID OUTPUT
+
+		EXEC SP_EXECUTESQL @V_SQL,
+		N'@V_CLAIM_ID_P INT,
+		@V_CL_STATUS_ROW_ID_P INT,
+		@V_CLAIM_STATUS_ID_P INT,
+		@V_DATE_P VARCHAR(8),
+		@V_DDSUSER_P VARCHAR(6)',
+		@V_CLAIM_ID_P = @V_CLAIM_ID,
+		@V_CL_STATUS_ROW_ID_P = @V_CL_STATUS_ROW_ID,
+		@V_CLAIM_STATUS_ID_P = @V_OPENCLAIM_CODE_ID,
+		@V_DATE_P = @V_DATE_OF_CLAIM,
+		@V_DDSUSER_P = @V_DDSUSER
+
+		EXECUTE SP_EXECUTESQL @VSQLUPDATE
+		SET @V_CLOSURE_METHOD_ID = 0
+	END
+
+	ELSE IF (DBO.DATEVALIDATE(@V_DATE_REOPENED) = 0 AND @V_BCLOSEDCLAIM = 1 ) ------ CLOSED CASE. ----1. OPEN, 2. CLOSED
+	BEGIN ----- BEGIN LEVEL (@V_DATE_REOPENED = 0 AND @V_BCLOSEDCLAIM = 1)
+		IF @V_OPENCLAIM_CODE_ID > 0
+		BEGIN
+			--PRINT 'INSERT INTO CLAIM_STATUS_HIST @V_DATE_OF_CLAIM FOR OPEN CLAIM'
+			
+			SET @V_ERRORLOC = 'INSERT058'
+
+			EXECUTE SP_EXECUTESQL @VSQLINSERT, N'@NEXTUNIQUEID_P INT OUTPUT', @NEXTUNIQUEID_P = @V_CL_STATUS_ROW_ID OUTPUT
+
+			EXEC SP_EXECUTESQL @V_SQL,
+			N'@V_CLAIM_ID_P INT,
+			@V_CL_STATUS_ROW_ID_P INT,
+			@V_CLAIM_STATUS_ID_P INT,
+			@V_DATE_P VARCHAR(8),
+			@V_DDSUSER_P VARCHAR(6)',
+			@V_CLAIM_ID_P = @V_CLAIM_ID,
+			@V_CL_STATUS_ROW_ID_P = @V_CL_STATUS_ROW_ID,
+			@V_CLAIM_STATUS_ID_P = @V_OPENCLAIM_CODE_ID,
+			@V_DATE_P = @V_DATE_OF_CLAIM,
+			@V_DDSUSER_P = @V_DDSUSER
+
+			EXECUTE SP_EXECUTESQL @VSQLUPDATE
+			
+		END
+
+		IF DBO.DATEVALIDATE(@V_DATE_CLOSED_DT) = 1 AND @V_DATE_CLOSED_DT >= @V_DATE_OF_CLAIM
+		BEGIN
+
+			--PRINT 'INSERT INTO CLAIM_STATUS_HIST @V_DATE_CLOSED_DT '
+			SET @V_ERRORLOC = 'INSERT059'
+
+			EXECUTE SP_EXECUTESQL @VSQLINSERT, N'@NEXTUNIQUEID_P INT OUTPUT', @NEXTUNIQUEID_P = @V_CL_STATUS_ROW_ID OUTPUT
+
+			EXEC SP_EXECUTESQL @V_SQL,
+			N'@V_CLAIM_ID_P INT,
+			@V_CL_STATUS_ROW_ID_P INT,
+			@V_CLAIM_STATUS_ID_P INT,
+			@V_DATE_P VARCHAR(8),
+			@V_DDSUSER_P VARCHAR(6)',
+			@V_CLAIM_ID_P = @V_CLAIM_ID,
+			@V_CL_STATUS_ROW_ID_P = @V_CL_STATUS_ROW_ID,
+			@V_CLAIM_STATUS_ID_P = @V_CLOSEDCLAIM_CODE_ID,
+			@V_DATE_P = @V_DATE_CLOSED_DT,
+			@V_DDSUSER_P = @V_DDSUSER
+		
+			EXECUTE SP_EXECUTESQL @VSQLUPDATE
+
+			SET @V_DTTM_CLOSED = @V_DATE_CLOSED
+		
+		END
+	END ----- END LEVEL (@V_DATE_REOPENED = 0 AND @V_BCLOSEDCLAIM = 1)
+END
+
+	IF @V_NEWCLAIM = 0
+	BEGIN
+		IF (@V_BCLOSEDCLAIM = 1) AND DBO.DATEVALIDATE(@V_DATE_CLOSED_DT) = 1 ------ CLOSED CASE. ----1. CLOSED
+		   AND 
+		   ((@V_DATE_STATUS_CHGD < @V_DATE_CLOSED_DT) OR (@V_OLDSTATUS_ID <> @V_CLAIM_STATUS_ID))
+		BEGIN		
+			
+			--PRINT 'INSERT INTO CLAIM_STATUS_HIST @V_DATE_CLOSED_DT'
+			SET @V_ERRORLOC = 'INSERT060'
+
+			EXECUTE SP_EXECUTESQL @VSQLINSERT, N'@NEXTUNIQUEID_P INT OUTPUT', @NEXTUNIQUEID_P = @V_CL_STATUS_ROW_ID OUTPUT
+
+			EXEC SP_EXECUTESQL @V_SQL,
+			N'@V_CLAIM_ID_P INT,
+			@V_CL_STATUS_ROW_ID_P INT,
+			@V_CLAIM_STATUS_ID_P INT,
+			@V_DATE_P VARCHAR(8),
+			@V_DDSUSER_P VARCHAR(6)',
+			@V_CLAIM_ID_P = @V_CLAIM_ID,
+			@V_CL_STATUS_ROW_ID_P = @V_CL_STATUS_ROW_ID,
+			@V_CLAIM_STATUS_ID_P = @V_OPENCLAIM_CODE_ID,
+			@V_DATE_P = @V_DATE_CLOSED_DT,
+			@V_DDSUSER_P = @V_DDSUSER
+		
+			EXECUTE SP_EXECUTESQL @VSQLUPDATE
+			
+			SET @V_DTTM_CLOSED = @V_DATE_CLOSED
+		END
+	
+		IF (@V_BCLOSEDCLAIM = 1) AND ((@V_DATE_STATUS_CHGD < @V_DATE_REOPENED) OR (@V_OLDSTATUS_ID <> @V_CLAIM_STATUS_ID)) ------ REOPEN CASE. ----1. REOPEN
+		BEGIN
+			--PRINT 'INSERT INTO CLAIM_STATUS_HIST @V_DATE_CLOSED_DT'
+			SET @V_ERRORLOC = 'INSERT061'
+
+			EXECUTE SP_EXECUTESQL @VSQLINSERT, N'@NEXTUNIQUEID_P INT OUTPUT', @NEXTUNIQUEID_P = @V_CL_STATUS_ROW_ID OUTPUT
+			
+			EXEC SP_EXECUTESQL @V_SQL,
+			N'@V_CLAIM_ID_P INT,
+			@V_CL_STATUS_ROW_ID_P INT,
+			@V_CLAIM_STATUS_ID_P INT,
+			@V_DATE_P VARCHAR(8),
+			@V_DDSUSER_P VARCHAR(6)',
+			@V_CLAIM_ID_P = @V_CLAIM_ID,
+			@V_CL_STATUS_ROW_ID_P = @V_CL_STATUS_ROW_ID,
+			@V_CLAIM_STATUS_ID_P = @V_OPENCLAIM_CODE_ID,
+			@V_DATE_P = @V_DATE_REOPENED,
+			@V_DDSUSER_P = @V_DDSUSER
+		
+			EXECUTE SP_EXECUTESQL @VSQLUPDATE
+
+		END
+	END
+
+	--knakra(commenting below code for policy insert)
+	/*IF @V_NEW_POLICY = 1 AND @V_CARRIERFLAG = 0
+	BEGIN ----BEGIN POLICY
+		SET @V_ERRORLOC = 'INSERT062'
+		--PRINT 'INSERT POLICY IN RISKMASTER'
+
+		SET @VSQLINSERT = 'SELECT @NEXTUNIQUEID_P = NEXT_UNIQUE_ID FROM ' + @V_DBNAME + 'GLOSSARY WHERE SYSTEM_TABLE_NAME = ''POLICY'''
+		EXECUTE SP_EXECUTESQL @VSQLINSERT, N'@NEXTUNIQUEID_P INT OUTPUT', @NEXTUNIQUEID_P = @V_POLICY_ID OUTPUT
+
+		SET @V_SQL = 'INSERT INTO ' + @V_DBNAME+ 'POLICY(POLICY_ID, POLICY_NAME, POLICY_NUMBER, EFFECTIVE_DATE, EXPIRATION_DATE, DTTM_RCD_LAST_UPD, '
+		SET @V_SQL = @V_SQL + 'UPDATED_BY_USER, ADDED_BY_USER, DTTM_RCD_ADDED) VALUES('
+		SET @V_SQL = @V_SQL + '@V_POLICY_ID_P, @V_POLICY_NUMBER_P, @V_POLICY_NUMBER_P, @V_POLICY_EFFECT_DATE_P, @V_POLICY_EXPIRE_DATE_P, ' 
+		SET @V_SQL = @V_SQL + '@V_DATETIME_P, @V_DDSUSER_P, @V_DDSUSER_P, '
+		SET @V_SQL = @V_SQL + '@V_DATETIME_P )'
+
+		EXEC SP_EXECUTESQL @V_SQL,
+		N'@V_POLICY_ID_P INT,
+		@V_POLICY_NUMBER_P VARCHAR(40),
+		@V_POLICY_EFFECT_DATE_P VARCHAR(8),
+		@V_POLICY_EXPIRE_DATE_P VARCHAR(8),
+		@V_DATETIME_P VARCHAR(14),
+		@V_DDSUSER_P VARCHAR(6)',
+		@V_POLICY_ID_P  = @V_POLICY_ID,
+		@V_POLICY_NUMBER_P = @V_POLICY_NUMBER,
+		@V_POLICY_EFFECT_DATE_P = @V_POLICY_EFFECT_DATE,
+		@V_POLICY_EXPIRE_DATE_P = @V_POLICY_EXPIRE_DATE ,
+		@V_DATETIME_P = @V_DATETIME,
+		@V_DDSUSER_P = @V_DDSUSER
+	
+		SET @VSQLINSERT = 'UPDATE ' + @V_DBNAME + 'GLOSSARY SET NEXT_UNIQUE_ID = NEXT_UNIQUE_ID + 1 WHERE SYSTEM_TABLE_NAME = ''POLICY'''
+		EXECUTE SP_EXECUTESQL @VSQLINSERT
+	
+	END ----END POLICY
+			*/
+
+	----UNIT X CLAIM INSERTION
+	--IF @V_NEW_CLAIMXPOLICY = 1 AND @V_CARRIERFLAG = 0	JIRA 23899 knakra
+	IF @V_NEW_CLAIMXPOLICY = 1 AND @V_CARRIERFLAG = 0 AND @iVarFinKey = 0	--JIRA 23899 knakra
+	BEGIN ----BEGIN POLICY
+		SET @V_ERRORLOC = 'INSERT062'
+		--PRINT 'INSERT POLICY IN RISKMASTER'
+
+		SET @VSQLINSERT = 'SELECT @NEXTUNIQUEID_P = NEXT_UNIQUE_ID FROM ' + @V_DBNAME + 'GLOSSARY WHERE SYSTEM_TABLE_NAME = ''CLAIM_X_POLICY'''
+		EXECUTE SP_EXECUTESQL @VSQLINSERT, N'@NEXTUNIQUEID_P INT OUTPUT', @NEXTUNIQUEID_P = @V_ROW_ID OUTPUT 
+
+		SET @V_SQL = 'INSERT INTO ' + @V_DBNAME+ 'CLAIM_X_POLICY(ROW_ID, CLAIM_ID, POLICY_ID )'
+		SET @V_SQL = @V_SQL + 'VALUES(@V_ROW_ID_P, @V_CLAIM_ID_P, @V_POLICY_ID_P)'
+
+		EXEC SP_EXECUTESQL @V_SQL,
+		N'@V_ROW_ID_P INT,
+		@V_CLAIM_ID_P INT,
+		@V_POLICY_ID_P INT',
+		@V_ROW_ID_P = @V_ROW_ID,
+		@V_CLAIM_ID_P = @V_CLAIM_ID,
+		@V_POLICY_ID_P = @V_POLICY_ID
+	
+		SET @VSQLINSERT = 'UPDATE ' + @V_DBNAME + 'GLOSSARY SET NEXT_UNIQUE_ID = NEXT_UNIQUE_ID + 1 WHERE SYSTEM_TABLE_NAME = ''CLAIM_X_POLICY'''
+		EXECUTE SP_EXECUTESQL @VSQLINSERT
+	
+	END ----END POLICY
+
+
+------------------------------------------------------------------------------------------------------------
+
+	IF @V_NEWCLAIM = 1 	--------***************************** CLAIM INSERT QUERY STARTS ***********************************************************************************
+	BEGIN ---- BEGIN NEW CLAIM
+		SET @V_ERRORLOC = 'INSERT063'
+		
+		SET @V_SQL = 'INSERT INTO ' + @V_DBNAME + 'CLAIM(CLAIM_ID, CLAIM_NUMBER, LINE_OF_BUS_CODE, CLAIM_TYPE_CODE, CLAIM_STATUS_CODE, DATE_OF_CLAIM, '
+		SET @V_SQL = @V_SQL + 'TIME_OF_CLAIM, METHOD_CLOSED_CODE, DTTM_CLOSED, SERVICE_CODE, FILING_STATE_ID, PRIMARY_POLICY_ID, FILE_NUMBER, '
+		SET @V_SQL = @V_SQL + 'DTTM_RCD_ADDED, ADDED_BY_USER, DTTM_RCD_LAST_UPD, UPDATED_BY_USER, EVENT_ID, EVENT_NUMBER, '
+		SET @V_SQL = @V_SQL + 'COMMENTS, HTMLCOMMENTS, REPORTABLE_FLAG, PREVENTABLE_FLAG, IN_TRAFFIC_FLAG, PAYMNT_FROZEN_FLAG, OPEN_FLAG, ACCIDENT_DESC_CODE, DATE_RPTD_TO_RM '
+
+		IF @V_INSERTPLANINFO = 1
+		BEGIN
+			SET @V_SQL = @V_SQL + ',DISABIL_FROM_DATE, DISABIL_TO_DATE, PLAN_ID, CLASS_ROW_ID, BENEFITS_START, BENEFITS_THROUGH, DIS_TYPE_CODE, BEN_CALC_PAY_START, '
+			SET @V_SQL = @V_SQL + 'BEN_CALC_PAY_TO, TAX_FLAGS, PENSION_AMT, SS_AMT, OTHER_AMT'
+		END
+		
+		IF @V_RECORD_TYPE = 'H'
+		BEGIN
+			SET @V_SQL = @V_SQL + ',INFO_REQ_DATE, PROOF_OF_LOSS_DATE, CLAIM_CAUSE_CODE'
+		END
+		---AKUMAR523 SATRTS 
+		IF @fVersionNum >= 19.1
+		BEGIN 
+			SET @V_SQL = @V_SQL + ',REVIEW_STATUS_CODE'
+		END 
+		----akumar523 ends 
+
+		--JIRA 29954 knakra starts
+		IF @fVersionNum >= 16.4
+			SET @V_SQL += ',CLAIM_CURR_CODE'
+		--JIRA 29954 knakra ends
+		SET @V_SQL = @V_SQL + ', POLICY_LOB_CODE ) '
+
+		SET @V_SQL = @V_SQL + 'VALUES( @V_CLAIM_ID_P, @V_CLAIM_NUMBER_P, @V_CLAIM_LOB_P, '
+		SET @V_SQL = @V_SQL + '@V_CLAIM_TYPE_ID_P, @V_CLAIM_STATUS_ID_P, @V_DATE_OF_CLAIM_P, @V_TIME_OF_CLAIM_P, @V_CLOSURE_METHOD_ID_P, @V_DTTM_CLOSED_P, '
+		SET @V_SQL = @V_SQL + '@V_SERVICE_CODE_ID_P, @V_ACCIDENT_STATE_ID_P, @V_POLICY_ID_P, @V_FILE_NUMBER_P, @V_DATETIME_P, @V_DDSUSER_P, @V_DATETIME_P , '
+		SET @V_SQL = @V_SQL + '@V_DDSUSER_P, @V_EVENT_ID_P, @V_EVENT_NUMBER_P, @V_COMMENTS_P, @V_COMMENTS_P, 0 , @V_ACC_PREV_FLAG_ID_P, 0, 0, 0, '
+		SET @V_SQL = @V_SQL + '@V_ACCIDENT_DESC_CODE_ID_P, @V_DATE_RPTD_TO_RM_P '
+
+		IF @V_INSERTPLANINFO = 1
+		BEGIN
+			SET @V_SQL = @V_SQL + ',@V_DISABIL_FROM_DATE_P, @V_DISABIL_TO_DATE_P, @V_PLAN_ID_P, @V_CLASSROW_ID_P, @V_BENEFITS_START_P, '
+			SET @V_SQL = @V_SQL + '@V_BENEFITS_THROUGH_P, @V_DIS_TYPE_ID_P, @V_BEN_CALC_PAY_START_P, @V_BEN_CALC_PAY_TO_P, @V_TAXFLAGS_P, @V_PENSION_AMT_P, @V_SS_AMT_P, @V_OTHER_AMT_P'
+		END
+
+		IF @V_RECORD_TYPE = 'H'
+		BEGIN
+			SET @V_SQL = @V_SQL + ',@V_INFO_REQ_DATE, @V_PROOF_OF_LOSS_DATE, @V_CLAIM_CAUSE_CODE_ID'
+		END
+		--JIRA 29954 knakra starts
+		--AKUMAR523 JIRA 
+		IF @fVersionNum >= 19.1
+		BEGIN 
+			SET @V_SQL = @V_SQL + ',@V_REVIEW_STATUS_CODE_ID_P'
+		END 
+		--AKUMAR523  ENDS 
+		IF @fVersionNum >= 16.4
+			SET @V_SQL += ', @pClmCurrCode'
+
+
+		--JIRA 29954 knakra ends
+		SET @V_SQL = @V_SQL + ', @V_POLICY_LOB_ID_P)'
+		
+		--PRINT @V_SQL
+		
+		EXECUTE SP_EXECUTESQL @V_SQL,
+		N'@V_CLAIM_ID_P INT ,
+		@V_CLAIM_NUMBER_P VARCHAR(25),
+		@V_CLAIM_LOB_P INT,
+		@V_CLAIM_TYPE_ID_P INT,
+		@V_CLAIM_STATUS_ID_P INT,
+		@V_DATE_OF_CLAIM_P VARCHAR(8),
+		@V_TIME_OF_CLAIM_P VARCHAR(6),
+		@V_CLOSURE_METHOD_ID_P INT,
+		@V_SERVICE_CODE_ID_P INT,
+		@V_ACCIDENT_STATE_ID_P INT,
+		@V_POLICY_ID_P INT,
+		@V_FILE_NUMBER_P VARCHAR(32),
+		@V_DDSUSER_P VARCHAR(6),
+		@V_EVENT_ID_P INT,
+		@V_EVENT_NUMBER_P VARCHAR(25),
+		@V_COMMENTS_P VARCHAR(MAX),
+		@V_ACC_PREV_FLAG_ID_P INT,
+		@V_ACCIDENT_DESC_CODE_ID_P INT,
+		@V_DISABIL_FROM_DATE_P VARCHAR(8),
+		@V_DISABIL_TO_DATE_P VARCHAR(8),
+		@V_PLAN_ID_P INT,
+		@V_CLASSROW_ID_P INT,
+		@V_BENEFITS_START_P VARCHAR(8),
+		@V_BENEFITS_THROUGH_P VARCHAR(8),
+		@V_DIS_TYPE_ID_P INT,
+		@V_BEN_CALC_PAY_START_P VARCHAR(8),
+		@V_BEN_CALC_PAY_TO_P VARCHAR(8),
+		@V_TAXFLAGS_P INT,
+		@V_PENSION_AMT_P DECIMAL(20,2),
+		@V_SS_AMT_P DECIMAL(20,2),
+		@V_DTTM_CLOSED_P VARCHAR(14),
+		@V_DATETIME_P VARCHAR(14),
+		@V_OTHER_AMT_P DECIMAL(20,2),
+		@V_POLICY_LOB_ID_P INT,
+		@V_DATE_RPTD_TO_RM_P VARCHAR(8),
+		@V_INFO_REQ_DATE VARCHAR(8), 
+		@V_PROOF_OF_LOSS_DATE VARCHAR(8),
+		@V_CLAIM_CAUSE_CODE_ID VARCHAR(8),
+		@V_REVIEW_STATUS_CODE_ID_P INT,          
+		@pClmCurrCode INT',		--JIRA 29954 knakra
+		@V_CLAIM_ID_P = @V_CLAIM_ID  ,
+		@V_CLAIM_NUMBER_P = @V_CLAIM_NUMBER,
+		@V_CLAIM_LOB_P = @V_CLAIM_LOB,
+		@V_CLAIM_TYPE_ID_P = @V_CLAIM_TYPE_ID,
+		@V_CLAIM_STATUS_ID_P = @V_CLAIM_STATUS_ID,
+		@V_DATE_OF_CLAIM_P = @V_DATE_OF_CLAIM,
+		@V_TIME_OF_CLAIM_P = @V_TIME_OF_CLAIM,
+		@V_CLOSURE_METHOD_ID_P = @V_CLOSURE_METHOD_ID,
+		@V_SERVICE_CODE_ID_P = @V_SERVICE_ID,
+		@V_ACCIDENT_STATE_ID_P = @V_ACCIDENT_STATE_ID,
+		@V_POLICY_ID_P = @V_POLICY_ID ,
+		@V_FILE_NUMBER_P = @V_FILE_NUMBER,
+		@V_DDSUSER_P = @V_DDSUSER,
+		@V_EVENT_ID_P = @V_EVENT_ID,
+		@V_EVENT_NUMBER_P = @V_EVENT_NUMBER,
+		@V_COMMENTS_P = @V_COMMENTS,
+		@V_ACC_PREV_FLAG_ID_P = @V_ACC_PREV_FLAG_ID,
+		@V_ACCIDENT_DESC_CODE_ID_P = @V_ACCIDENT_DESC_ID,
+		@V_DISABIL_FROM_DATE_P = @V_DISABIL_FROM_DATE,
+		@V_DISABIL_TO_DATE_P = @V_DISABIL_TO_DATE,
+		@V_PLAN_ID_P = @V_PLAN_ID ,
+		@V_CLASSROW_ID_P = @V_CLASSROW_ID,
+		@V_BENEFITS_START_P = @V_BENEFITS_START,
+		@V_BENEFITS_THROUGH_P = @V_BENEFITS_THROUGH,
+		@V_DIS_TYPE_ID_P = @V_DIS_TYPE_ID,
+		@V_BEN_CALC_PAY_START_P = @V_BEN_CALC_PAY_START,
+		@V_BEN_CALC_PAY_TO_P = @V_BEN_CALC_PAY_TO ,
+		@V_TAXFLAGS_P  = @V_TAXFLAGS,
+		@V_PENSION_AMT_P = @V_PENSION_AMT,
+		@V_SS_AMT_P = @V_SS_AMT,
+		@V_DTTM_CLOSED_P = @V_DTTM_CLOSED,
+		@V_DATETIME_P = @V_DATETIME, 
+		@V_OTHER_AMT_P = @V_OTHER_AMT,
+		@V_POLICY_LOB_ID_P = @V_POLICY_LOB_ID,
+		@V_DATE_RPTD_TO_RM_P = @V_DATE_RPTD_TO_RM,
+		@V_INFO_REQ_DATE = @V_INFO_REQ_DATE, 
+		@V_PROOF_OF_LOSS_DATE = @V_PROOF_OF_LOSS_DATE,
+		@V_CLAIM_CAUSE_CODE_ID = @V_CLAIM_CAUSE_CODE_ID,
+		@V_REVIEW_STATUS_CODE_ID_P= @V_REVIEW_STATUS_CODE_ID,   ----akumar523 JIRA 
+		@pClmCurrCode = @V_CURR_CODE_ID		--JIRA 29954 knakra
+		
+		SET @V_ERRORLOC = 'V030'
+
+		SET @VSQLINSERT = 'UPDATE ' + @V_DBNAME + 'GLOSSARY SET NEXT_UNIQUE_ID = NEXT_UNIQUE_ID + 1 WHERE SYSTEM_TABLE_NAME = ''CLAIM'''
+		EXECUTE SP_EXECUTESQL @VSQLINSERT
+
+		---AKUMAR523 STARTS RMA-61584
+		IF @fVersionNum >= 19.1
+		BEGIN
+			EXECUTE SP_EXECUTESQL @VSQLINSCLT, N'@NEXTUNIQUEID_P INT OUTPUT', @NEXTUNIQUEID_P = @V_CLM_TYP_ROW_ID OUTPUT
+			---V_CL_STATUS_ROW_ID_P
+			EXEC SP_EXECUTESQL @V_SQL_CLT,
+			N' @V_DATETIME_P VARCHAR(14),
+			@V_CLAIM_ID_P INT,
+			@V_CLM_TYP_ROW_ID_P INT,
+			@V_DATE_P VARCHAR(8),
+			@V_DDSUSER_P VARCHAR(6),@V_CLAIM_TYP_CODE_P INT, @V_CLM_TYPE_REASON_P VARCHAR(2000)',
+			@V_DATETIME_P=@V_DATETIME,
+			@V_CLAIM_ID_P = @V_CLAIM_ID,         
+			@V_CLM_TYP_ROW_ID_P = @V_CLM_TYP_ROW_ID, 
+			@V_DATE_P = @V_CLAIM_TYPE_DT_CHA,
+			@V_DDSUSER_P = @V_DDSUSER,
+			@V_CLAIM_TYP_CODE_P=@V_CLAIM_TYPE_ID,
+			@V_CLM_TYPE_REASON_P=@V_CLAIM_TYP_REASON
+			
+			EXECUTE SP_EXECUTESQL @VSQLUPDCLT  
+
+			IF @V_REVIEW_STATUS_CODE_ID <>0
+			BEGIN
+			EXECUTE SP_EXECUTESQL @VSQLINSREW, N'@NEXTUNIQUEID_P INT OUTPUT', @NEXTUNIQUEID_P = @V_REW_TYP_ROW_ID OUTPUT
+			---V_CL_STATUS_ROW_ID_P
+			EXEC SP_EXECUTESQL @V_SQL_REW,
+			N' @V_DATETIME_P VARCHAR(14),
+			@V_CLAIM_ID_P INT,
+			@V_REW_TYP_ROW_ID_P INT,
+			@V_DATE_P VARCHAR(8),
+			@V_DDSUSER_P VARCHAR(6),@V_REW_TYP_CODE_P INT, @V_REW_TYPE_REASON_P VARCHAR(2000)',
+			@V_DATETIME_P=@V_DATETIME,
+			@V_CLAIM_ID_P = @V_CLAIM_ID,         
+			@V_REW_TYP_ROW_ID_P = @V_REW_TYP_ROW_ID, 
+			@V_DATE_P = @V_CLAIM_TYPE_DT_CHA,
+			@V_DDSUSER_P = @V_DDSUSER,
+			@V_REW_TYP_CODE_P=@V_REVIEW_STATUS_CODE_ID,
+			@V_REW_TYPE_REASON_P=@V_REV_REASON
+			
+			EXECUTE SP_EXECUTESQL @VSQLUPDREW  
+			END
+        END
+		---AKUMAR523 ENDS RMA-61584
+	END ---- END NEW CLAIM
+
+	ELSE IF @V_NEWCLAIM = 0		----************************* CLAIM UPDATE QUERY ********************************************************
+	BEGIN ----BEGIN EXISTING CLAIM
+		SET @V_ERRORLOC = 'INSERT064'
+		
+		SET @V_SQL = 'UPDATE ' + @V_DBNAME + 'CLAIM SET CLAIM_ID = @V_CLAIM_ID_P '
+		SET @V_SQL = @V_SQL + ', DATE_RPTD_TO_RM = @V_DATE_RPTD_TO_RM_P '
+		SET @V_SQL = @V_SQL + ', CLAIM_STATUS_CODE = @V_CLAIM_STATUS_ID_P '
+		SET @V_SQL = @V_SQL + ', OPEN_FLAG = @V_OPEN_FLAG_ID_P '
+		SET @V_SQL = @V_SQL + ', METHOD_CLOSED_CODE = @V_CLOSURE_METHOD_ID_P'
+		SET @V_SQL = @V_SQL + ', DATE_OF_CLAIM = @V_DATE_OF_CLAIM_P '
+		SET @V_SQL = @V_SQL + ', TIME_OF_CLAIM = @V_TIME_OF_CLAIM_P '
+		SET @V_SQL = @V_SQL + ', CLAIM_TYPE_CODE = @V_CLAIM_TYPE_ID_P '
+		SET @V_SQL = @V_SQL + ', FILING_STATE_ID = @V_ACCIDENT_STATE_ID_P'
+		SET @V_SQL = @V_SQL + ', DTTM_RCD_LAST_UPD = @V_DATETIME_P'
+		SET @V_SQL = @V_SQL + ', UPDATED_BY_USER = @V_DDSUSER_P '
+		SET @V_SQL = @V_SQL + ', PREVENTABLE_FLAG = @V_ACC_PREV_FLAG_ID_P'
+		SET @V_SQL = @V_SQL + ', EVENT_NUMBER = @V_EVENT_NUMBER_P'
+		SET @V_SQL = @V_SQL + ', EVENT_ID = @V_EVENT_ID_P'
+
+		IF @V_DATE_CLOSED IS NOT NULL AND @V_DTTM_CLOSED IS NOT NULL SET @V_SQL = @V_SQL + ', DTTM_CLOSED = @V_DTTM_CLOSED_P'  
+					
+		IF @V_COMMENTS IS NOT NULL 
+		BEGIN
+			SET @V_SQL = @V_SQL + ', COMMENTS = @V_COMMENTS_P '
+			SET @V_SQL = @V_SQL + ', HTMLCOMMENTS = @V_COMMENTS_P '
+		END
+		
+		IF @V_SERVICE_ID > 0 SET @V_SQL = @V_SQL + ', SERVICE_CODE = @V_SERVICE_ID_P'
+		
+		IF @V_POLICY_ID > 0	SET @V_SQL = @V_SQL + ', PRIMARY_POLICY_ID = @V_POLICY_ID_P'
+					
+		IF @V_ACCIDENT_DESC_ID > 0 SET @V_SQL = @V_SQL + ', ACCIDENT_DESC_CODE = @V_ACCIDENT_DESC_ID_P '
+		
+		IF (@V_RECORD_TYPE ='D' AND @V_CARRIERFLAG = 0)	
+		BEGIN
+			SET @V_SQL = @V_SQL + ', DISABIL_FROM_DATE = @V_DISABIL_FROM_DATE_P'
+			SET @V_SQL = @V_SQL + ', DISABIL_TO_DATE = @V_DISABIL_TO_DATE_P'
+			SET @V_SQL = @V_SQL + ', PLAN_ID = @V_PLAN_ID_P'
+			SET @V_SQL = @V_SQL + ', CLASS_ROW_ID = @V_CLASSROW_ID_P'
+			SET @V_SQL = @V_SQL + ', BENEFITS_START = @V_BENEFITS_START_P'
+			SET @V_SQL = @V_SQL + ', BENEFITS_THROUGH = @V_BENEFITS_THROUGH_P'
+			SET @V_SQL = @V_SQL + ', BEN_CALC_PAY_TO = @V_BEN_CALC_PAY_TO_P, TAX_FLAGS = @V_TAXFLAGS_P, PENSION_AMT = @V_PENSION_AMT_P'
+			SET @V_SQL = @V_SQL + ', SS_AMT = @V_SS_AMT_P, OTHER_AMT = @V_OTHER_AMT_P, BEN_CALC_PAY_START = @V_BEN_CALC_PAY_START_P'
+			IF @V_DIS_TYPE_ID > 0 SET @V_SQL = @V_SQL + ', DIS_TYPE_CODE = @V_DIS_TYPE_ID_P '
+		END
+
+		--dsharma70 hmi
+		IF @V_RECORD_TYPE = 'H'
+		BEGIN
+			IF @V_INFO_REQ_DATE IS NOT NULL SET @V_SQL = @V_SQL + ', INFO_REQ_DATE = @V_INFO_REQ_DATE'
+			IF @V_PROOF_OF_LOSS_DATE IS NOT NULL SET @V_SQL = @V_SQL + ', PROOF_OF_LOSS_DATE = @V_PROOF_OF_LOSS_DATE'
+			IF @V_CLAIM_CAUSE_CODE_ID > 0 SET @V_SQL = @V_SQL + ', CLAIM_CAUSE_CODE = @V_CLAIM_CAUSE_CODE_ID'
+		END
+		--AKUMAR523 JIRA 
+		IF @fVersionNum >= 19.1
+		BEGIN 
+			SET @V_SQL = @V_SQL + ', REVIEW_STATUS_CODE = @V_REVIEW_STATUS_CODE_ID_P'
+		END 
+		SET @V_SQL = @V_SQL + ' WHERE CLAIM_ID = @V_CLAIM_ID_P '
+
+		--PRINT @V_SQL
+		
+		EXECUTE SP_EXECUTESQL @V_SQL,
+		N'@V_CLAIM_ID_P INT ,
+		@V_DATE_REPORTED_P VARCHAR(8),
+		@V_CLAIM_TYPE_ID_P INT,
+		@V_CLAIM_STATUS_ID_P INT,
+		@V_OPEN_FLAG_ID_P INT,
+		@V_DATE_OF_CLAIM_P VARCHAR(8),
+		@V_TIME_OF_CLAIM_P VARCHAR(6),
+		@V_CLOSURE_METHOD_ID_P INT,
+		@V_SERVICE_ID_P INT,
+		@V_ACCIDENT_STATE_ID_P INT,
+		@V_POLICY_ID_P INT,
+		@V_DDSUSER_P VARCHAR(6),
+		@V_COMMENTS_P VARCHAR(MAX),
+		@V_ACC_PREV_FLAG_ID_P INT,
+		@V_EVENT_NUMBER_P VARCHAR(25),
+		@V_EVENT_ID_P INT,
+		@V_ACCIDENT_DESC_ID_P INT,
+		@V_DISABIL_FROM_DATE_P VARCHAR(8),
+		@V_DISABIL_TO_DATE_P VARCHAR(8),
+		@V_PLAN_ID_P INT,
+		@V_CLASSROW_ID_P INT,
+		@V_BENEFITS_START_P VARCHAR(8),
+		@V_BENEFITS_THROUGH_P VARCHAR(8),
+		@V_DIS_TYPE_ID_P INT,
+		@V_BEN_CALC_PAY_START_P VARCHAR(8),
+		@V_BEN_CALC_PAY_TO_P VARCHAR(8),
+		@V_TAXFLAGS_P INT,
+		@V_PENSION_AMT_P DECIMAL(20,2),
+		@V_SS_AMT_P DECIMAL(20,2),
+		@V_DTTM_CLOSED_P VARCHAR(14),
+		@V_DATETIME_P VARCHAR(14),
+		@V_OTHER_AMT_P DECIMAL(20,2),
+		@V_DATE_RPTD_TO_RM_P VARCHAR(8),
+		@V_INFO_REQ_DATE VARCHAR(8), 
+		@V_PROOF_OF_LOSS_DATE VARCHAR(8),
+		@V_CLAIM_CAUSE_CODE_ID VARCHAR(8),
+		@V_REVIEW_STATUS_CODE_ID_P INT',   ----akumar523
+		@V_CLAIM_ID_P = @V_CLAIM_ID  ,
+		@V_DATE_REPORTED_P = @V_DATE_REPORTED,
+		@V_CLAIM_TYPE_ID_P = @V_CLAIM_TYPE_ID,
+		@V_CLAIM_STATUS_ID_P = @V_CLAIM_STATUS_ID,
+		@V_OPEN_FLAG_ID_P = @V_OPEN_FLAG_ID,
+		@V_DATE_OF_CLAIM_P = @V_DATE_OF_CLAIM,
+		@V_TIME_OF_CLAIM_P = @V_TIME_OF_CLAIM,
+		@V_CLOSURE_METHOD_ID_P = @V_CLOSURE_METHOD_ID,
+		@V_SERVICE_ID_P = @V_SERVICE_ID,
+		@V_ACCIDENT_STATE_ID_P = @V_ACCIDENT_STATE_ID,
+		@V_POLICY_ID_P = @V_POLICY_ID ,
+		@V_DDSUSER_P = @V_DDSUSER,
+		@V_COMMENTS_P = @V_COMMENTS,
+		@V_ACC_PREV_FLAG_ID_P = @V_ACC_PREV_FLAG_ID,
+		@V_EVENT_NUMBER_P = @V_EVENT_NUMBER,
+		@V_EVENT_ID_P = @V_EVENT_ID,
+		@V_ACCIDENT_DESC_ID_P = @V_ACCIDENT_DESC_ID,
+		@V_DISABIL_FROM_DATE_P = @V_DISABIL_FROM_DATE,
+		@V_DISABIL_TO_DATE_P = @V_DISABIL_TO_DATE,
+		@V_PLAN_ID_P = @V_PLAN_ID ,
+		@V_CLASSROW_ID_P = @V_CLASSROW_ID,
+		@V_BENEFITS_START_P = @V_BENEFITS_START,
+		@V_BENEFITS_THROUGH_P = @V_BENEFITS_THROUGH,
+		@V_DIS_TYPE_ID_P = @V_DIS_TYPE_ID,
+		@V_BEN_CALC_PAY_START_P = @V_BEN_CALC_PAY_START,
+		@V_BEN_CALC_PAY_TO_P = @V_BEN_CALC_PAY_TO ,
+		@V_TAXFLAGS_P  = @V_TAXFLAGS,
+		@V_PENSION_AMT_P = @V_PENSION_AMT,
+		@V_SS_AMT_P = @V_SS_AMT,
+		@V_DTTM_CLOSED_P = @V_DTTM_CLOSED,
+		@V_DATETIME_P = @V_DATETIME,
+		@V_OTHER_AMT_P = @V_OTHER_AMT,
+		@V_DATE_RPTD_TO_RM_P = @V_DATE_RPTD_TO_RM,
+		@V_INFO_REQ_DATE = @V_INFO_REQ_DATE, 
+		@V_PROOF_OF_LOSS_DATE = @V_PROOF_OF_LOSS_DATE,
+		@V_CLAIM_CAUSE_CODE_ID = @V_CLAIM_CAUSE_CODE_ID,
+		@V_REVIEW_STATUS_CODE_ID_P= @V_REVIEW_STATUS_CODE_ID   ----akumar523 JIRA
+		
+		
+		---AKUMAR523 STARTS  RMA-61584
+		IF @fVersionNum >= 19.1 
+		BEGIN
+			IF @V_CLTP_CHA=1
+			BEGIN
+				EXECUTE SP_EXECUTESQL @VSQLINSCLT, N'@NEXTUNIQUEID_P INT OUTPUT', @NEXTUNIQUEID_P = @V_CLM_TYP_ROW_ID OUTPUT
+			---V_CL_STATUS_ROW_ID_P
+				EXEC SP_EXECUTESQL @V_SQL_CLT,
+				N' @V_DATETIME_P VARCHAR(14),
+				@V_CLAIM_ID_P INT,
+				@V_CLM_TYP_ROW_ID_P INT,
+				@V_DATE_P VARCHAR(8),
+				@V_DDSUSER_P VARCHAR(6),@V_CLAIM_TYP_CODE_P INT, @V_CLM_TYPE_REASON_P',
+				@V_DATETIME_P=@V_DATETIME,
+				@V_CLAIM_ID_P = @V_CLAIM_ID,         
+				@V_CLM_TYP_ROW_ID_P = @V_CLM_TYP_ROW_ID, 
+				@V_DATE_P = @V_CLAIM_TYPE_DT_CHA,
+				@V_DDSUSER_P = @V_DDSUSER,
+				@V_CLAIM_TYP_CODE_P=@V_CLAIM_TYPE_ID,
+				@V_CLM_TYPE_REASON_P=@V_CLAIM_TYP_REASON
+
+				EXECUTE SP_EXECUTESQL @VSQLUPDCLT
+			END  	
+			IF @V_REWTP_CHA=1
+			BEGIN
+							
+				EXECUTE SP_EXECUTESQL @VSQLINSREW, N'@NEXTUNIQUEID_P INT OUTPUT', @NEXTUNIQUEID_P = @V_REW_TYP_ROW_ID OUTPUT
+			---V_CL_STATUS_ROW_ID_P
+				EXEC SP_EXECUTESQL @V_SQL_REW,
+				N' @V_DATETIME_P VARCHAR(14),
+				@V_CLAIM_ID_P INT,
+				@V_REW_TYP_ROW_ID_P INT,
+				@V_DATE_P VARCHAR(8),
+				@V_DDSUSER_P VARCHAR(6),@V_REW_TYP_CODE_P INT, @V_REW_TYPE_REASON_P VARCHAR(2000)',
+				@V_DATETIME_P=@V_DATETIME,
+				@V_CLAIM_ID_P = @V_CLAIM_ID,         
+				@V_REW_TYP_ROW_ID_P = @V_REW_TYP_ROW_ID, 
+				@V_DATE_P = @V_CLAIM_TYPE_DT_CHA,
+				@V_DDSUSER_P = @V_DDSUSER,
+				@V_REW_TYP_CODE_P=@V_REVIEW_STATUS_CODE_ID,
+				@V_REW_TYPE_REASON_P=@V_REV_REASON
+			
+				EXECUTE SP_EXECUTESQL @VSQLUPDREW
+
+			END 
+		END	
+		---AKUMAR523 ENDS RMA-61584
+
+	END	----END EXISTING CLAIM
+
+
+--dsharma70 hmi IF @V_RECORD_TYPE = 'W' OR @V_RECORD_TYPE = 'D' OR (@V_RECORD_TYPE = 'G' AND @V_EMPLOYEE_ID IS NOT NULL) OR (@V_RECORD_TYPE = 'V' AND @V_EMPLOYEE_ID IS NOT NULL)
+IF @V_RECORD_TYPE = 'W' OR @V_RECORD_TYPE = 'D' OR (@V_RECORD_TYPE = 'G' AND @V_EMPLOYEE_ID IS NOT NULL) OR (@V_RECORD_TYPE = 'V' AND @V_EMPLOYEE_ID IS NOT NULL) OR (@V_RECORD_TYPE = 'H' AND @V_EMPLOYEE_ID IS NOT NULL) --dsharma70 hmi
+BEGIN ----EMPLOYEE BEGIN
+
+	SET @V_ERRORLOC = 'INSERT0065A'
+		
+	IF (@CheckCreateNewDepartment = 1) AND (@V_EMP_DEPT_ID = 0 OR @V_DELETED_FLAG_EMP_DEPT = -1)
+	BEGIN
+		INSERT INTO @tORG_HRCHY(IJOBID, IDAROWID, VDEPARTMENT, VLOCATION, VDIVISION, VCOMPANY, VDEPARTMENT_DESC, VLOCATION_DESC, VDIVISION_DESC, VCOMPANY_DESC)
+		VALUES (@P_JOBID, @V_DA_ROW_ID, @V_DEPARTMENT, @V_LOCATION, @V_DIVISION, @V_COMPANY,@V_DEPARTMENT_DESC, @V_LOCATION_DESC, @V_DIVISION_DESC, @V_COMPANY_DESC)
+			
+		--PRINT 'ORG HIERARCHY FOR EMPLOYEE DEPARTMENT IMPORT STARTS'
+
+		EXEC DDS_PROCESSORG_HIERARCHY @tORG_HIERARCHY = @tORG_HRCHY,
+		@P_JOBID = @P_JOBID,
+		@P_DA_ROW_ID = @V_DA_ROW_ID,
+		@P_DBNAME = @P_DBNAME,
+		@P_KEYCOLUMN = 'CLAIM_NUMBER', 
+		@P_KEY_VALUE = @V_CLAIM_NUMBER,
+		@P_ENTITY_ID = @V_EMP_DEPT_ID OUTPUT
+
+		
+		IF @V_EMP_DEPT_ID < 0 
+		BEGIN
+			SET @V_ERRORCOUNT = @V_ERRORCOUNT + 1;
+			GOTO FETCHNEXT---- IF ANY EXCEPTION OCCURS IN PROCESS ORG HIERARCHY
+		END
+		
+	END
+
+
+	IF @V_NEW_EMP = 1
+	BEGIN ---- BEGIN NEW EMP
+
+		SET @V_ERRORLOC = 'INSERT065'
+		
+		SET @V_SQL = 'INSERT INTO ' + @V_DBNAME+'EMPLOYEE(EMPLOYEE_EID, EMPLOYEE_NUMBER, DATE_HIRED, DATE_OF_DEATH, WEEKLY_RATE, HOURLY_RATE, '
+		SET @V_SQL =  @V_SQL + 'WEEKLY_HOURS, DRIVERS_LIC_NO, DATE_DRIVERSLICEXP, POSITION_CODE, NCCI_CLASS_CODE, DRIVERSLICTYPECODE, MARITAL_STAT_CODE, '
+		SET @V_SQL =  @V_SQL + 'WORK_MON_FLAG, WORK_TUE_FLAG, WORK_WED_FLAG, WORK_THU_FLAG, WORK_FRI_FLAG, WORK_SAT_FLAG, WORK_SUN_FLAG, '
+		SET @V_SQL =  @V_SQL + 'DRIVLIC_RSTRCTCODE, DEPT_ASSIGNED_EID, ACTIVE_FLAG, MONTHLY_RATE, ELIG_DIS_BEN_FLAG, DIS_OPTION_CODE, INSURABLE_FLAG) VALUES( '
+		SET @V_SQL =  @V_SQL + '@V_CLAIMANT_EID_P, @V_EMPLOYEE_NUMBER_P, @V_DATE_OF_HIRE_P, @V_DATE_OF_DEATH_P , @V_WEEKLY_WAGE_RATE_P, @V_HOURLY_WAGE_RATE_P, @V_WEEKLY_HOURS_P, ' 
+		SET @V_SQL =  @V_SQL + ' @V_LICENSE_NUMBER_P, @V_LICENSE_EXPIR_DATE_P, @V_OCCUPATION_ID_P, @V_NCCI_CLASS_CODE_ID_P, @V_LICENSE_TYPE_ID_P, @V_MARITAL_STATUS_ID_P, '
+		SET @V_SQL =  @V_SQL + ' @V_WORK_MON, @V_WORK_TUE, @V_WORK_WED,	@V_WORK_THU, @V_WORK_FRI, @V_WORK_SAT, @V_WORK_SUN,'	 
+		SET @V_SQL =  @V_SQL + ' @V_LICENSE_RESTRICT_ID_P, @V_EMP_DEPT_ID_P, @V_ACTIVE_FLAG_ID_P, @V_MONTHLY_RATE_P, @V_ELIG_DIS_BEN_FLAG_ID_P, @V_DIS_OPTION_CODE_ID_P, 0 )'
+		
+		-----WEEKLY_RATE,HOURLY_RATE,
+            ---WEEKLY_HOURS
+
+		--PRINT 'EMPLOYEE SQL IS: '
+		--PRINT @V_SQL
+		EXECUTE SP_EXECUTESQL @V_SQL,  
+		N'@V_CLAIMANT_EID_P INT,
+		@V_EMPLOYEE_NUMBER_P VARCHAR(25),
+		@V_DATE_OF_HIRE_P VARCHAR(8),
+		@V_DATE_OF_DEATH_P VARCHAR(8),
+		@V_WEEKLY_WAGE_RATE_P DECIMAL(20,2),
+		@V_HOURLY_WAGE_RATE_P DECIMAL(20,2),
+		@V_WEEKLY_HOURS_P DECIMAL(20,2), 
+		@V_LICENSE_NUMBER_P VARCHAR(22), 
+		@V_LICENSE_EXPIR_DATE_P VARCHAR(8), 
+		@V_OCCUPATION_ID_P INT, 
+		@V_NCCI_CLASS_CODE_ID_P INT, 
+		@V_LICENSE_TYPE_ID_P INT, 
+		@V_MARITAL_STATUS_ID_P INT, 
+		@V_WORK_MON INT, 
+		@V_WORK_TUE INT,
+		@V_WORK_WED INT,
+		@V_WORK_THU INT,
+		@V_WORK_FRI INT,
+		@V_WORK_SAT INT,
+		@V_WORK_SUN INT,
+		@V_LICENSE_RESTRICT_ID_P INT, 
+		@V_EMP_DEPT_ID_P INT, 
+		@V_ACTIVE_FLAG_ID_P INT, 
+		@V_MONTHLY_RATE_P DECIMAL(20,2) , 
+		@V_ELIG_DIS_BEN_FLAG_ID_P INT, 
+		@V_DIS_OPTION_CODE_ID_P INT',
+		@V_CLAIMANT_EID_P = @V_CLAIMANT_EID ,
+		@V_EMPLOYEE_NUMBER_P = @V_EMPLOYEE_NUMBER ,
+		@V_DATE_OF_HIRE_P = @V_DATE_OF_HIRE,
+		@V_DATE_OF_DEATH_P = @V_DATE_OF_DEATH,
+		@V_WEEKLY_WAGE_RATE_P = @V_WEEKLY_WAGE_RATE,
+		@V_HOURLY_WAGE_RATE_P = @V_HOURLY_WAGE_RATE,
+		@V_WEEKLY_HOURS_P = @V_WEEKLY_HOURS, 
+		@V_LICENSE_NUMBER_P = @V_LICENSE_NUMBER, 
+		@V_LICENSE_EXPIR_DATE_P = @V_LICENSE_EXPIR_DATE, 
+		@V_OCCUPATION_ID_P = @V_OCCUPATION_ID, 
+		@V_NCCI_CLASS_CODE_ID_P = @V_NCCI_CLASS_CODE_ID, 
+		@V_LICENSE_TYPE_ID_P = @V_LICENSE_TYPE_ID, 
+		@V_MARITAL_STATUS_ID_P = @V_MARITAL_STATUS_ID, 
+		@V_WORK_MON = @V_WORK_MON, 
+		@V_WORK_TUE = @V_WORK_TUE,
+		@V_WORK_WED = @V_WORK_WED,
+		@V_WORK_THU = @V_WORK_THU,
+		@V_WORK_FRI = @V_WORK_FRI ,
+		@V_WORK_SAT = @V_WORK_SAT ,
+		@V_WORK_SUN = @V_WORK_SUN , 
+		@V_LICENSE_RESTRICT_ID_P = @V_LICENSE_RESTRICT_ID, 
+		@V_EMP_DEPT_ID_P = @V_EMP_DEPT_ID, 
+		@V_ACTIVE_FLAG_ID_P = @V_ACTIVE_FLAG_ID , 
+		@V_MONTHLY_RATE_P = @V_MONTHLY_RATE , 
+		@V_ELIG_DIS_BEN_FLAG_ID_P = @V_ELIG_DIS_BEN_FLAG_ID, 
+		@V_DIS_OPTION_CODE_ID_P = @V_DIS_OPTION_CODE_ID
+
+		SET @V_EMPLOYEE_EID = @V_CLAIMANT_EID
+
+	END ----END NEW EMP
+
+	ELSE IF @V_NEW_EMP = 0
+	BEGIN ---- BEGIN EXISTING EMP
+		SET @V_ERRORLOC = 'INSERT066'
+
+		SET @V_SQL = 'UPDATE ' + @V_DBNAME + 'EMPLOYEE SET EMPLOYEE_EID = @V_EMPLOYEE_EID_P'
+
+		IF @V_DATE_OF_HIRE IS NOT NULL SET @V_SQL = @V_SQL + ', DATE_HIRED = @V_DATE_OF_HIRE_P'
+		IF @V_WEEKLY_WAGE_RATE IS NOT NULL SET @V_SQL = @V_SQL + ', WEEKLY_RATE = @V_WEEKLY_WAGE_RATE_P'
+		IF @V_HOURLY_WAGE_RATE IS NOT NULL SET @V_SQL = @V_SQL + ', HOURLY_RATE = @V_HOURLY_WAGE_RATE_P'
+		IF @V_WEEKLY_HOURS IS NOT NULL SET @V_SQL = @V_SQL + ', WEEKLY_HOURS = @V_WEEKLY_HOURS_P'
+		IF @V_DATE_OF_DEATH IS NOT NULL SET @V_SQL = @V_SQL + ', DATE_OF_DEATH = @V_DATE_OF_DEATH_P'
+		IF @V_LICENSE_NUMBER IS NOT NULL SET @V_SQL = @V_SQL + ', DRIVERS_LIC_NO = @V_LICENSE_NUMBER_P'
+		IF @V_LICENSE_EXPIR_DATE IS NOT NULL SET @V_SQL = @V_SQL + ', DATE_DRIVERSLICEXP = @V_LICENSE_EXPIR_DATE_P'
+		IF @V_OCCUPATION_ID > 0 SET @V_SQL = @V_SQL + ', POSITION_CODE = @V_OCCUPATION_ID_P'
+		IF @V_NCCI_CLASS_CODE_ID > 0 SET @V_SQL = @V_SQL + ', NCCI_CLASS_CODE = @V_NCCI_CLASS_CODE_ID_P'
+		IF @V_LICENSE_TYPE_ID > 0 SET @V_SQL = @V_SQL + ', DRIVERSLICTYPECODE = @V_LICENSE_TYPE_ID_P'
+		IF @V_LICENSE_RESTRICT_ID > 0 SET @V_SQL = @V_SQL + ', DRIVLIC_RSTRCTCODE = @V_LICENSE_RESTRICT_ID_P'
+		IF @V_EMP_DEPT_ID > 0 SET @V_SQL = @V_SQL + ', DEPT_ASSIGNED_EID =  @V_EMP_DEPT_ID_P'
+		IF @V_ACTIVE_FLAG_ID > 0 SET @V_SQL = @V_SQL + ', ACTIVE_FLAG = @V_ACTIVE_FLAG_ID_P'
+
+		--IF @V_RECORD_TYPE = 'D' AND @V_CARRIERFLAG = 0 --CHANGED DSHARMA70 1/29/2016	JIRA 23899 knakra
+		IF (@V_RECORD_TYPE = 'D' AND @V_CARRIERFLAG = 0 AND @iVarFinKey = 0) OR (@V_RECORD_TYPE = 'D' AND @iVarFinKey <> 0)	--JIRA 23899 knakra
+		BEGIN
+			IF @V_DIS_OPTION_CODE_ID > 0 SET @V_SQL = @V_SQL + ', DIS_OPTION_CODE = @V_DIS_OPTION_CODE_ID_P'
+			IF @V_MONTHLY_RATE > 0 SET @V_SQL = @V_SQL + ', MONTHLY_RATE = @V_MONTHLY_RATE_P'
+			IF @V_ELIG_DIS_BEN_FLAG_ID > 0 SET @V_SQL = @V_SQL + ', ELIG_DIS_BEN_FLAG = @V_ELIG_DIS_BEN_FLAG_ID_P'
+		END
+		SET @V_SQL = @V_SQL + ' WHERE EMPLOYEE_EID = @V_EMPLOYEE_EID_P'
+					
+		EXECUTE SP_EXECUTESQL @V_SQL,
+		N' @V_EMPLOYEE_EID_P INT,
+		@V_DATE_OF_HIRE_P VARCHAR(8),
+		@V_WEEKLY_WAGE_RATE_P DECIMAL(20,2),
+		@V_HOURLY_WAGE_RATE_P DECIMAL(20,2),
+		@V_WEEKLY_HOURS_P DECIMAL(20,2),
+		@V_DATE_OF_DEATH_P VARCHAR(8),
+		@V_LICENSE_NUMBER_P VARCHAR(22),
+		@V_LICENSE_EXPIR_DATE_P VARCHAR(8),
+		@V_OCCUPATION_ID_P INT,
+		@V_NCCI_CLASS_CODE_ID_P INT,
+		@V_LICENSE_TYPE_ID_P INT,
+		@V_LICENSE_RESTRICT_ID_P INT,
+		@V_EMP_DEPT_ID_P INT,
+		@V_ACTIVE_FLAG_ID_P INT,
+		@V_DIS_OPTION_CODE_ID_P INT,
+		@V_DISABILITY_CODE_ID_P INT,
+		@V_MONTHLY_RATE_P DECIMAL(20,2) ,
+		@V_ELIG_DIS_BEN_FLAG_ID_P INT',
+		@V_EMPLOYEE_EID_P = @V_EMPLOYEE_EID,
+		@V_DATE_OF_HIRE_P = @V_DATE_OF_HIRE,
+		@V_WEEKLY_WAGE_RATE_P = @V_WEEKLY_WAGE_RATE,
+		@V_HOURLY_WAGE_RATE_P = @V_HOURLY_WAGE_RATE,
+		@V_WEEKLY_HOURS_P = @V_WEEKLY_HOURS,
+		@V_DATE_OF_DEATH_P = @V_DATE_OF_DEATH,
+		@V_LICENSE_NUMBER_P = @V_LICENSE_NUMBER,
+		@V_LICENSE_EXPIR_DATE_P = @V_LICENSE_EXPIR_DATE,
+		@V_OCCUPATION_ID_P = @V_OCCUPATION_ID,
+		@V_NCCI_CLASS_CODE_ID_P = @V_NCCI_CLASS_CODE_ID,
+		@V_LICENSE_TYPE_ID_P = @V_LICENSE_TYPE_ID,
+		@V_LICENSE_RESTRICT_ID_P = @V_LICENSE_RESTRICT_ID,
+		@V_EMP_DEPT_ID_P = @V_EMP_DEPT_ID,
+		@V_ACTIVE_FLAG_ID_P = @V_ACTIVE_FLAG_ID,
+		@V_DIS_OPTION_CODE_ID_P = @V_DIS_OPTION_CODE_ID,
+		@V_DISABILITY_CODE_ID_P = @V_DISABILITY_CODE_ID,
+		@V_MONTHLY_RATE_P = @V_MONTHLY_RATE ,
+		@V_ELIG_DIS_BEN_FLAG_ID_P = @V_ELIG_DIS_BEN_FLAG_ID
+
+	END ---- END EXISTING EMP
+
+	IF @V_INSERT_EMPXDEP = 1 AND @V_EMPLOYEE_EID > 0
+	BEGIN
+		SET @V_ERRORLOC = 'INSERT067'
+		
+		SET @V_SQL = 'INSERT INTO ' + @V_DBNAME+'EMP_X_DEPENDENT(EMP_DEP_ROW_ID, EMPLOYEE_EID, DEPENDENT_EID, HEALTH_PLAN_FLAG, RELATION_CODE, DEPENDENT_ROW_ID) VALUES( '
+		SET @V_SQL = @V_SQL + '@V_EMP_DEP_ROW_ID_P, @V_EMPLOYEE_EID_P, @V_DEPENDENT_EID_P, 0, 0, 0 )' 
+		EXECUTE SP_EXECUTESQL @V_SQL,
+		N'@V_EMP_DEP_ROW_ID_P INT,
+		@V_EMPLOYEE_EID_P INT,
+		@V_DEPENDENT_EID_P INT',
+		@V_EMP_DEP_ROW_ID_P = @V_EMP_DEP_ROW_ID,
+		@V_EMPLOYEE_EID_P = @V_EMPLOYEE_EID,
+		@V_DEPENDENT_EID_P = @V_DEPENDENT_EID
+
+		SET @VSQLINSERT = 'UPDATE ' + @V_DBNAME + 'GLOSSARY SET NEXT_UNIQUE_ID = NEXT_UNIQUE_ID + 1 WHERE SYSTEM_TABLE_NAME = ''EMP_X_DEPENDENT'''
+		EXECUTE SP_EXECUTESQL @VSQLINSERT
+	END
+END ----EMPLOYEE ENDS
+
+IF @V_EMP_PERSON = 1
+BEGIN --PI WORK STARTS
+	IF @V_NEW_PI = 1
+	BEGIN ----BEGIN NEW PI
+		SET @V_ERRORLOC = 'INSERT068'
+
+		SET @V_SQL = 'INSERT INTO ' + @V_DBNAME+'PERSON_INVOLVED(PI_ROW_ID, EVENT_ID, PI_EID, EMPLOYEE_NUMBER, DEPT_ASSIGNED_EID, DATE_OF_DEATH, DATE_HIRED, WEEKLY_RATE, '
+		SET @V_SQL =  @V_SQL + 'MARITAL_STAT_CODE, POSITION_CODE, NCCI_CLASS_CODE, DRIVERSLICTYPECODE, DRIVLIC_RSTRCTCODE, DRIVERS_LIC_NO, PI_TYPE_CODE, '
+		SET @V_SQL =  @V_SQL + 'OSHA_ACC_DESC, ILLNESS_CODE, DISABILITY_CODE, OSHA_REC_FLAG, STD_DISABIL_TYPE, ACTIVE_FLAG, '
+		SET @V_SQL =  @V_SQL + 'LOST_WORK_FLAG, WORK_MON_FLAG, WORK_TUE_FLAG, WORK_WED_FLAG, WORK_THU_FLAG, WORK_FRI_FLAG, WORK_SAT_FLAG, WORK_SUN_FLAG,'
+		
+		IF @V_RECORD_TYPE = 'H'	SET @V_SQL =  @V_SQL + ' BENEFICIARY_CODE,' --DSHARMA70 hmi
+		
+		SET @V_SQL =  @V_SQL + 'MONTHLY_RATE, WEEKLY_HOURS, HOURLY_RATE, ELIG_DIS_BEN_FLAG, DIS_OPTION_CODE, ROLE_TABLE_ID, PARENT_ROW_ID, PARENT_TABLE_NAME) VALUES( ' 
+
+		SET @V_SQL =  @V_SQL + ' @V_PI_ROW_ID_P, @V_EVENT_ID_P, @V_ENTITY_ID_P, @V_EMPLOYEE_NUMBER_P, @V_EMP_DEPT_ID_P '
+		SET @V_SQL =  @V_SQL + ', @V_DATE_OF_DEATH_P, @V_DATE_OF_HIRE_P, @V_WEEKLY_WAGE_RATE_P, @V_MARITAL_STATUS_ID_P, @V_OCCUPATION_ID_P'
+		SET @V_SQL =  @V_SQL + ', @V_NCCI_CLASS_CODE_ID_P, @V_LICENSE_TYPE_ID_P, @V_LICENSE_RESTRICT_ID_P, @V_LICENSE_NUMBER_P'
+		SET @V_SQL =  @V_SQL + ', @V_PI_TYPE_CODE_ID_P, @V_OSHA_ACC_DESC_P, @V_ILLNESS_CODE_ID_P, @V_DISABILITY_CODE_ID_P, @V_OSHA_RECORDABLE_ID_P'
+		SET @V_SQL =  @V_SQL + ', @V_STD_DISABIL_TYPE_ID_P, @V_ACTIVE_FLAG_ID_P'
+		SET @V_SQL =  @V_SQL + ', 0, @V_WORK_MON, @V_WORK_TUE, @V_WORK_WED,	@V_WORK_THU, @V_WORK_FRI, @V_WORK_SAT, @V_WORK_SUN'	
+		
+		IF @V_RECORD_TYPE = 'H'	SET @V_SQL =  @V_SQL + ', @V_BENEFICIARY_CODE_ID ' --DSHARMA70 hmi
+
+		SET @V_SQL =  @V_SQL + ', @V_MONTHLY_RATE_P, @V_WEEKLY_HOURS_P, @V_HOURLY_WAGE_RATE_P, @V_ELIG_DIS_BEN_FLAG_ID_P, @V_DIS_OPTION_CODE_ID_P' 
+		SET @V_SQL =  @V_SQL + ', @V_ROLE_TABLE_ID_P, @V_PARENT_ROW_ID_P, @V_PARENT_TABLE_NAME_P)'
+			
+		--PRINT 'PERSON INVOLVED SQL IS : ' 
+		--PRINT @V_SQL
+		EXECUTE SP_EXECUTESQL @V_SQL,
+		N'@V_PI_ROW_ID_P INT, 
+		@V_PARENT_ROW_ID_P INT,
+		@V_EVENT_ID_P INT,
+		@V_ENTITY_ID_P INT, 
+		@V_EMPLOYEE_NUMBER_P VARCHAR(25), 
+		@V_EMP_DEPT_ID_P INT,
+		@V_DATE_OF_DEATH_P VARCHAR(8), 
+		@V_DATE_OF_HIRE_P VARCHAR(8),
+		@V_WEEKLY_WAGE_RATE_P DECIMAL(20,2), 
+		@V_MARITAL_STATUS_ID_P INT, 
+		@V_OCCUPATION_ID_P INT,
+		@V_NCCI_CLASS_CODE_ID_P INT,
+		@V_LICENSE_TYPE_ID_P INT,
+		@V_LICENSE_RESTRICT_ID_P INT, 
+		@V_LICENSE_NUMBER_P VARCHAR(22),
+		@V_PI_TYPE_CODE_ID_P INT, 
+		@V_OSHA_ACC_DESC_P VARCHAR(16), 
+		@V_ILLNESS_CODE_ID_P INT,
+		@V_DISABILITY_CODE_ID_P INT, 
+		@V_OSHA_RECORDABLE_ID_P INT,
+		@V_STD_DISABIL_TYPE_ID_P INT,
+		@V_ACTIVE_FLAG_ID_P INT, 
+		@V_WORK_MON INT, 
+		@V_WORK_TUE INT,
+		@V_WORK_WED INT,
+		@V_WORK_THU INT,
+		@V_WORK_FRI INT,
+		@V_WORK_SAT INT,
+		@V_WORK_SUN INT,
+		@V_MONTHLY_RATE_P DECIMAL(20,2),
+		@V_WEEKLY_HOURS_P DECIMAL(20,2),
+		@V_HOURLY_WAGE_RATE_P DECIMAL(20,2),
+		@V_ELIG_DIS_BEN_FLAG_ID_P INT, 
+		@V_DIS_OPTION_CODE_ID_P INT,
+		@V_ROLE_TABLE_ID_P INT, 
+		@V_PARENT_TABLE_NAME_P VARCHAR(25), 
+		@V_BENEFICIARY_CODE_ID INT', --DSHARMA70 hmi
+		@V_PI_ROW_ID_P = @V_PI_ROW_ID, 
+		@V_PARENT_ROW_ID_P = @V_PARENT_ROW_ID, 
+		@V_ENTITY_ID_P = @V_CLAIMANT_EID,
+		@V_EVENT_ID_P = @V_EVENT_ID,
+		@V_EMPLOYEE_NUMBER_P = @V_EMPLOYEE_NUMBER, 
+		@V_EMP_DEPT_ID_P = @V_EMP_DEPT_ID,
+		@V_DATE_OF_DEATH_P = @V_DATE_OF_DEATH, 
+		@V_DATE_OF_HIRE_P = @V_DATE_OF_HIRE,
+		@V_WEEKLY_WAGE_RATE_P = @V_WEEKLY_WAGE_RATE, 
+		@V_MARITAL_STATUS_ID_P = @V_MARITAL_STATUS_ID, 
+		@V_OCCUPATION_ID_P = @V_OCCUPATION_ID,
+		@V_NCCI_CLASS_CODE_ID_P = @V_NCCI_CLASS_CODE_ID,
+		@V_LICENSE_TYPE_ID_P = @V_LICENSE_TYPE_ID,
+		@V_LICENSE_RESTRICT_ID_P = @V_LICENSE_RESTRICT_ID, 
+		@V_LICENSE_NUMBER_P = @V_LICENSE_NUMBER,
+		@V_PI_TYPE_CODE_ID_P = @V_PI_TYPE_CODE_ID, 
+		@V_OSHA_ACC_DESC_P = @V_OSHA_ACC_DESC, 
+		@V_ILLNESS_CODE_ID_P = @V_ILLNESS_CODE_ID,
+		@V_DISABILITY_CODE_ID_P = @V_DISABILITY_CODE_ID, 
+		@V_OSHA_RECORDABLE_ID_P = @V_OSHA_RECORDABLE_ID,
+		@V_STD_DISABIL_TYPE_ID_P = @V_STD_DISABIL_TYPE_ID,
+		@V_ACTIVE_FLAG_ID_P = @V_ACTIVE_FLAG_ID,
+		@V_WORK_MON = @V_WORK_MON, 
+		@V_WORK_TUE = @V_WORK_TUE,
+		@V_WORK_WED = @V_WORK_WED,
+		@V_WORK_THU = @V_WORK_THU,
+		@V_WORK_FRI = @V_WORK_FRI ,
+		@V_WORK_SAT = @V_WORK_SAT ,
+		@V_WORK_SUN = @V_WORK_SUN , 
+		@V_MONTHLY_RATE_P = @V_MONTHLY_RATE, 
+		@V_WEEKLY_HOURS_P = @V_WEEKLY_HOURS,
+		@V_HOURLY_WAGE_RATE_P = @V_HOURLY_WAGE_RATE,
+		@V_ELIG_DIS_BEN_FLAG_ID_P = @V_ELIG_DIS_BEN_FLAG_ID, 
+		@V_DIS_OPTION_CODE_ID_P = @V_DIS_OPTION_CODE_ID,
+		@V_ROLE_TABLE_ID_P = @V_ROLE_TABLE_ID, 		----JIRA RMA-22720 ----
+		@V_PARENT_TABLE_NAME_P = @V_PARENT_TABLE_NAME, --DSHARMA70 hmi
+		@V_BENEFICIARY_CODE_ID = @V_BENEFICIARY_CODE_ID --DSHARMA70 hmi
+			
+		SET @VSQLINSERT = 'UPDATE ' + @V_DBNAME + 'GLOSSARY SET NEXT_UNIQUE_ID = NEXT_UNIQUE_ID + 1 WHERE SYSTEM_TABLE_NAME = ''PERSON_INVOLVED'''
+		EXECUTE SP_EXECUTESQL @VSQLINSERT
+		
+	END ---- END NEW PI
+
+	ELSE IF @V_NEW_PI = 0 AND @V_EMP_PERSON = 1
+	BEGIN ---- BEGIN EXISTING PI
+		SET @V_SQL = 'UPDATE ' + @V_DBNAME + 'PERSON_INVOLVED SET PI_ROW_ID = @V_PI_ROW_ID_P'
+
+		SET @V_ERRORLOC = 'INSERT069'
+
+		IF @V_ILLNESS_CODE_ID > 0 SET @V_SQL = @V_SQL + ', ILLNESS_CODE = @V_ILLNESS_CODE_ID_P'
+		IF @V_DISABILITY_CODE_ID > 0 SET @V_SQL = @V_SQL + ', DISABILITY_CODE = @V_DISABILITY_CODE_ID_P'
+		IF @V_OSHA_RECORDABLE_ID > 0
+		BEGIN
+			SET @V_SQL = @V_SQL + ', OSHA_REC_FLAG = @V_OSHA_RECORDABLE_ID_P '
+			IF @V_OSHA_ACC_DESC IS NOT NULL SET @V_SQL = @V_SQL + ', OSHA_ACC_DESC = @V_OSHA_ACC_DESC_P'
+		END
+		
+		IF (@V_RECORD_TYPE = 'H' AND @V_BENEFICIARY_CODE_ID > 0) SET @V_SQL =  @V_SQL + ', BENEFICIARY_CODE = @V_BENEFICIARY_CODE_ID ' --DSHARMA70 hmi
+		
+		SET @V_SQL = @V_SQL + ' WHERE PI_ROW_ID = @V_PI_ROW_ID_P'
+
+		--PRINT @V_SQL
+		EXECUTE SP_EXECUTESQL @V_SQL,
+		N'@V_PI_ROW_ID_P INT,
+		@V_ILLNESS_CODE_ID_P INT,
+		@V_DISABILITY_CODE_ID_P INT,
+		@V_OSHA_RECORDABLE_ID_P INT,
+		@V_OSHA_ACC_DESC_P VARCHAR(16),
+		@V_BENEFICIARY_CODE_ID INT', --dsharma70 hmi
+		@V_PI_ROW_ID_P = @V_PI_ROW_ID,
+		@V_ILLNESS_CODE_ID_P = @V_ILLNESS_CODE_ID,
+		@V_DISABILITY_CODE_ID_P = @V_DISABILITY_CODE_ID,
+		@V_OSHA_RECORDABLE_ID_P = @V_OSHA_RECORDABLE_ID,
+		@V_OSHA_ACC_DESC_P = @V_OSHA_ACC_DESC, --dsharma70 hmi
+		@V_BENEFICIARY_CODE_ID = @V_BENEFICIARY_CODE_ID --dsharma70 hmi
+		
+	END ---- END EXISTING PI
+		
+		SET @vReqColumns = ''
+		
+		IF @V_BODY_PART_1_ID > 0 OR @V_BODY_PART_2_ID > 0 OR @V_BODY_PART_3_ID > 0 OR @V_BODY_PART_4_ID > 0 OR @V_BODY_PART_5_ID > 0
+		BEGIN
+			SET @vReqColumns = 'BODY_PART_1|BODY_PART_2|BODY_PART_3|BODY_PART_4|BODY_PART_5|'
+		END
+		IF @V_INJURY_CODE_1_ID > 0 OR @V_INJURY_CODE_2_ID > 0 OR @V_INJURY_CODE_3_ID > 0 OR @V_INJURY_CODE_4_ID > 0 OR @V_INJURY_CODE_5_ID > 0
+		BEGIN
+			SET @vReqColumns = @vReqColumns + 'INJURY_CODE_1|INJURY_CODE_2|INJURY_CODE_3|INJURY_CODE_4|INJURY_CODE_5|'
+		END
+		IF @V_ICD10_1_ID > 0 OR @V_ICD10_2_ID > 0 OR @V_ICD10_3_ID > 0 OR @V_ICD10_4_ID > 0 OR @V_ICD10_5_ID > 0 OR @V_DIAGNOSIS_1_ID > 0 OR @V_DIAGNOSIS_2_ID > 0 OR @V_DIAGNOSIS_3_ID > 0 OR @V_DIAGNOSIS_4_ID > 0 OR @V_DIAGNOSIS_5_ID > 0 --asharma590 jira 74846
+		BEGIN
+			SET @vReqColumns = @vReqColumns + 'ICD10_1|ICD10_2|ICD10_3|ICD10_4|ICD10_5|DIAGNOSIS_1|DIAGNOSIS_2|DIAGNOSIS_3|DIAGNOSIS_4|DIAGNOSIS_5|' --asharma590 jira 74846
+		END
+
+		WHILE CHARINDEX('|',@vReqColumns,1) > 0		--CHECK FOR REQUIRED COLUMNS NULL IN IMPORT FILE
+		BEGIN -- WHILE STARTS
+			SET @iPos1 = CHARINDEX('|',@vReqColumns,1)
+			SET @vColName1 = LEFT(@vReqColumns,CHARINDEX('|',@vReqColumns,1) - 1)
+			SET @vReqColumns = RIGHT(@vReqColumns,LEN(@vReqColumns) - CHARINDEX('|',@vReqColumns,1))
+
+			SET @V_CODE_ID_R = ( CASE 
+			WHEN @vColName1 = 'BODY_PART_1' THEN @V_BODY_PART_1_ID
+			WHEN @vColName1 = 'BODY_PART_2' THEN @V_BODY_PART_2_ID
+			WHEN @vColName1 = 'BODY_PART_3' THEN @V_BODY_PART_3_ID
+			WHEN @vColName1 = 'BODY_PART_4' THEN @V_BODY_PART_4_ID
+			WHEN @vColName1 = 'BODY_PART_5' THEN @V_BODY_PART_5_ID
+			WHEN @vColName1 = 'INJURY_CODE_1' THEN @V_INJURY_CODE_1_ID 
+			WHEN @vColName1 = 'INJURY_CODE_2' THEN @V_INJURY_CODE_2_ID
+			WHEN @vColName1 = 'INJURY_CODE_3' THEN @V_INJURY_CODE_3_ID
+			WHEN @vColName1 = 'INJURY_CODE_4' THEN @V_INJURY_CODE_4_ID
+			WHEN @vColName1 = 'INJURY_CODE_5' THEN @V_INJURY_CODE_5_ID
+			WHEN @vColName1 = 'ICD10_1' THEN @V_ICD10_1_ID-- asharma590 jira 74846
+			WHEN @vColName1 = 'ICD10_2' THEN @V_ICD10_2_ID
+			WHEN @vColName1 = 'ICD10_3' THEN @V_ICD10_3_ID
+			WHEN @vColName1 = 'ICD10_4' THEN @V_ICD10_4_ID
+			WHEN @vColName1 = 'ICD10_5' THEN @V_ICD10_5_ID
+			WHEN @vColName1 = 'DIAGNOSIS_1' THEN @V_DIAGNOSIS_1_ID
+			WHEN @vColName1 = 'DIAGNOSIS_2' THEN @V_DIAGNOSIS_2_ID
+			WHEN @vColName1 = 'DIAGNOSIS_3' THEN @V_DIAGNOSIS_3_ID
+			WHEN @vColName1 = 'DIAGNOSIS_4' THEN @V_DIAGNOSIS_4_ID
+			WHEN @vColName1 = 'DIAGNOSIS_5' THEN @V_DIAGNOSIS_5_ID
+			END )
+
+			IF @V_CODE_ID_R > 0
+			BEGIN
+				IF @vColName1 LIKE 'BODY_PART%'
+				BEGIN
+					SET @V_ERRORLOC = 'INSERT070'
+
+					SET @V_SQL = 'SELECT @V_CODE_ID_RMDB_P = BODY_PART_CODE FROM ' + @V_DBNAME+'PI_X_BODY_PART WHERE PI_ROW_ID = @V_PI_ROW_ID_P AND BODY_PART_CODE =  @V_CODE_ID_R_P'
+					EXECUTE SP_EXECUTESQL @V_SQL, N' @V_PI_ROW_ID_P INT, @V_CODE_ID_R_P INT, @V_CODE_ID_RMDB_P INT OUTPUT', @V_PI_ROW_ID_P = @V_PI_ROW_ID, @V_CODE_ID_R_P = @V_CODE_ID_R, @V_CODE_ID_RMDB_P =  @V_CODE_ID_RMDB OUTPUT
+					
+					IF @V_CODE_ID_RMDB = 0
+					BEGIN
+						SET @V_SQL = 'INSERT INTO ' + @V_DBNAME+'PI_X_BODY_PART(PI_ROW_ID, BODY_PART_CODE) VALUES( '
+						SET @V_SQL = @V_SQL + '@V_PI_ROW_ID_P, @V_CODE_ID_R_P )' 
+						EXECUTE SP_EXECUTESQL @V_SQL,
+						N'@V_PI_ROW_ID_P INT,
+						@V_CODE_ID_R_P INT',
+						@V_PI_ROW_ID_P = @V_PI_ROW_ID,
+						@V_CODE_ID_R_P = @V_CODE_ID_R
+
+						--PRINT 'iNSERT INTO PI_X_BODY_PART'
+					END
+				END
+
+				ELSE IF @vColName1 LIKE 'INJURY_CODE%' AND @V_ILLNESS_CODE_ID = 0
+				BEGIN
+					SET @V_ERRORLOC = 'INSERT071'
+
+					SET @V_SQL = 'SELECT @V_CODE_ID_RMDB_P = INJURY_CODE FROM ' + @V_DBNAME+'PI_X_INJURY WHERE PI_ROW_ID = @V_PI_ROW_ID_P AND INJURY_CODE =  @V_CODE_ID_R_P'
+					EXECUTE SP_EXECUTESQL @V_SQL, N' @V_PI_ROW_ID_P INT, @V_CODE_ID_R_P INT, @V_CODE_ID_RMDB_P INT OUTPUT', @V_PI_ROW_ID_P = @V_PI_ROW_ID, @V_CODE_ID_R_P = @V_CODE_ID_R, @V_CODE_ID_RMDB_P =  @V_CODE_ID_RMDB OUTPUT
+
+					IF @V_CODE_ID_RMDB = 0
+					BEGIN
+						SET @V_SQL = 'INSERT INTO ' + @V_DBNAME+'PI_X_INJURY(PI_ROW_ID, INJURY_CODE) VALUES( '
+						SET @V_SQL = @V_SQL + '@V_PI_ROW_ID_P, @V_CODE_ID_R_P )'
+						EXECUTE SP_EXECUTESQL @V_SQL,
+						N'@V_PI_ROW_ID_P INT,
+						@V_CODE_ID_R_P INT',
+						@V_PI_ROW_ID_P = @V_PI_ROW_ID,
+						@V_CODE_ID_R_P = @V_CODE_ID_R
+
+						--PRINT 'iNSERT INTO PI_X_INJURY'
+					END
+				END
+				--asharma590 jira starts 74846
+				ELSE IF @vColName1 LIKE 'ICD10%'
+				BEGIN
+					SET @V_ERRORLOC = 'INSERT072A'
+
+					SET @V_SQL = 'SELECT @V_CODE_ID_RMDB_P = DIAGNOSIS_CODE_ICD10 FROM ' + @V_DBNAME+'PI_X_DIAGNOSISICD10 WHERE PI_ROW_ID = @V_PI_ROW_ID_P AND DIAGNOSIS_CODE_ICD10 =  @V_CODE_ID_R_P'
+					EXECUTE SP_EXECUTESQL @V_SQL, N' @V_PI_ROW_ID_P INT, @V_CODE_ID_R_P INT, @V_CODE_ID_RMDB_P INT OUTPUT', @V_PI_ROW_ID_P = @V_PI_ROW_ID, @V_CODE_ID_R_P = @V_CODE_ID_R, @V_CODE_ID_RMDB_P =  @V_CODE_ID_RMDB OUTPUT
+
+					IF @V_CODE_ID_RMDB = 0
+					BEGIN
+						SET @V_SQL = 'INSERT INTO ' + @V_DBNAME+'PI_X_DIAGNOSISICD10(PI_ROW_ID, DIAGNOSIS_CODE_ICD10) VALUES( '
+						SET @V_SQL = @V_SQL + '@V_PI_ROW_ID_P, @V_CODE_ID_R_P )'
+						EXECUTE SP_EXECUTESQL @V_SQL,
+						N'@V_PI_ROW_ID_P INT,
+						@V_CODE_ID_R_P INT',
+						@V_PI_ROW_ID_P = @V_PI_ROW_ID,
+						@V_CODE_ID_R_P = @V_CODE_ID_R
+
+						--PRINT 'iNSERT INTO PI_X_DIAGNOSISICD10'
+					END
+				END
+				--asharma590 jira ends 74846
+
+				ELSE IF @vColName1 LIKE 'DIAGNOSIS%' 
+				BEGIN
+					SET @V_ERRORLOC = 'INSERT072'
+
+					SET @V_SQL = 'SELECT @V_CODE_ID_RMDB_P = DIAGNOSIS_CODE FROM ' + @V_DBNAME+'PI_X_DIAGNOSIS WHERE PI_ROW_ID = @V_PI_ROW_ID_P AND DIAGNOSIS_CODE =  @V_CODE_ID_R_P'
+					EXECUTE SP_EXECUTESQL @V_SQL, N' @V_PI_ROW_ID_P INT, @V_CODE_ID_R_P INT, @V_CODE_ID_RMDB_P INT OUTPUT', @V_PI_ROW_ID_P = @V_PI_ROW_ID, @V_CODE_ID_R_P = @V_CODE_ID_R, @V_CODE_ID_RMDB_P =  @V_CODE_ID_RMDB OUTPUT
+
+					IF @V_CODE_ID_RMDB = 0
+					BEGIN
+						SET @V_SQL = 'INSERT INTO ' + @V_DBNAME+'PI_X_DIAGNOSIS(PI_ROW_ID, DIAGNOSIS_CODE) VALUES( '
+						SET @V_SQL = @V_SQL + '@V_PI_ROW_ID_P, @V_CODE_ID_R_P )'
+						EXECUTE SP_EXECUTESQL @V_SQL,
+						N'@V_PI_ROW_ID_P INT,
+						@V_CODE_ID_R_P INT',
+						@V_PI_ROW_ID_P = @V_PI_ROW_ID,
+						@V_CODE_ID_R_P = @V_CODE_ID_R
+
+						--PRINT 'iNSERT INTO PI_X_DIAGNOSIS'
+					END
+				END
+			END
+		END	---- WHILE ENDS
+
+		IF @V_ILLNESS_CODE_ID > 0
+		BEGIN
+			SET @V_ERRORLOC = 'INSERT073'
+			
+			SET @V_SQL = 'UPDATE ' + @V_DBNAME+'PERSON_INVOLVED SET ILLNESS_CODE = @V_ILLNESS_CODE_ID_P WHERE PI_ROW_ID = @V_PI_ROW_ID_P'
+			EXECUTE SP_EXECUTESQL @V_SQL, 
+			N' @V_PI_ROW_ID_P INT,
+			@V_ILLNESS_CODE_ID_P INT',
+			@V_PI_ROW_ID_P = @V_PI_ROW_ID,
+			@V_ILLNESS_CODE_ID_P = @V_ILLNESS_CODE_ID
+		END
+
+		IF @V_TREATMENT_CODE_ID > 0
+		BEGIN			----PI_X_TREATMENT	
+			SET @V_ERRORLOC = 'INSERT074'
+			
+			SET @V_SQL = 'SELECT @V_CODE_ID_RMDB_P = TREATMENT_CODE FROM ' + @V_DBNAME+'PI_X_TREATMENT WHERE PI_ROW_ID = @V_PI_ROW_ID_P AND TREATMENT_CODE =  @V_CODE_ID_R_P'
+			EXECUTE SP_EXECUTESQL @V_SQL, N' @V_PI_ROW_ID_P INT, @V_CODE_ID_R_P INT, @V_CODE_ID_RMDB_P INT OUTPUT', @V_PI_ROW_ID_P = @V_PI_ROW_ID, @V_CODE_ID_R_P = @V_TREATMENT_CODE_ID, @V_CODE_ID_RMDB_P =  @V_CODE_ID_RMDB OUTPUT
+
+			IF @V_CODE_ID_RMDB = 0
+			BEGIN
+				SET @V_SQL = 'INSERT INTO ' + @V_DBNAME+'PI_X_TREATMENT(PI_ROW_ID, TREATMENT_CODE) VALUES( '
+				SET @V_SQL = @V_SQL + '@V_PI_ROW_ID_P, @V_TREATMENT_CODE_ID_P)'
+				EXECUTE SP_EXECUTESQL @V_SQL,
+				N'@V_PI_ROW_ID_P INT,
+				@V_TREATMENT_CODE_ID_P INT',
+				@V_PI_ROW_ID_P = @V_PI_ROW_ID,
+				@V_TREATMENT_CODE_ID_P = @V_TREATMENT_CODE_ID
+
+				--PRINT 'iNSERT INTO PI_X_TREATMENT'
+			END
+		END
+
+END ------PI WORK ENDS
+
+	IF (@V_DATE_LAST_WORKED < @V_RETURN_WORK_DATE) AND @V_RECORD_TYPE ='W'	
+	BEGIN ---- BEGIN PIXWORKLOSS
+				
+			--PRINT 'CALCULATE THE DIFFERENCE BETWEEN THE DATES';
+			--SET @V_DURATION = DATEDIFF(DAY, @V_RETURN_WORK_DATE, @V_DATE_LAST_WORKED)	
+			--PRINT @V_DURATION;
+			--- CHECK IF AN ENTRY EXISTS IN PI_X_WORK_LOSS FOR THE PARTICULAR 
+			SET @V_CODE_ID_RMDB = 0
+			SET @V_SQL = 'SELECT @V_CODE_ID_RMDB_P = PI_ROW_ID FROM ' + @V_DBNAME+'PI_X_WORK_LOSS WHERE PI_ROW_ID = @V_PI_ROW_ID_P'
+			EXECUTE SP_EXECUTESQL @V_SQL, N' @V_PI_ROW_ID_P INT, @V_CODE_ID_RMDB_P INT OUTPUT', @V_PI_ROW_ID_P = @V_PI_ROW_ID, @V_CODE_ID_RMDB_P =  @V_CODE_ID_RMDB OUTPUT
+
+			IF @V_CODE_ID_RMDB = 0
+			BEGIN
+				SET @V_DATE_LAST_WORKED = CONVERT(VARCHAR(8),DATEADD(DAY, 1, @V_DATE_LAST_WORKED),112) ---- DATE LAST WORKED SHOULD NOT BE COUNTED ITSELF AS LOSS DAY
+				SET @V_RETURN_WORK_DATE = CONVERT(VARCHAR(8),DATEADD(DAY, -1, @V_RETURN_WORK_DATE),112) ---- RETURN WORK DATE SHOULD NOT BE COUNTED ITSELF AS LOSS DAY
+
+				EXECUTE DDS_DURATION @P_JOBID, @V_DA_ROW_ID , @V_DBNAME, @V_MODULENAME, 'CLAIM_NUMBER' ,@V_CLAIM_NUMBER ,@V_DATE_LAST_WORKED, @V_RETURN_WORK_DATE,
+				NULL ,NULL , NULL , NULL , NULL , NULL , NULL , @V_EMP_DEPT_ID , @V_DURATION OUTPUT
+				
+				IF @V_DURATION < 0  
+				BEGIN
+					SET @V_ERRORCOUNT = @V_ERRORCOUNT + 1
+					GOTO FETCHNEXT											
+				END
+				SET @V_ERRORLOC = 'INSERT079'
+					
+				SET @VSQLINSERT = 'SELECT @NEXTUNIQUEID_P = NEXT_UNIQUE_ID FROM ' + @V_DBNAME + 'GLOSSARY WHERE SYSTEM_TABLE_NAME = ''PI_X_WORK_LOSS'''
+				EXECUTE SP_EXECUTESQL @VSQLINSERT, N'@NEXTUNIQUEID_P INT OUTPUT', @NEXTUNIQUEID_P = @V_PI_WL_ROW_ID OUTPUT
+
+				SET @V_ERRORLOC = 'INSERT080'
+					
+				SET @V_SQL = 'INSERT INTO ' + @V_DBNAME+'PI_X_WORK_LOSS(PI_ROW_ID, PI_WL_ROW_ID, DATE_RETURNED, DATE_LAST_WORKED, DURATION, STATE_DURATION) VALUES( '
+				SET @V_SQL = @V_SQL + '@V_PI_ROW_ID_P, @V_PI_WL_ROW_ID_P, @V_RETURN_WORK_DATE_P, @V_DATE_LAST_WORKED_P, @V_DURATION_P, @V_STATE_DURATION_P )' 
+				EXECUTE SP_EXECUTESQL @V_SQL,
+				N'@V_PI_ROW_ID_P INT, 
+				@V_PI_WL_ROW_ID_P INT, 
+				@V_RETURN_WORK_DATE_P VARCHAR(8), 
+				@V_DATE_LAST_WORKED_P VARCHAR(8), 
+				@V_DURATION_P INT, 
+				@V_STATE_DURATION_P VARCHAR(8)',
+				@V_PI_ROW_ID_P = @V_PI_ROW_ID, 
+				@V_PI_WL_ROW_ID_P = @V_PI_WL_ROW_ID, 
+				@V_RETURN_WORK_DATE_P = @V_RETURN_WORK_DATE, 
+				@V_DATE_LAST_WORKED_P = @V_DATE_LAST_WORKED, 
+				@V_DURATION_P = @V_DURATION, 
+				@V_STATE_DURATION_P = @V_STATE_DURATION
+
+				--PRINT 'iNSERT INTO PI_X_WORK_LOSS'	
+			
+				SET @VSQLINSERT = 'UPDATE ' + @V_DBNAME + 'GLOSSARY SET NEXT_UNIQUE_ID = NEXT_UNIQUE_ID + 1 WHERE SYSTEM_TABLE_NAME = ''PI_X_WORK_LOSS'''
+				EXECUTE SP_EXECUTESQL @VSQLINSERT
+			END		
+	END ---- END PIXWORKLOSS
+				
+
+	IF (@V_DATE_LAST_RESTRICT > @V_DATE_FIRST_RESTRICT) AND @V_RECORD_TYPE ='W'
+	BEGIN ---- BEGIN PIXRESTRICT
+				
+		--PRINT '@V_DATE_FIRST_RESTRICT < @V_DATE_LAST_RESTRICT'
+		--SET @V_DURATION = DATEDIFF(DAY, @V_DATE_FIRST_RESTRICT, @V_DATE_LAST_RESTRICT)
+		SET @V_CODE_ID_RMDB = 0
+		SET @V_SQL = 'SELECT @V_CODE_ID_RMDB_P = PI_ROW_ID FROM ' + @V_DBNAME+'PI_X_RESTRICT WHERE PI_ROW_ID = @V_PI_ROW_ID_P'
+		EXECUTE SP_EXECUTESQL @V_SQL, N' @V_PI_ROW_ID_P INT, @V_CODE_ID_RMDB_P INT OUTPUT', @V_PI_ROW_ID_P = @V_PI_ROW_ID, @V_CODE_ID_RMDB_P =  @V_CODE_ID_RMDB OUTPUT
+
+		IF @V_CODE_ID_RMDB = 0
+		BEGIN				
+			EXECUTE DDS_DURATION @P_JOBID, @V_DA_ROW_ID , @V_DBNAME, @V_MODULENAME, 'CLAIM_NUMBER' ,@V_CLAIM_NUMBER ,@V_DATE_FIRST_RESTRICT, @V_DATE_LAST_RESTRICT,
+			NULL ,NULL , NULL , NULL , NULL , NULL , NULL , @V_EMP_DEPT_ID , @V_DURATION OUTPUT
+			
+			IF @V_DURATION < 0
+			BEGIN
+				SET @V_ERRORCOUNT = @V_ERRORCOUNT + 1;
+				GOTO FETCHNEXT
+			END	
+						
+			SET @V_ERRORLOC = 'INSERT081'
+					
+			SET @VSQLINSERT = 'SELECT @NEXTUNIQUEID_P = NEXT_UNIQUE_ID FROM ' + @V_DBNAME + 'GLOSSARY WHERE SYSTEM_TABLE_NAME = ''PI_X_RESTRICT'''
+			EXECUTE SP_EXECUTESQL @VSQLINSERT, N'@NEXTUNIQUEID_P INT OUTPUT', @NEXTUNIQUEID_P = @V_PI_RSTRCT_ROW_ID OUTPUT
+					
+			SET @V_ERRORLOC = 'INSERT082'
+
+			SET @V_SQL = 'INSERT INTO ' + @V_DBNAME+'PI_X_RESTRICT(PI_RESTRICT_ROW_ID, PI_ROW_ID, DATE_FIRST_RESTRCT, PERCENT_DISABLED, DATE_LAST_RESTRCT, DURATION) VALUES( '
+			SET @V_SQL = @V_SQL + '@V_PI_RSTRCT_ROW_ID_P, @V_PI_ROW_ID_P, @V_DATE_FIRST_RESTRICT_P, @V_PERCENT_DISABLED_P, @V_DATE_LAST_RESTRICT_P, @V_DURATION_P)' 
+		
+			EXECUTE SP_EXECUTESQL @V_SQL,
+			N'@V_PI_RSTRCT_ROW_ID_P INT,
+			@V_PI_ROW_ID_P INT, 
+			@V_DATE_FIRST_RESTRICT_P VARCHAR(8),
+			@V_PERCENT_DISABLED_P VARCHAR(4),
+			@V_DATE_LAST_RESTRICT_P VARCHAR(8),
+			@V_DURATION_P INT',
+			@V_PI_RSTRCT_ROW_ID_P = @V_PI_RSTRCT_ROW_ID ,
+			@V_PI_ROW_ID_P = @V_PI_ROW_ID, 
+			@V_DATE_FIRST_RESTRICT_P = @V_DATE_FIRST_RESTRICT ,
+			@V_PERCENT_DISABLED_P = @V_PERCENT_DISABLED,
+			@V_DATE_LAST_RESTRICT_P = @V_DATE_LAST_RESTRICT,
+			@V_DURATION_P = @V_DURATION
+		
+			--PRINT 'iNSERT INTO PI_X_RESTRICT'	
+												
+			SET @VSQLINSERT = 'UPDATE ' + @V_DBNAME + 'GLOSSARY SET NEXT_UNIQUE_ID = NEXT_UNIQUE_ID + 1 WHERE SYSTEM_TABLE_NAME = ''PI_X_RESTRICT'''
+			EXECUTE SP_EXECUTESQL @VSQLINSERT	
+		END					
+	END ---- END PIXRESTRICT
+
+
+	IF @V_NEW_CLAIMANT = 1
+	BEGIN ----begin NEW claimANT
+
+		--PRINT ' INSERT INTO CLAIMANT ' 
+		SET @V_ERRORLOC = 'INSERT083'
+		SET @VSQLINSERT = 'SELECT @NEXTUNIQUEID_P = NEXT_UNIQUE_ID FROM ' + @V_DBNAME + 'GLOSSARY WHERE SYSTEM_TABLE_NAME = ''CLAIMANT'''
+		EXECUTE SP_EXECUTESQL @VSQLINSERT, N'@NEXTUNIQUEID_P INT OUTPUT', @NEXTUNIQUEID_P = @V_CLAIMANT_ROW_ID OUTPUT
+			
+		SET @V_ERRORLOC = 'INSERT084'
+			
+		SET @V_SQL = 'INSERT INTO ' + @V_DBNAME + 'CLAIMANT(CLAIMANT_ROW_ID, CLAIM_ID, CLAIMANT_EID, COMMENTS, PRIMARY_CLMNT_FLAG, CLAIMANT_NUMBER, CLAIMANT_TYPE_CODE, CLAIMANT_STATUS_CODE ) VALUES( '
+		SET @V_SQL = @V_SQL + '@V_CLAIMANT_ROW_ID_P, @V_CLAIM_ID_P, @V_CLAIMANT_EID_P, @V_COMMENTS_P, @V_PRIMARY_CLMNT_FLAG_P, @V_CLAIM_SUFFIX_P, @V_CLAIMANT_TYPE_ID_P, @V_CLAIMANT_STATUS_ID_P )'
+		
+		--PRINT @V_SQL	
+		EXECUTE SP_EXECUTESQL @V_SQL,
+		N'@V_CLAIMANT_ROW_ID_P INT,
+		@V_CLAIM_ID_P INT,
+		@V_CLAIMANT_EID_P INT,
+		@V_COMMENTS_P VARCHAR(MAX),
+		@V_PRIMARY_CLMNT_FLAG_P INT,
+		@V_CLAIM_SUFFIX_P INT,
+		@V_CLAIMANT_TYPE_ID_P INT,
+		@V_CLAIMANT_STATUS_ID_P INT',
+		@V_CLAIMANT_ROW_ID_P = @V_CLAIMANT_ROW_ID,
+		@V_CLAIM_ID_P = @V_CLAIM_ID,
+		@V_CLAIMANT_EID_P = @V_CLAIMANT_EID,
+		@V_COMMENTS_P = @V_COMMENTS,
+		@V_PRIMARY_CLMNT_FLAG_P = @V_PRIMARY_CLMNT_FLAG,
+		@V_CLAIM_SUFFIX_P = @V_CLAIM_SUFFIX,
+		@V_CLAIMANT_TYPE_ID_P = @V_CLAIMANT_TYPE_ID,
+		@V_CLAIMANT_STATUS_ID_P = @V_CLAIMANT_STATUS_ID
+			
+		--PRINT @V_CLAIMANT_ROW_ID
+		--PRINT  @V_CLAIM_ID
+			--PRINT  @V_CLAIMANT_EID
+			--PRINT @V_COMMENTS
+			--PRINT @V_PRIMARY_CLMNT_FLAG
+			--PRINT @V_CLAIM_SUFFIX
+			--PRINT @V_CLAIMANT_TYPE_ID
+			--PRINT @V_CLAIMANT_STATUS_ID
+
+		--PRINT 'CLAIMANT INSERTED'
+		
+		SET @VSQLINSERT = 'UPDATE ' + @V_DBNAME + 'GLOSSARY SET NEXT_UNIQUE_ID = NEXT_UNIQUE_ID + 1 WHERE SYSTEM_TABLE_NAME = ''CLAIMANT'''
+		EXECUTE SP_EXECUTESQL @VSQLINSERT
+
+	END ---- END NEW CLAIM
+	
+	ELSE IF @V_NEW_CLAIMANT = 0
+	BEGIN ----BEGIN EXISTING CLAIM
+		IF @V_UPDATE_ENTITYNAME = 1
+		BEGIN
+			SET @V_ERRORLOC = 'INSERT085'
+			SET @V_SQL = 'UPDATE ' + @V_DBNAME + 'ENTITY SET ENTITY_ID = @V_ENTITY_ID_P'
+			IF @V_CLAIMANT_LASTNAME IS NOT NULL SET @V_SQL = @V_SQL + ', LAST_NAME = @V_CLAIMANT_LASTNAME_P '
+			IF @V_CLAIMANT_FIRSTNAME IS NOT NULL SET @V_SQL = @V_SQL + ', FIRST_NAME = @V_CLAIMANT_FIRSTNAME_P '
+			IF @V_CLAIMANT_MIDDLENAME IS NOT NULL SET @V_SQL = @V_SQL + ', MIDDLE_NAME = @V_CLAIMANT_MIDDLENAME_P '
+						
+			SET @V_SQL = @V_SQL + 'WHERE ENTITY_ID = @V_ENTITY_ID_P'
+			--PRINT @V_SQL
+			EXECUTE SP_EXECUTESQL @V_SQL,
+			N' @V_ENTITY_ID_P INT,
+			@V_CLAIMANT_LASTNAME_P VARCHAR(255),
+			@V_CLAIMANT_FIRSTNAME_P VARCHAR(255),
+			@V_CLAIMANT_MIDDLENAME_P VARCHAR(255)',
+			@V_CLAIMANT_LASTNAME_P = @V_CLAIMANT_LASTNAME,
+			@V_CLAIMANT_FIRSTNAME_P = @V_CLAIMANT_FIRSTNAME,
+			@V_CLAIMANT_MIDDLENAME_P = @V_CLAIMANT_MIDDLENAME,
+			@V_ENTITY_ID_P = @V_ENTITY_ID 
+		END
+					
+		IF @V_UPDATE_CLAIMANT_ADDRESS = 1
+		BEGIN  ---- BEGIN CLAIMANT ADDRESS UPDATE
+		
+			SET @V_ERRORLOC = 'INSERT086'
+			SET @V_SQL = ' '
+			IF @V_CLAIMANT_ADDRESS1 IS NOT NULL	SET @V_SQL = @V_SQL + ', ADDR1 = @V_CLAIMANT_ADDRESS1_P' 
+			IF @V_CLAIMANT_ADDRESS2 IS NOT NULL	SET @V_SQL = @V_SQL + ', ADDR2 = @V_CLAIMANT_ADDRESS2_P'
+			IF @V_CLAIMANT_SSN IS NOT NULL SET @V_SQL = @V_SQL + ', TAX_ID = @V_CLAIMANT_SSN_P'
+			IF @V_CLAIMANT_CITY IS NOT NULL	SET @V_SQL = @V_SQL + ', CITY = @V_CLAIMANT_CITY_P'
+			IF @V_CLAIMANT_ZIP IS NOT NULL	SET @V_SQL = @V_SQL + ', ZIP_CODE = @V_CLAIMANT_ZIP_P'
+			IF @V_CLAIMANT_STATE_ID IS NOT NULL	SET @V_SQL = @V_SQL + ', STATE_ID = @V_CLAIMANT_STATE_ID_P'
+			IF @V_CLAIMANT_SEX_ID IS NOT NULL SET @V_SQL = @V_SQL + ', SEX_CODE = @V_CLAIMANT_SEX_ID_P'
+			IF @V_CLAIMANT_BIRTH_DT IS NOT NULL	SET @V_SQL = @V_SQL + ', BIRTH_DATE = @V_CLAIMANT_BIRTH_DT_P'
+			IF @V_CLAIMANT_PHONE IS NOT NULL SET @V_SQL = @V_SQL + ', PHONE2 = @V_CLAIMANT_PHONE_P'
+
+			SET @V_SQL = 'UPDATE ' + @V_DBNAME + 'ENTITY SET ENTITY_ID = @V_ENTITY_ID_P ' + @V_SQL
+			SET @V_SQL = @V_SQL + ' WHERE ENTITY_ID = @V_ENTITY_ID_P '
+			
+			IF (@V_CLAIMANT_SSN <> 0 AND @V_CLAIMANT_SSN IS NOT NULL)
+				BEGIN
+					EXECUTE DDS_SSN_IMPORT @V_CLAIMANT_SSN OUTPUT, @V_CLAIMANT_STATE_ID, @V_DBNAME --asharma590 jira 77660
+				END
+			--PRINT @V_SQL;
+			EXECUTE SP_EXECUTESQL @V_SQL,
+			N'@V_ENTITY_ID_P INT ,
+			@V_CLAIMANT_ADDRESS1_P VARCHAR(100),
+			@V_CLAIMANT_ADDRESS2_P VARCHAR(100),
+			@V_CLAIMANT_SSN_P VARCHAR(20),
+			@V_CLAIMANT_CITY_P VARCHAR(50),
+			@V_CLAIMANT_ZIP_P VARCHAR(10),
+			@V_CLAIMANT_STATE_ID_P INT,
+			@V_CLAIMANT_SEX_ID_P INT,
+			@V_CLAIMANT_BIRTH_DT_P VARCHAR(8),
+			@V_CLAIMANT_PHONE_P VARCHAR(30)',
+			@V_ENTITY_ID_P = @V_ENTITY_ID,
+			@V_CLAIMANT_ADDRESS1_P = @V_CLAIMANT_ADDRESS1,
+			@V_CLAIMANT_ADDRESS2_P = @V_CLAIMANT_ADDRESS2,
+			@V_CLAIMANT_SSN_P = @V_CLAIMANT_SSN,
+			@V_CLAIMANT_CITY_P = @V_CLAIMANT_CITY,
+			@V_CLAIMANT_ZIP_P = @V_CLAIMANT_ZIP,
+			@V_CLAIMANT_STATE_ID_P = @V_CLAIMANT_STATE_ID,
+			@V_CLAIMANT_SEX_ID_P = @V_CLAIMANT_SEX_ID,
+			@V_CLAIMANT_BIRTH_DT_P = @V_CLAIMANT_BIRTH_DT,
+			@V_CLAIMANT_PHONE_P = @V_CLAIMANT_PHONE
+		END ---- END CLAIMANT ADDRESS UPDATE
+	END ----END EXISTING claim
+		
+		
+	IF @V_NEW_EVENTXOSHA = 1
+	BEGIN ----begin eventxosha
+		SET @V_ERRORLOC = 'INSERT087'
+			
+		SET @V_SQL = 'INSERT INTO ' + @V_DBNAME+'EVENT_X_OSHA(EVENT_ID, RECORDABLE_FLAG, OSHA_ESTAB_EID) VALUES( '
+		SET @V_SQL = @V_SQL + '@V_EVENT_ID_P, @V_OSHA_RECORDABLE_ID_P, @V_CLAIMANT_EID_P)'
+		EXECUTE SP_EXECUTESQL @V_SQL,
+		N'@V_EVENT_ID_P INT, 
+		@V_OSHA_RECORDABLE_ID_P INT, 
+		@V_CLAIMANT_EID_P INT',
+		@V_EVENT_ID_P = @V_EVENT_ID, 
+		@V_OSHA_RECORDABLE_ID_P = @V_OSHA_RECORDABLE_ID, 
+		@V_CLAIMANT_EID_P = @V_CLAIMANT_EID
+	END
+	ELSE IF @V_NEW_EVENTXOSHA = 0 AND @V_OSHA_RECORDABLE_ID > 0
+	BEGIN
+		SET @V_ERRORLOC = 'INSERT088'
+			
+		SET @V_SQL = 'UPDATE ' + @V_DBNAME+'EVENT_X_OSHA SET RECORDABLE_FLAG = @V_OSHA_RECORDABLE_ID_P, OSHA_ESTAB_EID = @V_CLAIMANT_EID_P WHERE EVENT_ID = @V_EVENT_ID_RMDB_P'
+		EXECUTE SP_EXECUTESQL @V_SQL, 
+		N'@V_EVENT_ID_RMDB_P INT,
+		@V_CLAIMANT_EID_P INT,
+		@V_OSHA_RECORDABLE_ID_P INT',
+		@V_EVENT_ID_RMDB_P = @V_EVENT_ID_RMDB,
+		@V_CLAIMANT_EID_P = @V_CLAIMANT_EID,
+		@V_OSHA_RECORDABLE_ID_P = @V_OSHA_RECORDABLE_ID
+	END ----end eventxosha
+
+		
+	IF @V_NEW_CLAIMXLIT = 1
+	BEGIN ----begin claimxlitigation
+		SET @V_ERRORLOC = 'INSERT089'
+		SET @VSQLINSERT = 'SELECT @NEXTUNIQUEID_P = NEXT_UNIQUE_ID FROM ' + @V_DBNAME + 'GLOSSARY WHERE SYSTEM_TABLE_NAME = ''CLAIM_X_LITIGATION'''
+		EXECUTE SP_EXECUTESQL @VSQLINSERT, N'@NEXTUNIQUEID_P INT OUTPUT', @NEXTUNIQUEID_P = @V_LITIGATION_ROW_ID OUTPUT
+			
+		SET @V_ERRORLOC = 'INSERT090'
+
+		SET @V_SQL = 'INSERT INTO ' + @V_DBNAME + 'CLAIM_X_LITIGATION(CLAIM_ID, LITIGATION_ROW_ID, DOCKET_NUMBER, SUIT_DATE) VALUES( '
+		SET @V_SQL = @V_SQL + '@V_CLAIM_ID_P, @V_LITIGATION_ROW_ID_P, @V_CASE_NUMBER_P, @V_SUIT_DATE_P )'
+			
+		--PRINT 'INSERT CLAIM_X_LITIGATION'
+		--PRINT @V_SQL
+			
+		EXEC SP_EXECUTESQL @V_SQL,
+		N'@V_CLAIM_ID_P INT,
+		@V_LITIGATION_ROW_ID_P INT,
+		@V_CASE_NUMBER_P VARCHAR(22),
+		@V_SUIT_DATE_P VARCHAR(8)',
+		@V_CLAIM_ID_P = @V_CLAIM_ID,
+		@V_LITIGATION_ROW_ID_P = @V_LITIGATION_ROW_ID ,
+		@V_CASE_NUMBER_P = @V_CASE_NUMBER,
+		@V_SUIT_DATE_P = @V_SUIT_DATE
+
+		SET @VSQLINSERT = 'UPDATE ' + @V_DBNAME + 'GLOSSARY SET NEXT_UNIQUE_ID = NEXT_UNIQUE_ID + 1 WHERE SYSTEM_TABLE_NAME = ''CLAIM_X_LITIGATION'''
+		EXECUTE SP_EXECUTESQL @VSQLINSERT
+	END
+	
+	ELSE IF @V_NEW_CLAIMXLIT = 0 AND @V_CASE_NUMBER IS NOT NULL
+	BEGIN
+		SET @V_ERRORLOC = 'INSERT091'
+		SET @V_SQL = 'UPDATE ' + @V_DBNAME+ 'CLAIM_X_LITIGATION SET SUIT_DATE = @V_SUIT_DATE_P WHERE CLAIM_ID = @V_CLAIM_ID_P AND DOCKET_NUMBER = @V_CASE_NUMBER_P'
+		--PRINT 'UPDATE CLAIM_X_LITIGATION'
+		--PRINT @V_SQL
+			
+		EXEC SP_EXECUTESQL @V_SQL,
+		N'@V_CLAIM_ID_P INT,
+		@V_CASE_NUMBER_P VARCHAR(22),
+		@V_SUIT_DATE_P VARCHAR(8)',
+		@V_CLAIM_ID_P = @V_CLAIM_ID,
+		@V_CASE_NUMBER_P = @V_CASE_NUMBER,
+		@V_SUIT_DATE_P = @V_SUIT_DATE
+	END ---- end claimxlitigation
+
+		
+	IF @V_NEW_DEFENDANT = 1
+	BEGIN ----begin defendant
+		SET @V_ERRORLOC = 'INSERT092'
+			
+		SET @VSQLINSERT = 'SELECT @NEXTUNIQUEID_P = NEXT_UNIQUE_ID FROM ' + @V_DBNAME + 'GLOSSARY WHERE SYSTEM_TABLE_NAME = ''DEFENDANT'''
+		EXECUTE SP_EXECUTESQL @VSQLINSERT, N'@NEXTUNIQUEID_P INT OUTPUT', @NEXTUNIQUEID_P = @V_DEFENDANT_ROW_ID OUTPUT
+
+		SET @V_ERRORLOC = 'INSERT093'
+			
+		SET @V_SQL = 'INSERT INTO ' + @V_DBNAME + 'DEFENDANT(CLAIM_ID, DEFENDANT_ROW_ID, DEFENDANT_EID, COMMENTS) VALUES( '
+		SET @V_SQL = @V_SQL + '@V_CLAIM_ID_P, @V_DEFENDANT_ROW_ID_P, @V_DEFENDANT_EID_P, @V_DEF_COMMENT_P )'
+		--PRINT @V_SQL
+			
+		EXEC SP_EXECUTESQL @V_SQL,
+		N'@V_CLAIM_ID_P INT,
+		@V_DEFENDANT_ROW_ID_P INT,
+		@V_DEFENDANT_EID_P INT,
+		@V_DEF_COMMENT_P VARCHAR(8)',
+		@V_CLAIM_ID_P = @V_CLAIM_ID,
+		@V_DEFENDANT_ROW_ID_P = @V_DEFENDANT_ROW_ID ,
+		@V_DEFENDANT_EID_P = @V_DEFENDANT_EID,
+		@V_DEF_COMMENT_P = @V_DEF_COMMENT
+		
+		SET @VSQLINSERT = 'UPDATE ' + @V_DBNAME + 'GLOSSARY SET NEXT_UNIQUE_ID = NEXT_UNIQUE_ID + 1 WHERE SYSTEM_TABLE_NAME = ''DEFENDANT'''
+		EXECUTE SP_EXECUTESQL @VSQLINSERT
+			
+	END ----end defendant
+		
+
+	IF @V_NEW_VEHICLE = 1
+	BEGIN ----begin vehicle
+		SET @V_ERRORLOC = 'INSERT094'
+
+		SET @V_SQL = 'INSERT INTO ' + @V_DBNAME + 'VEHICLE(UNIT_ID, VEHICLE_YEAR, VEHICLE_MAKE, VIN, VEHICLE_MODEL, DELETED_FLAG) VALUES('
+		SET @V_SQL = @V_SQL + '@V_VEHICLE_UNIT_ID_P, @V_VEHICLE_YEAR_P, @V_VEHICLE_MAKE_P, @V_VEHICLE_ID_P, @V_VEHICLE_MODEL_P, 0)'
+			
+		--PRINT @V_SQL
+		EXEC SP_EXECUTESQL @V_SQL,
+		N'@V_VEHICLE_ID_P VARCHAR(20),
+		@V_VEHICLE_UNIT_ID_P INT,
+		@V_VEHICLE_YEAR_P VARCHAR(4),
+		@V_VEHICLE_MAKE_P VARCHAR(20),
+		@V_VEHICLE_MODEL_P VARCHAR(50)',
+		@V_VEHICLE_ID_P = @V_VEHICLE_ID,
+		@V_VEHICLE_UNIT_ID_P = @V_VEHICLE_UNIT_ID,
+		@V_VEHICLE_YEAR_P = @V_VEHICLE_YEAR,
+		@V_VEHICLE_MAKE_P = @V_VEHICLE_MAKE,
+		@V_VEHICLE_MODEL_P = @V_VEHICLE_MODEL
+
+		SET @VSQLINSERT = 'UPDATE ' + @V_DBNAME + 'GLOSSARY SET NEXT_UNIQUE_ID = NEXT_UNIQUE_ID + 1 WHERE SYSTEM_TABLE_NAME = ''VEHICLE'''
+		EXECUTE SP_EXECUTESQL @VSQLINSERT
+	END
+	
+	ELSE IF @V_NEW_VEHICLE = 0 AND @V_RECORD_TYPE = 'V'
+	BEGIN
+		SET @V_ERRORLOC = 'INSERT095'
+
+		SET @V_SQL = 'UPDATE ' + @V_DBNAME + 'VEHICLE SET UNIT_ID = @V_VEHICLE_UNIT_ID_P'
+		----PRINT @V_SQL
+		IF @V_VEHICLE_MAKE IS NOT NULL	SET @V_SQL = @V_SQL + ', VEHICLE_MAKE = @V_VEHICLE_MAKE_P'
+		
+		IF @V_VEHICLE_MODEL IS NOT NULL	SET @V_SQL = @V_SQL + ', VEHICLE_MODEL = @V_VEHICLE_MODEL_P'
+
+		IF @V_VEHICLE_YEAR IS NOT NULL	SET @V_SQL = @V_SQL + ', VEHICLE_YEAR = @V_VEHICLE_YEAR_P'
+
+		SET @V_SQL = @V_SQL + ' WHERE VIN = @V_VEHICLE_ID_P AND DELETED_FLAG = 0'
+			
+		----PRINT @V_SQL
+
+		EXEC SP_EXECUTESQL @V_SQL,
+		N'@V_VEHICLE_ID_P VARCHAR(20),
+		@V_VEHICLE_UNIT_ID_P INT,
+		@V_VEHICLE_YEAR_P VARCHAR(4),
+		@V_VEHICLE_MAKE_P VARCHAR(20),
+		@V_VEHICLE_MODEL_P VARCHAR(50)',
+		@V_VEHICLE_ID_P = @V_VEHICLE_ID,
+		@V_VEHICLE_UNIT_ID_P = @V_VEHICLE_UNIT_ID,
+		@V_VEHICLE_YEAR_P = @V_VEHICLE_YEAR,
+		@V_VEHICLE_MAKE_P = @V_VEHICLE_MAKE,
+		@V_VEHICLE_MODEL_P = @V_VEHICLE_MODEL
+	END ----end vehicle
+
+
+	IF @V_NEW_UNITXCLAIM = 1
+	BEGIN ----begin unitxclaim
+		
+		SET @V_ERRORLOC = 'INSERT096'
+		SET @V_SQL = 'INSERT INTO ' + @V_DBNAME+ 'UNIT_X_CLAIM(UNIT_ROW_ID, UNIT_ID, CLAIM_ID, VEHICLE_YEAR, VEHICLE_MAKE, VIN'
+		IF @fVersionNum >= 16.2
+        BEGIN
+			SET @V_SQL = @V_SQL + ',DTTM_RCD_ADDED,DTTM_RCD_LAST_UPD,ADDED_BY_USER,UPDATED_BY_USER'	 --RMA 25298
+        END
+		SET @V_SQL = @V_SQL + ') VALUES (';
+		SET @V_SQL = @V_SQL + '@V_CLAIMXUNIT_ROW_ID_P, @V_VEHICLE_UNIT_ID_P, @V_CLAIM_ID_P, @V_VEHICLE_YEAR_P, @V_VEHICLE_MAKE_P, @V_VEHICLE_ID_P'
+		IF @fVersionNum >= 16.2
+        BEGIN
+			SET @V_SQL = @V_SQL + ',@V_DTTM_RCD_ADDED_P,@V_DTTM_RCD_LAST_UPD_P,@V_ADDED_BY_USER_P,@V_UPDATED_BY_USER_P'	--RMA 25298
+        END
+        SET @V_SQL = @V_SQL + ')';	
+		--PRINT 'CLAIM X UNIT INSERT'
+		EXEC SP_EXECUTESQL @V_SQL,
+		N'@V_VEHICLE_ID_P VARCHAR(20),
+		@V_VEHICLE_UNIT_ID_P INT,
+		@V_VEHICLE_YEAR_P VARCHAR(4),
+		@V_VEHICLE_MAKE_P VARCHAR(20),
+		@V_CLAIMXUNIT_ROW_ID_P INT,
+		@V_CLAIM_ID_P INT,
+		@V_DTTM_RCD_ADDED_P VARCHAR(14),   
+        @V_DTTM_RCD_LAST_UPD_P VARCHAR(14),
+        @V_ADDED_BY_USER_P VARCHAR(50),
+        @V_UPDATED_BY_USER_P VARCHAR(50)',
+		@V_VEHICLE_ID_P = @V_VEHICLE_ID,
+		@V_VEHICLE_UNIT_ID_P = @V_VEHICLE_UNIT_ID,
+		@V_VEHICLE_YEAR_P = @V_VEHICLE_YEAR,
+		@V_VEHICLE_MAKE_P = @V_VEHICLE_MAKE,
+		@V_CLAIMXUNIT_ROW_ID_P = @V_CLAIMXUNIT_ROW_ID,
+		@V_CLAIM_ID_P = @V_CLAIM_ID,
+		@V_DTTM_RCD_ADDED_P =@V_DATETIME,
+        @V_DTTM_RCD_LAST_UPD_P=@V_DATETIME,
+        @V_ADDED_BY_USER_P=@V_DDSUSER,
+        @V_UPDATED_BY_USER_P =@V_DDSUSER; 
+		
+		SET @VSQLINSERT = 'UPDATE ' + @V_DBNAME + 'GLOSSARY SET NEXT_UNIQUE_ID = NEXT_UNIQUE_ID + 1 WHERE SYSTEM_TABLE_NAME = ''UNIT_X_CLAIM'''
+		EXECUTE SP_EXECUTESQL @VSQLINSERT
+
+	END ----end unitxclaim
+		
+----------------------------------------------RESERVE WORK ---------------------------------------------------------------------------------------
+	-------RESERVE_CURRENT INSERT
+--IF @V_CARRIERFLAG = 0 AND @V_BUCKETLIST <> ''		JIRA 23899 knakra
+IF @V_CARRIERFLAG = 0 AND @V_BUCKETLIST <> '' AND @iVarFinKey = 0	--JIRA 23899 knakra
+BEGIN --BEGIN RESERVE WORK
+		
+	SET @ILEN = LEN(@V_BUCKETLIST)
+	WHILE @ILEN > 0 -- BEGIN WHILE
+	BEGIN
+		
+		SET @vColName1 = SUBSTRING(@V_BUCKETLIST, @ILEN, 1)
+
+		IF @vColName1 = 'A'
+		BEGIN
+			SET @V_UDRM_RSV_TYPE_CODE_ID = @V_UDRM_RSV_TYPE_A_CODE_ID
+			SET @V_RESERVE_AMOUNT = @V_RESERVE_A_CURRENT
+			SET @V_RESERVE_DATE = @V_RESERVE_A_DATE
+		END
+		ELSE IF @vColName1 = 'B'
+		BEGIN
+			SET @V_UDRM_RSV_TYPE_CODE_ID = @V_UDRM_RSV_TYPE_B_CODE_ID
+			SET @V_RESERVE_AMOUNT = @V_RESERVE_B_CURRENT
+			SET @V_RESERVE_DATE = @V_RESERVE_B_DATE
+		END
+		ELSE IF @vColName1 = 'C'
+		BEGIN
+			SET @V_UDRM_RSV_TYPE_CODE_ID = @V_UDRM_RSV_TYPE_C_CODE_ID
+			SET @V_RESERVE_AMOUNT = @V_RESERVE_C_CURRENT
+			SET @V_RESERVE_DATE = @V_RESERVE_C_DATE
+		END					
+		ELSE IF @vColName1 = 'D'
+		BEGIN
+			SET @V_UDRM_RSV_TYPE_CODE_ID = @V_UDRM_RSV_TYPE_D_CODE_ID
+			SET @V_RESERVE_AMOUNT = @V_RESERVE_D_CURRENT
+			SET @V_RESERVE_DATE = @V_RESERVE_D_DATE
+		END
+		ELSE IF @vColName1 = 'E'					
+		BEGIN
+			SET @V_UDRM_RSV_TYPE_CODE_ID = @V_UDRM_RSV_TYPE_E_CODE_ID
+			SET @V_RESERVE_AMOUNT = @V_RESERVE_E_CURRENT	
+			SET @V_RESERVE_DATE = @V_RESERVE_E_DATE				
+		END
+
+		SET @V_RC_ROW_ID = 0		
+		SET @V_PAID_TOTAL = 0
+		SET @V_COL_TOTAL = 0
+		SET @V_CUR_RSV_AMT = 0
+
+		SET @V_ERRORLOC = 'INSERT096B'
+		SET @V_SQL = 'SELECT @V_RC_ROW_ID_P = RC_ROW_ID, @V_CUR_RSV_AMT_P = RESERVE_AMOUNT, @V_COL_TOTAL_P = COLLECTION_TOTAL, @V_PAID_TOTAL_P = PAID_TOTAL FROM ' + @V_DBNAME + 'RESERVE_CURRENT'
+		SET @V_SQL = @V_SQL + ' WHERE CLAIM_ID = @V_CLAIM_ID_P'
+		SET @V_SQL = @V_SQL + ' AND RESERVE_TYPE_CODE = @V_UDRM_RSV_TYPE_CODE_ID_P'
+		SET @V_SQL = @V_SQL + ' AND CLAIMANT_EID = @V_CLAIMANT_EID_P'
+		SET @V_SQL = @V_SQL + ' AND UNIT_ID = @V_VEHICLE_UNIT_ID_P'
+
+		Exec sp_Executesql @V_SQL,
+		N'@V_RC_ROW_ID_P INT OUTPUT,
+		@V_CUR_RSV_AMT_P INT OUTPUT,
+		@V_COL_TOTAL_P INT OUTPUT,
+		@V_PAID_TOTAL_P INT OUTPUT,
+		@V_CLAIM_ID_P INT,
+		@V_CLAIMANT_EID_P INT,
+		@V_VEHICLE_UNIT_ID_P INT,
+		@V_UDRM_RSV_TYPE_CODE_ID_P INT',
+		@V_RC_ROW_ID_P = @V_RC_ROW_ID OUTPUT,
+		@V_CUR_RSV_AMT_P = @V_CUR_RSV_AMT OUTPUT,
+		@V_COL_TOTAL_P = @V_COL_TOTAL OUTPUT,
+		@V_PAID_TOTAL_P = @V_PAID_TOTAL OUTPUT,
+		@V_CLAIM_ID_P = @V_CLAIM_ID ,
+		@V_CLAIMANT_EID_P = @V_CLAIMANT_EID_R,
+		@V_VEHICLE_UNIT_ID_P = @V_UNIT_ID_R,
+		@V_UDRM_RSV_TYPE_CODE_ID_P = @V_UDRM_RSV_TYPE_CODE_ID
+
+	----- RESERVE CALCULATION LOGIC STARTS
+
+		SET @V_CHANGE_AMT = @V_RESERVE_AMOUNT - @V_CUR_RSV_AMT
+
+		IF @V_COL_IN_RSV_BAL <> 0
+			SET @V_RESERVE_BALANCE = @V_RESERVE_AMOUNT - (@V_PAID_TOTAL - @V_COL_TOTAL)
+		ELSE IF @V_COL_IN_RSV_BAL = 0 
+			SET @V_RESERVE_BALANCE = @V_RESERVE_AMOUNT - @V_PAID_TOTAL
+							
+		IF @V_COL_IN_RSV_BAL <> 0	
+		BEGIN
+			IF @V_RESERVE_BALANCE < 0
+				SET @V_INCURRED_AMOUNT = @V_PAID_TOTAL - @V_COL_TOTAL
+			ELSE
+				SET @V_INCURRED_AMOUNT = @V_RESERVE_BALANCE + (@V_PAID_TOTAL - @V_COL_TOTAL)															
+		END
+		ELSE
+		BEGIN
+			IF @V_RESERVE_BALANCE < 0
+				SET @V_INCURRED_AMOUNT = @V_PAID_TOTAL
+			ELSE
+				SET @V_INCURRED_AMOUNT = @V_RESERVE_BALANCE + @V_PAID_TOTAL
+		END
+				
+		IF @V_COL_IN_INC_BAL <> 0	
+			SET @V_INCURRED_AMOUNT = @V_INCURRED_AMOUNT - @V_COL_TOTAL
+				
+	---- RESERVE CALCULATION LOGIC ENDS
+
+		---------------------------------------------
+
+		IF @V_RC_ROW_ID = 0
+		BEGIN
+			
+			SET @V_ERRORLOC = 'INSERT096C'
+			SET @V_RESERVE_BALANCE = @V_RESERVE_AMOUNT
+
+			SET @VSQLINSERT = 'SELECT @NEXTUNIQUEID_P = NEXT_UNIQUE_ID FROM ' + @V_DBNAME + 'GLOSSARY WHERE SYSTEM_TABLE_NAME = ''RESERVE_CURRENT'''
+			EXECUTE SP_EXECUTESQL @VSQLINSERT, N'@NEXTUNIQUEID_P INT OUTPUT', @NEXTUNIQUEID_P = @V_RC_ROW_ID OUTPUT
+
+			SET @V_ERRORLOC = 'INSERT096D'			
+			SET @V_SQL='INSERT INTO '+@V_DBNAME+'RESERVE_CURRENT(RC_ROW_ID, CLAIM_ID, CLAIMANT_EID, UNIT_ID, RESERVE_TYPE_CODE, '
+			SET @V_SQL=@V_SQL+'RESERVE_AMOUNT, BALANCE_AMOUNT, INCURRED_AMOUNT, PAID_TOTAL, COLLECTION_TOTAL,'
+			SET @V_SQL=@V_SQL+'DATE_ENTERED, DTTM_RCD_ADDED, ADDED_BY_USER, DTTM_RCD_LAST_UPD, UPDATED_BY_USER, REASON,'
+			SET @V_SQL=@V_SQL+'ENTERED_BY_USER,POLCVG_LOSS_ROW_ID) '
+					
+			SET @V_SQL=@V_SQL + 'VALUES(@V_RC_ROW_ID_P, @V_CLAIM_ID_P, @V_CLAIMANT_EID_P, @V_UNIT_ID_P, @V_UDRM_RSV_TYPE_CODE_ID_P, @V_RESERVE_AMOUNT_P, @V_RESERVE_BALANCE_P,'
+			SET @V_SQL=@V_SQL + '@V_INCURRED_AMOUNT_P, @V_PAID_TOTAL_P, @V_COLLECTION_TOTAL_P, @V_DATE_ENTERED_P, @V_DATETIME_P ,@V_DDSUSER_P, @V_DATETIME_P,'
+			SET @V_SQL=@V_SQL + '@V_DDSUSER_P, @V_REASON_P, @V_DDSUSER_P, 0)' 
+							   
+			Exec sp_Executesql @V_SQL,
+			N'@V_RC_ROW_ID_P INT,
+			@V_CLAIM_ID_P INT,
+			@V_CLAIMANT_EID_P INT,
+			@V_UNIT_ID_P INT,
+			@V_UDRM_RSV_TYPE_CODE_ID_P INT,
+			@V_RESERVE_AMOUNT_P DECIMAL(20,2),
+			@V_RESERVE_BALANCE_P DECIMAL(20,2),
+			@V_INCURRED_AMOUNT_P DECIMAL(20,2),
+			@V_PAID_TOTAL_P DECIMAL(20,2),
+			@V_COLLECTION_TOTAL_P DECIMAL(20,2),
+			@V_DATE_ENTERED_P VARCHAR(8),
+			@V_DATETIME_P VARCHAR(14),
+			@V_DDSUSER_P VARCHAR(6),
+			@V_REASON_P VARCHAR(255)',
+			@V_RC_ROW_ID_P = @V_RC_ROW_ID,
+			@V_CLAIM_ID_P = @V_CLAIM_ID,
+			@V_CLAIMANT_EID_P = @V_CLAIMANT_EID_R,
+			@V_UNIT_ID_P = @V_UNIT_ID_R,		
+			@V_UDRM_RSV_TYPE_CODE_ID_P = @V_UDRM_RSV_TYPE_CODE_ID,
+			@V_RESERVE_AMOUNT_P = @V_RESERVE_AMOUNT,
+			@V_RESERVE_BALANCE_P = @V_RESERVE_BALANCE,
+			@V_INCURRED_AMOUNT_P = @V_INCURRED_AMOUNT,
+			@V_PAID_TOTAL_P = @V_PAID_TOTAL,
+			@V_COLLECTION_TOTAL_P = @V_COL_TOTAL,
+			@V_DATE_ENTERED_P = @V_RESERVE_DATE,
+			@V_DATETIME_P = @V_DATETIME,
+			@V_DDSUSER_P = @V_DDSUSER,
+			@V_REASON_P = @V_REASON
+			
+			SET @V_ERRORLOC = 'INSERT096E'	
+			SET @VSQLINSERT = 'UPDATE ' + @V_DBNAME + 'GLOSSARY SET NEXT_UNIQUE_ID = NEXT_UNIQUE_ID + 1 WHERE SYSTEM_TABLE_NAME = ''RESERVE_CURRENT'''
+			EXECUTE SP_EXECUTESQL @VSQLINSERT
+		END
+
+		ELSE IF @V_RC_ROW_ID > 0 AND ( @V_CUR_RSV_AMT <> @V_RESERVE_AMOUNT )
+		BEGIN
+			SET @V_ERRORLOC = 'INSERT096F'	
+			SET @V_SQL = 'UPDATE ' + @V_DBNAME+ 'RESERVE_CURRENT SET RESERVE_AMOUNT = @V_RESERVE_AMOUNT_P'
+			SET @V_SQL = @V_SQL + ', DATE_ENTERED = @V_DATE_ENTERED_P, INCURRED_AMOUNT = @V_INCURRED_AMOUNT_P' 
+			SET @V_SQL = @V_SQL + ', PAID_TOTAL = @V_PAID_TOTAL_P, COLLECTION_TOTAL = @V_COLLECTION_TOTAL_P' 
+			SET @V_SQL = @V_SQL + ', BALANCE_AMOUNT =  @V_RESERVE_BALANCE_P, REASON = @V_REASON_P'
+			SET @V_SQL = @V_SQL + ', DTTM_RCD_LAST_UPD = @V_DATETIME_P, UPDATED_BY_USER = @V_DDSUSER_P'
+			SET @V_SQL = @V_SQL + ' WHERE CLAIM_ID = @V_CLAIM_ID_P'
+			SET @V_SQL = @V_SQL + ' AND UNIT_ID = @V_UNIT_ID_P AND CLAIMANT_EID = @V_CLAIMANT_EID_P'
+			SET @V_SQL = @V_SQL + ' AND RESERVE_TYPE_CODE = @V_UDRM_RSV_TYPE_CODE_ID_P'
+			
+			Exec sp_Executesql @V_SQL,
+			N'@V_RC_ROW_ID_P INT,
+			@V_CLAIM_ID_P INT,
+			@V_CLAIMANT_EID_P INT,
+			@V_UNIT_ID_P INT,
+			@V_UDRM_RSV_TYPE_CODE_ID_P INT,
+			@V_RESERVE_AMOUNT_P DECIMAL(20,2),
+			@V_RESERVE_BALANCE_P DECIMAL(20,2),
+			@V_INCURRED_AMOUNT_P DECIMAL(20,2),
+			@V_PAID_TOTAL_P DECIMAL(20,2),
+			@V_COLLECTION_TOTAL_P DECIMAL(20,2),
+			@V_DATE_ENTERED_P VARCHAR(8),
+			@V_DATETIME_P VARCHAR(14),
+			@V_DDSUSER_P VARCHAR(6),
+			@V_REASON_P VARCHAR(255)',
+			@V_RC_ROW_ID_P = @V_RC_ROW_ID,
+			@V_CLAIM_ID_P = @V_CLAIM_ID,
+			@V_CLAIMANT_EID_P = @V_CLAIMANT_EID_R,
+			@V_UNIT_ID_P = @V_UNIT_ID_R,
+			@V_UDRM_RSV_TYPE_CODE_ID_P = @V_UDRM_RSV_TYPE_CODE_ID,
+			@V_RESERVE_AMOUNT_P = @V_RESERVE_AMOUNT,
+			@V_RESERVE_BALANCE_P = @V_RESERVE_BALANCE,
+			@V_INCURRED_AMOUNT_P = @V_INCURRED_AMOUNT,
+			@V_PAID_TOTAL_P = @V_PAID_TOTAL,
+			@V_COLLECTION_TOTAL_P = @V_COL_TOTAL,
+			@V_DATE_ENTERED_P = @V_RESERVE_DATE,
+			@V_DATETIME_P = @V_DATETIME,
+			@V_DDSUSER_P = @V_DDSUSER,
+			@V_REASON_P = @V_REASON
+		END	
+
+		-------RESERVE_HISTORY INSERT		
+		SET @V_ERRORLOC = 'INSERT096G'	
+		SET @VSQLINSERT = 'SELECT @NEXTUNIQUEID_P = NEXT_UNIQUE_ID FROM ' + @V_DBNAME + 'GLOSSARY WHERE SYSTEM_TABLE_NAME = ''RESERVE_HISTORY'''
+		EXECUTE SP_EXECUTESQL @VSQLINSERT, N'@NEXTUNIQUEID_P INT OUTPUT', @NEXTUNIQUEID_P = @V_RSV_ROW_ID OUTPUT
+			
+		SET @V_ERRORLOC = 'INSERT096H'	
+		SET @V_SQL = 'INSERT INTO '+@V_DBNAME+'RESERVE_HISTORY(RSV_ROW_ID, CLAIM_ID, RESERVE_TYPE_CODE, CLAIMANT_EID, UNIT_ID, RESERVE_AMOUNT, PAID_TOTAL,'
+		SET @V_SQL = @V_SQL +'COLLECTION_TOTAL, INCURRED_AMOUNT, BALANCE_AMOUNT, CHANGE_AMOUNT, REASON, DATE_ENTERED, DTTM_RCD_ADDED, ADDED_BY_USER,'
+		SET @V_SQL = @V_SQL + ' DTTM_RCD_LAST_UPD, UPDATED_BY_USER, ENTERED_BY_USER) '
+		SET @V_SQL = @V_SQL + 'VALUES(@V_RSV_ROW_ID_P, @V_CLAIM_ID_P, @V_UDRM_RSV_TYPE_CODE_ID_P, @V_CLAIMANT_EID_P, @V_UNIT_ID_P,'
+		SET @V_SQL = @V_SQL + '@V_RESERVE_AMOUNT_P, @V_PAID_TOTAL_P, @V_COLLECTION_TOTAL_P, @V_INCURRED_AMOUNT_P, @V_RESERVE_BALANCE_P, @V_CHANGE_AMOUNT_P, @V_REASON_P,'
+		SET @V_SQL = @V_SQL + '@V_DATE_ENTERED_P, @V_DATETIME_P, @V_DDSUSER_P, @V_DATETIME_P, @V_DDSUSER_P, @V_DDSUSER_P)'
+
+		----PRINT @V_SQL
+							
+		Exec sp_Executesql @V_SQL,
+		N'@V_RSV_ROW_ID_P INT,
+		@V_CLAIM_ID_P INT,
+		@V_CLAIMANT_EID_P INT,
+		@V_UNIT_ID_P INT,
+		@V_UDRM_RSV_TYPE_CODE_ID_P INT,
+		@V_RESERVE_AMOUNT_P DECIMAL(20,2),
+		@V_RESERVE_BALANCE_P DECIMAL(20,2),
+		@V_INCURRED_AMOUNT_P DECIMAL(20,2),
+		@V_PAID_TOTAL_P DECIMAL(20,2),
+		@V_COLLECTION_TOTAL_P DECIMAL(20,2),
+		@V_CHANGE_AMOUNT_P DECIMAL(20,2),
+		@V_DATE_ENTERED_P VARCHAR(8),
+		@V_DATETIME_P VARCHAR(14),
+		@V_DDSUSER_P VARCHAR(6),
+		@V_REASON_P VARCHAR(255)',
+		@V_RSV_ROW_ID_P = @V_RSV_ROW_ID,
+		@V_CLAIM_ID_P = @V_CLAIM_ID,
+		@V_CLAIMANT_EID_P = @V_CLAIMANT_EID_R,
+		@V_UNIT_ID_P = @V_UNIT_ID_R,	
+		@V_UDRM_RSV_TYPE_CODE_ID_P = @V_UDRM_RSV_TYPE_CODE_ID,
+		@V_RESERVE_AMOUNT_P = @V_RESERVE_AMOUNT,
+		@V_RESERVE_BALANCE_P = @V_RESERVE_BALANCE,
+		@V_INCURRED_AMOUNT_P = @V_INCURRED_AMOUNT,
+		@V_PAID_TOTAL_P = @V_PAID_TOTAL,
+		@V_COLLECTION_TOTAL_P = @V_COL_TOTAL,
+		@V_CHANGE_AMOUNT_P = @V_CHANGE_AMT,
+		@V_DATE_ENTERED_P = @V_RESERVE_DATE,
+		@V_DATETIME_P = @V_DATETIME,
+		@V_DDSUSER_P = @V_DDSUSER,
+		@V_REASON_P = @V_REASON
+	
+		SET @V_ERRORLOC = 'INSERT096I'				
+		SET @VSQLINSERT = 'UPDATE ' + @V_DBNAME + 'GLOSSARY SET NEXT_UNIQUE_ID = NEXT_UNIQUE_ID + 1 WHERE SYSTEM_TABLE_NAME = ''RESERVE_HISTORY'''
+		EXECUTE SP_EXECUTESQL @VSQLINSERT
+
+	SET @ILEN = @ILEN - 1
+	END --END WHILE
+END --END RESERVE WORK
+
+----------------------------------------------------RESERVE WORK ENDS ----------------------------------------------------------------------------------
+
+	IF @V_NEW_UNITSTAT = 1
+	BEGIN
+		SET @V_ERRORLOC = 'INSERT097'
+		SET @V_SQL = 'INSERT INTO ' + @V_DBNAME + 'UNIT_STAT(UNIT_STAT_ROW_ID, CLAIM_ID, SETTLEMENT_METHOD, MGND_CARE_ORG_TYPE, DISPUTED_CASE_FLAG, '
+		SET @V_SQL = @V_SQL + 'NCCI_LOSS_TYPE_LOSS_CODE, NCCI_LOSS_TYPE_RECOV_CODE) VALUES( '
+		SET @V_SQL = @V_SQL + '@V_CLAIMXUNIT_ROW_ID_P, @V_CLAIM_ID_P, @V_SETTLEMENT_METHOD_ID_P, @V_MGND_CARE_ORG_TYPE_ID_P, @V_DISPUTED_CASE_FLAG_ID_P, '
+		SET @V_SQL = @V_SQL + '@V_NCCI_LOSS_TYPE_LOSS_CODE_ID_P, @V_NCCI_LOSS_TYPE_RECOV_CODE_ID_P )'
+		
+		--PRINT @V_SQL
+
+		EXEC SP_EXECUTESQL @V_SQL,
+		N'@V_CLAIMXUNIT_ROW_ID_P INT,
+		@V_CLAIM_ID_P INT,
+		@V_SETTLEMENT_METHOD_ID_P INT,
+		@V_MGND_CARE_ORG_TYPE_ID_P INT,
+		@V_DISPUTED_CASE_FLAG_ID_P INT,
+		@V_NCCI_LOSS_TYPE_LOSS_CODE_ID_P INT,
+		@V_NCCI_LOSS_TYPE_RECOV_CODE_ID_P INT',
+		@V_SETTLEMENT_METHOD_ID_P = @V_SETTLEMENT_METHOD_ID,
+		@V_MGND_CARE_ORG_TYPE_ID_P = @V_MGND_CARE_ORG_TYPE_ID,
+		@V_DISPUTED_CASE_FLAG_ID_P = @V_DISPUTED_CASE_FLAG_ID,
+		@V_NCCI_LOSS_TYPE_LOSS_CODE_ID_P = @V_NCCI_LOSS_TYPE_LOSS_CODE_ID,
+		@V_NCCI_LOSS_TYPE_RECOV_CODE_ID_P = @V_NCCI_LOSS_TYPE_RECOV_CODE_ID,
+		@V_CLAIMXUNIT_ROW_ID_P = @V_CLAIMXUNIT_ROW_ID,
+		@V_CLAIM_ID_P = @V_CLAIM_ID
+
+		SET @VSQLINSERT = 'UPDATE ' + @V_DBNAME + 'GLOSSARY SET NEXT_UNIQUE_ID = NEXT_UNIQUE_ID + 1 WHERE SYSTEM_TABLE_NAME = ''UNIT_STAT'''
+		EXECUTE SP_EXECUTESQL @VSQLINSERT
+
+	END
+	ELSE IF @V_NEW_UNITSTAT = 0 AND @V_RECORD_TYPE = 'W'
+	BEGIN
+		SET @V_ERRORLOC = 'INSERT098'
+		SET @V_SQL = 'UPDATE ' + @V_DBNAME + 'UNIT_STAT SET CLAIM_ID = @V_CLAIM_ID_P'
+		IF @V_SETTLEMENT_METHOD_ID > 0	SET @V_SQL = @V_SQL + ', SETTLEMENT_METHOD = @V_SETTLEMENT_METHOD_ID_P'
+		IF @V_MGND_CARE_ORG_TYPE_ID > 0	SET @V_SQL = @V_SQL + ', MGND_CARE_ORG_TYPE = @V_MGND_CARE_ORG_TYPE_ID_P'
+		IF @V_NCCI_LOSS_TYPE_LOSS_CODE_ID > 0 SET @V_SQL = @V_SQL + ', NCCI_LOSS_TYPE_LOSS_CODE = @V_NCCI_LOSS_TYPE_LOSS_CODE_ID_P'
+		IF @V_NCCI_LOSS_TYPE_RECOV_CODE_ID > 0	SET @V_SQL = @V_SQL + ', NCCI_LOSS_TYPE_RECOV_CODE =  @V_NCCI_LOSS_TYPE_RECOV_CODE_ID_P'
+			
+		SET @V_SQL = @V_SQL + ', DISPUTED_CASE_FLAG = @V_DISPUTED_CASE_FLAG_ID_P'
+		SET @V_SQL = @V_SQL + ' WHERE CLAIM_ID = @V_CLAIM_ID_P'
+
+		--PRINT @V_SQL
+
+		EXEC SP_EXECUTESQL @V_SQL,
+		N'@V_CLAIM_ID_P INT,
+		@V_SETTLEMENT_METHOD_ID_P INT,
+		@V_MGND_CARE_ORG_TYPE_ID_P INT,
+		@V_DISPUTED_CASE_FLAG_ID_P INT,
+		@V_NCCI_LOSS_TYPE_LOSS_CODE_ID_P INT,
+		@V_NCCI_LOSS_TYPE_RECOV_CODE_ID_P INT',
+		@V_SETTLEMENT_METHOD_ID_P = @V_SETTLEMENT_METHOD_ID,
+		@V_MGND_CARE_ORG_TYPE_ID_P = @V_MGND_CARE_ORG_TYPE_ID,
+		@V_DISPUTED_CASE_FLAG_ID_P = @V_DISPUTED_CASE_FLAG_ID,
+		@V_NCCI_LOSS_TYPE_LOSS_CODE_ID_P = @V_NCCI_LOSS_TYPE_LOSS_CODE_ID,
+		@V_NCCI_LOSS_TYPE_RECOV_CODE_ID_P = @V_NCCI_LOSS_TYPE_RECOV_CODE_ID,
+		@V_CLAIM_ID_P = @V_CLAIM_ID
+	END
+	--JIRA 23899 knakra starts(commenting below code)
+	--BEGIN ------ ACTIVITY TRACK		
+	
+	--	SET @V_ERRORLOC = 'INSERT099'
+		
+	--	SET @VSQLINSERT = 'SELECT @NEXTUNIQUEID_P = NEXT_UNIQUE_ID FROM ' + @V_DBNAME + 'GLOSSARY WHERE SYSTEM_TABLE_NAME = ''ACTIVITY_TRACK'''
+	--	EXECUTE SP_EXECUTESQL @VSQLINSERT, N'@NEXTUNIQUEID_P INT OUTPUT', @NEXTUNIQUEID_P = @V_CLAIMXUNIT_ROW_ID OUTPUT
+
+	--	SET @V_ERRORLOC = 'INSERT100'
+
+	--	SET @V_SQL = 'INSERT INTO ' + @V_DBNAME + 'ACTIVITY_TRACK(ACTIVITY_ROW_ID, CLAIM_ID, FOREIGN_TABLE_ID, FOREIGN_TABLE_KEY, UPLOAD_FLAG, '
+	--	SET @V_SQL = @V_SQL + 'DTTM_RCD_ADDED, ADDED_BY_USER, CHECK_BATCH_ID, POLICY_SYSTEM_ID, IS_UPDATED, ACTIVITY_TYPE, ACCOUNT_ID, RESERVE_AMOUNT, '
+	--	SET @V_SQL = @V_SQL + 'RESERVE_STATUS, CHANGE_AMOUNT, CHECK_STATUS, VOID_FLAG, IS_COLLECTION) VALUES( '
+	--	SET @V_SQL = @V_SQL + '@V_CLAIMXUNIT_ROW_ID_P, @V_CLAIM_ID_P, 0, 0, 0, @V_DATETIME_P'
+	--	SET @V_SQL = @V_SQL +', @V_DDSUSER_P, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)'
+
+		--PRINT @V_SQL
+		
+	--	EXEC SP_EXECUTESQL @V_SQL,
+	--	N'@V_CLAIMXUNIT_ROW_ID_P INT,
+	--	@V_CLAIM_ID_P INT,
+	--	@V_DATETIME_P VARCHAR(14),
+	--	@V_DDSUSER_P VARCHAR(6)',
+	--	@V_CLAIMXUNIT_ROW_ID_P = @V_CLAIMXUNIT_ROW_ID,
+	--	@V_CLAIM_ID_P = @V_CLAIM_ID,
+	--	@V_DATETIME_P = @V_DATETIME,
+	--	@V_DDSUSER_P = @V_DDSUSER
+		
+	--	SET @VSQLINSERT = 'UPDATE ' + @V_DBNAME + 'GLOSSARY SET NEXT_UNIQUE_ID = NEXT_UNIQUE_ID + 1 WHERE SYSTEM_TABLE_NAME = ''ACTIVITY_TRACK'''
+	--	EXECUTE SP_EXECUTESQL @VSQLINSERT
+	--JIRA 23899 knakra ends
+	--END
+
+	IF @V_CLAIM_SUPP = 1 
+	BEGIN -- SUPPLEMENTAL COLUMN INSERT BEGIN
+		
+		IF @V_CLAIMANT_EID > 0 -- FOR CLAIMANT_SUPP, EVENT_SUPP, CLAIM_SUPP AND ENTITY_SUPP ALL
+		EXECUTE DDS_SUPPLEMENT @P_JOBID, @CONFIG_ID, @P_USER_ID, @V_MODULENAME, @V_DBNAME, @V_DA_ROW_ID, @CheckCreateNewCodes, @V_CLAIM_LOB,
+		@V_ERRORCOUNT, 'I',	@V_CLAIMANT_EID, @V_EVENT_ID, @V_CLAIM_ID, @V_EMPLOYEE_EID, @V_VEHICLE_UNIT_ID, @V_CLAIMANT_EID, @V_DEFENDANT_ROW_ID, @V_PI_ROW_ID, 0, 0, 0, @V_PLAN_ID,0,0, 'CLAIM NUMBER', @V_CLAIM_NUMBER, @V_SUPP_ERROR_COUNT OUTPUT 
+
+		IF @V_DEPENDENT_EID > 0
+		EXECUTE DDS_SUPPLEMENT @P_JOBID, @CONFIG_ID, @P_USER_ID, @V_MODULENAME, @V_DBNAME, @V_DA_ROW_ID, @CheckCreateNewCodes, @V_CLAIM_LOB,
+		@V_ERRORCOUNT, 'I',	0, 0, 0, 0, 0, @V_DEPENDENT_EID, 0, 0, 0, 0, 0, 0 ,0 ,0 , 'CLAIM NUMBER', @V_CLAIM_NUMBER, @V_SUPP_ERROR_COUNT OUTPUT 
+
+	END -- SUPPLEMENTAL COLUMN INSERT END
+
+
+END  ----END LEVEL INSERT/UPDATE
+
+END TRY
+BEGIN CATCH
+	SET @V_ERROR_MESSAGE = ERROR_MESSAGE()
+	EXECUTE DDS_ERROR_LOG_CAPTURE @P_JOBID, @V_DA_ROW_ID, @V_MODULENAME, @V_ERRORLOC, @V_ERRORLOC, @V_PROCNAME,@V_ERROR_MESSAGE,'EXCEPTION', @V_ERROR_TABLE, 'CLAIM_NUMBER', @V_CLAIM_NUMBER,0;
+	SET @V_ROWCOUNT = @V_ROWCOUNT + 1;
+END CATCH    ----INSERT WORK ENDS
+
+FETCHNEXT:
+
+SET @V_ERRORLOC = 'END666'
+		
+--IF @V_ROWCOUNT + @V_ERRORCOUNT = 0 SET @V_INVALID_ROW = 0 commented by neha
+	IF @V_ERRORCOUNT + @V_ROWCOUNT > 0 SET @V_INVALID_ROW = 1 --added by neha
+	ELSE IF (@V_ERRORCOUNT + @V_ROWCOUNT = 0) SET @V_INVALID_ROW = 0  --added by neha
+BEGIN
+	SET @V_SQL = 'UPDATE DDS_CLAIM SET INVALID_ROW = @V_INVALID_ROW_P WHERE DA_ROW_ID = @V_DA_ROW_ID_P AND JOBID = @P_JOBID_P';
+
+	Exec sp_Executesql @V_SQL,
+	N' @V_INVALID_ROW_P AS INT ,
+	@V_DA_ROW_ID_P INT,
+	@P_JOBID_P INT',
+	@V_INVALID_ROW_P = @V_INVALID_ROW,
+	@V_DA_ROW_ID_P = @V_DA_ROW_ID,
+	@P_JOBID_P = @P_JOBID
+
+END
+
+----Neha Running status code starts 33658---
+	BEGIN TRY				
+	SET @V_ERRORLOC= 'Running_Status'
+	IF @iRunStatCnt=1
+	BEGIN
+		SET @vProcessMsg ='Total Number of Records processed in CLAIM : '+ cast(@iRunStatCnt as varchar);
+
+		SET @V_SQL = 'INSERT INTO DDS_PROCESS_LOG_T (JOBID,PROCESS_DESC,MODULE_NAME, TABLE_NAME, DISPLAY_ORDER ) VALUES(';
+		SET @V_SQL =@V_SQL +' @pJOBID,@pProcessMsg,@pModuleName,@pTableName,@pDisplayOrder)' ;
+
+		EXECUTE SP_EXECUTESQL @V_SQL,
+		N'@pJOBID INT, @pProcessMsg varchar(4000), @pModuleName varchar(50),@pTableName varchar(50),@pDisplayOrder INT',
+		@pJOBID=@P_JOBID, @pProcessMsg=@vProcessMsg, @pModuleName='CLAIM_RUN',@pTableName ='DDS_CLAIM_RUN',@pDisplayOrder=-11
+	END
+	ELSE  
+	IF (@iRunCnt = 1000)
+	BEGIN
+			SET @vProcessMsg ='Total Number of Records processed in CLAIM : '+ cast(@iRunStatCnt as varchar);
+
+			SET @V_SQL = 'UPDATE DDS_PROCESS_LOG_T SET PROCESS_DESC =@pProcessDesc WHERE JOBID =@pJobID AND MODULE_NAME =@pModuleName';
+			SET @V_SQL =@V_SQL +' AND TABLE_NAME=@pTableName AND DISPLAY_ORDER=@pDisplayOrder';
+
+			EXECUTE SP_EXECUTESQL @V_SQL,
+			N'@pProcessDesc varchar(4000),@pJobID INT, @pModuleName varchar(50),@pTableName varchar(50),@pDisplayOrder INT',
+			@pProcessDesc=@vProcessMsg, @pJobID=@P_JOBID,@pModuleName='CLAIM_RUN',@pTableName ='DDS_CLAIM_RUN',@pDisplayOrder=-11
+			SET @iRunCnt=1;
+	END
+	ELSE
+	IF (@iTotalRows=@iRunStatCnt)
+	BEGIN
+		SET @vProcessMsg ='Total Number of Records processed in CLAIM : '+ cast(@iRunStatCnt as varchar);
+		SET @V_SQL = 'UPDATE DDS_PROCESS_LOG_T SET PROCESS_DESC =@pProcessDesc WHERE JOBID =@pJobID AND MODULE_NAME =@pModuleName';
+		SET @V_SQL =@V_SQL +' AND TABLE_NAME=@pTableName AND DISPLAY_ORDER=@pDisplayOrder';
+
+			EXECUTE SP_EXECUTESQL @V_SQL,
+            N'@pProcessDesc varchar(4000),@pJobID INT, @pModuleName varchar(50),@pTableName varchar(50),@pDisplayOrder INT',
+			@pProcessDesc=@vProcessMsg, @pJobID=@P_JOBID,@pModuleName='CLAIM_RUN',@pTableName ='DDS_CLAIM_RUN',@pDisplayOrder=-11
+	END
+
+	SET @iRunStatCnt =@iRunStatCnt + 1; 
+	SET @iRunCnt = @iRunCnt + 1;
+	
+	END TRY
+	BEGIN CATCH
+			SET @V_ERROR_MESSAGE = ERROR_MESSAGE()
+			EXECUTE DDS_ERROR_LOG_CAPTURE @P_JOBID, @V_DA_ROW_ID, 'DDS_CLAIM','Run_Status', 'Run_Status','PROCESS_CLAIM',@V_ERROR_MESSAGE,'EXCEPTION', 'DDS_CLAIM','CLAIM_ID', @V_CLAIM_ID, 0
+					
+	END CATCH
+	---Neha running status code ends 33658---
+	--asharma590 jira 74846
+	FETCH NEXT FROM DDS_CLAIM_CUR
+	INTO @V_DA_ROW_ID, @V_RECORD_TYPE, @V_CLAIM_NUMBER, @V_CLAIM_SUFFIX, @V_CLAIM_TYPE, @V_DIVISION,
+	 @V_LOCATION, @V_DEPARTMENT, @V_COMPANY, @V_DIVISION_DESC, @V_LOCATION_DESC, @V_DEPARTMENT_DESC, @V_COMPANY_DESC, @V_TIME_OF_CLAIM, @V_DATE_OF_LOSS,
+	 @V_DATE_REPORTED, @V_DATE_OF_CLAIM, @V_DATE_CLOSED, @V_DATE_REOPENED, @V_CLAIM_STATUS, 
+	 @V_RESERVE_A_CURRENT, @V_RESERVE_A_DATE, @V_RESERVE_B_CURRENT, @V_RESERVE_B_DATE, @V_RESERVE_C_CURRENT, @V_RESERVE_C_DATE, @V_RESERVE_D_CURRENT, @V_RESERVE_D_DATE,
+	 @V_CAUSE_CODE, @V_CLAIMANT_LASTNAME, @V_CLAIMANT_FIRSTNAME, @V_CLAIMANT_SSN, @V_CLAIMANT_ADDRESS1,
+	 @V_CLAIMANT_ADDRESS2, @V_CLAIMANT_CITY, @V_CLAIMANT_STATE, @V_CLAIMANT_ZIP, @V_CLAIMANT_SEX, @V_CLAIMANT_BIRTH_DT, @V_CLAIMANT_PHONE, @V_CLAIMANT_COMMENT,
+	 @V_DEF_LASTNAME, @V_DEF_FIRSTNAME, @V_DEF_ADDRESS, @V_DEF_CITY, @V_DEF_STATE, @V_DEF_ZIP, @V_DEF_PHONE, @V_DEF_COMMENT, @V_CLOSURE_METHOD, @V_DESCRIPTION, @V_SERVICE,
+	 @V_ICD10_1,@V_ICD10_2,@V_ICD10_3,@V_ICD10_4,@V_ICD10_5,@V_DIAGNOSIS_1, @V_DIAGNOSIS_2, @V_DIAGNOSIS_3, @V_DIAGNOSIS_4, @V_DIAGNOSIS_5, @V_POLICY_NUMBER, @V_POLICY_EFFECT_DATE, @V_POLICY_EXPIRE_DATE, @V_SUIT_DATE,
+	 @V_CASE_NUMBER, @V_EVENT_NUMBER, @V_COMMENTS, @V_ILLNESS_CODE, @V_INJURY_CODE_1, @V_INJURY_CODE_2, @V_INJURY_CODE_3, @V_INJURY_CODE_4, @V_INJURY_CODE_5,
+	 @V_BODY_PART_1, @V_BODY_PART_2, @V_BODY_PART_3, @V_BODY_PART_4, @V_BODY_PART_5, @V_EMP_DEPARTMENT, @V_OCCUPATION, @V_DATE_OF_BIRTH, @V_DATE_OF_HIRE,
+	 @V_DATE_OF_DEATH, @V_OSHA_RECORDABLE, @V_WEEKLY_WAGE_RATE, @V_HOURLY_WAGE_RATE, @V_WEEKLY_HOURS, @V_NCCI_CLASS_CODE, @V_ACCIDENT_STATE,
+	 @V_MARITAL_STATUS, @V_DEPENDENT_LNAME, @V_DEPENDENT_FNAME, @V_DEPENDENT_BIRTH_DT, @V_LICENSE_NUMBER, @V_LICENSE_EXPIR_DATE, @V_LICENSE_TYPE, @V_LICENSE_RESTRICT,
+	 @V_RETURN_WORK_DATE, @V_ACTIVE_FLAG, @V_VEHICLE_ID, @V_VEHICLE_YEAR, @V_VEHICLE_MAKE, @V_EMPLOYEE_ID,
+	 @V_VEHICLE_MODEL, @V_FILE_NUMBER, @V_DATE_LAST_WORKED, @V_CLAIMANT_MIDDLENAME, @V_ACCIDENT_DESC, @V_ACCIDENT_PREVENTABLE, 
+	 @V_PLAN_NAME, @V_CLASS_NAME, @V_DISABIL_FROM_DATE, @V_DISABIL_TO_DATE, @V_BENEFITS_START, @V_BENEFITS_THROUGH, @V_DIS_TYPE, @V_BEN_CALC_PAY_START, 
+	 @V_BEN_CALC_PAY_TO, @V_FEDERAL_TAX_FLAG, @V_SOCIAL_SEC_TAX_FLAG, @V_MEDICARE_TAX_FLAG, @V_STATE_TAX_FLAG, @V_STD_DISABIL_TYPE, @V_MONTHLY_RATE, 
+	 @V_ELIG_DIS_BEN_FLAG, @V_DIS_OPTION_CODE, @V_PENSION_AMT, @V_SS_AMT, @V_OTHER_AMT, @V_RESERVE_E_CURRENT, @V_RESERVE_E_DATE, @V_CLAIMANT_TYPE,
+	 @V_OSHA_ACC_DESC, @V_STATE_DURATION, @V_DATE_FIRST_RESTRICT, @V_DATE_LAST_RESTRICT, @V_PERCENT_DISABLED, @V_SETTLEMENT_METHOD, @V_MGND_CARE_ORG_TYPE,
+	 @V_DISPUTED_CASE_FLAG, @V_NCCI_LOSS_TYPE_LOSS_CODE, @V_NCCI_LOSS_TYPE_RECOV_CODE, @V_TREATMENT_CODE, @V_CLAIMANT_STATUS, @V_NAME_TYPE, @V_POLICY_LOB,
+	 @V_BENEFICIARY_CODE, @V_INFO_REQ_DATE, @V_PROOF_OF_LOSS_DATE, @V_CLAIM_CAUSE_CODE,	@V_DEF_BIRTH_DT, @V_CURR_CODE,	--JIRA 29954 knakra
+	 @V_CLAIM_TYPE_DT_CHA,@V_REVIEW_STATUS_CODE, @V_REV_STA_DT_CH, @V_REV_REASON, @V_CLAIM_TYP_REASON ---ADDED BY AKUMAR523 RMA-61584
+	----Below mentioned fields commented  as they are not required
+	--@V_INVALID_ROW, @V_JOBID, @V_COUNTRY, @V_EMPLOYEE_SEX, @V_EMPLOYER_SIC_CODE, @V_EMPLOYER_PAYROLL_CLASS_CODE, 
+	--@V_RESERVE_A_OPENING, @V_PAID_A_TOTAL, @V_COLLECTION_A_TOTAL, 
+	--@V_RESERVE_B_OPENING, @V_PAID_B_TOTAL, @V_COLLECTION_B_TOTAL, 
+	--@V_RESERVE_C_OPENING, @V_PAID_C_TOTAL, @V_COLLECTION_C_TOTAL, 
+	--@V_RESERVE_D_OPENING, @V_PAID_D_TOTAL, @V_COLLECTION_D_TOTAL,
+	--@V_RESERVE_E_OPENING, @V_PAID_E_TOTAL, @V_COLLECTION_E_TOTAL,
+	--@V_DATE_WORKED_LAST, @V_DATE_RETURNED,
+	--@V_USER_FIELD_A, @V_USER_FIELD_B,
+	--@V_USER_FIELD_C, @V_USER_FIELD_D, @V_USER_FIELD_E, @V_USER_FIELD_F, @V_USER_FIELD_G, @V_USER_FIELD_H, @V_USER_FIELD_I, @V_USER_FIELD_J, @V_USER_FIELD_K,
+	--@V_USER_FIELD_L, @V_USER_FIELD_M, @V_USER_FIELD_N, @V_USER_FIELD_O, @V_USER_FIELD_P, @V_USER_FIELD_Q, @V_USER_FIELD_R, @V_USER_FIELD_S, @V_USER_FIELD_T,
+	--@V_USER_FIELD_U, @V_USER_FIELD_V, @V_USER_FIELD_W, @V_USER_FIELD_X, @V_USER_FIELD_Y, @V_USER_FIELD_Z,
+	
+	SET @TOTALROWS = @TOTALROWS - 1;
+	END;
+
+	CLOSE DDS_CLAIM_CUR;
+	DEALLOCATE DDS_CLAIM_CUR;
+	SET NOCOUNT OFF
+
+ENDMAIN:
+
+---PROCESS LOG CALLING FOR SUMMARY OF RECORDS
+EXEC DDS_PROCESS_LOG @P_JOBID, @V_MODULENAME, @V_ERROR_TABLE	
+
+END TRY ---- END MAIN TRY
+BEGIN CATCH	
+	SET @V_ERROR_MESSAGE = ERROR_MESSAGE()
+	EXECUTE DDS_ERROR_LOG_CAPTURE @P_JOBID, @V_DA_ROW_ID, @V_MODULENAME, @V_ERRORLOC, @V_ERRORLOC, @V_PROCNAME,@V_ERROR_MESSAGE,'EXCEPTION', @V_ERROR_TABLE, 'CLAIM_NUMBER', @V_CLAIM_NUMBER,0;
+	SET @V_ROWCOUNT = @V_ROWCOUNT + 1;
+	---In case there is some exception in main try then the cursor needs to be closed and deallocated so that next run does not create any issues
+	CLOSE DDS_CLAIM_CUR;
+	DEALLOCATE DDS_CLAIM_CUR;	
+END CATCH ---- END MAIN CATCH
+
+END ----- END MAIN

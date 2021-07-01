@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FmtDef xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <SkipLines>5</SkipLines>
+  <CommentString>--</CommentString>
+  <Tables>
+    <Table PK="ENTITY_ID">ENTITY</Table>
+    <Table PK="EMPLOYEE_EID">EMPLOYEE</Table>
+  </Tables>
+  <Fixed>
+      <Field>
+        <Start>1</Start>
+        <Length>9</Length>
+        <Table>ENTITY</Table>
+        <Column>TAX_ID</Column>
+
+      </Field>
+      <Field>
+        <Start>9</Start>
+        <Length>20</Length>
+        <Table>ENTITY</Table>
+        <Column>LAST_NAME</Column>
+        <Mapping Default="Mambo">
+          <Map From="Adams" To="Brian" />
+        </Mapping>
+
+      </Field>
+      <Field>
+        <Start>44</Start>
+        <Length>20</Length>
+        <Table>ENTITY</Table>
+        <Column>FIRST_NAME</Column>
+        <Mapping Default="Jennifer">
+          <Map From="Kelly" To="Megan" />
+        </Mapping>
+
+      </Field>
+      <Field>
+        <Start>84</Start>
+        <Length>30</Length>
+        <Table>ENTITY</Table>
+        <Column>ADDR1</Column>
+      </Field>
+      <Field>
+        <Start>189</Start>
+        <Length>10</Length>
+        <Table>ENTITY</Table>
+        <Column>CITY</Column>
+      </Field>
+      <Field>
+        <Start>251</Start>
+        <Length>8</Length>
+        <Table>ENTITY</Table>
+        <Column>BIRTH_DATE</Column>
+      </Field>
+  </Fixed>
+</FmtDef>

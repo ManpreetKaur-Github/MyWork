@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Riskmaster.BusinessAdaptor.ProgressNotesAdaptor</name>
+    </assembly>
+    <members>
+        <member name="T:Riskmaster.BusinessAdaptor.ProgressNotesAdaptor">
+            ************************************************************** 
+            * $File		: ProgressNotesAdaptor.cs 
+            * $Revision	: 1.0.0.0 
+            * $Date		: 2-Oct-2005
+            * $Author	: Raman Bhatia and Vaibhav Kaushik
+            * $Comment	: 
+            * $Source	: 
+            **************************************************************
+        </member>
+        <member name="F:Riskmaster.BusinessAdaptor.ProgressNotesAdaptor.PROGNOTES_VIEW">
+            <summary>
+            Function IDs for Progress Notes related security permission
+            </summary>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.ProgressNotesAdaptor.SelectClaim(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <param name="p_objXmlOut">XML document containing Claim data.
+            	The structure of output XML document would be:
+            	<Document>
+            		<ClaimList>
+            			<Claim ClaimID="" ClaimNumber="" ClaimDate="" LastName="" FirstName="" ClaimStatusCode="" ClaimTypeCode="" LOB="" />
+            			<Claim ClaimID="" ClaimNumber="" ClaimDate="" LastName="" FirstName="" ClaimStatusCode="" ClaimTypeCode="" LOB="" />
+            		</ClaimList>
+            	</Document>
+            </param>
+            <param name="p_objErrOut">Error object</param>
+            <returns>true if operation is successful else false</returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.BusinessAdaptor.ProgressNotesAdaptor.OnLoad(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)" -->
+        <member name="M:Riskmaster.BusinessAdaptor.ProgressNotesAdaptor.OnLoadIntegrate(Riskmaster.Models.ProgressNotesType,Riskmaster.Models.ProgressNotesType@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            Loads the note in case of R5 where there is a separate WCF for Progress Notes.
+            Created By: Parijat Sharma
+            </summary>
+            <param name="objDocument">Progress Note's Model class including the data which is needed to load progress notes</param>
+            <param name="outDocument">Progress Note's Model class which needs to be loaded</param>
+            <param name="p_objErrOut">Error object </param>
+            <returns></returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.BusinessAdaptor.ProgressNotesAdaptor.SaveNotes(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)" -->
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.BusinessAdaptor.ProgressNotesAdaptor.DeleteProgressNote(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)" -->
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.BusinessAdaptor.ProgressNotesAdaptor.PrintProgressNotesReport(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)" -->
+        <member name="M:Riskmaster.BusinessAdaptor.ProgressNotesAdaptor.GetNoteDetails(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            This Function would fetch text and html contents for a given progress note
+            </summary>
+            <param name="p_objXmlIn"></param>
+            <param name="p_objXmlOut"></param>
+            <param name="p_objErrOut"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.ProgressNotesAdaptor.CreateNodeWithFileContent(System.String,System.Xml.XmlElement,System.String)">
+            <summary>
+            This function appends the output file to the output xml document.
+            </summary>
+            <param name="p_sNodeName">Name of the Node</param>
+            <param name="p_objParentNode">Parent Node</param>
+            <param name="p_sOutFilepath">Complete Path of the file.</param>
+        </member>
+    </members>
+</doc>

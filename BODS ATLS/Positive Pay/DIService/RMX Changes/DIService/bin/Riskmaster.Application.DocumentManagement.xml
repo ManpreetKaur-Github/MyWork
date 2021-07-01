@@ -1,0 +1,1291 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Riskmaster.Application.DocumentManagement</name>
+    </assembly>
+    <members>
+        <member name="T:Riskmaster.Application.DocumentManagement.Document">
+            ************************************************************** 
+            * $File		: Document.cs 
+            * $Revision	: 1.0.0.0 
+            * $Date		: 29-Oct-2004 
+            * $Author	: Aditya Babbar
+            * $Comment	: 
+            * $Source	: 
+            **************************************************************	
+             Amendment History
+             ************************************************************
+             Date Amended	*	Author		*	Amendment
+            	11/17/2006		*	Manoj		*	LSS Documents changes
+            					*				*	
+            ************************************************************			
+             <summary>	
+             Encapsulates Document information and provides methods to retrieve
+            	and update these details.
+             </summary>
+        </member>
+        <member name="F:Riskmaster.Application.DocumentManagement.Document.RECYCLE_BIN_ID">
+            <summary>
+            FolderId of Recycle Bin for all users
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.DocumentManagement.Document.DATA_XMLTAGNAME">
+            <summary>
+            Xml tag name for data
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.DocumentManagement.Document.DOCUMENT_XMLTAGNAME">
+            <summary>
+            Xml tag name for Document
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.DocumentManagement.Document.DOCUMENTID_XMLTAGNAME">
+            <summary>
+            Xml tag name for DocumentId
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.DocumentManagement.Document.FOLDERID_XMLTAGNAME">
+            <summary>
+            Xml tag name for FolderId
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.DocumentManagement.Document.CREATEDATE_XMLTAGNAME">
+            <summary>
+            Xml tag name for CreateDate
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.DocumentManagement.Document.CATEGORY_XMLTAGNAME">
+            <summary>
+            Xml tag name for Category
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.DocumentManagement.Document.CATEGORY_CODE_XMLTAGNAME">
+            <summary>
+            Xml tag name for Category Code
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.DocumentManagement.Document.NAME_XMLTAGNAME">
+            <summary>
+            Xml tag name for Name
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.DocumentManagement.Document.CLASS_XMLTAGNAME">
+            <summary>
+            Xml tag name for Class
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.DocumentManagement.Document.CLASS_CODE_XMLTAGNAME">
+            <summary>
+            Xml tag name for Class Code
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.DocumentManagement.Document.SUBJECT_XMLTAGNAME">
+            <summary>
+            Xml tag name for Subject
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.DocumentManagement.Document.TYPE_XMLTAGNAME">
+            <summary>
+            Xml tag name for Type
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.DocumentManagement.Document.TYPE_CODE_XMLTAGNAME">
+            <summary>
+            Xml tag name for Type Code
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.DocumentManagement.Document.NOTES_XMLTAGNAME">
+            <summary>
+            Xml tag name for Notes
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.DocumentManagement.Document.USERLOGINNAME_XMLTAGNAME">
+            <summary>
+            Xml tag name for UserLoginName
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.DocumentManagement.Document.FILENAME_XMLTAGNAME">
+            <summary>
+            Xml tag name for FileName
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.DocumentManagement.Document.FILEPATH_XMLTAGNAME">
+            <summary>
+            Xml tag name for FilePath
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.DocumentManagement.Document.KEYWORDS_XMLTAGNAME">
+            <summary>
+            Xml tag name for Keywords
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.DocumentManagement.Document.ATTACHTABLE_XMLTAGNAME">
+            <summary>
+            Xml tag name for AttachTable
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.DocumentManagement.Document.ATTACHRECORDID_XMLTAGNAME">
+            <summary>
+            Xml tag name for AttachRecordId
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.DocumentManagement.Document.DOCINTERNALTYPE_XMLTAGNAME">
+            <summary>
+            Xml tag name for DocInternalType
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.DocumentManagement.Document.m_lDocumentId">
+            <summary>		
+            DocumentId
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.DocumentManagement.Document.m_sFileName">
+            <summary>		
+            File Name
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.DocumentManagement.Document.m_sFilePath">
+            <summary>		
+            File Path
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.DocumentManagement.Document.m_sTitle">
+            <summary>		
+            Document Name
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.DocumentManagement.Document.m_sKeywords">
+            <summary>		
+            Keywords
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.DocumentManagement.Document.m_sNotes">
+            <summary>		
+            Notes
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.DocumentManagement.Document.m_lFolderId">
+            <summary>		
+            FolderId
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.DocumentManagement.Document.m_sCreateDate">
+            <summary>		
+            Create Date
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.DocumentManagement.Document.m_sAttachTable">
+            <summary>		
+            The table to which document is attached.
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.DocumentManagement.Document.m_lAttachRecordId">
+            <summary>		
+            The record id to which document is attached.
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.DocumentManagement.Document.m_sUserLoginName">
+            <summary>		
+            User Login Name
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.DocumentManagement.Document.m_sSubject">
+            <summary>		
+            Subject
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.DocumentManagement.Document.m_lType">
+            <summary>		
+            Type
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.DocumentManagement.Document.m_lClass">
+            <summary>		
+            Class
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.DocumentManagement.Document.m_lCategory">
+            <summary>		
+            Category
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.DocumentManagement.Document.m_lDocInternalType">
+            <summary>		
+            Category
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.DocumentManagement.Document.m_sConnectionString">
+            <summary>		
+            Database Connection String
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.DocumentManagement.Document.m_bDocumentPropertiesLoaded">
+            <summary>		
+            Indicates whether properties for Document object are loaded.
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Application.DocumentManagement.Document.#ctor">
+            Name			: Document
+            Author			: Aditya Babbar
+            Date Created	: 29-Oct-2004
+            ************************************************************
+            Amendment History
+            ************************************************************
+            Date Amended	*   Amendment   *    Author
+            				*				*
+            				*				*	
+            ************************************************************			
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Application.DocumentManagement.Document.Load">
+            Name			: Load
+            Author			: Aditya Babbar
+            Date Created	: 29-Oct-2004
+            ************************************************************
+            Amendment History
+            ************************************************************
+            Date Amended	*   Amendment   *    Author
+            				*				*
+            				*				*	
+            ************************************************************	
+            <summary>
+            Loads the properties of the Document from the database.
+            Uses DocumentId, UserLoginName and ConnectionString 
+            property values.
+            </summary>
+            <returns>0 - Success</returns>
+        </member>
+        <member name="M:Riskmaster.Application.DocumentManagement.Document.Update">
+            Name			: Update
+            Author			: Aditya Babbar
+            Date Created	: 29-Oct-2004
+            ************************************************************
+            Amendment History
+            ************************************************************
+            Date Amended	*   Amendment   *    Author
+            				*				*
+            				*				*	
+            ************************************************************
+            <summary>
+            Updates the properties of the Document record in the database.
+            Creates a new document record in the database, 
+            if it does not exist
+            </summary>
+            <returns>0 - Success</returns>
+        </member>
+        <member name="M:Riskmaster.Application.DocumentManagement.Document.Load(System.String)">
+            Name			: Load
+            Author			: Aditya Babbar
+            Date Created	: 29-Oct-2004
+            ************************************************************
+            Amendment History
+            ************************************************************
+            Date Amended	*   Amendment           *    Author
+            21-Jan-2008	    *	Added Conditions	*   Arnab Mukherjee
+            				*				*	
+            ************************************************************
+            <summary>
+            Loads the properties of the Document object 
+            using the input Xml parameter
+            </summary>
+            <param name="p_sDocumentXml"> 
+            	Document properties to be loaded in Xml Format
+            </param>
+            <returns>0 - Success</returns>
+        </member>
+        <member name="M:Riskmaster.Application.DocumentManagement.Document.Update(System.String)">
+            Name			: Update
+            Author			: Aditya Babbar
+            Date Created	: 29-Oct-2004
+            ************************************************************
+            Amendment History
+            ************************************************************
+            Date Amended	*   Amendment   *    Author
+            				*				*
+            				*				*	
+            ************************************************************
+            <summary>
+            Updates the properties of the Document object in the database
+            using the input Xml parameter. A new document record is created
+            if it does not exist.
+            </summary>
+            <param name="p_sDocumentXml"> 
+            	Document properties to be updated in Xml Format
+            </param>
+            <returns>0 - Success</returns>
+        </member>
+        <member name="M:Riskmaster.Application.DocumentManagement.Document.GetDocumentXml(System.String@)">
+            Name			: GetDocumentXml
+            Author			: Aditya Babbar
+            Date Created	: 29-Oct-2004
+            ************************************************************
+            Amendment History
+            ************************************************************
+            Date Amended	*   Amendment   *    Author
+            				*				*
+            				*				*	
+            ************************************************************
+            <summary>
+            Get document details in Xml format from the property values.
+            </summary>
+            <param name="p_sDocumentXml">
+            	Out Parameter. Returns Document details in Xml format.
+            </param>
+            <returns>0 - Success</returns>		
+        </member>
+        <member name="M:Riskmaster.Application.DocumentManagement.Document.CreateNewDocument(System.String)">
+            Name			: CreateNewDocument
+            Author			: Aditya Babbar
+            Date Created	: 29-Oct-2004
+            ************************************************************
+            Amendment History
+            ************************************************************
+            Date Amended	*   Amendment   *    Author
+            				*				*
+            				*				*	
+            ************************************************************
+            <summary>
+            Create new Document record in the database.
+            </summary>
+            <param name="p_sDocumentXml">
+            	Document details in xml format.
+            </param>
+            <returns>0 - Success</returns>			
+        </member>
+        <member name="M:Riskmaster.Application.DocumentManagement.Document.RaiseInitializationException">
+            Name			: RaiseInitializationException
+            Author			: Aditya Babbar
+            Date Created	: 28-Jan-2005
+            ************************************************************
+            Amendment History
+            ************************************************************
+            Date Amended	*   Amendment   *    Author
+            				*				*
+            				*				*	
+            ************************************************************
+            <summary>
+            Raises InitializationException if required properties
+            for Document object are not set.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Application.DocumentManagement.Document.DocumentId">
+            <summary>
+            DocumentId
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Application.DocumentManagement.Document.FileName">
+            <summary>
+            File Name
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Application.DocumentManagement.Document.FilePath">
+            <summary>
+            File Path
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Application.DocumentManagement.Document.Title">
+            <summary>
+            Document Name
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Application.DocumentManagement.Document.Keywords">
+            <summary>
+            Keywords
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Application.DocumentManagement.Document.Notes">
+            <summary>
+            Notes
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Application.DocumentManagement.Document.FolderId">
+            <summary>
+            Folder Id
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Application.DocumentManagement.Document.CreateDate">
+            <summary>
+            Create Date
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Application.DocumentManagement.Document.AttachTable">
+            <summary>
+            The table to which document is attached
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Application.DocumentManagement.Document.AttachRecordId">
+            <summary>
+            Record Id to which document is attached
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Application.DocumentManagement.Document.UserLoginName">
+            <summary>
+            User Login Name
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Application.DocumentManagement.Document.Subject">
+            <summary>
+            Subject
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Application.DocumentManagement.Document.Type">
+            <summary>
+            Type
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Application.DocumentManagement.Document.Class">
+            <summary>
+            Class
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Application.DocumentManagement.Document.Category">
+            <summary>
+            Category
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Application.DocumentManagement.Document.DocInternalType">
+            <summary>
+            Doc Internal Type
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Application.DocumentManagement.Document.ConnectionString">
+            <summary>
+            Database Connection String
+            </summary>
+        </member>
+        <member name="T:Riskmaster.Application.DocumentManagement.DocumentManager">
+            ************************************************************** 
+            * $File		: DocumentManager.cs 
+            * $Revision	: 1.0.0.0 
+            * $Date		: 29-Oct-2004 
+            * $Author	: Aditya Babbar
+            * $Comment	: 
+            * $Source	: 
+            **************************************************************
+            * Amendment  -->
+              1.Date		: 7 Feb 06 
+                Desc		: Replacing RMO_ACCESS use, and changing params of permission
+            				  violation exception so it can be correctly called. 
+                Author	: Sumit
+            **************************************************************
+             <summary>	
+             Manages all operations related to documents, attachments 
+             and folders including add, update, copy, transfer and move.				
+             </summary>
+        </member>
+        <member name="F:Riskmaster.Application.DocumentManagement.DocumentManager.RECYCLE_BIN_ID">
+            <summary>
+            FolderId of Recycle Bin for all users
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.DocumentManagement.DocumentManager.RECYCLE_BIN_NAME">
+            <summary>
+            Folder name of Recycle Bin for all users
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.DocumentManagement.DocumentManager.USERDOC_SID">
+            <summary>
+            Function IDs for User Document related security permission
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.DocumentManagement.DocumentManager.m_sConnectionString">
+            <summary>		
+            Database connection string
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.DocumentManagement.DocumentManager.m_sUserLoginName">
+            <summary>		
+            User Login Name
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.DocumentManagement.DocumentManager.m_lSecurityId">
+            <summary>		
+            Security Id
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.DocumentManagement.DocumentManager.m_sTableName">
+            <summary>		
+            Table name to which documents is attached.
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.DocumentManagement.DocumentManager.m_enmDocumentStorageType">
+            <summary>		
+            Storage Type. 
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.DocumentManagement.DocumentManager.m_sDestinationStoragePath">
+            <summary>		
+            Destination Storage Path. For database storage
+            it is the connection string, and for file storage
+            it is the folder path.
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.DocumentManagement.DocumentManager.m_userLogin">
+            <summary>		
+            m_userLogin: Passed from Adapter and used to check permission 
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Application.DocumentManagement.DocumentManager.#ctor(Riskmaster.Security.UserLogin)">
+            <summary>
+            Constructor: 
+            </summary>
+            <param name="oLogin"> Riskmaster.Security.UserLogin object</param>
+        </member>
+        <member name="M:Riskmaster.Application.DocumentManagement.DocumentManager.#ctor(Riskmaster.Security.UserLogin,System.Int64)">
+            <summary>
+            Constructor: 
+            </summary>
+            <param name="oLogin"> Riskmaster.Security.UserLogin object</param>
+            <param name="p_lpsid"> Security Id</param>
+        </member>
+        <member name="M:Riskmaster.Application.DocumentManagement.DocumentManager.AddFolder(System.Int64,System.String,System.Int64@)">
+            Name			: AddFolder
+            Author			: Aditya Babbar
+            Date Created	: 29-Oct-2004
+            ************************************************************
+            Amendment History
+            ************************************************************
+            Date Amended	*   Amendment   *    Author
+            				*				*
+            				*				*	
+            ************************************************************
+            <summary>
+            Creates new folder record in the database table DOC_FOLDERS.
+            Uses ConnectionString and UserLoginName property values.
+            </summary>
+            <param name="p_lParentId"> 
+            	Parent FolderId of the folder to be created.
+            </param>
+            <param name="p_sFolderName"> 
+            	Name of the folder to be created.
+            </param>
+            <param name="p_lFolderId">
+            	Out parameter. Returns FolderId for newly created folder.
+            </param>
+            <returns>0 - Success</returns> 
+        </member>
+        <member name="M:Riskmaster.Application.DocumentManagement.DocumentManager.GetAttachments(System.Int32,System.String,System.Int64,System.String@)">
+            Name			: GetAttachments
+            Author			: Aditya Babbar
+            Date Created	: 29-Oct-2004
+            ************************************************************
+            Amendment History
+            ************************************************************
+            Date Amended	*   Amendment   *    Author
+            				*				*
+            				*				*	
+            ************************************************************		
+            <summary>
+            Get data for attachments in form of XML
+            Uses TableName and ConnectionString property values.
+            </summary>
+            <param name="p_sFormName">
+            	Form name set as an attribute in root element of output XML
+            </param>
+            <param name="p_lRecordId">
+            	Specific record id to which the document is attached. 
+            </param>
+            <param name="p_sAttachmentsXML">
+            	Out parameter. Returns attachments data in form of XML
+            </param>
+            <returns>0 - Success</returns> 	
+        </member>
+        <member name="M:Riskmaster.Application.DocumentManagement.DocumentManager.GetFolderDetails(System.Int64,System.String@)">
+            Name			: GetFolderDetails
+            Author			: Aditya Babbar
+            Date Created	: 29-Oct-2004
+            ************************************************************
+            Amendment History
+            ************************************************************
+            Date Amended	*   Amendment   *    Author
+            				*				*
+            				*				*	
+            ************************************************************		
+            <summary>
+            Gets details for a folder.
+            Uses ConnectionString and UserLoginName property values.
+            </summary>
+            <param name="p_lFolderId">
+            	Id of the folder whose details are required.
+            </param>
+            <param name="p_sFolderDetailsXML">
+            	Out parameter.Returns folder details in form of XML.
+            </param>
+            <returns>0 - Success</returns>
+        </member>
+        <member name="M:Riskmaster.Application.DocumentManagement.DocumentManager.GetFoldersAsOption(System.Int64,System.String@)">
+            Name			: GetFoldersAsOption
+            Author			: Aditya Babbar
+            Date Created	: 29-Oct-2004
+            ************************************************************
+            Amendment History
+            ************************************************************
+            Date Amended	*   Amendment   *    Author
+            				*				*
+            				*				*	
+            ************************************************************		
+            <summary>
+            Returns the folder details in form of XML including the 
+            folder hierarchy.
+            Uses UserLoginName and ConnectionString property values.
+            </summary>
+            <param name="p_lSelectFolder">
+            	A specific attribute 'def' is set in the xml 
+            	tag for this selected folder
+            </param>
+            <param name="p_sFoldersXML">
+            	Out parameter. Returns the folder details as XML.
+            </param>
+            <returns>0 - Success</returns>
+        </member>
+        <member name="M:Riskmaster.Application.DocumentManagement.DocumentManager.GetFoldersAsOptionNew(System.Int64,System.Collections.Generic.List{Riskmaster.Models.Folder}@)">
+            Name			: GetFoldersAsOption
+            Author			: Aditya Babbar
+            Date Created	: 29-Oct-2004
+            ************************************************************
+            Amendment History
+            ************************************************************
+            Date Amended	*   Amendment   *    Author
+            				*				*
+            				*				*	
+            ************************************************************		
+            <summary>
+            Returns the folder details in form of XML including the 
+            folder hierarchy.
+            Uses UserLoginName and ConnectionString property values.
+            </summary>
+            <param name="p_lSelectFolder">
+            	A specific attribute 'def' is set in the xml 
+            	tag for this selected folder
+            </param>
+            <param name="p_sFoldersXML">
+            	Out parameter. Returns the folder details as XML.
+            </param>
+            <returns>0 - Success</returns>
+        </member>
+        <member name="M:Riskmaster.Application.DocumentManagement.DocumentManager.GetDocuments(System.Int32,System.Int64,System.String@)">
+            Name			: GetDocuments
+            Author			: Aditya Babbar
+            Date Created	: 29-Oct-2004
+            ************************************************************
+            Amendment History
+            ************************************************************
+            Date Amended	*   Amendment   *    Author
+            25/05/2005		*	Implemented paging	* Mohit Yadav
+            				*				*	
+            ************************************************************
+            <summary>
+            Returns information about documents and folders present
+            in the root folder.
+            Uses UserLoginName and ConnectionString property values. 
+            </summary>
+            <param name="p_sDocumentsXML">
+            	Out parameter. Returns information about documents in Xml
+            	format
+            </param>
+            <param name="p_lPageNumber">
+            	Input parameter for getting the pagenumber
+            </param>		
+            <returns>0 - Success</returns>
+        </member>
+        <member name="M:Riskmaster.Application.DocumentManagement.DocumentManager.GetDocumentsNew(System.Int32,System.Int64,System.Int64,Riskmaster.Models.DocumentList@)">
+            Name			: GetDocuments
+            Author			: Aditya Babbar
+            Date Created	: 29-Oct-2004
+            ************************************************************
+            Amendment History
+            ************************************************************
+            Date Amended	*   Amendment   *    Author
+            25/05/2005		*	Implemented paging	* Mohit Yadav
+            				*				*	
+            ************************************************************
+            <summary>
+            Returns information about documents and folders present
+            in a particular folder, in Xml format. 
+            Uses UserLoginName and ConnectionString properties. 
+            </summary>
+            <param name="p_lFolderId">
+            	Id of the folder whose information about documents
+            	and child folders is required.
+            </param>
+            <param name="p_sDocumentsXML">
+            	Out parameter. 
+            	Returns information about documents in Xml format.
+            </param>
+            <param name="p_lPageNumber">
+            	Input parameter for getting the pagenumber
+            </param>		
+            <returns>0 - Success</returns>
+        </member>
+        <member name="M:Riskmaster.Application.DocumentManagement.DocumentManager.GetDocuments(System.Int32,System.Int64,System.Int64,System.String,System.String,System.String@)">
+            Name			: GetDocuments
+            Author			: Aditya Babbar
+            Date Created	: 29-Oct-2004
+            ************************************************************
+            Amendment History
+            ************************************************************
+            Date Amended	*   Amendment   *    Author
+            				*				*
+            				*				*	
+            ************************************************************
+            <summary>
+            Returns information about documents and folders present
+            in a particular folder, in Xml format. 
+            Uses UserLoginName and ConnectionString property values. 
+            </summary>
+            <param name="p_lFolderId">
+            	Id of the folder whose information about documents
+            	and child folders is required.
+            </param>
+            <param name="p_lParentFolderId">
+            	Id of the parent folder whose information about
+            	documents and child folders is required.
+            </param>
+            <param name="p_sFolderName">
+            	Name of the folder whose information about documents
+            	and child folders is required.
+            </param>
+            <param name="p_sParentFolderName">
+            	Name of the parent folder whose information about documents
+            	and child folders is required.
+            </param>
+            <param name="p_sDocumentsXML">
+            	Out parameter. Returns information about documents in Xml
+            	format
+            </param>		
+            <returns>0 - Success</returns>
+        </member>
+        <member name="M:Riskmaster.Application.DocumentManagement.DocumentManager.GetDocumentsNew(System.Int32,System.Int64,System.Int64,System.String,System.String,System.Int64,Riskmaster.Models.DocumentList@)">
+            Name			: GetDocuments
+            Author			: Mohit Yadav
+            Date Created	: 25/05/2005
+            ************************************************************
+            Amendment History
+            ************************************************************
+            Date Amended	*   Amendment   *    Author
+            				*				*
+            				*				*	
+            ************************************************************
+            <summary>
+            Returns information about documents and folders present
+            in a particular folder, in Xml format. 
+            Uses UserLoginName and ConnectionString property values. 
+            </summary>
+             <param name="lSortId">
+            	Sort order of the records
+            </param>
+            <param name="p_lFolderId">
+            	Id of the folder whose information about documents
+            	and child folders is required.
+            </param>
+            <param name="p_lParentFolderId">
+            	Id of the parent folder whose information about
+            	documents and child folders is required.
+            </param>
+            <param name="p_sFolderName">
+            	Name of the folder whose information about documents
+            	and child folders is required.
+            </param>
+            <param name="p_sParentFolderName">
+            	Name of the parent folder whose information about documents
+            	and child folders is required.
+            </param>
+            <param name="p_lPageNumber">
+            	Page Number of the requested page based on the Total no. of information/Page Size.
+            </param>
+            <param name="p_sDocumentsXML">
+            	Out parameter. Returns information about documents in Xml
+            	format
+            </param>		
+            <returns>0 - Success</returns>
+        </member>
+        <member name="M:Riskmaster.Application.DocumentManagement.DocumentManager.GetDocuments(System.Int32,System.Int64,System.Int64,System.String,System.String,System.Int64,System.String@)">
+            Name			: GetDocuments
+            Author			: Mohit Yadav
+            Date Created	: 25/05/2005
+            ************************************************************
+            Amendment History
+            ************************************************************
+            Date Amended	*   Amendment   *    Author
+            				*				*
+            				*				*	
+            ************************************************************
+            <summary>
+            Returns information about documents and folders present
+            in a particular folder, in Xml format. 
+            Uses UserLoginName and ConnectionString property values. 
+            </summary>
+             <param name="lSortId">
+            	Sort order of the records
+            </param>
+            <param name="p_lFolderId">
+            	Id of the folder whose information about documents
+            	and child folders is required.
+            </param>
+            <param name="p_lParentFolderId">
+            	Id of the parent folder whose information about
+            	documents and child folders is required.
+            </param>
+            <param name="p_sFolderName">
+            	Name of the folder whose information about documents
+            	and child folders is required.
+            </param>
+            <param name="p_sParentFolderName">
+            	Name of the parent folder whose information about documents
+            	and child folders is required.
+            </param>
+            <param name="p_lPageNumber">
+            	Page Number of the requested page based on the Total no. of information/Page Size.
+            </param>
+            <param name="p_sDocumentsXML">
+            	Out parameter. Returns information about documents in Xml
+            	format
+            </param>		
+            <returns>0 - Success</returns>
+        </member>
+        <member name="M:Riskmaster.Application.DocumentManagement.DocumentManager.GetDocumentDetails(System.Int64,System.Int32,System.String,System.String@)">
+            Name			: GetDocumentDetails
+            Author			: Aditya Babbar
+            Date Created	: 29-Oct-2004
+            ************************************************************
+            Amendment History
+            ************************************************************
+            Date Amended	*   Amendment   *    Author
+            				*				*
+            				*				*	
+            ************************************************************
+            <summary>
+            Retrieves document details in Xml format
+            Uses UserLoginName and ConnectionString property values.
+            </summary>
+            <param name="p_lDocumentId">Document Id</param>
+            <param name="iPSID">Security Id</param>
+            <param name="p_sDocumentXML">
+            	Out parameter. Document details in Xml format.
+            </param>
+            <returns>0 - Success</returns>
+        </member>
+        <member name="M:Riskmaster.Application.DocumentManagement.DocumentManager.MoveDocuments(System.String,System.Int64)">
+            Name			: MoveDocuments
+            Author			: Aditya Babbar
+            Date Created	: 29-Oct-2004
+            ************************************************************
+            Amendment History
+            ************************************************************
+            Date Amended	*   Amendment   *    Author
+            				*				*
+            				*				*	
+            ************************************************************
+            <summary>
+            Moves documents to a different folder.
+            Uses ConnectionString property value.
+            </summary>
+            <param name="p_sDocumentIds">
+            	Comma separated list of DocumentIds to be moved.
+            </param>
+            <param name="p_lNewFolderId">
+            	Id of the new folder
+            </param>
+            <returns>0 - Success</returns>
+        </member>
+        <member name="M:Riskmaster.Application.DocumentManagement.DocumentManager.UpdateDocument(System.String,System.Int32)">
+            Name			: UpdateDocument
+            Author			: Aditya Babbar
+            Date Created	: 29-Oct-2004
+            ************************************************************
+            Amendment History
+            ************************************************************
+            Date Amended	*   Amendment   *    Author
+            				*				*
+            				*				*	
+            ************************************************************
+            <summary>
+            Updates Document Details.
+            Uses ConnectionString and UserLoginName property values.
+            </summary>
+            <param name="p_sDocumentXML">
+            	Document Details in Xml format
+            </param>
+            <param name="iPSID">parent security ID</param>
+            <returns>0 - Success</returns>
+        </member>
+        <member name="M:Riskmaster.Application.DocumentManagement.DocumentManager.RetrieveDocument(System.Int64,System.Int32,System.IO.MemoryStream@)">
+            Name			: RetrieveDocument
+            Author			: Aditya Babbar
+            Date Created	: 29-Oct-2004
+            ************************************************************
+            Amendment History
+            ************************************************************
+            Date Amended	*   Amendment   *    Author
+            				*				*
+            				*				*	
+            ************************************************************	
+            <summary>
+            Retrieves Document file.
+            </summary>
+            <param name="p_lDocumentId">
+            	DocumentId whose file is to be retrieved.
+            </param>
+            <param name="p_objDocumentFile">
+            	Out parameter. Returns document file.
+            </param>
+            <param name="iPSID">parent security ID</param>
+            <returns>0 - Success</returns> 		
+        </member>
+        <member name="M:Riskmaster.Application.DocumentManagement.DocumentManager.CopyDocuments(System.String,System.String)">
+            Name			: CopyDocuments
+            Author			: Aditya Babbar
+            Date Created	: 29-Oct-2004
+            ************************************************************
+            Amendment History
+            ************************************************************
+            Date Amended	*   Amendment   *    Author
+            				*				*
+            				*				*	
+            ************************************************************
+            <summary>
+            Creates copy of documents for specified users.
+            </summary>
+            <param name="p_sDocumentIds">
+            	Comma separated list of DocumentIds.
+            </param>
+            <param name="p_sUserLoginNames">
+            	Comma separated list of UserLoginNames.
+            </param>
+            <returns>0 - Success</returns> 				
+        </member>
+        <member name="M:Riskmaster.Application.DocumentManagement.DocumentManager.TransferDocuments(System.String,System.String)">
+            Name			: TransferDocuments
+            Author			: Aditya Babbar
+            Date Created	: 29-Oct-2004
+            ************************************************************
+            Amendment History
+            ************************************************************
+            Date Amended	*   Amendment   *    Author
+            				*				*
+            				*				*	
+            ************************************************************
+            <summary>
+            Transfers documents to specified users.
+            </summary>
+            <param name="p_sDocumentIds">
+            	Comma separated list of DocumentIds.
+            </param>
+            <param name="p_sUserLoginNames">
+            	Comma separated list of UserIds.
+            </param>
+            <returns>0 - Success</returns> 						
+        </member>
+        <member name="M:Riskmaster.Application.DocumentManagement.DocumentManager.AddDocument(System.String,System.IO.MemoryStream,System.Int32,System.Int64@)">
+            Name			: AddDocument
+            Author			: Aditya Babbar
+            Date Created	: 29-Oct-2004
+            ************************************************************
+            Amendment History
+            ************************************************************
+            Date Amended	*   Amendment   *    Author
+            				*				*
+            				*				*	
+            ************************************************************	
+            <summary>
+            Add new document in the store.
+            </summary>
+            <param name="p_sDocumentXML">
+            	Document properties in Xml format.
+            </param>
+            <param name="p_objDocumentFile">
+            	Document file.
+            </param>
+            <param name="p_lDocumentID">
+            	Out parameter. ID of the newly added document.
+            </param>
+            <param name="iPSID">parent security ID</param>
+            <returns>0 - Success</returns> 								
+        </member>
+        <member name="M:Riskmaster.Application.DocumentManagement.DocumentManager.Delete(System.String,System.String,System.Int32)">
+            Name			: Delete
+            Author			: Aditya Babbar
+            Date Created	: 29-Oct-2004
+            ************************************************************
+            Amendment History
+            ************************************************************
+            Date Amended	*   Amendment   *    Author
+            				*				*
+            				*				*	
+            ************************************************************
+            <summary>
+            Deletes the specified documents, folders and all the child folders
+            along with the documents inside recursively .
+            </summary>
+            <param name="p_sDocumentIds">
+            	Comma separated list of DocumentIds.
+            </param>
+            <param name="p_sFolderIds">
+            	Comma separated list of FolderIds.
+            </param>
+            <param name="iPSID">parent security ID</param>
+            <returns>0 - Success</returns> 										
+        </member>
+        <member name="M:Riskmaster.Application.DocumentManagement.DocumentManager.GetUsers(System.String,System.Int32,System.String@)">
+             Name			: GetUsers
+             Author			: Mohit Yadav
+             Date Created	: 09-May-2005
+             ************************************************************
+             Amendment History
+             ************************************************************
+             Date Amended	*   Amendment   *    Author
+            					*				*
+            					*				*	
+             ************************************************************
+             <summary>
+             DocumentManager.GetUsers of Application layer that Loads the users details 
+             that are allowed to login to a current datasource.
+             </summary>
+            
+             <param name="p_sCurrentDSN">An current DSN.</param>
+             <param name="p_objXmlDocOut">An current DSN.</param>
+             <param name="iPSID">Security ID.</param>
+             Structure of the output XML is:
+            		<user id="" firstname="" lastname="" username="" email=""/>
+             <returns>A boolean values that represents the success/failure.</returns>
+            	<returns>A XML with user details.</returns>	
+        </member>
+        <member name="M:Riskmaster.Application.DocumentManagement.DocumentManager.GetBaseSecurityIDForTable(System.Int32,System.String)">
+             Name			: GetBaseSecurityIDForTable
+             Author			: Nitesh Deedwania
+             Date Created	: 25 May-2006
+             ************************************************************
+             Amendment History
+             ************************************************************
+             Date Amended	*   Amendment   *    Author
+            					*				*
+            					*				*	
+             ************************************************************
+             <summary>
+             DocumentManager.GetBaseSecurityIDForTable of Application 
+             layer gets Base Securiy ID for particular table(i.e. Admin Tracking tables).
+             </summary>
+            
+             <param name="iPSID">An current base security ID.</param>
+             <param name="sTableName">An current system table name.</param>
+             Structure of the output XML is:
+             <returns>return Integer new base ID for a specified table or same ID in case of failure.</returns>
+            	<returns>A XML with user details.</returns>	
+        </member>
+        <member name="M:Riskmaster.Application.DocumentManagement.DocumentManager.EmailDocuments(System.String,System.String,System.String,System.String,System.String,System.String,System.Int32,System.String)">
+            <summary>
+            Sendig the multiple documents to multiple users
+            </summary>
+            <param name="p_sUserName">User name</param>
+            <param name="p_sConnStringName">Security Connection String</param>
+            <param name="p_sEmailIds">EMail Ids of all the recievers</param>
+            <param name="p_sMessage">Message of the mail</param>
+            <param name="p_sDocPath">Document Path</param>
+            <param name="p_sDocumentIds">Document Names of the documents to be sent</param>
+            <param name="iPSID">parent security ID</param>
+            <returns>True if successful else false.</returns>
+        </member>
+        <member name="M:Riskmaster.Application.DocumentManagement.DocumentManager.GetEmailId(System.String,System.String)">
+            <summary>
+            Gets the e-mail id
+            </summary>
+            <param name="p_sConnectionString">Security Connection String</param>
+            <param name="p_sLogInName">Log-in name of the user</param>
+            <returns>E-mail id of the user</returns>
+        </member>
+        <member name="M:Riskmaster.Application.DocumentManagement.DocumentManager.GetDocumentName(System.String)">
+            Name			: GetDocumentName
+            Author			: Mohit Yadav
+            Date Created	: 06-June-2005
+            ************************************************************
+            Amendment History
+            ************************************************************
+            Date Amended	*   Amendment   *    Author
+            				*				*
+            				*				*	
+            ************************************************************
+            <summary>
+            Getting the Document Name corresponding the Id as the input parameter
+            </summary>
+            <param name="p_sDocumentId">
+            	Specified DocumentId.
+            </param>
+            <returns>0 - Success</returns> 										
+        </member>
+        <member name="M:Riskmaster.Application.DocumentManagement.DocumentManager.CreateRecycleBin">
+            Name			: CreateRecycleBin
+            Author			: Aditya Babbar
+            Date Created	: 29-Oct-2004
+            ************************************************************
+            Amendment History
+            ************************************************************
+            Date Amended	*   Amendment   *    Author
+            				*				*
+            				*				*	
+            ************************************************************
+            <summary>
+            Creates Recycle Bin folder record for the current user.
+            Uses UserLoginName and ConnectionString property values.
+            </summary>
+            <returns>0 - Success</returns>
+        </member>
+        <member name="M:Riskmaster.Application.DocumentManagement.DocumentManager.CheckRecycleBinForUser(System.Boolean@)">
+            Name			: CheckRecycleBinForUser
+            Author			: Aditya Babbar
+            Date Created	: 29-Oct-2004
+            ************************************************************
+            Amendment History
+            ************************************************************
+            Date Amended	*   Amendment   *    Author
+            				*				*
+            				*				*	
+            ************************************************************
+            <summary>
+            Checks Recycle Bin folder record for the current user.
+            Uses UserLoginName and ConnectionString property values.
+            </summary>
+            <param name="p_bRecycleBinCreated">
+            	Out parameter. Returns true if Recycle Bin is already
+            	created for the user, else false.
+            </param>
+            <returns>0 - Success</returns>
+        </member>
+        <member name="M:Riskmaster.Application.DocumentManagement.DocumentManager.RaiseInitializationException">
+            Name			: RaiseInitializationException
+            Author			: Aditya Babbar
+            Date Created	: 28-Jan-2005
+            ************************************************************
+            Amendment History
+            ************************************************************
+            Date Amended	*   Amendment   *    Author
+            				*				*
+            				*				*	
+            ************************************************************
+            <summary>
+            Raises InitializationException if required properties
+            for DocumentManager object are not set.
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Application.DocumentManagement.DocumentManager.RemoveButton(System.Xml.XmlDocument,System.Xml.XmlDocument,System.String,System.String)">
+            Name			: RemoveButton
+            Author			: Umesh
+            Date Created	: 05-Jan-2007
+            ************************************************************
+            Amendment History
+            ************************************************************
+            Date Amended	*   Amendment   *    Author
+            				*				*
+            				*				*	
+            ************************************************************
+            <summary>
+            Remove Buttons on basis of Customization-> Custom setting
+            <param name="p_objSearchDocument">
+            Input Xml from which the setting of buttons is decided.
+            </param>
+            <param name="p_objRemoveDocument">
+            Input Xml in which the attibutes corresponding to buttons are set
+            </param>
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Application.DocumentManagement.DocumentManager.SplitForStringPattern(System.String,System.String,System.Collections.ArrayList@)">
+            Name			: SplitForStringPattern
+            Author			: Mohit Yadav
+            Date Created	: 10-May-2005
+            ************************************************************
+            Amendment History
+            ************************************************************
+            Date Amended	*   Amendment   *    Author
+            				*				*
+            				*				*	
+            ************************************************************
+            <summary>
+            Split a string based on some string pattern.
+            </summary>
+            <param name="p_sString">String to be splitted.</param>
+            <param name="p_sPattern">Pattern with in the string.</param>
+            <param name="p_arrlstSplit">Array containing the splitted sub strings.</param>
+            <returns>A boolean values that represents the success/failure.</returns>
+        </member>
+        <member name="M:Riskmaster.Application.DocumentManagement.DocumentManager.CheckDocListPermissions(System.Xml.XmlElement@,System.Int32)">
+            <summary>
+            Check permissions for add new/move/email/delete/copy related to document list
+            operations. 
+            </summary>
+            <param name="oDataElement">data XML element in the output</param>
+            <param name="iPSID">parent security ID</param>
+        </member>
+        <member name="M:Riskmaster.Application.DocumentManagement.DocumentManager.CheckDocumentListPermissions(Riskmaster.Models.DocumentList@,System.Int32)">
+            <summary>
+            Check permissions for add new/move/email/delete/copy related to document list
+            operations. 
+            </summary>
+            <param name="oDataElement">data XML element in the output</param>
+            <param name="iPSID">parent security ID</param>
+        </member>
+        <member name="M:Riskmaster.Application.DocumentManagement.DocumentManager.CheckDocPermissions(System.Xml.XmlElement@,System.Int32)">
+            <summary>
+            Check permissions for add new/move/email/delete/copy related to a single document
+            operations. 
+            </summary>
+            <param name="oDataElement">data XML element in the output</param>
+            <param name="iPSID">parent security ID</param>
+        </member>
+        <member name="M:Riskmaster.Application.DocumentManagement.DocumentManager.GetActualDocFilePath(System.String)">
+            <summary>
+            For FileSystemStorage, the files are not necessarily stored in the
+            folder specified in the DocPath when "Link Document" feature is used
+            in RMWorld. The following three kinds of file path will handled:
+            1. begin with "\\computerName" or "DirveLetter:", use this as actual file path
+            2. Not null and not case 1, treat it as subfolder of DocPath
+            3. If null, use DocPath
+            MITS 10062 Add support for Linked Documents from RMWorld
+            </summary>
+            <param name="sFilePath">Value from Document.Document_FilePath</param>
+            <returns></returns>
+        </member>
+        <member name="P:Riskmaster.Application.DocumentManagement.DocumentManager.ConnectionString">
+            <summary>
+            Database Connection String
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Application.DocumentManagement.DocumentManager.UserLoginName">
+            <summary>
+            User Login Name
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Application.DocumentManagement.DocumentManager.SecurityId">
+            <summary>
+            Security Id
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Application.DocumentManagement.DocumentManager.TableName">
+            <summary>
+            Table name to which document is attached.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Application.DocumentManagement.DocumentManager.DocumentStorageType">
+            <summary>
+            Storage Type. If set, it overrides the value set 
+            for the application from the configuration file.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Application.DocumentManagement.DocumentManager.DestinationStoragePath">
+            <summary>
+            Document Storage Path. If set, it overrides the value set 
+            for the application from the configuration file.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Application.DocumentManagement.DocumentManager.StorageId">
+            <summary>
+            This will track updating the stored document in database server. Tanuj
+            </summary>
+        </member>
+        <member name="T:Riskmaster.Application.DocumentManagement.DocumentManager.DOCSORTORDER">
+            <summary>
+            Enum for display order (order by clause)
+            </summary>
+        </member>
+    </members>
+</doc>

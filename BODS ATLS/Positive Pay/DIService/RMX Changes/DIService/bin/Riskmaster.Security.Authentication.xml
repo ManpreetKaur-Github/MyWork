@@ -1,0 +1,579 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Riskmaster.Security.Authentication</name>
+    </assembly>
+    <members>
+        <member name="T:Riskmaster.Security.Authentication.RiskmasterADMembershipProvider">
+            <summary>
+            Summary description for RiskmasterADMembershipProvider
+            </summary>
+        </member>
+        <member name="T:Riskmaster.Security.Authentication.CustomMembershipProvider">
+            <summary>
+            Implement a Custom Membership Provider which inherits from the base MembershipProvider
+            class so as to provide additional concrete attributes not currently available
+            in the base MembershipProvider class
+            </summary>
+            <remarks>Creating a CustomMembershipProvider class facilitates creating a Factory method since
+            all subclasses all conform to the same interface and therefore does not require explicit casting</remarks>
+        </member>
+        <member name="T:Riskmaster.Security.Authentication.IMembershipProviderExtensions">
+            <summary>
+            Public interface to extend attributes
+            not directly available from the MembershipProvider 
+            abstract class implementation
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.Authentication.IMembershipProviderExtensions.connectionString">
+            <summary>
+            Gets and sets connection string information
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.Authentication.IMembershipProviderExtensions.connectionStringName">
+            <summary>
+            Gets and sets connection string name
+            which may be configured in the Web.config or
+            similar configuration file
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.Authentication.IMembershipProviderExtensions.connectionUsername">
+            <summary>
+            Gets and sets connection string user name
+            information such as might be required for
+            Active Directory or LDAP authentication
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.Authentication.IMembershipProviderExtensions.connectionPassword">
+            <summary>
+            Gets and sets connection string password
+            information such as might be required for
+            Active Directory or LDAP authentication
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Security.Authentication.RiskmasterADMembershipProvider.#ctor">
+            <summary>
+            Default Class constructor
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Security.Authentication.RiskmasterADMembershipProvider.ValidateUser(System.String,System.String)">
+            <summary>
+            Authenticates the user against the Active Directory repository
+            </summary>
+            <param name="username">string containing the user name of the Active Directory user</param>
+            <param name="password">string containing the password of the Active Directory user</param>
+            <returns>boolean indicating whether or not the user was successfully authenticated</returns>
+        </member>
+        <member name="P:Riskmaster.Security.Authentication.RiskmasterADMembershipProvider.ApplicationName">
+            <summary>
+            Gets and sets the Application Name for the Membership Provider
+            </summary>
+        </member>
+        <member name="T:Riskmaster.Security.Authentication.MembershipProviderFactory">
+            <summary>
+            Provides a Factory Method implementation for obtaining a handle to a particular
+            Membership Provider
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Security.Authentication.MembershipProviderFactory.CreateMembershipProvider(System.String,System.String)">
+            <summary>
+            Pseudo-Factory method implementation to obtain a handle
+            to the specified Membership Provider required for authentication
+            </summary>
+            <returns>MembershipProvider</returns>
+        </member>
+        <member name="M:Riskmaster.Security.Authentication.MembershipProviderFactory.AuthenticateUser(System.String,System.String,System.String,System.String)">
+            <summary>
+            Authenticates a user against a specified Membership Provider
+            </summary>
+            <param name="strMembershipProviderName"></param>
+            <param name="strProviderConnString"></param>
+            <param name="strUserName"></param>
+            <param name="strPassword"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Riskmaster.Security.Authentication.MembershipProviderFactory.GetAuthenticationProviders">
+            <summary>
+            Retrieves the list of Authentication Providers that are available
+            </summary>
+            <returns>Generic StringDictionary which contains a key value pair of
+            all currently available and configured Authentication Providers</returns>
+        </member>
+        <member name="T:Riskmaster.Security.Authentication.UtilityFunctions">
+            <summary>
+            Provides a set of internal utility functions
+            for managing common actions needed for security
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Security.Authentication.UtilityFunctions.CODE_ACCESS_PUBLICKEY">
+            <summary>
+            Gets the CodeAccess public key used for Security Permissions
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Security.Authentication.UtilityFunctions.IsEmptyString(System.String)">
+            <summary>
+            Checks whether the particular string is an empty string
+            </summary>
+            <param name="strValue">string to check and compare for empty or null values</param>
+            <returns>boolean indicating whether or not the string is empty or null</returns>
+        </member>
+        <member name="M:Riskmaster.Security.Authentication.UtilityFunctions.BuildConnectionString(System.Collections.Generic.List{System.String})">
+            <summary>
+            Builds a database/DSN connection string given the specified parameters
+            </summary>
+            <param name="arrConnStrParams">generic string list containing all of the 
+            connection string parameters</param>
+            <returns>complete database connection string</returns>
+        </member>
+        <member name="M:Riskmaster.Security.Authentication.UtilityFunctions.DecryptString(System.String)">
+            <summary>
+            Returns a Decrypted string using the DTGCrypt library
+            </summary>
+            <param name="strEncrypted">string containing the currently encrypted value</param>
+            <returns>string containing the decrypted value</returns>
+        </member>
+        <member name="M:Riskmaster.Security.Authentication.UtilityFunctions.EncryptString(System.String)">
+            <summary>
+            Returns a Encrypted string using the DTGCrypt library
+            </summary>
+            <param name="strDecrypted">string containing the currently decrypted value</param>
+            <returns>string containing the encrypted value</returns>
+        </member>
+        <member name="M:Riskmaster.Security.Authentication.UtilityFunctions.ComputeHash(System.Byte[])">
+            <summary>
+            Computes a Hash Value given a byte array
+            </summary>
+            <param name="bytArray">byte array containing value to be hashed</param>
+            <returns>string containing the resultant computed Hash</returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.Security.Authentication.UtilityFunctions.CalculateCheckSum(Riskmaster.Security.Authentication.RiskmasterUser)" -->
+        <member name="M:Riskmaster.Security.Authentication.UtilityFunctions.ChecksumMatches(Riskmaster.Security.Authentication.RiskmasterUser)">
+            <summary>
+            Riskmaster.Security.ChecksumMatches internal method compares the stored checksum attribute that with a newly computed hash value for the user attributes
+            </summary>
+            <returns>It returns computed hash value.</returns>
+        </member>
+        <member name="M:Riskmaster.Security.Authentication.UtilityFunctions.CompareObjects``1(``0,``0)">
+            <summary>
+            Compares the properties of two objects
+            through the use of Reflection
+            </summary>
+            <typeparam name="T">Generic Type for a class instance</typeparam>
+            <param name="objCompare1">object class instance</param>
+            <param name="objCompare2">object class instance for comparison</param>
+            <returns>boolean indicating whether or not the properties for 
+            each object exactly match</returns>
+        </member>
+        <member name="P:Riskmaster.Security.Authentication.UtilityFunctions.AUTHKEY">
+            <summary>
+            Gets the Authorization key used in Cryptography
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.Authentication.UtilityFunctions.ConnectionStringDelimiter">
+            <summary>
+            Gets a connection string delimter
+            </summary>
+        </member>
+        <member name="T:Riskmaster.Security.Authentication.RiskmasterUser">
+            <summary>
+            Riskmaster.Security.User class classifies User’s details on context of Riskmaster, 
+            it contain all the information about the user like Name,City,Country Phone etc..
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Security.Authentication.RiskmasterUser.PopulateSecurityHashTable">
+            <summary>
+            Riskmaster.Security.PopulateSecurityHashTable returns Hashtable object for group permissions associated with the user
+            </summary>
+            <returns>It returns the hash table object for group permission</returns>
+        </member>
+        <member name="M:Riskmaster.Security.Authentication.RiskmasterUser.PopulateSuppHashTable">
+            Geeta Sharma change done for mits 10729
+             <summary>
+             Riskmaster.Security.PopulateSuppHashTable returns Hashtable object for Supplemental Fields
+             </summary>
+             <returns>It returns the hash table object for Supplementals</returns>
+        </member>
+        <member name="M:Riskmaster.Security.Authentication.RiskmasterUser.IsAllowed(System.Int32)">
+            <summary>
+            Riskmaster.Security.IsAllowed is an absolutely basic check
+            whether or not the security function list for this login contains
+            a particular function id.
+            </summary>
+            <param name="FunctionId">Function ID</param>
+            <returns>It returns value returned by ContainsKey()</returns>
+        </member>
+        <member name="M:Riskmaster.Security.Authentication.RiskmasterUser.IsAllowedEx(System.Int32,System.Int32)">
+            <summary>
+            Riskmaster.Security.IsAllowedEx is a more sophisticated check
+            whether or not the user "should" according to application configuration settings
+            AND the current user's function list have access to the requested function.
+            </summary>
+            <param name="FunctionId">Function ID</param>
+            <returns>It returns true if the user should be allowed to perform the requested function.</returns>
+        </member>
+        <member name="M:Riskmaster.Security.Authentication.RiskmasterUser.IsAllowedSuppEx(System.Int32,System.Int32)">
+            function added by Geeta Sharma for mits 10729
+        </member>
+        <member name="M:Riskmaster.Security.Authentication.RiskmasterUser.IsTimePermittedForLogin">
+            <summary>
+            Riskmaster.Security.IsTimePermittedForLogin returns whether the current time lies in the permissible 
+            time span for the day, for login.
+            </summary>
+            <returns>It returns the boolean value true or false</returns>
+        </member>
+        <member name="M:Riskmaster.Security.Authentication.RiskmasterUser.IsInRole(System.String)">
+            <summary>
+            Determines whether the user is a member of a particular role
+            </summary>
+            <param name="role">string containing the name of the group name</param>
+            <returns>boolean indicating whether or not the user is a member 
+            of the specified group</returns>
+        </member>
+        <member name="M:Riskmaster.Security.Authentication.RiskmasterUser.#ctor">
+            <summary>
+            NOTE: Need to provide a parameterless constructor
+            for the default XML Serialization to work properly
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Security.Authentication.RiskmasterUser.#ctor(System.Web.Security.MembershipUser)">
+            <summary>
+            OVERLOADED constructor that inherits 
+            attributes from the MembershipUser 
+            base class
+            </summary>
+            <param name="mu">base MembershipUser instance</param>
+        </member>
+        <member name="P:Riskmaster.Security.Authentication.RiskmasterUser.IsTerminalServer">
+            <summary>
+            Gets whether or not the server is 
+            running Terminal Services
+            </summary>
+            <remarks>Not sure why this is needed
+            or if it properly populates based on OS configuration</remarks>
+        </member>
+        <member name="P:Riskmaster.Security.Authentication.RiskmasterUser.AuthenticationType">
+            <summary>
+            Gets the AuthenticationType used to authenticate the user
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.Authentication.RiskmasterUser.IsAuthenticated">
+            <summary>
+            Gets whether or not the user has been authenticated against the system
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.Authentication.RiskmasterUser.Identity">
+            <summary>
+            Gets the Identity for the User
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.Authentication.RiskmasterUser.UserName">
+            <summary>
+            Gets the UserName for the currently authenticated User
+            </summary>
+        </member>
+        <member name="T:Riskmaster.Security.Authentication.AuthenticationCredentials">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.Authentication.AuthenticationCredentials.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.Authentication.AuthenticationCredentials.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.Authentication.AuthenticationCredentials.AUTH_CODE">
+            <summary>
+              Looks up a localized string similar to 6378b87457a5ecac8674e9bac12e7cd9.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.Authentication.AuthenticationCredentials.BusEntitySecuBusEntitySecurityEnabled">
+            <summary>
+              Looks up a localized string similar to Business Entity Security has been enabled on this database.  Please contact your administrator to verify that your account has been granted appropriate rights to access the system..
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.Authentication.AuthenticationCredentials.CSC_USER">
+            <summary>
+              Looks up a localized string similar to -2.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.Authentication.AuthenticationCredentials.DatabaseNotFound">
+            <summary>
+              Looks up a localized string similar to Specified database was not found in the RISKMASTER Security database.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.Authentication.AuthenticationCredentials.DSN">
+            <summary>
+              Looks up a localized string similar to DSN=.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.Authentication.AuthenticationCredentials.FUNCTION_LIST_SIZE">
+            <summary>
+              Looks up a localized string similar to 4527.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.Authentication.AuthenticationCredentials.FunctionListNotFound">
+            <summary>
+              Looks up a localized string similar to Unable to retrieve the list of available functions..
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.Authentication.AuthenticationCredentials.InvalidUserInfo">
+            <summary>
+              Looks up a localized string similar to User Information provided was invalid..
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.Authentication.AuthenticationCredentials.LicenseCheckFailed">
+            <summary>
+              Looks up a localized string similar to The License information entered was invalid or could not be validated..
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.Authentication.AuthenticationCredentials.LoadDBHierarchyFailed">
+            <summary>
+              Looks up a localized string similar to Could load the Database object or dependent objects..
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.Authentication.AuthenticationCredentials.LoadUserHierarchyFailed">
+            <summary>
+              Looks up a localized string similar to Could not load the User object or dependent objects..
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.Authentication.AuthenticationCredentials.PWD">
+            <summary>
+              Looks up a localized string similar to PWD=.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.Authentication.AuthenticationCredentials.SecSettingsNotFound">
+            <summary>
+              Looks up a localized string similar to Unable to retrieve the security settings from the RISKMASTER Security database..
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.Authentication.AuthenticationCredentials.UID">
+            <summary>
+              Looks up a localized string similar to UID=.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.Authentication.AuthenticationCredentials.UserNotFound">
+            <summary>
+              Looks up a localized string similar to User was not found in the RISKMASTER Security database..
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.Authentication.AuthenticationCredentials.VALID_USER">
+            <summary>
+              Looks up a localized string similar to USER_ID.
+            </summary>
+        </member>
+        <member name="T:Riskmaster.Security.Authentication.RiskmasterMembershipProvider">
+            <summary>
+            Summary description for RiskmasterMembershipProvider
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Security.Authentication.RiskmasterMembershipProvider.#ctor">
+            <summary>
+            Default Class constructor
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Security.Authentication.RiskmasterMembershipProvider.#ctor(System.String)">
+            <summary>
+            Overloaded Class constructor
+            </summary>
+            <param name="strDbConnString"></param>
+        </member>
+        <member name="M:Riskmaster.Security.Authentication.RiskmasterMembershipProvider.GetUser(System.String,System.Boolean)">
+            <summary>
+            Gets the specified RISKMASTER User
+            </summary>
+            <param name="username"></param>
+            <param name="userIsOnline"></param>
+            <returns>RISKMASTERUser which is inherited from MembershipUser</returns>
+        </member>
+        <member name="M:Riskmaster.Security.Authentication.RiskmasterMembershipProvider.UpdateUser(System.Web.Security.MembershipUser)">
+            <summary>
+            Updates the RiskmasterUser with the specified properties
+            </summary>
+            <param name="user"></param>
+        </member>
+        <member name="M:Riskmaster.Security.Authentication.RiskmasterMembershipProvider.ValidateUser(System.String,System.String)">
+            <summary>
+            Validates that a user is a member of the Security Database
+            </summary>
+            <param name="username"></param>
+            <param name="password"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Riskmaster.Security.Authentication.RiskmasterMembershipProvider.PopulateUserData(Riskmaster.Security.Authentication.RiskmasterUser@)">
+            <summary>
+            Loads all of the relevant values/attributes
+            for a RISKMASTER User object
+            </summary>
+            <param name="rmUser">reference to a RiskmasterUser object to populate</param>
+        </member>
+        <member name="M:Riskmaster.Security.Authentication.RiskmasterMembershipProvider.PopulateUserLoginData(Riskmaster.Security.Authentication.RiskmasterUser@)">
+            <summary>
+            Populates the UserLogin information
+            </summary>
+            <param name="rmUser">reference to a RiskmasterUser object</param>
+        </member>
+        <member name="M:Riskmaster.Security.Authentication.RiskmasterMembershipProvider.UpdateUserData(Riskmaster.Security.Authentication.RiskmasterUser@)">
+            <summary>
+            Updates the User Data and saves/persists it to the database
+            </summary>
+            <param name="rmUser">reference to an existing RiskmasterUser object</param>
+        </member>
+        <member name="M:Riskmaster.Security.Authentication.RiskmasterMembershipProvider.UpdateUserLoginData(Riskmaster.Security.Authentication.RiskmasterUser@)">
+            <summary>
+            Updates the appropriate values for the UserLogin object
+            </summary>
+            <param name="rmUser">reference to RiskmasterUser object</param>
+        </member>
+        <member name="P:Riskmaster.Security.Authentication.RiskmasterMembershipProvider.ApplicationName">
+            <summary>
+            Gets and sets the Application Name for the Membership Provider
+            </summary>
+        </member>
+        <member name="T:Riskmaster.Security.Authentication.RiskmasterDatabase">
+            <summary>
+            Riskmaster.Security.RiskmasterDatabase class is an Public class is used for connecting,identifying 
+            and setting various parameters for riskmaster database. This also checks license grants, checks security for 
+            userid password, identifies datetime.
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Security.Authentication.RiskmasterDatabase.#ctor">
+            <summary>
+            Riskmaster.Security.RiskmasterDatabase is internal constructor without any parameter.
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Security.Authentication.RiskmasterDatabase.#ctor(System.Int32)">
+            <summary>
+            Riskmaster.Security.RiskmasterDatabase is the constructor with parameter. Constructor call after the attribute 
+            [System.Security.Permissions.StrongNameIdentityPermission(System.Security.Permissions.SecurityAction.LinkDemand, PublicKey=UtilityFunctions.CODE_ACCESS_PUBLICKEY)]
+            This constructor calls the function Load() and serves as a wrapper.
+            </summary>
+            <param name="DsnId">DSN ID</param>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.Security.Authentication.RiskmasterDatabase.Load(System.Int32)" -->
+        <member name="M:Riskmaster.Security.Authentication.RiskmasterDatabase.#ctor(Riskmaster.Db.DbReader)">
+            <summary>
+            Riskmaster.Security.RiskmasterDatabase overload allows internal data layer classes to wrap a native reader 
+            </summary>
+            <param name="reader">The native reader to wrap</param>
+        </member>
+        <member name="M:Riskmaster.Security.Authentication.RiskmasterDatabase.ParseDocPathCredentials(System.String)">
+            <summary>Riskmaster.Db.DbConnection.ParseDocPathCredentials supports the Document Database
+            by decrypting the uid and pwd sections of the connection string and 
+            returning the fully modified connection string.</summary>
+            <param name="docPath">The connection string in which to effect the change.</param>
+            <returns>An updated version of the connection string from docPath.</returns>
+            <remarks>There may be ODBC niceties like {} or escape sequences that are not handled properly here yet.</remarks>
+        </member>
+        <member name="M:Riskmaster.Security.Authentication.RiskmasterDatabase.LoadData(Riskmaster.Db.DbReader)">
+            <summary>
+            Riskmaster.Security.LoadData is the internal function Internal functions gets the values of various 
+            class parameters from the passed reader object. Then checks those database  parameters by making a 
+            connection string. Calls ChecksumMatches() and CRCMatches() function to check those parameters . 
+            If these parameters not found matching it raises Riskmaster.ExceptionTypes.InvalidChecksumException. 
+            </summary>
+            <param name="reader">The native reader to wrap</param>
+        </member>
+        <member name="M:Riskmaster.Security.Authentication.RiskmasterDatabase.Save">
+            <summary>
+            Riskmaster.Security.Save check for the flag true, than gets a DbWriter object using DbFactory 
+            instance and invokes SaveData().
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Security.Authentication.RiskmasterDatabase.SaveData(Riskmaster.Db.DbWriter)">
+             <summary>
+             Riskmaster.Security.SaveData check for the flag is true, this function updates the user record 
+             in the database else creates a new one using writer.
+            </summary>
+             <param name="writer">The native writer to wrap</param>
+        </member>
+        <member name="M:Riskmaster.Security.Authentication.RiskmasterDatabase.GrantLicense(System.String,System.Boolean)">
+            <summary>
+            Riskmaster.Security.GrantLicense Internal function  checks  bSuppressLicense is true and NumLicenses 
+            parameter is –1 else checks no of connection to the database is less then  no of connection license 
+            granted . Returns false if any of above criteria fails.  Also if this license checking  mechanism 
+            fails raises exception.
+            </summary>
+            <param name="sUserName">Username of the context user</param>
+            <param name="bSuppressLicense">Flag whether to suppress license</param>
+        </member>
+        <member name="M:Riskmaster.Security.Authentication.RiskmasterDatabase.GetHash">
+            <summary>
+            Riskmaster.Security.GetHash computes the hash code for the user information using Encryption.DTGCrypt32 object.
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Security.Authentication.RiskmasterDatabase.ChecksumMatches">
+            <summary>
+            Riskmaster.Security.ChecksumMatches
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Security.Authentication.RiskmasterDatabase.GetCRC">
+            <summary>
+            Riskmaster.Security.GetCRC
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Security.Authentication.RiskmasterDatabase.CRCMatches">
+            <summary>
+            Riskmaster.Security.CRCMatches matches the Crc code in the database  with the computed CRC code.
+            </summary>
+            <returns>Returns true if both matches else returns false.</returns>
+        </member>
+        <member name="T:RiskmasterRoleProvider">
+            <summary>
+            Summary description for RiskmasterRoleProvider
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Security.Authentication.SecurityDatabase.LoadFuncHashTable">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Security.Authentication.SecurityDatabase.GetParentFuncId(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="funcId"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Riskmaster.Security.Authentication.RiskmasterLDAPMembershipProvider">
+            <summary>
+            Summary description for RiskmasterLDAPMembershipProvider
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Security.Authentication.RiskmasterLDAPMembershipProvider.#ctor">
+            <summary>
+            Default Class constructor
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Security.Authentication.RiskmasterLDAPMembershipProvider.#ctor(System.String)">
+            <summary>
+            Overloaded Class constructor
+            </summary>
+            <param name="strLDAPConnString"></param>
+        </member>
+        <member name="M:Riskmaster.Security.Authentication.RiskmasterLDAPMembershipProvider.ValidateUser(System.String,System.String)">
+            <summary>
+            Validates a user in the LDAP repository/store
+            </summary>
+            <param name="username">string containing the LDAP username</param>
+            <param name="password">string containing the LDAP user's password</param>
+            <returns>boolean indicating whether or not the user was successfully authenticated</returns>
+        </member>
+        <member name="P:Riskmaster.Security.Authentication.RiskmasterLDAPMembershipProvider.ApplicationName">
+            <summary>
+            Gets and sets the Application Name for the Membership Provider
+            </summary>
+        </member>
+        <member name="T:Riskmaster.Security.Authentication.CustomUserNameValidator">
+            <summary>
+            Provides extension methods to allow custom user name/password
+            credentials to be passed to Web Service calls
+            </summary>
+        </member>
+    </members>
+</doc>

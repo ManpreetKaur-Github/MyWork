@@ -1,0 +1,316 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>RiskmasterService</name>
+    </assembly>
+    <members>
+        <member name="T:RiskmasterService.Global">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:RiskmasterService.Global.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:RiskmasterService.Global.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="P:RiskmasterService.Global.Riskmaster_WebService_Common_AdaptorLookupFailed">
+            <summary>
+              Looks up a localized string similar to Cannot find adaptor specified in calling envelope in common web service configuration file..
+            </summary>
+        </member>
+        <member name="P:RiskmasterService.Global.Riskmaster_WebService_Common_CallerNotAuthorized">
+            <summary>
+              Looks up a localized string similar to Caller Authorization Key not valid. Caller not authorized..
+            </summary>
+        </member>
+        <member name="P:RiskmasterService.Global.Riskmaster_WebService_Common_CallerNotTrusted">
+            <summary>
+              Looks up a localized string similar to IP address of caller not trusted..
+            </summary>
+        </member>
+        <member name="P:RiskmasterService.Global.Riskmaster_WebService_Common_CannotCreateDelegate">
+            <summary>
+              Looks up a localized string similar to Cannot create delegate to call business adaptor function..
+            </summary>
+        </member>
+        <member name="P:RiskmasterService.Global.Riskmaster_WebService_Common_ClassCreationException">
+            <summary>
+              Looks up a localized string similar to Cannot create instance of class specified in configuration file..
+            </summary>
+        </member>
+        <member name="P:RiskmasterService.Global.Riskmaster_WebService_Common_ClassNotFound">
+            <summary>
+              Looks up a localized string similar to Cannot find class specified in configuration file..
+            </summary>
+        </member>
+        <member name="P:RiskmasterService.Global.Riskmaster_WebService_Common_CreateInstanceFailed">
+            <summary>
+              Looks up a localized string similar to Cannot create instance of class specified in configuration file..
+            </summary>
+        </member>
+        <member name="P:RiskmasterService.Global.Riskmaster_WebService_Common_ErrorFormattingResultEnvelope">
+            <summary>
+              Looks up a localized string similar to An error occurred while formatting the result envelope..
+            </summary>
+        </member>
+        <member name="P:RiskmasterService.Global.Riskmaster_WebService_Common_ErrorLoadingAssembly">
+            <summary>
+              Looks up a localized string similar to Cannot load assembly specified in configuration file..
+            </summary>
+        </member>
+        <member name="P:RiskmasterService.Global.Riskmaster_WebService_Common_InitiateServiceProcess">
+            <summary>
+              Looks up a localized string similar to An error occurred while initializing the Webservice..
+            </summary>
+        </member>
+        <member name="P:RiskmasterService.Global.Riskmaster_WebService_Common_InterfaceFailed">
+            <summary>
+              Looks up a localized string similar to Cannot obtain IBusinessAdaptor interface on class specified in configuration file..
+            </summary>
+        </member>
+        <member name="P:RiskmasterService.Global.Riskmaster_WebService_Common_MalformedEnvelope">
+            <summary>
+              Looks up a localized string similar to Calling XML envelope missing one or more required elements..
+            </summary>
+        </member>
+        <member name="P:RiskmasterService.Global.Riskmaster_WebService_Common_SetSecurityContextFailed">
+            <summary>
+              Looks up a localized string similar to Cannot set security context for business adaptor..
+            </summary>
+        </member>
+        <member name="P:RiskmasterService.Global.Riskmaster_WebService_Common_UserLoginDeserializationFailed">
+            <summary>
+              Looks up a localized string similar to An error occurred generating the UserLogin object from Session..
+            </summary>
+        </member>
+        <member name="T:RiskmasterService.CommonWCFService">
+            <summary>
+            Common Windows Communication Foundation Service used for handling RMX 
+            </summary>
+            <summary>
+            Partial class to offer functionality currently provided by CWS
+            but to hide all classic .Net Web Service functionality behind
+            WCF Services
+            </summary>
+        </member>
+        <member name="M:RiskmasterService.CommonWCFService.ProcessRequest(System.String)">
+            <summary>
+            Processes requests and responses that are cross-platform compliant
+            using Windows Communication Foundation
+            </summary>
+            <param name="xmlRequest"></param>
+            <returns></returns>
+        </member>
+        <member name="M:RiskmasterService.CommonWCFService.#cctor">
+            <summary>
+            Static constructor for the Web Service to load all Business Adaptors
+            initialize Session values etc.
+            </summary>
+        </member>
+        <member name="M:RiskmasterService.CommonWCFService.BuildAdaptorCache(Riskmaster.Common.RMAdaptersCollection,System.Boolean)">
+            <summary>
+            Builds the Adaptor Hash Table based on the currently configured 
+            RISKMASTER Adaptors in RiskmasterAdaptors.config
+            </summary>
+            <param name="rmAdapters">collection of RMAdapter Elements</param>
+            <param name="IsExtensibility">boolean indicating whether or not the adapters
+            collection are Extensibility adapters</param>
+        </member>
+        <member name="M:RiskmasterService.CommonWCFService.#ctor">
+            <summary>
+            Instance based constructor for the Web Service 
+            to initiate Session information
+            </summary>
+        </member>
+        <member name="M:RiskmasterService.CommonWCFService.ProcessRequest(System.Xml.XmlDocument)">
+            <summary>
+            Processes the input from the Presentation Layer and generates the appropriate output
+            </summary>
+            <param name="xmlRequest">XML Document containing the presentation layer request content</param>
+            <returns>XMLDocument containing all of the appropriate logic to be used by the Presentation Layer</returns>
+        </member>
+        <member name="T:RiskmasterService.ServiceLogger">
+            <summary>
+            Centralized logging class for the Windows Communication Foundation Service layer
+            </summary>
+        </member>
+        <member name="M:RiskmasterService.ServiceLogger.LogErrors(System.String,System.Xml.XmlDocument,System.Boolean,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors)">
+            <summary>
+            Logs any errors which have bubbled up through the Business Adapter layer
+            </summary>
+            <param name="sAdaptorMethod"></param>
+            <param name="xmlRequest"></param>
+            <param name="bCallResult"></param>
+            <param name="errors">collection of all the BusinessAdaptor errors which have occurred</param>
+        </member>
+        <member name="M:RiskmasterService.RMService.InitiateServiceProcess(Riskmaster.Models.RMServiceType,System.Xml.XmlDocument@,System.String,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorBase,Riskmaster.Security.UserLogin@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            This method initialize the Common tasks to be done for each service
+            </summary>
+            <param name="request"></param>
+            <param name="xmlRequest"></param>
+            <param name="functionName"></param>
+            <param name="adaptor"></param>
+            <param name="oUserLogin"></param>
+            <returns></returns>
+        </member>
+        <member name="M:RiskmasterService.RMService.logErrors(System.String,System.Xml.XmlDocument,System.Boolean,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors)">
+            <summary>
+            Responsible for logging any errors which occur within the WCF Service Layer
+            </summary>
+            <param name="sAdaptorMethod"></param>
+            <param name="xmlRequest"></param>
+            <param name="bCallResult"></param>
+            <param name="errors"></param>
+        </member>
+        <member name="M:RiskmasterService.CodesService.GetQuickLookUp(Riskmaster.Models.QuickLookupRequest,Riskmaster.Models.CodeListType@)">
+            <summary>
+            Get QuickLookUp List
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:RiskmasterService.CodesService.GetCodes(Riskmaster.Models.CodeTypeRequest,Riskmaster.Models.CodeListType@)">
+            <summary>
+            Get Codes List
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:RiskmasterService.VPPService.GetFileContent(Riskmaster.Models.VPPFileRequest,Riskmaster.Models.VPPFileResponse@)">
+            <summary>
+            retrieve aspx page from the database
+            </summary>
+            <param name="request"></param>
+            <param name="response"></param>
+        </member>
+        <member name="M:RiskmasterService.VPPService.GetInitialTimeStamp(Riskmaster.Models.RMServiceType,Riskmaster.Models.VPPTimeStampResponse@)">
+            <summary>
+            get the max time stamp for all the pages in the database
+            </summary>
+            <param name="request"></param>
+            <param name="response"></param>
+        </member>
+        <member name="M:RiskmasterService.VPPService.GetFileTimeStamp(Riskmaster.Models.VPPFileRequest,Riskmaster.Models.VPPTimeStampResponse@)">
+            <summary>
+            get the time stamp for a specific file in the database
+            </summary>
+            <param name="request"></param>
+            <param name="response"></param>
+        </member>
+        <member name="M:RiskmasterService.VPPService.GetModifiedPageList(Riskmaster.Models.VPPModifiedPagesRequest,Riskmaster.Models.VPPModifiedPagesResponse@)">
+            <summary>
+            get the list of pages which have been modified during last pooling cycle
+            </summary>
+            <param name="request"></param>
+            <param name="response"></param>
+        </member>
+        <member name="M:RiskmasterService.VPPService.GetDataSourceID(Riskmaster.Models.RMServiceType,Riskmaster.Models.VPPGetDataSourceIDResponse@)">
+            <summary>
+            get the data source id for this session
+            </summary>
+            <param name="request"></param>
+            <param name="response"></param>
+        </member>
+        <member name="M:RiskmasterService.IAuthenticationService.GetAuthenticationProviders">
+            <summary>
+            Authenticates the user using the Default RISKMASTER Membership Provider
+            </summary>
+            <param name="strUserName">string containing the user's login name</param>
+            <param name="strPassword">string containing the user's login password</param>
+            <returns>boolean indicating whether or not the user was successfully authenticated</returns>
+        </member>
+        <member name="T:RiskmasterService.AuthenticationService">
+            <summary>
+            Provides the ability to authenticate users against a specified
+            RISKMASTER Authentication/Authorization repository
+            </summary>
+        </member>
+        <member name="M:RiskmasterService.AuthenticationService.GetConnectionString(System.String)">
+            <summary>
+            Gets the RISKMASTER Security database connection string
+            </summary>
+            <param name="strConnString">name of the connection string to retrieve
+            from the Web.config file</param>
+            <returns>RISKMASTER Security database connection string</returns>
+        </member>
+        <member name="M:RiskmasterService.AuthenticationService.AuthenticateUser(System.String,System.String,System.String)">
+            <summary>
+            Authenticates the user using the Default RISKMASTER Membership Provider
+            </summary>
+            <param name="strMembershipProvider">string containing the name of the specified Membership Provider</param>
+            <param name="strUserName">string containing the user's login name</param>
+            <param name="strPassword">string containing the user's login password</param>
+            <returns>boolean indicating whether or not the user was successfully authenticated</returns>
+        </member>
+        <member name="M:RiskmasterService.AuthenticationService.GetAuthenticationProviders">
+            <summary>
+            Gets a collection of all available and configured authentication 
+            providers
+            </summary>
+            <returns>Generic Dictionary collection of all available and configured
+            Authentication Providers</returns>
+        </member>
+        <member name="M:RiskmasterService.AuthenticationService.GetUserDSNs(System.String)">
+            <summary>
+            Retrieves the list of DSNs for a specific user
+            </summary>
+            <param name="strUserName">string containing the logged in user name</param>
+            <returns>Generic String Dictionary collection containing all of the User DSNs</returns>
+        </member>
+        <member name="M:RiskmasterService.AuthenticationService.GetUserSessionID(System.String,System.String)">
+            <summary>
+            Gets the user's session ID based on their authentication credentials
+            </summary>
+            <param name="strUserName">string containing the user's Login Name</param>
+            <param name="strDSNName">string containing the selected User's DSN</param>
+            <returns>string containing the user's authenticated Session ID</returns>
+        </member>
+        <member name="M:RiskmasterService.AuthenticationService.GetSessionDBID(System.String,System.String,Riskmaster.BusinessAdaptor.Common.SessionManager)">
+            <summary>
+            Gets the necessary Session Database ID based on User Credentials
+            </summary>
+            <param name="sUserName">string containing the logged in user name</param>
+            /// <param name="sDSN">string containing the name of the DSN</param>
+            <param name="objSession">SessionManager object instance</param>
+            <returns>string containing the Session ID from the RISKMASTER Session database</returns>
+        </member>
+        <member name="M:RiskmasterService.AuthenticationService.SerializeObjects(Riskmaster.BusinessAdaptor.Common.SessionManager,System.Object,System.String)">
+            <summary>
+            Serializes objects into the Session database
+            using Binary Serialization
+            </summary>
+            <param name="objSession">SessionManager object instance</param>
+            <param name="objForSerialization">object to serialize into the database</param>
+            <param name="strSessionKey">string containing the session key</param>
+        </member>
+        <member name="M:RiskmasterService.DiaryCalendar.GetDiaryList(Riskmaster.Models.DiaryInput,Riskmaster.Models.DiaryOutput@)">
+            <summary>
+            Gets the diaries
+            </summary>
+            <param name="DiaryInputObject">DiaryCalendarModels.DiaryInput</param>
+            <param name="DiaryOutputObject">ref DiaryCalendarModels.DiaryOutput</param>
+        </member>
+        <member name="M:RiskmasterService.DiaryCalendar.GetCalendarView(Riskmaster.Models.DiaryInput,Riskmaster.Models.DiaryOutput@)">
+            <summary>
+            Gets the Calendar view
+            </summary>
+            <param name="DiaryInputObject">DiaryCalendarModels.DiaryInput</param>
+            <param name="DiaryOutputObject">ref DiaryCalendarModels.DiaryOutput</param>
+        </member>
+        <member name="M:RiskmasterService.DiaryCalendar.GetOnLoadInformation(Riskmaster.Models.DiaryInput,Riskmaster.Models.DiaryOutput@)">
+            <summary>
+            Gets the information at the time of Diary Calendar load
+            </summary>
+            <param name="DiaryInputObject">DiaryCalendarModels.DiaryInput</param>
+            <param name="DiaryOutputObject">ref DiaryCalendarModels.DiaryOutput</param>
+        </member>
+    </members>
+</doc>

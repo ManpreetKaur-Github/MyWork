@@ -1,0 +1,183 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Riskmaster.BusinessAdaptor.Diaries</name>
+    </assembly>
+    <members>
+        <member name="T:Riskmaster.BusinessAdaptor.WPAAdaptor">
+            ************************************************************** 
+            * $File		: WPAAdaptor.cs 
+            * $Revision	: 1.0.0.0 
+            * $Date		: 21-Feb-2005
+            * $Author	: Sumeet Rathod
+            * $Comment	: 
+            * $Source	: 
+            **************************************************************
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.WPAAdaptor.#ctor">
+            <summary>
+            Default Constructor
+            </summary>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.WPAAdaptor.DeleteDiary(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            Deletes a diary for the given diary id.
+            </summary>
+            <param name="p_objXmlIn">XML document containing diary related information</param>
+            <param name="p_objXmlOut">XML document containing diary information</param>
+            <param name="p_objErr">Error object</param>
+            <returns>True if sucessful else returns false</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.WPAAdaptor.GetAvailablePeekList(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            Gets the list of available users.
+            </summary>
+            <param name="p_objXmlIn">XML input parameter</param>
+            <param name="p_objXmlOut">XML document containing user user list</param>
+            <param name="p_objErr">Error object</param>
+            <returns>True if successful else returns false</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.WPAAdaptor.GetDiaryHistoryDom(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            Gets the diary history
+            </summary>
+            <param name="p_objXmlIn">XML document containing input parameters</param>
+            <param name="p_objXmlOut">XML document containing diary history</param>
+            <param name="p_objErr">Error object</param>
+            <returns>true if successful else false</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.WPAAdaptor.GetDiaryDom(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            Gets the latest diaries DOM
+            </summary>
+            <param name="p_objXmlIn">XML document containing input parameters</param>
+            <param name="p_objXmlOut">XML document containing latest diary information</param>
+            <param name="p_objErr">Error object</param>
+            <returns>true if successful else returns false</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.WPAAdaptor.VoidDiary(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            Voids the given diary
+            </summary>
+            <param name="p_objXmlIn">XML document containing input parameters</param>
+            <param name="p_objXmlOut">XML document containing void diary information</param>
+            <param name="p_objErr">Error object</param>
+            <returns>true if successful else false</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.WPAAdaptor.DeleteAllDiaries(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            Deletes all Diaries with the given claim.
+            </summary>
+            <param name="p_objXmlIn">XML document containing input parameters</param>
+            <param name="p_objXmlOut">XML document containing attached diary information</param>
+            <param name="p_objErr">Error object</param>
+            <returns>true if successful else returns false</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.WPAAdaptor.AttachDiary(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            Attaches a diary with the given claim or event etc.
+            </summary>
+            <param name="p_objXmlIn">XML document containing input parameters</param>
+            <param name="p_objXmlOut">XML document containing attached diary information</param>
+            <param name="p_objErr">Error object</param>
+            <returns>true if successful else returns false</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.WPAAdaptor.LoadDiary(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            Load the diary information
+            </summary>
+            <param name="p_objXmlIn">XML document containing input parameter</param>
+            <param name="p_objXmlOut">XML document containing diary information</param>
+            <param name="p_objErr">Error object</param>
+            <returns>true if successful else false</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.WPAAdaptor.SaveDiary(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            Save the diary information
+            </summary>
+            <param name="p_objXmlIn">XML Document containing diary information to be saved.</param>
+            <param name="p_objXmlOut">Output XML document</param>
+            <param name="p_objErr">Error object</param>
+            <returns>true if successful else returns false</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.WPAAdaptor.RouteDiary(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            Route the diary information
+            </summary>
+            <param name="p_objXmlIn">XML Document containing diary information to be saved.</param>
+            <param name="p_objXmlOut">Output XML document</param>
+            <param name="p_objErr">Error object</param>
+            <returns>true if successful else returns false</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.WPAAdaptor.DiaryCalender(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            Diary calendar
+            </summary>
+            <param name="p_objXmlIn">XML document containing input parameters</param>
+            <param name="p_objXmlOut">XML document containing diary calendar information</param>
+            <param name="p_objErr">Error object</param>
+            <returns>true if successful else returns false</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.WPAAdaptor.DiaryList(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            Fetches the diary list
+            </summary>
+            <param name="p_objXmlIn">XML document containing input parameters</param>
+            <param name="p_objXmlOut">XML document containing diary list</param>
+            <param name="p_objErr">Error object</param>
+            <returns>true if successful else false</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.WPAAdaptor.GetActivityCodes(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            Fetches the Activity Codes
+            </summary>
+            <param name="p_objXmlIn">XML document containing input parameters</param>
+            <param name="p_objXmlOut">XML document containing diary list</param>
+            <param name="p_objErr">Error object</param>
+            <returns>true if successful else false</returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.BusinessAdaptor.WPAAdaptor.GetUsers(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)" -->
+        <member name="M:Riskmaster.BusinessAdaptor.WPAAdaptor.GetDiaryListing(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            Fetches the Task Descriptions
+            </summary>
+            <param name="p_objXmlIn">XML document containing input parameters</param>
+            <param name="p_objXmlOut">XML document containing diary list</param>
+            <param name="p_objErr">Error object</param>
+            <returns>true if successful else false</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.WPAAdaptor.CheckBESEnability">
+            <summary>
+            Created by Nitin to check BES Enability
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.WPAAdaptor.GetDairiesForDairyCalender(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            Created by Nitin to fetch DiaryList from DataBase as per given action peek/processingoffice/default
+            </summary>
+            <param name="p_objXmlIn"></param>
+            <param name="p_objXmlOut"></param>
+            <param name="p_objErr"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.WPAAdaptor.GetPeekDairyForDairyCalender(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            Created by Nitin for DiaryCalender inorder to fetch DiaryList for Peek Functionality
+            </summary>
+            <param name="p_objXmlIn"></param>
+            <param name="p_objXmlOut"></param>
+            <param name="p_objErr"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.WPAAdaptor.GetDairiesForProcessingOffice(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            Created by Nitin
+            </summary>
+            <param name="p_objXmlIn"></param>
+            <param name="p_objXmlOut"></param>
+            <param name="p_objErr"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

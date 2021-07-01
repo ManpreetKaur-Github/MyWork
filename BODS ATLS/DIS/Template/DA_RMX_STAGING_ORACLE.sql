@@ -1,0 +1,5604 @@
+-- ============================================================
+--   SCRIPT HEADER (DATABASE STRUCTURE)
+--   Template_DIS(rmA17.2 and Onwards)
+--   Database Type: Oracle
+--   DI Module Name: DIS DA_RMX_STAGING
+--Create tables
+--Template_DIS_Oracle.sql
+--08/21/2017
+--===========================================
+declare 
+isRmdb number;
+iExists NUMBER;
+begin
+select count(*) into isRmdb from user_tables where table_name='SYS_PARMS';
+if isRmdb > 0 then
+dbms_output.put_line('Error: Script Execution Aborted - Script trying to execute on RISKMASTER database not on DA Staging database. Please open the correct Staging database and 
+execute this script.');
+else
+
+--==========================================================
+---CREATE ADDRESS_X_PHONEINFO table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='ADDRESS_X_PHONEINFO';
+
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE ADDRESS_X_PHONEINFO';
+iExists := 0 ;
+END IF;
+
+IF iExists = 0 THEN
+
+  EXECUTE IMMEDIATE 'CREATE TABLE ADDRESS_X_PHONEINFO(
+  DA_ROW_ID number(10) NOT NULL,
+  JOBID number(10) NOT NULL,
+  INPUT_ROW_ID number(10) NULL,
+  INVALID_ROW number(10) NULL,
+  UPDATE_ROW number(10) NULL,
+  ENTITY_ID number(10) NULL,
+  PHONE_ID number(10) NOT NULL,
+  PHONE_CODE number (10) NULL,
+  PHONE_NO varchar2(30) NULL  
+)';
+EXECUTE IMMEDIATE 'ALTER TABLE ADDRESS_X_PHONEINFO ADD CONSTRAINT ADDRESS_X_PHONEINFO PRIMARY KEY (DA_ROW_ID, JOBID)';
+
+END IF;
+END;
+
+--==========================================================
+---CREATE MRG_CLAIM_IDS table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='MRG_CLAIM_IDS';
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE MRG_CLAIM_IDS';
+iExists := 0 ;
+END IF;
+IF iExists = 0 THEN
+
+  EXECUTE IMMEDIATE 'CREATE TABLE MRG_CLAIM_IDS(
+  DA_ROW_ID number (10)  NOT NULL,
+  JOBID number (10) NOT NULL,
+  CLAIM_ID number (10) NULL,
+  CLAIM_LOB number(10) NULL,
+  CLAIMANT_EID number(10) NULL,
+  UNIT_ID number(10) NULL,
+  CLAIM_TO_BASE_CUR_RATE number(10,2) NULL,
+CLAIM_TO_POLICY_CUR_RATE number(10,2) NULL,
+  CLAIM_STATUS_CODE varchar2(25) NULL
+  
+)';
+  EXECUTE IMMEDIATE 'ALTER TABLE MRG_CLAIM_IDS ADD CONSTRAINT PK_MRG_CLAIM_IDS PRIMARY KEY (DA_ROW_ID,JOBID)';
+END IF;
+END;
+
+--==========================================================
+---CREATE CODES table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='CODES';
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE CODES';
+iExists := 0 ;
+END IF;
+IF iExists = 0 THEN
+
+  EXECUTE IMMEDIATE 'CREATE TABLE CODES(
+  DA_ROW_ID number (10) NOT NULL,
+  JOBID number (10) NOT NULL,
+  INPUT_ROW_ID number (10) NULL,
+  INVALID_ROW number (10) NULL,
+  UPDATE_ROW number (10) NULL,
+  IND_STANDARD_CODE number (10) NULL,
+  LINE_OF_BUS_CODE number (10) NULL,
+  CODE_ID number (10) NULL,
+  TABLE_ID number (10) NULL,
+  SHORT_CODE varchar2(25) NULL,
+  RELATED_CODE_ID number (10) NULL,
+  DELETED_FLAG number (10) NULL,
+  TRIGGER_DATE_FIELD varchar2(50) NULL,
+  EFF_START_DATE varchar2(8) NULL,
+  EFF_END_DATE varchar2(8) NULL,
+  ORG_GROUP_EID number (10) NULL  
+)';
+
+  EXECUTE IMMEDIATE 'ALTER TABLE CODES ADD CONSTRAINT PK_CODES PRIMARY KEY (DA_ROW_ID,JOBID)';
+END IF;
+END;
+--==========================================================
+---CREATE CODES_TEXT table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='CODES_TEXT';
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE CODES_TEXT';
+iExists := 0 ;
+END IF;
+IF iExists = 0 THEN
+
+  EXECUTE IMMEDIATE 'CREATE TABLE CODES_TEXT(
+  DA_ROW_ID number (10) NOT NULL,
+  JOBID number (10) NOT NULL,
+  INPUT_ROW_ID number (10) NULL,
+  INVALID_ROW number (10) NULL,
+  UPDATE_ROW number (10) NULL,
+  CODE_ID number (10) NULL,
+  LANGUAGE_CODE number (10) NULL,
+  SHORT_CODE varchar2(25) NULL,
+  CODE_DESC varchar2(50) NULL
+)';
+
+  EXECUTE IMMEDIATE 'ALTER TABLE CODES_TEXT ADD CONSTRAINT PK_CODES_TEXT PRIMARY KEY (DA_ROW_ID,JOBID)';
+END IF;
+END;
+--==========================================================
+---CREATE DA_STATISTICS table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='DA_STATISTICS';
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE DA_STATISTICS';
+iExists := 0 ;
+END IF;
+IF iExists = 0 THEN
+
+  EXECUTE IMMEDIATE 'CREATE TABLE DA_STATISTICS(
+  JOBID number (10) NOT NULL,
+  PASS_COUNT number (10) NOT NULL,
+  STAGE number NULL,
+  IS_VALIDATION number (10) NULL,
+  IMPORT_MODULE_NAME varchar2(50) NULL,
+  TABLE_NAME varchar2(50) NOT NULL,
+  INPUT_ROW_COUNT number (10) NULL,
+  START_VALID_ROW_COUNT number (10) NULL,
+  START_INVALID_ROW_COUNT number (10) NULL,
+  END_VALID_ROW_COUNT number (10) NULL,
+  END_INVALID_ROW_COUNT number (10) NULL,
+  END_UPDATE_ROW_COUNT number (10) NULL,
+  TOTAL_ROWS number (10) NULL,
+  TOTAL_FAILED_VALIDATIONS number (10) NULL,
+  START_TIME varchar2(14) NULL,
+  END_TIME varchar2(14) NULL
+)';
+
+  EXECUTE IMMEDIATE 'ALTER TABLE DA_STATISTICS ADD CONSTRAINT PK_DA_STATISTICS PRIMARY KEY (JOBID,PASS_COUNT,TABLE_NAME)';
+END IF;
+END;
+--==========================================================
+---CREATE EMP_X_DEPENDENT table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='EMP_X_DEPENDENT';
+
+IF iExists !=0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE EMP_X_DEPENDENT';
+iExists := 0 ;
+END IF;
+
+IF iExists = 0 THEN
+
+  EXECUTE IMMEDIATE 'CREATE TABLE EMP_X_DEPENDENT(
+
+  DA_ROW_ID number (10)  NOT NULL,
+  JOBID number (10)  NOT NULL,
+  INPUT_ROW_ID number (10)  NULL,
+  INVALID_ROW number (10)  NULL,
+  UPDATE_ROW number (10)  NULL,
+  EMP_DEP_ROW_ID number (10)  NULL,
+  EMPLOYEE_EID number (10)  NULL,
+  DEPENDENT_EID number (10)  NULL,
+  HEALTH_PLAN_FLAG number (5) NULL,
+  RELATION_CODE number (10)  NULL,
+  DEPENDENT_ROW_ID number (10)  NULL,
+  EMPLOYEE_EID_SOURCE number (10) NULL,
+  DEPENDENT_EID_SOURCE number (10) NULL
+)';
+
+  EXECUTE IMMEDIATE 'ALTER TABLE EMP_X_DEPENDENT ADD CONSTRAINT PK_EMP_X_DEPENDENT PRIMARY KEY (DA_ROW_ID,JOBID)';
+END IF;
+END;
+--==========================================================
+---CREATE EMP_X_VIOLATION table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='EMP_X_VIOLATION';
+
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE EMP_X_VIOLATION';
+iExists := 0 ;
+END IF;
+
+IF iExists = 0 THEN
+
+  EXECUTE IMMEDIATE 'CREATE TABLE EMP_X_VIOLATION(
+
+  DA_ROW_ID number (10) NOT NULL,
+  JOBID number (10) NOT NULL,
+  INPUT_ROW_ID number (10) NULL,
+  INVALID_ROW number (10) NULL,
+  UPDATE_ROW number (10) NULL,
+  VIOLATION_ID number (10) NULL,
+  EMPLOYEE_EID number (10) NULL,
+  EMPLOYEE_EID_SOURCE number (10) NULL,
+  VIOLATION_CODE number (10) NULL,
+  VIOLATION_DATE varchar2(8) NULL
+
+)';
+  EXECUTE IMMEDIATE 'ALTER TABLE EMP_X_VIOLATION ADD CONSTRAINT PK_EMP_X_VIOLATION PRIMARY KEY (DA_ROW_ID,JOBID)';
+END IF;
+END;
+--==========================================================
+---CREATE EMPLOYEE table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='EMPLOYEE';
+
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE  EMPLOYEE';
+iExists := 0 ;
+END IF;
+
+IF iExists = 0 THEN
+
+  EXECUTE IMMEDIATE 'CREATE TABLE EMPLOYEE(
+
+  DA_ROW_ID number (10) NOT NULL,
+  JOBID number (10) NOT NULL,
+  INPUT_ROW_ID number (10) NULL,
+  INVALID_ROW number (10) NULL,
+  UPDATE_ROW number (10) NULL,
+  COUNTY_OF_RESIDNC varchar2(50) NULL,
+  DRIVLIC_STATE number (10) NULL,
+  INSURABLE_FLAG number (10)  NULL,
+  LAST_VERIFIED_DATE varchar2(8) NULL,
+  NUM_OF_VIOLATIONS number (10) NULL,
+  TERM_DATE varchar2(8) NULL,
+  WORK_PERMIT_DATE varchar2(8) NULL,
+  WORK_PERMIT_NUMBER varchar2(50) NULL,
+  EMPLOYEE_EID number (10) NULL,
+  ACTIVE_FLAG number (10)  NULL,
+  EMPLOYEE_NUMBER varchar2(20) NULL,
+  MARITAL_STAT_CODE number (10) NULL,
+  DATE_HIRED varchar2(8) NULL,
+  POSITION_CODE number (10) NULL,
+  DEPT_ASSIGNED_EID number (10) NULL,
+  SUPERVISOR_EID number (10) NULL,
+  EXEMPT_STATUS_FLAG number (10)  NULL,
+  NO_OF_EXEMPTIONS number (10) NULL,
+  FULL_TIME_FLAG number (10)  NULL,
+  HOURLY_RATE float NULL,
+  WEEKLY_HOURS float NULL,
+  WEEKLY_RATE float NULL,
+  WORK_SUN_FLAG number (10)  NULL,
+  WORK_MON_FLAG number (10)  NULL,
+  WORK_TUE_FLAG number (10)  NULL,
+  WORK_WED_FLAG number (10)  NULL,
+  WORK_THU_FLAG number (10)  NULL,
+  WORK_FRI_FLAG number (10)  NULL,
+  WORK_SAT_FLAG number (10)  NULL,
+  PAY_TYPE_CODE number (10) NULL,
+  PAY_AMOUNT float NULL,
+  DRIVERS_LIC_NO varchar2(20) NULL,
+  DRIVERSLICTYPECODE number (10) NULL,
+  DATE_DRIVERSLICEXP varchar2(8) NULL,
+  DRIVLIC_RSTRCTCODE number (10) NULL,
+  NCCI_CLASS_CODE number (10) NULL,
+  DATE_OF_DEATH varchar2(8) NULL,
+  SEC_DEPT_EID number (10) NULL,
+  JOB_CLASS_CODE number (10) NULL,
+  MONTHLY_RATE float NULL,
+  ELIG_DIS_BEN_FLAG number (10)  NULL,
+  DIS_OPTION_CODE number (10) NULL,
+  STAGING_ID number (10) NULL,
+  EMPLOYEE_EID_SOURCE number (10) NULL,
+  SUPERVISOR_EID_SOURCE number (10) NULL,
+  DEPT_ASSIGNED_EID_SOURCE varchar2 (25) NULL,
+  EMP_ENTITY_ID_SOURCE number (10) NULL,
+  SEC_DEPT_EID_SOURCE varchar2 (25) NULL
+
+)';
+  EXECUTE IMMEDIATE 'ALTER TABLE EMPLOYEE ADD CONSTRAINT PK_EMPLOYEE PRIMARY KEY (DA_ROW_ID,JOBID)';
+END IF;
+END;
+--==========================================================
+---CREATE ENTITY table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='ENTITY';
+
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE ENTITY';
+iExists := 0 ;
+END IF;
+
+IF iExists = 0 THEN
+
+  EXECUTE IMMEDIATE 'CREATE TABLE ENTITY(
+  DA_ROW_ID number (10)NOT NULL,
+  JOBID number (10)NOT NULL,
+  INPUT_ROW_ID number (10)NULL,
+  INVALID_ROW number (10)NULL,
+  UPDATE_ROW number (10)NULL,
+  BUSINESS_TYPE_CODE number (10)NULL,
+  COUNTY varchar2(30) NULL,
+  NATURE_OF_BUSINESS varchar2(50) NULL,
+  SIC_CODE number (10)NULL,
+  SIC_CODE_DESC varchar2(150) NULL,
+  WC_FILING_NUMBER varchar2(30) NULL,
+  ENTITY_ID number (10)NULL,
+  ENTITY_STAGING_ID number(10) NULL,
+  ENTITY_TABLE_ID number (10)NULL,
+  ENTITY_TABLE_ID_SOURCE varchar2(30) NULL,
+  LAST_NAME varchar2 (255) NULL,
+  LAST_NAME_SOUNDEX varchar2(8) NULL,
+  FIRST_NAME varchar2 (255) NULL,
+  ALSO_KNOWN_AS varchar2(50) NULL,
+  ABBREVIATION varchar2(25) NULL,
+  COST_CENTER_CODE number (10)NULL,
+  ADDRESS_TYPE_CODE number (10) NULL,      
+  ADDR1 varchar2(100) NULL,
+  ADDR2 varchar2(100) NULL,
+  ADDR3 varchar2(100) NULL,
+  ADDR4 varchar2(100) NULL,
+  CITY varchar2(50) NULL,
+  COUNTRY_CODE number (10)NULL,
+  STATE_ID number (10)NULL,
+  ZIP_CODE varchar2(10) NULL,
+  PARENT_EID number (10)NULL,
+  PARENT_EID_SOURCE number(10) NULL,
+
+  TAX_ID varchar2(20) NULL,
+  CONTACT varchar2(50) NULL,
+  COMMENTS varchar2(4000) NULL,
+  EMAIL_TYPE_CODE number (10)NULL,
+  EMAIL_ADDRESS varchar2(100) NULL,
+  SEX_CODE number (10)NULL,
+  BIRTH_DATE varchar2(8) NULL,
+  PHONE1 varchar2(30) NULL,
+  PHONE2 varchar2(30) NULL,
+  FAX_NUMBER varchar2(30) NULL,
+  CONTACT_TYPE_CODE number (10) NULL,      
+  CONTACT_NAME varchar2 (255) NULL,
+  CONTACT_TITLE varchar2(50) NULL,
+  CONTACT_INITIALS varchar2(10) NULL,
+  CONTACT_ADDR1 varchar2(100) NULL,
+  CONTACT_ADDR2 varchar2(100) NULL,
+  CONTACT_ADDR3 varchar2(100) NULL,
+  CONTACT_ADDR4 varchar2(100) NULL,
+  CONTACT_CITY varchar2(50) NULL,
+  CONTACT_STATE_ID varchar2(25) NULL,
+  CONTACT_ZIP_CODE varchar2(10) NULL,
+  CONTACT_PHONE varchar2(30) NULL,
+  CONTACT_FAX_NUMBER varchar2(30) NULL,
+  CONTACT_EMAIL_ADDRESS varchar2(25) NULL,    
+  DTTM_RCD_ADDED varchar2(14) NULL,
+  DTTM_RCD_LAST_UPD varchar2(14) NULL,
+  UPDATED_BY_USER varchar2(50) NULL,
+  ADDED_BY_USER varchar2(50) NULL,
+  DELETED_FLAG number (5)NULL,
+  SEC_DEPT_EID number (10)NULL,
+  SEC_DEPT_EID_SOURCE varchar2(25) NULL,
+  ASSIGNADJ_EID_SOURCE varchar2(25) NULL,
+  TRIGGER_DATE_FIELD varchar2(50) NULL,
+  EFF_START_DATE varchar2(8) NULL,
+  EFF_END_DATE varchar2(8) NULL,
+  PARENT_1099_EID number (10)NULL,
+  PARENT_1099_EID_SOURCE number(10) NULL,
+  REPORT_1099_FLAG number (5)NULL,
+  MIDDLE_NAME varchar2 (255) NULL,
+  TITLE varchar2(50) NULL,
+  NAICS_CODE number (10)NULL,
+  RM_USER_ID number (10)NULL,
+  FREEZE_PAYMENTS number (10)NULL,
+  ORGANIZATION_TYPE number (10)NULL,
+  NPI_NUMBER varchar2(10) NULL,
+  HTMLCOMMENTS varchar2(4000) NULL,
+  MMSEA_TIN_EDT_FLAG number (5)NULL,
+  AUTO_DISCOUNT float NULL,
+  DISCOUNT_FLAG number (10)NULL,
+  FROI_ACORD_PASSWORD varchar2(15) NULL,
+  MMSEA_OFE_STE_TEXT varchar2(9) NULL,
+  MMSEA_REPRTER_TEXT varchar2(9) NULL,
+  TIME_ZONE_TRACKING number(5) NULL,
+  TIME_ZONE_CODE number (10)NULL,
+  CONF_FLAG number(5) NULL,
+  CONF_EVENT_ID number (10)NULL,
+  ENTITY_APPROVAL_STATUS number (10)NULL,
+  ENTITY_REJECT_COMMENTS varchar2(4000) NULL,
+  ENTITY_REJECT_HTMLCOMMENTS varchar2(4000) NULL,
+  OVERRIDE_OFAC_CHECK number(5) NULL,
+  ORG_CURR_CODE number(10) NULL,
+  HOSPITAL_AMT float NULL,
+  HOSPITAL_LINES number(10) NULL,
+  MEDICAL_AMT float NULL,
+  MEDICAL_LINES number(10) NULL,
+  REFERENCE_NUMBER varchar2(50) NULL,
+  CLIENT_SEQ_NUM varchar2(30) NULL,
+  ADDRESS_SEQ_NUM number(10) NULL,
+  PREFIX number(10)NULL,
+  SUFFIX_COMMON number(10)NULL,
+  SUFFIX_LEGAL varchar2(50) NULL,
+  ID_TYPE number(10) NULL,
+  LEGAL_NAME varchar2 (255) NULL,
+  EFFECTIVE_DATE varchar2(10) NULL,
+  EXPIRATION_DATE varchar2(10) NULL,
+  NAME_TYPE number(10) NULL,
+  ASSIGNADJ_EID number(10) NULL,
+  STAGING_ID number (10)NULL,
+  ENTITY_ID_TYPE number (10) NULL,      
+  ENTITY_ID_NUMBER varchar2(50) NULL,
+  ENT_EFFECTIVE_DATE varchar2(8) NULL,
+  ENT_EXPIRATION_DATE varchar2(8) NULL,      
+  ENT_CATEGORY number(10) NULL,
+  ENT_CATEGORY_PRNT number(10) NULL ,  
+   FINANCIAL_KEY_FLAG number NULL ,
+   EXTERNAL_KEY varchar2(50) NULL
+)';
+  EXECUTE IMMEDIATE 'ALTER TABLE ENTITY ADD CONSTRAINT PK_ENTITY PRIMARY KEY (DA_ROW_ID,JOBID)';
+END IF;
+END;
+
+
+
+--==========================================================
+---CREATE ENTITY_EXPOSURE table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='ENTITY_EXPOSURE';
+
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE ENTITY_EXPOSURE';
+iExists := 0 ;
+END IF;
+
+IF iExists = 0 THEN
+  EXECUTE IMMEDIATE 'CREATE TABLE ENTITY_EXPOSURE(
+
+  DA_ROW_ID  number (10)  NOT NULL,
+  JOBID  number (10)  NOT NULL,
+  INPUT_ROW_ID  number (10)  NULL,
+  INVALID_ROW  number (10)  NULL,
+  UPDATE_ROW  number (10)  NULL,
+  EXPOSURE_ROW_ID_SOURCE number(10) NULL,
+  EXPOSURE_ROW_ID number(10) NULL,
+  ENTITY_ID  number (10)  NULL,
+  START_DATE varchar2(8) NULL,
+  END_DATE varchar2(8) NULL,
+  NO_OF_EMPLOYEES number(10) NULL,
+  NO_OF_WORK_HOURS number(10) NULL,
+  PAYROLL_AMOUNT float NULL,
+  ASSET_VALUE float NULL,
+  SQUARE_FOOTAGE number(10) NULL,
+  VEHICLE_COUNT number(10) NULL,
+  TOTAL_REVENUE float NULL,
+  OTHER_BASE float NULL,
+  RISK_MGMT_OVERHEAD float NULL,
+  ABBREVIATION varchar2(25) NULL,
+  ORG_TABLE_ID NUMBER(10) NULL,
+  USER_GENERATD_FLAG number(5) NULL
+
+)';
+  EXECUTE IMMEDIATE 'ALTER TABLE ENTITY_EXPOSURE ADD CONSTRAINT PK_ENTITY_EXPOSURE PRIMARY KEY (DA_ROW_ID, JOBID)';
+END IF;
+END;
+
+
+--==========================================================
+---CREATE ERROR_LOG table 
+--============================================================
+
+BEGIN
+
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='ERROR_LOG';
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE ERROR_LOG';
+iExists := 0 ;
+END IF;
+
+IF iExists = 0 THEN
+  EXECUTE IMMEDIATE 'CREATE TABLE ERROR_LOG(
+
+  ERR_LOG_ROW_ID   number(10) NOT NULL,
+  JOBID   number(10) NOT NULL,
+  INPUT_ROW_ID   number(10) NULL,
+  MODULE_NAME varchar2(50) NULL,
+  WORK_FLOW_NAME varchar2(50) NULL,
+  DATA_FLOW_NAME varchar2(4000) NULL,
+  ERROR_TIME varchar2(14) NULL,
+  ERROR_TITLE varchar2(100) NULL,
+  ERROR_DESC varchar2(4000) NULL,
+  IS_VALIDATION   number(10) NULL,
+  ERROR_TABLE varchar2(50) NULL,
+  TABLE_ROW_ID  number(10) NULL,
+  ERROR_COLUMNS varchar2(4000) NULL
+
+
+)';
+
+  EXECUTE IMMEDIATE 'ALTER TABLE ERROR_LOG ADD CONSTRAINT PK_ERROR_LOG PRIMARY KEY (ERR_LOG_ROW_ID, JOBID)';
+END IF;
+END;
+
+--==========================================================
+---CREATE PHYSICIAN table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='PHYSICIAN';
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE PHYSICIAN';
+iExists := 0 ;
+END IF;
+IF iExists = 0 THEN
+  EXECUTE IMMEDIATE 'CREATE TABLE PHYSICIAN(
+
+  DA_ROW_ID  number (10)  NOT NULL,
+  JOBID  number (10)  NOT NULL,
+  INPUT_ROW_ID  number (10)  NULL,
+  INVALID_ROW  number (10)  NULL,
+  UPDATE_ROW  number (10)  NULL,
+  PHYS_EID  number (10)  NULL,
+  PHYSICIAN_NUMBER varchar2(50) NULL,
+  MED_STAFF_NUMBER varchar2(50) NULL,
+  MEDICARE_NUMBER varchar2(20) NULL,
+  PRIMARY_SPECIALTY  number (10)  NULL,
+  PRIMARY_POLICY_ID  number (10)  NULL,
+  HOME_ADDR1 varchar2(100) NULL,
+  HOME_ADDR2 varchar2(100) NULL,
+  HOME_ADDR3 varchar2(100) NULL,
+  HOME_ADDR4 varchar2(100) NULL,
+  HOME_CITY varchar2(50) NULL,
+  HOME_STATE_ID  number (10)  NULL,
+  HOME_ZIP_CODE varchar2(10) NULL,
+  MARITAL_STAT_CODE  number (10)  NULL,
+  BEEPER_NUMBER varchar2(30) NULL,
+  CELLULAR_NUMBER varchar2(30) NULL,
+  MAILING_ADDR1 varchar2(100) NULL,
+  MAILING_ADDR2 varchar2(100) NULL,
+  MAILING_ADDR3 varchar2(100) NULL,
+  MAILING_ADDR4 varchar2(100) NULL,
+  MAILING_CITY varchar2(50) NULL,
+  MAILING_STATE_ID  number (10)  NULL,
+  MAILING_ZIP_CODE varchar2(10) NULL,
+  EMERGENCY_CONTACT varchar2(30) NULL,
+  STAFF_STATUS_CODE  number (10)  NULL,
+  STAFF_TYPE_CODE  number (10)  NULL,
+  STAFF_CAT_CODE  number (10)  NULL,
+  INTERNAL_NUMBER varchar2(20) NULL,
+  DEPT_ASSIGNED_EID  number (10)  NULL,
+  APPOINT_DATE varchar2(8) NULL,
+  REAPPOINT_DATE varchar2(8) NULL,
+  LIC_STATE  number (10)  NULL,
+  LIC_NUM varchar2(20) NULL,
+  LIC_ISSUE_DATE varchar2(8) NULL,
+  LIC_EXPIRY_DATE varchar2(8) NULL,
+  LIC_DEA_NUM varchar2(20) NULL,
+  LIC_DEA_EXP_DATE varchar2(8) NULL,
+  MEMBERSHIP varchar2(20) NULL,
+  CONT_EDUCATION varchar2(20) NULL,
+  TEACHING_EXP varchar2(20) NULL,
+  EXTERNAL_KEY varchar2(50) NULL,
+  PARENT_1099_PHYSICIAN_NUMBER varchar2(50) NULL,
+    PARENT_1099_TABLE_NAME varchar2(50) NULL,
+    PARENT_1099_LAST_NAME varchar2 (255) NULL,
+    PARENT_1099_TAX_ID varchar2(50) NULL,
+    DEPT_ASSIGNED_EID_SOURCE varchar2(50) NULL,
+    PRIMARY_POLICY_NUMBER_SOURCE varchar2(50) NULL,
+     KEY_FIELD_VALUE varchar2(50) NULL
+  
+)';
+  EXECUTE IMMEDIATE 'ALTER TABLE PHYSICIAN ADD CONSTRAINT PK_PHYSICIAN PRIMARY KEY (DA_ROW_ID, JOBID)';
+
+END IF;
+END;
+
+--==========================================================
+---CREATE T_DIS_ADDRESS_X_PHONEINFO table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='T_DIS_ADDRESS_X_PHONEINFO';
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE T_DIS_ADDRESS_X_PHONEINFO';
+iExists := 0 ;
+END IF;
+IF iExists = 0 THEN
+  EXECUTE IMMEDIATE 'CREATE TABLE T_DIS_ADDRESS_X_PHONEINFO(
+
+  DA_ROW_ID number (10) NOT NULL,
+  JOBID number (10) NOT NULL,
+  ENTITY_ID number (10) NULL,
+  EXTERNAL_KEY varchar2(50) NULL
+
+)';
+  EXECUTE IMMEDIATE 'ALTER TABLE T_DIS_ADDRESS_X_PHONEINFO ADD CONSTRAINT PK_T_DIS_ADDRESS_X_PHONEINFO PRIMARY KEY (DA_ROW_ID, JOBID)';
+
+END IF;
+END;
+--==========================================================
+---CREATE T_DIS_EMP_X_DEPENDENT table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='T_DIS_EMP_X_DEPENDENT';
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE T_DIS_EMP_X_DEPENDENT';
+iExists := 0 ;
+END IF;
+
+IF iExists = 0 THEN
+  EXECUTE IMMEDIATE 'CREATE TABLE T_DIS_EMP_X_DEPENDENT(
+
+  JOBID number (10)  NOT NULL,
+  DA_ROW_ID number (10)  NOT NULL,
+  EMPLOYEE_EID number (10)  NULL,
+  RELATION_CODE varchar2(25) NULL
+
+)';
+  EXECUTE IMMEDIATE 'ALTER TABLE T_DIS_EMP_X_DEPENDENT ADD CONSTRAINT PK_T_DIS_EMP_X_DEPENDENT PRIMARY KEY (DA_ROW_ID, JOBID)';
+
+END IF;
+END;
+--==========================================================
+---CREATE T_DIS_EMP_X_VIOLATION table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='T_DIS_EMP_X_VIOLATION';
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE T_DIS_EMP_X_VIOLATION';
+iExists := 0 ;
+END IF;
+IF iExists = 0 THEN
+
+  EXECUTE IMMEDIATE 'CREATE TABLE T_DIS_EMP_X_VIOLATION(
+
+  JOBID number (10) NOT NULL,
+  DA_ROW_ID number (10)  NOT NULL,
+  EMPLOYEE_EID number (10) NULL,
+  VIOLATION_CODE varchar2(25) NULL
+
+
+)';
+  EXECUTE IMMEDIATE 'ALTER TABLE T_DIS_EMP_X_VIOLATION ADD CONSTRAINT PK_T_DIS_EMP_X_VIOLATION PRIMARY KEY (DA_ROW_ID, JOBID)';
+END IF;
+END;
+--==========================================================
+---CREATE T_DIS_EMPLOYEE table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='T_DIS_EMPLOYEE';
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE T_DIS_EMPLOYEE';
+iExists := 0 ;
+END IF;
+
+IF iExists = 0 THEN
+  EXECUTE IMMEDIATE 'CREATE TABLE T_DIS_EMPLOYEE(
+
+  JOBID number (10)  NOT NULL,
+  DA_ROW_ID number (10)  NOT NULL,
+  EMPLOYEE_EID varchar2(50) NULL,
+  DRIVLIC_STATE varchar2(25) NULL,
+  MARITAL_STAT_CODE varchar2(25) NULL,
+  POSITION_CODE varchar2(25) NULL,
+  PAY_TYPE_CODE varchar2(25) NULL,
+  DRIVERSLICTYPECODE varchar2(25) NULL,
+  DRIVLIC_RSTRCTCODE varchar2(25) NULL,
+  NCCI_CLASS_CODE varchar2(25) NULL,
+  JOB_CLASS_CODE varchar2(25) NULL
+
+
+)';
+  EXECUTE IMMEDIATE 'ALTER TABLE T_DIS_EMPLOYEE ADD CONSTRAINT PK_T_DIS_EMPLOYEE PRIMARY KEY (DA_ROW_ID, JOBID)';
+END IF;
+END;
+
+--==========================================================
+---CREATE T_DIS_ORG_HIER table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='T_DIS_ORG_HIER';
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE T_DIS_ORG_HIER';
+iExists := 0 ;
+END IF;
+IF iExists = 0 THEN
+  EXECUTE IMMEDIATE 'CREATE TABLE T_DIS_ORG_HIER
+(
+  DA_ROW_ID number (10) NOT NULL,
+  JOBID number (10) NOT NULL,
+  ENTITY_ID_SOURCE number (10) NULL,
+  ENTITY_TABLE_DESC varchar2(18) NULL,
+  PARENT_EID_SOURCE number (10) NULL,
+  PARENT_ABBREV_DESC varchar2(25) NULL,
+  BUSINESS_TYPE_CODE varchar2(25) NULL,        
+  COST_CENTER_CODE varchar2(25) NULL,    
+  COUNTRY_CODE varchar2(25) NULL,
+  EMAIL_TYPE_CODE varchar2(25) NULL,
+  STATE_ID varchar2(25) NULL,    
+  SIC_CODE varchar2(25) NULL,  
+  NAICS_CODE varchar2(25) NULL,    
+  ORGANIZATION_TYPE varchar2(25) NULL,
+  ADDRESS_TYPE_CODE varchar2(25) NULL,
+  CONTACT_TYPE_CODE varchar2(25) NULL,
+  CONTACT_STATE_ID varchar2(25) NULL,
+  ENTITY_ID_TYPE varchar2(25) NULL,
+  ENTITY_TABLE_ID number (10) NULL
+)';
+  EXECUTE IMMEDIATE 'ALTER TABLE T_DIS_ORG_HIER ADD CONSTRAINT PK_T_DIS_ORG_HIER PRIMARY KEY (DA_ROW_ID, JOBID)';
+  END IF;
+END;
+--==========================================================
+---CREATE UNIQUE_CODE table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='UNIQUE_CODE';
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE UNIQUE_CODE';
+iExists := 0 ;
+END IF;
+IF iExists = 0 THEN
+
+EXECUTE IMMEDIATE
+'CREATE TABLE UNIQUE_CODE
+(
+  JOBID number (10) NOT NULL,
+  DA_ROW_ID number (10) NOT NULL,
+  TABLE_ID number (10) NULL,
+  CODE_ID number (10) NULL,
+  LINE_OF_BUS_CODE number (10) NULL,
+  RELATED_CODE_ID number (10) NULL,
+  NEW_CODE number (10) NULL,
+  SHORT_CODE varchar2(25) NULL,
+  CODE_TABLE_NAME varchar2(30) NULL,
+    DELETED_FLAG number (10) NULL,
+  IND_STANDARD_CODE number(10) NULL,
+GLOSSARY_TYPE_CODE number(10) NULL
+)';
+EXECUTE IMMEDIATE
+'ALTER TABLE UNIQUE_CODE ADD CONSTRAINT PK_UNIQUE_CODE PRIMARY KEY (DA_ROW_ID, JOBID)';
+END IF;
+END;
+
+
+
+
+--==========================================================
+---CREATE VEHICLE_X_ACC_DATE table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='VEHICLE_X_ACC_DATE';
+
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE VEHICLE_X_ACC_DATE';
+iExists := 0 ;
+END IF;
+
+IF iExists = 0 THEN
+EXECUTE IMMEDIATE
+'CREATE TABLE VEHICLE_X_ACC_DATE
+(
+    DA_ROW_ID number NOT NULL,
+    JOBID number NOT NULL,
+    INPUT_ROW_ID number NULL,
+    INVALID_ROW number NULL,
+    UPDATE_ROW number NULL,  
+    UNIT_ID number NULL,
+    ACCIDENT_DATE varchar2(8) NULL,
+    CLAIM_ID number NULL,
+    VEH_X_ACC_DATE_ROW_ID number NULL,
+    SOURCE_UNIT_ID NUMBER NULL,
+    CLAIM_ID_SOURCE varchar2(25) NULL
+)';
+EXECUTE IMMEDIATE
+'ALTER TABLE VEHICLE_X_ACC_DATE ADD CONSTRAINT PK_VEHICLE_X_ACC_DATE PRIMARY KEY (DA_ROW_ID, JOBID)';
+
+END IF;
+END;
+
+--==========================================================
+---CREATE VEHICLE_X_INSPCT table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='VEHICLE_X_INSPCT';
+
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE VEHICLE_X_INSPCT';
+iExists := 0 ;
+END IF;
+
+IF iExists = 0 THEN
+
+EXECUTE IMMEDIATE
+'CREATE TABLE VEHICLE_X_INSPCT
+(
+    DA_ROW_ID number NOT NULL,
+    JOBID number NOT NULL,
+    INPUT_ROW_ID number NULL,
+    INVALID_ROW number NULL,
+    UPDATE_ROW number NULL,
+    UNIT_INSP_ROW_ID number NULL,
+    UNIT_ID number NULL,
+    INSPECTION_DATE varchar2(8) NULL,
+    INSPECTION_RESULT varchar2(255) NULL,
+    SOURCE_UNIT_ID NUMBER NULL
+)';
+EXECUTE IMMEDIATE
+'ALTER TABLE VEHICLE_X_INSPCT ADD CONSTRAINT PK_VEHICLE_X_INSPCT PRIMARY KEY (DA_ROW_ID, JOBID)';
+
+END IF;
+END;
+--==========================================================
+---CREATE MED_STAFF table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='MED_STAFF';
+
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+ 'DROP TABLE MED_STAFF';
+ iExists := 0 ;
+END IF;
+
+IF iExists = 0 THEN
+EXECUTE IMMEDIATE
+'CREATE TABLE MED_STAFF(
+  DA_ROW_ID number(10) NOT NULL,
+    JOBID number(10) NOT NULL,
+    INPUT_ROW_ID number(10) NULL,
+    INVALID_ROW number(10) NULL,
+    UPDATE_ROW number(10) NULL,
+    STAFF_EID number(10) NULL,
+    MED_STAFF_NUMBER varchar2(50) NULL,
+    PRIMARY_POLICY_ID number(10) NULL,
+    HOME_ADDR1 varchar2(100) NULL,
+    HOME_ADDR2 varchar2(100) NULL,
+    HOME_ADDR3 varchar2(100) NULL,
+    HOME_ADDR4 varchar2(100) NULL,
+    HOME_CITY varchar2(50) NULL,
+    HOME_STATE_ID number(10) NULL,
+    HOME_ZIP_CODE varchar2(10) NULL,
+    MARITAL_STAT_CODE number(10) NULL,
+    BEEPER_NUMBER varchar2(30) NULL,
+    CELLULAR_NUMBER varchar2(30) NULL,
+    EMERGENCY_CONTACT varchar2(30) NULL,
+    STAFF_STATUS_CODE number(10) NULL,
+    STAFF_POS_CODE number(10) NULL,
+    STAFF_CAT_CODE number(10) NULL,
+    DEPT_ASSIGNED_EID number(10) NULL,
+    HIRE_DATE varchar2(8) NULL,
+    LIC_NUM varchar2(20) NULL,
+    LIC_STATE number(10) NULL,
+    LIC_ISSUE_DATE varchar2(8) NULL,
+    LIC_EXPIRY_DATE varchar2(8) NULL,
+    LIC_DEA_NUM varchar2(20) NULL,
+    LIC_DEA_EXP_DATE varchar2(8) NULL,
+    EXTERNAL_KEY varchar2(50) NULL,
+    PRIMARY_POLICY_ID_SOURCE varchar2(50) NULL,  ---neha
+    DEPT_ASSIGNED_EID_SOURCE varchar2(50) NULL   ---neha
+)';
+
+EXECUTE IMMEDIATE
+'ALTER TABLE MED_STAFF ADD CONSTRAINT PK_MED_STAFF PRIMARY KEY (DA_ROW_ID, JOBID)';
+
+END IF;
+END;
+
+--==========================================================
+---CREATE STAFF_CERTS table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='STAFF_CERTS';
+
+IF iExists = 1 THEN
+EXECUTE IMMEDIATE
+ 'DROP TABLE STAFF_CERTS';
+ iExists := 0 ;
+END IF;
+
+IF iExists = 0 THEN
+EXECUTE IMMEDIATE
+'CREATE TABLE STAFF_CERTS(
+  DA_ROW_ID number(10) NOT NULL,
+    JOBID number(10) NOT NULL,
+    INPUT_ROW_ID number(10) NULL,
+    INVALID_ROW number(10) NULL,
+    UPDATE_ROW number(10) NULL,
+    STAFF_CERT_ID number(10) NULL,
+    STAFF_EID number(10) NULL,
+    NAME_CODE number(10) NULL,
+    INT_DATE varchar2(8) NULL,
+    END_DATE varchar2(8) NULL,
+    MED_STAFF_NUMBER varchar2(50) NULL  --added by neha
+
+)';
+
+EXECUTE IMMEDIATE
+'ALTER TABLE STAFF_CERTS ADD CONSTRAINT PK_STAFF_CERTS PRIMARY KEY (DA_ROW_ID, JOBID)';
+
+END IF;
+END;
+
+--==========================================================
+---CREATE STAFF_PRIVS table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='STAFF_PRIVS';
+
+IF iExists = 1 THEN
+EXECUTE IMMEDIATE
+ 'DROP TABLE STAFF_PRIVS';
+ iExists := 0 ;
+END IF;
+
+IF iExists = 0 THEN
+EXECUTE IMMEDIATE
+'CREATE TABLE STAFF_PRIVS(
+  DA_ROW_ID number(10) NOT NULL,
+    JOBID number(10) NOT NULL,
+    INPUT_ROW_ID number(10) NULL,
+    INVALID_ROW number(10) NULL,
+    UPDATE_ROW number(10) NULL,  
+    STAFF_PRIV_ID number(10) NULL,
+    STAFF_EID number(10) NULL,
+    CATEGORY_CODE number(10) NULL,
+    TYPE_CODE number(10) NULL,
+    STATUS_CODE number(10) NULL,
+    INT_DATE varchar2(8) NULL,
+    END_DATE varchar2(8) NULL,
+    MED_STAFF_NUMBER varchar2(50) NULL ---added by neha
+
+)';
+
+EXECUTE IMMEDIATE
+'ALTER TABLE STAFF_PRIVS ADD CONSTRAINT PK_STAFF_PRIVS PRIMARY KEY (DA_ROW_ID, JOBID)';
+
+END IF;
+END;
+
+
+--==========================================================
+---CREATE PATIENT table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='PATIENT';
+
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+ 'DROP TABLE PATIENT';
+ iExists := 0 ;
+END IF;
+
+IF iExists = 0 THEN
+EXECUTE IMMEDIATE
+'CREATE TABLE PATIENT(
+    DA_ROW_ID number(10) NOT NULL,
+    JOBID number(10) NOT NULL,
+    INPUT_ROW_ID number(10) NULL,
+    INVALID_ROW number(10) NULL,
+    UPDATE_ROW number(10) NULL,
+    PATIENT_ID number(10)  NULL,
+    PATIENT_EID number(10) NULL,
+    PATIENT_ACCT_NO varchar2(20) NULL,
+    MEDICAL_RCD_NO varchar2(20) NULL,
+    DATE_OF_ADMISSION varchar2(8) NULL,
+    TIME_OF_ADMISSION varchar2(6) NULL,
+    DATE_OF_DISCHARGE varchar2(8) NULL,
+    TIME_OF_DISCHARGE varchar2(6) NULL,
+    ADMISSION_REASON varchar2(4000) NULL,
+    ADM_TYPE_CODE number(10) NULL,
+    ADM_SOURCE_CODE number(10) NULL,
+    ACUITY_LEVEL_CODE number(10) NULL,
+    CARDIAC_ARREST number(6) NULL,
+    PATIENT_STAT_CODE number(10) NULL,
+    PATIENT_COND_CODE number(10) NULL,
+    DISCHARGE_DSP_CODE number(10) NULL,
+    EXP_LENGTH_OF_STAY number(10) NULL,
+    EXPECTED_COST float NULL,
+    INS_PLAN_GROUP_NO varchar2(16) NULL,
+    QI_SIGNIF_CODE number(10) NULL,
+    EPISODE_OF_CARE_ID varchar2(8) NULL,
+    PATIENT_TYPE_CODE number(10) NULL,
+    HEIGHT float NULL,
+    WEIGHT float NULL,
+    MARITAL_STAT_CODE number(10) NULL,
+    RACE_ENTH_CODE number(10) NULL,
+    DATE_OF_DEATH varchar2(8) NULL,
+    PRIMARY_PAY_CODE number(10) NULL,
+    SECOND_PAY_CODE number(10) NULL,
+    EMERGENCY_CONTACT varchar2(20) NULL,
+    EMERGENCY_CONT_NO varchar2(20) NULL,
+    PATIENT_ROOM_NO varchar2(14) NULL,
+    FACILITY_UNIT_CODE number(10) NULL,
+    FACILITY_DEPT_EID number(10) NULL,
+    HCO_ID_NO varchar2(20) NULL,
+    HCO_SITE_ID_NO varchar2(20) NULL,
+    PRI_PHYSICIAN_EID number(10) NULL,
+    ADM_PHYSICIAN_EID number(10) NULL,
+    NB_APGAR_SCORE number(10) NULL,
+    NB_BIRTH_WEIGHT float NULL,
+    NB_LEN_OF_GEST number(10) NULL,
+    NB_NICU_STAY number(10) NULL,
+    NB_NICU_ADM_DATE varchar2(8) NULL,
+    NB_NICU_DISCH_DATE varchar2(8) NULL,
+    NB_CEPHALIC_MOLD number(10) NULL,
+    NB_EPS_OF_CARE_ID varchar2(8) NULL,
+    NBM_PARITY number(10) NULL,
+    NBM_PRIOR_C_SECT number(10) NULL,
+    NBM_MED_IND_LABOR number(10) NULL,
+    NBM_LIVE_BIRTHS number(10) NULL,
+    NBM_STILL_BIRTHS number(10) NULL,
+    NBM_GRAVIDA number(10) NULL,
+    NBM_EPS_OF_CARE_ID varchar2(8) NULL,
+    DISABILITY_CODE number(10) NULL,
+    ILLNESS_CODE number(10) NULL,
+    LOST_CONSC_FLAG number(10) NULL,
+    WHY_AT_FACILITY varchar2(255) NULL,
+    EXTERNAL_KEY varchar2(50) NULL,  ---neha
+    FACILITY_DEPT_EID_SOURCE varchar(50) NULL, ---neha
+    PRI_PHYS_NUMBER varchar2(50) NULL, ---NEHA
+    ADM_PHYS_NUMBER varchar2(50) NULL,
+    PRI_PHYS_LAST_NAME varchar2(255) NULL,
+    PRI_PHYS_FIRST_NAME varchar2(255) NULL,
+    PRI_PHYS_TAX_ID varchar2(20) NULL,
+    ADM_PHYS_LAST_NAME varchar2(255) NULL,
+    ADM_PHYS_FIRST_NAME varchar2(255) NULL,
+    ADM_PHYS_TAX_ID varchar2(20) NULL,
+    ABBREVIATION varchar2(25) NULL
+    
+
+)';
+
+EXECUTE IMMEDIATE
+'ALTER TABLE PATIENT ADD CONSTRAINT PK_PATIENT PRIMARY KEY (DA_ROW_ID, JOBID)';
+
+END IF;
+END;
+--==========================================================
+---CREATE PATIENT_PROCEDURE table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='PATIENT_PROCEDURE';
+
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+ 'DROP TABLE PATIENT_PROCEDURE';
+ iExists := 0 ;
+END IF;
+
+IF iExists = 0 THEN
+EXECUTE IMMEDIATE
+'CREATE TABLE PATIENT_PROCEDURE(
+  DA_ROW_ID number(10) NOT NULL,
+    JOBID number(10) NOT NULL,
+    INPUT_ROW_ID number(10) NULL,
+    INVALID_ROW number(10) NULL,
+    UPDATE_ROW number(10) NULL,
+    PROC_ROW_ID number(10) NULL,
+    PATIENT_ID number(10) NULL,
+    PROCEDURE_CODE number(10) NULL,
+    PROC_TYPE_CODE number(10) NULL,
+    DATE_OF_PROCEDURE varchar2(8) NULL,
+    SURGEON_EID number(10) NULL,
+    ANESTH_ADMIN_FLAG number(6) NULL,
+    ANESTH_TYPE_CODE number(10) NULL,
+    ANESTH_EID number(10) NULL,
+    ASA_PS_CLASS_CODE number(10) NULL,
+    COMPLICATION_DATE varchar2(8) NULL,
+    PRIOR_TO_ANES_FLAG number(6) NULL,
+    ICC_LEVEL_CODE number(10) NULL,
+    LEN_OF_TIME float NULL,
+    COMPLICATIONS varchar2(4000) NULL,
+    SURGEON_PHYS_NUMBER varchar2(50) NULL,  ---neha
+    SURGEON_LAST_NAME varchar2(255) NULL,  ---neha
+    SURGEON_FIRST_NAME varchar2(255) NULL, ----Neha
+    SURGEON_TAX_ID varchar2(20) NULL,  ---neha
+    ANESTH_LAST_NAME varchar2(255) NULL,  ---neha
+    ANESTH_FIRST_NAME varchar2(255) NULL,  ---neha
+    ANESTH_TAX_ID varchar2(20) NULL,  ---neha
+    KEY_FIELD_VALUE varchar2(50) NULL
+)';
+
+EXECUTE IMMEDIATE
+'ALTER TABLE PATIENT_PROCEDURE ADD CONSTRAINT PK_PATIENT_PROCEDURE PRIMARY KEY (DA_ROW_ID, JOBID)';
+
+END IF;
+END;
+--==========================================================
+---CREATE PATIENT_ACT_TAKEN table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='PATIENT_ACT_TAKEN';
+
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+ 'DROP TABLE PATIENT_ACT_TAKEN';
+ iExists := 0 ;
+END IF;
+
+IF iExists = 0 THEN
+EXECUTE IMMEDIATE
+'CREATE TABLE PATIENT_ACT_TAKEN(
+    DA_ROW_ID number(10) NOT NULL,
+    JOBID number(10) NOT NULL,
+    INPUT_ROW_ID number(10) NULL,
+    INVALID_ROW number(10) NULL,
+    UPDATE_ROW number(10) NULL,
+    PATIENT_ID number(10) NULL,
+    ACTION_CODE number(10) NULL,
+    KEY_FIELD_VALUE varchar2(50) NULL
+
+)';
+
+EXECUTE IMMEDIATE
+'ALTER TABLE PATIENT_ACT_TAKEN ADD CONSTRAINT PK_PATIENT_ACT_TAKEN PRIMARY KEY (DA_ROW_ID, JOBID)';
+
+END IF;
+END;
+--==========================================================
+---CREATE PATIENT_ATTN_PHYS table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='PATIENT_ATTN_PHYS';
+
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+ 'DROP TABLE PATIENT_ATTN_PHYS';
+ iExists := 0 ;
+END IF;
+
+IF iExists = 0 THEN
+EXECUTE IMMEDIATE
+'CREATE TABLE PATIENT_ATTN_PHYS(
+    DA_ROW_ID number(10) NOT NULL,
+    JOBID number(10) NOT NULL,
+    INPUT_ROW_ID number(10) NULL,
+    INVALID_ROW number(10) NULL,
+    UPDATE_ROW number(10) NULL,
+    PATIENT_ID number(10) NULL,
+    PHYSICIAN_EID number(10) NULL,
+    PHYS_LAST_NAME varchar2(255) NULL,   ---neha
+    PHYS_FIRST_NAME varchar2(255) NULL, ---neha
+    PHYS_TAX_ID varchar2(20) NULL, ---neha
+    PHYS_NUMBER varchar2(50) NULL,  ---neha
+    KEY_FIELD_VALUE varchar2(50) NULL
+
+)';
+
+EXECUTE IMMEDIATE
+'ALTER TABLE PATIENT_ATTN_PHYS ADD CONSTRAINT PK_PATIENT_ATTN_PHYS PRIMARY KEY (DA_ROW_ID, JOBID)';
+
+END IF;
+END;
+--==========================================================
+---CREATE PATIENT_DIAGNOSIS table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='PATIENT_DIAGNOSIS';
+
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+ 'DROP TABLE PATIENT_DIAGNOSIS';
+ iExists := 0 ;
+END IF;
+
+IF iExists = 0 THEN
+EXECUTE IMMEDIATE
+'CREATE TABLE PATIENT_DIAGNOSIS(
+  DA_ROW_ID number(10) NOT NULL,
+    JOBID number(10) NOT NULL,
+    INPUT_ROW_ID number(10) NULL,
+    INVALID_ROW number(10) NULL,
+    UPDATE_ROW number(10) NULL,
+    PATIENT_ID number(10) NULL,
+    DIAGNOSIS_CODE number(10) NULL,
+    KEY_FIELD_VALUE varchar2(50) NULL
+
+)';
+
+EXECUTE IMMEDIATE
+'ALTER TABLE PATIENT_DIAGNOSIS ADD CONSTRAINT PK_PATIENT_DIAGNOSIS PRIMARY KEY (DA_ROW_ID, JOBID)';
+
+END IF;
+END;
+--==========================================================
+---CREATE PATIENT_DRG_CODES table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='PATIENT_DRG_CODES';
+
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+ 'DROP TABLE PATIENT_DRG_CODES';
+ iExists := 0 ;
+END IF;
+
+IF iExists = 0 THEN
+EXECUTE IMMEDIATE
+'CREATE TABLE PATIENT_DRG_CODES(
+  DA_ROW_ID number(10) NOT NULL,
+    JOBID number(10) NOT NULL,
+    INPUT_ROW_ID number(10) NULL,
+    INVALID_ROW number(10) NULL,
+    UPDATE_ROW number(10) NULL,
+    PATIENT_ID number(10) NULL,
+    DRG_CODE number(10) NULL,
+    KEY_FIELD_VALUE varchar2(50) NULL
+
+)';
+
+EXECUTE IMMEDIATE
+'ALTER TABLE PATIENT_DRG_CODES ADD CONSTRAINT PK_PATIENT_DRG_CODES PRIMARY KEY (DA_ROW_ID, JOBID)';
+
+END IF;
+END;
+--==========================================================
+---CREATE T_DIS_MED_STAFF table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='T_DIS_MED_STAFF';
+
+IF iExists = 1 THEN
+EXECUTE IMMEDIATE
+ 'DROP TABLE T_DIS_MED_STAFF';
+ iExists := 0 ;
+END IF;
+
+IF iExists = 0 THEN
+EXECUTE IMMEDIATE
+'CREATE TABLE T_DIS_MED_STAFF(
+    DA_ROW_ID number(10) NOT NULL,
+    JOBID number(10) NOT NULL,
+    HOME_STATE_ID varchar2(25) NULL,
+    LIC_STATE varchar2(25) NULL,
+    MARITAL_STAT_CODE varchar2(25) NULL,
+    STAFF_STATUS_CODE varchar2(25) NULL,
+    STAFF_POS_CODE varchar2(25) NULL,
+    STAFF_CAT_CODE varchar2(25) NULL
+)';
+
+EXECUTE IMMEDIATE
+'ALTER TABLE T_DIS_MED_STAFF ADD CONSTRAINT PK_T_DIS_MED_STAFF PRIMARY KEY (DA_ROW_ID, JOBID)';
+
+END IF;
+END;
+
+--==========================================================
+---CREATE T_DIS_ENTITY_EXPOSURE table 
+--============================================================
+/*BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='T_DIS_ENTITY_EXPOSURE';
+
+IF iExists = 1 THEN
+EXECUTE IMMEDIATE
+ 'DROP TABLE T_DIS_ENTITY_EXPOSURE';
+ iExists := 0 ;
+END IF;
+
+IF iExists = 0 THEN
+EXECUTE IMMEDIATE
+'CREATE TABLE T_DIS_ENTITY_EXPOSURE(
+    DA_ROW_ID number(10) NOT NULL,
+    JOBID number(10) NOT NULL,
+    ABBREVIATION varchar2(25) NULL,
+    ORG_TABLE_ID NUMBER(10) NULL
+
+)';
+
+EXECUTE IMMEDIATE
+'ALTER TABLE T_DIS_ENTITY_EXPOSURE ADD CONSTRAINT PK_T_DIS_ENTITY_EXPOSURE PRIMARY KEY (DA_ROW_ID, JOBID)';
+
+END IF;
+END;
+*/
+
+
+--==========================================================
+---CREATE T_DIS_STAFF_CERTS table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='T_DIS_STAFF_CERTS';
+
+IF iExists = 1 THEN
+EXECUTE IMMEDIATE
+ 'DROP TABLE T_DIS_STAFF_CERTS';
+ iExists := 0 ;
+END IF;
+
+IF iExists = 0 THEN
+EXECUTE IMMEDIATE
+'CREATE TABLE T_DIS_STAFF_CERTS(
+    DA_ROW_ID number(10) NOT NULL,
+    JOBID number(10) NOT NULL,
+    MED_STAFF_NUMBER varchar2(50) NULL,
+    NAME_CODE varchar2(25) NULL
+
+)';
+
+EXECUTE IMMEDIATE
+'ALTER TABLE T_DIS_STAFF_CERTS ADD CONSTRAINT PK_T_DIS_STAFF_CERTS PRIMARY KEY (DA_ROW_ID, JOBID)';
+
+END IF;
+END;
+
+--==========================================================
+---CREATE T_DIS_STAFF_PRIVS table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='T_DIS_STAFF_PRIVS';
+
+IF iExists = 1 THEN
+EXECUTE IMMEDIATE
+ 'DROP TABLE T_DIS_STAFF_PRIVS';
+ iExists := 0 ;
+END IF;
+
+IF iExists = 0 THEN
+EXECUTE IMMEDIATE
+'CREATE TABLE T_DIS_STAFF_PRIVS(
+    DA_ROW_ID number(10) NOT NULL,
+    JOBID number(10) NOT NULL,
+    MED_STAFF_NUMBER varchar2(50) NULL,
+    CATEGORY_CODE varchar2(25) NULL,
+    TYPE_CODE varchar2(25) NULL,
+    STATUS_CODE varchar2(25) NULL
+)';
+
+EXECUTE IMMEDIATE
+'ALTER TABLE T_DIS_STAFF_PRIVS ADD CONSTRAINT PK_T_DIS_STAFF_PRIVS PRIMARY KEY (DA_ROW_ID, JOBID)';
+
+END IF;
+END;
+
+
+--==========================================================
+---CREATE T_DIS_PATIENT table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='T_DIS_PATIENT';
+
+IF iExists = 1 THEN
+EXECUTE IMMEDIATE
+ 'DROP TABLE T_DIS_PATIENT';
+ iExists := 0 ;
+END IF;
+
+IF iExists = 0 THEN
+EXECUTE IMMEDIATE
+'CREATE TABLE T_DIS_PATIENT(
+    JOBID number(10) NOT NULL,
+    DA_ROW_ID number(10) NOT NULL,
+    KEY_FIELD_VALUE varchar2(50) NULL,
+    ACUITY_LEVEL_CODE varchar2(25) NULL,
+    ADM_SOURCE_CODE varchar2(25) NULL,
+    ADM_TYPE_CODE varchar2(25) NULL,
+    DISCHARGE_DSP_CODE varchar2(25) NULL,
+    FACILITY_UNIT_CODE varchar2(25) NULL,
+    MARITAL_STAT_CODE varchar2(25) NULL,
+    PATIENT_COND_CODE varchar2(25) NULL,
+    PATIENT_STAT_CODE varchar2(25) NULL,
+    PATIENT_TYPE_CODE varchar2(25) NULL,
+    PRIMARY_PAY_CODE varchar2(25) NULL,
+    QI_SIGNIF_CODE varchar2(25) NULL,
+    RACE_ENTH_CODE varchar2(25) NULL,
+    SECOND_PAY_CODE varchar2(25) NULL,
+    NB_NICU_STAY varchar2(1) NULL,
+    NB_CEPHALIC_MOLD varchar2(1) NULL,
+    NBM_PRIOR_C_SECT varchar2(1) NULL,
+    NBM_MED_IND_LABOR varchar2(1) NULL,
+    DISABILITY_CODE varchar2(25) NULL,
+    ILLNESS_CODE varchar2(25) NULL
+   
+)';
+
+EXECUTE IMMEDIATE
+'ALTER TABLE T_DIS_PATIENT ADD CONSTRAINT PK_T_DIS_PATIENT PRIMARY KEY (DA_ROW_ID, JOBID)';
+
+END IF;
+END;
+
+--==========================================================
+---CREATE T_DIS_PATIENT_ACT_TAKEN table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='T_DIS_PATIENT_ACT_TAKEN';
+
+IF iExists = 1 THEN
+EXECUTE IMMEDIATE
+ 'DROP TABLE T_DIS_PATIENT_ACT_TAKEN';
+ iExists := 0 ;
+END IF;
+
+IF iExists = 0 THEN
+EXECUTE IMMEDIATE
+'CREATE TABLE T_DIS_PATIENT_ACT_TAKEN(
+    JOBID number(10) NOT NULL,
+    DA_ROW_ID number(10) NOT NULL,
+    KEY_FIELD_VALUE varchar2(50) NULL,
+    ACTION_CODE varchar2(25) NULL
+     
+)';
+
+EXECUTE IMMEDIATE
+'ALTER TABLE T_DIS_PATIENT_ACT_TAKEN ADD CONSTRAINT PK_T_DIS_PATIENT_ACT_TAKEN PRIMARY KEY (DA_ROW_ID, JOBID)';
+
+END IF;
+END;
+
+--==========================================================
+---CREATE T_DIS_PATIENT_ATTN_PHYS table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='T_DIS_PATIENT_ATTN_PHYS';
+
+IF iExists = 1 THEN
+EXECUTE IMMEDIATE
+ 'DROP TABLE T_DIS_PATIENT_ATTN_PHYS';
+ iExists := 0 ;
+END IF;
+
+IF iExists = 0 THEN
+EXECUTE IMMEDIATE
+'CREATE TABLE T_DIS_PATIENT_ATTN_PHYS(
+    JOBID number(10) NOT NULL,
+    DA_ROW_ID number(10) NOT NULL,
+    KEY_FIELD_VALUE varchar2(50) NULL
+    
+)';
+
+EXECUTE IMMEDIATE
+'ALTER TABLE T_DIS_PATIENT_ATTN_PHYS ADD CONSTRAINT PK_T_DIS_PATIENT_ATTN_PHYS PRIMARY KEY (DA_ROW_ID, JOBID)';
+
+END IF;
+END;
+
+
+--==========================================================
+---CREATE T_DIS_PATIENT_DIAGNOSIS table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='T_DIS_PATIENT_DIAGNOSIS';
+
+IF iExists = 1 THEN
+EXECUTE IMMEDIATE
+ 'DROP TABLE T_DIS_PATIENT_DIAGNOSIS';
+ iExists := 0 ;
+END IF;
+
+IF iExists = 0 THEN
+EXECUTE IMMEDIATE
+'CREATE TABLE T_DIS_PATIENT_DIAGNOSIS(
+    JOBID number(10) NOT NULL,
+    DA_ROW_ID number(10) NOT NULL,
+    KEY_FIELD_VALUE varchar2(50) NULL,
+    DIAGNOSIS_CODE varchar2(25) NULL
+     
+)';
+
+EXECUTE IMMEDIATE
+'ALTER TABLE T_DIS_PATIENT_DIAGNOSIS ADD CONSTRAINT PK_T_DIS_PATIENT_DIAGNOSIS PRIMARY KEY (DA_ROW_ID, JOBID)';
+
+END IF;
+END;
+
+--==========================================================
+---CREATE T_DIS_PATIENT_DRG_CODES table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='T_DIS_PATIENT_DRG_CODES';
+
+IF iExists = 1 THEN
+EXECUTE IMMEDIATE
+ 'DROP TABLE T_DIS_PATIENT_DRG_CODES';
+ iExists := 0 ;
+END IF;
+
+IF iExists = 0 THEN
+EXECUTE IMMEDIATE
+'CREATE TABLE T_DIS_PATIENT_DRG_CODES(
+    JOBID number(10) NOT NULL,
+    DA_ROW_ID number(10) NOT NULL,
+    KEY_FIELD_VALUE varchar2(50) NULL,
+    DRG_CODE varchar2(25) NULL
+    
+)';
+
+EXECUTE IMMEDIATE
+'ALTER TABLE T_DIS_PATIENT_DRG_CODES ADD CONSTRAINT PK_T_DIS_PATIENT_DRG_CODES PRIMARY KEY (DA_ROW_ID, JOBID)';
+
+END IF;
+END;
+
+--==========================================================
+---CREATE T_DIS_PATIENT_PROCEDURE table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='T_DIS_PATIENT_PROCEDURE';
+
+IF iExists = 1 THEN
+EXECUTE IMMEDIATE
+ 'DROP TABLE T_DIS_PATIENT_PROCEDURE';
+ iExists := 0 ;
+END IF;
+
+IF iExists = 0 THEN
+EXECUTE IMMEDIATE
+'CREATE TABLE T_DIS_PATIENT_PROCEDURE(
+    JOBID number(10) NOT NULL,
+    DA_ROW_ID number(10) NOT NULL,
+    KEY_FIELD_VALUE varchar2(50) NULL,
+    PROCEDURE_CODE varchar2(25) NULL,
+    PROC_TYPE_CODE varchar2(25) NULL,
+    ANESTH_TYPE_CODE varchar2(25) NULL,
+    ASA_PS_CLASS_CODE varchar2(25) NULL,
+    ICC_LEVEL_CODE varchar2(25) NULL
+     
+)';
+
+EXECUTE IMMEDIATE
+'ALTER TABLE T_DIS_PATIENT_PROCEDURE ADD CONSTRAINT PK_T_DIS_PATIENT_PROCEDURE PRIMARY KEY (DA_ROW_ID, JOBID)';
+END IF;
+END;
+
+--==========================================================
+---CREATE T_DIS_VEHICLE_X_INSPCT table 
+--============================================================
+-- KGUPTA31 -- COMMENTED AS PER DA DIS RESTRUCTURE ACTIVITY REASON THERE IS NO CODE COLUMN IN IT 
+-- DATED: 21-JULY-2016
+/*
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='T_DIS_VEHICLE_X_INSPCT';
+
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE T_DIS_VEHICLE_X_INSPCT';
+iExists := 0 ;
+END IF;
+
+IF iExists = 0 THEN
+
+EXECUTE IMMEDIATE
+'CREATE TABLE T_DIS_VEHICLE_X_INSPCT
+(
+    DA_ROW_ID number NOT NULL,
+    JOBID number NOT NULL,
+    SOURCE_UNIT_ID number NULL
+)';
+EXECUTE IMMEDIATE
+'ALTER TABLE T_DIS_VEHICLE_X_INSPCT ADD CONSTRAINT PK_T_DIS_VEHICLE_X_INSPCT PRIMARY KEY (DA_ROW_ID, JOBID)';
+
+END IF;
+END;
+*/
+
+--==========================================================
+---CREATE T_DIS_VEHICLE_X_ACC_DATE table 
+--============================================================
+-- KGUPTA31 -- COMMENTED AS PER DA DIS RESTRUCTURE ACTIVITY REASON THERE IS NO CODE COLUMN IN IT 
+-- DATED: 21-JULY-2016
+/*
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='T_DIS_VEHICLE_X_ACC_DATE';
+
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE T_DIS_VEHICLE_X_ACC_DATE';
+iExists := 0 ;
+END IF;
+
+IF iExists = 0 THEN
+
+EXECUTE IMMEDIATE
+'CREATE TABLE T_DIS_VEHICLE_X_ACC_DATE
+(
+    DA_ROW_ID number NOT NULL,
+    JOBID number NOT NULL,
+    SOURCE_UNIT_ID number NULL,
+    CLAIM_NUMBER varchar2(25) NULL
+)';
+EXECUTE IMMEDIATE
+'ALTER TABLE T_DIS_VEHICLE_X_ACC_DATE ADD CONSTRAINT PK_T_DIS_VEHICLE_X_ACC_DATE PRIMARY KEY (DA_ROW_ID, JOBID)';
+
+END IF;
+END;
+*/
+
+
+--==========================================================
+---CREATE T_DIS_PHYSICIAN table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='T_DIS_PHYSICIAN';
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE T_DIS_PHYSICIAN';
+iExists := 0 ;
+END IF;
+IF iExists = 0 THEN
+  EXECUTE IMMEDIATE 'CREATE TABLE T_DIS_PHYSICIAN(
+    JOBID number NOT NULL,
+    DA_ROW_ID number NOT NULL,
+    KEY_FIELD_VALUE varchar2(50) NULL,
+    /*DEPT_ASSIGNED_EID varchar2(50) NULL,
+    PRIMARY_POLICY_NUMBER varchar2(50) NULL,
+    PARENT_1099_PHYSICIAN_NUMBER varchar2(50) NULL,
+    PARENT_1099_TABLE_NAME varchar2(50) NULL,
+    PARENT_1099_LAST_NAME varchar2 (255) NULL,
+    PARENT_1099_TAX_ID varchar2(50) NULL,*/
+    MARITAL_STAT_CODE varchar2(25) NULL,
+    HOME_STATE_ID varchar2(25) NULL,
+    MAILING_STATE_ID varchar2(25) NULL,
+    STAFF_STATUS_CODE varchar2(25) NULL,
+    STAFF_TYPE_CODE varchar2(25) NULL,
+    STAFF_CAT_CODE varchar2(25) NULL,
+    LIC_STATE varchar2(25) NULL,
+    PRIMARY_SPECIALTY varchar2(25) NULL
+)';
+  EXECUTE IMMEDIATE 'ALTER TABLE T_DIS_PHYSICIAN ADD CONSTRAINT PK_T_DIS_PHYSICIAN PRIMARY KEY (DA_ROW_ID, JOBID)';
+
+END IF;
+END;
+--==========================================================
+---CREATE T_DIS_ENTITY table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='T_DIS_ENTITY';
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE T_DIS_ENTITY';
+iExists := 0 ;
+END IF;
+IF iExists = 0 THEN
+  EXECUTE IMMEDIATE 'CREATE TABLE T_DIS_ENTITY(
+    JOBID number NOT NULL,
+    DA_ROW_ID number NOT NULL,
+    ENTITY_ID number NULL,
+    EXTERNAL_KEY varchar2(50) NULL,
+    SIC_CODE varchar2(25) NULL,
+    PARENT_ABBREV varchar2(25) NULL,
+    SEX_CODE varchar2(25) NULL,
+    COUNTRY_CODE varchar2(25) NULL,
+    STATE_ID varchar2(25) NULL,
+    BUSINESS_TYPE_CODE varchar2(25) NULL,
+    COST_CENTER_CODE varchar2(25) NULL,
+    EMAIL_TYPE_CODE varchar2(25) NULL,
+    NAICS_CODE varchar2(25) NULL,
+    TIME_ZONE_CODE varchar2(25) NULL,
+    ENTITY_APPROVAL_STATUS varchar2(25) NULL,
+    ORG_CURR_CODE varchar2(25) NULL,
+    PREFIX varchar2(25) NULL,
+    SUFFIX_COMMON varchar2(25) NULL,
+    ID_TYPE varchar2(25) NULL,
+    NAME_TYPE varchar2(25) NULL,
+
+    ORGANIZATION_TYPE varchar2(25) NULL,
+    ADDRESS_TYPE_CODE varchar2(25) NULL,    -- start kkaur25 14.2 enh
+    CONTACT_TYPE_CODE varchar2(25) NULL,
+    CONTACT_STATE_ID varchar2(25) NULL,
+    ENTITY_ID_TYPE varchar2(25) NULL,
+    ENT_CATEGORY varchar2(25) NULL,
+    ENT_CATEGORY_PRNT varchar2(25) NULL      -- end kkaur25 14.2 enh
+)';
+  EXECUTE IMMEDIATE 'ALTER TABLE T_DIS_ENTITY ADD CONSTRAINT PK_T_DIS_ENTITY PRIMARY KEY (DA_ROW_ID, JOBID)';
+
+END IF;
+END;
+--==========================================================
+---CREATE PHYS_CERTS table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='PHYS_CERTS';
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE PHYS_CERTS';
+iExists := 0 ;
+END IF;
+IF iExists = 0 THEN
+  EXECUTE IMMEDIATE 'CREATE TABLE PHYS_CERTS(
+    DA_ROW_ID number NOT NULL,
+    JOBID number NOT NULL,
+    INPUT_ROW_ID number NULL,
+    INVALID_ROW number NULL,
+    UPDATE_ROW number NULL,
+    CERT_ID number NULL,
+    PHYS_EID number NULL,
+    NAME_CODE number NULL,
+    STATUS_CODE number NULL,
+    BOARD_CODE number NULL,
+    INT_DATE varchar2(8) NULL,
+    END_DATE varchar2(8) NULL,
+    KEY_FIELD_VALUE varchar2(50) NULL
+)';
+  EXECUTE IMMEDIATE 'ALTER TABLE PHYS_CERTS ADD CONSTRAINT PK_PHYS_CERTS PRIMARY KEY (DA_ROW_ID, JOBID)';
+
+END IF;
+END;
+
+--==========================================================
+---CREATE T_DIS_PHYS_CERTS table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='T_DIS_PHYS_CERTS';
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE T_DIS_PHYS_CERTS';
+iExists := 0 ;
+END IF;
+IF iExists = 0 THEN
+  EXECUTE IMMEDIATE 'CREATE TABLE T_DIS_PHYS_CERTS(
+    JOBID number NOT NULL,
+    DA_ROW_ID number NOT NULL,
+    KEY_FIELD_VALUE varchar(50) NULL,
+    NAME_CODE varchar2(25) NULL,
+    STATUS_CODE varchar2(25) NULL,
+    BOARD_CODE varchar2(25) 
+    )';
+  EXECUTE IMMEDIATE 'ALTER TABLE T_DIS_PHYS_CERTS ADD CONSTRAINT PK_T_DIS_PHYS_CERTS PRIMARY KEY (DA_ROW_ID, JOBID)';
+
+END IF;
+END;
+--==========================================================
+---CREATE PHYS_EDUCATION table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='PHYS_EDUCATION';
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE PHYS_EDUCATION';
+iExists := 0 ;
+END IF;
+IF iExists = 0 THEN
+  EXECUTE IMMEDIATE 'CREATE TABLE PHYS_EDUCATION(
+    DA_ROW_ID number NOT NULL,
+    JOBID number NOT NULL,
+    INPUT_ROW_ID number NULL,
+    INVALID_ROW number NULL,
+    UPDATE_ROW number NULL,
+    EDUC_ID number NULL,
+    PHYS_EID number NULL,
+    EDUC_TYPE_CODE number NULL,
+    INSTITUTION_EID number NULL,
+    DEGREE_TYPE number NULL,
+    DEGREE_DATE varchar2(8) NULL,
+    KEY_FIELD_VALUE varchar2(50) NULL,
+    INSTITUTION_NAME_SOURCE VARCHAR2(255)
+    )';
+  EXECUTE IMMEDIATE 'ALTER TABLE PHYS_EDUCATION ADD CONSTRAINT PK_PHYS_EDUCATION PRIMARY KEY (DA_ROW_ID, JOBID)';
+
+END IF;
+END;
+--==========================================================
+---CREATE T_DIS_PHYS_EDUCATION table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='T_DIS_PHYS_EDUCATION';
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE T_DIS_PHYS_EDUCATION';
+iExists := 0 ;
+END IF;
+IF iExists = 0 THEN
+  EXECUTE IMMEDIATE 'CREATE TABLE T_DIS_PHYS_EDUCATION(
+    JOBID number NOT NULL,
+    DA_ROW_ID number NOT NULL,
+    KEY_FIELD_VALUE varchar2(50) NULL,
+    EDUC_TYPE_CODE varchar2(25) NULL,
+    INSTITUTION_NAME varchar2(255) NULL,
+    DEGREE_TYPE varchar2(25) NULL
+    )';
+  EXECUTE IMMEDIATE 'ALTER TABLE T_DIS_PHYS_EDUCATION ADD CONSTRAINT PK_T_DIS_PHYS_EDUCATION PRIMARY KEY (DA_ROW_ID, JOBID)';
+
+END IF;
+END;
+--==========================================================
+---CREATE PHYS_PRIVS table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='PHYS_PRIVS';
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE PHYS_PRIVS';
+iExists := 0 ;
+END IF;
+IF iExists = 0 THEN
+  EXECUTE IMMEDIATE 'CREATE TABLE PHYS_PRIVS(
+    DA_ROW_ID number NOT NULL,
+    JOBID number NOT NULL,
+    INPUT_ROW_ID number NULL,
+    INVALID_ROW number NULL,
+    UPDATE_ROW number NULL,
+    PRIV_ID number NULL,
+    PHYS_EID number NULL,
+    CATEGORY_CODE number NULL,
+    TYPE_CODE number NULL,
+    STATUS_CODE number NULL,
+    INT_DATE varchar2(8) NULL,
+    END_DATE varchar2(8) NULL,
+    KEY_FIELD_VALUE varchar2(50) NULL
+    )';
+  EXECUTE IMMEDIATE 'ALTER TABLE PHYS_PRIVS ADD CONSTRAINT PK_PHYS_PRIVS PRIMARY KEY (DA_ROW_ID, JOBID)';
+
+END IF;
+END;
+--==========================================================
+---CREATE T_DIS_PHYS_PRIVS table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='T_DIS_PHYS_PRIVS';
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE T_DIS_PHYS_PRIVS';
+iExists := 0 ;
+END IF;
+IF iExists = 0 THEN
+  EXECUTE IMMEDIATE '  CREATE TABLE T_DIS_PHYS_PRIVS(
+    JOBID number NOT NULL,
+    DA_ROW_ID number NOT NULL,
+    KEY_FIELD_VALUE varchar2(50) NULL,
+    CATEGORY_CODE varchar2(25) NULL,
+    TYPE_CODE varchar(25) NULL,
+    STATUS_CODE varchar2(25) NULL
+    )';
+  EXECUTE IMMEDIATE 'ALTER TABLE T_DIS_PHYS_PRIVS ADD CONSTRAINT PK_T_DIS_PHYS_PRIVS PRIMARY KEY (DA_ROW_ID, JOBID)';
+
+END IF;
+END;
+--==========================================================
+---CREATE PHYS_PREV_HOSP table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='PHYS_PREV_HOSP';
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE PHYS_PREV_HOSP';
+iExists := 0 ;
+END IF;
+IF iExists = 0 THEN
+  EXECUTE IMMEDIATE '  
+CREATE TABLE PHYS_PREV_HOSP(
+    DA_ROW_ID number NOT NULL,
+    JOBID number NOT NULL,
+    INPUT_ROW_ID number NULL,
+    INVALID_ROW number NULL,
+    UPDATE_ROW number NULL,
+    PREV_HOSP_ID number NULL,
+    PHYS_EID number NULL,
+    STATUS_CODE number NULL,
+    HOSPITAL_EID number NULL,
+    PRIV_CODE number NULL,
+    INT_DATE varchar2(8) NULL,
+    END_DATE varchar2(8) NULL,
+    KEY_FIELD_VALUE varchar2(50) NULL,
+    HOSPITAL_NAME_SOURCE varchar2(255)
+    )';
+  EXECUTE IMMEDIATE 'ALTER TABLE PHYS_PREV_HOSP ADD CONSTRAINT PK_PHYS_PREV_HOSP PRIMARY KEY (DA_ROW_ID, JOBID)';
+
+END IF;
+END;
+
+--==========================================================
+---CREATE T_DIS_PHYS_PREV_HOSP table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='T_DIS_PHYS_PREV_HOSP';
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE T_DIS_PHYS_PREV_HOSP';
+iExists := 0 ;
+END IF;
+IF iExists = 0 THEN
+  EXECUTE IMMEDIATE '  
+CREATE TABLE T_DIS_PHYS_PREV_HOSP(
+    JOBID number NOT NULL,
+    DA_ROW_ID number NOT NULL,
+    KEY_FIELD_VALUE varchar2(50) NULL,
+    STATUS_CODE varchar2(25) NULL,
+    HOSPITAL_NAME varchar2(255) NULL,
+    PRIV_CODE varchar2(25) NULL
+    )';
+  EXECUTE IMMEDIATE 'ALTER TABLE T_DIS_PHYS_PREV_HOSP ADD CONSTRAINT PK_T_DIS_PHYS_PREV_HOSP PRIMARY KEY (DA_ROW_ID, JOBID)';
+
+END IF;
+END;
+--==========================================================
+---CREATE PHYS_SUB_SPECIALTY table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='PHYS_SUB_SPECIALTY';
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE PHYS_SUB_SPECIALTY';
+iExists := 0 ;
+END IF;
+IF iExists = 0 THEN
+  EXECUTE IMMEDIATE '  
+CREATE TABLE PHYS_SUB_SPECIALTY(
+    DA_ROW_ID number NOT NULL,
+    JOBID number NOT NULL,
+    INPUT_ROW_ID number NULL,
+    INVALID_ROW number NULL,
+    UPDATE_ROW number NULL,
+    PHYS_EID number NULL,
+    SPECIALTY_CODE number NULL,
+    KEY_FIELD_VALUE varchar2(50) NULL
+    )';
+  EXECUTE IMMEDIATE 'ALTER TABLE PHYS_SUB_SPECIALTY ADD CONSTRAINT PK_PHYS_SUB_SPECIALTY PRIMARY KEY (DA_ROW_ID, JOBID)';
+
+END IF;
+END;
+--==========================================================
+---CREATE T_DIS_PHYS_SUB_SPECIALTY table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='T_DIS_PHYS_SUB_SPECIALTY';
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE T_DIS_PHYS_SUB_SPECIALTY';
+iExists := 0 ;
+END IF;
+IF iExists = 0 THEN
+  EXECUTE IMMEDIATE '  
+CREATE TABLE T_DIS_PHYS_SUB_SPECIALTY(
+    JOBID number NOT NULL,
+    DA_ROW_ID number NOT NULL,
+    KEY_FIELD_VALUE varchar2(50) NULL,
+    SPECIALTY_CODE varchar2(50) NULL
+    )';
+  EXECUTE IMMEDIATE 'ALTER TABLE T_DIS_PHYS_SUB_SPECIALTY ADD CONSTRAINT PK_T_DIS_PHYS_SUB_SPECIALTY PRIMARY KEY (DA_ROW_ID, JOBID)';
+
+END IF;
+END;
+--==========================================================
+---CREATE T_DIS_PROCESS_LOG table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='T_DIS_PROCESS_LOG';
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE T_DIS_PROCESS_LOG';
+iExists := 0 ;
+END IF;
+IF iExists = 0 THEN
+  EXECUTE IMMEDIATE '  
+CREATE TABLE T_DIS_PROCESS_LOG(
+    JOBID number NOT NULL,
+    PROCESS_DESC varchar2(500) NULL,
+                DISPLAY_ORDER number  NULL,
+                TRANS_ID number  NULL,
+                IDENTIFIER number NULL
+   )';
+ 
+END IF;
+END;
+--==========================================================
+---CREATE DIS_OPTIONSET table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='DIS_OPTIONSET';
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE DIS_OPTIONSET';
+iExists := 0 ;
+END IF;
+
+IF iExists = 0 THEN
+  EXECUTE IMMEDIATE 'CREATE TABLE DIS_OPTIONSET(
+
+  JOBID number (10) NOT NULL,
+  OPTIONSET_ID number (10) NULL,
+  OPTIONSET_NAME varchar2(50) NULL,
+  VERIFICATION_FLAG number (10) NULL,
+  chk2GBData number (10) NULL,
+  txtBatchID number (10) NULL,
+  NUMBER_OF_AREAS_IMPORTING number (10) NULL,
+  EMPLOYEES_FLAG number (10) NULL,
+  EMPLOYEES_IMPORT_SUPP number (10) NULL,
+  EMPLOYEES_MATCH_EMPLOYEE_ID number (10) NULL,
+  EMPLOYEES_UPDATE_BLANK_ZERO number (10) NULL,
+  EMP_UPDATE_ADDRESS_BLANK_ZERO   number (10) NULL,
+  EMPLOYEES_CREATE_NEW_CODES number (10) NULL,
+  EMPLOYEES_MATCH_ENTITY_ID number (10) NULL,
+  ORGHIER_FLAG number (10) NULL,
+  ORGHIER_IMPORT_SUPP number (10) NULL,
+  ORGHIER_UPDATE_BLANK_ZERO number (10) NULL,
+  ORGHIER_CREATE_NEW_CODES number (10) NULL,
+  FUNDS_FLAG number (10) NULL,
+  FUNDS_IMPORT_SUPP number (10) NULL,
+  FUNDS_MATCH_PAYEE_NAME number (10) NULL,
+  FUNDS_MATCH_PAYEE_TAX_ID number (10) NULL,
+  FUNDS_MATCH_PAYEE_DOB number(10) NULL,
+  FUNDS_CREATE_NEW_CODES number (10) NULL,
+  FUNDS_OPEN_CLAIMS_ONLY number (10) NULL,
+  FUNDS_CHECK_DUPLICATE_PAYMENTS number (10) NULL,
+  FUNDS_ACCEPT_DUP_CHECK_NUMBER   number (10) NULL,
+  FUNDS_IMPORT_CLEARED_PAYMENTS number (10) NULL,
+  FUNDS_MATCH_ENTITY_ID number (10) NULL,
+  FUNDS_IMPORT_MULTIPLE_PAYEES number(10) NULL,
+  FUNDSDEPOSIT_FLAG number(10) NULL,
+  FUNDSDEPOSIT_UPDATE_BLANK_ZERO number(10) NULL,
+  FUNDSDEPOSIT_CREATE_NEW_CODES number(10) NULL,    
+  VEHICLES_FLAG number(10) NULL,
+  VEHICLES_IMPORT_SUPP number(10) NULL,
+  VEHICLES_UPDATE_BLANK_ZERO number(10) NULL,
+  VEHICLES_CREATE_NEW_CODES number(10) NULL,
+  ENTITIES_FLAG number(10) NULL,
+  ENTITIES_IMPORT_SUPP number(10) NULL,
+  ENTITIES_UPDATE_BLANK_ZERO number(10) NULL,
+  ENTITIES_CREATE_NEW_CODES number(10) NULL,
+  POLICIES_FLAG number(10) NULL,
+  POLICIES_IMPORT_SUPP number(10) NULL,
+  POLICIES_CREATE_NEW_CODES number(10) NULL,  
+  POL_INSURED_ENTITYID number(10) NULL,
+  POL_MATCH_INSURED_TAXID number(10) NULL,
+  POL_MATCH_INSURED_NAME number(10) NULL,
+  POL_MATCH_INSURED_ABBREV number(10) NULL,
+  POL_MATCH_INSURED_DOB number(10) NULL,
+  POL_INSURER_ENTITYID number(10) NULL,
+  POL_MATCH_INSURER_TAXID number(10) NULL,
+  POL_MATCH_INSURER_NAME number(10) NULL,
+  POL_MATCH_INSURER_ABBREV number(10) NULL,
+  POL_MATCH_INSURER_DOB number(10) NULL,
+  POL_INSURED_CLAIMANT number(10) NULL,
+  POL_IMPRT_ADD_INTRST number(10) NULL,
+  POL_IMPRT_ADD_INTRST_TAXID number(10) NULL,  
+  POL_IMPRT_ADD_INTRST_NAME number(10) NULL, 
+  POL_IMPRT_ADD_INTRST_DOB number(10) NULL,
+  RESERVES_FLAG number(10) NULL,
+  RESERVES_IMPORT_SUPP number (10) NULL,
+  RESERVES_CREATE_NEW_CODES number (10) NULL,
+  RESERVES_CHECK_DUPLICATE number (10) NULL,
+  ORGEXPO_FLAG number (10) NULL,
+  ORGEXPO_IMPORT_SUPP number (10) NULL,
+  ORGEXPO_NEW_RECORDS_ONLY number (10) NULL,
+  ORGEXPO_UPDATE_BLANK_ZERO number (10) NULL,
+  ORGEXPO_CREATE_NEW_CODES number (10) NULL,
+  PATIENTS_FLAG number (10) NULL,
+  PATIENTS_IMPORT_SUPP number (10) NULL,
+  PATIENTS_VALIDATE_DATA number (10) NULL,
+  PATIENTS_MATCH_PATIENT number (10) NULL,
+  PATIENTS_CREATE_NEW_CODES number (10) NULL,
+  PATIENT_MATCH_PATIENT_NUMBER number (10) NULL,
+  PHYSICIANS_FLAG number (10) NULL,
+  PHYSICIANS_IMPORT_SUPP number (10) NULL,
+  PHYSICIANS_VALIDATE_DATA number (10) NULL,
+  PHYSICIANS_CREATE_NEW_CODES number (10) NULL,
+  PHYSICIANS_MATCH_PHY_NUMBER number (10) NULL,
+  MEDICALSTAFF_FLAG number (10) NULL,
+  MEDICALSTAFF_IMPORT_SUPP number (10) NULL,
+  MEDICALSTAFF_VALIDATE_DATA number (10) NULL,
+  MEDICALSTAFF_CREATE_NEW_CODES number (10) NULL,
+  ADMINTRACK_FLAG number (10) NULL,
+  ADMINTRACK_AREA varchar2(100)NULL,
+  ADMINTRACK_ADD_UPDATE number (10) NULL,
+  ADMINTRACK_CREATE_NEW_CODES number (10) NULL,
+  ADMINTRACK_MATCH_FIELD varchar2(50) NULL,
+  ENTITIES_MATCH_BY_TAXID number (10) NULL,
+  ENTITIES_MATCH_BY_NAME number (10) NULL,
+  ENTITIES_MATCH_BY_Abbrev number (10) NULL,
+  ENTITIES_MATCH_BY_DOB NUMBER(10) NULL,
+  DIARY_TO_USERS varchar2(50) NULL
+)';
+
+  EXECUTE IMMEDIATE 'ALTER TABLE DIS_OPTIONSET ADD CONSTRAINT PK_DIS_OPTIONSET PRIMARY KEY (JOBID)';
+
+END IF;
+END; 
+
+--==========================================================
+---CREATE RESERVE_CURRENT table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='RESERVE_CURRENT';
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE RESERVE_CURRENT';
+iExists := 0 ;
+END IF;
+IF iExists = 0 THEN
+  EXECUTE IMMEDIATE '  
+  CREATE TABLE RESERVE_CURRENT(
+  DA_ROW_ID number NOT NULL,  
+  JOBID number NOT NULL,
+  INPUT_ROW_ID number NULL,
+  INVALID_ROW number NULL,    
+  UPDATE_ROW number NULL,
+  CLAIM_NUMBER varchar2(50) NULL,
+  CLAIM_ID number NULL,
+  UNIT_ID number NULL,
+  CLAIMANT_EID number NULL,
+  RESERVE_TYPE_CODE_ID number NULL,
+  RESERVE_AMOUNT number NULL,
+  DATE_ENTERED  varchar2(8) NULL,
+  ENTERED_BY_USER  varchar2(50) NULL,
+  REASON  varchar2(30) NULL,
+  UPDATED_BY_USER  varchar2(50) NULL,
+  DTTM_RCD_ADDED varchar2(14) NULL,
+  DTTM_RCD_LAST_UPD varchar2(14) NULL,
+  ADDED_BY_USER varchar2(50) NULL,
+  SEC_DEPT_EID number NULL,
+  RES_STATUS_CODE_ID number NULL,
+  ALLOCATED_AMOUNT number NULL,
+  POLCVG_ROW_ID number NULL,
+  CLAIM_CURR_CODE number NULL,
+  CLAIM_TO_BASE_CUR_RATE number NULL,
+  CLAIM_TO_POL_CUR_RATE number NULL,
+  POL_CURR_CODE number NULL,
+  RESERVE_CATEGORY number NULL,
+  ASSIGNADJ_EID number NULL,
+  RESERVE_ID number NULL,
+  INC_CLAIMANT number NULL,
+  INC_RSVTYPE number NULL,
+  INC_POL_COVERAGE number NULL,
+  INC_RSVSUBTYPE number NULL,
+  INC_LOSS_TYPE number NULL,
+  POLICY_SYSTEM_ID number NULL,
+  UNIT_VIN varchar2(50) NULL,
+  CLAIMANT_FIRST_NAME varchar2 (255) NULL,
+  CLAIMANT_LAST_NAME varchar2 (255) NULL,
+  RESERVE_DATE varchar2(8) NULL,
+  CHK_DUPLICATE_RSV number NULL,
+  ADJ_FIRST_NAME varchar2 (255) NULL,
+  ADJ_LAST_NAME varchar2 (255) NULL,
+  ADJ_TAX_ID varchar2(20) NULL,
+  UNIT_TYPE varchar2(25) NULL,
+  POLICY_NAME varchar2(30) NULL,
+  UNIT_NUMBER varchar2(25) NULL,
+  MODULE_NO varchar2(25) NULL,
+  CLASS_CODE varchar2(30) NULL,
+  CVG_SEQUENCE_NO varchar2(8) NULL,
+  TRANS_SEQ_NO varchar2(8) NULL,
+  CVG_DESC varchar2(100) NULL,
+  SUBLINE_DESC varchar2(100) NULL,
+  CLASS_DESC varchar2(100) NULL,
+  STAT_UNIT_NUMBER varchar2(10) NULL,
+  POLICY_CVG_SEQNO number NULL,
+  POLCVG_LOSS_ROW_ID number NULL,
+  POLICY_NUMBER VARCHAR2(40),
+  POLICY_SYMBOL VARCHAR2(20),
+  MASTER_COMPANY VARCHAR2(10),
+  LOCATION_COMPANY VARCHAR2(10),
+  CLAIM_STATUS_CODE number NULL,
+  COVERAGE_SHORT_CODE varchar2(25) NULL,
+  COVERAGE_CODE_ID  number NULL,
+  LOSS_DISABILITY_SHORT_CODE varchar2(25) NULL,
+  LOSS_DISABILITY_CODE_ID number NULL,
+  RESERVE_SUB_TYPE_ID number NULL,
+  DISABILITY_TYPE_CATEGORY_ID number NULL,
+  LINE_OF_BUS_CODE number NULL,
+  COLL_IN_RSV_BAL number NULL,
+  COLL_IN_INCUR_BAL number NULL,
+  REGION varchar2(10) NULL,
+  UNIT_LAST_NAME varchar2(255) NULL,
+  UNIT_FIRST_NAME varchar2(255) NULL,
+  UNIT_TAX_ID varchar2(20) NULL,
+  UNIT_DOB varchar2(8) NULL,
+  BEN_REVIEW_DATE varchar2(8) NULL
+   )';
+ 
+EXECUTE IMMEDIATE 'ALTER TABLE RESERVE_CURRENT ADD CONSTRAINT PK_RESERVE_CURRENT PRIMARY KEY (DA_ROW_ID, JOBID)';
+END IF;
+END;
+
+
+--==========================================================
+---CREATE T_DIS_RESERVE_CURRENT table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='T_DIS_RESERVE_CURRENT';
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE T_DIS_RESERVE_CURRENT';
+iExists := 0 ;
+END IF;
+IF iExists = 0 THEN
+  EXECUTE IMMEDIATE '  
+  CREATE TABLE T_DIS_RESERVE_CURRENT(
+  DA_ROW_ID number NOT NULL,
+  JOBID number NOT NULL,
+  RESERVE_ID number NULL,
+  CLAIM_NUMBER varchar2(50) NULL,
+  LINE_OF_BUS_CODE number NULL,
+  COVERAGE_CODE varchar2(25) NULL,
+  LOSS_DISABILITY_CODE varchar2(25) NULL,
+  RESERVE_SUB_TYPE varchar2(25) NULL,
+  DISABILITY_TYPE_CATEGORY varchar2(25) NULL,
+  CLASS_CODE varchar2(100) NULL,
+  RESERVE_TYPE_CODE varchar2(25) NULL,
+  RES_STATUS_CODE varchar2(25) NULL 
+   )';
+ 
+EXECUTE IMMEDIATE 'ALTER TABLE T_DIS_RESERVE_CURRENT ADD CONSTRAINT PK_T_DIS_RESERVE_CURRENT PRIMARY KEY (DA_ROW_ID, JOBID)';
+END IF;
+END;
+
+--==========================================================
+---CREATE FUNDS_DEPOSIT table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='FUNDS_DEPOSIT';
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE FUNDS_DEPOSIT';
+iExists := 0 ;
+END IF;
+IF iExists = 0 THEN
+  EXECUTE IMMEDIATE '  
+ CREATE TABLE FUNDS_DEPOSIT(
+    DA_ROW_ID number NOT NULL,
+    JOBID number NOT NULL,
+    INPUT_ROW_ID number NULL,
+    INVALID_ROW number NULL,
+    UPDATE_ROW number NULL,
+    DEPOSIT_ID number NULL,
+    CTL_NUMBER VARCHAR2(25) NULL,
+    BANK_ACC_ID number NULL,
+    SUB_ACC_ID number NULL,
+    TRANS_DATE VARCHAR2(8) NULL,
+    AMOUNT float NULL,
+    CLEARED_FLAG number NULL,
+    VOID_FLAG number NULL,
+    ADDED_BY_USER VARCHAR2(50) NULL,
+    DTTM_RCD_ADDED VARCHAR2(14) NULL,
+    UPDATED_BY_USER VARCHAR2(50) NULL,
+    DTTM_RCD_LAST_UPD VARCHAR2(14) NULL,
+    DESCRIPTION VARCHAR2(4000) NULL, -- field size changed as it is a descriptive column
+    VOIDCLEAR_DATE VARCHAR2(8) NULL,
+    DEPOSIT_TYPE Number NULL,
+    ADJUST_CODE number NULL
+   )';
+ 
+EXECUTE IMMEDIATE 'ALTER TABLE FUNDS_DEPOSIT ADD CONSTRAINT PK_FUNDS_DEPOSIT PRIMARY KEY (DA_ROW_ID, JOBID)';
+END IF;
+END;
+
+
+--==========================================================
+---CREATE T_DIS_FUNDS_DEPOSIT table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='T_DIS_FUNDS_DEPOSIT';
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE T_DIS_FUNDS_DEPOSIT';
+iExists := 0 ;
+END IF;
+IF iExists = 0 THEN
+  EXECUTE IMMEDIATE '  
+ CREATE TABLE T_DIS_FUNDS_DEPOSIT(
+    DA_ROW_ID number NOT NULL,
+    JOBID number NOT NULL,
+    ADJUST_CODE  varchar2(25) NULL,
+    BANK_ACC_ID varchar2(20) NULL,
+    SUB_ACC_ID varchar2(20) NULL
+   )';
+ 
+EXECUTE IMMEDIATE 'ALTER TABLE T_DIS_FUNDS_DEPOSIT ADD CONSTRAINT PK_T_DIS_FUNDS_DEPOSIT PRIMARY KEY (DA_ROW_ID, JOBID)';
+END IF;
+END;
+
+--==========================================================
+---CREATE RESERVE_HISTORY table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='RESERVE_HISTORY';
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE RESERVE_HISTORY';
+iExists := 0 ;
+END IF;
+IF iExists = 0 THEN
+  EXECUTE IMMEDIATE '  
+ CREATE TABLE RESERVE_HISTORY(
+    DA_ROW_ID number NOT NULL,
+    JOBID number NOT NULL,
+    INPUT_ROW_ID number NULL,
+    INVALID_ROW number NULL,
+    UPDATE_ROW number NULL,
+    BALANCE_AMOUNT number NULL,
+    CHANGE_AMOUNT number NULL,
+    RSV_ROW_ID number NULL,
+    CLAIM_ID number NULL,
+    CLAIMANT_EID number NULL,
+    UNIT_ID number NULL,
+    RESERVE_TYPE_CODE number NULL,
+    RESERVE_AMOUNT number NULL,
+    COLLECTION_TOTAL number NULL,
+    INCURRED_AMOUNT number NULL,
+    PAID_TOTAL number NULL,
+    DATE_ENTERED varchar2(8) NULL,
+    ENTERED_BY_USER varchar2(50) NULL,
+    REASON varchar2(30) NULL,
+    UPDATED_BY_USER  varchar2(50) NULL,
+    DTTM_RCD_ADDED varchar2(14) NULL,
+    DTTM_RCD_LAST_UPD  varchar2(14) NULL,
+    ADDED_BY_USER varchar2(50) NULL,
+    CRC number NULL,
+    SEC_DEPT_EID number NULL,
+    RES_STATUS_CODE number NULL,
+    STAGING_ID number NULL,
+    CLAIM_CURR_CODE number NULL,
+    CLAIM_TO_BASE_CUR_RATE number NULL,
+    CLAIM_CURRENCY_RESERVE_AMOUNT number NULL,
+    CLAIM_CURRENCY_INCURRED_AMT number NULL,
+    CLAIM_CURR_COLLECTION_TOTAL number NULL,
+    CLAIM_CURRENCY_PAID_TOTAL number NULL,
+    CLAIM_CURRENCY_BALANCE_AMT number NULL,
+    BASE_TO_CLAIM_CUR_RATE number NULL,
+    RESERVE_CATEGORY number NULL,
+    POLICY_CVG_SEQNO number NULL,
+    POLCVG_LOSS_ROW_ID number NULL,
+    ADJUSTER_ID number NULL,
+    ASSIGNADJ_EID number NULL
+   )';
+ 
+EXECUTE IMMEDIATE 'ALTER TABLE RESERVE_HISTORY ADD CONSTRAINT PK_RESERVE_HISTORY PRIMARY KEY (DA_ROW_ID, JOBID)';
+END IF;
+END;
+
+
+
+---CREATE USER_VERIFICATION table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='USER_VERIFICATION';
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE USER_VERIFICATION';
+iExists := 0 ;
+END IF;
+IF iExists = 0 THEN
+  EXECUTE IMMEDIATE '  
+ CREATE TABLE USER_VERIFICATION(
+    JOBID number NULL,
+    OPTIONSET_ID  number NULL,
+    MODULE_NAME varchar2(25) NULL,
+    IMPORT_AREA varchar2(25) NULL,
+    TABLE_NAME varchar2(4000) NULL,
+    VERIFICATION_FLAG number NULL,
+    STOP_VERIFICATION number NULL
+   )';
+END IF;
+END;
+
+---CREATE DA_JOB_ID table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='DA_JOB_ID';
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE DA_JOB_ID';
+iExists := 0 ;
+END IF;
+IF iExists = 0 THEN
+  EXECUTE IMMEDIATE '  
+ CREATE TABLE DA_JOB_ID(
+    NEW_JOBID number NULL,
+    JOBID  number NULL,
+    OPTIONSET_ID number NULL
+   )';
+END IF;
+END;
+
+
+
+
+--==========================================================
+---CREATE T_DIS_PROCESS_LOG table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='T_DIS_PROCESS_LOG';
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE T_DIS_PROCESS_LOG';
+iExists := 0 ;
+END IF;
+IF iExists = 0 THEN
+  EXECUTE IMMEDIATE 'CREATE TABLE T_DIS_PROCESS_LOG (
+    
+    
+    JOBID number(10) NOT NULL,
+    PROCESS_DESC varchar2(500) NULL,
+                DISPLAY_ORDER number(10)  NULL,
+                TRANS_ID number(10)  NULL,
+                IDENTIFIER number(10) NULL  
+)';
+
+END IF;
+END;
+
+
+
+--==========================================================
+---CREATE CODES table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='CODES';
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE CODES';
+iExists := 0 ;
+END IF;
+IF iExists = 0 THEN
+
+  EXECUTE IMMEDIATE 'CREATE TABLE CODES(
+  DA_ROW_ID number (10) NOT NULL,
+  JOBID number (10) NOT NULL,
+  INPUT_ROW_ID number (10) NULL,
+  INVALID_ROW number (10) NULL,
+  UPDATE_ROW number (10) NULL,
+  IND_STANDARD_CODE number (10) NULL,
+  LINE_OF_BUS_CODE number (10) NULL,
+  CODE_ID number (10) NULL,
+  TABLE_ID number (10) NULL,
+  SHORT_CODE varchar2(25) NULL,
+  RELATED_CODE_ID number (10) NULL,
+  DELETED_FLAG number (10) NULL,
+  TRIGGER_DATE_FIELD varchar2(50) NULL,
+  EFF_START_DATE varchar2(8) NULL,
+  EFF_END_DATE varchar2(8) NULL,
+  ORG_GROUP_EID number (10) NULL  
+)';
+
+  EXECUTE IMMEDIATE 'ALTER TABLE CODES ADD CONSTRAINT PK_CODES PRIMARY KEY (DA_ROW_ID,JOBID)';
+END IF;
+END;
+--==========================================================
+---CREATE CODES_TEXT table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='CODES_TEXT';
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE CODES_TEXT';
+iExists := 0 ;
+END IF;
+IF iExists = 0 THEN
+
+  EXECUTE IMMEDIATE 'CREATE TABLE CODES_TEXT(
+  DA_ROW_ID number (10) NOT NULL,
+  JOBID number (10) NOT NULL,
+  INPUT_ROW_ID number (10) NULL,
+  INVALID_ROW number (10) NULL,
+  UPDATE_ROW number (10) NULL,
+  CODE_ID number (10) NULL,
+  LANGUAGE_CODE number (10) NULL,
+  SHORT_CODE varchar2(25) NULL,
+  CODE_DESC varchar2(50) NULL
+)';
+
+  EXECUTE IMMEDIATE 'ALTER TABLE CODES_TEXT ADD CONSTRAINT PK_CODES_TEXT PRIMARY KEY (DA_ROW_ID,JOBID)';
+END IF;
+END;
+
+
+--==========================================================
+---CREATE CLAIMANT table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='CLAIMANT';
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE CLAIMANT';
+iExists := 0 ;
+END IF;
+IF iExists = 0 THEN
+
+EXECUTE IMMEDIATE 'CREATE TABLE CLAIMANT(
+DA_ROW_ID number NOT NULL,
+JOBID number NOT NULL,
+INPUT_ROW_ID number NULL,
+INVALID_ROW number NULL,
+UPDATE_ROW number NULL,
+CLAIMANT_ROW_ID number NULL,
+CLAIM_ID number NULL,
+CLAIMANT_EID number NULL,
+CLAIMANT_TYPE_CODE number NULL,
+ATTORNEY_EID number NULL,
+PRIMARY_CLMNT_FLAG number NULL,
+INJURY_DESCRIPTION varchar2(4000) NULL,
+DAMAGE_DESCRIPTION varchar2(4000) NULL,
+SOL_DATE varchar2(8) NULL,
+COMMENTS varchar2(4000) NULL,
+CLAIM_AMOUNT number(8,2) NULL,
+INSURER_EID number NULL,
+CLAIMANT_NUMBER number NULL,
+SEC_DEPT_EID number NULL,
+HTMLCOMMENTS varchar2(4000) NULL
+)';
+
+  EXECUTE IMMEDIATE 'ALTER TABLE CLAIMANT ADD CONSTRAINT PK_CLAIMANT PRIMARY KEY (DA_ROW_ID,JOBID)';
+END IF;
+END;
+
+
+
+
+
+
+--==========================================================
+---CREATE FUNDS_X_PAYEE table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='FUNDS_X_PAYEE';
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE FUNDS_X_PAYEE';
+iExists := 0 ;
+END IF;
+IF iExists = 0 THEN
+
+  EXECUTE IMMEDIATE 'CREATE TABLE FUNDS_X_PAYEE(
+  DA_ROW_ID number (10) NOT NULL,
+  JOBID number (10) NOT NULL,
+  INPUT_ROW_ID number (10) NULL,
+  INVALID_ROW number (10) NULL,
+  UPDATE_ROW number (10) NULL,
+  PAYEE_ROW_ID number (10) NULL,
+  PAYEE_EID number (10) NULL,
+  FUNDS_TRANS_ID number (10) NULL,
+  PAYEE_1099_FLAG number (10) NULL,
+  DTTM_RCD_ADDED varchar(14) NULL,
+  DTTM_RCD_LAST_UPD varchar(14) NULL,
+  ADDED_BY_USER varchar(50) NULL,
+  UPDATED_BY_USER varchar(50) NULL,
+  PAYEE_TYPE_CODE number (10) NULL,
+  BEFORE_PAYEE number (10) NULL,
+  PHRASE_TYPE_CODE number (10) NULL,
+  STAGING_ID number (10) Null
+)';
+
+  EXECUTE IMMEDIATE 'ALTER TABLE FUNDS_X_PAYEE ADD CONSTRAINT PK_FUNDS_X_PAYEE PRIMARY KEY (DA_ROW_ID,JOBID)';
+END IF;
+END;
+
+
+
+
+--==========================================================
+---CREATE T_DIS_FUNDS_X_PAYEE table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='T_DIS_FUNDS_X_PAYEE';
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE T_DIS_FUNDS_X_PAYEE';
+iExists := 0 ;
+END IF;
+IF iExists = 0 THEN
+
+  EXECUTE IMMEDIATE 'CREATE TABLE T_DIS_FUNDS_X_PAYEE (
+  DA_ROW_ID  number(10)  NOT NULL,
+  JOBID  number(10)  NOT NULL,
+  TRANS_ID_SOURCE  number(10)  NULL,
+  PAYEE_TYPE_CODE  varchar (25) NULL,
+  PHRASE_TYPE_CODE  varchar (25) NULL,
+  CLAIM_NUMBER  varchar (25) NULL
+)';
+
+  EXECUTE IMMEDIATE 'ALTER TABLE T_DIS_FUNDS_X_PAYEE ADD CONSTRAINT PK_T_DIS_FUNDS_X_PAYEE PRIMARY KEY (DA_ROW_ID,JOBID)';
+
+END IF;
+END;
+
+
+
+--==========================================================
+---CREATE FUNDS table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='FUNDS';
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE FUNDS';
+iExists := 0 ;
+END IF;
+IF iExists = 0 THEN
+
+  EXECUTE IMMEDIATE 'CREATE TABLE FUNDS(
+   DA_ROW_ID  number(10)  NOT NULL,
+  JOBID number (10) NOT NULL,
+  INPUT_ROW_ID number (10) NULL,
+  INVALID_ROW number (10) NULL,
+  UPDATE_ROW number (10) NULL,
+  VOID_DATE varchar(8) NULL,
+  ADDR1 varchar(100) NULL,
+  ADDR2 varchar(100) NULL,
+  ADDR3 varchar(100) NULL,
+  ADDR4 varchar(100) NULL,
+  DATE_OF_CLAIM varchar(8) NULL,
+ DATE_OF_EVENT varchar(8) NULL,
+  CITY varchar(50) NULL,
+  CLAIMANT_EID number (10) NULL,
+  COUNTRY_CODE number (10) NULL,
+  FIRST_NAME varchar (255) NULL,
+  LAST_NAME varchar (255) NULL,
+  UNIT_VIN varchar(20) NULL,
+  STATE_ID number (10) NULL,
+  UNIT_ID number (10) NULL,
+  ZIP_CODE varchar(10) NULL,
+  TRANS_ID number (10)  NULL,
+  CLAIM_ID number (10) NULL,
+  CLAIM_NUMBER varchar(25) NULL,
+  CTL_NUMBER varchar(25) NULL,
+  VOID_FLAG number (10) NULL,
+  DATE_OF_CHECK varchar(8) NULL,
+  CHECK_MEMO varchar(255) NULL,
+  TRANS_NUMBER number (10) NULL,
+  TRANS_DATE varchar(8) NULL,
+  PAYEE_EID number (10) NULL,
+  PAYEE_TYPE_CODE number (10) NULL,
+  ACCOUNT_ID number (10) NULL,
+  AMOUNT number (10,2) NULL,
+  STATUS_CODE number (10) NULL,
+  STATUS_CODE_SRC varchar(25) NULL,
+  FILED_1099_FLAG number (10) NULL,
+  CLEARED_FLAG number (10) NULL,
+  PAYMENT_FLAG number (10) NULL,
+  COLLECTION_FLAG number (10) NULL,
+  COMMENTS varchar(4000) NULL,
+  NOTES varchar(2000) NULL,
+  CRC number (10) NULL,
+  DTTM_RCD_LAST_UPD varchar(14) NULL,
+  DTTM_RCD_ADDED varchar(14) NULL,
+  UPDATED_BY_USER varchar(50) NULL,
+  ADDED_BY_USER varchar(50) NULL,
+  BATCH_NUMBER number (10) NULL,
+  SEC_DEPT_EID number (10) NULL,
+  ENCLOSURE_FLAG number (10) NULL,
+  APPROVE_USER varchar(50) NULL,
+  DTTM_APPROVAL varchar(14) NULL,
+  SUB_ACCOUNT_ID number (10) NULL,
+  SETTLEMENT_FLAG number (10) NULL,
+  APPROVER_ID number (10) NULL,
+  VOUCHER_FLAG number (10) NULL,
+  WEEKS_PAID_CODE number (10) NULL,
+  NUM_OF_PAID_DAYS number (10) NULL,
+  TAX_PAYMENT_FLAG number (10) NULL,
+  RESUBMIT_EDI number (10) NULL,
+  SUPP_PAYMENT_FLAG number (10) NULL,
+  HTMLCOMMENTS varchar (4000) NULL,
+  REISSUE_FLAG number (10) NULL,
+  REISSUE_BY varchar(25) NULL,
+  REISSUE_DATE varchar(8) NULL,
+  REISSUE_PARENT_ID number (10) NULL,
+  NOTES_HTMLCOMMENTS Varchar (4000) NULL,
+  REISSUE_REASON_CODE number (10) NULL,
+  MIDDLE_NAME varchar (255) NULL,
+  REASON varchar(255) NULL,
+  CONF_FLAG number (10) NULL,
+  CONF_EVENT_ID number (10) NULL,
+  VOID_REASON varchar(4000) NULL,
+  VOID_REASON_HTMLCOMMENTS varchar(4000) NULL,
+  DORMANCY_STATUS number (10) NULL,
+  WITHHOLDING_PMT_FLAG number (10) NULL,
+  WITHHOLDING_TYPE number (10) NULL,
+  WITHHOLDING_CHILD_FLAG number (10) NULL,
+  PARENT_TRANS_ID number (10) NULL,
+  COMBINED_PAY_FLAG number (10) NULL,
+  PAY_TO_THE_ORDER_OF varchar(4000) NULL,
+  EFT_FLAG number (10) NULL,
+  EFT_FILE_NAME varchar(255) NULL,
+  EFT_DATE varchar(8) NULL,
+  PMT_CURRENCY_CODE number (10)  NULL,
+  PMT_CURRENCY_AMOUNT number (10,2) NULL,
+  PMT_TO_BASE_CUR_RATE number (10,2) NULL,
+  CLAIM_CURRENCY_CODE number (10) NULL,
+  CLAIM_CURRENCY_AMOUNT number (10,2) NULL,
+  PMT_TO_CLAIM_CUR_RATE number (10,2) NULL,
+  BASE_TO_PMT_CUR_RATE number (10,2) NULL,
+  BASE_TO_CLAIM_CUR_RATE number (10,2) NULL,
+  DSTRBN_TYPE_SRC varchar(25) NULL,
+  BILL_TYPE number (10) NULL,
+  MANUAL_CHECK number (10) NULL,
+  CHECK_MEMO_HTMCOMMENTS varchar(4000) NULL,
+  CHECK_MEMO_HTMLCOMMENTS varchar(4000) NULL,
+  RES_SUPP_PAYMENT_FLAG number (10) NULL,
+  OFFSET_FLAG number (10) NULL,
+  STOP_PAY_FLAG number (10) NULL,
+  STOP_PAY_DATE varchar(8) NULL,
+  DSTRBN_TYPE_CODE number(10) NULL,
+  MAIL_TO_EID number(10) NULL,
+  MAIL_TO_ADDRESS_ID number(10) NULL,
+  INC_CLAIMANT number(10) NULL,
+INC_RSVTYPE number(10) NULL,
+INC_POL_COVERAGE number(10) NULL,
+INC_RSVSUBTYPE number(10) NULL,
+INC_LOSS_TYPE number(10) NULL,
+COUNTY varchar(30) NULL,
+ACCOUNT_SOURCE varchar(20) NULL,
+TAX_ID varchar(20) NULL,
+		UPDATE_RESERVES varchar(1) NULL,
+		CLAIMANT_FIRST varchar(255) NULL,
+		CLAIMANT_LAST varchar(255) NULL,
+TRANS_TYPE varchar(1) NULL,
+  CLAIM_STATUS_CODE number (10) NULL,
+  LINE_OF_BUS_CODE number (10) NULL,
+		SUB_ACCOUNT_SOURCE varchar(20) NULL,
+CLAIM_TYPE_CODE number(10) NULL,
+POLICY_LOB_CODE number(10) NULL,
+EOB_PRINT_DATE varchar(8) NULL,
+	EOB_PRINTED_BY_USER varchar(50) NULL,
+	BEN_REVIEW_DATE varchar(8) NULL,
+CLAIM_TO_BASE_CUR_RATE number(10,2) NULL,
+CLAIM_TO_POLICY_CUR_RATE number(10,2) NULL,
+STOPPAY_REASON_CODE number(10) NULL,
+POLICY_CURRENCY_AMOUNT number(10,2) NULL,
+POLICY_CURRENCY_CODE number(10) NULL,
+  STAGING_ID number (10) NULL
+)';
+
+  EXECUTE IMMEDIATE 'ALTER TABLE FUNDS ADD CONSTRAINT PK_FUNDS PRIMARY KEY (DA_ROW_ID,JOBID)';
+
+END IF;
+END;
+
+
+
+
+--==========================================================
+---CREATE T_DIS_FUNDS table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='T_DIS_FUNDS';
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE T_DIS_FUNDS';
+iExists := 0 ;
+END IF;
+IF iExists = 0 THEN
+
+  EXECUTE IMMEDIATE 'CREATE TABLE T_DIS_FUNDS (
+  DA_ROW_ID number (10) NOT NULL,
+  JOBID number (10) NOT NULL,
+ TRANS_ID_SOURCE number (10) NULL,
+  STATUS_CODE varchar(25) NULL,
+  BILL_TYPE varchar(25) NULL,
+  CLAIM_NUMBER varchar(25) NULL,
+  PAYEE_TYPE_CODE varchar(25) NULL,
+   PMT_CURRENCY_CODE varchar(25) NULL,
+  CLAIM_CURRENCY_CODE varchar(25) NULL,
+  DORMANCY_STATUS varchar(25) NULL,
+  REISSUE_REASON_CODE varchar(25) NULL,
+
+  DSTRBN_TYPE_CODE varchar(25) NULL,
+  WITHHOLDING_TYPE varchar(25) NULL,
+  STOPPAY_REASON_CODE varchar(25) NULL,
+  TRANS_NUMBER number (10) NULL,
+  WEEKS_PAID_CODE varchar(25) NULL
+)';
+
+  EXECUTE IMMEDIATE 'ALTER TABLE T_DIS_FUNDS ADD CONSTRAINT PK_T_DIS_FUNDS PRIMARY KEY (DA_ROW_ID,JOBID)';
+
+END IF;
+END;
+
+
+
+--==========================================================
+---CREATE FUNDS_TRANS_SPLIT table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='FUNDS_TRANS_SPLIT';
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE FUNDS_TRANS_SPLIT';
+iExists := 0 ;
+END IF;
+IF iExists = 0 THEN
+
+  EXECUTE IMMEDIATE 'CREATE TABLE FUNDS_TRANS_SPLIT (
+  DA_ROW_ID number (10) NOT NULL,
+  JOBID number (10) NOT NULL,
+  INPUT_ROW_ID number (10) NULL,
+  INVALID_ROW number (10) NULL,
+  UPDATE_ROW number (10) NULL,
+  POLICY_ID number(10) NULL,
+  SPLIT_ROW_ID number (10) NULL,
+  SPLIT_ROW_ID_SOURCE number (10) NULL,
+  TRANS_ID number (10) NULL,
+  TRANS_TYPE_CODE number (10) NULL,
+  RESERVE_TYPE_CODE number (10) NULL,
+  AMOUNT number (10,2) NULL,
+  GL_ACCOUNT_CODE number (10) NULL,
+  FROM_DATE varchar(8) NULL,
+  TO_DATE varchar(8) NULL,
+  INVOICED_BY varchar(20) NULL,
+  INVOICE_AMOUNT number (10,2) NULL,
+  INVOICE_NUMBER varchar(25) NULL,
+  PO_NUMBER varchar(14) NULL,
+  CRC number (10) NULL,
+  DTTM_RCD_LAST_UPD varchar(14) NULL,
+  DTTM_RCD_ADDED varchar(14) NULL,
+  UPDATED_BY_USER varchar(50) NULL,
+  ADDED_BY_USER varchar(50) NULL,
+  INVOICE_DATE varchar(8) NULL ,           ---
+  BILL_RCVD_BY_CARRIER_DATE varchar(8) NULL,
+  SUPP_PAYMENT_FLAG number (10) NULL,
+  AUTO_DISCOUNT varchar(10) NULL,
+  POLCVG_ROW_ID number (10) NULL,
+  IS_FIRST_FINAL number (10) NULL,
+  WITHHOLDING_SPLIT_FLAG number (10) NULL,
+  PARENT_SPLIT_ROW_ID number (10) NULL,
+  CONTROL_REQ_FLAG number (10) NULL,
+  FUNDS_CR_STATUS number (10) NULL,
+  PMT_CURRENCY_AMOUNT number (10,2) NULL,
+  PMT_CURRENCY_INVOICE_AMOUNT number (10,2) NULL,
+  PMT_CURRENCY_AUTO_DISCOUNT number (10,2) NULL,
+  CLAIM_CURRENCY_AMOUNT number (10,2) NULL,
+  CLAIM_CURRENCY_INVOICE_AMOUNT number (10,2) NULL,
+  CLAIM_CURRENCY_AUTO_DISCOUNT number (10,2) NULL,
+  UPDATE_POL_SYS number (10) NULL,
+  POLICY_SYSTEM_ID number (10) NULL,
+  STAGING_ID number (10) NULL,
+  RESERVE_SUB_TYPE number(10) NULL,
+  UNIT_TYPE varchar(10) NULL,
+  POLICY_NAME varchar(40) NULL,
+  POLICY_NUMBER varchar(40) NULL,
+  UNIT_NUMBER varchar (10) NULL,
+  MODULE_NO varchar (10) NULL,
+  CLASS_CODE varchar (50) NULL,
+  CVG_SEQUENCE_NO varchar (8) NULL,
+  TRANS_SEQ_NO varchar (8) NULL,
+  CVG_DESC varchar(100) NULL,
+  SUBLINE_DESC varchar (50) NULL,
+  CLASS_DESC varchar (100) NULL,
+  STAT_UNIT_NUMBER varchar (10) NULL,
+  POLICY_SYMBOL varchar(20) NULL,
+  MASTER_COMPANY varchar(10) NULL,
+  LOCATION_COMPANY varchar(10) NULL,
+  CLAIM_ID number (10) NULL,
+  CLAIM_LOB number (10) NULL,
+  RC_ROW_ID number (10) NULL,
+ COVERAGE_CODE_SRC varchar (25) NULL,
+COVERAGE_CODE number(10) NULL,
+LOSS_DISABILITY_CODE number(10) NULL,
+DIS_TYPE_CAT_CODE number(10) NULL,
+  LOSS_DISABILITY_CODE_SRC varchar(25) NULL,
+  DISABILITY_TYPE_CATEGORY_SRC varchar (25) NULL,
+  EXTERNAL_POLICY_KEY varchar(50) NULL,
+  COVERAGE_KEY varchar(100) NULL,
+	UNIT_LAST_NAME varchar(255) NULL,
+	UNIT_FIRST_NAME varchar(255) NULL,
+	UNIT_TAX_ID varchar(20) NULL,
+	UNIT_DOB varchar(8) NULL,
+REGION varchar(10) NULL,
+PMT_TO_POLICY_CUR_RATE number(10,2) NULL,
+CLAIM_TO_POLICY_CUR_RATE number(10,2) NULL,
+POLICY_CURRENCY_AMOUNT number(10,2) NULL,
+POLICY_CURRENCY_CODE number(10) NULL,
+CLAIM_CURR_CODE number(10) NULL,
+  CLAIM_NUMBER varchar (25) NULL
+)';
+
+  EXECUTE IMMEDIATE 'ALTER TABLE FUNDS_TRANS_SPLIT ADD CONSTRAINT PK_FUNDS_TRANS_SPLIT PRIMARY KEY (DA_ROW_ID,JOBID)';
+
+END IF;
+END;
+
+
+
+
+--==========================================================
+---CREATE T_DIS_FUNDS_TRANS_SPLIT table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='T_DIS_FUNDS_TRANS_SPLIT';
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE T_DIS_FUNDS_TRANS_SPLIT';
+iExists := 0 ;
+END IF;
+IF iExists = 0 THEN
+
+  EXECUTE IMMEDIATE 'CREATE TABLE T_DIS_FUNDS_TRANS_SPLIT (
+  DA_ROW_ID number (10) NOT NULL,
+  JOBID number (10) NOT NULL,
+  TRANS_ID_SOURCE number (10) NULL,
+  TRANS_TYPE_CODE varchar(25) NULL,
+  RESERVE_TYPE_CODE varchar(25) NULL,
+  GL_ACCOUNT_CODE varchar(25) NULL,
+  SPLIT_ROW_ID number(10) NULL,
+  COVERAGE_CODE varchar (25) NULL,
+  LOSS_DISABILITY_CODE varchar(25) NULL,
+  DISABILITY_TYPE_CATEGORY varchar (25) NULL,
+  
+
+  
+ 
+  RESERVE_SUB_TYPE varchar(25) NULL,
+  FUNDS_CR_STATUS varchar(25) NULL
+  
+)';
+
+  EXECUTE IMMEDIATE 'ALTER TABLE T_DIS_FUNDS_TRANS_SPLIT ADD CONSTRAINT PK_T_DIS_FUNDS_TRANS_SPLIT PRIMARY KEY (DA_ROW_ID,JOBID)';
+END IF;
+END;
+
+-- mkaur24 <1/14/2015> MITS 33286
+
+
+
+
+ 
+--==========================================================
+---CREATE PROP_MGT table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='PROP_MGT';
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE PROP_MGT';
+iExists := 0 ;
+END IF;
+IF iExists = 0 THEN
+EXECUTE IMMEDIATE
+'CREATE TABLE PROP_MGT
+(
+    DA_ROW_ID number (10) NOT NULL,
+    JOBID number (10) NOT NULL,
+    INPUT_ROW_ID number (10) NULL,
+    INVALID_ROW number (10) NULL,
+    UPDATE_ROW number (10) NULL,
+    PROP_MGT_ID number (10)  NULL,
+  PROP_ID_TEXT varchar(50) NULL,
+  LOCATION_TXCD varchar(2000) NULL,
+  OWNERSHIP_CODE number (10) NULL,
+  PROP_TYPE_CODE number (10) NULL,
+  PROP_CAT_TEXT varchar(50) NULL,
+  REPORTED_BY_TXCD varchar(2000) NULL,
+  DT_UPDATE_DATE varchar(8) NULL,
+  REV_DATE_DATE varchar(8) NULL,
+  DETAIL_TXCD varchar(2000) NULL,
+  ORIG_VALUE_AMT float NULL,
+  CURR_VALUE_AMT float NULL,
+  REPLACE_VAL_AMT float NULL,
+  CONT_ORG_VL_AMT float NULL,
+  CONT_REP_VL_AMT float NULL,
+  CONT_CUR_VL_AMT float NULL,
+  INSTALL_DT_DATE varchar(8) NULL,
+  CONTACT_TEXT varchar(50) NULL,
+  CONTACT_ADD_TEXT varchar(50) NULL,
+  CONT_CITY_TEXT varchar(25) NULL,
+  CONT_STATE_TEXT varchar(15) NULL,
+  CONT_ZIP_TEXT varchar(15) NULL,
+  CONT_PHONE_TEXT varchar(25) NULL,
+  COVERAGE_CODE number (10) NULL,
+  DAMAGES_TXCD varchar(2000) NULL,
+  IMPROVEMENT_TXCD varchar(2000) NULL,
+  NOTES_TXCD varchar(2000) NULL
+  
+)';
+EXECUTE IMMEDIATE
+'ALTER TABLE PROP_MGT ADD CONSTRAINT PK_PROP_MGT PRIMARY KEY (DA_ROW_ID, JOBID)';
+END IF;
+END;
+
+ --==========================================================
+---CREATE T_DIS_PROP_MGT table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='T_DIS_PROP_MGT';
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE T_DIS_PROP_MGT';
+iExists := 0 ;
+END IF;
+
+IF iExists = 0 THEN
+EXECUTE IMMEDIATE
+'CREATE TABLE T_DIS_PROP_MGT
+(
+   JOBID number (10) NOT NULL,
+    DA_ROW_ID number (10) NOT NULL,
+    PROP_MGT_ID number (10)  NULL,
+    OWNERSHIP_CODE varchar (25) NULL,
+    PROP_TYPE_CODE varchar (25) NULL,
+    COVERAGE_CODE varchar (25) NULL
+    
+           
+)';
+EXECUTE IMMEDIATE
+'ALTER TABLE T_DIS_PROP_MGT ADD CONSTRAINT T_DIS_PROP_MGT PRIMARY KEY (DA_ROW_ID, JOBID)';
+END IF;
+END;
+
+
+
+ --==========================================================
+---CREATE PROP_MGT_TEMP_FD table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='PROP_MGT_TEMP_FD';
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE PROP_MGT_TEMP_FD';
+iExists := 0 ;
+END IF;
+
+IF iExists = 0 THEN
+
+EXECUTE IMMEDIATE
+'CREATE TABLE PROP_MGT_TEMP_FD
+(
+ DA_ROW_ID number (10) NOT NULL,
+    JOBID number (10) NOT NULL,
+    INPUT_ROW_ID number (10) NULL,
+    INVALID_ROW number (10) NULL,
+    UPDATE_ROW number (10) NULL,
+    PROP_MGT_ID number (10)  NULL,  
+  PROP_ID_TEXT varchar(50) NULL,
+  LOCATION_TXCD varchar(2000) NULL,
+  OWNERSHIP_CODE number (10) NULL,
+  PROP_TYPE_CODE number (10) NULL,
+  PROP_CAT_TEXT varchar(50) NULL,
+  REPORTED_BY_TXCD varchar(2000) NULL,
+  DT_UPDATE_DATE varchar(8) NULL,
+  REV_DATE_DATE varchar(8) NULL,
+  DETAIL_TXCD varchar(2000) NULL,
+  ORIG_VALUE_AMT float NULL,
+  CURR_VALUE_AMT float NULL,
+  REPLACE_VAL_AMT float NULL,
+  CONT_ORG_VL_AMT float NULL,
+  CONT_REP_VL_AMT float NULL,
+  CONT_CUR_VL_AMT float NULL,
+  INSTALL_DT_DATE varchar(8) NULL,
+  CONTACT_TEXT varchar(50) NULL,
+  CONTACT_ADD_TEXT varchar(50) NULL,
+  CONT_CITY_TEXT varchar(25) NULL,
+  CONT_STATE_TEXT varchar(15) NULL,
+  CONT_ZIP_TEXT varchar(15) NULL,
+  CONT_PHONE_TEXT varchar(25) NULL,
+  COVERAGE_CODE number (10) NULL,
+  DAMAGES_TXCD varchar(2000) NULL,
+  IMPROVEMENT_TXCD varchar(2000) NULL,
+  NOTES_TXCD varchar(2000) NULL,
+  
+  PROP_MGT_ID_RMDB number (10)  NULL
+)';
+
+END IF;
+END;
+
+ --==========================================================
+---CREATE PROJ_TRACK table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='PROJ_TRACK';
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE PROJ_TRACK';
+iExists := 0 ;
+END IF;
+IF iExists = 0 THEN
+EXECUTE IMMEDIATE
+'CREATE TABLE PROJ_TRACK
+(
+    DA_ROW_ID number (10) NOT NULL,
+    JOBID number (10) NOT NULL,
+    INPUT_ROW_ID number (10) NULL,
+    INVALID_ROW number (10) NULL,
+    UPDATE_ROW number (10) NULL,
+    PROJ_TRACK_ID number (10)  NULL,
+  ACT_TYPE_CODE number (10) NULL,
+  ACTIV_DESC_TXCD varchar(2000) NULL,
+  ASSIGN_BY_TEXT varchar(50) NULL,
+  ASSIGN_TO_TXCD varchar(2000) NULL,
+  PRIORITY_CODE number (10) NULL,
+  EST_HOURS_NUM float NULL,
+  ACT_HOURS_NUM float NULL,
+  DUE_DATE_DATE varchar(8) NULL,
+  REVIEW_DATE_DATE varchar(8) NULL,
+  COMPLETE_DT_DATE varchar(8) NULL,
+  STATUS_CODE number (10) NULL,
+  MAT_USED_TXCD varchar(2000) NULL,
+  MAT_COST_AMT float NULL,
+  NOTES_TXCD varchar(2000) NULL  
+)';
+EXECUTE IMMEDIATE
+'ALTER TABLE PROJ_TRACK ADD CONSTRAINT PROJ_TRACK PRIMARY KEY (DA_ROW_ID, JOBID)';
+END IF;
+END;
+
+ --==========================================================
+---CREATE T_DIS_PROJ_TRACK table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='T_DIS_PROJ_TRACK';
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE T_DIS_PROJ_TRACK';
+iExists := 0 ;
+END IF;
+IF iExists = 0 THEN
+
+EXECUTE IMMEDIATE
+'CREATE TABLE T_DIS_PROJ_TRACK
+(
+  JOBID number (10) NOT NULL,
+    DA_ROW_ID number (10) NOT NULL,
+    PROJ_TRACK_ID number (10)  NULL,
+    ACT_TYPE_CODE  varchar (25) NULL,
+    PRIORITY_CODE  varchar (25) NULL,    
+    STATUS_CODE varchar (25) NULL
+)';
+EXECUTE IMMEDIATE
+'ALTER TABLE T_DIS_PROJ_TRACK ADD CONSTRAINT T_DIS_PROJ_TRACK PRIMARY KEY (DA_ROW_ID, JOBID)';
+END IF;
+END;
+
+
+ --==========================================================
+---CREATE PROJ_TRACK_TEMP_FD table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='PROJ_TRACK_TEMP_FD';
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE PROJ_TRACK_TEMP_FD';
+iExists := 0 ;
+END IF;
+IF iExists = 0 THEN
+
+EXECUTE IMMEDIATE
+'CREATE TABLE PROJ_TRACK_TEMP_FD
+(
+  
+    DA_ROW_ID number (10) NOT NULL,
+    JOBID number (10) NOT NULL,
+    INPUT_ROW_ID number (10) NULL,
+    INVALID_ROW number (10) NULL,
+    UPDATE_ROW number (10) NULL,
+    PROJ_TRACK_ID number (10)  NULL,
+  ACT_TYPE_CODE number (10) NULL,
+  ACTIV_DESC_TXCD varchar(2000) NULL,
+  ASSIGN_BY_TEXT varchar(50) NULL,
+  ASSIGN_TO_TXCD varchar(2000) NULL,
+  PRIORITY_CODE number (10) NULL,
+  EST_HOURS_NUM float NULL,
+  ACT_HOURS_NUM float NULL,
+  DUE_DATE_DATE varchar(8) NULL,
+  REVIEW_DATE_DATE varchar(8) NULL,
+  COMPLETE_DT_DATE varchar(8) NULL,
+  STATUS_CODE number (10) NULL,
+  MAT_USED_TXCD varchar(2000) NULL,
+  MAT_COST_AMT float NULL,
+  NOTES_TXCD varchar(2000) NULL,
+  PROJ_TRACK_ID_RMDB number (10)  NULL
+)';
+
+END IF;
+END;
+
+
+ --==========================================================
+---CREATE DIRECTORY table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='DIRECTORY';
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE DIRECTORY';
+iExists := 0 ;
+END IF;
+IF iExists = 0 THEN
+
+EXECUTE IMMEDIATE
+'CREATE TABLE DIRECTORY
+(
+  DA_ROW_ID number (10) NOT NULL,
+    JOBID number (10) NOT NULL,
+    INPUT_ROW_ID number (10) NULL,
+    INVALID_ROW number (10) NULL,
+    UPDATE_ROW number (10) NULL,
+    DIRECTORY_ID number (10)  NULL,
+  LAST_NAME_TEXT varchar (255) NULL,
+  FIRST_NAME_TEXT varchar (255) NULL,
+  ADDRESS_TEXT varchar(50) NULL,
+  CITY_TEXT varchar(50) NULL,
+  STATE_TEXT varchar(15) NULL,
+  ZIP_CODE_TEXT varchar(15) NULL,
+  HOME_PHONE_TEXT varchar(25) NULL,
+  WORK_PHONE_TEXT varchar(25) NULL,
+  FAX_TEXT varchar(25) NULL,
+  TITLE_TEXT varchar(25) NULL,
+  ORGANIZ_TEXT varchar(50) NULL,
+  CONTACT_TYP_CODE number (10) NULL,
+  CONTACT_STA_CODE number (10) NULL,
+  RECALL_DT_DATE varchar(8) NULL,
+  NOTES_TXCD varchar(2000) NULL
+)';
+EXECUTE IMMEDIATE
+'ALTER TABLE DIRECTORY ADD CONSTRAINT DIRECTORY  PRIMARY KEY (DA_ROW_ID, JOBID)';
+END IF;
+END;
+
+
+ --==========================================================
+---CREATE T_DIS_DIRECTORY table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='T_DIS_DIRECTORY';
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE T_DIS_DIRECTORY';
+iExists := 0 ;
+END IF;
+IF iExists = 0 THEN
+
+EXECUTE IMMEDIATE
+'CREATE TABLE T_DIS_DIRECTORY
+(
+ JOBID number (10) NOT NULL,
+    DA_ROW_ID number (10) NOT NULL,
+    DIRECTORY_ID number (10)  NULL,
+    CONTACT_TYP_CODE varchar(25) NULL,
+    CONTACT_STA_CODE varchar(25) NULL
+           
+)';
+EXECUTE IMMEDIATE
+'ALTER TABLE T_DIS_DIRECTORY ADD CONSTRAINT T_DIS_DIRECTORY  PRIMARY KEY (DA_ROW_ID, JOBID)';
+END IF;
+END;
+
+
+
+ --==========================================================
+---CREATE DIRECTORY_TEMP_FD table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='DIRECTORY_TEMP_FD';
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE DIRECTORY_TEMP_FD';
+iExists := 0 ;
+END IF;
+IF iExists = 0 THEN
+
+EXECUTE IMMEDIATE
+'CREATE TABLE DIRECTORY_TEMP_FD
+(
+  DA_ROW_ID number (10) NOT NULL,
+    JOBID number (10) NOT NULL,
+    INPUT_ROW_ID number (10) NULL,
+    INVALID_ROW number (10) NULL,
+    UPDATE_ROW number (10) NULL,
+    DIRECTORY_ID number (10)  NULL,
+  LAST_NAME_TEXT varchar (255)  NULL,
+  FIRST_NAME_TEXT varchar (255) NULL,
+  ADDRESS_TEXT varchar(50) NULL,
+  CITY_TEXT varchar(50) NULL,
+  STATE_TEXT varchar(15) NULL,
+  ZIP_CODE_TEXT varchar(15) NULL,
+  HOME_PHONE_TEXT varchar(25) NULL,
+  WORK_PHONE_TEXT varchar(25) NULL,
+  FAX_TEXT varchar(25) NULL,
+  TITLE_TEXT varchar(25) NULL,
+  ORGANIZ_TEXT varchar(50) NULL,
+  CONTACT_TYP_CODE number (10) NULL,
+  CONTACT_STA_CODE number (10) NULL,
+  RECALL_DT_DATE varchar(8) NULL,
+  NOTES_TXCD varchar(2000) NULL,
+  DIRECTORY_ID_RMDB number (10)  NULL           
+)';
+END IF;
+END;
+
+
+ --==========================================================
+---CREATE COMPL_MGT table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='COMPL_MGT';
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE COMPL_MGT';
+iExists := 0 ;
+END IF;
+IF iExists = 0 THEN
+
+EXECUTE IMMEDIATE
+'CREATE TABLE COMPL_MGT
+(
+DA_ROW_ID number (10) NOT NULL,
+    JOBID number (10) NOT NULL,
+    INPUT_ROW_ID number (10) NULL,
+    INVALID_ROW number (10) NULL,
+    UPDATE_ROW number (10) NULL,
+    COMPL_MGT_ID number (10)  NULL,
+  COMP_NO_TEXT varchar(25) NULL,
+  DT_RECV_DATE varchar(8) NULL,
+  COMP_TYPE_CODE number (10) NULL,
+  COMP_SRC_CODE number (10) NULL,
+  ACT_REQ_TXCD varchar(2000) NULL,
+  FILED_AGNST_TEXT varchar(50) NULL,
+  REF_TO_TXCD varchar(2000) NULL
+           
+)';
+EXECUTE IMMEDIATE
+'ALTER TABLE COMPL_MGT ADD CONSTRAINT COMPL_MGT  PRIMARY KEY (DA_ROW_ID, JOBID)';
+END IF;
+END;
+
+
+ --==========================================================
+---CREATE T_DIS_COMPL_MGT table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='T_DIS_COMPL_MGT';
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE T_DIS_COMPL_MGT';
+iExists := 0 ;
+END IF;
+IF iExists = 0 THEN
+
+EXECUTE IMMEDIATE
+'CREATE TABLE T_DIS_COMPL_MGT
+(
+JOBID number (10) NOT NULL,
+    DA_ROW_ID number (10) NOT NULL,
+    COMPL_MGT_ID number (10)  NULL,
+    COMP_TYPE_CODE varchar(25) NULL,
+  COMP_SRC_CODE varchar(25) NULL
+           
+)';
+EXECUTE IMMEDIATE
+'ALTER TABLE T_DIS_COMPL_MGT ADD CONSTRAINT T_DIS_COMPL_MGT  PRIMARY KEY (DA_ROW_ID, JOBID)';
+END IF;
+END;
+
+
+ --==========================================================
+---CREATE COMPL_MGT_TEMP_FD table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='COMPL_MGT_TEMP_FD';
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE COMPL_MGT_TEMP_FD';
+iExists := 0 ;
+END IF;
+IF iExists = 0 THEN
+
+EXECUTE IMMEDIATE
+'CREATE TABLE COMPL_MGT_TEMP_FD
+(
+DA_ROW_ID number (10) NOT NULL,
+    JOBID number (10) NOT NULL,
+    INPUT_ROW_ID number (10) NULL,
+    INVALID_ROW number (10) NULL,
+    UPDATE_ROW number (10) NULL,
+    COMPL_MGT_ID number (10)  NULL,
+  COMP_NO_TEXT varchar(25) NULL,
+  DT_RECV_DATE varchar(8) NULL,
+  COMP_TYPE_CODE number (10) NULL,
+  COMP_SRC_CODE number (10) NULL,
+  ACT_REQ_TXCD varchar(2000) NULL,
+  FILED_AGNST_TEXT varchar(50) NULL,
+  REF_TO_TXCD varchar(2000) NULL,
+  COMPL_MGT_ID_RMDB number (10)  NULL           
+)';
+
+END IF;
+END;
+
+ --==========================================================
+---CREATE CONTRCT_MGT table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='CONTRCT_MGT';
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE CONTRCT_MGT';
+iExists := 0 ;
+END IF;
+IF iExists = 0 THEN
+
+EXECUTE IMMEDIATE
+'CREATE TABLE CONTRCT_MGT
+(DA_ROW_ID number (10) NOT NULL,
+    JOBID number (10) NOT NULL,
+    INPUT_ROW_ID number (10) NULL,
+    INVALID_ROW number (10) NULL,
+    UPDATE_ROW number (10) NULL,
+    CONTRCT_MGT_ID number (10)  NULL,
+  CONT_TYPE_CODE number (10) NULL,
+  CONTR_CAT_TXCD varchar(2000) NULL,
+  SUBJECTOR_TEXT varchar(50) NULL,
+  SUBJECTEE_TEXT varchar(50) NULL,
+  DETAILS_TXCD varchar(2000) NULL,
+  EFF_DATE_DATE varchar(8) NULL,
+  EXPIR_DATE_DATE varchar(8) NULL,
+  RENEW_DATE_DATE varchar(8) NULL,
+  INDEMNITY_TXCD varchar(2000) NULL,
+  SUBROGATION_TXCD varchar(2000) NULL,
+  TERM_INFO_TEXT varchar(50) NULL,
+  CONDITIONS_TXCD varchar(2000) NULL,
+  AUTH_SIGN_TXCD varchar(2000) NULL,
+  PAYMENTS_TXCD varchar(2000) NULL,
+  WARRANTY_TXCD varchar(2000) NULL  
+           
+)';
+EXECUTE IMMEDIATE
+'ALTER TABLE CONTRCT_MGT ADD CONSTRAINT CONTRCT_MGT  PRIMARY KEY (DA_ROW_ID, JOBID)';
+END IF;
+END;
+
+
+ --==========================================================
+---CREATE T_DIS_CONTRCT_MGT table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='T_DIS_CONTRCT_MGT';
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE T_DIS_CONTRCT_MGT';
+iExists := 0 ;
+END IF;
+IF iExists = 0 THEN
+
+EXECUTE IMMEDIATE
+'CREATE TABLE T_DIS_CONTRCT_MGT
+(
+JOBID number (10) NOT NULL,
+    DA_ROW_ID number (10) NOT NULL,
+    CONTRCT_MGT_ID number (10)  NULL,
+    CONT_TYPE_CODE varchar(25) NULL
+           
+)';
+EXECUTE IMMEDIATE
+'ALTER TABLE T_DIS_CONTRCT_MGT ADD CONSTRAINT T_DIS_CONTRCT_MGT  PRIMARY KEY (DA_ROW_ID, JOBID)';
+END IF;
+END;
+
+
+ --==========================================================
+---CREATE CONTRCT_MGT_TEMP_FD table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='CONTRCT_MGT_TEMP_FD';
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE CONTRCT_MGT_TEMP_FD';
+iExists := 0 ;
+END IF;
+IF iExists = 0 THEN
+
+EXECUTE IMMEDIATE
+'CREATE TABLE CONTRCT_MGT_TEMP_FD
+(
+DA_ROW_ID number (10) NOT NULL,
+    JOBID number (10) NOT NULL,
+    INPUT_ROW_ID number (10) NULL,
+    INVALID_ROW number (10) NULL,
+    UPDATE_ROW number (10) NULL,
+    CONTRCT_MGT_ID number (10)  NULL,
+  CONT_TYPE_CODE number (10) NULL,
+  CONTR_CAT_TXCD varchar(2000) NULL,
+  SUBJECTOR_TEXT varchar(50) NULL,
+  SUBJECTEE_TEXT varchar(50) NULL,
+  DETAILS_TXCD varchar(2000) NULL,
+  EFF_DATE_DATE varchar(8) NULL,
+  EXPIR_DATE_DATE varchar(8) NULL,
+  RENEW_DATE_DATE varchar(8) NULL,
+  INDEMNITY_TXCD varchar(2000) NULL,
+  SUBROGATION_TXCD varchar(2000) NULL,
+  TERM_INFO_TEXT varchar(50) NULL,
+  CONDITIONS_TXCD varchar(2000) NULL,
+  AUTH_SIGN_TXCD varchar(2000) NULL,
+  PAYMENTS_TXCD varchar(2000) NULL,
+  WARRANTY_TXCD varchar(2000) NULL,
+  CONTRCT_MGT_ID_RMDB number (10)  NULL
+)';
+
+END IF;
+END;
+
+ --==========================================================
+---CREATE CERTIFICATE table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='CERTIFICATE';
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE CERTIFICATE';
+iExists := 0 ;
+END IF;
+IF iExists = 0 THEN
+
+EXECUTE IMMEDIATE
+'CREATE TABLE CERTIFICATE
+(
+DA_ROW_ID number (10) NOT NULL,
+    JOBID number (10) NOT NULL,
+    INPUT_ROW_ID number (10) NULL,
+    INVALID_ROW number (10) NULL,
+    UPDATE_ROW number (10) NULL,
+    CERTIFICATE_ID number (10)  NULL,
+  JOB_NO_TEXT varchar(15) NULL,
+  JOB_DESC_TXCD varchar(2000) NULL,
+  AGENCY_NAME_TEXT varchar(50) NULL,
+  AGENCY_PHON_TEXT varchar(20) NULL,
+  INSURED_NAM_TEXT varchar(50) NULL,
+  INSURED_ADD_TEXT varchar(50) NULL,
+  INSURED_CIT_TEXT varchar(25) NULL,
+  INSURED_ST_TEXT varchar(15) NULL,
+  INSURED_ZIP_TEXT varchar(15) NULL,
+  INSURED_PH_TEXT varchar(20) NULL,
+  GEN_LIAB_TXCD varchar(2000) NULL,
+  INS_NAME_TEXT varchar(50) NULL,
+  POL_NUMBER_NUM float NULL,
+  EXPIR_DATE_DATE varchar(8) NULL,
+  BI_EA_AGG_TEXT varchar(25) NULL,
+  PD_EA_AGG_TEXT varchar(25) NULL,
+  BI_PD_COMB_NUM float NULL,
+  PI_AGG_NUM float NULL,
+  AUTO_LIAB_TEXT varchar(25) NULL,
+  BI_EA_PERS_NUM float NULL,
+  BI_EA_ACC_NUM float NULL,
+  PD_EA_OCC_NUM float NULL,
+  BI_PD_COMB_TEXT varchar(15) NULL,
+  EXCESS_LIAB_TXCD varchar(2000) NULL,
+  BI_PD_AGG_TEXT varchar(15) NULL,
+  WORK_COMP_NUM float NULL,
+  WORK_COMP_TEXT varchar(25) NULL,
+  WC_EA_ACC_NUM float NULL,
+  OPER_DESC_TXCD varchar(2000) NULL,
+  ISSUE_DT_DATE varchar(8) NULL
+)';
+EXECUTE IMMEDIATE
+'ALTER TABLE CERTIFICATE ADD CONSTRAINT CERTIFICATE  PRIMARY KEY (DA_ROW_ID, JOBID)';
+END IF;
+END;
+
+
+ --==========================================================
+---CREATE T_DIS_CERTIFICATE table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='T_DIS_CERTIFICATE';
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE T_DIS_CERTIFICATE';
+iExists := 0 ;
+END IF;
+IF iExists = 0 THEN
+
+EXECUTE IMMEDIATE
+'CREATE TABLE T_DIS_CERTIFICATE
+(
+JOBID number (10) NOT NULL,
+    DA_ROW_ID number (10) NOT NULL,
+    CERTIFICATE_ID number (10)  NULL
+)';
+EXECUTE IMMEDIATE
+'ALTER TABLE T_DIS_CERTIFICATE ADD CONSTRAINT T_DIS_CERTIFICATE  PRIMARY KEY (DA_ROW_ID, JOBID)';
+END IF;
+END;
+
+
+
+ --==========================================================
+---CREATE CERTIFICATE_TEMP_FD table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='CERTIFICATE_TEMP_FD';
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE CERTIFICATE_TEMP_FD';
+iExists := 0 ;
+END IF;
+IF iExists = 0 THEN
+
+EXECUTE IMMEDIATE
+'CREATE TABLE CERTIFICATE_TEMP_FD
+(
+DA_ROW_ID number (10) NOT NULL,
+    JOBID number (10) NOT NULL,
+    INPUT_ROW_ID number (10) NULL,
+    INVALID_ROW number (10) NULL,
+    UPDATE_ROW number (10) NULL,
+    CERTIFICATE_ID number (10)  NULL,
+  JOB_NO_TEXT varchar(15) NULL,
+  JOB_DESC_TXCD varchar(2000) NULL,
+  AGENCY_NAME_TEXT varchar(50) NULL,
+  AGENCY_PHON_TEXT varchar(20) NULL,
+  INSURED_NAM_TEXT varchar(50) NULL,
+  INSURED_ADD_TEXT varchar(50) NULL,
+  INSURED_CIT_TEXT varchar(25) NULL,
+  INSURED_ST_TEXT varchar(15) NULL,
+  INSURED_ZIP_TEXT varchar(15) NULL,
+  INSURED_PH_TEXT varchar(20) NULL,
+  GEN_LIAB_TXCD varchar(2000) NULL,
+  INS_NAME_TEXT varchar(50) NULL,
+  POL_NUMBER_NUM float NULL,
+  EXPIR_DATE_DATE varchar(8) NULL,
+  BI_EA_AGG_TEXT varchar(25) NULL,
+  PD_EA_AGG_TEXT varchar(25) NULL,
+  BI_PD_COMB_NUM float NULL,
+  PI_AGG_NUM float NULL,
+  AUTO_LIAB_TEXT varchar(25) NULL,
+  BI_EA_PERS_NUM float NULL,
+  BI_EA_ACC_NUM float NULL,
+  PD_EA_OCC_NUM float NULL,
+  BI_PD_COMB_TEXT varchar(15) NULL,
+  EXCESS_LIAB_TXCD varchar(2000) NULL,
+  BI_PD_AGG_TEXT varchar(15) NULL,
+  WORK_COMP_NUM float NULL,
+  WORK_COMP_TEXT varchar(25) NULL,
+  WC_EA_ACC_NUM float NULL,
+  OPER_DESC_TXCD varchar(2000) NULL,
+  ISSUE_DT_DATE varchar(8) NULL,
+  CERTIFICATE_ID_RMDB number (10)  NULL
+)';
+
+END IF;
+END;
+
+ --==========================================================
+---CREATE BOND_ABS table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='BOND_ABS';
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE BOND_ABS';
+iExists := 0 ;
+END IF;
+IF iExists = 0 THEN
+
+EXECUTE IMMEDIATE
+'CREATE TABLE BOND_ABS
+(
+DA_ROW_ID  number (10) NOT NULL,
+    JOBID  number (10) NOT NULL,
+    INPUT_ROW_ID  number (10) NULL,
+    INVALID_ROW  number (10) NULL,
+    UPDATE_ROW  number (10) NULL,
+    BOND_ABS_ID  number (10)  NULL,
+  BOND_NUM_TEXT varchar(20) NULL,
+  BOND_TYPE_TXCD varchar(2000) NULL,
+  BOND_LINE_CODE  number (10) NULL,
+  EFF_DATE_DATE varchar(8) NULL,
+  EXPIR_DATE_DATE varchar(8) NULL,
+  BOND_AMT_AMT float NULL,
+  PREMIUM_AMT float NULL,
+  BILL_NAME_TEXT varchar(50) NULL,
+  BILL_ADDR_TEXT varchar(50) NULL,
+  BILL_CITY_TEXT varchar(25) NULL,
+  BILL_ZIP_TEXT varchar(15) NULL,
+  BILL_ACCT_TEXT varchar(50) NULL,
+  PRINCIPAL_TXCD varchar(2000) NULL,
+  STATE_TEXT varchar(3) NULL,
+  BILL_STATE_TEXT varchar(25) NULL,
+  OBLIGEE_TXCD varchar(2000) NULL,
+  BOND_CLASS_CODE  number (10) NULL,
+  OLD_BOND_NO_TEXT varchar(25) NULL,
+  REQUESTER_TEXT varchar(50) NULL,
+  REQ_ADDR_TEXT varchar(50) NULL,
+  REQ_CITY_TEXT varchar(25) NULL,
+  REQ_STATE_TEXT varchar(25) NULL,
+  REQ_ZIP_TEXT varchar(15) NULL,
+  REQ_PHONE_TEXT varchar(15) NULL,
+  ORDERED_BY_TEXT varchar(50) NULL,
+  ORDER_ADDR_TEXT varchar(50) NULL,
+  ORDER_CITY_TEXT varchar(25) NULL,
+  ORDER_STATE_TEXT varchar(15) NULL,
+  ORDER_ZIP_TEXT varchar(15) NULL,
+  ORDER_PHONE_TEXT varchar(25) NULL,
+  AUTH_BY_TEXT varchar(50) NULL,
+  AUTH_ADDR_TEXT varchar(50) NULL,
+  AUTH_CITY_TEXT varchar(25) NULL,
+  AUTH_STATE_TEXT varchar(15) NULL,
+  AUTH_ZIP_TEXT varchar(15) NULL,
+  AUTH_PHONE_TEXT varchar(15) NULL,
+  DATE_EXEC_DATE varchar(8) NULL,
+  PAID_DATE_DATE varchar(8) NULL,
+  BOND_STATUS_CODE  number (10) NULL,
+  DATE_CANC_DATE varchar(8) NULL,
+  BOND_DETAIL_TXCD varchar(2000) NULL
+)';
+EXECUTE IMMEDIATE
+'ALTER TABLE BOND_ABS ADD CONSTRAINT BOND_ABS  PRIMARY KEY (DA_ROW_ID, JOBID)';
+END IF;
+END;
+
+
+ --==========================================================
+---CREATE T_DIS_BOND_ABS table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='T_DIS_BOND_ABS';
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE T_DIS_BOND_ABS';
+iExists := 0 ;
+END IF;
+IF iExists = 0 THEN
+
+EXECUTE IMMEDIATE
+'CREATE TABLE T_DIS_BOND_ABS
+(
+JOBID  number (10) NOT NULL,
+    DA_ROW_ID  number (10) NOT NULL,
+    BOND_ABS_ID  number (10)  NULL,
+    BOND_LINE_CODE varchar(25) NULL,
+    BOND_CLASS_CODE varchar(25) NULL,
+    BOND_STATUS_CODE varchar(25) NULL
+)';
+EXECUTE IMMEDIATE
+'ALTER TABLE T_DIS_BOND_ABS ADD CONSTRAINT T_DIS_BOND_ABS  PRIMARY KEY (DA_ROW_ID, JOBID)';
+END IF;
+END;
+
+
+
+ --==========================================================
+---CREATE BOND_ABS_TEMP_FD table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='BOND_ABS_TEMP_FD';
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE BOND_ABS_TEMP_FD';
+iExists := 0 ;
+END IF;
+IF iExists = 0 THEN
+
+EXECUTE IMMEDIATE
+'CREATE TABLE BOND_ABS_TEMP_FD
+(
+DA_ROW_ID number (10) NOT NULL,
+    JOBID number (10) NOT NULL,
+    INPUT_ROW_ID number (10) NULL,
+    INVALID_ROW number (10) NULL,
+    UPDATE_ROW number (10) NULL,
+    BOND_ABS_ID number (10)  NULL,
+  BOND_NUM_TEXT varchar(20) NULL,
+  BOND_TYPE_TXCD varchar(2000) NULL,
+  BOND_LINE_CODE number (10) NULL,
+  EFF_DATE_DATE varchar(8) NULL,
+  EXPIR_DATE_DATE varchar(8) NULL,
+  BOND_AMT_AMT float NULL,
+  PREMIUM_AMT float NULL,
+  BILL_NAME_TEXT varchar(50) NULL,
+  BILL_ADDR_TEXT varchar(50) NULL,
+  BILL_CITY_TEXT varchar(25) NULL,
+  BILL_ZIP_TEXT varchar(15) NULL,
+  BILL_ACCT_TEXT varchar(50) NULL,
+  PRINCIPAL_TXCD varchar(2000) NULL,
+  STATE_TEXT varchar(3) NULL,
+  BILL_STATE_TEXT varchar(25) NULL,
+  OBLIGEE_TXCD varchar(2000) NULL,
+  BOND_CLASS_CODE number (10) NULL,
+  OLD_BOND_NO_TEXT varchar(25) NULL,
+  REQUESTER_TEXT varchar(50) NULL,
+  REQ_ADDR_TEXT varchar(50) NULL,
+  REQ_CITY_TEXT varchar(25) NULL,
+  REQ_STATE_TEXT varchar(25) NULL,
+  REQ_ZIP_TEXT varchar(15) NULL,
+  REQ_PHONE_TEXT varchar(15) NULL,
+  ORDERED_BY_TEXT varchar(50) NULL,
+  ORDER_ADDR_TEXT varchar(50) NULL,
+  ORDER_CITY_TEXT varchar(25) NULL,
+  ORDER_STATE_TEXT varchar(15) NULL,
+  ORDER_ZIP_TEXT varchar(15) NULL,
+  ORDER_PHONE_TEXT varchar(25) NULL,
+  AUTH_BY_TEXT varchar(50) NULL,
+  AUTH_ADDR_TEXT varchar(50) NULL,
+  AUTH_CITY_TEXT varchar(25) NULL,
+  AUTH_STATE_TEXT varchar(15) NULL,
+  AUTH_ZIP_TEXT varchar(15) NULL,
+  AUTH_PHONE_TEXT varchar(15) NULL,
+  DATE_EXEC_DATE varchar(8) NULL,
+  PAID_DATE_DATE varchar(8) NULL,
+  BOND_STATUS_CODE number (10) NULL,
+  DATE_CANC_DATE varchar(8) NULL,
+  BOND_DETAIL_TXCD varchar(2000) NULL,
+  BOND_ABS_ID_RMDB number (10)  NULL
+)';
+END if ;
+END; 
+
+------TEMP_LIMIT
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='TEMP_LIMIT';
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE TEMP_LIMIT';
+iExists := 0;
+END IF;
+IF iExists = 0 THEN EXECUTE IMMEDIATE
+  'CREATE TABLE TEMP_LIMIT(
+   DA_ROW_ID NUMBER NOT NULL,
+  JOBID NUMBER NOT NULL,
+  INPUT_ROW_ID NUMBER NULL,
+  INVALID_ROW NUMBER NULL,
+  UPDATE_ROW NUMBER NULL,
+  LIMIT_ROW_ID NUMBER null,
+  POLICY_KEY VARCHAR2(50) NULL,
+  COVERAGE_KEY VARCHAR2(100) NULL,
+  LIMIT_TYPE_CODE NUMBER NULL,
+  STAGING_ID NUMBER NULL,
+  LIMIT_AMOUNT float NULL,
+  POLICY_KEY_SOURCE NUMBER NULL, 
+  COVERAGE_KEY_SOURCE   number(10) NULL, --RS
+  FINANCIAL_KEY_FLAG NUMBER NULL
+)';
+
+EXECUTE IMMEDIATE
+'ALTER TABLE TEMP_LIMIT ADD CONSTRAINT PK_TEMP_LIMIT PRIMARY KEY (DA_ROW_ID, JOBID)';
+
+ END IF;
+END;
+
+--mkaur24 POLICY RESTRUCTURING TABLES STARTS
+
+
+--mkaur24 POLICY RESTRUCTURING TABLES STARTS
+
+
+-----------------------makur24
+--==========================================================
+---CREATE POLICY table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='POLICY';
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE POLICY';
+iExists := 0 ;
+END IF;
+IF iExists = 0 THEN
+  EXECUTE IMMEDIATE 'CREATE TABLE POLICY(
+      DA_ROW_ID number(10) NOT NULL,
+    JOBID number(10) NOT NULL,
+    INPUT_ROW_ID number(10) NULL,
+    INVALID_ROW number(10) NULL,
+    UPDATE_ROW number(10) NULL,
+    ADDED_BY_USER varchar2(50) NULL,
+    DTTM_RCD_ADDED varchar2(14) NULL,
+    UPDATED_BY_USER varchar2(50) NULL,
+    POLICY_ID number(10)  NULL,
+    POLICY_NAME varchar2(40) NULL, --rs
+    POLICY_NUMBER varchar2(40) NULL, --rs
+    POLICY_STATUS_CODE number(10) NULL,
+    INSURER_EID number(10) NULL,
+    ISSUE_DATE varchar2(8) NULL,
+    REVIEW_DATE varchar2(8) NULL,
+    RENEWAL_DATE varchar2(8) NULL,
+    EFFECTIVE_DATE varchar2(8) NULL,
+    EXPIRATION_DATE varchar2(8) NULL,
+    CANCEL_DATE varchar2(8) NULL,
+    PREMIUM float NULL,
+    TRIGGER_CLAIM_FLAG number(10) NULL,
+    PRIMARY_POLICY_FLG number(10) NULL,
+    COMMENTS varchar2(255) NULL,--rs
+    DTTM_RCD_LAST_UPD varchar2(14) NULL,
+    BROKER_EID number(10) NULL,
+    BANK_ACC_ID number(10) NULL,
+    SUB_ACC_ROW_ID number(10) NULL,
+    HTMLCOMMENTS varchar2(255) NULL, --rs
+    ALL_STATES_FLAG number(10) NULL,
+    POLICY_SYSTEM_ID number(10)  NULL,
+    POLICY_TYPE number(10)  NULL,
+    POLICY_SYMBOL varchar2(20) NULL,
+    EXTERNAL_POLICY_ID varchar2(20) NULL,
+    CURRENCY_CODE number(10)  NULL,
+    POLICY_LOB_CODE number(10) NULL,
+    MODULE varchar2(10) NULL,
+    MASTER_COMPANY varchar2(10) NULL,
+	MASTER_COMPANY_DESC varchar2(100) NULL, -- ARAMKUMARSHA JIRA 42606
+    LOCATION_COMPANY varchar2(10) NULL,
+    BRANCH_CODE varchar2(50) NULL,
+    DUPLICATE_FLAG number(10) NULL,
+    EXTERNAL_POLICY_KEY varchar2(50) NULL,    
+    STAGING_ID number(10) NULL,
+    INC_CLAIMANT number(10) NULL,
+    INC_POL_COVERAGE number(10) NULL,
+    INC_LOSS_TYPE number(10) NULL,
+    INC_RSVTYPE number(10) NULL,
+    UI_SETTING_FLAG number(10)     NULL,      
+    INSURER_EID_SOURCE varchar2(25)  NULL, --MKAUR24 RS
+    BROKER_EID_SOURCE varchar2(25) NULL,
+    POLICY_SYSTEM_NAME_SOURCE varchar2(100) NULL,    
+    CLAIM_NUMBER_SOURCE varchar2(25) NULL,    
+    CLAIM_ID number(10) NULL,  
+    CLAIM_POLICY_LOB_CODE number(10) NULL,
+    EVENT_ID_RMDB number(10) NULL ,
+    LINE_OF_BUS_CODE_RMDB number(10) NULL ,
+    DATE_OF_CLAIM_RMDB varchar2(8) NULL ,    
+    DATE_RPTD_TO_RM_RMDB varchar2(8) NULL ,  --MKAUR24 END RS
+      PAID_TO_DATE varchar2(8) NULL, 
+    REINSURANCE_CODE number(10) NULL,
+    POLICY_SYSTEM_NAME_SHORT_CODE varchar2(25) NULL,
+    WS_PARAM_1 varchar2(4) NULL
+        
+)';
+
+  EXECUTE IMMEDIATE 'ALTER TABLE POLICY ADD CONSTRAINT PK_POLICY PRIMARY KEY (JOBID,DA_ROW_ID)';
+
+END IF;
+END; 
+--==========================================================
+---CREATE T_DIS_POLICY table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='T_DIS_POLICY';
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE T_DIS_POLICY';
+iExists := 0 ;
+END IF;
+IF iExists = 0 THEN
+  EXECUTE IMMEDIATE 'CREATE TABLE T_DIS_POLICY (    
+   JOBID  number(10) NOT NULL,
+    DA_ROW_ID  number(10) NOT NULL,
+    POLICY_ID  number(10)  NULL,
+    POLICY_STATUS_CODE    varchar2(25) NULL,  
+    POLICY_TYPE    varchar2(25) NULL,
+    CURRENCY_CODE    varchar2(25) NULL,
+    POLICY_LOB_CODE    varchar2(25) NULL,
+    CLAIM_NUMBER    varchar2(25) NULL,
+    BRANCH_CODE    varchar2 (25) NULL, 
+    CLAIM_ID number(10) NULL,   
+    REINSURANCE_CODE    varchar2(25) NULL     
+)';
+  EXECUTE IMMEDIATE 'ALTER TABLE T_DIS_POLICY ADD CONSTRAINT PK_T_DIS_POLICY PRIMARY KEY (JOBID,DA_ROW_ID)';
+END IF;
+ END;
+
+ --==========================================================
+---CREATE POLICY_X_CVG_TYPE table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='POLICY_X_CVG_TYPE';
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE POLICY_X_CVG_TYPE';
+iExists := 0 ;
+END IF;
+IF iExists = 0 THEN
+  EXECUTE IMMEDIATE 'CREATE TABLE POLICY_X_CVG_TYPE(
+    DA_ROW_ID   number(10) NOT NULL,
+    JOBID   number(10) NOT NULL,
+    INPUT_ROW_ID   number(10) NULL,
+    INVALID_ROW   number(10) NULL,
+    UPDATE_ROW   number(10) NULL,
+    CLAIM_LIMIT  float  NULL,
+    NOTIFICATION_UID   number(10) NULL,
+    POLCVG_ROW_ID   number(10) NULL,
+    POLICY_ID   number(10) NULL,
+    COVERAGE_TYPE_CODE   number(10) NULL,
+    POLICY_LIMIT  float  NULL,
+    OCCURRENCE_LIMIT  float  NULL,
+    TOTAL_PAYMENTS  float  NULL,
+    REMARKS  varchar2(4000) NULL,
+    EXCEPTIONS  varchar2(2000) NULL,
+    CANCEL_NOTICE_DAYS   number(10) NULL,
+    SELF_INSURE_DEDUCT  float  NULL,
+    NEXT_POLICY_ID   number(10) NULL,
+    BROKER_NAME  varchar2(100) NULL,
+    SECTION_NUMBER_CODE   number(10) NULL,
+    POLICY_UNIT_ROW_ID   number(10) NULL,
+    PER_PERSON_LIMIT  float  NULL,
+    EFFECTIVE_DATE  varchar2(8) NULL,
+    EXPIRATION_DATE  varchar2(8) NULL,
+    LIMIT  float  NULL,
+    ORIGINAL_PREMIUM  float  NULL,
+    WRITTEN_PREMIUM  float  NULL,
+    FULL_TERM_PREMIUM  float  NULL,
+    TOTAL_WRITTEN_PREMIUM  float  NULL,
+    EXPOSURE  float  NULL,
+    CHANGE_DATE  varchar2(8) NULL,
+    CVG_SEQUENCE_NO  varchar2(8) NULL,
+    TRANS_SEQ_NO  varchar2(8) NULL,
+    COVERAGE_TEXT  varchar2(250) NULL,
+    COVERAGE_CLASS_CODE  varchar2(100) NULL,
+    LIMIT_COVA  float  NULL,
+    LIMIT_COVB  float  NULL,
+    LIMIT_COVC  float  NULL,
+    LIMIT_COVD  float  NULL,
+    LIMIT_COVE  float  NULL,
+    LIMIT_COVF  float  NULL,
+    WC_DED_AMT  float  NULL,
+    WC_DED_AGGR  float  NULL,
+    PRODLINE  varchar2(50) NULL,
+    ASLINE  float  NULL,
+    SUB_LINE  varchar2(3) NULL,
+    DED_TYPE_CODE   number(10) NULL,
+    STAGING_ID   number(10) NULL,
+    REINSURANCE_CODE   number(10) NULL,
+    RETRO_DATE varchar2(8) NULL,
+    TAIL_DATE varchar2(8) NULL,
+    COVERAGE_KEY varchar2(100) NULL,
+    FINANCIAL_KEY_FLAG   number(10) NULL ,    
+    POLICY_ID_SOURCE   number(10) NULL,--MKAUR24 RS
+    POLCVG_ROW_ID_SOURCE   number(10) NULL,    
+    NEXT_POLICY_ID_SOURCE   number(10) NULL,    
+    UNIT_ID_SOURCE   number(10) NULL,
+    COVERAGE_CODE_DESCRIPTION  varchar2(100) NULL,
+    CLASS_CODE_DESCRIPTION  varchar2(100) NULL,    
+    SUBLINE_DESCRIPTION  varchar2(100) NULL, 
+    COVERAGE_TYPE_CODE_SOURCE  varchar2(25) NULL
+)';
+  EXECUTE IMMEDIATE 'ALTER TABLE POLICY_X_CVG_TYPE ADD CONSTRAINT PK_POLICY_X_CVG_TYPE PRIMARY KEY (JOBID,DA_ROW_ID)';
+END IF;
+END; 
+
+--==========================================================
+---CREATE T_DIS_POLICY_X_CVG_TYPE table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='T_DIS_POLICY_X_CVG_TYPE';
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE T_DIS_POLICY_X_CVG_TYPE';
+iExists := 0 ;
+END IF;
+IF iExists = 0 THEN
+  EXECUTE IMMEDIATE 'CREATE TABLE T_DIS_POLICY_X_CVG_TYPE (
+   JOBID    number(10) NOT NULL,
+    DA_ROW_ID    number(10) NOT NULL,
+    POLICY_ID    number(10) NULL,    
+    COVERAGE_TYPE_CODE  varchar2(25) NULL,    
+    SECTION_NUMBER_CODE  varchar2(25) NULL,  
+    REINSURANCE_CODE  varchar2(25) NULL,
+    	POLCVG_ROW_ID   number(10) NULL
+)';
+  EXECUTE IMMEDIATE 'ALTER TABLE T_DIS_POLICY_X_CVG_TYPE ADD CONSTRAINT PK_T_DIS_POLICY_X_CVG_TYPE PRIMARY KEY (JOBID,DA_ROW_ID)';
+END IF;
+END;
+
+--==========================================================
+---CREATE POLICY_X_INSURED table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='POLICY_X_INSURED';
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE POLICY_X_INSURED';
+iExists := 0 ;
+END IF;
+IF iExists = 0 THEN
+  EXECUTE IMMEDIATE 'CREATE TABLE POLICY_X_INSURED(
+DA_ROW_ID  number(10) NOT NULL,
+    JOBID  number(10) NOT NULL,
+    INPUT_ROW_ID  number(10) NULL,
+    INVALID_ROW  number(10) NULL,
+    UPDATE_ROW  number(10) NULL,
+    POLICY_ID  number(10) NULL,
+    INSURED_EID  number(10)  NULL,
+    STAGING_ID  number(10) NULL,
+    FINANCIAL_KEY_FLAG  number(10) NULL ,      
+    LAST_NAME   varchar2(255) NULL, --RS
+    FIRST_NAME   varchar2(255) NULL,  
+    TAX_ID   varchar2(20) NULL,
+    ABBREVIATION   varchar2(25) NULL,
+    ORG_LEVEL  number(10)  NULL,
+    ORG_LEVEL_PARENT_ABBREVIATION   varchar2(25) NULL,
+    CLIENT_SEQ_NUM   varchar2(30) NULL,  --MKAUR24 RS  
+    BIRTH_DATE  varchar2(8) NULL, --HMI mkaur24
+    BENEFICIARY_CODE  varchar2(25) NULL,
+      BENEFICIARY_CODE_value number(10) NULL
+)';
+
+  EXECUTE IMMEDIATE 'ALTER TABLE POLICY_X_INSURED ADD CONSTRAINT PK_POLICY_X_INSURED PRIMARY KEY (JOBID,DA_ROW_ID)';
+
+END IF;
+END; 
+
+--==========================================================
+---CREATE POLICY_X_INSURER table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='POLICY_X_INSURER';
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE POLICY_X_INSURER';
+iExists := 0 ;
+END IF;
+IF iExists = 0 THEN
+  EXECUTE IMMEDIATE 'CREATE TABLE POLICY_X_INSURER(
+DA_ROW_ID  number(10)  NOT NULL,
+    JOBID  number(10)  NOT NULL,
+    INPUT_ROW_ID  number(10)  NULL,
+    INVALID_ROW  number(10)  NULL,
+    UPDATE_ROW  number(10)  NULL,
+    IN_ROW_ID  number(10)  NULL,
+    POLICY_ID  number(10)  NULL,
+    INSURER_CODE  number(10)  NULL,
+    RES_PERCENTAGE  float  NULL,
+    PRIMARY_INSURER   number(10)  NULL,
+    PREMIUM_AMOUNT  float  NULL,
+    PART_OF_TOTAL_LAYER  float  NULL,
+    PORTION_OF_PART_OF_LAYER  float  NULL,
+    INSTAL_PAYMENT_AMT  float  NULL,
+    INSTAL_SCHEDULE_CODE  number(10)  NULL,
+    SPECIAL_CIRCUM_MEMO  varchar2(4000)  NULL,
+    LAYER_NUM_CODE  number(10)  NULL,
+    OCCURENCE_LIMIT  float  NULL,
+    COVERAGE_DESC  varchar2(100)  NULL,
+    COMMENT_MEMO  varchar2(16)  NULL,
+    STAGING_ID  number(10)  NULL,
+    FINANCIAL_KEY_FLAG  number(10)  NULL ,
+    INSURER_CODE_SOURCE  number(10)  NULL,  --RS  
+    LAST_NAME  varchar2(255)  NULL,
+    FIRST_NAME  varchar2(255)  NULL,  
+    TAX_ID  varchar2(20)  NULL,
+    ABBREVIATION  varchar2(25)  NULL,
+    PRIMARY_INSURER_SOURCE   number(10)  NULL, --rs 8/1/16
+    CLIENT_SEQ_NUM  varchar2(30)  NULL,  --MKAUR24 RS  
+    BIRTH_DATE  varchar2(8)  NULL
+)';
+  EXECUTE IMMEDIATE 'ALTER TABLE POLICY_X_INSURER ADD CONSTRAINT PK_POLICY_X_INSURER PRIMARY KEY (JOBID,DA_ROW_ID)';
+END IF;
+END; 
+
+--==========================================================
+---CREATE T_DIS_POLICY_X_INSURER table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='T_DIS_POLICY_X_INSURER';
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE  T_DIS_POLICY_X_INSURER';
+iExists := 0 ;
+END IF;
+IF iExists = 0 THEN
+  EXECUTE IMMEDIATE 'CREATE TABLE T_DIS_POLICY_X_INSURER (
+   JOBID  number(10) NOT NULL,
+    DA_ROW_ID  number(10) NOT NULL,
+    POLICY_ID  number(10) NULL,    
+    INSTAL_SCHEDULE_CODE  varchar2(25) NULL,
+    LAYER_NUM_CODE  varchar2(25) NULL  
+)';
+  EXECUTE IMMEDIATE 'ALTER TABLE T_DIS_POLICY_X_INSURER ADD CONSTRAINT PK_T_DIS_POLICY_X_INSURER PRIMARY KEY (JOBID,DA_ROW_ID)';
+END IF;
+END;
+
+--==========================================================
+---CREATE VEHICLE table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='VEHICLE';
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE VEHICLE';
+iExists := 0 ;
+END IF;
+
+IF iExists = 0 THEN
+EXECUTE IMMEDIATE 'CREATE TABLE VEHICLE(
+    DA_ROW_ID number(10) NOT NULL,
+    JOBID number(10) NOT NULL,
+    INPUT_ROW_ID number(10) NULL,
+    INVALID_ROW number(10) NULL,
+    UPDATE_ROW number(10) NULL,
+    DISPOSAL_DATE varchar2(8) NULL,
+    LEASE_AMOUNT float NULL,
+    LEASE_EXPIRE_DATE varchar2(8) NULL,
+    LEASE_FLAG number(10) NULL,
+    LEASE_NUMBER varchar2(50) NULL,
+    LEASE_TERM number(10) NULL,
+    LEASING_CO_EID number(10) NULL,
+    LICENSE_RNWL_DATE varchar2(8) NULL,
+    VEHICLE_MODEL varchar2(50) NULL,
+    UNIT_ID number(10) NULL,
+    VEHICLE_MAKE varchar2(20) NULL,
+    VEHICLE_YEAR number(10) NULL,
+    UNIT_TYPE_CODE number(10) NULL,
+    HOME_DEPT_EID number(10) NULL,
+    LICENSE_NUMBER varchar2(20) NULL,
+    STATE_ROW_ID number(10) NULL,
+    GROSS_WEIGHT float NULL,
+    VIN varchar2(20) NULL,
+    ORIGINAL_COST float NULL,
+    PURCHASE_DATE varchar2(8) NULL,
+    DEDUCTIBLE float NULL,
+    LAST_SERVICE_DATE varchar2(8) NULL,
+    TYPE_OF_SERVICE varchar2(4000) NULL,   
+    INSURANCE_COVERAGE varchar2(4000) NULL,   
+    VEH_DESC varchar2(300) NULL,       
+    DELETED_FLAG number(10) NULL,
+    FINANCIAL_KEY_FLAG number(10) NULL ,
+    STAGING_ID number(10) NULL,    
+    LEASING_CO_EID_DESC_SOURCE varchar2(50) NULL, --RS
+    HOME_DEPT_EID_DESC_SOURCE varchar2(50) NULL
+    
+)';
+EXECUTE IMMEDIATE
+'ALTER TABLE VEHICLE ADD CONSTRAINT PK_VEHICLE PRIMARY KEY (DA_ROW_ID, JOBID)';
+END IF;
+END;
+
+ --==========================================================
+---CREATE T_DIS_VEHICLE table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='T_DIS_VEHICLE';
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE T_DIS_VEHICLE';
+iExists := 0 ;
+END IF;
+IF iExists = 0 THEN
+  EXECUTE IMMEDIATE 'CREATE TABLE T_DIS_VEHICLE (    
+    DA_ROW_ID  number(10) NOT NULL,
+     JOBID  number(10) NOT NULL,
+     SOURCE_UNIT_ID  number(10) NULL,  
+     STATE_ID  varchar2(6) NULL,
+     UNIT_TYPE_CODE  varchar2(25) NULL  
+)';
+  EXECUTE IMMEDIATE 'ALTER TABLE T_DIS_VEHICLE ADD CONSTRAINT PK_T_DIS_VEHICLE PRIMARY KEY (JOBID,DA_ROW_ID)';
+END IF;
+END; 
+
+--==========================================================
+---CREATE SITE_UNIT table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='SITE_UNIT';
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE SITE_UNIT ';
+iExists := 0 ;
+END IF;
+IF iExists = 0 THEN
+  EXECUTE IMMEDIATE 'CREATE TABLE SITE_UNIT (
+    DA_ROW_ID   number(10) NOT NULL,
+    JOBID   number(10) NOT NULL,
+    INPUT_ROW_ID   number(10) NULL,
+    INVALID_ROW   number(10) NULL,
+    UPDATE_ROW   number(10) NULL,
+    SITE_ID   number(10)  NULL,
+    SITE_NUMBER  varchar2(50) NULL,
+    NAME  varchar2(200) NULL,
+    OPTIONAL  varchar2(200) NULL,
+    ADDR1  varchar2(100) NULL,
+    ADDR2  varchar2(100) NULL,
+    ADDR3  varchar2(100) NULL,
+    ADDR4  varchar2(100) NULL,
+    STATE_ID   number(10) NULL,
+    CITY  varchar2(50) NULL,
+    ZIP_CODE  varchar2(10) NULL,
+    COUNTRY_ID   number(10) NULL,
+    PHONE_NUMBER  varchar2(50) NULL,
+    CONTACT  varchar2(50) NULL,
+    TAX_LOCATION  varchar2(50) NULL,
+    UNEMPLOYEMENT_NUMBER  varchar2(50) NULL,
+    NUM_OF_EMP   number(10) NULL,
+    FEIN  varchar2(50) NULL,
+    SIC  varchar2(50) NULL,
+    DELETED_FLAG  number(10)  NULL,
+    DTTM_RCD_ADDED  varchar2(14) NULL,
+    DTTM_RCD_LAST_UPD  varchar2(14) NULL,
+    ADDED_BY_USER  varchar2(50) NULL,
+    UPDATED_BY_USER  varchar2(50) NULL,
+    STAGING_ID   number(10) NULL,
+    FINANCIAL_KEY_FLAG   number(10) NULL         
+)';
+  EXECUTE IMMEDIATE 'ALTER TABLE SITE_UNIT ADD CONSTRAINT PK_SITE_UNIT PRIMARY KEY (JOBID,DA_ROW_ID)';
+END IF;
+END;
+--==========================================================
+---CREATE T_DIS_SITE_UNIT table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='T_DIS_SITE_UNIT';
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE T_DIS_SITE_UNIT ';
+iExists := 0 ;
+END IF;
+IF iExists = 0 THEN
+  EXECUTE IMMEDIATE 'CREATE TABLE T_DIS_SITE_UNIT (
+ JOBID  number(10) NOT NULL,
+     DA_ROW_ID  number(10) NOT NULL,
+     STATE_ID  varchar2(25)  NULL,
+     COUNTRY_ID  varchar2(25) NULL,
+     SITE_ID number(10)  NULL
+)';
+  EXECUTE IMMEDIATE 'ALTER TABLE T_DIS_SITE_UNIT ADD CONSTRAINT PK_T_DIS_SITE_UNIT PRIMARY KEY (JOBID,DA_ROW_ID)';
+END IF;
+END;
+
+--==========================================================
+---CREATE PROPERTY_UNIT table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='PROPERTY_UNIT';
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE PROPERTY_UNIT';
+iExists := 0 ;
+END IF;
+IF iExists = 0 THEN
+  EXECUTE IMMEDIATE 'CREATE TABLE PROPERTY_UNIT(
+    DA_ROW_ID   number(10) NOT NULL,
+    JOBID   number(10) NOT NULL,
+    INPUT_ROW_ID   number(10) NULL,
+    INVALID_ROW   number(10) NULL,
+    UPDATE_ROW   number(10) NULL,
+    PROPERTY_ID   number(10)  NULL,
+    PIN  varchar2(300) NULL,
+    DESCRIPTION  varchar2(50) NULL,
+    ADDR1  varchar2(100) NULL,
+    ADDR2  varchar2(100) NULL,
+    ADDR3  varchar2(100) NULL,
+    ADDR4  varchar2(100) NULL,
+    CITY  varchar2(50) NULL,
+    STATE_ID   number(10)  NULL,
+    ZIP_CODE  varchar2(10) NULL,
+    CLASS_OF_CONS_CODE   number(10)  NULL,
+    YEAR_OF_CONS   number(10)  NULL,
+    WALL_CONS_CODE   number(10)  NULL,
+    ROOF_CONS_CODE   number(10)  NULL,
+    SQUARE_FOOTAGE  float  NULL,
+    NO_OF_STORIES   number(10) NULL,
+    AVG_STORY_HEIGHT  float  NULL,
+    HEATING_SYS_CODE   number(10)  NULL,
+    COOLING_SYS_CODE   number(10)  NULL,
+    FIRE_ALARM_CODE   number(10)  NULL,
+    SPRINKLERS_CODE   number(10)  NULL,
+    ENTRY_ALARM_CODE   number(10)  NULL,
+    PLOT_PLANS_CODE   number(10)  NULL,
+    FLOOD_ZONE_CERT_CODE   number(10)  NULL,
+    EARTHQUAKE_ZONE_CODE   number(10)  NULL,
+    GPS_LATITUDE  float  NULL,
+    GPS_LONGITUDE  float   NULL,
+    GPS_ALTITUDE  float   NULL,
+    ROOF_ANCHORING_CODE   number(10) NULL,
+    GLASS_STRENGTH_CODE   number(10)  NULL,
+    APPRAISED_VALUE  float   NULL,
+    REPLACEMENT_VALUE  float   NULL,
+    DELETED_FLAG   number(10)  NULL,
+    APPRAISED_DATE  varchar2(8) NULL,
+    LAND_VALUE  float   NULL,
+    APPRAISAL_SOURCE_CODE   number(10)  NULL,
+    CATEGORY_CODE   number(10)  NULL,
+    TERRITORY_CODE   number(10)  NULL,
+    DTTM_RCD_ADDED  varchar2(14) NULL,
+    DTTM_RCD_LAST_UPD  varchar2(14) NULL,
+    ADDED_BY_USER  varchar2(50) NULL,
+    UPDATED_BY_USER  varchar2(50) NULL,
+    COUNTRY_CODE   number(10)  NULL,
+    STAGING_ID   number(10) NULL,
+    FINANCIAL_KEY_FLAG   number(10) NULL 
+)';
+  EXECUTE IMMEDIATE 'ALTER TABLE PROPERTY_UNIT ADD CONSTRAINT PK_PROPERTY_UNIT PRIMARY KEY (JOBID,DA_ROW_ID)';
+END IF;
+END; 
+
+--==========================================================
+---CREATE T_DIS_PROPERTY_UNIT table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='T_DIS_PROPERTY_UNIT';
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE T_DIS_PROPERTY_UNIT';
+iExists := 0 ;
+END IF;
+IF iExists = 0 THEN
+  EXECUTE IMMEDIATE 'CREATE TABLE T_DIS_PROPERTY_UNIT (
+     JOBID   number(10) NOT NULL,
+    DA_ROW_ID   number(10) NOT NULL,
+    STATE_ID  varchar2(25)  NULL,
+    CLASS_OF_CONS_CODE  varchar2(25) NULL,  
+    WALL_CONS_CODE  varchar2(25)  NULL,
+    ROOF_CONS_CODE  varchar2(25)  NULL,
+    HEATING_SYS_CODE varchar2(25) NULL,
+    COOLING_SYS_CODE  varchar2(25) NULL,
+    FIRE_ALARM_CODE varchar2(25)  NULL,
+    SPRINKLERS_CODE  varchar2(25)  NULL,
+    ENTRY_ALARM_CODE  varchar2(25)  NULL,
+    PLOT_PLANS_CODE varchar2(25)  NULL,
+    FLOOD_ZONE_CERT_CODE  varchar2(25)  NULL,
+    EARTHQUAKE_ZONE_CODE  varchar2(25)  NULL,
+    ROOF_ANCHORING_CODE  varchar2(25)  NULL,
+    GLASS_STRENGTH_CODE varchar2(25)  NULL,
+    APPRAISAL_SOURCE_CODE  varchar2(25)  NULL,
+    CATEGORY_CODE  varchar2(25)  NULL,
+    TERRITORY_CODE  varchar2(25)  NULL,
+    COUNTRY_CODE  varchar2(25)  NULL,  
+    PROPERTY_ID   number(10) NULL  
+)';
+  EXECUTE IMMEDIATE 'ALTER TABLE T_DIS_PROPERTY_UNIT ADD CONSTRAINT PK_T_DIS_PROPERTY_UNIT PRIMARY KEY (JOBID,DA_ROW_ID)';
+END IF;
+END;
+
+--==========================================================
+---CREATE OTHER_UNIT table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='OTHER_UNIT';
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE OTHER_UNIT';
+iExists := 0 ;
+END IF;
+IF iExists = 0 THEN
+  EXECUTE IMMEDIATE 'CREATE TABLE OTHER_UNIT(
+  JOBID  number(10) NOT NULL,
+  DA_ROW_ID  number(10) NOT NULL,
+  INVALID_ROW  number(10) NULL,
+  UPDATE_ROW  number(10) NULL,
+  INPUT_ROW_ID  number(10) NULL,
+  OTHER_UNIT_ID  number(10) NOT NULL,
+  ENTITY_ID  number(10) NULL,
+  UNIT_TYPE  varchar2(10) NULL,
+  --DELETED_FLAG  number(10) NULL,
+  ADDED_BY_USER  varchar2(10) NULL,
+  UPDATED_BY_USER  varchar2(10) NULL,
+  DTTM_RCD_LAST_UPD  varchar2(14) NULL,
+  DTTM_RCD_ADDED  varchar2(14) NULL,
+STAGING_ID  number(10) NULL,
+FINANCIAL_KEY_FLAG  number(10) NULL ,
+OTHER_UNIT_ID_SOURCE  number(10)  NULL, --RS
+    ENTITY_ID_SOURCE  number(10) NULL
+)';
+  EXECUTE IMMEDIATE 'ALTER TABLE OTHER_UNIT ADD CONSTRAINT PK_OTHER_UNIT PRIMARY KEY (JOBID,DA_ROW_ID)';
+END IF;
+END;
+
+--==========================================================
+---CREATE UNIT_X_CLAIM table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='UNIT_X_CLAIM';
+
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE UNIT_X_CLAIM ';
+iExists := 0 ;
+END IF;
+
+IF iExists = 0 THEN
+
+EXECUTE IMMEDIATE 'CREATE TABLE UNIT_X_CLAIM (
+   DA_ROW_ID  NUMBER(10) NOT NULL,
+    JOBID  NUMBER(10) NOT NULL,
+    INPUT_ROW_ID  NUMBER(10) NULL,
+    INVALID_ROW  NUMBER(10) NULL,
+    UPDATE_ROW  NUMBER(10) NULL,
+    UNIT_ID  NUMBER(10) NULL,
+    CLAIM_ID  NUMBER(10) NULL,
+    UNIT_ROW_ID  NUMBER(10) NULL,    
+    VEHICLE_MAKE  varchar2(20) NULL,
+    VEHICLE_YEAR  NUMBER(10) NULL,
+    HOME_DEPT_EID  NUMBER(10) NULL,
+    LICENSE_NUMBER  varchar2(20) NULL,
+    STATE_ROW_ID  NUMBER(10) NULL,
+    DAMAGE  varchar2(4000) NULL,
+    UNIT_TYPE_CODE  NUMBER(10) NULL,
+    VIN  varchar2(20) NULL,
+    ISINSURED  NUMBER(10) NULL, 
+    ESTDAMAGE  float  NULL,
+    OWNER_EID  NUMBER(10) NULL, 
+    ISDRIVABLE  NUMBER(10) NULL,
+    ISNONVEHICLEPROPERTYDAMAGE  NUMBER(10) NULL,
+    OTHERINSURANCE  NUMBER(10) NULL, 
+    POLHOLDERISPROPERTYOWNER  NUMBER(10) NULL, 
+    POLICYHOLDER  NUMBER(10) NULL, 
+    COMPANY  NUMBER(10) NULL, 
+    SEENAT  varchar2(4000) NULL, 
+    DATEREPORTED  varchar2(8) NULL, 
+    TIMEREPORTED  varchar2(6) NULL, 
+    POLICYNUMBER  varchar2(10) NULL, 
+    COVERAGES  varchar2(4000) NULL, 
+    LIMITS  varchar2(50) NULL, 
+    ASSIGNADJ_EID  NUMBER(10) NULL,
+    STAGING_ID  NUMBER(10) NULL,
+    FINANCIAL_KEY_FLAG  NUMBER(10) NULL ,    
+    OWNER_LAST_NAME   varchar2(255) NULL,  --RS
+    OWNER_FIRST_NAME   varchar2(255) NULL,
+    OWNER_TAXID   varchar2(20) NULL, 
+    POLICYHOLDER_LAST_NAME   varchar2(255) NULL, 
+    POLICYHOLDER_FIRST_NAME   varchar2(255) NULL,
+    POLICYHOLDER_TAXID   varchar2(20) NULL, 
+    COMPANY_LAST_NAME   varchar2(255) NULL, 
+    COMPANY_FIRST_NAME   varchar2(255) NULL,
+    COMPANY_TAXID   varchar2(20) NULL, 
+    ASSIGNADJ_LAST_NAME   varchar2(255) NULL, 
+    ASSIGNADJ_FIRST_NAME   varchar2(255) NULL,
+    ASSIGNADJ_TAXID   varchar2(20) NULL ,    
+    HOME_DEPT_EID_SOURCE  varchar2(50) NULL,
+    CLAIM_ID_SOURCE  varchar2(25) NULL  
+)';
+EXECUTE IMMEDIATE
+'ALTER TABLE UNIT_X_CLAIM ADD CONSTRAINT PK_UNIT_X_CLAIM PRIMARY KEY (DA_ROW_ID, JOBID)';
+END IF;
+END;
+
+--==========================================================
+---CREATE T_DIS_UNIT_X_CLAIM table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='T_DIS_UNIT_X_CLAIM';
+
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE T_DIS_UNIT_X_CLAIM';
+iExists := 0 ;
+END IF;
+
+IF iExists = 0 THEN
+
+EXECUTE IMMEDIATE 'CREATE TABLE T_DIS_UNIT_X_CLAIM (
+      DA_ROW_ID  number(10) NOT NULL,
+    JOBID  number(10) NOT NULL,    
+    CLAIM_ID_SOURCE  varchar2(25) NULL,
+    STATE_ID  varchar2(6) NULL,
+    UNIT_TYPE_CODE  varchar2(25) NULL,
+    UNIT_ID  number(10) NULL
+)';
+EXECUTE IMMEDIATE
+'ALTER TABLE T_DIS_UNIT_X_CLAIM ADD CONSTRAINT PK_T_DIS_UNIT_X_CLAIM PRIMARY KEY (DA_ROW_ID, JOBID)';
+END IF;
+END;
+
+--==========================================================
+---CREATE CLAIM_X_SITELOSS table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='CLAIM_X_SITELOSS';
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE  CLAIM_X_SITELOSS';
+iExists := 0 ;
+END IF;
+IF iExists = 0 THEN
+  EXECUTE IMMEDIATE 'CREATE TABLE CLAIM_X_SITELOSS(
+  DA_ROW_ID  number(10) NOT NULL,
+    JOBID  number(10) NOT NULL,
+    INPUT_ROW_ID  number(10) NULL,
+    INVALID_ROW  number(10) NULL,
+    UPDATE_ROW  number(10) NULL,
+    ROW_ID  number(10)  NULL,
+    CLAIM_ID  number(10)  NULL,
+    SITE_ID  number(10) NOT NULL,
+    LOSS_PREVENTION_REPRESENTATIVE  varchar2(100) NULL,
+    LOSS_PREVENTION_CONTACT_NAME  varchar2(100) NULL,--rs
+    FAX_NUMBER  varchar2(50) NULL,
+    EMAIL  varchar2(50) NULL,
+    PRE_QUOTE_SURVEY_ORDERED_DATE  varchar2(20) NULL,
+    POST_BIND_SURVEY_ORDERED_DATE  varchar2(20) NULL,
+    LOSS_PREVENTION_RATING  varchar2(20) NULL,
+    LOSS_PREVENTION_LASTVISITDATE  varchar2(20) NULL,
+    INTERIM_AUDITOR_ID  varchar2(50) NULL,
+    INTERIM_AUDITOR  varchar2(100) NULL,
+    CHECK_AUDITOR_ID  varchar2(50) NULL,
+    CHECK_AUDITOR  varchar2(100) NULL,
+    FINAL_AUDITOR_ID  varchar2(50) NULL,
+    FINAL_AUDITOR  varchar2(100) NULL,
+    ADDED_BY_USER  varchar2(50)  NULL,
+    UPDATED_BY_USER  varchar2(50)  NULL,
+    DTTM_RCD_LAST_UPD  varchar2(14) NULL,
+    DTTM_RCD_ADDED  varchar2(14) NULL,
+    ISINSURED  number(10) NULL,
+    ASSIGNADJ_EID  number(10) NULL,
+    STAGING_ID  number(10) NULL,
+      FINANCIAL_KEY_FLAG  number(10) NULL ,
+      CLAIM_ID_SOURCE  varchar2(25)  NULL, --RS
+    ASSIGNADJ_LAST_NAME  varchar2(255) NULL,
+    ASSIGNADJ_FIRST_NAME  varchar2(255) NULL,  
+    ASSIGNADJ_TAX_ID  varchar2(20) NULL
+)';
+
+  EXECUTE IMMEDIATE 'ALTER TABLE CLAIM_X_SITELOSS ADD CONSTRAINT PK_CLAIM_X_SITELOSS PRIMARY KEY (JOBID,DA_ROW_ID)';
+
+END IF;
+END; 
+
+--==========================================================
+---CREATE CLAIM_X_PROPERTYLOSS table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='CLAIM_X_PROPERTYLOSS';
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE CLAIM_X_PROPERTYLOSS';
+iExists := 0 ;
+END IF;
+IF iExists = 0 THEN
+  EXECUTE IMMEDIATE 'CREATE TABLE CLAIM_X_PROPERTYLOSS(
+    DA_ROW_ID    number(10) NOT NULL,
+    JOBID    number(10) NOT NULL,
+    INPUT_ROW_ID    number(10) NULL,
+    INVALID_ROW    number(10) NULL,
+    UPDATE_ROW    number(10) NULL,
+    ROW_ID    number(10)  NULL,
+    PROPERTY_ID    number(10)  NULL,
+    CLAIM_ID    number(10) NULL,
+    INSURED    number(10) NULL,
+    DAMAGE  varchar2(4000) NULL,
+    PROPERTYTYPE    number(10) NULL,
+    ESTDAMAGE  float  NULL,
+    SEENAT  varchar2(4000) NULL,
+    DATEREPORTED  varchar2(8) NULL,
+    TIMEREPORTED  varchar2(6) NULL,
+    DESCRIPTION  varchar2(4000) NULL,
+    OWNER    number(10) NULL,
+    LOCOFTHEFT    number(10) NULL,
+    INCENDIARYFIRE    number(10) NULL,
+    VACANT    number(10) NULL,
+    UNDERCONSTRUCTION    number(10) NULL,
+    EXPENSEFROM  varchar2(8) NULL,
+    EXPENSETO  varchar2(8) NULL,
+    OTHERINSURANCE    number(10) NULL,
+    POLHOLDERISPROPERTYOWNER    number(10) NULL,
+    POLICYHOLDER    number(10) NULL,
+    COMPANY    number(10) NULL,
+    POLICYNUMBER  varchar2(10) NULL,
+    COVERAGES  varchar2(4000) NULL,
+    LIMITS  varchar2(50) NULL,
+    ADDED_BY_USER  varchar2(50)  NULL,
+    UPDATED_BY_USER  varchar2(50)  NULL,
+    DTTM_RCD_LAST_UPD  varchar2(14) NULL,
+    DTTM_RCD_ADDED  varchar2(14) NULL,
+    ASSIGNADJ_EID    number(10) NULL,
+    STAGING_ID    number(10) NULL,
+      FINANCIAL_KEY_FLAG    number(10) NULL ,      
+    OWNER_LAST_NAME  varchar2(255) NULL, --RS
+    OWNER_FIRST_NAME  varchar2(255) NULL,  
+    OWNER_TAX_ID  varchar2(20) NULL,
+    POLICYHOLDER_LAST_NAME  varchar2(255) NULL,
+    POLICYHOLDER_FIRST_NAME  varchar2(255) NULL,  
+    POLICYHOLDER_TAX_ID  varchar2(20) NULL,
+    COMPANY_LAST_NAME  varchar2(255) NULL,
+    COMPANY_FIRST_NAME  varchar2(255)NULL,  
+    COMPANY_TAX_ID  varchar2(20) NULL,
+    ASSIGNADJ_LAST_NAME  varchar2(255) NULL,
+    ASSIGNADJ_FIRST_NAME  varchar2(255) NULL,  
+    ASSIGNADJ_TAX_ID  varchar2(20) NULL
+)';
+
+  EXECUTE IMMEDIATE 'ALTER TABLE CLAIM_X_PROPERTYLOSS ADD CONSTRAINT PK_CLAIM_X_PROPERTYLOSS PRIMARY KEY (JOBID,DA_ROW_ID)';
+
+END IF;
+END; 
+
+--==========================================================
+---CREATE T_DIS_CLAIM_X_PROPERTYLOSS table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='T_DIS_CLAIM_X_PROPERTYLOSS';
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE T_DIS_CLAIM_X_PROPERTYLOSS';
+iExists := 0 ;
+END IF;
+IF iExists = 0 THEN
+  EXECUTE IMMEDIATE 'CREATE TABLE T_DIS_CLAIM_X_PROPERTYLOSS (
+     JOBID  number(10) NOT NULL,
+    DA_ROW_ID  number(10) NOT NULL,    
+    CLAIM_ID  varchar2(25) NULL, --RS
+    PROPERTYTYPE  varchar2(25) NULL,    
+    LOCOFTHEFT  varchar2(25) NULL
+)';
+  EXECUTE IMMEDIATE 'ALTER TABLE T_DIS_CLAIM_X_PROPERTYLOSS ADD CONSTRAINT PK_T_DIS_CLAIM_X_PROPERTYLOSS PRIMARY KEY (JOBID,DA_ROW_ID)';
+
+END IF;
+END;
+
+--==========================================================
+---CREATE CLAIM_X_OTHERUNIT table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='CLAIM_X_OTHERUNIT';
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE CLAIM_X_OTHERUNIT';
+iExists := 0 ;
+END IF;
+IF iExists = 0 THEN
+  EXECUTE IMMEDIATE 'CREATE TABLE CLAIM_X_OTHERUNIT(
+      DA_ROW_ID  number(10) NOT NULL,
+    JOBID  number(10) NOT NULL,
+    INPUT_ROW_ID  number(10) NULL,
+    INVALID_ROW  number(10) NULL,
+    UPDATE_ROW  number(10) NULL,    
+    ROW_ID  number(10)  NULL,
+    CLAIM_ID  number(10)  NULL,
+    OTHER_UNIT_ID  number(10)  NULL,
+    UNIT_TYPE  varchar2(10) NULL,
+    ADDED_BY_USER  varchar2(50)  NULL,
+    UPDATED_BY_USER  varchar2(50)  NULL,
+    DTTM_RCD_LAST_UPD  varchar2(14) NULL,
+    DTTM_RCD_ADDED  varchar2(14) NULL,
+    ISINSURED  number(10) NULL,
+    STAGING_ID  number(10) NULL,
+    FINANCIAL_KEY_FLAG  number(10) NULL ,
+    CLAIM_ID_SOURCE  varchar2(25)  NULL
+)';
+  EXECUTE IMMEDIATE 'ALTER TABLE CLAIM_X_OTHERUNIT ADD CONSTRAINT PK_CLAIM_X_OTHERUNIT PRIMARY KEY (JOBID,DA_ROW_ID)';
+END IF;
+END;
+
+--==========================================================
+---CREATE DRIVER table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='DRIVER';
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE DRIVER';
+iExists := 0 ;
+END IF;
+IF iExists = 0 THEN
+  EXECUTE IMMEDIATE 'CREATE TABLE DRIVER(
+    DA_ROW_ID  number(10) NOT NULL,
+    JOBID  number(10) NOT NULL,
+    INPUT_ROW_ID  number(10) NULL,
+    INVALID_ROW  number(10) NULL,
+    UPDATE_ROW  number(10) NULL,
+    DRIVER_ROW_ID  number(10)  NULL,
+    DRIVER_EID  number(10)  NULL,
+    DRIVER_TYPE  number(10)  NULL,
+    LICENCE_DATE  varchar2(8) NULL,
+    LICENCE_NUMBER  varchar2(50) NULL,
+    MARITAL_STAT_CODE  number(10) NULL,    
+    STAGING_ID  number(10) NULL,
+    PS_INS_LINE  varchar2(50) NULL,
+    PS_RISK_LOC varchar2(10) NULL,
+    PS_RISK_SUB_LOC varchar2(10) NULL,
+    PS_PRODUCT varchar2(50) NULL,
+    PS_DRIVER_ID  number(10)  NULL, 
+    PS_RECORD_STATUS varchar2(1) NULL,  
+    CLAIM_ID  varchar2(25) NULL, --RS
+    DRIVER_LAST_NAME  varchar2(255) NULL,
+    DRIVER_FIRST_NAME  varchar2(255) NULL,  
+    DRIVER_TAX_ID  varchar2(20) NULL,
+    POLICY_ID_SOURCE number(10) NULL ,
+    FINANCIAL_KEY_FLAG  number(10) NULL
+)';
+  EXECUTE IMMEDIATE 'ALTER TABLE DRIVER ADD CONSTRAINT PK_DRIVER PRIMARY KEY (JOBID,DA_ROW_ID)';
+END IF;
+END;
+
+--==========================================================
+---CREATE T_DIS_DRIVER table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='T_DIS_DRIVER';
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE T_DIS_DRIVER';
+iExists := 0 ;
+END IF;
+IF iExists = 0 THEN
+  EXECUTE IMMEDIATE 'CREATE TABLE T_DIS_DRIVER (
+    JOBID  number(10) NOT NULL,
+    DA_ROW_ID  number(10) NOT NULL,    
+    DRIVER_TYPE  varchar2(25)  NULL,
+    MARITAL_STAT_CODE  varchar2(25) NULL,
+    POLICY_ID_SOURCE  number(10)   NULL
+)';
+  EXECUTE IMMEDIATE 'ALTER TABLE T_DIS_DRIVER ADD CONSTRAINT PK_T_DIS_DRIVER PRIMARY KEY (JOBID,DA_ROW_ID)';
+END IF;
+END;
+
+ --==========================================================
+---CREATE PERSON_INVOLVED table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='PERSON_INVOLVED';
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE PERSON_INVOLVED';
+iExists := 0 ;
+END IF;
+IF iExists = 0 THEN
+  EXECUTE IMMEDIATE 'CREATE TABLE PERSON_INVOLVED (
+   DA_ROW_ID  number(10) NOT NULL,
+    JOBID  number(10) NOT NULL,
+    INPUT_ROW_ID  number(10) NULL,
+    INVALID_ROW  number(10) NULL,
+    UPDATE_ROW  number(10) NULL,
+    COUNTY_OF_RESIDNC  varchar2(50) NULL,
+    DRIVLIC_STATE  number(10) NULL,
+    EST_LEN_DISABILITY  number(10) NULL,
+    HIRED_IN_STE_FLAG  number(10) NULL,
+    INSURABLE_FLAG  number(10) NULL,
+    LAST_VERIFIED_DATE  varchar2(8) NULL,
+    NUM_OF_VIOLATIONS  number(10) NULL,
+    OSHA_ACC_DESC  varchar2(255) NULL,
+    OSHA_REC_FLAG  number(10) NULL,
+    REGULAR_JOB_FLAG  number(10) NULL,
+    TERM_DATE  varchar2(8) NULL,
+    WORK_PERMIT_DATE  varchar2(8) NULL,
+    WORK_PERMIT_NUMBER  varchar2(50) NULL,
+    WORKDAY_START_TIME  varchar2(6) NULL,
+    PI_ROW_ID  number(10) NULL,
+    EVENT_ID  number(10) NULL,
+    PI_EID  number(10) NULL,
+    PI_TYPE_CODE  number(10) NULL,
+    INJURY_ILLNESS_FLG  number(10) NULL,
+    DATE_OF_DEATH  varchar2(8) NULL,
+    REHAB_TEXT  varchar2(2000) NULL, --rs
+    DESC_BY_WITNESS  varchar2(2000) NULL, --rs
+    PATIENT_ACCT_NO  varchar2(20) NULL,
+    MEDICAL_RCD_NO  varchar2(12) NULL,
+    INS_PLAN_GROUP_NO  varchar2(16) NULL,
+    DATE_OF_ADMISSION  varchar2(8) NULL,
+    DATE_OF_DISCHARGE  varchar2(8) NULL,
+    ADM_TYPE_CODE  number(10) NULL,
+    ADM_SOURCE_CODE  number(10) NULL,
+    ADMISSION_REASON  varchar2(2000) NULL, --rs
+    ACUITY_LEVEL_CODE  number(10) NULL,
+    PATIENT_STAT_CODE  number(10) NULL,
+    PATIENT_COND_CODE  number(10) NULL,
+    DISCHARGE_DSP_CODE  number(10) NULL,
+    EXP_LENGTH_OF_STAY  number(10) NULL,
+    EXPECTED_COST  float  NULL,
+    QI_SIGNIF_CODE  number(10) NULL,
+    EPISODE_OF_CARE_ID  varchar2(8) NULL,
+    PATIENT_TYPE_CODE  number(10) NULL,
+    MARITAL_STAT_CODE  number(10) NULL,
+    RACE_ENTH_CODE  number(10) NULL,
+    WEIGHT  number(10) NULL,
+    PRIMARY_PAY_CODE  number(10) NULL,
+    EMERGENCY_CONTACT  varchar2(20) NULL,
+    EMERGENCY_CONT_NO  varchar2(20) NULL,
+    PATIENT_ROOM_NO  varchar2(14) NULL,
+    FACILITY_UNIT_CODE  number(10) NULL,
+    FACILITY_DEPT_EID  number(10) NULL,
+    HCO_ID_NO  varchar2(20) NULL,
+    HCO_SITE_ID_NO  varchar2(20) NULL,
+    WHY_AT_FACILITY  varchar2(2000) NULL, --rs
+    CLAIM_AMOUNT  float  NULL,
+    LOST_WORK_FLAG  number(10) NULL,
+    LEN_OF_SVC_DAYS  number(10) NULL,
+    POSITION_CODE  number(10) NULL,
+    DEPT_ASSIGNED_EID  number(10) NULL,
+    SUPERVISOR_EID  number(10) NULL,
+    EXEMPT_STATUS_FLAG  number(10) NULL,
+    NO_OF_EXEMPTIONS  number(10) NULL,
+    FULL_TIME_FLAG  number(10) NULL,
+    HOURLY_RATE  float  NULL,
+    WEEKLY_HOURS  float  NULL,
+    WEEKLY_RATE  float  NULL,
+    WORK_SUN_FLAG  number(10) NULL,
+    WORK_MON_FLAG  number(10) NULL,
+    WORK_TUE_FLAG  number(10) NULL,
+    WORK_WED_FLAG  number(10) NULL,
+    WORK_THU_FLAG  number(10) NULL,
+    WORK_FRI_FLAG  number(10) NULL,
+    WORK_SAT_FLAG  number(10) NULL,
+    DRIVERS_LIC_NO  varchar2(20) NULL,
+    DRIVERSLICTYPECODE  number(10) NULL,
+    DATE_DRIVERSLICEXP  varchar2(8) NULL,
+    DRIVLIC_RSTRCTCODE  number(10) NULL,
+    NCCI_CLASS_CODE  number(10) NULL,
+    COMMENTS  varchar2(255) NULL,
+    INJURY_CAT_CODE  number(10) NULL,
+    PAY_AMOUNT  float  NULL,
+    ACTIVE_FLAG  number(10) NULL,
+    EMPLOYEE_NUMBER  varchar2(20) NULL,
+    DATE_HIRED  varchar2(8) NULL,
+    DISABILITY_CODE  number(10) NULL,
+    ILLNESS_CODE  number(10) NULL,
+    PAY_TYPE_CODE  number(10) NULL,
+    LOST_CONSC_FLAG  number(10) NULL,
+    SEC_DEPT_EID  number(10) NULL,
+    PATIENT_ID  number(10) NULL,
+    EST_RTW_DATE  varchar2(8) NULL,
+    OSHA_ESTAB_EID  number(10) NULL,
+    MAJOR_HAND_CODE  number(10) NULL,
+    HRANGE_START_DATE  varchar2(8) NULL,
+    HRANGE_END_DATE  varchar2(8) NULL,
+    JOB_CLASS_CODE  number(10) NULL,
+    OTHER_TREATMENTS  varchar2(255) NULL,
+    OTHER_MEDCOND  varchar2(255) NULL,
+    STD_DISABIL_TYPE  number(10) NULL,
+    CUSTOM_FED_TAX_PER  float  NULL,
+    CUSTOM_SS_TAX_PER  float  NULL,
+    CUSTOM_MED_TAX_PER  float  NULL,
+    CUSTOM_ST_TAX_PER  float  NULL,
+    MONTHLY_RATE  float  NULL,
+    ELIG_DIS_BEN_FLAG  number(10) NULL,
+    DIS_OPTION_CODE  number(10) NULL,
+    HTMLCOMMENTS  varchar2(255) NULL,
+    CONF_FLAG  number(10) NULL,
+    CONF_EVENT_ID  number(10) NULL,
+    WHERE_INJ_TAKEN  varchar2(255) NULL,
+    WHAT_INJ_DOING varchar2(255) NULL,
+    DATE_DISABILITY_BEGAN  varchar2(8) NULL,
+    DATE_DISABILITY_END  varchar2(8) NULL,
+    PRE_EXISTING_COND_FLAG  number(10) NULL,
+    PRE_EXISTING_COND  number(10) NULL,
+    DIAGNOSIS_CODE  number(10) NULL,
+    COLLAT_SOURCES_DESC  number(10) NULL,
+    INJ_CON_WITH_POL_RPT_FLAG  number(10) NULL,
+    ER_HOSPITAL_FLAG  number(10) NULL,
+    CAT_INJURY_FLAG  number(10) NULL,
+    MEDICATIONS  varchar2(200) NULL,
+    FILE_CLOSING_DATE  varchar2(8) NULL,
+    SYMPTOMS_DESC  varchar2(200) NULL,
+    INJ_DEPT_EID  number(10) NULL,
+    DELETED_DATE  varchar2(14) NULL,
+    INJURYCAUSE_CODE  number(10) NULL,
+    PROGNOSIS  varchar2(255) NULL,
+    IMPAIRMENT_FLAG  number(10) NULL,
+    DAILY_HOURS  float  NULL,
+    DAILY_RATE  float  NULL,
+    WEEKLY_OFFSET  float  NULL,
+    GROSS_EARNINGS  float  NULL,
+    DRIVER_ROW_ID  number(10) NULL,
+    POLICY_UNIT_ROW_ID  number(10) NULL,
+    PARENT_TABLE_NAME  varchar2(50) NULL,
+    STAGING_ID  number(10) NULL,
+    Financial_Key_FLAG  number(10) NULL,
+    POLICY_ID  number(10) NULL, --RS
+    LAST_NAME  varchar2(255) NULL,
+    FIRST_NAME  varchar2(255) NULL,  
+    TAX_ID  varchar2(20) NULL,
+    ENTITY_TABLE_ID_SOURCE varchar2(30) NULL,
+    ABBREVIATION  varchar2(25) NULL,
+    COUNTY_OF_RESIDNC_SOURCE  varchar2(50) NULL,    
+    PI_LAST_NAME  varchar2(255) NULL,
+    PI_FIRST_NAME  varchar2(255) NULL,  
+    PI_TAX_ID  varchar2(20) NULL,
+    FACILITY_DEPT_EID_SOURCE  varchar2(25) NULL,
+    DEPT_ASSIGNED_EID_SOURCE  varchar2(25) NULL,
+    SUPERVISOR_EID_SOURCE  varchar2(25) NULL,
+    SEC_DEPT_EID_SOURCE  varchar2(25) NULL,
+    PATIENT_ID_SOURCE  varchar2(20) NULL,  
+    OSHA_ESTAB_EID_SOURCE  varchar2(25) NULL,
+    CLIENT_SEQ_NUM_SOURCE   varchar2(30) NULL,
+    PARENT_TABLE_NAME_SOURCE  varchar2(30) NULL,  
+    MONTHLY_RATE_SOURCE  float  NULL, --RS END 
+  STAGING_RECORD  number(10) NULL,
+    PI_TYPE_CODE_SOURCE   varchar2(25) NULL,  
+    BENEFICIARY_CODE number(10) NULL, --hmi makur24
+    EXTERNAL_ROLE varchar2(20) NULL,
+    ADD_AS_CLAIMANT varchar2(1) NULL, 
+    BIRTH_DATE varchar2(8) NULL,
+      ROLE_TABLE_ID number(10) NULL ,
+      PARENT_ROW_ID number(10) NULL, 
+ENTITY_TABLE_ID number(10) NULL
+)';
+  EXECUTE IMMEDIATE 'ALTER TABLE PERSON_INVOLVED ADD CONSTRAINT PK_PERSON_INVOLVED PRIMARY KEY (JOBID,DA_ROW_ID)';
+END IF;
+END;
+
+
+--==========================================================
+---CREATE T_DIS_PERSON_INVOLVED table 
+--============================================================
+
+
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='T_DIS_PERSON_INVOLVED';
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE T_DIS_PERSON_INVOLVED';
+iExists := 0 ;
+END IF;
+IF iExists = 0 THEN
+  EXECUTE IMMEDIATE 'CREATE TABLE  T_DIS_PERSON_INVOLVED (
+     JOBID  number(10) NOT NULL,
+    DA_ROW_ID  number(10) NOT NULL,
+    POLICY_ID  number(10) NULL,    
+  DRIVLIC_STATE  varchar2(25)  NULL,
+  PI_TYPE_CODE  varchar2(25)  NULL,
+  ADM_TYPE_CODE  varchar2(25)  NULL,
+  ADM_SOURCE_CODE  varchar2(25)  NULL,  
+  ACUITY_LEVEL_CODE  varchar2(25)  NULL,
+  PATIENT_STAT_CODE  varchar2(25)  NULL,
+  PATIENT_COND_CODE  varchar2(25)  NULL,
+  DISCHARGE_DSP_CODE  varchar2(25)  NULL,
+  QI_SIGNIF_CODE varchar2(25)  NULL,
+  PATIENT_TYPE_CODE  varchar2(25)  NULL,
+  MARITAL_STAT_CODE  varchar2(25)  NULL,
+  RACE_ENTH_CODE  varchar2(25)  NULL,
+  PRIMARY_PAY_CODE  varchar2(25)  NULL,
+  FACILITY_UNIT_CODE  varchar2(25)  NULL,    
+  POSITION_CODE varchar2(25) NULL,  
+  DRIVERSLICTYPECODE varchar2(25)  NULL,  
+  DRIVLIC_RSTRCTCODE  varchar2(25)  NULL,
+  NCCI_CLASS_CODE  varchar2(25)  NULL,  
+  INJURY_CAT_CODE  varchar2(25)  NULL,  
+  DISABILITY_CODE  varchar2(25)  NULL,
+  ILLNESS_CODE  varchar2(25)  NULL,
+  PAY_TYPE_CODE  varchar2(25)  NULL,  
+  MAJOR_HAND_CODE  varchar2(25)  NULL,  
+  JOB_CLASS_CODE  varchar2(25) NULL,
+  STD_DISABIL_TYPE  varchar2(25)  NULL,
+  DIS_OPTION_CODE  varchar2(25)  NULL,  
+  DIAGNOSIS_CODE  varchar2(25)  NULL,  
+  INJURYCAUSE_CODE  varchar2(25)  NULL,  
+  BENEFICIARY_CODE varchar2(25)  NULL
+)';
+  EXECUTE IMMEDIATE 'ALTER TABLE T_DIS_PERSON_INVOLVED ADD CONSTRAINT PK_T_DIS_PERSON_INVOLVED PRIMARY KEY (JOBID,DA_ROW_ID)';
+END IF;
+END;
+--============================================================
+--CREATE SALVAGE TABLE 
+--------------------------------------------------------------
+
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='SALVAGE';
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE SALVAGE';
+iExists := 0 ;
+END IF;
+IF iExists = 0 THEN 
+EXECUTE IMMEDIATE 'CREATE TABLE SALVAGE (
+    DA_ROW_ID  number(10) NOT NULL,
+  JOBID  number(10) NOT NULL,
+  INPUT_ROW_ID  number(10) NULL,
+  INVALID_ROW  number(10) NULL,
+  UPDATE_ROW  number(10) NULL,
+  SALVAGE_ROW_ID  number(10) NULL,
+  PARENT_NAME  varchar2(50) NULL,
+  IS_INSURED  number(10) NULL,
+  IS_OWNER_RETAINED  number(10) NULL,
+  SALVAGE_TYPE  number(10) NULL,
+  POSSESSION_OF  number(10) NULL,
+  CONTROLNUMBER  varchar2(50) NULL,
+  SALVAGE_STATUS  number(10) NULL,
+  MOVE_DATE  varchar2(8) NULL,
+  CLOSE_DATE  varchar2(8) NULL,
+  STOCKNUMBER  varchar2(50) NULL,
+  CUTOFF_DATE  varchar2(8) NULL,
+  DAILYFEES  float  NULL,
+  CUTOFFREASON  number(10) NULL,
+  APPRAISED_DATE  varchar2(8) NULL,
+  ACT_CASH_VALUE  float  NULL,
+  EST_SALVAGE_VALUE  float  NULL,
+  TOW_CHARGE  float  NULL,
+  STORAGE_VALUE  float  NULL,
+  OTHER_CHARGES  float  NULL,
+  TOTAL_CHARGES  float  NULL,
+  SOLD_DATE  varchar2(8) NULL,
+  NETRECOVERY  float  NULL,
+  SALE_PRICE  float  NULL,
+  RECOVERY_RATE  number(10) NULL,
+  PARENT_ID  number(10)  NULL,
+  BUYER_EID  number(10) NULL,
+  SALVAGE_YARD_ADDR_ID  number(10) NULL,
+  MILEAGE  number(10) NULL,
+  TITLE_NUMBER  varchar2(15) NULL,
+  STATE_BRAND_CODE  number(10) NULL,
+  THEFT_RECOVERED  number(10) NULL,
+  SALVAGE_DSGND_DATE  varchar2(8) NULL,
+  SALVAGE_REASON  varchar2(4000) NULL,
+ STAGING_ID  number(10) NULL,
+  FINANCIAL_KEY_FLAG  number(10) NULL ,
+  BUYER_FIRST_NAME  varchar2(255) NULL, --RS
+    BUYER_LAST_NAME  varchar2(255) NULL,
+    BUYER_TAX_ID   varchar2(20) NULL
+  )';
+EXECUTE IMMEDIATE
+'ALTER TABLE SALVAGE ADD CONSTRAINT PK_SALVAGE  PRIMARY KEY (DA_ROW_ID, JOBID)';
+END IF;
+END;
+--============================================================
+--CREATE T_DIS_SALVAGE TABLE 
+--------------------------------------------------------------
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='T_DIS_SALVAGE';
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE T_DIS_SALVAGE';
+iExists := 0 ;
+END IF;
+IF iExists = 0 THEN EXECUTE IMMEDIATE
+'CREATE TABLE T_DIS_SALVAGE (
+   UNIT_ID  number(10) NULL,
+    JOBID  number(10) NOT NULL,
+    DA_ROW_ID  number(10) NOT NULL,
+    CUTOFFREASON  varchar2(25) NULL,
+    SALVAGE_TYPE  varchar2(25) NULL,
+    SALVAGE_STATUS  varchar2(25) NULL,    
+    STATE_BRAND_CODE varchar2(25) NULL
+    )';
+EXECUTE IMMEDIATE
+'ALTER TABLE T_DIS_SALVAGE ADD CONSTRAINT PK_T_DIS_SALVAGE  PRIMARY KEY (DA_ROW_ID, JOBID)';
+END IF;
+END;
+
+--============================================================
+--CREATE POL_COV_LIMIT TABLE 
+--------------------------------------------------------------
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='POL_COV_LIMIT';
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE POL_COV_LIMIT';
+iExists := 0;
+END IF;
+IF iExists = 0 THEN EXECUTE IMMEDIATE  'CREATE TABLE POL_COV_LIMIT(
+      DA_ROW_ID  NUMBER(10) NOT NULL,
+  JOBID  NUMBER(10) NOT NULL,
+  INPUT_ROW_ID  NUMBER(10) NULL,
+  INVALID_ROW  NUMBER(10) NULL,
+  UPDATE_ROW  NUMBER(10) NULL,
+  LIMIT_ROW_ID  NUMBER(10) null,
+  POLICY_KEY  VARCHAR2 (50) NULL,
+  COVERAGE_KEY   VARCHAR2 (100) NULL,
+  LIMIT_TYPE_CODE  NUMBER(10) NULL,
+  LIMIT_AMOUNT  float  NULL,
+  STAGING_ID NUMBER(10) NULL,
+  FINANCIAL_KEY_FLAG  NUMBER(10) NULL ,
+  POLICY_KEY_SOURCE  NUMBER(10) NULL, --RS
+  COVERAGE_KEY_SOURCE   NUMBER(10) NULL
+)';
+
+EXECUTE IMMEDIATE
+'ALTER TABLE POL_COV_LIMIT ADD CONSTRAINT PK_POL_COV_LIMIT PRIMARY KEY (DA_ROW_ID, JOBID)';
+
+ END IF;
+END;
+
+
+--============================================================
+--CREATE T_DIS_POL_COV_LIMIT TABLE 
+--------------------------------------------------------------
+
+-----
+
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='T_DIS_POL_COV_LIMIT';
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE T_DIS_POL_COV_LIMIT';
+iExists := 0;
+END IF;
+IF iExists = 0 
+THEN EXECUTE IMMEDIATE   'CREATE TABLE T_DIS_POL_COV_LIMIT(
+      DA_ROW_ID  number(10) NOT NULL,
+        JOBID  number(10) NOT NULL,  
+        LIMIT_TYPE_CODE  varchar2 (25) NULL
+)';
+EXECUTE IMMEDIATE
+'ALTER TABLE T_DIS_POL_COV_LIMIT ADD CONSTRAINT PK_T_DIS_POL_COV_LIMIT PRIMARY KEY (DA_ROW_ID, JOBID)';
+ END IF;
+END;
+
+
+--============================================================
+--CREATE PS_ENDORSEMENT TABLE 
+--------------------------------------------------------------
+
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='PS_ENDORSEMENT';
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE PS_ENDORSEMENT';
+iExists := 0;
+END IF;
+IF iExists = 0 
+THEN EXECUTE IMMEDIATE 'CREATE TABLE PS_ENDORSEMENT (
+  DA_ROW_ID  number(10) NOT NULL,
+  JOBID  number(10) NOT NULL,
+  INPUT_ROW_ID  number(10) NULL,
+  INVALID_ROW  number(10) NULL,
+  UPDATE_ROW  number(10) NULL,  
+  ENDORSEMENT_ID  number(10) NULL,
+  POLICY_ID  number(10) NULL,
+  TABLE_ID  number(10) NULL,
+  ROW_ID  number(10) NULL,
+  FORM_NUMBER  varchar2(14) NULL,
+  FORM_DATE  varchar2(14) NULL,
+  FORM_DESCRIPTION  varchar2(100) NULL,
+  STAT  varchar2(50) NULL,
+  INS_LINE  varchar2(50) NULL,
+  LOC  varchar2(50) NULL,
+  BLDG  varchar2(50) NULL,
+  UNIT  varchar2(50) NULL,
+  FORM_ACTION  varchar2(100) NULL,
+  EZ_SCM  varchar2(50) NULL,
+  DATA  varchar2(50) NULL,
+  ITERATIVE  varchar2(50) NULL,
+  DTTM_RCD_ADDED  varchar2(50) NULL,
+  ADDED_BY_USER  varchar2(50) NULL,
+  EDITIONDATE  varchar2(14) NULL,
+  RATEOP  varchar2(50) NULL,
+  ENTRYDTE  varchar2(14) NULL,
+  STAGING_ID  number(10) NULL,
+  FINANCIAL_KEY_FLAG  number(10) NULL ,
+  TABLE_NAME  varchar2 (30) NULL
+   )';
+  EXECUTE IMMEDIATE
+'ALTER TABLE PS_ENDORSEMENT ADD CONSTRAINT PK_PS_ENDORSEMENT PRIMARY KEY (DA_ROW_ID, JOBID)';
+ END IF;
+END;
+
+--============================================================
+--CREATE POLICY_X_STATE TABLE 
+--------------------------------------------------------------
+
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='POLICY_X_STATE';
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE POLICY_X_STATE';
+iExists := 0;
+END IF;
+
+IF iExists = 0 THEN EXECUTE IMMEDIATE
+'CREATE TABLE POLICY_X_STATE (
+  DA_ROW_ID number(10) NOT NULL,
+  JOBID number(10) NOT NULL,
+  INPUT_ROW_ID number(10) NULL,
+  INVALID_ROW number(10) NULL,
+  UPDATE_ROW number(10) NULL,
+  POLICY_ID number(10) NULL,
+  STATE_ID number(10) NULL,
+  STAGING_ID number(10) NULL,
+  FINANCIAL_KEY_FLAG number(10) NULL ,
+  STATE_ID_SOURCE VARCHAR2 (25) NULL
+   )';
+  EXECUTE IMMEDIATE
+'ALTER TABLE POLICY_X_STATE ADD CONSTRAINT PK_POLICY_X_STATE PRIMARY KEY (DA_ROW_ID, JOBID)';
+
+ END IF;
+END;
+--==========================================================
+---CREATE POINT_UNIT_DATA table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='POINT_UNIT_DATA';
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE POINT_UNIT_DATA';
+iExists := 0 ;
+END IF;
+IF iExists = 0 THEN
+  EXECUTE IMMEDIATE 'CREATE TABLE POINT_UNIT_DATA(
+     DA_ROW_ID  number(10) NOT NULL,
+     JOBID  number(10) NOT NULL,
+     INPUT_ROW_ID  number(10) NULL,
+     INVALID_ROW  number(10) NULL,
+     UPDATE_ROW  number(10) NULL,
+     ROW_ID  number(10)  NULL,
+     UNIT_ID  number(10) NULL,
+     UNIT_TYPE  varchar2(10) NULL,
+     UNIT_NUMBER  varchar2(10) NULL,
+     UNIT_RISK_LOC  varchar2(10) NULL,
+     UNIT_RISK_SUB_LOC  varchar2(10) NULL,
+     SITE_SEQ_NUMBER  varchar2(10) NULL,
+     PRODUCT  varchar2(50) NULL,
+     INS_LINE  varchar2(50) NULL,
+     STAT_UNIT_NUMBER  varchar2(10) NULL,
+     STAGING_ID  number(10) NULL,
+     INC_CLAIMANT  number(10) NULL,
+     INC_POL_COVERAGE  number(10) NULL,
+     INC_LOSS_TYPE  number(10) NULL,
+     INC_RSVTYPE  number(10) NULL,  
+     POLICY_ID_SOURCE  number(10)  NULL
+)';
+  EXECUTE IMMEDIATE 'ALTER TABLE POINT_UNIT_DATA ADD CONSTRAINT PK_POINT_UNIT_DATA PRIMARY KEY (JOBID,DA_ROW_ID)';
+
+END IF;
+END;
+--==========================================================
+---CREATE T_DIS_POINT_UNIT_DATA table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='T_DIS_POINT_UNIT_DATA';
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE T_DIS_POINT_UNIT_DATA';
+iExists := 0 ;
+END IF;
+IF iExists = 0 THEN
+  EXECUTE IMMEDIATE 'CREATE TABLE T_DIS_POINT_UNIT_DATA (
+         JOBID  number(10) NOT NULL,
+     DA_ROW_ID  number(10) NOT NULL,
+     POLICY_ID  number(10)  NULL,
+     UNIT_ID  number(10)  NULL
+)';
+  EXECUTE IMMEDIATE 'ALTER TABLE T_DIS_POINT_UNIT_DATA ADD CONSTRAINT PK_T_DIS_POINT_UNIT_DATA PRIMARY KEY (JOBID,DA_ROW_ID)';
+
+END IF;
+END;
+
+
+--==========================================================
+---CREATE CLAIM_X_POLICY table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='CLAIM_X_POLICY';
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE CLAIM_X_POLICY';
+iExists := 0 ;
+END IF;
+IF iExists = 0 THEN
+
+  EXECUTE IMMEDIATE 'CREATE TABLE CLAIM_X_POLICY(
+       JOBID  number(10) NOT NULL,
+   DA_ROW_ID  number(10) NOT NULL,
+   ROW_ID  number(10) NOT NULL,
+   CLAIM_ID  number(10) NOT NULL,
+   POLICY_ID  number(10) NOT NULL
+)';
+  EXECUTE IMMEDIATE 'ALTER TABLE CLAIM_X_POLICY ADD CONSTRAINT PK_CLAIM_X_POLICY PRIMARY KEY (DA_ROW_ID,JOBID)';
+END IF;
+END;
+
+--==========================================================
+---CREATE POLICY_X_UNIT table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='POLICY_X_UNIT';
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE POLICY_X_UNIT';
+iExists := 0 ;
+END IF;
+IF iExists = 0 THEN
+
+  EXECUTE IMMEDIATE 'CREATE TABLE POLICY_X_UNIT(
+         JOBID  number(10) NOT NULL,
+ DA_ROW_ID  number(10) NOT NULL,
+ UPDATE_ROW number(10) NULL,
+ POLICY_UNIT_ROW_ID  number(10)  NULL,
+ POLICY_ID  number(10) NULL,
+ UNIT_ID  number(10) NULL,
+ UNIT_TYPE   varchar (10) NULL,
+ STAGING_ID number(10) NULL
+)';
+  EXECUTE IMMEDIATE 'ALTER TABLE POLICY_X_UNIT ADD CONSTRAINT PK_POLICY_X_UNIT PRIMARY KEY (DA_ROW_ID,JOBID)';
+END IF;
+END;
+
+ -----------------------------------------------mkaur24 HMI Related Tables Start -------------------------------
+ --==========================================================
+---CREATE COVERAGE_BENEFIT table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='COVERAGE_BENEFIT';
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE COVERAGE_BENEFIT';
+iExists := 0 ;
+END IF;
+IF iExists = 0 THEN
+
+  EXECUTE IMMEDIATE 'CREATE TABLE COVERAGE_BENEFIT(
+           DA_ROW_ID   number(10) NOT NULL,
+   JOBID   number(10) NOT NULL,
+   INPUT_ROW_ID   number(10) NULL,
+   INVALID_ROW   number(10) NULL,
+   UPDATE_ROW   number(10) NULL,
+   CVG_ROW_ID   number(10) null,
+   BENEFIT_AMOUNT   float  NULL,
+   BENEFIT_OPTION  varchar2(4) NULL,
+   BENEFIT_TYPE   number(10) NULL,
+   ACC_BEN_PERIOD_CODE   number(10) NULL,
+   ACC_ELIM_PERIOD_CODE   number(10) NULL,
+   SICK_BEN_PERIOD_CODE   number(10) NULL,
+   SICK_ELIM_PERIOD_CODE   number(10) NULL,
+   CVG_ROW_ID_SOURCE number(10) NULL,
+	POLCVG_ROW_ID_SOURCE number(10) NULL,
+	FINANCIAL_KEY_FLAG number(10) NULL 
+   
+   
+   
+)';
+  EXECUTE IMMEDIATE 'ALTER TABLE COVERAGE_BENEFIT ADD CONSTRAINT PK_COVERAGE_BENEFIT PRIMARY KEY (DA_ROW_ID,JOBID)';
+END IF;
+END;
+ 
+ --==========================================================
+---CREATE T_DIS_COVERAGE_BENEFIT table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='T_DIS_COVERAGE_BENEFIT';
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE T_DIS_COVERAGE_BENEFIT';
+iExists := 0 ;
+END IF;
+IF iExists = 0 THEN
+
+  EXECUTE IMMEDIATE 'CREATE TABLE T_DIS_COVERAGE_BENEFIT(
+             DA_ROW_ID  number(10) NOT NULL,
+   JOBID  number(10) NOT NULL,
+   INPUT_ROW_ID  number(10) NULL,
+   INVALID_ROW  number(10) NULL,
+   UPDATE_ROW  number(10) NULL,
+   CVG_ROW_ID  number(10) null,
+   BENEFIT_TYPE  VARCHAR2(25) NULL,
+   ACC_BEN_PERIOD_CODE  VARCHAR2(25) NULL,
+   ACC_ELIM_PERIOD_CODE  VARCHAR2(25) NULL,
+   SICK_BEN_PERIOD_CODE  VARCHAR2(25) NULL,
+   SICK_ELIM_PERIOD_CODE  VARCHAR2(25) NULL,
+   POLCVG_ROW_ID_SOURCE number(10) null
+)';
+  EXECUTE IMMEDIATE 'ALTER TABLE T_DIS_COVERAGE_BENEFIT ADD CONSTRAINT PK_T_DIS_COVERAGE_BENEFIT PRIMARY KEY (DA_ROW_ID,JOBID)';
+END IF;
+END;
+ 
+  --==========================================================
+---CREATE INSURED_UNIT table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='INSURED_UNIT';
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE INSURED_UNIT';
+iExists := 0 ;
+END IF;
+IF iExists = 0 THEN
+
+  EXECUTE IMMEDIATE 'CREATE TABLE INSURED_UNIT (
+             DA_ROW_ID  number(10) NOT NULL,
+   JOBID  number(10) NOT NULL,
+   INPUT_ROW_ID  number(10) NULL,
+   INVALID_ROW  number(10) NULL,
+   UPDATE_ROW  number(10) NULL,
+   POLICY_ID number(10) NULL,
+   ENTITY_ID number(10) NULL,
+   UNIT_ID number(10) NULL,
+   POLICY_ID_SOURCE  number(10) NULL ,
+	ENTITY_ID_SOURCE number(10) NULL ,
+	UNIT_ID_SOURCE number(10) NULL ,
+	FINANCIAL_KEY_FLAG number(10) NULL
+)';
+  EXECUTE IMMEDIATE 'ALTER TABLE INSURED_UNIT ADD CONSTRAINT PK_INSURED_UNIT PRIMARY KEY (DA_ROW_ID,JOBID)';
+END IF;
+END;
+
+  --==========================================================
+---CREATE CLAIM_X_INSUREDUNIT table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='CLAIM_X_INSUREDUNIT';
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE CLAIM_X_INSUREDUNIT';
+iExists := 0 ;
+END IF;
+IF iExists = 0 THEN
+
+  EXECUTE IMMEDIATE 'CREATE TABLE CLAIM_X_INSUREDUNIT (
+             DA_ROW_ID  number(10) NOT NULL,
+   JOBID  number(10) NOT NULL,
+   INPUT_ROW_ID  number(10) NULL,
+   INVALID_ROW  number(10) NULL,
+   UPDATE_ROW  number(10) NULL,
+   CLAIM_ID number(10) NULL,
+   INSURED_UNIT_ID number(10) NULL,
+   UNIT_TYPE varchar2(10) NULL,
+   ADDED_BY_USER  varchar2(50)  NULL,
+   UPDATED_BY_USER  varchar2(50)  NULL,
+   DTTM_RCD_LAST_UPD  varchar2(14) NULL,
+   DTTM_RCD_ADDED  varchar2(14) NULL,
+   INCIDENT_LOCATION varchar2(100) NULL,
+   INCIDENT_DESCRIPTION varchar2(100) NULL,
+   OCCUPATION varchar2(50) NULL,
+   AGE_LAST_RCD varchar2(50) NULL,
+   ISINSURED  number(10) NULL,
+   ISSUICIDE  number(10) NULL,
+   CLAIM_ID_SOURCE varchar2(25) NULL,
+   INSURED_UNIT_ID_SOURCE number(10) NULL,
+   FINANCIAL_KEY_FLAG number(10) NULL 
+)';
+  EXECUTE IMMEDIATE 'ALTER TABLE CLAIM_X_INSUREDUNIT ADD CONSTRAINT PK_CLAIM_X_INSUREDUNIT PRIMARY KEY (DA_ROW_ID,JOBID)';
+END IF;
+END;
+ 
+
+
+
+
+--mkaur24 POLICY RESTRUCTURING TABLES ENDS
+
+
+
+
+
+--==========================================================
+---CREATE FTS_X_REMARKS table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='FTS_X_REMARKS';
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE FTS_X_REMARKS';
+iExists := 0 ;
+END IF;
+IF iExists = 0 THEN
+
+  EXECUTE IMMEDIATE 'CREATE TABLE FTS_X_REMARKS (
+  DA_ROW_ID number (10) NOT NULL,
+  JOBID number (10) NOT NULL,
+    UPDATE_ROW number NULL,
+	INVALID_ROW number(10) NULL,
+INPUT_ROW_ID number(10) NULL,
+SPLIT_ROW_ID number(10) NULL,
+EOB_REMARKS_CODE number(10) NULL
+
+)';
+
+  EXECUTE IMMEDIATE 'ALTER TABLE FTS_X_REMARKS ADD CONSTRAINT PK_FTS_X_REMARKS PRIMARY KEY (DA_ROW_ID,JOBID)';
+END IF;
+END;
+
+--==========================================================
+---CREATE T_DIS_FTS_X_REMARKS table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='T_DIS_FTS_X_REMARKS';
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE T_DIS_FTS_X_REMARKS';
+iExists := 0 ;
+END IF;
+IF iExists = 0 THEN
+
+  EXECUTE IMMEDIATE 'CREATE TABLE T_DIS_FTS_X_REMARKS (
+  DA_ROW_ID number (10) NOT NULL,
+  JOBID number (10) NOT NULL,
+    UPDATE_ROW number NULL,
+	INVALID_ROW number(10) NULL,
+INPUT_ROW_ID number(10) NULL,
+SPLIT_ROW_ID number(10) NULL,
+EOB_REMARKS_CODE varchar(25) NULL
+
+)';
+
+  EXECUTE IMMEDIATE 'ALTER TABLE T_DIS_FTS_X_REMARKS ADD CONSTRAINT PK_T_DIS_FTS_X_REMARKS PRIMARY KEY (DA_ROW_ID,JOBID)';
+END IF;
+END;
+
+
+
+--==========================================================
+---CREATE TEMP_JOBS_DOCUMENT table 
+--============================================================
+BEGIN
+SELECT COUNT(*) INTO iExists FROM USER_OBJECTS WHERE OBJECT_TYPE='TABLE' AND OBJECT_NAME='TEMP_JOBS_DOCUMENT';
+IF iExists != 0 THEN
+EXECUTE IMMEDIATE
+'DROP TABLE TEMP_JOBS_DOCUMENT';
+iExists := 0 ;
+END IF;
+IF iExists = 0 THEN
+
+  EXECUTE IMMEDIATE 'CREATE TABLE TEMP_JOBS_DOCUMENT(
+  TM_FILE_ID NUMBER(10) NOT NULL,
+  JOB_ID NUMBER(10) NOT NULL,
+  FILE_NAME varchar2(255) NULL,
+  FILE_DATA BLOB NULL,
+  CONTENT_TYPE varchar2(50)NULL,
+  CONTENT_LENGTH number(10) NULL,
+  OPTIONSET_ID NUMBER(10) NULL
+
+)';
+  
+END IF;
+END;
+
+
+END IF;
+END;
+
+
+
+

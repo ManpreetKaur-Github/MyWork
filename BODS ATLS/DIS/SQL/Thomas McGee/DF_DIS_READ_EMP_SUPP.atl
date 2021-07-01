@@ -1,0 +1,198 @@
+#__AW_Repository_Version '12.2.2.0000';
+#__AW_Product_Version '12.2.2.2';
+#__AW_ATL_Locale 'eng_us.utf-8';
+
+ AlGUIComment (ActaName_1 = 'RTable_Type',ActaValue_1 = 'TABLE' , 
+ActaName_2 = 'RDescription',ActaValue_2 = '' , 
+ActaName_3 = 'REstimated_Row_Count',ActaValue_3 = '50000' , 
+ActaName_4 = 'RSavedAfterCheckOut',ActaValue_4 = 'YES' , 
+ActaName_5 = 'RLoader_Is_Template_Table',ActaValue_5 = 'no' , 
+ActaName_6 = 'RDate_created',ActaValue_6 = 'Wed Jun 20 11:22:59 2012' , 
+ActaName_7 = 'RDate_last_loaded',ActaValue_7 = 'NotYetLoaded' )
+CREATE TABLE DS_MSACCESS_STAGING.DBO.EMP_SUPP(OPTIONSET_ID INT  NULL , 
+EMPLOYEE_EID INT  NULL , 
+MVR_ANNUAL_TEXT VARCHAR(15)  NULL , 
+VALID_LICEN_CODE INT  NULL , 
+DRVR_FREQ_TEXT VARCHAR(8)  NULL , 
+GRDE_PNT_TEXT VARCHAR(25)  NULL , 
+FCRA_AUTH_TEXT VARCHAR(6)  NULL , 
+DRVR_STAT_TEXT VARCHAR(15)  NULL , 
+POSITION_TITLE VARCHAR(35)  NULL ) 
+SET("db_alias_name" = 'DBO')
+;
+
+ AlGUIComment (ActaName_1 = 'RTable_Type',ActaValue_1 = 'TABLE' , 
+ActaName_2 = 'RDescription',ActaValue_2 = '' , 
+ActaName_3 = 'REstimated_Row_Count',ActaValue_3 = '50000' , 
+ActaName_4 = 'RSavedAfterCheckOut',ActaValue_4 = 'YES' , 
+ActaName_5 = 'RLoader_Is_Template_Table',ActaValue_5 = 'no' , 
+ActaName_6 = 'RDate_created',ActaValue_6 = 'Thu Jun 21 13:41:25 2012' , 
+ActaName_7 = 'RDate_last_loaded',ActaValue_7 = 'NotYetLoaded' )
+CREATE TABLE DS_RMX_STAGING.dbo.EMP_SUPP(DA_ROW_ID INT  NOT NULL , 
+JOBID INT  NOT NULL , 
+INPUT_ROW_ID INT  NULL , 
+INVALID_ROW INT  NULL , 
+UPDATE_ROW INT  NULL , 
+EMPLOYEE_EID INT  NULL , 
+MVR_ANNUAL_TEXT VARCHAR(15)  NULL , 
+VALID_LICEN_CODE INT  NULL , 
+DRVR_FREQ_TEXT VARCHAR(8)  NULL , 
+GRDE_PNT_TEXT VARCHAR(25)  NULL , 
+FCRA_AUTH_TEXT VARCHAR(6)  NULL , 
+DRVR_STAT_TEXT VARCHAR(15)  NULL , 
+POSITION_TITLE VARCHAR(35)  NULL , 
+EMP_EID_SOURCE INT  NULL ) 
+PRIMARY KEY (DA_ROW_ID, JOBID) 
+CREATE_INDEX PK_EMP_SUPP ON (DA_ROW_ID, JOBID) PRIMARY 
+SET("db_alias_name" = 'DBO')
+;
+ALGUICOMMENT( x = '-1', y = '-1' , "ActaName_1" = 'RSavedAfterCheckOut' , "ActaValue_1" = 'YES' , "ActaName_2" = 'RDate_created' , "ActaValue_2" = 'Wed Jun 20 11:23:00 2012' , "ActaName_3" = 'Rcolumn_mapping_calculated' , "ActaValue_3" = 'no' , "ActaName_4" = 'RDate_modified' , "ActaValue_4" = 'Thu Jun 21 17:08:16 2012' )
+CREATE DATAFLOW DF_DIS_READ_EMP_SUPP::'91be757e-904b-478c-8261-f2631117912d'
+
+BEGIN 
+ALGUICOMMENT( x = '449', y = '-460',UI_DATA_XML='<UIDATA><MAINICON><LOCATION><X>0</X><Y>0</Y></LOCATION><SIZE><CX>391</CX><CY>-182</CY></SIZE></MAINICON><DESCRIPTION><LOCATION><X>0</X><Y>-174</Y></LOCATION><SIZE><CX>200</CX><CY>200</CY></SIZE><VISIBLE>0</VISIBLE></DESCRIPTION></UIDATA>', UpperContainer_HeightProp = '65', InputSchema_WidthProp = '45', Input_Width_Description = '130', Output_Width_Decsription = '130', Input_Width_Type = '85', Output_Width_Type = '80', Output_Width_Mapping = '85', Input_Column_Width_3 = '100', Output_Column_Width_4 = '100', Input_Column_Width_4 = '100', Output_Column_Width_5 = '100', Input_1st_Column_Name = 'Type', Input_2nd_Column_Name = 'Description', Input_Column_Name_3 = 'Content_Type', Input_Column_Name_4 = 'Business_Name', Output_1st_Column_Name = 'Type', Output_2nd_Column_Name = 'Mapping', Output_3rd_Column_Name = 'Description', Output_Column_Name_4 = 'Content_Type', Output_Column_Name_5 = 'Business_Name' )
+GUID::'b7a10762-ce13-47cd-ab81-149f4afab9ca' READ TABLE DS_MSACCESS_STAGING.DBO.EMP_SUPP  OUTPUT ( EMP_SUPP ) SET (
+"array_fetch_size" = '1000',
+"cache" = 'yes',
+"connection_port" = 'no',
+"enable_partitioning" = 'no',
+"name" = 'DS_MSACCESS_STAGING',
+"package_size" = '0',
+"reader_is_DB2CDC_table" = 'no',
+"reader_overflow_file" = 'overflow_file',
+"reader_template_table" = 'no',
+"reader_use_overflow_file" = 'no',
+"reader_use_trex_transaction" = 'no',
+"table_weight" = '0');
+ALGUICOMMENT( x = '2452', y = '-463',UI_DATA_XML='<UIDATA><MAINICON><LOCATION><X>0</X><Y>0</Y></LOCATION><SIZE><CX>428</CX><CY>-182</CY></SIZE></MAINICON><DESCRIPTION><LOCATION><X>0</X><Y>-174</Y></LOCATION><SIZE><CX>200</CX><CY>200</CY></SIZE><VISIBLE>0</VISIBLE></DESCRIPTION></UIDATA>', UpperContainer_HeightProp = '65', InputSchema_WidthProp = '45', Input_Width_Description = '130', Output_Width_Decsription = '130', Input_Width_Type = '85', Output_Width_Type = '80', Output_Width_Mapping = '85', Input_Column_Width_3 = '100', Output_Column_Width_4 = '100', Input_Column_Width_4 = '100', Output_Column_Width_5 = '100', Input_1st_Column_Name = 'Type', Input_2nd_Column_Name = 'Description', Input_Column_Name_3 = 'Content_Type', Input_Column_Name_4 = 'Business_Name', Output_1st_Column_Name = 'Type', Output_2nd_Column_Name = 'Mapping', Output_3rd_Column_Name = 'Description', Output_Column_Name_4 = 'Content_Type', Output_Column_Name_5 = 'Business_Name', UI_PASSTHRU_VSPLIT_PCT = '50' )
+GUID::'f4f9a335-ed4a-4c15-ad38-bf687fdf5a76' LOAD TABLE DS_RMX_STAGING.DBO.EMP_SUPP  INPUT ( MO_READ_EMP_SUPP ) SET (
+"LDRLiveLoad" = 'no',
+"Table_Type" = 'TABLE',
+"connection_port" = 'no',
+"ldr_configuration_enabled" = 'yes',
+"ldr_configurations" = '<?xml version="1.0" encoding="UTF-8"?>
+<LDRConfigurations>
+<LDRConfiguration database_type="Microsoft_SQL_Server" database_version="Microsoft SQL Server 2008">
+<auto_correct_using_merge>yes</auto_correct_using_merge>
+<bulk_ldr_all_rows></bulk_ldr_all_rows>
+<bulk_ldr_max_errors></bulk_ldr_max_errors>
+<bulk_ldr_rows_per_commit>1000</bulk_ldr_rows_per_commit>
+<enable_partitioning>no</enable_partitioning>
+<ignore_column_case>yes</ignore_column_case>
+<ignore_columns_null>no</ignore_columns_null>
+<ignore_columns_value></ignore_columns_value>
+<loader_auto_correct>no</loader_auto_correct>
+<loader_bulk_load></loader_bulk_load>
+<loader_compare_column>compare_by_name</loader_compare_column>
+<loader_delete_map></loader_delete_map>
+<loader_drop_and_create_table>yes</loader_drop_and_create_table>
+<loader_insert_map></loader_insert_map>
+<loader_load_choice>append</loader_load_choice>
+<loader_num_parallel_loaders>1</loader_num_parallel_loaders>
+<loader_overflow_file></loader_overflow_file>
+<loader_post_load1></loader_post_load1>
+<loader_pre_load1></loader_pre_load1>
+<loader_quote_names>0</loader_quote_names>
+<loader_transactional>no</loader_transactional>
+<loader_transactional_order>0</loader_transactional_order>
+<loader_update_key_columns>no</loader_update_key_columns>
+<loader_update_map></loader_update_map>
+<loader_use_user_defined_keys>no</loader_use_user_defined_keys>
+<loader_xact_size>1000</loader_xact_size>
+<mssql_bulk_ldr_mode>append</mssql_bulk_ldr_mode>
+<mssql_bulk_ldr_packet_size>0</mssql_bulk_ldr_packet_size>
+<overflow_file_format>write_data</overflow_file_format>
+<overriding_substitution_parameter_for_tablename></overriding_substitution_parameter_for_tablename>
+<use_overflow_file>no</use_overflow_file>
+<use_unicode_varchar>no</use_unicode_varchar>
+<sql_text></sql_text>
+</LDRConfiguration>
+</LDRConfigurations>',
+"loader_template_table" = 'no',
+"name" = 'DS_RMX_STAGING',
+"use_unicode_varchar" = 'no');
+ALGUICOMMENT( x = '1018', y = '-459' , ui_acta_from_schema_0 = 'EMP_SUPP'  , ui_display_name = 'Q_ACCESS_TO_RMX_STAGING'  , ui_where_text = 'EMP_SUPP.OPTIONSET_ID = $gOptionSet_Id' ,UI_DATA_XML='<UIDATA><MAINICON><LOCATION><X>0</X><Y>0</Y></LOCATION><SIZE><CX>447</CX><CY>-163</CY></SIZE></MAINICON><DESCRIPTION><LOCATION><X>0</X><Y>-174</Y></LOCATION><SIZE><CX>200</CX><CY>200</CY></SIZE><VISIBLE>0</VISIBLE></DESCRIPTION></UIDATA>', UpperContainer_HeightProp = '53', InputSchema_WidthProp = '45', Input_Width_Description = '130', Output_Width_Decsription = '130', Input_Width_Type = '85', Output_Width_Type = '80', Output_Width_Mapping = '85', Input_Column_Width_3 = '100', Output_Column_Width_4 = '100', Input_Column_Width_4 = '100', Output_Column_Width_5 = '100', Input_1st_Column_Name = 'Type', Input_2nd_Column_Name = 'Description', Input_Column_Name_3 = 'Content_Type', Input_Column_Name_4 = 'Business_Name', Output_1st_Column_Name = 'Type', Output_2nd_Column_Name = 'Mapping', Output_3rd_Column_Name = 'Description', Output_Column_Name_4 = 'Content_Type', Output_Column_Name_5 = 'Business_Name', UI_PASSTHRU_VSPLIT_PCT = '50' )
+GUID::'d91b2fc4-f013-4b30-b05e-9c5ea7ae5ae5' CREATE VIEW Q_ACCESS_TO_RMX_STAGING ( DA_ROW_ID int KEY  SET("ui_mapping_text"='0') ,
+ JOBID int KEY  SET("ui_mapping_text"='$gJobId ') ,
+ INVALID_ROW int SET("ui_mapping_text"='1') ,
+ UPDATE_ROW int SET("ui_mapping_text"='0') ,
+ MVR_ANNUAL_TEXT varchar(15) SET("ui_mapping_text"='EMP_SUPP.MVR_ANNUAL_TEXT') ,
+ VALID_LICEN_CODE int SET("ui_mapping_text"='EMP_SUPP.VALID_LICEN_CODE') ,
+ DRVR_FREQ_TEXT varchar(8) SET("ui_mapping_text"='EMP_SUPP.DRVR_FREQ_TEXT') ,
+ GRDE_PNT_TEXT varchar(25) SET("ui_mapping_text"='EMP_SUPP.GRDE_PNT_TEXT') ,
+ FCRA_AUTH_TEXT varchar(6) SET("ui_mapping_text"='EMP_SUPP.FCRA_AUTH_TEXT') ,
+ DRVR_STAT_TEXT varchar(15) SET("ui_mapping_text"='EMP_SUPP.DRVR_STAT_TEXT') ,
+ POSITION_TITLE varchar(35) SET("ui_mapping_text"='EMP_SUPP.POSITION_TITLE') ,
+ EMP_EID_SOURCE int SET("ui_mapping_text"='EMP_SUPP.EMPLOYEE_EID')  ) 
+AS SELECT  0
+ 
+ ,
+ $gJobId
+ 
+ ,
+ 1
+ 
+ ,
+ 0
+ 
+ ,
+ EMP_SUPP.MVR_ANNUAL_TEXT
+ 
+ ,
+ EMP_SUPP.VALID_LICEN_CODE
+ 
+ ,
+ EMP_SUPP.DRVR_FREQ_TEXT
+ 
+ ,
+ EMP_SUPP.GRDE_PNT_TEXT
+ 
+ ,
+ EMP_SUPP.FCRA_AUTH_TEXT
+ 
+ ,
+ EMP_SUPP.DRVR_STAT_TEXT
+ 
+ ,
+ EMP_SUPP.POSITION_TITLE
+ 
+ ,
+ EMP_SUPP.EMPLOYEE_EID
+ 
+ 
+	FROM EMP_SUPP
+	WHERE EMP_SUPP.OPTIONSET_ID = $gOptionSet_Id
+ 
+ SET (
+"distinct_run_as_separate_process" = 'no',
+"group_by_run_as_separate_process" = 'no',
+"join_run_as_separate_process" = 'no',
+"order_by_run_as_separate_process" = 'no',
+"run_as_separate_process" = 'no');
+ALGUICOMMENT( x = '1635', y = '-460' , ui_display_name = 'KG_DA_ROW_ID',UI_DATA_XML='<UIDATA><MAINICON><LOCATION><X>0</X><Y>0</Y></LOCATION><SIZE><CX>310</CX><CY>-163</CY></SIZE></MAINICON><DESCRIPTION><LOCATION><X>0</X><Y>-174</Y></LOCATION><SIZE><CX>200</CX><CY>200</CY></SIZE><VISIBLE>0</VISIBLE></DESCRIPTION></UIDATA>', UpperContainer_HeightProp = '58', InputSchema_WidthProp = '45', Input_Width_Description = '130', Output_Width_Decsription = '130', Input_Width_Type = '85', Output_Width_Type = '80', Output_Width_Mapping = '85', Input_Column_Width_3 = '100', Output_Column_Width_4 = '100', Input_Column_Width_4 = '100', Output_Column_Width_5 = '100', Input_1st_Column_Name = 'Type', Input_2nd_Column_Name = 'Description', Input_Column_Name_3 = 'Content_Type', Input_Column_Name_4 = 'Business_Name', Output_1st_Column_Name = 'Type', Output_2nd_Column_Name = 'Mapping', Output_3rd_Column_Name = 'Description', Output_Column_Name_4 = 'Content_Type', Output_Column_Name_5 = '' )
+GUID::'b9ab3a6b-b693-4b80-9eb7-f7fe1642df41' CALL TRANSFORM Key_Generation ( ) 
+INPUT ( Q_ACCESS_TO_RMX_STAGING )
+OUTPUT ( KG_DA_ROW_ID_1() )
+SET ("database_datastore" = 'DS_RMX_STAGING',
+"generated_key_column" = 'DA_ROW_ID',
+"increment_value" = '1',
+"table_name" = 'EMP_SUPP',
+"table_owner" = 'DBO');
+ALGUICOMMENT( x = '2014', y = '-459' , ui_display_name = 'MO_READ_EMP_SUPP',UI_DATA_XML='<UIDATA><MAINICON><LOCATION><X>0</X><Y>0</Y></LOCATION><SIZE><CX>391</CX><CY>-163</CY></SIZE></MAINICON><DESCRIPTION><LOCATION><X>0</X><Y>-174</Y></LOCATION><SIZE><CX>200</CX><CY>200</CY></SIZE><VISIBLE>0</VISIBLE></DESCRIPTION></UIDATA>', UpperContainer_HeightProp = '39', InputSchema_WidthProp = '35', Input_Width_Description = '130', Output_Width_Decsription = '130', Input_Width_Type = '85', Output_Width_Type = '80', Output_Width_Mapping = '85', Input_Column_Width_3 = '100', Output_Column_Width_4 = '100', Input_Column_Width_4 = '100', Output_Column_Width_5 = '100', Input_1st_Column_Name = 'Type', Input_2nd_Column_Name = 'Description', Input_Column_Name_3 = 'Content_Type', Input_Column_Name_4 = 'Business_Name', Output_1st_Column_Name = 'Type', Output_2nd_Column_Name = 'Mapping', Output_3rd_Column_Name = 'Description', Output_Column_Name_4 = 'Content_Type', Output_Column_Name_5 = '' )
+GUID::'01c061b1-146d-498c-99d3-e062b9a02ea6' CALL TRANSFORM Map_Operation ( ) 
+INPUT ( KG_DA_ROW_ID_1 )
+OUTPUT ( MO_READ_EMP_SUPP() )
+SET ("delete" = 'discard',
+"insert" = 'discard',
+"normal" = 'insert',
+"update" = 'discard');
+END
+
+SET("Cache_type" = 'pageable_cache',
+"Parallelism_degree" = '0',
+"allows_both_input_and_output" = 'yes',
+"run_once" = 'no',
+"use_dataflow_links" = 'no',
+"use_datastore_links" = 'yes',
+"validation_xform_exists" = 'no',
+"validation_xform_stats" = 'no')

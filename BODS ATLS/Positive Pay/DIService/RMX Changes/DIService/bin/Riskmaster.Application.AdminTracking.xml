@@ -1,0 +1,421 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Riskmaster.Application.AdminTracking</name>
+    </assembly>
+    <members>
+        <member name="T:Riskmaster.Application.AdminTracking.ADMForms">
+             <summary>
+            Author  :   Pankaj Chowdhury
+            Dated   :   27th,Dec 2004
+            Purpose :   This is the main class that implements the functionality
+            				of Admin Tracking Web Forms. Returns XML string for each 
+            				of the public method called.
+             </summary>
+        </member>
+        <member name="F:Riskmaster.Application.AdminTracking.ADMForms.m_sConnString">
+            <summary>
+            Connection String Variable
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.AdminTracking.ADMForms.m_sDsn">
+            <summary>
+            Private variable for Dsn
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.AdminTracking.ADMForms.m_sUser">
+            <summary>
+            Private variable for User
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.AdminTracking.ADMForms.m_sPwd">
+            <summary>
+            Private variable for Password
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.AdminTracking.ADMForms.m_objParms">
+            <summary>
+            Parameters collection to hold key/value
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.AdminTracking.ADMForms.m_sImagePath">
+            <summary>
+            Private variable for Image Path
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.AdminTracking.ADMForms.m_objDmf">
+            <summary>
+            Private DataModelFactory Object
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Application.AdminTracking.ADMForms.#ctor(System.String,System.String,System.String)">
+             Name		: ADMForms
+             Author		: Pankaj Chowdhury
+             Date Created: 12/27/2004		
+            ************************************************************
+             Amendment History
+            ************************************************************
+             Date Amended   *   Amendment   *    Author
+            ************************************************************
+             <summary>
+             Constructor with Dsn,User,Password
+             </summary>
+             <param name="p_sDsn">Dsn Name</param>
+             <param name="p_sUser">User Name</param>
+             <param name="p_sPwd">Password</param>
+        </member>
+        <member name="M:Riskmaster.Application.AdminTracking.ADMForms.InitializeDataModel">
+             Name		: InitializeDataModel
+             Author		: Pankaj Chowdhury
+             Date Created: 12/27/2004		
+            ************************************************************
+             Amendment History
+            ************************************************************
+             Date Amended   *   Amendment   *    Author
+            ************************************************************
+             <summary>
+             Initialize DataModelFactory and Connection String
+             </summary>
+        </member>
+        <member name="M:Riskmaster.Application.AdminTracking.ADMForms.IsAttachmentEnabled(System.String)">
+             Name		: IsAttachmentEnabled
+             Author		: Pankaj Chowdhury
+             Date Created: 12/27/2004		
+            ************************************************************
+             Amendment History
+            ************************************************************
+             Date Amended   *   Amendment   *    Author
+            ************************************************************
+             <summary>
+             Checks for Attachment Flag
+             </summary>
+             <param name="p_sTableName">Table Name</param>
+             <returns>Boolean flag for Attachments</returns>
+        </member>
+        <member name="M:Riskmaster.Application.AdminTracking.ADMForms.RecordExists(System.Int32,System.String,System.String)">
+             Name		: RecordExists
+             Author		: Pankaj Chowdhury
+             Date Created: 12/27/2004		
+            ************************************************************
+             Amendment History
+            ************************************************************
+             Date Amended   *   Amendment   *    Author
+            ************************************************************
+             <summary>
+             Checks if Record with a particular Id exists in a Table
+             </summary>
+             <param name="p_iID">Record ID</param>
+             <param name="p_sKeyCol">Column Name</param>
+             <param name="p_sTableName">Table Name</param>
+             <returns>Boolean Flag</returns>
+        </member>
+        <member name="M:Riskmaster.Application.AdminTracking.ADMForms.GetADMTables">
+             Name		: GetADMTables
+             Author		: Pankaj Chowdhury
+             Date Created: 12/27/2004		
+            ************************************************************
+             Amendment History
+            ************************************************************
+             Date Amended   *   Amendment   *    Author
+            ************************************************************
+             <summary>
+             Gets the Table List
+             </summary>
+             <returns>Xml String for Table List</returns>
+        </member>
+        <member name="M:Riskmaster.Application.AdminTracking.ADMForms.GetADMXml(System.Xml.XmlDocument,Riskmaster.DataModel.ADMTable)">
+             Name		: GetADMXml
+             Author		: Pankaj Chowdhury
+             Date Created: 12/27/2004		
+            ************************************************************
+             Amendment History
+            ************************************************************
+             Date Amended   *   Amendment   *    Author
+             02/10/2005		   Changes related to LocalCache and Utilities -Pankaj
+            ************************************************************
+             <summary>
+             Gets the ADM Table XML
+             </summary>
+             <param name="p_objXmlDoc">XML Structure Input Document</param>
+             <param name="p_objAdmTbl">Admin Table</param>
+             <returns>Xml containing the admin Table</returns>
+        </member>
+        <member name="M:Riskmaster.Application.AdminTracking.ADMForms.GetFormDOM(System.String)">
+             Name		: GetFormDOM
+             Author		: Pankaj Chowdhury
+             Date Created: 12/27/2004		
+            ************************************************************
+             Amendment History
+            ************************************************************
+             Date Amended   *   Amendment   *    Author
+            ************************************************************
+             <summary>
+             Gets the DOM structure for the Table
+             </summary>
+             <param name="p_sTableName">Table Name</param>
+             <returns>Xml String corresponding to the DOM</returns>
+        </member>
+        <member name="M:Riskmaster.Application.AdminTracking.ADMForms.GetFormWithData(System.String,System.String,System.Int32,System.Int32)">
+             Name		: GetFormWithData
+             Author		: Pankaj Chowdhury
+             Date Created: 12/27/2004		
+            ************************************************************
+             Amendment History
+            ************************************************************
+             Date Amended   *   Amendment   *    Author
+            ************************************************************
+             <summary>
+             Gets the Data along with the Form Structure
+             </summary>
+             <param name="p_sInpXml">Input Xml</param>
+             <param name="p_sTableName">Table Name</param>
+             <param name="p_iNavDir">Navigation Direction</param>
+             <param name="p_iCurrPos">Current Position</param>
+             <returns>Xml String with Data and the Dom Structure</returns>
+        </member>
+        <member name="M:Riskmaster.Application.AdminTracking.ADMForms.DeleteRecord(System.String,System.Int32)">
+             Name		: DeleteRecord
+             Author		: Pankaj Chowdhury
+             Date Created: 12/27/2004		
+            ************************************************************
+             Amendment History
+            ************************************************************
+             Date Amended   *   Amendment   *    Author
+            ************************************************************
+             <summary>
+             Deletes a Particular Record from the DataBase
+             </summary>
+             <param name="p_sTableName">Table Name</param>
+             <param name="p_iRecId">Record Id to be deleted</param>
+        </member>
+        <member name="M:Riskmaster.Application.AdminTracking.ADMForms.GetADMForm(System.String)">
+             Name		: GetADMForm
+             Author		: Pankaj Chowdhury
+             Date Created: 12/27/2004		
+            ************************************************************
+             Amendment History
+            ************************************************************
+             Date Amended   *   Amendment   *    Author
+            ************************************************************
+             <summary>
+             Gets the ADM Xml
+             </summary>		
+             <param name="p_sTableName">Table Name</param>
+             <returns>Table Name Xml string</returns>
+        </member>
+        <member name="M:Riskmaster.Application.AdminTracking.ADMForms.GetFormXML(System.Xml.XmlDocument,System.String)">
+             Name		: GetFormXML
+             Author		: Pankaj Chowdhury
+             Date Created: 12/27/2004		
+            ************************************************************
+             Amendment History
+            ************************************************************
+             Date Amended   *   Amendment   *    Author
+             02/10/2005		   Changes related to LocalCache and Utilities -Pankaj
+            ************************************************************
+             <summary>
+             Gets the ADM Form Xml String
+             </summary>
+             <param name="p_objXmlDoc">Xml Input String</param>
+             <param name="p_sTableName">Table Name</param>
+             <returns>Xml Document</returns>
+        </member>
+        <member name="M:Riskmaster.Application.AdminTracking.ADMForms.SaveData(System.String,System.String)">
+             Name		: SaveData
+             Author		: Pankaj Chowdhury
+             Date Created: 12/27/2004		
+            ************************************************************
+             Amendment History
+            ************************************************************
+             Date Amended   *   Amendment   *    Author
+            ************************************************************
+             <summary>
+             Saves Data to the Database
+             </summary>
+             <param name="p_sInpXml">Input Xml String</param>
+             <param name="p_sTableName">Table Name</param>
+             <returns>Saved xml string</returns>
+        </member>
+        <member name="M:Riskmaster.Application.AdminTracking.ADMForms.IsMulti(Riskmaster.DataModel.SupplementalFieldTypes)">
+             Name		: IsMulti
+             Author		: Pankaj Chowdhury
+             Date Created: 12/27/2004		
+            ************************************************************
+             Amendment History
+            ************************************************************
+             Date Amended   *   Amendment   *    Author
+            ************************************************************
+             <summary>
+             Checks for Multi type of Supplemental fields
+             </summary>
+             <param name="p_objFldTyp">Supplemental Field Type</param>
+             <returns>Boolean True or False</returns>
+        </member>
+        <member name="M:Riskmaster.Application.AdminTracking.ADMForms.CheckImagePath(System.String)">
+             Name		: CheckImagePath
+             Author		: Pankaj Chowdhury
+             Date Created: 12/27/2004		
+            ************************************************************
+             Amendment History
+            ************************************************************
+             Date Amended   *   Amendment   *    Author
+            ************************************************************
+             <summary>
+             Appends the Image path with /
+             </summary>
+             <param name="p_sPath">Path string</param>
+             <returns>Appended path</returns>
+        </member>
+        <member name="M:Riskmaster.Application.AdminTracking.ADMForms.CreateTable(System.String,System.String)">
+             Name		: CreateTable
+             Author		: Pankaj Chowdhury
+             Date Created: 12/27/2004		
+            ************************************************************
+             Amendment History
+            ************************************************************
+             Date Amended   *   Amendment   *    Author
+            ************************************************************
+             <summary>
+             Overloaded function CreateTable
+             </summary>
+             <param name="p_sSysTableName">System Table Name</param>
+             <param name="p_sUserTableName">User Table Name</param>
+        </member>
+        <member name="M:Riskmaster.Application.AdminTracking.ADMForms.CreateTable(System.String,System.String,System.String,System.Int32,System.Int32)">
+             Name		: CreateTable
+             Author		: Pankaj Chowdhury
+             Date Created: 12/27/2004		
+            ************************************************************
+             Amendment History
+            ************************************************************
+             Date Amended   *   Amendment   *    Author
+             02/10/2005		   Changes related to LocalCache and Utilities -Pankaj
+            ************************************************************
+             <summary>
+             Function taken from Utilities bAddTable
+             Creates table in the Database
+             </summary>
+             <param name="p_sSysTableName">System Table Name</param>
+             <param name="p_sUserTableName">User Table Name</param>
+             <param name="p_sFieldName">Field Name</param>
+             <param name="p_iFieldType">Field Type</param>
+             <param name="p_iFieldSize">Field Size</param>
+        </member>
+        <member name="M:Riskmaster.Application.AdminTracking.ADMForms.CreateField(System.String,System.String,System.String,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)">
+             Name		: CreateField
+             Author		: Pankaj Chowdhury
+             Date Created: 12/27/2004		
+            ************************************************************
+             Amendment History
+            ************************************************************
+             Date Amended   *   Amendment   *    Author
+             02/10/2005		   Changes related to LocalCache and Utilities -Pankaj
+            ************************************************************
+             <summary>
+             Creates a Field in the Database Table
+             </summary>
+             <param name="p_sSysTableName">System Table Name</param>
+             <param name="p_sSysFieldName">System Field Name</param>
+             <param name="p_sUserFieldName">User Field Name</param>
+             <param name="p_iFieldType">Field Type</param>
+             <param name="p_iFieldSize">Field Size</param>
+             <param name="p_iReqd">Required Flag</param>
+             <param name="p_iIsPatterned">Patterned</param>
+             <param name="p_iLkp">Lookup Flag</param>
+             <param name="p_iCodFilId">Code Field Id</param>
+             <param name="p_iIsReq">Required</param>
+             <param name="p_iGrpAss">Asso Flag</param>
+        </member>
+        <member name="M:Riskmaster.Application.AdminTracking.ADMForms.DeleteTable(System.String,System.String)">
+             Name		: DeleteTable
+             Author		: Pankaj Chowdhury
+             Date Created: 12/27/2004		
+            ************************************************************
+             Amendment History
+            ************************************************************
+             Date Amended   *   Amendment   *    Author
+            ************************************************************
+             <summary>
+             Delete the table
+             </summary>
+             <param name="p_sSysTableName">System Table Name</param>
+             <param name="p_sUserTableName">User Table Name</param>
+        </member>
+        <member name="M:Riskmaster.Application.AdminTracking.ADMForms.ExtendFieldName(System.String,System.Int32)">
+             Name		: ExtendFieldName
+             Author		: Pankaj Chowdhury
+             Date Created: 12/27/2004		
+            ************************************************************
+             Amendment History
+            ************************************************************
+             Date Amended   *   Amendment   *    Author
+            ************************************************************
+             <summary>
+             Adds Field Type to the Field Name
+             </summary>
+             <param name="p_sFieldName">Field Name</param>
+             <param name="p_iFieldType">Field Type</param>
+             <returns>String containing concatenated field name</returns>
+        </member>
+        <member name="M:Riskmaster.Application.AdminTracking.ADMForms.CreatePrimaryKey(Riskmaster.Db.DbCommand,System.String,System.String)">
+             Name		: CreatePrimaryKey
+             Author		: Pankaj Chowdhury
+             Date Created: 12/27/2004		
+            ************************************************************
+             Amendment History
+            ************************************************************
+             Date Amended   *   Amendment   *    Author
+            ************************************************************
+             <summary>
+             Creates Index on Primary Key
+             </summary>
+             <param name="p_objCmd">DB Command</param>
+             <param name="p_sSysTableName">System Table Name</param>
+             <param name="p_sKeyField">Key Field</param>
+        </member>
+        <member name="M:Riskmaster.Application.AdminTracking.ADMForms.TypeMap(System.Int32,System.Int32)">
+             Name		: TypeMap
+             Author		: Pankaj Chowdhury
+             Date Created: 12/27/2004		
+            ************************************************************
+             Amendment History
+            ************************************************************
+             Date Amended   *   Amendment   *    Author
+            ************************************************************
+             <summary>
+             Translates RM supplemental type to DB type string
+             </summary>
+             <param name="p_iSuppFieldType">Field Type</param>
+             <param name="p_iSize">Field Size</param>
+             <returns>Concatenated String</returns>
+        </member>
+        <member name="M:Riskmaster.Application.AdminTracking.ADMForms.Dispose">
+             Name		: Dispose
+             Author		: Pankaj Chowdhury
+             Date Created: 12/27/2004		
+            ************************************************************
+             Amendment History
+            ************************************************************
+             Date Amended   *   Amendment   *    Author
+            ************************************************************
+             <summary>
+             Dispose method for cleaning
+             </summary>
+        </member>
+        <member name="P:Riskmaster.Application.AdminTracking.ADMForms.ImagesPath">
+            <summary>
+            Public property ImagesPath
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Application.AdminTracking.ADMForms.Params">
+            <summary>
+            Public property Params
+            </summary>
+        </member>
+        <member name="T:Riskmaster.Application.AdminTracking.ADMForms.NavDir">
+            <summary>
+            Enumerated type for Navigation Direction
+            </summary>
+        </member>
+    </members>
+</doc>

@@ -1,0 +1,261 @@
+﻿.dhtml-div {
+  position: relative;
+  display: none;
+  border: 1px solid;
+  border-color: #000 #000 #000 #000;
+  font-size: 12px;
+  cursor: default;
+  background: Window;
+  color: WindowText;
+  font-family: tahoma,verdana,sans-serif;
+  padding: 0px;
+  margin: 0px;
+}
+
+.dhtml-div scrollablediv {
+	height:100%;
+	overflow:auto;
+}
+
+.dhtml-div table {
+  font-size: 12px;
+  cursor: default;
+  background: Window;
+  color: WindowText;
+  font-family: tahoma,verdana,sans-serif;
+}
+
+/* Header part -- contains navigation buttons and day names. */
+
+.dhtml-div .button { /* "<<", "<", ">", ">>" buttons have this class */
+  text-align: center;
+  padding: 1px;
+  border: 1px solid;
+  border-color: ButtonHighlight ButtonShadow ButtonShadow ButtonHighlight;
+  background: ButtonFace;
+}
+
+.dhtml-div .nav {
+  background: ButtonFace url(menuarrow.gif) no-repeat 100% 100%;
+}
+
+.dhtml-div thead .title {
+  font-weight: bold;
+  padding: 1px;
+  border: 0px solid #000;
+  background: ActiveCaption;
+  color: CaptionText;
+  text-align: center;
+}
+
+.dhtml-div thead .headrow { /* Row <TR> containing navigation buttons */
+}
+
+.dhtml-div thead .daynames { /* Row <TR> containing the day names */
+}
+
+.dhtml-div thead .name { /* Cells <TD> containing the day names */
+  border-bottom: 1px solid ButtonShadow;
+  padding: 2px;
+  text-align: center;
+  background: ButtonFace;
+  color: ButtonText;
+}
+
+.dhtml-div thead .weekend { /* How a weekend day name shows in header */
+  color: #f00;
+}
+
+.dhtml-div thead .hilite { /* How do the buttons in header appear when hover */
+  border: 2px solid;
+  padding: 0px;
+  border-color: ButtonHighlight ButtonShadow ButtonShadow ButtonHighlight;
+}
+
+.dhtml-div thead .active { /* Active (pressed) buttons in header */
+  border-width: 1px;
+  padding: 2px 0px 0px 2px;
+  border-color: ButtonShadow ButtonHighlight ButtonHighlight ButtonShadow;
+}
+
+/* The body part -- contains all the days in month. */
+
+.dhtml-div tbody .day { /* Cells <TD> containing month days dates */
+  width: 2em;
+  text-align: right;
+  padding: 2px 4px 2px 2px;
+}
+.dhtml-div tbody .day.othermonth {
+  font-size: 80%;
+  color: #aaa;
+}
+.dhtml-div tbody .day.othermonth.oweekend {
+  color: #faa;
+}
+
+.dhtml-div table .wn {
+  padding: 2px 3px 2px 2px;
+  border-right: 1px solid ButtonShadow;
+  background: ButtonFace;
+  color: ButtonText;
+}
+
+.dhtml-div tbody .rowhilite td {
+  background: Highlight;
+  color: HighlightText;
+}
+
+.dhtml-div tbody tr .clear {
+	border: 0px;	
+}
+
+.dhtml-div tbody td .clear {
+	border: 0px;	
+}
+.dhtml-div tbody td.hilite { /* Hovered cells <TD> */
+  padding: 1px 3px 1px 1px;
+  border-top: 1px solid #fff;
+  border-right: 1px solid #000;
+  border-bottom: 1px solid #000;
+  border-left: 1px solid #fff;
+}
+
+.dhtml-div tbody td.active { /* Active (pressed) cells <TD> */
+  padding: 2px 2px 0px 2px;
+  border: 1px solid;
+  border-color: ButtonShadow ButtonHighlight ButtonHighlight ButtonShadow;
+}
+
+.dhtml-div tbody td.selected { /* Cell showing selected date */
+  font-weight: bold;
+  border: 1px solid;
+  border-color: ButtonShadow ButtonHighlight ButtonHighlight ButtonShadow;
+  padding: 2px 2px 0px 2px;
+  background: ButtonFace;
+  color: ButtonText;
+}
+
+.dhtml-div tbody td.weekend { /* Cells showing weekend days */
+  color: #f00;
+}
+
+.dhtml-div tbody td.today { /* Cell showing today date */
+  font-weight: bold;
+  color: #00f;
+}
+
+.dhtml-div tbody td.disabled { color: GrayText; }
+
+.dhtml-div tbody .emptycell { /* Empty cells (the best is to hide them) */
+  visibility: hidden;
+}
+
+.dhtml-div tbody .emptyrow { /* Empty row (some months need less than 6 rows) */
+  display: none;
+}
+
+/* The footer part -- status bar and "Close" button */
+
+.dhtml-div tfoot .footrow { /* The <TR> in footer (only one right now) */
+}
+
+.dhtml-div tfoot .ttip { /* Tooltip (status bar) cell <TD> */
+  background: ButtonFace;
+  padding: 1px;
+  border: 1px solid;
+  border-color: ButtonShadow ButtonHighlight ButtonHighlight ButtonShadow;
+  color: ButtonText;
+  text-align: center;
+}
+
+.dhtml-div tfoot .hilite { /* Hover style for buttons in footer */
+  border-top: 1px solid #fff;
+  border-right: 1px solid #000;
+  border-bottom: 1px solid #000;
+  border-left: 1px solid #fff;
+  padding: 1px;
+  background: #e4e0d8;
+}
+
+.dhtml-div tfoot .active { /* Active (pressed) style for buttons in footer */
+  padding: 2px 0px 0px 2px;
+  border-top: 1px solid #000;
+  border-right: 1px solid #fff;
+  border-bottom: 1px solid #fff;
+  border-left: 1px solid #000;
+}
+
+/* Combo boxes (menus that display months/years for direct selection) */
+
+.dhtml-div .combo {
+  position: absolute;
+  display: none;
+  width: 4em;
+  top: 0px;
+  left: 0px;
+  cursor: default;
+  border: 1px solid;
+  border-color: ButtonHighlight ButtonShadow ButtonShadow ButtonHighlight;
+  background: Menu;
+  color: MenuText;
+  font-size: 90%;
+  padding: 1px;
+  z-index: 100;
+}
+
+.dhtml-div .combo .label,
+.dhtml-div .combo .label-IEfix {
+  text-align: center;
+  padding: 1px;
+}
+
+.dhtml-div .combo .label-IEfix {
+  width: 4em;
+}
+
+.dhtml-div .combo .active {
+  padding: 0px;
+  border: 1px solid #000;
+}
+
+.dhtml-div .combo .hilite {
+  background: Highlight;
+  color: HighlightText;
+}
+
+.dhtml-div td.time {
+  border-top: 1px solid ButtonShadow;
+  padding: 1px 0px;
+  text-align: center;
+  background-color: ButtonFace;
+}
+
+.dhtml-div td.time .hour,
+.dhtml-div td.time .minute,
+.dhtml-div td.time .ampm {
+  padding: 0px 3px 0px 4px;
+  border: 1px solid #889;
+  font-weight: bold;
+  background-color: Menu;
+}
+
+.dhtml-div td.time .ampm {
+  text-align: center;
+}
+
+.dhtml-div td.time .colon {
+  padding: 0px 2px 0px 3px;
+  font-weight: bold;
+}
+
+.dhtml-div td.time span.hilite {
+  border-color: #000;
+  background-color: Highlight;
+  color: HighlightText;
+}
+
+.dhtml-div td.time span.active {
+  border-color: #f00;
+  background-color: #000;
+  color: #0f0;
+}

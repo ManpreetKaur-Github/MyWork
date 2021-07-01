@@ -1,0 +1,1148 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<DataIntegratorExport repositoryVersion="12.2.0.0000" productVersion="12.2.2.0">
+<DITable name="BOND_ABS" owner="dbo" datastore="DS_RMX_STAGING" database="DA_RMX_STAGING" description="" >
+<DIProperties>
+<DIAttribute name="Table_Type" value="TABLE" />
+<DIAttribute name="Estimated_Row_Count" value="50000" />
+<DIAttribute name="Loader_Is_Template_Table" value="no" />
+<DIAttribute name="Total_Number_Of_Rows_Processed" value="6" />
+<DIAttribute name="Number_Of_Rows_Rejected" value="0" />
+<DIAttribute name="Number_Of_Inserts" value="2" />
+<DIAttribute name="Number_Of_Updates" value="4" />
+<DIAttribute name="Number_Of_Deletes" value="0" />
+<DIAttribute name="Elapsed_Time_For_Load" value="1 Seconds" />
+<DIAttribute name="db_alias_name" value="DBO" />
+</DIProperties>
+<DIColumn name="DA_ROW_ID" datatype="INT" nullable="false" >
+</DIColumn>
+<DIColumn name="JOBID" datatype="INT" nullable="false" >
+</DIColumn>
+<DIColumn name="INPUT_ROW_ID" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="INVALID_ROW" datatype="INT" nullable="true" >
+</DIColumn>
+<DIColumn name="UPDATE_ROW" datatype="INT" nullable="true" >
+</DIColumn>
+<WILDCARD name=" GenTableStaging"> </WILDCARD>
+<DIPrimaryKey>
+<DIPrimaryKeyColumn name="DA_ROW_ID" />
+<DIPrimaryKeyColumn name="JOBID" />
+</DIPrimaryKey>
+<DITableIndex name="PK_BOND_ABS" unique="true">
+<DIIndexColumn name="DA_ROW_ID" />
+<DIIndexColumn name="JOBID" />
+</DITableIndex>
+</DITable>
+<DITable name="BOND_ABS" owner="" datastore="DS_MSACCESS_STAGING" database="DS_MSACCESS_STAGING" >
+<DIProperties>
+<DIAttribute name="Table_Type" value="TABLE" />
+<DIAttribute name="Estimated_Row_Count" value="50000" />
+<DIAttribute name="Loader_Is_Template_Table" value="no" />
+<DIAttribute name="PartitionModified" value="no" />
+</DIProperties>
+<DIColumn name="OPTIONSET_ID" datatype="INT" nullable="false" >
+</DIColumn>
+<WILDCARD name="GenTableMDB"></WILDCARD>
+<DITableIndex name="pk_BOND_ABS" unique="true">
+<DIIndexColumn name="BOND_ABS_ID" />
+</DITableIndex>
+</DITable>
+<DITable name="BOND_ABS" owner="dbo" datastore="DS_RMDB" database="RMX" description="" >
+<DIProperties>
+<DIAttribute name="Table_Type" value="TABLE" />
+<DIAttribute name="Estimated_Row_Count" value="50000" />
+<DIAttribute name="Loader_Is_Template_Table" value="no" />
+<DIAttribute name="db_alias_name" value="DBO" />
+</DIProperties>
+<WILDCARD name="GenTableRMX"> </WILDCARD>
+<DITableIndex name="BOND_ABS_PK" unique="true">
+<DIIndexColumn name="BOND_ABS_ID" />
+</DITableIndex>
+<DITableIndex name="BOND_NUM" unique="true">
+<DIIndexColumn name="BOND_NUM_TEXT" />
+</DITableIndex>
+</DITable>
+
+<DIWorkflow name="WF_DIS_READ_AT_BOND_ABS" typeId="2" >
+<DISteps>
+<DICallStep typeId="1"  calledObjectType="Dataflow" name="DF_DIS_READ_AT_BOND_ABS" >
+</DICallStep>
+</DISteps>
+<DIAttributes>
+<DIAttribute name="run_once" value="no"/>
+<DIAttribute name="unit_of_recovery" value="no"/>
+</DIAttributes>
+</DIWorkflow>
+<DIDataflow name="DF_DIS_READ_AT_BOND_ABS" typeId="1" >
+<DITransforms>
+<DIQuery typeId="122"  >
+<DIUIOptions>
+<DIAttribute name="ui_acta_from_schema_0" value="BOND_ABS"/>
+<DIAttribute name="ui_display_name" value="Q_READ_AT_BOND_ABS"/>
+<DIAttribute name="ui_where_text" value="BOND_ABS.OPTIONSET_ID = $gOptionSet_Id"/>
+</DIUIOptions>
+<DISchema name="Q_READ_AT_BOND_ABS" >
+<DIElement name="DA_ROW_ID" datatype="INT" key="true" >
+<DIAttributes>
+<DIAttribute name="Description" value=""/>
+<DIAttribute name="ui_mapping_text" value="null"/>
+</DIAttributes>
+</DIElement>
+<DIElement name="JOBID" datatype="INT" key="true" >
+<DIAttributes>
+<DIAttribute name="Description" value=""/>
+<DIAttribute name="ui_mapping_text" value="$gJobID"/>
+</DIAttributes>
+</DIElement>
+<DIElement name="INPUT_ROW_ID" datatype="INT" >
+<DIAttributes>
+<DIAttribute name="Description" value=""/>
+<DIAttribute name="ui_mapping_text" value="NULL"/>
+</DIAttributes>
+</DIElement>
+<DIElement name="INVALID_ROW" datatype="INT" >
+<DIAttributes>
+<DIAttribute name="Description" value=""/>
+<DIAttribute name="ui_mapping_text" value="0"/>
+</DIAttributes>
+</DIElement>
+<DIElement name="UPDATE_ROW" datatype="INT" >
+<DIAttributes>
+<DIAttribute name="Description" value=""/>
+<DIAttribute name="ui_mapping_text" value="0"/>
+</DIAttributes>
+</DIElement>
+<WILDCARD name=" GenDFRead_QReadAT_schema"></WILDCARD>
+</DISchema>
+<DISelect>
+<DIProjection>
+<DIExpression isString="true" expr=" NULL " >
+<CONSTANT_NULL /></DIExpression>
+<DIExpression isString="true" expr="$gJobID" >
+<VARIABLE_REFERENCE name="$gJobID" />
+</DIExpression>
+<DIExpression isString="true" expr=" NULL " >
+<CONSTANT_NULL /></DIExpression>
+<DIExpression isString="true" expr="0" >
+<CONSTANT value="0" datatype="INT" />
+</DIExpression>
+<DIExpression isString="true" expr="0" >
+<CONSTANT value="0" datatype="INT" />
+</DIExpression>
+<WILDCARD name="GenDFRead_QReadAT_select"></WILDCARD>
+</DIProjection>
+<DIFrom>
+<DITableSpec name="BOND_ABS" />
+</DIFrom>
+<DIWhere>
+<DIExpression isString="true" expr="(BOND_ABS.OPTIONSET_ID = $gOptionSet_Id)" >
+<LOGICAL_OP op="EQ">
+<COLUMN_REFERENCE  qualifier1="BOND_ABS" column="OPTIONSET_ID" />
+<VARIABLE_REFERENCE name="$gOptionSet_Id" />
+</LOGICAL_OP>
+</DIExpression>
+</DIWhere>
+</DISelect>
+<DIAttributes>
+<DIAttribute name="distinct_run_as_separate_process" value="no"/>
+<DIAttribute name="group_by_run_as_separate_process" value="no"/>
+<DIAttribute name="join_run_as_separate_process" value="no"/>
+<DIAttribute name="order_by_run_as_separate_process" value="no"/>
+<DIAttribute name="run_as_separate_process" value="no"/>
+</DIAttributes>
+</DIQuery>
+<DITransformCall typeId="111" name="Key_Generation" >
+<DIUIOptions>
+<DIAttribute name="ui_display_name" value="KG_DA_ROW_ID"/>
+</DIUIOptions>
+<DIInputView name="Q_READ_AT_BOND_ABS"  />
+<DISchema name="KG_DA_ROW_ID" >
+</DISchema>
+<DIAttributes>
+<DIAttribute name="database_datastore" value="DS_RMX_STAGING"/>
+<DIAttribute name="generated_key_column" value="DA_ROW_ID"/>
+<DIAttribute name="increment_value" value="1"/>
+<DIAttribute name="table_name" value="BOND_ABS"/>
+<DIAttribute name="table_owner" value="DBO"/>
+</DIAttributes>
+</DITransformCall>
+<DIQuery typeId="122"  >
+<DIUIOptions>
+<DIAttribute name="ui_acta_from_schema_0" value="KG_DA_ROW_ID"/>
+<DIAttribute name="ui_display_name" value="Q_AT_BOND_ABS"/>
+</DIUIOptions>
+<DISchema name="Q_AT_BOND_ABS" >
+<DIElement name="DA_ROW_ID" datatype="INT" key="true" >
+<DIAttributes>
+<DIAttribute name="Description" value=""/>
+<DIAttribute name="ui_mapping_text" value="KG_DA_ROW_ID.DA_ROW_ID"/>
+</DIAttributes>
+</DIElement>
+<DIElement name="JOBID" datatype="INT" key="true" >
+<DIAttributes>
+<DIAttribute name="Description" value=""/>
+<DIAttribute name="ui_mapping_text" value="KG_DA_ROW_ID.JOBID"/>
+</DIAttributes>
+</DIElement>
+<DIElement name="INPUT_ROW_ID" datatype="INT" >
+<DIAttributes>
+<DIAttribute name="Description" value=""/>
+<DIAttribute name="ui_mapping_text" value="KG_DA_ROW_ID.INPUT_ROW_ID"/>
+</DIAttributes>
+</DIElement>
+<DIElement name="INVALID_ROW" datatype="INT" >
+<DIAttributes>
+<DIAttribute name="Description" value=""/>
+<DIAttribute name="ui_mapping_text" value="KG_DA_ROW_ID.INVALID_ROW"/>
+</DIAttributes>
+</DIElement>
+<DIElement name="UPDATE_ROW" datatype="INT" >
+<DIAttributes>
+<DIAttribute name="Description" value=""/>
+<DIAttribute name="ui_mapping_text" value="KG_DA_ROW_ID.UPDATE_ROW"/>
+</DIAttributes>
+</DIElement>
+<WILDCARD name="GenDFRead_QAT_schema"></WILDCARD>
+</DISchema>
+<DISelect>
+<DIProjection>
+<DIExpression isString="true" expr="KG_DA_ROW_ID.DA_ROW_ID" >
+<COLUMN_REFERENCE  qualifier1="KG_DA_ROW_ID" column="DA_ROW_ID" />
+</DIExpression>
+<DIExpression isString="true" expr="KG_DA_ROW_ID.JOBID" >
+<COLUMN_REFERENCE  qualifier1="KG_DA_ROW_ID" column="JOBID" />
+</DIExpression>
+<DIExpression isString="true" expr="KG_DA_ROW_ID.INPUT_ROW_ID" >
+<COLUMN_REFERENCE  qualifier1="KG_DA_ROW_ID" column="INPUT_ROW_ID" />
+</DIExpression>
+<DIExpression isString="true" expr="KG_DA_ROW_ID.INVALID_ROW" >
+<COLUMN_REFERENCE  qualifier1="KG_DA_ROW_ID" column="INVALID_ROW" />
+</DIExpression>
+<DIExpression isString="true" expr="KG_DA_ROW_ID.UPDATE_ROW" >
+<COLUMN_REFERENCE  qualifier1="KG_DA_ROW_ID" column="UPDATE_ROW" />
+</DIExpression>
+<WILDCARD name="GenDFRead_QAT_select"></WILDCARD>
+</DIProjection>
+<DIFrom>
+<DITableSpec name="KG_DA_ROW_ID" />
+</DIFrom>
+</DISelect>
+<DIAttributes>
+<DIAttribute name="distinct_run_as_separate_process" value="no"/>
+<DIAttribute name="group_by_run_as_separate_process" value="no"/>
+<DIAttribute name="join_run_as_separate_process" value="no"/>
+<DIAttribute name="order_by_run_as_separate_process" value="no"/>
+<DIAttribute name="run_as_separate_process" value="no"/>
+</DIAttributes>
+</DIQuery>
+
+<DITransformCall typeId="111" name="Map_Operation" >
+<DIUIOptions>
+<DIAttribute name="ui_display_name" value="MO_INSERT_AT_BOND_ABS"/>
+</DIUIOptions>
+<DIInputView name="Q_AT_BOND_ABS"  />
+<DISchema name="MO_INSERT_AT_BOND_ABS" >
+</DISchema>
+<DIAttributes>
+<DIAttribute name="delete" value="discard"/>
+<DIAttribute name="insert" value="discard"/>
+<DIAttribute name="normal" value="normal"/>
+<DIAttribute name="update" value="discard"/>
+</DIAttributes>
+</DITransformCall>
+<DIDatabaseTableTarget typeID="11" bulkLoader="false" datastoreName="DS_RMX_STAGING" ownerName="DBO" tableName="BOND_ABS" >
+<DIInputView name="MO_INSERT_AT_BOND_ABS"  />
+<DIAttributes>
+<DIAttribute name="LDRLiveLoad" value="no"/>
+<DIAttribute name="Table_Type" value="TABLE"/>
+<DIAttribute name="connection_port" value="no"/>
+<DIAttribute name="ldr_configuration_enabled" value="yes"/>
+<DIAttribute name="ldr_configurations" hasNestedXMLTree ="true">
+
+<LDRConfigurations>
+<LDRConfiguration database_type="Microsoft_SQL_Server" database_version="Microsoft SQL Server 2005">
+<auto_correct_using_merge>Yes</auto_correct_using_merge>
+<bulk_ldr_all_rows></bulk_ldr_all_rows>
+<bulk_ldr_max_errors></bulk_ldr_max_errors>
+<bulk_ldr_rows_per_commit>1000</bulk_ldr_rows_per_commit>
+<enable_partitioning>no</enable_partitioning>
+<ignore_column_case>yes</ignore_column_case>
+<ignore_columns_null>No</ignore_columns_null>
+<ignore_columns_value></ignore_columns_value>
+<loader_auto_correct>no</loader_auto_correct>
+<loader_bulk_load></loader_bulk_load>
+<loader_compare_column>compare_by_name</loader_compare_column>
+<loader_delete_map></loader_delete_map>
+<loader_drop_and_create_table>no</loader_drop_and_create_table>
+<loader_insert_map></loader_insert_map>
+<loader_load_choice>append</loader_load_choice>
+<loader_num_parallel_loaders>1</loader_num_parallel_loaders>
+<loader_overflow_file>DS_RMX_STAGING_DBO_BOND_ABS.txt</loader_overflow_file>
+<loader_post_load1></loader_post_load1>
+<loader_pre_load1></loader_pre_load1>
+<loader_quote_names>0</loader_quote_names>
+<loader_transactional>no</loader_transactional>
+<loader_transactional_order>0</loader_transactional_order>
+<loader_update_key_columns>no</loader_update_key_columns>
+<loader_update_map></loader_update_map>
+<loader_use_user_defined_keys>no</loader_use_user_defined_keys>
+<loader_xact_size>1000</loader_xact_size>
+<mssql_bulk_ldr_mode>append</mssql_bulk_ldr_mode>
+<mssql_bulk_ldr_packet_size>0</mssql_bulk_ldr_packet_size>
+<overflow_file_format>Write data</overflow_file_format>
+<use_overflow_file>no</use_overflow_file>
+<use_unicode_varchar>no</use_unicode_varchar>
+<sql_text></sql_text>
+</LDRConfiguration>
+</LDRConfigurations>
+</DIAttribute>
+<DIAttribute name="loader_template_table" value="no"/>
+<DIAttribute name="name" value="DS_RMX_STAGING"/>
+<DIAttribute name="use_unicode_varchar" value="no"/>
+</DIAttributes>
+</DIDatabaseTableTarget>
+
+
+<DIDatabaseTableSource typeId="22" datastoreName="DS_MSACCESS_STAGING" ownerName="" tableName="BOND_ABS" >
+<DIOutputView name="BOND_ABS"  />
+<DIAttributes>
+<DIAttribute name="array_fetch_size" value="1000"/>
+<DIAttribute name="cache" value="yes"/>
+<DIAttribute name="connection_port" value="no"/>
+<DIAttribute name="enable_partitioning" value="no"/>
+<DIAttribute name="name" value="DS_MSACCESS_STAGING"/>
+<DIAttribute name="package_size" value="0"/>
+<DIAttribute name="reader_is_DB2CDC_table" value="no"/>
+<DIAttribute name="reader_overflow_file" value="overflow_file"/>
+<DIAttribute name="reader_template_table" value="no"/>
+<DIAttribute name="reader_use_overflow_file" value="no"/>
+<DIAttribute name="reader_use_trex_transaction" value="no"/>
+<DIAttribute name="table_weight" value="0"/>
+</DIAttributes>
+</DIDatabaseTableSource>
+
+</DITransforms>
+<DIAttributes>
+<DIAttribute name="Cache_type" value="pageable_cache"/>
+<DIAttribute name="Parallelism_degree" value="0"/>
+<DIAttribute name="allows_both_input_and_output" value="yes"/>
+<DIAttribute name="run_once" value="no"/>
+<DIAttribute name="use_dataflow_links" value="no"/>
+<DIAttribute name="use_datastore_links" value="yes"/>
+<DIAttribute name="validation_xform_exists" value="no"/>
+<DIAttribute name="validation_xform_stats" value="no"/>
+</DIAttributes>
+</DIDataflow>
+<DIWorkflow name="WF_DIS_VALIDATION_AT_BOND_ABS" typeId="2" >
+<DISteps>
+<DICallStep typeId="1"  calledObjectType="Dataflow" name="DF_DIS_VALIDATION_AT_BOND_ABS_NEW_UPDATE" >
+</DICallStep>
+</DISteps>
+<DIAttributes>
+<DIAttribute name="run_once" value="no"/>
+<DIAttribute name="unit_of_recovery" value="no"/>
+</DIAttributes>
+</DIWorkflow>
+<DIDataflow name="DF_DIS_VALIDATION_AT_BOND_ABS_NEW_UPDATE" typeId="1" >
+<DITransforms>
+<DIDatabaseTableSource typeId="22" datastoreName="DS_RMX_STAGING" ownerName="DBO" tableName="BOND_ABS" >
+<DIOutputView name="BOND_ABS"  />
+<DIAttributes>
+<DIAttribute name="array_fetch_size" value="1000"/>
+<DIAttribute name="cache" value="yes"/>
+<DIAttribute name="connection_port" value="no"/>
+<DIAttribute name="enable_partitioning" value="no"/>
+<DIAttribute name="name" value="DS_RMX_STAGING"/>
+<DIAttribute name="package_size" value="0"/>
+<DIAttribute name="reader_is_DB2CDC_table" value="no"/>
+<DIAttribute name="reader_overflow_file" value="overflow_file"/>
+<DIAttribute name="reader_template_table" value="no"/>
+<DIAttribute name="reader_use_overflow_file" value="no"/>
+<DIAttribute name="reader_use_trex_transaction" value="no"/>
+<DIAttribute name="table_weight" value="0"/>
+</DIAttributes>
+</DIDatabaseTableSource>
+
+
+<!-- GUID is optional -->
+<DITransformCall typeId="210" name="Case_Operation"  >
+<DIUIOptions>
+<DIAttribute name="CASE_OPTION_ALWAYS_ADD_NO" value="DEFAULT"/>
+<DIAttribute name="CASE_OPTION_ALWAYS_ADD_YES" value="$gAdminTrack_Add_Update  = 1"/>
+<DIAttribute name="ui_acta_from_schema_0" value="BOND_ABS"/>
+<DIAttribute name="ui_display_name" value="CASE_OPTION_ALWAYS_ADD"/>
+</DIUIOptions>
+<DIInputView name="BOND_ABS" />
+<DISchema name="CASE_OPTION_ALWAYS_ADD" >
+</DISchema>
+<DICase>
+<DISwitch label="YES" outputView="CASE_OPTION_ALWAYS_ADD_YES" isDefault="false">
+<DIExpression isString="true" expr="($gAdminTrack_Add_Update = 1)" >
+<LOGICAL_OP op="EQ">
+<VARIABLE_REFERENCE name="$gAdminTrack_Add_Update" />
+<CONSTANT value="1" datatype="INT" />
+</LOGICAL_OP>
+</DIExpression>
+</DISwitch>
+<DISwitch label="NO" outputView="CASE_OPTION_ALWAYS_ADD_NO" isDefault="true">
+</DISwitch>
+</DICase>
+<DIAttributes>
+<DIAttribute name="Mutually_Exclusive" value="yes"/>
+<DIAttribute name="Preserve_Expression_Order" value="no"/>
+</DIAttributes>
+</DITransformCall>
+<DIQuery typeId="122"  >
+<DIUIOptions>
+<DIAttribute name="ui_acta_from_schema_0" value="CASE_OPTION_ALWAYS_ADD_NO"/>
+<DIAttribute name="ui_display_name" value="Q_ALWAYS_ADD"/>
+<DIAttribute name="ui_where_text" value="CASE_OPTION_ALWAYS_ADD_NO.JOBID = $gJobID"/>
+</DIUIOptions>
+<DISchema name="Q_ALWAYS_ADD" >
+<DIElement name="DA_ROW_ID" datatype="INT" key="true" >
+<DIAttributes>
+<DIAttribute name="Description" value=""/>
+<DIAttribute name="ui_mapping_text" value="CASE_OPTION_ALWAYS_ADD_NO.DA_ROW_ID"/>
+</DIAttributes>
+</DIElement>
+<DIElement name="JOBID" datatype="INT" key="true" >
+<DIAttributes>
+<DIAttribute name="Description" value=""/>
+<DIAttribute name="ui_mapping_text" value="CASE_OPTION_ALWAYS_ADD_NO.JOBID"/>
+</DIAttributes>
+</DIElement>
+<DIElement name="INPUT_ROW_ID" datatype="INT" >
+<DIAttributes>
+<DIAttribute name="Description" value=""/>
+<DIAttribute name="ui_mapping_text" value="CASE_OPTION_ALWAYS_ADD_NO.INPUT_ROW_ID"/>
+</DIAttributes>
+</DIElement>
+<DIElement name="INVALID_ROW" datatype="INT" >
+<DIAttributes>
+<DIAttribute name="Description" value=""/>
+<DIAttribute name="ui_mapping_text" value="CASE_OPTION_ALWAYS_ADD_NO.INVALID_ROW"/>
+</DIAttributes>
+</DIElement>
+<DIElement name="UPDATE_ROW" datatype="INT" >
+<DIAttributes>
+<DIAttribute name="Description" value=""/>
+<DIAttribute name="ui_mapping_text" value="0"/>
+</DIAttributes>
+</DIElement>
+<WILDCARD name="GenDFValidate_QAlwaysAdd_schema"></WILDCARD>
+</DISchema>
+<DISelect>
+<DIProjection>
+<DIExpression isString="true" expr="CASE_OPTION_ALWAYS_ADD_NO.DA_ROW_ID" >
+<COLUMN_REFERENCE  qualifier1="CASE_OPTION_ALWAYS_ADD_NO" column="DA_ROW_ID" />
+</DIExpression>
+<DIExpression isString="true" expr="CASE_OPTION_ALWAYS_ADD_NO.JOBID" >
+<COLUMN_REFERENCE  qualifier1="CASE_OPTION_ALWAYS_ADD_NO" column="JOBID" />
+</DIExpression>
+<DIExpression isString="true" expr="CASE_OPTION_ALWAYS_ADD_NO.INPUT_ROW_ID" >
+<COLUMN_REFERENCE  qualifier1="CASE_OPTION_ALWAYS_ADD_NO" column="INPUT_ROW_ID" />
+</DIExpression>
+<DIExpression isString="true" expr="CASE_OPTION_ALWAYS_ADD_NO.INVALID_ROW" >
+<COLUMN_REFERENCE  qualifier1="CASE_OPTION_ALWAYS_ADD_NO" column="INVALID_ROW" />
+</DIExpression>
+<DIExpression isString="true" expr="0" >
+<CONSTANT value="0" datatype="INT" />
+</DIExpression>
+<WILDCARD name="ReplaceDfDisValidateSelect"></WILDCARD>
+</DIProjection>
+<DIFrom>
+<DITableSpec name="CASE_OPTION_ALWAYS_ADD_NO" />
+</DIFrom>
+<DIWhere>
+<DIExpression isString="true" expr="(CASE_OPTION_ALWAYS_ADD_NO.JOBID = $gJobID)" >
+<LOGICAL_OP op="EQ">
+<COLUMN_REFERENCE  qualifier1="CASE_OPTION_ALWAYS_ADD_NO" column="JOBID" />
+<VARIABLE_REFERENCE name="$gJobID" />
+</LOGICAL_OP>
+</DIExpression>
+</DIWhere>
+</DISelect>
+<DIAttributes>
+<DIAttribute name="distinct_run_as_separate_process" value="no"/>
+<DIAttribute name="group_by_run_as_separate_process" value="no"/>
+<DIAttribute name="join_run_as_separate_process" value="no"/>
+<DIAttribute name="order_by_run_as_separate_process" value="no"/>
+<DIAttribute name="run_as_separate_process" value="no"/>
+</DIAttributes>
+</DIQuery>
+
+<DIQuery typeId="122"  >
+<DIUIOptions>
+<DIAttribute name="ui_acta_from_schema_0" value="CASE_OPTION_ALWAYS_ADD_YES"/>
+<DIAttribute name="ui_display_name" value="Q_ADD_UPDATE"/>
+<DIAttribute name="ui_where_text" value="CASE_OPTION_ALWAYS_ADD_YES.JOBID = $gJobID"/>
+</DIUIOptions>
+<DISchema name="Q_ADD_UPDATE" >
+<DIElement name="DA_ROW_ID" datatype="INT" key="true" >
+<DIAttributes>
+<DIAttribute name="Description" value=""/>
+<DIAttribute name="ui_mapping_text" value="CASE_OPTION_ALWAYS_ADD_YES.DA_ROW_ID"/>
+</DIAttributes>
+</DIElement>
+<DIElement name="JOBID" datatype="INT" key="true" >
+<DIAttributes>
+<DIAttribute name="Description" value=""/>
+<DIAttribute name="ui_mapping_text" value="CASE_OPTION_ALWAYS_ADD_YES.JOBID"/>
+</DIAttributes>
+</DIElement>
+<DIElement name="INPUT_ROW_ID" datatype="INT" >
+<DIAttributes>
+<DIAttribute name="Description" value=""/>
+<DIAttribute name="ui_mapping_text" value="CASE_OPTION_ALWAYS_ADD_YES.INPUT_ROW_ID"/>
+</DIAttributes>
+</DIElement>
+<DIElement name="INVALID_ROW" datatype="INT" >
+<DIAttributes>
+<DIAttribute name="Description" value=""/>
+<DIAttribute name="ui_mapping_text" value="CASE_OPTION_ALWAYS_ADD_YES.INVALID_ROW"/>
+</DIAttributes>
+</DIElement>
+<DIElement name="lookup_ext" hasNestedSchema="true">
+<DINestedSchema type="RFCSchema">
+<DIElement name="UPDATE_ROW" datatype="INT" >
+</DIElement>
+</DINestedSchema>
+</DIElement>
+<WILDCARD name="GenDFValidate_QAddUpdate_schema"></WILDCARD>
+</DISchema>
+<DISelect>
+<DIProjection>
+<DIExpression isString="true" expr="CASE_OPTION_ALWAYS_ADD_YES.DA_ROW_ID" >
+<COLUMN_REFERENCE  qualifier1="CASE_OPTION_ALWAYS_ADD_YES" column="DA_ROW_ID" />
+</DIExpression>
+<DIExpression isString="true" expr="CASE_OPTION_ALWAYS_ADD_YES.JOBID" >
+<COLUMN_REFERENCE  qualifier1="CASE_OPTION_ALWAYS_ADD_YES" column="JOBID" />
+</DIExpression>
+<DIExpression isString="true" expr="CASE_OPTION_ALWAYS_ADD_YES.INPUT_ROW_ID" >
+<COLUMN_REFERENCE  qualifier1="CASE_OPTION_ALWAYS_ADD_YES" column="INPUT_ROW_ID" />
+</DIExpression>
+<DIExpression isString="true" expr="CASE_OPTION_ALWAYS_ADD_YES.INVALID_ROW" >
+<COLUMN_REFERENCE  qualifier1="CASE_OPTION_ALWAYS_ADD_YES" column="INVALID_ROW" />
+</DIExpression>
+<WILDCARD name="TagMatchField"></WILDCARD>
+<WILDCARD name="GenDFValidate_QAddUpdate_select"></WILDCARD>
+</DIProjection>
+<DIFrom>
+<DITableSpec name="CASE_OPTION_ALWAYS_ADD_YES" />
+</DIFrom>
+<DIWhere>
+<DIExpression isString="true" expr="(CASE_OPTION_ALWAYS_ADD_YES.JOBID = $gJobID)" >
+<LOGICAL_OP op="EQ">
+<COLUMN_REFERENCE  qualifier1="CASE_OPTION_ALWAYS_ADD_YES" column="JOBID" />
+<VARIABLE_REFERENCE name="$gJobID" />
+</LOGICAL_OP>
+</DIExpression>
+</DIWhere>
+</DISelect>
+<DIAttributes>
+<DIAttribute name="distinct_run_as_separate_process" value="no"/>
+<DIAttribute name="group_by_run_as_separate_process" value="no"/>
+<DIAttribute name="join_run_as_separate_process" value="no"/>
+<DIAttribute name="order_by_run_as_separate_process" value="no"/>
+<DIAttribute name="run_as_separate_process" value="no"/>
+</DIAttributes>
+</DIQuery>
+
+<DITransformCall typeId="111" name="Merge" >
+<DIUIOptions>
+<DIAttribute name="ui_display_name" value="MG_TOTAL_ROWS"/>
+</DIUIOptions>
+<DIInputView name="Q_ADD_UPDATE"  />
+<DIInputView name="Q_ALWAYS_ADD"  />
+<DISchema name="MG_TOTAL_ROWS" >
+</DISchema>
+</DITransformCall>
+<DIDatabaseTableTarget typeID="11" bulkLoader="false" datastoreName="DS_RMX_STAGING" ownerName="DBO" tableName="BOND_ABS" >
+<DIInputView name="MO_BOND_ABS"  />
+<DIAttributes>
+<DIAttribute name="LDRLiveLoad" value="no"/>
+<DIAttribute name="Table_Type" value="TABLE"/>
+<DIAttribute name="connection_port" value="no"/>
+<DIAttribute name="ldr_configuration_enabled" value="yes"/>
+<DIAttribute name="ldr_configurations" hasNestedXMLTree ="true">
+
+<LDRConfigurations>
+<LDRConfiguration database_type="Microsoft_SQL_Server" database_version="Microsoft SQL Server 2005">
+<auto_correct_using_merge>yes</auto_correct_using_merge>
+<bulk_ldr_all_rows></bulk_ldr_all_rows>
+<bulk_ldr_max_errors></bulk_ldr_max_errors>
+<bulk_ldr_rows_per_commit>1000</bulk_ldr_rows_per_commit>
+<enable_partitioning>no</enable_partitioning>
+<ignore_column_case>yes</ignore_column_case>
+<ignore_columns_null>no</ignore_columns_null>
+<ignore_columns_value></ignore_columns_value>
+<loader_auto_correct>no</loader_auto_correct>
+<loader_bulk_load></loader_bulk_load>
+<loader_compare_column>compare_by_name</loader_compare_column>
+<loader_delete_map></loader_delete_map>
+<loader_drop_and_create_table>yes</loader_drop_and_create_table>
+<loader_insert_map></loader_insert_map>
+<loader_load_choice>append</loader_load_choice>
+<loader_num_parallel_loaders>1</loader_num_parallel_loaders>
+<loader_overflow_file></loader_overflow_file>
+<loader_post_load1></loader_post_load1>
+<loader_pre_load1></loader_pre_load1>
+<loader_quote_names>0</loader_quote_names>
+<loader_transactional>no</loader_transactional>
+<loader_transactional_order>0</loader_transactional_order>
+<loader_update_key_columns>no</loader_update_key_columns>
+<loader_update_map></loader_update_map>
+<loader_use_user_defined_keys>no</loader_use_user_defined_keys>
+<loader_xact_size>1000</loader_xact_size>
+<mssql_bulk_ldr_mode>append</mssql_bulk_ldr_mode>
+<mssql_bulk_ldr_packet_size>0</mssql_bulk_ldr_packet_size>
+<overflow_file_format>write_data</overflow_file_format>
+<use_overflow_file>no</use_overflow_file>
+<use_unicode_varchar>no</use_unicode_varchar>
+<sql_text></sql_text>
+</LDRConfiguration>
+</LDRConfigurations>
+</DIAttribute>
+<DIAttribute name="loader_template_table" value="no"/>
+<DIAttribute name="name" value="DS_RMX_STAGING"/>
+<DIAttribute name="use_unicode_varchar" value="no"/>
+</DIAttributes>
+</DIDatabaseTableTarget>
+
+<DITransformCall typeId="111" name="Map_Operation" >
+<DIUIOptions>
+<DIAttribute name="ui_display_name" value="MO_BOND_ABS"/>
+</DIUIOptions>
+<DIInputView name="MG_TOTAL_ROWS"  />
+<DISchema name="MO_BOND_ABS" >
+</DISchema>
+<DIAttributes>
+<DIAttribute name="delete" value="discard"/>
+<DIAttribute name="insert" value="discard"/>
+<DIAttribute name="normal" value="update"/>
+<DIAttribute name="update" value="discard"/>
+</DIAttributes>
+</DITransformCall>
+</DITransforms>
+<DIAttributes>
+<DIAttribute name="Cache_type" value="pageable_cache"/>
+<DIAttribute name="Parallelism_degree" value="0"/>
+<DIAttribute name="allows_both_input_and_output" value="yes"/>
+<DIAttribute name="run_once" value="no"/>
+<DIAttribute name="use_dataflow_links" value="no"/>
+<DIAttribute name="use_datastore_links" value="yes"/>
+<DIAttribute name="validation_xform_exists" value="no"/>
+<DIAttribute name="validation_xform_stats" value="no"/>
+</DIAttributes>
+</DIDataflow>
+<DIWorkflow name="WF_DIS_IMPORT_AT_BOND_ABS" typeId="2" >
+<DISteps>
+<DICallStep typeId="1"  calledObjectType="Dataflow" name="DF_DIS_IMPORT_AT_BOND_ABS" >
+</DICallStep>
+</DISteps>
+<DIAttributes>
+<DIAttribute name="run_once" value="no"/>
+<DIAttribute name="unit_of_recovery" value="no"/>
+</DIAttributes>
+</DIWorkflow>
+  
+<DIDataflow name="DF_DIS_IMPORT_AT_BOND_ABS" typeId="1" >
+<DITransforms>
+<DIDatabaseTableSource typeId="22" datastoreName="DS_RMX_STAGING" ownerName="DBO" tableName="BOND_ABS" >
+<DIOutputView name="BOND_ABS"  />
+<DIAttributes>
+<DIAttribute name="array_fetch_size" value="1000"/>
+<DIAttribute name="cache" value="yes"/>
+<DIAttribute name="connection_port" value="no"/>
+<DIAttribute name="enable_partitioning" value="no"/>
+<DIAttribute name="name" value="DS_RMX_STAGING"/>
+<DIAttribute name="package_size" value="0"/>
+<DIAttribute name="reader_is_DB2CDC_table" value="no"/>
+<DIAttribute name="reader_overflow_file" value="overflow_file"/>
+<DIAttribute name="reader_template_table" value="no"/>
+<DIAttribute name="reader_use_overflow_file" value="no"/>
+<DIAttribute name="reader_use_trex_transaction" value="no"/>
+<DIAttribute name="table_weight" value="0"/>
+</DIAttributes>
+</DIDatabaseTableSource>
+
+<DIQuery typeId="122"  >
+<DIUIOptions>
+<DIAttribute name="ui_acta_from_schema_0" value="BOND_ABS"/>
+<DIAttribute name="ui_display_name" value="Q_JOB_VALID_RECORDS"/>
+<DIAttribute name="ui_where_text" value="BOND_ABS.JOBID = $gJobID AND BOND_ABS.INVALID_ROW = 0"/>
+</DIUIOptions>
+<DISchema name="Q_JOB_VALID_RECORDS" >
+<DIElement name="DA_ROW_ID" datatype="INT" key="true" >
+<DIAttributes>
+<DIAttribute name="Description" value=""/>
+<DIAttribute name="ui_mapping_text" value="BOND_ABS.DA_ROW_ID"/>
+</DIAttributes>
+</DIElement>
+<DIElement name="JOBID" datatype="INT" key="true" >
+<DIAttributes>
+<DIAttribute name="Description" value=""/>
+<DIAttribute name="ui_mapping_text" value="BOND_ABS.JOBID"/>
+</DIAttributes>
+</DIElement>
+<DIElement name="INPUT_ROW_ID" datatype="INT" >
+<DIAttributes>
+<DIAttribute name="Description" value=""/>
+<DIAttribute name="ui_mapping_text" value="BOND_ABS.INPUT_ROW_ID"/>
+</DIAttributes>
+</DIElement>
+<DIElement name="INVALID_ROW" datatype="INT" >
+<DIAttributes>
+<DIAttribute name="Description" value=""/>
+<DIAttribute name="ui_mapping_text" value="BOND_ABS.INVALID_ROW"/>
+</DIAttributes>
+</DIElement>
+<DIElement name="UPDATE_ROW" datatype="INT" >
+<DIAttributes>
+<DIAttribute name="Description" value=""/>
+<DIAttribute name="ui_mapping_text" value="BOND_ABS.UPDATE_ROW"/>
+</DIAttributes>
+</DIElement>
+<WILDCARD name=" GenDFImport_QJobValidRecords_schema"></WILDCARD>
+</DISchema>
+<DISelect>
+<DIProjection>
+<DIExpression isString="true" expr="BOND_ABS.DA_ROW_ID" >
+<COLUMN_REFERENCE  qualifier1="BOND_ABS" column="DA_ROW_ID" />
+</DIExpression>
+<DIExpression isString="true" expr="BOND_ABS.JOBID" >
+<COLUMN_REFERENCE  qualifier1="BOND_ABS" column="JOBID" />
+</DIExpression>
+<DIExpression isString="true" expr="BOND_ABS.INPUT_ROW_ID" >
+<COLUMN_REFERENCE  qualifier1="BOND_ABS" column="INPUT_ROW_ID" />
+</DIExpression>
+<DIExpression isString="true" expr="BOND_ABS.INVALID_ROW" >
+<COLUMN_REFERENCE  qualifier1="BOND_ABS" column="INVALID_ROW" />
+</DIExpression>
+<DIExpression isString="true" expr="BOND_ABS.UPDATE_ROW" >
+<COLUMN_REFERENCE  qualifier1="BOND_ABS" column="UPDATE_ROW" />
+</DIExpression>
+<WILDCARD name="GenDFImport_QJobValidRecords_select"></WILDCARD>
+</DIProjection>
+<DIFrom>
+<DITableSpec name="BOND_ABS" />
+</DIFrom>
+<DIWhere>
+<DIExpression isString="true" expr="((BOND_ABS.JOBID = $gJobID) AND&#xA;   (BOND_ABS.INVALID_ROW = 0))" >
+<LOGICAL_OP op="AND">
+<LOGICAL_OP op="EQ">
+<COLUMN_REFERENCE  qualifier1="BOND_ABS" column="JOBID" />
+<VARIABLE_REFERENCE name="$gJobID" />
+</LOGICAL_OP>
+<LOGICAL_OP op="EQ">
+<COLUMN_REFERENCE  qualifier1="BOND_ABS" column="INVALID_ROW" />
+<CONSTANT value="0" datatype="INT" />
+</LOGICAL_OP>
+</LOGICAL_OP>
+</DIExpression>
+</DIWhere>
+</DISelect>
+<DIAttributes>
+<DIAttribute name="distinct_run_as_separate_process" value="no"/>
+<DIAttribute name="group_by_run_as_separate_process" value="no"/>
+<DIAttribute name="join_run_as_separate_process" value="no"/>
+<DIAttribute name="order_by_run_as_separate_process" value="no"/>
+<DIAttribute name="run_as_separate_process" value="no"/>
+</DIAttributes>
+</DIQuery>
+
+
+<!-- GUID is optional -->
+<DITransformCall typeId="210" name="Case_Operation"  >
+<DIUIOptions>
+<DIAttribute name="CASE_UPDATE_RECORDS_NO" value="DEFAULT"/>
+<DIAttribute name="CASE_UPDATE_RECORDS_YES" value="Q_JOB_VALID_RECORDS.UPDATE_ROW &lt;&gt; 0"/>
+<DIAttribute name="ui_acta_from_schema_0" value="Q_JOB_VALID_RECORDS"/>
+<DIAttribute name="ui_display_name" value="CASE_UPDATE_RECORDS"/>
+</DIUIOptions>
+<DIInputView name="Q_JOB_VALID_RECORDS" />
+<DISchema name="CASE_UPDATE_RECORDS" >
+</DISchema>
+<DICase>
+<DISwitch label="YES" outputView="CASE_UPDATE_RECORDS_YES" isDefault="false">
+<DIExpression isString="true" expr="(Q_JOB_VALID_RECORDS.UPDATE_ROW != 0)" >
+<LOGICAL_OP op="NE">
+<COLUMN_REFERENCE  qualifier1="Q_JOB_VALID_RECORDS" column="UPDATE_ROW" />
+<CONSTANT value="0" datatype="INT" />
+</LOGICAL_OP>
+</DIExpression>
+</DISwitch>
+<DISwitch label="NO" outputView="CASE_UPDATE_RECORDS_NO" isDefault="true">
+</DISwitch>
+</DICase>
+<DIAttributes>
+<DIAttribute name="Mutually_Exclusive" value="yes"/>
+<DIAttribute name="Preserve_Expression_Order" value="no"/>
+</DIAttributes>
+</DITransformCall>
+  
+<DIQuery typeId="122"  >
+<DIUIOptions>
+<DIAttribute name="ui_acta_from_schema_0" value="CASE_UPDATE_RECORDS_NO"/>
+<DIAttribute name="ui_display_name" value="Q_INSERT_ROWS"/>
+</DIUIOptions>
+<DISchema name="Q_INSERT_ROWS" >
+<DIElement name="DA_ROW_ID" datatype="INT" key="true" >
+<DIAttributes>
+<DIAttribute name="Description" value=""/>
+<DIAttribute name="ui_mapping_text" value="CASE_UPDATE_RECORDS_NO.DA_ROW_ID"/>
+</DIAttributes>
+</DIElement>
+<DIElement name="JOBID" datatype="INT" key="true" >
+<DIAttributes>
+<DIAttribute name="Description" value=""/>
+<DIAttribute name="ui_mapping_text" value="CASE_UPDATE_RECORDS_NO.JOBID"/>
+</DIAttributes>
+</DIElement>
+<WILDCARD name="GenDFImport_QInsertRows_schema"></WILDCARD>
+</DISchema>
+<DISelect>
+<DIProjection>
+<DIExpression isString="true" expr="CASE_UPDATE_RECORDS_NO.DA_ROW_ID" >
+<COLUMN_REFERENCE  qualifier1="CASE_UPDATE_RECORDS_NO" column="DA_ROW_ID" />
+</DIExpression>
+<DIExpression isString="true" expr="CASE_UPDATE_RECORDS_NO.JOBID" >
+<COLUMN_REFERENCE  qualifier1="CASE_UPDATE_RECORDS_NO" column="JOBID" />
+</DIExpression>
+<DIExpression isString="true" expr=" NULL " >
+<CONSTANT_NULL /></DIExpression>
+<WILDCARD name="GenDFImport_QInsertRows_select"></WILDCARD>
+</DIProjection>
+<DIFrom>
+<DITableSpec name="CASE_UPDATE_RECORDS_NO" />
+</DIFrom>
+</DISelect>
+<DIAttributes>
+<DIAttribute name="distinct_run_as_separate_process" value="no"/>
+<DIAttribute name="group_by_run_as_separate_process" value="no"/>
+<DIAttribute name="join_run_as_separate_process" value="no"/>
+<DIAttribute name="order_by_run_as_separate_process" value="no"/>
+<DIAttribute name="run_as_separate_process" value="no"/>
+</DIAttributes>
+</DIQuery>
+
+<DIQuery typeId="122"  >
+<DIUIOptions>
+<DIAttribute name="ui_acta_from_schema_0" value="CASE_UPDATE_RECORDS_YES"/>
+<DIAttribute name="ui_display_name" value="Q_UPDATE_ROWS"/>
+</DIUIOptions>
+<DISchema name="Q_UPDATE_ROWS" >
+<WILDCARD name="GenDFImport_QUpdateRows_schema"></WILDCARD>
+</DISchema>
+<DISelect>
+<DIProjection>
+<WILDCARD name="GenDFImport_QUpdateRows_select"></WILDCARD>
+</DIProjection>
+<DIFrom>
+<DITableSpec name="CASE_UPDATE_RECORDS_YES" />
+</DIFrom>
+</DISelect>
+<DIAttributes>
+<DIAttribute name="distinct_run_as_separate_process" value="no"/>
+<DIAttribute name="group_by_run_as_separate_process" value="no"/>
+<DIAttribute name="join_run_as_separate_process" value="no"/>
+<DIAttribute name="order_by_run_as_separate_process" value="no"/>
+<DIAttribute name="run_as_separate_process" value="no"/>
+</DIAttributes>
+</DIQuery>
+
+<DITransformCall typeId="111" name="Map_Operation" >
+<DIUIOptions>
+<DIAttribute name="ui_display_name" value="MO_INSERT_AT_BOND_ABS"/>
+</DIUIOptions>
+<DIInputView name="Q_UPDATE_ROWS"  />
+<DISchema name="MO_INSERT_AT_BOND_ABS_1" >
+</DISchema>
+<DIAttributes>
+<DIAttribute name="delete" value="discard"/>
+<DIAttribute name="insert" value="discard"/>
+<DIAttribute name="normal" value="update"/>
+<DIAttribute name="update" value="discard"/>
+</DIAttributes>
+</DITransformCall>
+<DIDatabaseTableTarget typeID="11" bulkLoader="false" datastoreName="DS_RMDB" ownerName="DBO" tableName="BOND_ABS" >
+<DIInputView name="MO_INSERT_AT_BOND_ABS_1"  />
+<DIAttributes>
+<DIAttribute name="LDRLiveLoad" value="no"/>
+<DIAttribute name="Table_Type" value="TABLE"/>
+<DIAttribute name="connection_port" value="no"/>
+<DIAttribute name="ldr_configuration_enabled" value="yes"/>
+<DIAttribute name="ldr_configurations" hasNestedXMLTree ="true">
+
+<LDRConfigurations>
+<LDRConfiguration database_type="Microsoft_SQL_Server" database_version="Microsoft SQL Server 2005">
+<auto_correct_using_merge>yes</auto_correct_using_merge>
+<bulk_ldr_all_rows></bulk_ldr_all_rows>
+<bulk_ldr_max_errors></bulk_ldr_max_errors>
+<bulk_ldr_rows_per_commit>1000</bulk_ldr_rows_per_commit>
+<enable_partitioning>no</enable_partitioning>
+<ignore_column_case>yes</ignore_column_case>
+<ignore_columns_null>no</ignore_columns_null>
+<ignore_columns_value></ignore_columns_value>
+<loader_auto_correct>no</loader_auto_correct>
+<loader_bulk_load></loader_bulk_load>
+<loader_compare_column>compare_by_name</loader_compare_column>
+<loader_delete_map></loader_delete_map>
+<loader_drop_and_create_table>yes</loader_drop_and_create_table>
+<loader_insert_map></loader_insert_map>
+<loader_load_choice>append</loader_load_choice>
+<loader_num_parallel_loaders>1</loader_num_parallel_loaders>
+<loader_overflow_file></loader_overflow_file>
+<loader_post_load1></loader_post_load1>
+<loader_pre_load1></loader_pre_load1>
+<loader_quote_names>0</loader_quote_names>
+<loader_transactional>no</loader_transactional>
+<loader_transactional_order>0</loader_transactional_order>
+<loader_update_key_columns>no</loader_update_key_columns>
+<loader_update_map></loader_update_map>
+<loader_use_user_defined_keys>yes</loader_use_user_defined_keys>
+<loader_xact_size>1000</loader_xact_size>
+<mssql_bulk_ldr_mode>append</mssql_bulk_ldr_mode>
+<mssql_bulk_ldr_packet_size>0</mssql_bulk_ldr_packet_size>
+<overflow_file_format>write_data</overflow_file_format>
+<use_overflow_file>no</use_overflow_file>
+<use_unicode_varchar>no</use_unicode_varchar>
+<sql_text></sql_text>
+</LDRConfiguration>
+</LDRConfigurations>
+</DIAttribute>
+<DIAttribute name="loader_template_table" value="no"/>
+<DIAttribute name="name" value="DS_RMDB"/>
+<DIAttribute name="use_unicode_varchar" value="no"/>
+</DIAttributes>
+</DIDatabaseTableTarget>
+
+<DITransformCall typeId="111" name="Map_Operation" >
+<DIUIOptions>
+<DIAttribute name="ui_display_name" value="MO_INSERT_AT_BOND_ABS"/>
+</DIUIOptions>
+<DIInputView name="Q_AT_BOND_ABS_ASSIGN_ID"  />
+<DISchema name="MO_INSERT_AT_BOND_ABS" >
+</DISchema>
+<DIAttributes>
+<DIAttribute name="delete" value="discard"/>
+<DIAttribute name="insert" value="discard"/>
+<DIAttribute name="normal" value="insert"/>
+<DIAttribute name="update" value="discard"/>
+</DIAttributes>
+</DITransformCall>
+<DIDatabaseTableTarget typeID="11" bulkLoader="false" datastoreName="DS_RMDB" ownerName="DBO" tableName="BOND_ABS" >
+<DIInputView name="MO_INSERT_AT_BOND_ABS"  />
+<DIAttributes>
+<DIAttribute name="LDRLiveLoad" value="no"/>
+<DIAttribute name="Table_Type" value="TABLE"/>
+<DIAttribute name="connection_port" value="no"/>
+<DIAttribute name="ldr_configuration_enabled" value="yes"/>
+<DIAttribute name="ldr_configurations" hasNestedXMLTree ="true">
+
+<LDRConfigurations>
+<LDRConfiguration database_type="Microsoft_SQL_Server" database_version="Microsoft SQL Server 2005">
+<auto_correct_using_merge>Yes</auto_correct_using_merge>
+<bulk_ldr_all_rows></bulk_ldr_all_rows>
+<bulk_ldr_max_errors></bulk_ldr_max_errors>
+<bulk_ldr_rows_per_commit></bulk_ldr_rows_per_commit>
+<enable_partitioning>no</enable_partitioning>
+<ignore_column_case>yes</ignore_column_case>
+<ignore_columns_null>No</ignore_columns_null>
+<ignore_columns_value></ignore_columns_value>
+<loader_auto_correct>no</loader_auto_correct>
+<loader_bulk_load>0</loader_bulk_load>
+<loader_compare_column>compare_by_name</loader_compare_column>
+<loader_delete_map></loader_delete_map>
+<loader_drop_and_create_table>no</loader_drop_and_create_table>
+<loader_insert_map></loader_insert_map>
+<loader_load_choice>append</loader_load_choice>
+<loader_num_parallel_loaders>1</loader_num_parallel_loaders>
+<loader_overflow_file>DS_RMDB_DBO_BOND_ABS.txt</loader_overflow_file>
+<loader_post_load1></loader_post_load1>
+<loader_pre_load1></loader_pre_load1>
+<loader_quote_names>0</loader_quote_names>
+<loader_transactional>no</loader_transactional>
+<loader_transactional_order>0</loader_transactional_order>
+<loader_update_key_columns>no</loader_update_key_columns>
+<loader_update_map></loader_update_map>
+<loader_use_user_defined_keys>no</loader_use_user_defined_keys>
+<loader_xact_size>1000</loader_xact_size>
+<mssql_bulk_ldr_mode>append</mssql_bulk_ldr_mode>
+<mssql_bulk_ldr_packet_size>4</mssql_bulk_ldr_packet_size>
+<overflow_file_format>Write data</overflow_file_format>
+<use_overflow_file>no</use_overflow_file>
+<use_unicode_varchar>no</use_unicode_varchar>
+<sql_text></sql_text>
+</LDRConfiguration>
+</LDRConfigurations>
+</DIAttribute>
+<DIAttribute name="loader_template_table" value="no"/>
+<DIAttribute name="name" value="DS_RMDB"/>
+<DIAttribute name="use_unicode_varchar" value="no"/>
+</DIAttributes>
+</DIDatabaseTableTarget>
+
+<DIQuery typeId="122"  >
+<DIUIOptions>
+<DIAttribute name="ui_acta_from_schema_0" value="Q_INSERT_ROWS"/>
+<DIAttribute name="ui_display_name" value="Q_AT_BOND_ABS_COUNT"/>
+</DIUIOptions>
+<DISchema name="Q_AT_BOND_ABS_COUNT" >
+<DIElement name="JOBID" datatype="INT" key="true" >
+<DIAttributes>
+<DIAttribute name="Description" value=""/>
+<DIAttribute name="ui_mapping_text" value="Q_INSERT_ROWS.JOBID"/>
+</DIAttributes>
+</DIElement>
+<DIElement name="ADDED_ROWS_TOTAL" datatype="INT" >
+<DIAttributes>
+<DIAttribute name="Description" value=""/>
+<DIAttribute name="ui_mapping_text" value="COUNT(Q_INSERT_ROWS.BOND_ABS_ID)"/>
+</DIAttributes>
+</DIElement>
+</DISchema>
+<DISelect>
+<DIProjection>
+<DIExpression isString="true" expr="Q_INSERT_ROWS.JOBID" >
+<COLUMN_REFERENCE  qualifier1="Q_INSERT_ROWS" column="JOBID" />
+</DIExpression>
+<DIExpression isString="true" expr="count(Q_INSERT_ROWS.BOND_ABS_ID)" >
+<FUNCTION_CALL name="count"  type="DI" >
+<COLUMN_REFERENCE  qualifier1="Q_INSERT_ROWS" column="BOND_ABS_ID" />
+</FUNCTION_CALL>
+</DIExpression>
+</DIProjection>
+<DIFrom>
+<DITableSpec name="Q_INSERT_ROWS" />
+</DIFrom>
+<DIGroupBy>
+<DIExpression isString="true" expr="Q_INSERT_ROWS.JOBID" >
+<COLUMN_REFERENCE  qualifier1="Q_INSERT_ROWS" column="JOBID" />
+</DIExpression>
+</DIGroupBy>
+</DISelect>
+<DIAttributes>
+<DIAttribute name="distinct_run_as_separate_process" value="no"/>
+<DIAttribute name="group_by_run_as_separate_process" value="no"/>
+<DIAttribute name="join_run_as_separate_process" value="no"/>
+<DIAttribute name="order_by_run_as_separate_process" value="no"/>
+<DIAttribute name="run_as_separate_process" value="no"/>
+</DIAttributes>
+</DIQuery>
+
+<DIQuery typeId="122"  >
+<DIUIOptions>
+<DIAttribute name="ui_acta_from_schema_0" value="Q_AT_BOND_ABS_COUNT"/>
+<DIAttribute name="ui_display_name" value="Q_AT_BOND_ABS_RESERVE_UIDs"/>
+</DIUIOptions>
+<DISchema name="Q_AT_BOND_ABS_RESERVE_UIDs" >
+<DIElement name="JOBID" datatype="INT" key="true" >
+<DIAttributes>
+<DIAttribute name="Description" value=""/>
+<DIAttribute name="ui_mapping_text" value="Q_AT_BOND_ABS_COUNT.JOBID"/>
+</DIAttributes>
+</DIElement>
+<DIElement name="f_getNextUID" hasNestedSchema="true">
+<DINestedSchema type="RFCSchema">
+<DIElement name="NEXT_UNIQUE_ID" datatype="INT" >
+</DIElement>
+</DINestedSchema>
+</DIElement>
+</DISchema>
+<DISelect>
+<DIProjection>
+<DIExpression isString="true" expr="Q_AT_BOND_ABS_COUNT.JOBID" >
+<COLUMN_REFERENCE  qualifier1="Q_AT_BOND_ABS_COUNT" column="JOBID" />
+</DIExpression>
+<DIExpression isString="true" expr="__AL_SCRIPT_FUNCTION f_getNextUID[&quot;$p_NextUID&quot;]('BOND_ABS', Q_AT_BOND_ABS_COUNT.ADDED_ROWS_TOTAL)[&quot;$p_TableName&quot;,&quot;$p_AddedRows&quot;]" >
+<FUNCTION_CALL name="f_getNextUID"  type="UserScriptFunction" owner="" datastore="" >
+<CONSTANT value="BOND_ABS" datatype="VARCHAR" size="8" />
+<COLUMN_REFERENCE  qualifier1="Q_AT_BOND_ABS_COUNT" column="ADDED_ROWS_TOTAL" />
+</FUNCTION_CALL>
+</DIExpression>
+</DIProjection>
+<DIFrom>
+<DITableSpec name="Q_AT_BOND_ABS_COUNT" />
+</DIFrom>
+</DISelect>
+<DIAttributes>
+<DIAttribute name="distinct_run_as_separate_process" value="no"/>
+<DIAttribute name="group_by_run_as_separate_process" value="no"/>
+<DIAttribute name="join_run_as_separate_process" value="no"/>
+<DIAttribute name="order_by_run_as_separate_process" value="no"/>
+<DIAttribute name="run_as_separate_process" value="no"/>
+</DIAttributes>
+</DIQuery>
+<DIQuery typeId="122"  >
+<DIUIOptions>
+<DIAttribute name="ui_acta_from_schema_0" value="Q_AT_BOND_ABS_RESERVE_UIDs"/>
+<DIAttribute name="ui_acta_from_schema_1" value="Q_INSERT_ROWS"/>
+<DIAttribute name="ui_display_name" value="Q_AT_BOND_ABS_ASSIGN_ID"/>
+</DIUIOptions>
+<DISchema name="Q_AT_BOND_ABS_ASSIGN_ID" >
+<WILDCARD name="GenDFImport_QAssignId_schema"></WILDCARD>
+</DISchema>
+<DISelect>
+<DIProjection>
+<WILDCARD name="GenDFImport_QAssignId_select"></WILDCARD>
+</DIProjection>
+<DIFrom>
+<DITableSpec name="Q_AT_BOND_ABS_RESERVE_UIDs" />
+<DITableSpec name="Q_INSERT_ROWS" />
+</DIFrom>
+</DISelect>
+<DIAttributes>
+<DIAttribute name="distinct_run_as_separate_process" value="no"/>
+<DIAttribute name="group_by_run_as_separate_process" value="no"/>
+<DIAttribute name="join_run_as_separate_process" value="no"/>
+<DIAttribute name="order_by_run_as_separate_process" value="no"/>
+<DIAttribute name="run_as_separate_process" value="no"/>
+</DIAttributes>
+</DIQuery>
+</DITransforms>
+<DIAttributes>
+<DIAttribute name="Cache_type" value="pageable_cache"/>
+<DIAttribute name="Parallelism_degree" value="0"/>
+<DIAttribute name="allows_both_input_and_output" value="yes"/>
+<DIAttribute name="run_once" value="no"/>
+<DIAttribute name="use_dataflow_links" value="no"/>
+<DIAttribute name="use_datastore_links" value="yes"/>
+<DIAttribute name="validation_xform_exists" value="no"/>
+<DIAttribute name="validation_xform_stats" value="no"/>
+</DIAttributes>
+</DIDataflow>
+
+
+<DIWorkflow name="WF_DIS_READ_ADMIN_TRACKING" typeId="2" >
+<DISteps>
+<WILDCARD name="GenWFRead_Conditions"></WILDCARD>
+</DISteps>
+<DIAttributes>
+<DIAttribute name="run_once" value="no"/>
+<DIAttribute name="unit_of_recovery" value="no"/>
+</DIAttributes>
+</DIWorkflow>
+
+<DIWorkflow name="WF_DIS_VALIDATION_ADMIN_TRACKING" typeId="2" >
+<DISteps>
+<WILDCARD name="GenWFValidation_Conditions"></WILDCARD>
+</DISteps>
+<DIAttributes>
+<DIAttribute name="run_once" value="no"/>
+<DIAttribute name="unit_of_recovery" value="no"/>
+</DIAttributes>
+</DIWorkflow>
+
+<DIWorkflow name="WF_DIS_IMPORT_ADMIN_TRACKING" typeId="2" >
+<DISteps>
+<WILDCARD name="GenWFImport_Conditions"></WILDCARD>
+</DISteps>
+<DIAttributes>
+<DIAttribute name="run_once" value="no"/>
+<DIAttribute name="unit_of_recovery" value="no"/>
+</DIAttributes>
+</DIWorkflow>
+
+</DataIntegratorExport>
+

@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Riskmaster.Security.RMApp</name>
+    </assembly>
+    <members>
+        <!-- Badly formed XML comment ignored for member "T:Riskmaster.Security.RMApp.UserLoginLimits" -->
+    </members>
+</doc>

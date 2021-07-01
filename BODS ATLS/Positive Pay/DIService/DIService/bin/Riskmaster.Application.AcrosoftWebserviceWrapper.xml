@@ -1,0 +1,893 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Riskmaster.Application.AcrosoftWebserviceWrapper</name>
+    </assembly>
+    <members>
+        <member name="T:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo2.ASBaseWebService">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo2.ASBaseWebService.#ctor">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo2.ASBaseWebService.GetCabinetsForUser(System.String,System.String,System.String@,System.String@)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo2.ASBaseWebService.BeginGetCabinetsForUser(System.String,System.String,System.AsyncCallback,System.Object)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo2.ASBaseWebService.EndGetCabinetsForUser(System.IAsyncResult,System.String@,System.String@)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo2.ASBaseWebService.GetCabinetsForUserAsync(System.String,System.String)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo2.ASBaseWebService.GetCabinetsForUserAsync(System.String,System.String,System.Object)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo2.ASBaseWebService.GetFolderDocs(System.String,System.String,System.String@,System.String@)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo2.ASBaseWebService.BeginGetFolderDocs(System.String,System.String,System.AsyncCallback,System.Object)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo2.ASBaseWebService.EndGetFolderDocs(System.IAsyncResult,System.String@,System.String@)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo2.ASBaseWebService.GetFolderDocsAsync(System.String,System.String)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo2.ASBaseWebService.GetFolderDocsAsync(System.String,System.String,System.Object)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo2.ASBaseWebService.GetAppFolderTab(System.String,System.String,System.String@,System.String@)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo2.ASBaseWebService.BeginGetAppFolderTab(System.String,System.String,System.AsyncCallback,System.Object)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo2.ASBaseWebService.EndGetAppFolderTab(System.IAsyncResult,System.String@,System.String@)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo2.ASBaseWebService.GetAppFolderTabAsync(System.String,System.String)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo2.ASBaseWebService.GetAppFolderTabAsync(System.String,System.String,System.Object)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo2.ASBaseWebService.CreateSubFolder(System.String,System.String@,System.String@)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo2.ASBaseWebService.BeginCreateSubFolder(System.String,System.String,System.AsyncCallback,System.Object)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo2.ASBaseWebService.EndCreateSubFolder(System.IAsyncResult,System.String@,System.String@)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo2.ASBaseWebService.CreateSubFolderAsync(System.String,System.String)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo2.ASBaseWebService.CreateSubFolderAsync(System.String,System.String,System.Object)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo2.ASBaseWebService.UpdateSubFolder(System.String,System.String,System.String@)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo2.ASBaseWebService.BeginUpdateSubFolder(System.String,System.String,System.AsyncCallback,System.Object)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo2.ASBaseWebService.EndUpdateSubFolder(System.IAsyncResult,System.String@)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo2.ASBaseWebService.UpdateSubFolderAsync(System.String,System.String)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo2.ASBaseWebService.UpdateSubFolderAsync(System.String,System.String,System.Object)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo2.ASBaseWebService.MoveSubFolder(System.String,System.String,System.String@)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo2.ASBaseWebService.BeginMoveSubFolder(System.String,System.String,System.AsyncCallback,System.Object)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo2.ASBaseWebService.EndMoveSubFolder(System.IAsyncResult,System.String@)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo2.ASBaseWebService.MoveSubFolderAsync(System.String,System.String)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo2.ASBaseWebService.MoveSubFolderAsync(System.String,System.String,System.Object)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo2.ASBaseWebService.MoveDocument(System.String,System.String,System.String@)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo2.ASBaseWebService.BeginMoveDocument(System.String,System.String,System.AsyncCallback,System.Object)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo2.ASBaseWebService.EndMoveDocument(System.IAsyncResult,System.String@)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo2.ASBaseWebService.MoveDocumentAsync(System.String,System.String)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo2.ASBaseWebService.MoveDocumentAsync(System.String,System.String,System.Object)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo2.ASBaseWebService.ModifyDocument(System.String,System.String,System.String@)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo2.ASBaseWebService.BeginModifyDocument(System.String,System.String,System.AsyncCallback,System.Object)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo2.ASBaseWebService.EndModifyDocument(System.IAsyncResult,System.String@)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo2.ASBaseWebService.ModifyDocumentAsync(System.String,System.String)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo2.ASBaseWebService.ModifyDocumentAsync(System.String,System.String,System.Object)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo2.ASBaseWebService.CancelAsync(System.Object)">
+            <remarks/>
+        </member>
+        <member name="E:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo2.ASBaseWebService.GetCabinetsForUserCompleted">
+            <remarks/>
+        </member>
+        <member name="E:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo2.ASBaseWebService.GetFolderDocsCompleted">
+            <remarks/>
+        </member>
+        <member name="E:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo2.ASBaseWebService.GetAppFolderTabCompleted">
+            <remarks/>
+        </member>
+        <member name="E:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo2.ASBaseWebService.CreateSubFolderCompleted">
+            <remarks/>
+        </member>
+        <member name="E:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo2.ASBaseWebService.UpdateSubFolderCompleted">
+            <remarks/>
+        </member>
+        <member name="E:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo2.ASBaseWebService.MoveSubFolderCompleted">
+            <remarks/>
+        </member>
+        <member name="E:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo2.ASBaseWebService.MoveDocumentCompleted">
+            <remarks/>
+        </member>
+        <member name="E:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo2.ASBaseWebService.ModifyDocumentCompleted">
+            <remarks/>
+        </member>
+        <member name="T:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo2.GetCabinetsForUserCompletedEventHandler">
+            <remarks/>
+        </member>
+        <member name="T:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo2.GetCabinetsForUserCompletedEventArgs">
+            <remarks/>
+        </member>
+        <member name="P:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo2.GetCabinetsForUserCompletedEventArgs.Result">
+            <remarks/>
+        </member>
+        <member name="P:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo2.GetCabinetsForUserCompletedEventArgs.cabinetsXml">
+            <remarks/>
+        </member>
+        <member name="P:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo2.GetCabinetsForUserCompletedEventArgs.appExcpXml">
+            <remarks/>
+        </member>
+        <member name="T:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo2.GetFolderDocsCompletedEventHandler">
+            <remarks/>
+        </member>
+        <member name="T:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo2.GetFolderDocsCompletedEventArgs">
+            <remarks/>
+        </member>
+        <member name="P:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo2.GetFolderDocsCompletedEventArgs.Result">
+            <remarks/>
+        </member>
+        <member name="P:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo2.GetFolderDocsCompletedEventArgs.folderDocsXml">
+            <remarks/>
+        </member>
+        <member name="P:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo2.GetFolderDocsCompletedEventArgs.appExcpXml">
+            <remarks/>
+        </member>
+        <member name="T:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo2.GetAppFolderTabCompletedEventHandler">
+            <remarks/>
+        </member>
+        <member name="T:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo2.GetAppFolderTabCompletedEventArgs">
+            <remarks/>
+        </member>
+        <member name="P:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo2.GetAppFolderTabCompletedEventArgs.Result">
+            <remarks/>
+        </member>
+        <member name="P:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo2.GetAppFolderTabCompletedEventArgs.folderDataXml">
+            <remarks/>
+        </member>
+        <member name="P:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo2.GetAppFolderTabCompletedEventArgs.appExcpXml">
+            <remarks/>
+        </member>
+        <member name="T:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo2.CreateSubFolderCompletedEventHandler">
+            <remarks/>
+        </member>
+        <member name="T:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo2.CreateSubFolderCompletedEventArgs">
+            <remarks/>
+        </member>
+        <member name="P:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo2.CreateSubFolderCompletedEventArgs.Result">
+            <remarks/>
+        </member>
+        <member name="P:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo2.CreateSubFolderCompletedEventArgs.makeFolderDataXml">
+            <remarks/>
+        </member>
+        <member name="P:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo2.CreateSubFolderCompletedEventArgs.appExcpXml">
+            <remarks/>
+        </member>
+        <member name="T:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo2.UpdateSubFolderCompletedEventHandler">
+            <remarks/>
+        </member>
+        <member name="T:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo2.UpdateSubFolderCompletedEventArgs">
+            <remarks/>
+        </member>
+        <member name="P:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo2.UpdateSubFolderCompletedEventArgs.Result">
+            <remarks/>
+        </member>
+        <member name="P:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo2.UpdateSubFolderCompletedEventArgs.appExcpXml">
+            <remarks/>
+        </member>
+        <member name="T:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo2.MoveSubFolderCompletedEventHandler">
+            <remarks/>
+        </member>
+        <member name="T:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo2.MoveSubFolderCompletedEventArgs">
+            <remarks/>
+        </member>
+        <member name="P:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo2.MoveSubFolderCompletedEventArgs.Result">
+            <remarks/>
+        </member>
+        <member name="P:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo2.MoveSubFolderCompletedEventArgs.appExcpXml">
+            <remarks/>
+        </member>
+        <member name="T:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo2.MoveDocumentCompletedEventHandler">
+            <remarks/>
+        </member>
+        <member name="T:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo2.MoveDocumentCompletedEventArgs">
+            <remarks/>
+        </member>
+        <member name="P:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo2.MoveDocumentCompletedEventArgs.Result">
+            <remarks/>
+        </member>
+        <member name="P:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo2.MoveDocumentCompletedEventArgs.appExcpXml">
+            <remarks/>
+        </member>
+        <member name="T:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo2.ModifyDocumentCompletedEventHandler">
+            <remarks/>
+        </member>
+        <member name="T:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo2.ModifyDocumentCompletedEventArgs">
+            <remarks/>
+        </member>
+        <member name="P:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo2.ModifyDocumentCompletedEventArgs.Result">
+            <remarks/>
+        </member>
+        <member name="P:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo2.ModifyDocumentCompletedEventArgs.appExcpXml">
+            <remarks/>
+        </member>
+        <member name="T:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.IndexService">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.IndexService.#ctor">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.IndexService.IndexClassFolderSearch(System.String,System.String,System.String,System.String,System.String,System.String@,System.String@)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.IndexService.BeginIndexClassFolderSearch(System.String,System.String,System.String,System.String,System.String,System.AsyncCallback,System.Object)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.IndexService.EndIndexClassFolderSearch(System.IAsyncResult,System.String@,System.String@)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.IndexService.IndexClassFolderSearchAsync(System.String,System.String,System.String,System.String,System.String)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.IndexService.IndexClassFolderSearchAsync(System.String,System.String,System.String,System.String,System.String,System.Object)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.IndexService.GetIndexClassForCabinet(System.String,System.String,System.String@,System.String@)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.IndexService.BeginGetIndexClassForCabinet(System.String,System.String,System.AsyncCallback,System.Object)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.IndexService.EndGetIndexClassForCabinet(System.IAsyncResult,System.String@,System.String@)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.IndexService.GetIndexClassForCabinetAsync(System.String,System.String)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.IndexService.GetIndexClassForCabinetAsync(System.String,System.String,System.Object)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.IndexService.GetIndexFieldsForClass(System.String,System.String,System.String@,System.String@)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.IndexService.BeginGetIndexFieldsForClass(System.String,System.String,System.AsyncCallback,System.Object)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.IndexService.EndGetIndexFieldsForClass(System.IAsyncResult,System.String@,System.String@)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.IndexService.GetIndexFieldsForClassAsync(System.String,System.String)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.IndexService.GetIndexFieldsForClassAsync(System.String,System.String,System.Object)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.IndexService.GetIndexFoldersForFields(System.String,System.String,System.String,System.String@,System.String@)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.IndexService.BeginGetIndexFoldersForFields(System.String,System.String,System.String,System.AsyncCallback,System.Object)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.IndexService.EndGetIndexFoldersForFields(System.IAsyncResult,System.String@,System.String@)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.IndexService.GetIndexFoldersForFieldsAsync(System.String,System.String,System.String)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.IndexService.GetIndexFoldersForFieldsAsync(System.String,System.String,System.String,System.Object)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.IndexService.GetIndexFolderDocs(System.String,System.String,System.String,System.String@,System.String@)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.IndexService.BeginGetIndexFolderDocs(System.String,System.String,System.String,System.AsyncCallback,System.Object)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.IndexService.EndGetIndexFolderDocs(System.IAsyncResult,System.String@,System.String@)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.IndexService.GetIndexFolderDocsAsync(System.String,System.String,System.String)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.IndexService.GetIndexFolderDocsAsync(System.String,System.String,System.String,System.Object)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.IndexService.GetSupportSubFolders(System.String,System.String,System.String@,System.String@)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.IndexService.BeginGetSupportSubFolders(System.String,System.String,System.AsyncCallback,System.Object)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.IndexService.EndGetSupportSubFolders(System.IAsyncResult,System.String@,System.String@)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.IndexService.GetSupportSubFoldersAsync(System.String,System.String)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.IndexService.GetSupportSubFoldersAsync(System.String,System.String,System.Object)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.IndexService.GetCabinetsForUser(System.String,System.String,System.String@,System.String@)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.IndexService.BeginGetCabinetsForUser(System.String,System.String,System.AsyncCallback,System.Object)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.IndexService.EndGetCabinetsForUser(System.IAsyncResult,System.String@,System.String@)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.IndexService.GetCabinetsForUserAsync(System.String,System.String)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.IndexService.GetCabinetsForUserAsync(System.String,System.String,System.Object)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.IndexService.CreateFolder(System.String,System.String,System.String@)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.IndexService.BeginCreateFolder(System.String,System.String,System.AsyncCallback,System.Object)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.IndexService.EndCreateFolder(System.IAsyncResult,System.String@)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.IndexService.CreateFolderAsync(System.String,System.String)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.IndexService.CreateFolderAsync(System.String,System.String,System.Object)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.IndexService.DeleteDocument(System.String,System.String,System.String@)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.IndexService.BeginDeleteDocument(System.String,System.String,System.AsyncCallback,System.Object)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.IndexService.EndDeleteDocument(System.IAsyncResult,System.String@)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.IndexService.DeleteDocumentAsync(System.String,System.String)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.IndexService.DeleteDocumentAsync(System.String,System.String,System.Object)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.IndexService.DeleteSubFolder(System.String,System.String,System.String@)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.IndexService.BeginDeleteSubFolder(System.String,System.String,System.AsyncCallback,System.Object)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.IndexService.EndDeleteSubFolder(System.IAsyncResult,System.String@)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.IndexService.DeleteSubFolderAsync(System.String,System.String)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.IndexService.DeleteSubFolderAsync(System.String,System.String,System.Object)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.IndexService.ReIndexFolder(System.String,System.String,System.String@)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.IndexService.BeginReIndexFolder(System.String,System.String,System.AsyncCallback,System.Object)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.IndexService.EndReIndexFolder(System.IAsyncResult,System.String@)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.IndexService.ReIndexFolderAsync(System.String,System.String)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.IndexService.ReIndexFolderAsync(System.String,System.String,System.Object)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.IndexService.ReIndexDocument(System.String,System.String,System.String@)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.IndexService.BeginReIndexDocument(System.String,System.String,System.AsyncCallback,System.Object)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.IndexService.EndReIndexDocument(System.IAsyncResult,System.String@)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.IndexService.ReIndexDocumentAsync(System.String,System.String)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.IndexService.ReIndexDocumentAsync(System.String,System.String,System.Object)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.IndexService.CancelAsync(System.Object)">
+            <remarks/>
+        </member>
+        <member name="E:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.IndexService.IndexClassFolderSearchCompleted">
+            <remarks/>
+        </member>
+        <member name="E:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.IndexService.GetIndexClassForCabinetCompleted">
+            <remarks/>
+        </member>
+        <member name="E:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.IndexService.GetIndexFieldsForClassCompleted">
+            <remarks/>
+        </member>
+        <member name="E:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.IndexService.GetIndexFoldersForFieldsCompleted">
+            <remarks/>
+        </member>
+        <member name="E:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.IndexService.GetIndexFolderDocsCompleted">
+            <remarks/>
+        </member>
+        <member name="E:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.IndexService.GetSupportSubFoldersCompleted">
+            <remarks/>
+        </member>
+        <member name="E:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.IndexService.GetCabinetsForUserCompleted">
+            <remarks/>
+        </member>
+        <member name="E:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.IndexService.CreateFolderCompleted">
+            <remarks/>
+        </member>
+        <member name="E:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.IndexService.DeleteDocumentCompleted">
+            <remarks/>
+        </member>
+        <member name="E:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.IndexService.DeleteSubFolderCompleted">
+            <remarks/>
+        </member>
+        <member name="E:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.IndexService.ReIndexFolderCompleted">
+            <remarks/>
+        </member>
+        <member name="E:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.IndexService.ReIndexDocumentCompleted">
+            <remarks/>
+        </member>
+        <member name="T:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.IndexClassFolderSearchCompletedEventHandler">
+            <remarks/>
+        </member>
+        <member name="T:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.IndexClassFolderSearchCompletedEventArgs">
+            <remarks/>
+        </member>
+        <member name="P:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.IndexClassFolderSearchCompletedEventArgs.Result">
+            <remarks/>
+        </member>
+        <member name="P:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.IndexClassFolderSearchCompletedEventArgs.folderDocs">
+            <remarks/>
+        </member>
+        <member name="P:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.IndexClassFolderSearchCompletedEventArgs.appExcpXml">
+            <remarks/>
+        </member>
+        <member name="T:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.GetIndexClassForCabinetCompletedEventHandler">
+            <remarks/>
+        </member>
+        <member name="T:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.GetIndexClassForCabinetCompletedEventArgs">
+            <remarks/>
+        </member>
+        <member name="P:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.GetIndexClassForCabinetCompletedEventArgs.Result">
+            <remarks/>
+        </member>
+        <member name="P:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.GetIndexClassForCabinetCompletedEventArgs.strNDXClassXml">
+            <remarks/>
+        </member>
+        <member name="P:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.GetIndexClassForCabinetCompletedEventArgs.appExcpXml">
+            <remarks/>
+        </member>
+        <member name="T:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.GetIndexFieldsForClassCompletedEventHandler">
+            <remarks/>
+        </member>
+        <member name="T:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.GetIndexFieldsForClassCompletedEventArgs">
+            <remarks/>
+        </member>
+        <member name="P:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.GetIndexFieldsForClassCompletedEventArgs.Result">
+            <remarks/>
+        </member>
+        <member name="P:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.GetIndexFieldsForClassCompletedEventArgs.strNDXFieldsXml">
+            <remarks/>
+        </member>
+        <member name="P:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.GetIndexFieldsForClassCompletedEventArgs.appExcpXml">
+            <remarks/>
+        </member>
+        <member name="T:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.GetIndexFoldersForFieldsCompletedEventHandler">
+            <remarks/>
+        </member>
+        <member name="T:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.GetIndexFoldersForFieldsCompletedEventArgs">
+            <remarks/>
+        </member>
+        <member name="P:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.GetIndexFoldersForFieldsCompletedEventArgs.Result">
+            <remarks/>
+        </member>
+        <member name="P:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.GetIndexFoldersForFieldsCompletedEventArgs.strFolderXml">
+            <remarks/>
+        </member>
+        <member name="P:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.GetIndexFoldersForFieldsCompletedEventArgs.appExcpXml">
+            <remarks/>
+        </member>
+        <member name="T:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.GetIndexFolderDocsCompletedEventHandler">
+            <remarks/>
+        </member>
+        <member name="T:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.GetIndexFolderDocsCompletedEventArgs">
+            <remarks/>
+        </member>
+        <member name="P:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.GetIndexFolderDocsCompletedEventArgs.Result">
+            <remarks/>
+        </member>
+        <member name="P:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.GetIndexFolderDocsCompletedEventArgs.strFolderDocsXml">
+            <remarks/>
+        </member>
+        <member name="P:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.GetIndexFolderDocsCompletedEventArgs.appExcpXml">
+            <remarks/>
+        </member>
+        <member name="T:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.GetSupportSubFoldersCompletedEventHandler">
+            <remarks/>
+        </member>
+        <member name="T:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.GetSupportSubFoldersCompletedEventArgs">
+            <remarks/>
+        </member>
+        <member name="P:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.GetSupportSubFoldersCompletedEventArgs.Result">
+            <remarks/>
+        </member>
+        <member name="P:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.GetSupportSubFoldersCompletedEventArgs.subFoldersXml">
+            <remarks/>
+        </member>
+        <member name="P:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.GetSupportSubFoldersCompletedEventArgs.appExcpXml">
+            <remarks/>
+        </member>
+        <member name="T:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.GetCabinetsForUserCompletedEventHandler">
+            <remarks/>
+        </member>
+        <member name="T:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.GetCabinetsForUserCompletedEventArgs">
+            <remarks/>
+        </member>
+        <member name="P:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.GetCabinetsForUserCompletedEventArgs.Result">
+            <remarks/>
+        </member>
+        <member name="P:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.GetCabinetsForUserCompletedEventArgs.strCabinetXml">
+            <remarks/>
+        </member>
+        <member name="P:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.GetCabinetsForUserCompletedEventArgs.appExcpXml">
+            <remarks/>
+        </member>
+        <member name="T:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.CreateFolderCompletedEventHandler">
+            <remarks/>
+        </member>
+        <member name="T:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.CreateFolderCompletedEventArgs">
+            <remarks/>
+        </member>
+        <member name="P:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.CreateFolderCompletedEventArgs.Result">
+            <remarks/>
+        </member>
+        <member name="P:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.CreateFolderCompletedEventArgs.appExcpXml">
+            <remarks/>
+        </member>
+        <member name="T:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.DeleteDocumentCompletedEventHandler">
+            <remarks/>
+        </member>
+        <member name="T:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.DeleteDocumentCompletedEventArgs">
+            <remarks/>
+        </member>
+        <member name="P:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.DeleteDocumentCompletedEventArgs.Result">
+            <remarks/>
+        </member>
+        <member name="P:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.DeleteDocumentCompletedEventArgs.appExcpXml">
+            <remarks/>
+        </member>
+        <member name="T:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.DeleteSubFolderCompletedEventHandler">
+            <remarks/>
+        </member>
+        <member name="T:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.DeleteSubFolderCompletedEventArgs">
+            <remarks/>
+        </member>
+        <member name="P:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.DeleteSubFolderCompletedEventArgs.Result">
+            <remarks/>
+        </member>
+        <member name="P:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.DeleteSubFolderCompletedEventArgs.appExcpXml">
+            <remarks/>
+        </member>
+        <member name="T:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.ReIndexFolderCompletedEventHandler">
+            <remarks/>
+        </member>
+        <member name="T:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.ReIndexFolderCompletedEventArgs">
+            <remarks/>
+        </member>
+        <member name="P:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.ReIndexFolderCompletedEventArgs.Result">
+            <remarks/>
+        </member>
+        <member name="P:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.ReIndexFolderCompletedEventArgs.appExcpXml">
+            <remarks/>
+        </member>
+        <member name="T:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.ReIndexDocumentCompletedEventHandler">
+            <remarks/>
+        </member>
+        <member name="T:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.ReIndexDocumentCompletedEventArgs">
+            <remarks/>
+        </member>
+        <member name="P:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.ReIndexDocumentCompletedEventArgs.Result">
+            <remarks/>
+        </member>
+        <member name="P:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo3.ReIndexDocumentCompletedEventArgs.appExcpXml">
+            <remarks/>
+        </member>
+        <member name="T:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo.AuthService">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo.AuthService.#ctor">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo.AuthService.Authenticate(System.String,System.String,System.String@,System.String@)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo.AuthService.BeginAuthenticate(System.String,System.String,System.AsyncCallback,System.Object)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo.AuthService.EndAuthenticate(System.IAsyncResult,System.String@,System.String@)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo.AuthService.AuthenticateAsync(System.String,System.String)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo.AuthService.AuthenticateAsync(System.String,System.String,System.Object)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo.AuthService.CancelAsync(System.Object)">
+            <remarks/>
+        </member>
+        <member name="E:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo.AuthService.AuthenticateCompleted">
+            <remarks/>
+        </member>
+        <member name="T:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo.AuthenticateCompletedEventHandler">
+            <remarks/>
+        </member>
+        <member name="T:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo.AuthenticateCompletedEventArgs">
+            <remarks/>
+        </member>
+        <member name="P:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo.AuthenticateCompletedEventArgs.Result">
+            <remarks/>
+        </member>
+        <member name="P:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo.AuthenticateCompletedEventArgs.sessionId">
+            <remarks/>
+        </member>
+        <member name="P:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo.AuthenticateCompletedEventArgs.appExcpXml">
+            <remarks/>
+        </member>
+        <member name="T:Riskmaster.Application.AcrosoftWebserviceWrapper.Acrosoft">
+            <summary>
+            This Class is a wrapper to call the Acrosoft WebServices.
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.Acrosoft.Authenticate(System.String,System.String,System.String@,System.String@)">
+            <summary>
+            This method is used to authenticate a user in Acrosoft
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.Acrosoft.StoreObjectBuffer(System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String@)">
+            <summary>
+            These methods are overloads to store an object in Acrosoft
+            </summary>
+        </member>
+        <member name="T:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo1.ASObjectWebService">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo1.ASObjectWebService.#ctor">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo1.ASObjectWebService.StoreObject(System.String,System.String@,System.String@)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo1.ASObjectWebService.BeginStoreObject(System.String,System.String,System.AsyncCallback,System.Object)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo1.ASObjectWebService.EndStoreObject(System.IAsyncResult,System.String@,System.String@)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo1.ASObjectWebService.StoreObjectAsync(System.String,System.String)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo1.ASObjectWebService.StoreObjectAsync(System.String,System.String,System.Object)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo1.ASObjectWebService.RetrieveObject(System.String,System.String@,System.String@)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo1.ASObjectWebService.BeginRetrieveObject(System.String,System.String,System.AsyncCallback,System.Object)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo1.ASObjectWebService.EndRetrieveObject(System.IAsyncResult,System.String@,System.String@)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo1.ASObjectWebService.RetrieveObjectAsync(System.String,System.String)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo1.ASObjectWebService.RetrieveObjectAsync(System.String,System.String,System.Object)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo1.ASObjectWebService.StoreObjectBuffer(System.String,System.Byte[],System.String@,System.String@)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo1.ASObjectWebService.BeginStoreObjectBuffer(System.String,System.Byte[],System.String,System.AsyncCallback,System.Object)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo1.ASObjectWebService.EndStoreObjectBuffer(System.IAsyncResult,System.String@,System.String@)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo1.ASObjectWebService.StoreObjectBufferAsync(System.String,System.Byte[],System.String)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo1.ASObjectWebService.StoreObjectBufferAsync(System.String,System.Byte[],System.String,System.Object)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo1.ASObjectWebService.RetrieveObjectBuffer(System.String,System.String@,System.Byte[]@,System.String@)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo1.ASObjectWebService.BeginRetrieveObjectBuffer(System.String,System.String,System.AsyncCallback,System.Object)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo1.ASObjectWebService.EndRetrieveObjectBuffer(System.IAsyncResult,System.String@,System.Byte[]@,System.String@)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo1.ASObjectWebService.RetrieveObjectBufferAsync(System.String,System.String)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo1.ASObjectWebService.RetrieveObjectBufferAsync(System.String,System.String,System.Object)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo1.ASObjectWebService.DeleteObject(System.String,System.String@,System.String@)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo1.ASObjectWebService.BeginDeleteObject(System.String,System.String,System.AsyncCallback,System.Object)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo1.ASObjectWebService.EndDeleteObject(System.IAsyncResult,System.String@,System.String@)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo1.ASObjectWebService.DeleteObjectAsync(System.String,System.String)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo1.ASObjectWebService.DeleteObjectAsync(System.String,System.String,System.Object)">
+            <remarks/>
+        </member>
+        <member name="M:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo1.ASObjectWebService.CancelAsync(System.Object)">
+            <remarks/>
+        </member>
+        <member name="E:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo1.ASObjectWebService.StoreObjectCompleted">
+            <remarks/>
+        </member>
+        <member name="E:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo1.ASObjectWebService.RetrieveObjectCompleted">
+            <remarks/>
+        </member>
+        <member name="E:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo1.ASObjectWebService.StoreObjectBufferCompleted">
+            <remarks/>
+        </member>
+        <member name="E:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo1.ASObjectWebService.RetrieveObjectBufferCompleted">
+            <remarks/>
+        </member>
+        <member name="E:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo1.ASObjectWebService.DeleteObjectCompleted">
+            <remarks/>
+        </member>
+        <member name="T:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo1.StoreObjectCompletedEventHandler">
+            <remarks/>
+        </member>
+        <member name="T:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo1.StoreObjectCompletedEventArgs">
+            <remarks/>
+        </member>
+        <member name="P:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo1.StoreObjectCompletedEventArgs.Result">
+            <remarks/>
+        </member>
+        <member name="P:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo1.StoreObjectCompletedEventArgs.strStoreObjectXml">
+            <remarks/>
+        </member>
+        <member name="P:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo1.StoreObjectCompletedEventArgs.strAppExcpXml">
+            <remarks/>
+        </member>
+        <member name="T:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo1.RetrieveObjectCompletedEventHandler">
+            <remarks/>
+        </member>
+        <member name="T:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo1.RetrieveObjectCompletedEventArgs">
+            <remarks/>
+        </member>
+        <member name="P:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo1.RetrieveObjectCompletedEventArgs.Result">
+            <remarks/>
+        </member>
+        <member name="P:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo1.RetrieveObjectCompletedEventArgs.strRetrieveObjectXml">
+            <remarks/>
+        </member>
+        <member name="P:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo1.RetrieveObjectCompletedEventArgs.strAppExcpXml">
+            <remarks/>
+        </member>
+        <member name="T:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo1.StoreObjectBufferCompletedEventHandler">
+            <remarks/>
+        </member>
+        <member name="T:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo1.StoreObjectBufferCompletedEventArgs">
+            <remarks/>
+        </member>
+        <member name="P:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo1.StoreObjectBufferCompletedEventArgs.Result">
+            <remarks/>
+        </member>
+        <member name="P:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo1.StoreObjectBufferCompletedEventArgs.strStoreObjectXml">
+            <remarks/>
+        </member>
+        <member name="P:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo1.StoreObjectBufferCompletedEventArgs.strAppExcpXml">
+            <remarks/>
+        </member>
+        <member name="T:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo1.RetrieveObjectBufferCompletedEventHandler">
+            <remarks/>
+        </member>
+        <member name="T:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo1.RetrieveObjectBufferCompletedEventArgs">
+            <remarks/>
+        </member>
+        <member name="P:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo1.RetrieveObjectBufferCompletedEventArgs.Result">
+            <remarks/>
+        </member>
+        <member name="P:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo1.RetrieveObjectBufferCompletedEventArgs.strRetrieveObjectXml">
+            <remarks/>
+        </member>
+        <member name="P:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo1.RetrieveObjectBufferCompletedEventArgs.fileBuffer">
+            <remarks/>
+        </member>
+        <member name="P:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo1.RetrieveObjectBufferCompletedEventArgs.strAppExcpXml">
+            <remarks/>
+        </member>
+        <member name="T:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo1.DeleteObjectCompletedEventHandler">
+            <remarks/>
+        </member>
+        <member name="T:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo1.DeleteObjectCompletedEventArgs">
+            <remarks/>
+        </member>
+        <member name="P:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo1.DeleteObjectCompletedEventArgs.Result">
+            <remarks/>
+        </member>
+        <member name="P:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo1.DeleteObjectCompletedEventArgs.strDeleteObjectXml">
+            <remarks/>
+        </member>
+        <member name="P:Riskmaster.Application.AcrosoftWebserviceWrapper.com.acrosoft.asdemo1.DeleteObjectCompletedEventArgs.strAppExcpXml">
+            <remarks/>
+        </member>
+    </members>
+</doc>

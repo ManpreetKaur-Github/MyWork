@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Riskmaster.Application.ZipUtil</name>
+    </assembly>
+    <members>
+        <member name="T:Riskmaster.Application.ZipUtil.ZipUtility">
+            ************************************************************** 
+            * $File		: ZipUtil.cs 
+            * $Revision	: 1.0.0.0 
+            * $Date		: 26-Nov-2004 
+            * $Author	: Tanuj Narula
+            * $Comment	: 
+            * $Source	: 
+            **************************************************************
+             <summary>	
+             This class is used for compression and decompression
+             of images. 			
+             </summary>
+        </member>
+        <member name="F:Riskmaster.Application.ZipUtil.ZipUtility.m_arrByte">
+            <summary>
+            Contains the binary data for the image that has been converted to memory stream. 
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Application.ZipUtil.ZipUtility.#ctor">
+            <summary>
+            Riskmaster.Application.ZipUtility is the default constructor.
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Application.ZipUtil.ZipUtility.DecodeBinaryString(System.String@,System.Byte[]@)">
+            <summary>
+            This function will decode the binary string encrypted through EncodeBinaryString() of this library.
+            </summary>
+            <param name="p_sSrc">String to be decoded.</param>
+            <param name="p_arrImage">This array will contain the decoded bytes.</param>
+        </member>
+        <member name="M:Riskmaster.Application.ZipUtil.ZipUtility.EncodeBinaryString(System.Byte[]@)">
+            <summary>
+            This function will encode the byte array into a string.
+            </summary>
+            <param name="p_arrImage">Array of bytes to be encoded</param>		
+            <returns>String containing the encoded binary data</returns>
+        </member>
+        <member name="M:Riskmaster.Application.ZipUtil.ZipUtility.UnZIPBufferToMemoryStream(System.String@)">
+            <summary>
+            This function will decompress the string into memory stream.
+            </summary>
+            <param name="p_sStr">String to be decompressed.</param>
+            <returns>Memory Stream after decompression</returns>
+        </member>
+        <member name="M:Riskmaster.Application.ZipUtil.ZipUtility.ZipFile(System.String)">
+            <summary>
+            This function will firstly compress the file and then encode the file using EncodeBinaryString() function.
+            </summary>
+            <param name="p_sFilePath">Path of the file to be compressed and encoded</param>
+            <returns>Encoded Binary String</returns>
+        </member>
+        <member name="M:Riskmaster.Application.ZipUtil.ZipUtility.UnZIPBufferToTempFile(System.String@)">
+            <summary>
+            This function returns the path of unzipped file.
+            </summary>
+            <param name="p_EncodedString">Encoded and compressed file string</param>
+            <returns>Path of the unzipped file</returns>
+        </member>
+        <member name="M:Riskmaster.Application.ZipUtil.ZipUtility.UnZIPBufferToFile(System.String@,System.String)">
+            <summary>
+            This function will decompress the encoded string to a supplied file name. 
+            </summary>
+            <param name="p_sEncodedString">string to be decompressed</param>
+            <param name="p_sOutFileName">Path of the file where encoded string will be decompressed</param>
+        </member>
+        <member name="M:Riskmaster.Application.ZipUtil.ZipUtility.Dispose">
+            <summary>
+            This method will be called by the caller of this library to nullify module level variables.
+            </summary>
+        </member>
+    </members>
+</doc>

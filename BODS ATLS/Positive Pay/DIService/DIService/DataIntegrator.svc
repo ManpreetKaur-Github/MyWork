@@ -1,0 +1,1 @@
+﻿<%@ ServiceHost Language="C#" Debug="true" Service="DIService.DataIntegrator" CodeBehind="DataIntegrator.svc.cs" %>

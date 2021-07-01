@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="DDS">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="gEVENTS_AVAILABLE" type="xs:unsignedByte" />
+        <xs:element name="gCLAIMS_AVAILABLE" type="xs:unsignedByte" />
+        <xs:element name="gPAYMENTS_AVAILABLE" type="xs:unsignedByte" />
+	<xs:element name="gPAYMENT_SUB_ACCOUNT" type="xs:unsignedByte" />
+	<xs:element name="gPAYMENT_BANK_ACCOUNT" type="xs:unsignedByte" />
+	<xs:element name="gMED_WATCH_AVAILABLE" type="xs:unsignedByte" />
+	<xs:element name="gADJUSTER_NOTES_AVAILABLE" type="xs:unsignedByte" />
+	<xs:element name="gENHANCED_NOTES_AVAILABLE" type="xs:unsignedByte" />
+	<xs:element name="gSTD_AVAILABLE" type="xs:unsignedByte" />
+  	<xs:element name="gPERFORM_VERIFICATION" type="xs:unsignedByte" />
+        <xs:element name="gCHK_DUPLICATE_ENTITY" type="xs:unsignedByte" />
+	<xs:element name="gALLOW_NEW_CODES" type="xs:unsignedByte" />
+        <xs:element name="gALLOW_NEW_EMPLOYEES" type="xs:unsignedByte" />
+        <xs:element name="gALLOW_NEW_DEPARTMENT" type="xs:unsignedByte" />
+        <xs:element name="gCHK_CREATE_NEWENTITY" type="xs:unsignedByte" />
+        <xs:element name="gEMPLOYEE_MATCH_BY_NAME" type="xs:unsignedByte" />
+        <xs:element name="gEMPLOYEE_MATCH_BY_TAX_ID" type="xs:unsignedByte" />
+	<xs:element name="gEMPLOYEE_MATCH_BY_DOB" type="xs:unsignedByte" />
+        <xs:element name="gEMPLOYEE_MATCH_BY_EMP_NUM" type="xs:unsignedByte" />
+        <xs:element name="gNON_EMP_MATCH_BY_NAME" type="xs:unsignedByte" />
+        <xs:element name="gNON_EMP_MATCH_BY_TAX_ID" type="xs:unsignedByte" />
+	<xs:element name="gNON_EMP_MATCH_BY_DOB" type="xs:unsignedByte" />
+        <xs:element name="gCREATE_PI_ENT_IF_TAXID_EMPTY" type="xs:unsignedByte" />
+        <xs:element name="gALLOW_NEW_CLAIMS" type="xs:unsignedByte" />
+        <xs:element name="gID_CLAIMANT_BY_NAME_GCVA" type="xs:unsignedByte" />
+        <xs:element name="gID_CLAIMANT_BY_SUFFIX_GCVA" type="xs:unsignedByte" />
+        <xs:element name="gUPDATE_CLAIMANT_NAME_GCVA" type="xs:unsignedByte" />
+        <xs:element name="gCRT_ENT_IF_TAXID_EMPTY_GCVA" type="xs:unsignedByte" />
+        <xs:element name="gUPDATE_CLAIMANT_NAME_WC" type="xs:unsignedByte" />
+        <xs:element name="gATTACH_TRANS_ID_TO_CHECK_NO" type="xs:unsignedByte" />
+        <xs:element name="gRECALCULATE_RESERVES" type="xs:unsignedByte" />
+        <xs:element name="gDONT_CHECK_DUPLICATE_PAYMENTS" type="xs:unsignedByte" />
+        <xs:element name="gCHECK_DUPLICATE_RESERVE_TRANS" type="xs:unsignedByte" />
+        <xs:element name="gID_CLAIMANT_BY_Suffix" type="xs:unsignedByte" />
+	<xs:element name="gID_CLAIMANT_BY_NAME" type="xs:unsignedByte" />
+	<xs:element name="gVALIDATE_SUPPLEMENTALS" type="xs:unsignedByte" />
+        <xs:element name="gEN_ENT_MATCH_BY_NAME" type="xs:unsignedByte" />
+        <xs:element name="gEN_ENT_MATCH_BY_TAX_ID" type="xs:unsignedByte" />
+        <xs:element name="gEN_ENT_MATCH_BY_ABBRV" type="xs:unsignedByte" />
+	<xs:element name="gSET_ADJUSTER_AS_CURRENT" type="xs:unsignedByte" />
+	<xs:element name="gENHNOTES_CLMNT_NAME" type="xs:unsignedByte" />
+	<xs:element name="gENHNOTES_CLMNT_TAX" type="xs:unsignedByte" />
+	<xs:element name="gENHNOTES_CLMNT_ABBREVIATION" type="xs:unsignedByte" />
+	<xs:element name="gCONFIG_ID" type="xs:unsignedByte" />
+        <xs:element name="gEVENT_SUPP" type="xs:unsignedByte" />
+        <xs:element name="gCLAIM_SUPP" type="xs:unsignedByte" />
+        <xs:element name="gPAYMENT_SUPP" type="xs:unsignedByte" />
+	<xs:element name="gMEDWATCH_SUPP" type="xs:unsignedByte" />
+	<xs:element name="gSTDPLAN_SUPP" type="xs:unsignedByte" />
+        <xs:element name="gORGSEC_FLAG" type="xs:unsignedByte" />
+        <xs:element name="gDIARY_TO_USERS" />
+        <xs:element name="gUSE_TRANSACTIONS" type="xs:unsignedByte" />
+        <xs:element name="gVALID_START_DATE" />
+        <xs:element name="gVALID_END_DATE" />
+        <xs:element name="gEVENT_IMPORTFILE_NAME" />
+        <xs:element name="gMEDWATCH_IMPORTFILE_NAME" />
+        <xs:element name="gCLAIM_IMPORTFILE_NAME" />
+        <xs:element name="gSTD_PLAN_IMPORTFILE_NAME" />
+        <xs:element name="gSTD_CLASS_IMPORTFILE_NAME" />
+        <xs:element name="gADJUSTER_IMPORTFILE_NAME" />
+        <xs:element name="gPAYMENT_IMPORTFILE_NAME" />
+        <xs:element name="gEN_IMPORTFILE_NAME" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

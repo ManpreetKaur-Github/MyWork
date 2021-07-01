@@ -1,0 +1,418 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Riskmaster.Application.FileStorage</name>
+    </assembly>
+    <members>
+        <member name="T:Riskmaster.Application.FileStorage.FileStorageManager">
+            <summary>	
+            This class contains methods to handle the files that are being kept at the Document Storage.
+            Document Storage can either be File System or Database. 
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.FileStorage.FileStorageManager.m_enmStorageType">
+            <summary>
+            File Storage Type (File System or Database) 
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.FileStorage.FileStorageManager.m_sDestinationStoragePath">
+            <summary>
+            Destination Storage Path
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Application.FileStorage.FileStorageManager.#ctor">
+            Name			: FileStorageManager
+            Author			: Aditya Babbar
+            Date Created	: 28-Jan-2005
+            ************************************************************
+            Amendment History
+            ************************************************************
+            Date Amended	*   Amendment   *    Author
+            				*				*
+            				*				*	
+            ************************************************************
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Application.FileStorage.FileStorageManager.#ctor(Riskmaster.Application.FileStorage.StorageType,System.String)">
+            Name			: FileStorageManager
+            Author			: Neelima Dabral
+            Date Created	: 17-Nov-2004
+            ************************************************************
+            Amendment History
+            ************************************************************
+            Date Amended	*   Amendment   *    Author
+            				*				*
+            				*				*	
+            ************************************************************
+            <summary>
+            Constructor
+            </summary>
+            <param name="p_iStorageType">
+            Storage Type (File System or Database)
+            </param>
+            <param name="p_sDestinationStoragePath">
+            Destination storage path.
+            If the storage type is File System then File System path
+            else if the storage type is database then database connection string.
+            </param>
+        </member>
+        <member name="M:Riskmaster.Application.FileStorage.FileStorageManager.StoreFile(System.String,System.String)">
+            Name			: StoreFile
+            Author			: Neelima Dabral
+            Date Created	: 17-Nov-2004
+            ************************************************************
+            Amendment History
+            ************************************************************
+            Date Amended	*   Amendment   *    Author
+            				*				*
+            				*				*	
+            ************************************************************
+            <summary>
+            	This method will store specified file in the document storage.
+            	It will overwrite any existing file with same name and path in the destination store.
+            </summary>
+            <param name="p_sSourceFileName">
+            	Fully qualified DOS or UNC path to the file to store
+            </param>
+            <param name="p_sDestinationFileName">
+            	A document storage relative path + filename
+            	Examples are \README.DOC, \SMNET\README.DOC, \RDMS\LOSSENGINE\README.DOC, etc.
+            </param>
+            <returns>1 - Success; 0 - Failure</returns>
+        </member>
+        <member name="M:Riskmaster.Application.FileStorage.FileStorageManager.StoreFile(System.IO.MemoryStream,System.String)">
+            Name			: StoreFile
+            Author			: Neelima Dabral
+            Date Created	: 17-Nov-2004
+            ************************************************************
+            Amendment History
+            ************************************************************
+            Date Amended	*   Amendment   *    Author
+            				*				*
+            				*				*	
+            ************************************************************
+            <summary>
+            	This method will store the binary stream in the document storage.
+            	It will overwrite any existing file with same name and path in the destination store.
+            </summary>
+            <param name="p_objFileContents">
+            	Binary stream to be stored in the document storage
+            </param>
+            <param name="p_sDestinationFileName">
+            	A document storage relative path + filename
+            	Examples are \README.DOC, \SMNET\README.DOC, \RDMS\LOSSENGINE\README.DOC, etc.
+            </param>
+            <returns>1 - Success; 0 - Failure</returns>
+        </member>
+        <member name="M:Riskmaster.Application.FileStorage.FileStorageManager.UpdateFile(System.IO.MemoryStream)">
+            Name			: UpdateFile
+            Author			: Tanuj Narula
+            Date Created	: 29-May-2006
+            ************************************************************
+            Amendment History
+            ************************************************************
+            Date Amended	*   Amendment   *    Author
+            				*				*
+            				*				*	
+            ************************************************************
+            <summary>
+            This method updates the BLOB stored in database.
+            </summary>
+            <param name="p_sSourceFile">file to be dumped.</param>
+        </member>
+        <member name="M:Riskmaster.Application.FileStorage.FileStorageManager.RetrieveFile(System.String,System.String,System.String@)">
+            Name			: RetrieveFile
+            Author			: Neelima Dabral
+            Date Created	: 17-Nov-2004
+            ************************************************************
+            Amendment History
+            ************************************************************
+            Date Amended	*   Amendment   *    Author
+            				*				*
+            				*				*	
+            ************************************************************
+            <summary>
+            	This method retrieves a file from the document store 
+            	and stores it in a temporary OS file system file or at the path specified to the method.
+            	Temporary file will be created in temporary directory and 
+            	will have the name specified in the document store - including its original extension.
+            </summary>
+            <param name="p_sFileName">
+            	Name of the file to be retrieved from document store (A document storage relative path 
+            	+ filename) 		
+            	Examples are \README.DOC, \SMNET\README.DOC, \RDMS\LOSSENGINE\README.DOC, etc.
+            </param>
+            <param name="p_sOutputFileName">
+            	A UNC or DOS path + filename to write the file to
+            </param>
+            <param name="p_sRetrievedFile">
+            	Complete UNC or DOS file path (path + filename) of the file requested
+            </param>
+            <returns>1 - Success; 0 - Failure</returns>
+        </member>
+        <member name="M:Riskmaster.Application.FileStorage.FileStorageManager.CopyFile(System.String,System.String)">
+            Name			: CopyFile
+            Author			: Neelima Dabral
+            Date Created	: 17-Nov-2004
+            ************************************************************
+            Amendment History
+            ************************************************************
+            Date Amended	*   Amendment   *    Author
+            				*				*
+            				*				*	
+            ************************************************************
+            <summary>
+            	This method copies a file from one place in the document storage to another.
+            	It will overwrite any existing file with same name and path in the destination store.
+            </summary>
+            <param name="p_sSourceFileName">
+            	File in document storage that which needs to be copied 
+            	(document storage relative path + filename).
+            </param>
+            <param name="p_sDestinationFileName">
+            	Name of the file to which contents of the source file are copied
+            </param>
+            <returns>1 - Success; 0 - Failure</returns>
+        </member>
+        <member name="M:Riskmaster.Application.FileStorage.FileStorageManager.DeleteFile(System.String)">
+            Name			: DeleteFile
+            Author			: Neelima Dabral
+            Date Created	: 17-Nov-2004
+            ************************************************************
+            Amendment History
+            ************************************************************
+            Date Amended	*   Amendment   *    Author
+            				*				*
+            				*				*	
+            ************************************************************
+            <summary>
+            	This method deletes a file from the document storage.
+            </summary>
+            <param name="p_sFileName">
+            	Name of the file to be deleted (A document storage relative path + filename) 		
+            	Examples are \README.DOC, \SMNET\README.DOC, \RDMS\LOSSENGINE\README.DOC, etc.
+            </param>
+            <returns>1 - Success; 0 - Failure</returns>
+        </member>
+        <member name="M:Riskmaster.Application.FileStorage.FileStorageManager.FileExists(System.String,System.Boolean@)">
+            Name			: FileExists
+            Author			: Neelima Dabral
+            Date Created	: 17-Nov-2004
+            ************************************************************
+            Amendment History
+            ************************************************************
+            Date Amended	*   Amendment   *    Author
+            				*				*
+            				*				*	
+            ************************************************************
+            <summary>
+            	This method checks if specified file exists in document storage.
+            </summary>
+            <param name="p_sFileName">
+            	Name of the file whose existence needs to be checked (A document storage relative path 
+            	+ filename) 		
+            	Examples are \README.DOC, \SMNET\README.DOC, \RDMS\LOSSENGINE\README.DOC, etc.
+            </param>
+            <param name="p_bFileExist">
+            	True - If file exists; False - If file does not exist
+            </param>
+            <returns>1 - Success; 0 - Failure</returns>
+        </member>
+        <member name="M:Riskmaster.Application.FileStorage.FileStorageManager.GetSafeFileName(System.String,System.String@)">
+            Name			: GetSafeFileName
+            Author			: Neelima Dabral
+            Date Created	: 17-Nov-2004
+            ************************************************************
+            Amendment History
+            ************************************************************
+            Date Amended	*   Amendment   *    Author
+            				*				*
+            				*				*	
+            ************************************************************
+            <summary>
+            	This method returns a unique file name based on template file name passed as parameter.
+            </summary>
+            <param name="p_sFileName">
+            	Template file name (document storage relative path + filename)
+            	Examples are \README.DOC, \SMNET\README.DOC, \RDMS\LOSSENGINE\README.DOC, etc.
+            </param>
+            <param name="p_sSafeFileName">
+            	Unique file name (document storage relative path + filename)
+            	it will either be original filename if no conflict or the original filename 
+            	with a sequence number (starting at 1) appended to it before the extension. 
+            	Examples are \SMNET\README1.DOC, \SMNET\README2.DOC, etc.
+            </param>
+            <returns>1 - Success; 0 - Failure</returns>
+        </member>
+        <member name="M:Riskmaster.Application.FileStorage.FileStorageManager.GetUniqueFileName(System.String,System.String,System.String@)">
+            Name			: GetUniqueFileName
+            Author			: Neelima Dabral
+            Date Created	: 17-Nov-2004
+            ************************************************************
+            Amendment History
+            ************************************************************
+            Date Amended	*   Amendment   *    Author
+            				*				*
+            				*				*	
+            ************************************************************
+            <summary>
+            	This method generates a statistically unique file name.
+            </summary>
+            <param name="p_sFilePath">
+            	A document storage relative path, 
+            	If blank then root path (\) will be assumed.		
+            	Examples are \, \SMNET, \RDMS\LOSSENGINE, etc.
+            </param>
+            <param name="p_sFileExtension">
+            	File extension for which unique file name has to be generated.
+            </param>
+            <param name="p_sUniqueFileName">
+            	Unique file name generated with the specified extension.
+            </param>
+            <returns>1 - Success; 0 - Failure</returns>
+        </member>
+        <member name="M:Riskmaster.Application.FileStorage.FileStorageManager.ParseFilePath(System.String,System.String@,System.String@)">
+            Name			: ParseFilePath
+            Author			: Neelima Dabral
+            Date Created	: 17-Nov-2004
+            ************************************************************
+            Amendment History
+            ************************************************************
+            Date Amended	*   Amendment   *    Author
+            				*				*
+            				*				*	
+            ************************************************************
+            <summary>
+            	This method will parse a file path (filename with complete path information) into 
+            	filename and path. Returned filename will consist of the filename + extension. 		
+            </summary>		
+            <param name="p_sFilePath">
+            	A document storage relative path + filename, 
+            	Ex- \README.DOC, \SMNET\README.DOC, \RDMS\LOSSENGINE\README.DOC, etc.
+            </param>
+            <param name="p_sPath">
+            	A document storage relative path, it will always include a leading \.
+            	It will never include a trailing \ unless it is the root path (\)
+            	Root path is represented by \.
+            	Root path will be returned if no path is specified.
+            </param>
+            <param name="p_sFileName">
+            	The raw file name with no path information attached.
+            </param>		
+        </member>
+        <member name="M:Riskmaster.Application.FileStorage.FileStorageManager.MaterializeFilename(System.String,System.String)">
+            Name			: MaterializeFilename
+            Author			: Neelima Dabral
+            Date Created	: 17-Nov-2004
+            ************************************************************
+            Amendment History
+            ************************************************************
+            Date Amended	*   Amendment   *    Author
+            				*				*
+            				*				*	
+            ************************************************************
+            <summary>
+            	This method takes in path and filename. It constructs the actual UNC filename 
+            	based on the document path. The path passed in is always relative to the document 
+            	path set in Security Management System. This function is used only in case 
+            	the data storage is File System.
+            </summary>
+            <param name="p_sPath">
+            	This is a fully qualified path within the document system.
+            	This is not a UNC or DOS path. It is implicitly relative to the document system root.
+            	Examples are \, \SMNET, \RMDOCS, etc.
+            	This do not include a trailing \ on the path but do include a leading \.
+            	Use "\" for document to be stored in the root folder 
+            	(this is how all RISKMASTER doc sys documents are stored currently)
+            </param>
+            <param name="p_sFileName">
+            	Filename + extension
+            </param>
+            <returns>
+            	Returns a full UNC or DOS path for accessing the file using file system functions.
+            	All paths start with the RISKMASTER document directory and 
+            	then contain the relative document system path and then the filename.
+            </returns>
+        </member>
+        <member name="M:Riskmaster.Application.FileStorage.FileStorageManager.GetNextUID(System.String)">
+            Name			: GetNextUID
+            Author			: Neelima Dabral
+            Date Created	: 17-Nov-2004
+            ************************************************************
+            Amendment History
+            ************************************************************
+            Date Amended	*   Amendment   *    Author
+            				*				*
+            				*				*	
+            ************************************************************
+            <summary>
+            	This method retrieves and increments the current unique ids counter for 
+            	Document Storage table. 		
+            </summary>
+            <param name="p_sTableName">
+            	Document Storage table name
+            </param>
+            <returns>Unique Storage Id</returns>
+        </member>
+        <member name="M:Riskmaster.Application.FileStorage.FileStorageManager.FileAsByteArray(System.String)">
+            Name			: FileAsByteArray
+            Author			: Neelima Dabral
+            Date Created	: 17-Nov-2004
+            ************************************************************
+            Amendment History
+            ************************************************************
+            Date Amended	*   Amendment   *    Author
+            				*				*
+            				*				*	
+            ************************************************************
+            <summary>
+            	This method would convert the contents of the file to the binary stream. 
+            </summary>
+            <param name="p_sFileName">
+            	File Name
+            </param>
+            <returns>Binary stream containing file contents</returns>
+        </member>
+        <member name="M:Riskmaster.Application.FileStorage.FileStorageManager.Configure">
+            Name			: Configure
+            Author			: Aditya Babbar
+            Date Created	: 28-Jan-2005
+            ************************************************************
+            Amendment History
+            ************************************************************
+            Date Amended	*   Amendment   *    Author
+            				*				*
+            				*				*	
+            ************************************************************		
+            <summary>
+            Configures the FileStorageManager object based on parameters specified
+            in configuration file.
+            </summary>
+            <returns>0 - Success</returns>		
+        </member>
+        <member name="P:Riskmaster.Application.FileStorage.FileStorageManager.FileStorageType">
+            <summary>
+            Storage Type. If set, it overrides the value set 
+            for the application from the configuration file.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Application.FileStorage.FileStorageManager.DestinationStoragePath">
+            <summary>
+            Storage Path. If set, it overrides the value set 
+            for the application from the configuration file.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Application.FileStorage.FileStorageManager.StorageId">
+            <summary>
+            This will track updating the stored document in database server. Tanuj
+            </summary>
+        </member>
+        <member name="T:Riskmaster.Application.FileStorage.StorageType">
+            <summary>
+            File Storage Type
+            </summary>
+        </member>
+    </members>
+</doc>

@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6269B0A9-8547-451B-A537-3198E08FE9BB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AT", "ATCore\AT.csproj", "{9383DF41-A516-4FE5-BDDE-20C0442A732D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AT_Tester", "AT_Tester\AT_Tester.csproj", "{779A713F-6E29-46ED-95C3-C199FC1E3FDF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ATConsoleClient", "ATConsoleClient\ATConsoleClient.csproj", "{A65064F2-F9C9-4E15-83D1-F355024DFC9E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9383DF41-A516-4FE5-BDDE-20C0442A732D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9383DF41-A516-4FE5-BDDE-20C0442A732D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9383DF41-A516-4FE5-BDDE-20C0442A732D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9383DF41-A516-4FE5-BDDE-20C0442A732D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{779A713F-6E29-46ED-95C3-C199FC1E3FDF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{779A713F-6E29-46ED-95C3-C199FC1E3FDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{779A713F-6E29-46ED-95C3-C199FC1E3FDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{779A713F-6E29-46ED-95C3-C199FC1E3FDF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A65064F2-F9C9-4E15-83D1-F355024DFC9E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A65064F2-F9C9-4E15-83D1-F355024DFC9E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A65064F2-F9C9-4E15-83D1-F355024DFC9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A65064F2-F9C9-4E15-83D1-F355024DFC9E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

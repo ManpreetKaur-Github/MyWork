@@ -1,0 +1,434 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Riskmaster.Common.RMConfigurator</name>
+    </assembly>
+    <members>
+        <member name="T:Riskmaster.Common.Global">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Common.Global.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Common.Global.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Common.Global.Adaptors">
+            <summary>
+              Looks up a localized string similar to Adaptors.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Common.Global.AppSettings">
+            <summary>
+              Looks up a localized string similar to appSettings.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Common.Global.Bypasssecurity">
+            <summary>
+              Looks up a localized string similar to bypasssecurity.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Common.Global.ConnectionStrings">
+            <summary>
+              Looks up a localized string similar to connectionStrings.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Common.Global.Extensibility">
+            <summary>
+              Looks up a localized string similar to Extensibility.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Common.Global.GeneralError">
+            <summary>
+              Looks up a localized string similar to An error has occurred while fetching Text of configuration parameter..
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Common.Global.GetAttributeValueGeneralError">
+            <summary>
+              Looks up a localized string similar to The specified attribute could not be found.  Please verify your configuration settings..
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Common.Global.GetConfigSectionError">
+            <summary>
+              Looks up a localized string similar to Error encountered attempting to load configuration section {0}..
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Common.Global.GetConfigSectionNotFoundError">
+            <summary>
+              Looks up a localized string similar to Configuration section {0} could not be found in the configuration file..
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Common.Global.GetNamedNodeException">
+            <summary>
+              Looks up a localized string similar to An error occurred while retrieving XML configuration node..
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Common.Global.GetNameValueCollectionException">
+            <summary>
+              Looks up a localized string similar to The specified NameValueCollection could not be found in the configuration file.  Please verify your configuration settings..
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Common.Global.GetTextGeneralError">
+            <summary>
+              Looks up a localized string similar to The specified RISKMASTER Configuration Text could not be found.  Please verify your configuration settings..
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Common.Global.GetValueGeneralError">
+            <summary>
+              Looks up a localized string similar to An error has occurred while fetching configuration parameter..
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Common.Global.LoadFileFileNotFound">
+            <summary>
+              Looks up a localized string similar to Riskmaster.config file could not be found.  Attempted to find by reference from file:{0} and at a path relative to this binary on the system: {1}..
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Common.Global.LoadFileGeneralError">
+            <summary>
+              Looks up a localized string similar to An error has occurred while loading configuration parameters..
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Common.Global.NodeNotFoundError">
+            <summary>
+              Looks up a localized string similar to The specified RISKMASTER Configuration Node could not be found.  Please verify your configuration settings..
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Common.Global.RiskmasterAdaptors">
+            <summary>
+              Looks up a localized string similar to RiskmasterAdaptors.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Common.Global.Trustedonly">
+            <summary>
+              Looks up a localized string similar to trustedonly.
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Common.RMAdaptersSection.DeserializeSection(System.Xml.XmlReader)">
+            <summary>
+            Handles the Deserialization of the ConfigurationSection
+            </summary>
+            <param name="reader">XmlReader</param>
+        </member>
+        <member name="M:Riskmaster.Common.RMAdaptersSection.SerializeSection(System.Configuration.ConfigurationElement,System.String,System.Configuration.ConfigurationSaveMode)">
+            <summary>
+            Handles the serialization of the ConfigurationSection
+            </summary>
+            <param name="parentElement"></param>
+            <param name="name"></param>
+            <param name="saveMode"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Riskmaster.Common.RMConfigurationManager">
+            <summary>
+            Wraps functionality provided by both .Net Configuration APIs
+            1. WebConfigurationManager
+            2. ConfigurationManager
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Common.RMConfigurationManager.OpenWebConfigurationFile(System.String)">
+            <summary>
+            Opens the specific Web configuration file
+            </summary>
+            <param name="strWebConfigPath">string containing the virtual path
+            to the specified Web.config file</param>
+        </member>
+        <member name="M:Riskmaster.Common.RMConfigurationManager.OpenExeConfigurationFile(System.String)">
+            <summary>
+            Opens the specified Exe configuration file
+            </summary>
+            <param name="strExePath">string containing the executable path</param>
+        </member>
+        <member name="M:Riskmaster.Common.RMConfigurationManager.GetSessionDSN">
+            <summary>
+            Gets the Session DSN connection string
+            </summary>
+            <returns>ConnectionString for the Session database</returns>
+        </member>
+        <member name="M:Riskmaster.Common.RMConfigurationManager.GetConnectionString(System.String)">
+            <summary>
+            Gets the connection string from the currently accessible configuration file
+            </summary>
+            <param name="strConnStringKey">string containing the connection string key</param>
+            <returns>database connection string</returns>
+        </member>
+        <member name="M:Riskmaster.Common.RMConfigurationManager.GetAppSetting(System.String)">
+            <summary>
+            Gets the specified Application Settings from the currently accessible configuration file
+            </summary>
+            <param name="strAppSettingKey">string containing the application setting key</param>
+            <returns>application setting value</returns>
+        </member>
+        <member name="M:Riskmaster.Common.RMConfigurationManager.GetConfigConnectionString(System.String)">
+            <summary>
+            Gets a specific connection string
+            </summary>
+            <param name="strConnStringKey">string containing the NameValueCollection key
+            for a specific ConnectionString</param>
+            <returns>ConnectionString for a specified key</returns>
+        </member>
+        <member name="M:Riskmaster.Common.RMConfigurationManager.GetConfigAppSetting(System.String)">
+            <summary>
+            Gets a specific application setting
+            </summary>
+            <param name="strAppSettingKey">string containing the NameValueCollection key</param>
+            <returns>AppSetting for a specified key</returns>
+        </member>
+        <member name="M:Riskmaster.Common.RMConfigurationManager.GetSectionSettings(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="strSectionName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Riskmaster.Common.RMConfigurationManager.GetRMAdaptors">
+            <summary>
+            Gets the list of Riskmaster Business Adaptors
+            </summary>
+            <exception cref="T:System.NullReferenceException"/>
+            <returns>RMAdaptorsCollection containing all 
+            Riskmaster Business Adaptors required for dependency 
+            injection by the Web Service</returns>
+        </member>
+        <member name="M:Riskmaster.Common.RMConfigurationManager.GetRMExtensibilityAdaptors">
+            <summary>
+            Gets the list of Riskmaster Business Adaptors used for Extensibility
+            </summary>
+            <exception cref="T:System.NullReferenceException"/>
+            <returns>RMAdaptorsCollection containing all 
+            Riskmaster Business Adaptors required for dependency 
+            injection by the Web Service</returns>
+        </member>
+        <member name="M:Riskmaster.Common.RMConfigurationManager.GetRMAdaptorsCollection">
+            <summary>
+            Gets a DataTable of RMAdapter elements
+            </summary>
+            <returns>DataTable containing all available Adapter attributes</returns>
+            <remarks>This method is created exclusively for reducing coupling
+            to the RMConfigurator class and specifically the type casting
+            required for RMAdapterCollections and Elements. 
+            The DataTable was chosen due to problems with merging 
+            multiple collections as is the case
+            with the NameValueCollection, StringDictionary or Generic String Dictionary
+            collections.
+            </remarks>
+        </member>
+        <member name="M:Riskmaster.Common.RMConfigurationManager.BuildRMAdapterCollection(Riskmaster.Common.RMAdaptersCollection,System.Data.DataTable@)">
+            <summary>
+            Builds a DataTable with the number of rows provided
+            in the RMAdapters Collection
+            </summary>
+            <param name="rmAdapterColl">Collection of RiskmasterAdapters</param>
+            <param name="dtAdapters">DataTable containing the current set of Business Adapters</param>
+        </member>
+        <member name="P:Riskmaster.Common.RMConfigurationManager.IsExeConfiguration">
+            <summary>
+            Gets and sets whether or not the configuration 
+            file is an Executable configuration file
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Common.RMConfigurationManager.IsWebConfiguration">
+            <summary>
+            Gets and sets whether or not the Configuration
+            file is a Web configuration file
+            </summary>
+        </member>
+        <member name="T:Riskmaster.Common.RMConfigurator">
+             <summary>
+            Author  :   Sumeet Rathod &amp; Parag Sarin
+            Dated   :   5th Oct 2004
+            Purpose :   This class reads &amp; loads the configuration information.
+             </summary>
+             BSB 04.27.2007 Exposed for COM Interop (DbUpgrade.exe)
+        </member>
+        <member name="F:Riskmaster.Common.RMConfigurator.m_objDoc">
+            <summary>
+            XML document containing configuration information
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Common.RMConfigurator.#cctor">
+            <summary>
+            Static Constructor.
+            Loads the custom Riskmaster.config file into m_objDoc
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Common.RMConfigurator.LoadFile">
+            <summary>
+            Loads the configuration file
+            First attempt is to look in the applicable .Net config file using the setting APP_CONFIG_PATH
+            stored there to pick up the desired configuration file location.
+            Second attempt is to look in the current directory.
+            Third attempt is taken from the structure of the Source Code in the Riskmaster .Net Solution file.
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Common.RMConfigurator.CheckAdditionalPaths(System.String)">
+            <summary>
+            Examine other possible path locations for the Riskmaster.config file
+            </summary>
+            <param name="sConfigPath">string indicating the current path to the Riskmaster.config file</param>
+            <returns>string containing a valid path to the Riskmaster.config file</returns>
+        </member>
+        <member name="M:Riskmaster.Common.RMConfigurator.IsEmptyString(System.String)">
+            <summary>
+            Verifies if the specified file path is a null or empty string
+            </summary>
+            <param name="strConfigPath">string containing the path to Riskmaster.config</param>
+            <returns>boolean indicating whether or not the string holds a null or empty value</returns>
+        </member>
+        <member name="M:Riskmaster.Common.RMConfigurator.ReplaceStandardPathsInXmlCache">
+            <summary>
+            Performs a variable-like substitution of values in the Riskmaster.config file
+            and store the resultant XmlDocument as a static variable
+            </summary>
+            <example>
+            Target XML Like:
+            <StandardPaths>
+            	<AppFilesPath>%BasePath%\appfiles</AppFilesPath>
+            	<UserDataPath>%BasePath%\userdata</UserDataPath>
+            	<TempPath>%BasePath%\temp</TempPath>
+            </StandardPaths>
+            </example>
+        </member>
+        <member name="M:Riskmaster.Common.RMConfigurator.GetValue(System.String)">
+            <summary>
+            Gets node value from XML  Deprecated - use RMConfigurator.Value() instead.
+            </summary>
+            <param name="p_sXmlNode">Node name</param>
+            <returns>value for passed node</returns>
+        </member>
+        <member name="M:Riskmaster.Common.RMConfigurator.Value(System.String)">
+            <summary>
+            Retrieves the text from the Riskmaster.config file
+            </summary>
+            <param name="p_sXmlNode"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Riskmaster.Common.RMConfigurator.GetNamedNode(System.String)">
+            <summary>
+            Gets node  from Riskmaster.config.  Deprecated - use RMConfigurator.NamedNode() instead.
+            </summary>
+            <param name="p_sNodeName">Node name</param>
+            <returns>Node for passed nodename</returns>
+        </member>
+        <member name="M:Riskmaster.Common.RMConfigurator.NamedNode(System.String)">
+            <summary>
+            Retrieves a specific node in the Riskmaster.config file
+            </summary>
+            <param name="p_sNodeName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Riskmaster.Common.RMConfigurator.NameValueCollection(System.String)">
+            <summary>
+            Gets a NameValueCollection from Riskmaster.config file.
+            Note: Node requested must have the proper form and be marked with the attribute:   type="NameValueCollection"
+            Otherwise an empty NameValueCollection is returned.
+            </summary>
+            <param name="p_sXmlNode">Node name</param>
+            <returns>value for passed node</returns>
+        </member>
+        <member name="M:Riskmaster.Common.RMConfigurator.AttributeValue(System.String,System.String)">
+            Name			: GetAttributeValue
+            Author			: Nikhil Kr. Garg
+            Date Created	: 02-15-2005
+            ************************************************************
+            Amendment History
+            ************************************************************
+            Date Amended	*   Amendment   *    Author
+            				*				*
+            				*				*	
+            ************************************************************
+            <summary>
+            Gets the value of the required attribute
+            </summary>
+            <param name="p_sXmlNode">Node name to search</param>
+            <param name="p_sAttributeName">Attribute name to fetch value for</param>
+            <returns>Value of the Required Attribute</returns>
+        </member>
+        <member name="M:Riskmaster.Common.RMConfigurator.GetAttributeValue(System.String,System.String)">
+            Name			: GetAttributeValue
+            Author			: Nikhil Kr. Garg
+            Date Created	: 02-07-2005
+            ************************************************************
+            Amendment History
+            ************************************************************
+            Date Amended	*   Amendment   *    Author
+            				*				*
+            				*				*	
+            ************************************************************
+            <summary>
+            Gets the value of the required attribute
+            </summary>
+            <param name="p_sXmlNode">Node name to search</param>
+            <param name="p_sAttributeName">Attribute name to fetch value for</param>
+            <returns>Value of the Required Attribute</returns>
+        </member>
+        <member name="M:Riskmaster.Common.RMConfigurator.AttributeValue(System.String,System.String,System.String,System.String)">
+            Name			: GetAttributeValue
+            Author			: Nikhil Kr. Garg
+            Date Created	: 02-15-2005
+            ************************************************************
+            Amendment History
+            ************************************************************
+            Date Amended	*   Amendment   *    Author
+            				*				*
+            				*				*	
+            ************************************************************
+            <summary>
+            Gets the value of the required attribute
+            It searches for a particular node depending on the passed parameter and value
+            </summary>
+            <param name="p_sXmlNode">Node name to search</param>
+            <param name="p_sAttributeName">Attribute name to fetch value for</param>
+            <param name="p_sAttributeToMatch">Attribute to search on</param>
+            <param name="p_sAttributeToMatchValue">Attribute value to match</param>
+            <returns>Value of the Required Attribute</returns>
+        </member>
+        <member name="M:Riskmaster.Common.RMConfigurator.GetAttributeValue(System.String,System.String,System.String,System.String)">
+            Name			: GetAttributeValue
+            Author			: Nikhil Kr. Garg
+            Date Created	: 02-07-2005
+            ************************************************************
+            Amendment History
+            ************************************************************
+            Date Amended	*   Amendment   *    Author
+            				*				*
+            				*				*	
+            ************************************************************
+            <summary>
+            Gets the value of the required attribute
+            It searches for a particular node depending on the passed parameter and value
+            </summary>
+            <param name="p_sXmlNode">Node name to search</param>
+            <param name="p_sAttributeName">Attribute name to fetch value for</param>
+            <param name="p_sAttributeToMatch">Attribute to search on</param>
+            <param name="p_sAttributeToMatchValue">Attribute value to match</param>
+            <returns>Value of the Required Attribute</returns>
+        </member>
+        <member name="M:Riskmaster.Common.RMConfigurator.Text(System.String,System.String,System.String)">
+            Name			: Text
+            Author			: Anurag Agarwal
+            Date Created	: 02-June-2005
+            ************************************************************
+            Amendment History
+            ************************************************************
+            Date Amended	*   Amendment   *    Author
+            				*				*
+            				*				*	
+            ************************************************************
+            <summary>
+            Gets the Innertext of the required attribute
+            It searches for a particular node depending on the passed parameter and value
+            </summary>
+            <param name="p_sXmlNode">Node name to search</param>
+            <param name="p_sAttributeToMatch">Attribute to search on</param>
+            <param name="p_sAttributeToMatchValue">Attribute value to match</param>
+            <returns>InnerText of the Required Attribute</returns>
+        </member>
+    </members>
+</doc>

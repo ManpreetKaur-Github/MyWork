@@ -1,0 +1,1243 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Riskmaster.Security</name>
+    </assembly>
+    <members>
+        <member name="T:Riskmaster.Security.User">
+            <summary>
+            Riskmaster.Security.User class classifies User’s details on context of Riskmaster, 
+            it contain all the information about the user like Name,City,Country Phone etc..
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Security.User.#ctor">
+            <summary>
+            Riskmaster.Security.User is class constructor.
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Security.User.#ctor(Riskmaster.Db.DbReader)">
+            <summary>
+            Riskmaster.Security.User overload allows internal Data Layer classes to wrap a native reader.
+            </summary>
+            <param name="reader">The native reader to wrap</param>
+        </member>
+        <member name="M:Riskmaster.Security.User.#ctor(System.Int32)">
+            <summary>
+            Riskmaster.Security.User construcotr with parameter. 
+            This constructor calls the function Load() and serves as a wrapper.
+            </summary>
+            <param name="userId">Value of the userid column</param>
+        </member>
+        <member name="M:Riskmaster.Security.User.Equals(System.Object)">
+            <summary>
+            Override the Equals method available on the base object class
+            to compare the values present in both objects
+            </summary>
+            <param name="obj">object instance to be used for comparison</param>
+            <returns>boolean indicating whether or not the objects are equivalent</returns>
+        </member>
+        <member name="M:Riskmaster.Security.User.Load(System.Int32)">
+            <summary>
+            Riskmaster.Security.Load uses DbFactory to establish connection with the database. Executes the query to retrieve the
+            entire contents of the USER_TABLE for the input userId to a DbReader object. 
+            Invokes LoadData() passing the DbReader object as parameter.
+            </summary>
+            <param name="userId">Value of the userid column</param>
+        </member>
+        <member name="M:Riskmaster.Security.User.LoadData(Riskmaster.Db.DbReader)">
+            <summary>
+            Riskmaster.Security.LoadData populates the attributes for the User class, from the input DbReader object.
+            If ManagerId is present, ManagerEmail is fetched from the database.
+            ChecksumMatches() function is called to validate user information.
+            Sets the flag m_DataChanged to false.
+            </summary>
+            <param name="reader">The native reader to wrap</param>
+            <returns>None</returns>
+        </member>
+        <member name="M:Riskmaster.Security.User.Save">
+            <summary>
+            Riskmaster.Security.Save check for the flag true, than gets a DbWriter object using DbFactory instance and invokes SaveData().
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Security.User.SaveData(Riskmaster.Db.DbWriter)">
+            <summary>
+            Riskmaster.Security.SaveData check for the flag is true, this function updates the user record 
+            in the database else creates a new one using writer.
+            </summary>
+            <param name="writer">The native writer to wrap</param>
+            <returns>None</returns>
+        </member>
+        <member name="M:Riskmaster.Security.User.GetCheckSum">
+            <summary>
+            Gets the CheckSum for the object
+            </summary>
+            <returns>string containing the CheckSum for the object</returns>
+        </member>
+        <member name="M:Riskmaster.Security.User.ChecksumMatches">
+            <summary>
+            Riskmaster.Security.ChecksumMatches internal method compares the stored checksum attribute that with a newly computed hash value for the user attributes
+            </summary>
+            <returns>It returns computed hash value.</returns>
+        </member>
+        <member name="M:Riskmaster.Security.User.IsInRole(System.String)">
+            <summary>
+            Determines whether the user is a member of a particular role
+            </summary>
+            <param name="role">string containing the name of the group name</param>
+            <returns>boolean indicating whether or not the user is a member 
+            of the specified grouop</returns>
+        </member>
+        <member name="P:Riskmaster.Security.User.UserId">
+            <summary>
+            Riskmaster.Security.UserId property accesses the value of the database field USER_ID of USER_TABLE.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.User.FirstName">
+            <summary>
+            Riskmaster.Security.UserId property accesses the value of the database field First Name of USER_TABLE.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.User.CompanyName">
+            <summary>
+            Riskmaster.Security.UserId property accesses the value of the database field Company Name of USER_TABLE.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.User.DsnID">
+            <summary>
+            Gets and sets the DSN ID
+            for the currently authenticated User
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.User.AuthenticationType">
+            <summary>
+            Gets the AuthenticationType used to authenticate the user
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.User.IsAuthenticated">
+            <summary>
+            Gets whether or not the user has been authenticated against the system
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.User.Name">
+            <summary>
+            Gets the user name
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.User.Identity">
+            <summary>
+            Gets the Identity for the User
+            </summary>
+        </member>
+        <member name="T:Riskmaster.Security.RiskmasterRegistry">
+            <summary>
+            Manages RISKMASTER Registry operations 
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Security.RiskmasterRegistry.GetSecurityDSN">
+            <summary>
+            Retrieves the Security DSN from the 32-bit Registry
+            </summary>
+            <returns>string containing the Security DSN connection string</returns>
+        </member>
+        <member name="M:Riskmaster.Security.RiskmasterRegistry.ReadRegistryKey(System.String)">
+            <summary>
+            Reads the specified registry key
+            </summary>
+            <param name="strRegKey">string containing the path to the Registry Key</param>
+            <returns>string containing the value for the registry key</returns>
+        </member>
+        <member name="T:Riskmaster.Security.DSNRegistryKeys">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.DSNRegistryKeys.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.DSNRegistryKeys.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.DSNRegistryKeys.DBPassword">
+            <summary>
+              Looks up a localized string similar to SOFTWARE\\DTG\\RISKMASTER\\Security\\DBPassword.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.DSNRegistryKeys.DBUserID">
+            <summary>
+              Looks up a localized string similar to SOFTWARE\\DTG\\RISKMASTER\\Security\\DBUserID.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.DSNRegistryKeys.DSN">
+            <summary>
+              Looks up a localized string similar to DSN=.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.DSNRegistryKeys.EncDBPassword">
+            <summary>
+              Looks up a localized string similar to SOFTWARE\\DTG\\RISKMASTER\\Security\\EncDBPassword.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.DSNRegistryKeys.EncDBUserID">
+            <summary>
+              Looks up a localized string similar to SOFTWARE\\DTG\\RISKMASTER\\Security\\EncDBUserID.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.DSNRegistryKeys.PWD">
+            <summary>
+              Looks up a localized string similar to PWD=.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.DSNRegistryKeys.RMXSecurityDSN">
+            <summary>
+              Looks up a localized string similar to RMXSecurity.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.DSNRegistryKeys.SecurityDSN">
+            <summary>
+              Looks up a localized string similar to DSN=DTG Security32.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.DSNRegistryKeys.UID">
+            <summary>
+              Looks up a localized string similar to UID=.
+            </summary>
+        </member>
+        <member name="T:Riskmaster.Security.UtilityFunctions">
+            <summary>
+            Provides a set of internal utility functions
+            for managing common actions needed for security
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Security.UtilityFunctions.CODE_ACCESS_PUBLICKEY">
+            <summary>
+            Gets the CodeAccess public key used for Security Permissions
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Security.UtilityFunctions.IsEmptyString(System.String)">
+            <summary>
+            Checks whether the particular string is an empty string
+            </summary>
+            <param name="strValue">string to check and compare for empty or null values</param>
+            <returns>boolean indicating whether or not the string is empty or null</returns>
+        </member>
+        <member name="M:Riskmaster.Security.UtilityFunctions.BuildConnectionString(System.Collections.Generic.List{System.String})">
+            <summary>
+            Builds a database/DSN connection string given the specified parameters
+            </summary>
+            <param name="arrConnStrParams">generic string list containing all of the 
+            connection string parameters</param>
+            <returns>complete database connection string</returns>
+        </member>
+        <member name="M:Riskmaster.Security.UtilityFunctions.BuildDSNConnectionString(System.String,System.String,System.String)">
+            <summary>
+            Creates a basic DSN-based connection string
+            </summary>
+            <param name="dsn">string containing the name of the DSN</param>
+            <param name="username">string containing the name of the database user</param>
+            <param name="password">string containing the name of the database password</param>
+            <returns>string containing the DSN-based connection string</returns>
+        </member>
+        <member name="M:Riskmaster.Security.UtilityFunctions.DecryptString(System.String)">
+            <summary>
+            Returns a Decrypted string using the DTGCrypt library
+            </summary>
+            <param name="strEncrypted">string containing the currently encrypted value</param>
+            <returns>string containing the decrypted value</returns>
+        </member>
+        <member name="M:Riskmaster.Security.UtilityFunctions.EncryptString(System.String)">
+            <summary>
+            Returns a Encrypted string using the DTGCrypt library
+            </summary>
+            <param name="strDecrypted">string containing the currently decrypted value</param>
+            <returns>string containing the encrypted value</returns>
+        </member>
+        <member name="M:Riskmaster.Security.UtilityFunctions.ComputeHashString(System.Byte[])">
+            <summary>
+            Computes a Hash Value given a byte array
+            </summary>
+            <param name="bytArray">byte array containing value to be hashed</param>
+            <returns>string containing the resultant computed Hash</returns>
+        </member>
+        <member name="M:Riskmaster.Security.UtilityFunctions.ComputeHash(System.Byte[])">
+            <summary>
+            Computes a Hash Value given a byte array
+            </summary>
+            <param name="bytArray">byte array containing value to be hashed</param>
+            <returns>string containing the resultant computed Hash</returns>
+        </member>
+        <member name="M:Riskmaster.Security.UtilityFunctions.CompareObjects``1(``0,``0)">
+            <summary>
+            Compares the properties of two objects
+            through the use of Reflection
+            </summary>
+            <typeparam name="T">Generic Type for a class instance</typeparam>
+            <param name="objCompare1">object class instance</param>
+            <param name="objCompare2">object class instance for comparison</param>
+            <returns>boolean indicating whether or not the properties for 
+            each object exactly match</returns>
+        </member>
+        <member name="P:Riskmaster.Security.UtilityFunctions.AUTHKEY">
+            <summary>
+            Gets the Authorization key used in Cryptography
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.UtilityFunctions.ConnectionStringDelimiter">
+            <summary>
+            Gets a connection string delimter
+            </summary>
+        </member>
+        <member name="T:Riskmaster.Security.ADSI">
+            <summary>
+            Contains methods to authenticate from Active directory
+            <author>rsolanki2</author>
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Security.ADSI.strUser">
+            <summary>
+            string specifying user name
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Security.ADSI.strPass">
+            <summary>
+            string specifying user password
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Security.ADSI.strDomain">
+            <summary>
+            string specifying user domain
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Security.ADSI.atAuthentType">
+            <summary>
+            AuthenticationTypes specifying the security 
+            protocol to use, i.e. Secure, SSL
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Security.ADSI.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Security.ADSI.SetDomain(System.String)">
+            <summary>
+            function that sets the domain name
+            </summary>
+            <param name="strValue"></param>
+            <returns>It returns true, if user passed 
+                     something; otherwise, false</returns>
+        </member>
+        <member name="M:Riskmaster.Security.ADSI.SetUser(System.String)">
+            <summary>
+            function that sets user name
+            </summary>
+            <param name="strValue"></param>
+            <returns>It returns true, if user passed 
+                     something; otherwise, false</returns>
+        </member>
+        <member name="M:Riskmaster.Security.ADSI.SetPass(System.String)">
+            <summary>
+            function that sets user password
+            </summary>
+            <param name="strValue"></param>
+            <returns>It returns true, if user passed 
+                     something; otherwise, false</returns>
+        </member>
+        <member name="M:Riskmaster.Security.ADSI.SetAuthenticationType(System.Boolean)">
+            <summary>
+            function that sets user authentication type
+            </summary>
+            <param name="bValue"></param>
+        </member>
+        <member name="M:Riskmaster.Security.ADSI.Login">
+            <summary>
+            function that performs login task
+            and welcomes user if they are verified
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Security.ADSI.Authenticate(System.String,System.String,System.String)">
+            <summary>
+             Authenticates the username/password from domain   
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Riskmaster.Security.UserLogin">
+            <summary>
+            Riskmaster.Security.UserLogin is used to retrive the user information , it also check for the user 
+            previlage to use the application. Pick the permissible access time span for today.
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Security.UserLogin.#ctor">
+            <summary>
+            Default class constructor
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Security.UserLogin.#ctor(System.Boolean)">
+            <summary>
+            Overloaded class constructor
+            </summary>
+            <param name="p_bFindDBType"></param>
+        </member>
+        <member name="M:Riskmaster.Security.UserLogin.#ctor(System.Boolean,System.String)">
+            <summary>
+            Overloaded class constructor
+            </summary>
+            <param name="p_bFindDBType"></param>
+            <param name="p_sUserName"></param>
+        </member>
+        <member name="M:Riskmaster.Security.UserLogin.#ctor(System.String,System.String)">
+            <summary>
+            OVERLOADED: Class constructor
+            </summary>
+            <param name="strUserName">string containing the user's Login Name</param>
+            <param name="strDatabaseName">string containing the user's selected DSN</param>
+            <remarks>Allows instantiation of a User Login object without 
+            password information.  This is particularly required when needed to retrieve 
+            Views etc.</remarks>
+        </member>
+        <member name="M:Riskmaster.Security.UserLogin.#ctor(Riskmaster.Db.DbReader)">
+             <summary>
+            Riskmaster.Security.UserLogin overload allows internal Data Layer classes to wrap a native reader.
+             </summary>
+             <param name="reader">The native reader to wrap</param>
+        </member>
+        <member name="M:Riskmaster.Security.UserLogin.#ctor(System.String,System.String,System.String)">
+            <summary>
+            Riskmaster.Security.UserLogin overloaded constructor. It uses username, Password and databaseName
+            to retrieve information from USER_DETAILS_TABLE, USER_TABLE and DATA_SOURCE_TABLE through DbReader 
+            object, that is further passed to LoadData(). 
+            If it is unable to retrieve the data, InvalidUserNameOrPasswordException is thrown.
+            </summary>
+            <param name="username">User name</param>
+            <param name="Password">User's Password</param>
+            <param name="databaseName">database name</param>
+        </member>
+        <member name="M:Riskmaster.Security.UserLogin.UpdatePassword(System.Int32)">
+            <summary>
+            Riskmaster.Security.UpdatePassword uses frmChgPassword object to update PASSWORD and CHECKSUM in USER_DETAILS_TABLE, for a fat client.
+            </summary>
+            <param name="hwnd">Window handle</param>
+            <returns>It returns the boolean value true or false</returns>
+        </member>
+        <member name="M:Riskmaster.Security.UserLogin.PopulateUserLoginData(System.String)">
+            <summary>
+            Populates required User Data for authentication calls
+            </summary>
+            <param name="strSQL">string containing the SQL statement to be executed</param>
+        </member>
+        <member name="M:Riskmaster.Security.UserLogin.LoadData(Riskmaster.Db.DbReader)">
+            <summary>
+            Riskmaster.Security.LoadData populates the attributes for the UserLogin class, from the input 
+            DbReader object.If OrgSec flag for the Riskmaster database instance is true, the function fetches details
+            from USER_ORGSEC table for the particular user to determine if (s)he is an orgsec admin.
+            Sets the flag m_DataChanged to false.ChecksumMatches() function is called to validate user information
+            </summary>
+            <param name="reader">The native reader to wrap</param>
+        </member>
+        <member name="M:Riskmaster.Security.UserLogin.Save">
+            <summary>
+            Riskmaster.Security.Save gets a DbWriter object using DbFactory instance and invokes SaveData().
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Security.UserLogin.SaveData(Riskmaster.Db.DbWriter)">
+            <summary>
+            Riskmaster.Security.SaveData check for the property DataChanged is true, this function updates the 
+            attributes of the class to USER_DETAILS_TABLE using writer object. 
+            It sets the DbReader object to determine whether the record exists in the table or not. 
+            It also invokes sub-object m_objUser’s function SaveData()
+            </summary>
+            <param name="writer">The native writer to wrap</param>
+        </member>
+        <member name="M:Riskmaster.Security.UserLogin.PopulateSecurityHashTable">
+            <summary>
+            Riskmaster.Security.PopulateSecurityHashTable returns Hashtable object for group permissions associated with the user
+            </summary>
+            <returns>It returns the hash table object for group permission</returns>
+        </member>
+        <member name="M:Riskmaster.Security.UserLogin.PopulateSuppHashTable">
+            Geeta Sharma change done for mits 10729
+             <summary>
+             Riskmaster.Security.PopulateSuppHashTable returns Hashtable object for Supplemental Fields
+             </summary>
+             <returns>It returns the hash table object for Supplementals</returns>
+        </member>
+        <member name="M:Riskmaster.Security.UserLogin.IsAllowed(System.Int32)">
+            <summary>
+            Riskmaster.Security.IsAllowed is an absolutely basic check
+            whether or not the security function list for this login contains
+            a particular function id.
+            </summary>
+            <param name="FunctionId">Function ID</param>
+            <returns>It returns value returned by ContainsKey()</returns>
+        </member>
+        <member name="M:Riskmaster.Security.UserLogin.IsAllowedEx(System.Int32,System.Int32)">
+            <summary>
+            Riskmaster.Security.IsAllowedEx is a more sophisticated check
+            whether or not the user "should" according to application configuration settings
+            AND the current user's function list have access to the requested function.
+            </summary>
+            <param name="FunctionId">Function ID</param>
+            <returns>It returns true if the user should be allowed to perform the requested function.</returns>
+        </member>
+        <member name="M:Riskmaster.Security.UserLogin.IsAllowedSuppEx(System.Int32,System.Int32)">
+            function added by Geeta Sharma for mits 10729
+        </member>
+        <member name="M:Riskmaster.Security.UserLogin.IsTimePermittedForLogin">
+            <summary>
+            Riskmaster.Security.IsTimePermittedForLogin returns whether the current time lies in the permissible 
+            time span for the day, for login.
+            </summary>
+            <returns>It returns the boolean value true or false</returns>
+        </member>
+        <member name="M:Riskmaster.Security.UserLogin.GetCheckSum">
+            <summary>
+            Gets the CheckSum for the object
+            </summary>
+            <returns>string containing the CheckSum for the object</returns>
+        </member>
+        <member name="M:Riskmaster.Security.UserLogin.ChecksumMatches">
+            <summary>
+            Riskmaster.Security.ChecksumMatches internal method compares the stored checksum attribute that with a newly computed hash value for the user attributes
+            </summary>
+            <returns>It returns the computed hash value.</returns>
+        </member>
+        <member name="P:Riskmaster.Security.UserLogin.DataChanged">
+            <summary>
+            Riskmaster.Security.DataChanged is the read only property . It returns the value form_DataChanged || m_objRMDB.m_DataChanged || m_objUser.m_DataChanged
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.UserLogin.objRiskmasterDatabase">
+            <summary>
+            Riskmaster.Security.objRiskmasterDatabase is the read only property it takes accessor for Riskmaster.Security.RiskmasterDatabase
+            </summary>
+            <returns>It returns object of riskmaster securuty database</returns>
+        </member>
+        <member name="P:Riskmaster.Security.UserLogin.objUser">
+            <summary>
+            Riskmaster.Security.objUser is the read only property takes the accessor for Riskmaster.Security.User object
+            </summary>
+            <returns>It returns the object of riskmaster security user.</returns>
+        </member>
+        <member name="T:Riskmaster.Security.SecurityDatabase">
+            <summary>
+            Riskmaster.Security.SecurityDatabase class is designed for the database security, 
+            It check for the database security on the basis of autorization key and code access public key
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Security.SecurityDatabase.#cctor">
+            <summary>
+            Static constructor used to initialize
+            static variables within this class
+            </summary>
+            <exception cref="T:System.NullReferenceException">NullReferenceException is thrown if the specified
+            Security Configuration information is not available within the Configuration file</exception>
+            <remarks>This is specifically needed to initialize the value of the Dsn
+            property the first time it is referenced.  Since this is a static property
+            and not an instance based property, a static constructor is required.</remarks>
+        </member>
+        <member name="P:Riskmaster.Security.SecurityDatabase.Dsn">
+            <summary>Gets and sets the Dsn for the RISKMASTER Security Database</summary>
+             <returns>It returns the DSN name as a string</returns>
+             <remarks>The current implementation is too highly coupled with the Riskmaster.config file for
+             retrieving security credentials/application information especially since this is implemented 
+             as a static property.  Because this is additionally implemented statically, it will also be
+             invisible to COM libraries thus making it unavailable to legacy applications.  In order for this 
+             library to be usable by both .Net and COM libraries, the entire Riskmaster.Security library
+             needs to be implemented based on instance methods rather than static methods and properties
+             </remarks>
+        </member>
+        <member name="T:Riskmaster.Security.RiskmasterDatabase">
+            <summary>
+            Riskmaster.Security.RiskmasterDatabase class is an Public class is used for connecting,identifying 
+            and setting various parameters for riskmaster database. This also checks license grants, checks security for 
+            userid password, identifies datetime.
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Security.RiskmasterDatabase.#ctor">
+            <summary>
+            Riskmaster.Security.RiskmasterDatabase is internal constructor without any parameter.
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Security.RiskmasterDatabase.#ctor(System.Int32)">
+            <summary>
+            Riskmaster.Security.RiskmasterDatabase is the constructor with parameter. Constructor call after the attribute 
+            [System.Security.Permissions.StrongNameIdentityPermission(System.Security.Permissions.SecurityAction.LinkDemand, PublicKey=UtilityFunctions.CODE_ACCESS_PUBLICKEY)]
+            This constructor calls the function Load() and serves as a wrapper.
+            </summary>
+            <param name="DsnId">DSN ID</param>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.Security.RiskmasterDatabase.Load(System.Int32)" -->
+        <member name="M:Riskmaster.Security.RiskmasterDatabase.#ctor(Riskmaster.Db.DbReader)">
+            <summary>
+            Riskmaster.Security.RiskmasterDatabase overload allows internal data layer classes to wrap a native reader 
+            </summary>
+            <param name="reader">The native reader to wrap</param>
+        </member>
+        <member name="M:Riskmaster.Security.RiskmasterDatabase.ParseDocPathCredentials(System.String)">
+            <summary>Riskmaster.Db.DbConnection.ParseDocPathCredentials supports the Document Database
+            by decrypting the uid and pwd sections of the connection string and 
+            returning the fully modified connection string.</summary>
+            <param name="docPath">The connection string in which to effect the change.</param>
+            <returns>An updated version of the connection string from docPath.</returns>
+            <remarks>There may be ODBC niceties like {} or escape sequences that are not handled properly here yet.</remarks>
+        </member>
+        <member name="M:Riskmaster.Security.RiskmasterDatabase.LoadData(Riskmaster.Db.DbReader)">
+            <summary>
+            Riskmaster.Security.LoadData is the internal function Internal functions gets the values of various 
+            class parameters from the passed reader object. Then checks those database  parameters by making a 
+            connection string. Calls ChecksumMatches() and CRCMatches() function to check those parameters . 
+            If these parameters not found matching it raises Riskmaster.ExceptionTypes.InvalidChecksumException. 
+            </summary>
+            <param name="reader">The native reader to wrap</param>
+        </member>
+        <member name="M:Riskmaster.Security.RiskmasterDatabase.Save">
+            <summary>
+            Riskmaster.Security.Save check for the flag true, than gets a DbWriter object using DbFactory 
+            instance and invokes SaveData().
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Security.RiskmasterDatabase.SaveData(Riskmaster.Db.DbWriter)">
+             <summary>
+             Riskmaster.Security.SaveData check for the flag is true, this function updates the user record 
+             in the database else creates a new one using writer.
+            </summary>
+             <param name="writer">The native writer to wrap</param>
+        </member>
+        <member name="M:Riskmaster.Security.RiskmasterDatabase.GrantLicense(System.String,System.Boolean)">
+            <summary>
+            Riskmaster.Security.GrantLicense Internal function  checks  bSuppressLicense is true and NumLicenses 
+            parameter is –1 else checks no of connection to the database is less then  no of connection license 
+            granted . Returns false if any of above criteria fails.  Also if this license checking  mechanism 
+            fails raises exception.
+            </summary>
+            <param name="sUserName">Username of the context user</param>
+            <param name="bSuppressLicense">Flag whether to suppress license</param>
+        </member>
+        <member name="M:Riskmaster.Security.RiskmasterDatabase.GetHash">
+            <summary>
+            Riskmaster.Security.GetHash computes the hash code for the user information using Encryption.DTGCrypt32 object.
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Security.RiskmasterDatabase.ChecksumMatches">
+            <summary>
+            Riskmaster.Security.ChecksumMatches
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Security.RiskmasterDatabase.GetCRC">
+            <summary>
+            Riskmaster.Security.GetCRC
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Security.RiskmasterDatabase.CRCMatches">
+            <summary>
+            Riskmaster.Security.CRCMatches matches the Crc code in the database  with the computed CRC code.
+            </summary>
+            <returns>Returns true if both matches else returns false.</returns>
+        </member>
+        <member name="P:Riskmaster.Security.RiskmasterDatabase.DataSourceName">
+            <summary>
+            Riskmaster.Security.DataSourceName access the value of data source name.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.RiskmasterDatabase.DataSourceId">
+            <summary>
+            Riskmaster.Security.DataSourceId access the value of data source id.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.RiskmasterDatabase.Status">
+            <summary>
+            Riskmaster.Security.Status access the value of status.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.RiskmasterDatabase.RMUserId">
+            <summary>
+            Riskmaster.Security.RMUserId access the value of RM USer ID.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.RiskmasterDatabase.RMPassword">
+            <summary>
+            Riskmaster.Security.RMPassword access the value of RM password.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.RiskmasterDatabase.DbType">
+            <summary>
+            Riskmaster.Security.DbType access the vale of database type.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.RiskmasterDatabase.Checksum">
+            <summary>
+            Riskmaster.Security.Checksum access the value of Check sum value to ensure the data integrity.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.RiskmasterDatabase.OrgSecFlag">
+            <summary>
+            Riskmaster.Security.OrgSecFlag access the value of security flag.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.RiskmasterDatabase.FindDBType">
+            <summary>
+            Riskmaster.Security.FindDBType of 'FindDBType' flag
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.RiskmasterDatabase.ConnectionString">
+            <summary>
+            Riskmaster.Security.ConnectionString access the value of connection string.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.RiskmasterDatabase.NumLicenses">
+            <summary>
+            Riskmaster.Security.NumLicenses access the value of number of license.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.RiskmasterDatabase.LicUpdDate">
+            <summary>
+            Riskmaster.Security.LicUpdDate access the value of updated license.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.RiskmasterDatabase.CRC2">
+            <summary>
+            Riskmaster.Security.CRC2 access the value of CRC
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.RiskmasterDatabase.DocPathType">
+            <summary>
+            Riskmaster.Security.DocPathType access the value of document path.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.RiskmasterDatabase.GlobalDocPath">
+            <summary>
+            Riskmaster.Security.GlobalDocPath access the value of global document path.
+            </summary>
+        </member>
+        <member name="T:Riskmaster.Security.Login">
+            <summary>
+            Riskmaster.Security.Login wraps a native provider Component object.
+            This class is designed to do the primary authentication.
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Security.Login.#ctor">
+            <summary>
+            Default class constructor
+            </summary>
+            <remarks>Should no longer be used since this requires a reference handle
+            to the Windows 32-bit registry and therefore limits usage of the Login
+            class to only 32-bit OSes</remarks>
+            <see cref="T:Riskmaster.Security.Login">Login overloaded constructors</see>
+        </member>
+        <member name="M:Riskmaster.Security.Login.#ctor(System.Collections.Specialized.StringDictionary)">
+            <summary>
+            Overloaded class constructor
+            </summary>
+            <param name="objStrDictValues">StringDictionary value contains key-value pairs
+            which determine how the ultimate security database connection string
+            will be constructed</param>
+        </member>
+        <member name="M:Riskmaster.Security.Login.#ctor(System.String)">
+            <summary>
+            Overloaded class constructor
+            </summary>
+            <param name="securityDsn">string containing the database connection string
+            to the Riskmaster Security database</param>
+            <remarks>The database connection string to the Riskmaster Security database
+            could be either a System DSN or a fully qualified (OLEDB/ODBC etc.) database connection string</remarks>
+        </member>
+        <member name="M:Riskmaster.Security.Login.GetDatabases">
+            <summary>
+            Riskmaster.Security.GetDatabases takes the reference of the native provider DbConnection,DbFactory.GetDbConnection  
+            and DbReader. GetDbConnection returns a DbConnection and DbConnection is resposible for reader,transaction, command.
+            </summary>
+            <returns>It return the database name </returns>
+        </member>
+        <member name="M:Riskmaster.Security.Login.GetUserDatabases(System.String)">
+            <summary>
+            Riskmaster.Security.GetUserDatabases returns the list of DSN's that this UserLogin name should have access to.
+            Note: It does not do a full authorization request for each DSN, only tests that this user is configured as a login for each DSN returned.
+            </summary>
+            <param name="username">User Name</param>
+            <returns>string array of DSN Names.</returns>
+            <remarks>Note: This override provides the same lookup as the version that takes a password but simply assumes that the 
+            password will be the same accross all available datasources for the given UserName.  This is a change going forward to support
+            the idea of "hot-swapping" your database with-out fully logging off of the system.  
+            The primary reason for this is to deal with Single Sign-On (SSO).  
+            In that case, password is logically an attribute of the User, not the UserLogin anymore.
+            </remarks>
+        </member>
+        <member name="M:Riskmaster.Security.Login.GetUserDatabases(System.String,System.String)">
+            <summary>
+            Riskmaster.Security.GetUserDatabases returns the list of DSN's that this UserLogin name should have access to.
+            Note: It does not do a full authorization request for each DSN, only tests that this user is configured as a login for each DSN returned.
+            </summary>
+            <param name="username">User Name</param>
+            <param name="password">Databse Users password </param>
+            <returns>string array of DSN names.</returns>
+        </member>
+        <member name="M:Riskmaster.Security.Login.bNoAutoLogin">
+            <summary>
+            Riskmaster.Security.bNoAutoLogin is the internal function which return based on Registry Setting
+            </summary>
+            <returns>It returns login status true or false</returns>
+        </member>
+        <member name="M:Riskmaster.Security.Login.CheckMemMap(Riskmaster.Security.LoginDlgInfo@)">
+            <summary>
+            Private utility function Riskmaster.Security.CheckMemMap used to get the current session id for use building a properly scoped Shared Memory Map Name in a
+            Terminal Services situation.
+            </summary>
+            <param name="dlgInfo">Objects of the struct LoginDlgInfo</param>
+            <returns>It returns boolean</returns>
+        </member>
+        <member name="M:Riskmaster.Security.Login.GetSharedMemName">
+            <summary>
+            Riskmaster.Security.GetSharedMemName gets shared memory name by passing the session id.
+            </summary>
+            <returns>It returns string -"RMLOGINSILENTLOGIN" with sessionid if is terminal server</returns>
+        </member>
+        <member name="M:Riskmaster.Security.Login.GetIsTerminalServer">
+            <summary>
+            Riskmaster.Security.GetIsTerminalServer simple internal function to determine if we are running under terminal server or not.
+            </summary>
+            <returns>It returns boolean value based on product option as terminal server</returns>
+        </member>
+        <member name="M:Riskmaster.Security.Login.RegisterApplication(System.Int32,System.Int32,Riskmaster.Security.UserLogin@)">
+            <summary>
+            Riskmaster.Security.RegisterApplication takes the refernce of the natvive providers. 
+            It is called from the Client desktop layer by passing the Application Window with reference 
+            to Userlogin. 
+            </summary>
+            <param name="hAppWindow">To get the handle of desktop window </param>
+            <param name="dwFlags">Integer Flag</param>
+            <param name="pUser">Object reference to the class UsrLogin</param>
+        </member>
+        <member name="M:Riskmaster.Security.Login.AuthenticateUser(System.String,System.String,System.String)">
+            <summary>
+            Riskmaster.Security.AuthenticateUser called from Internet Client Layer. It wraps up the native providers.
+            </summary>
+            <param name="databaseName">Databasename name</param>
+            <param name="username">User Name</param>
+            <param name="password">Databse Users password </param>		
+        </member>
+        <member name="M:Riskmaster.Security.Login.AuthUser(System.String,System.String,System.String)">
+            <summary>
+            Riskmaster.Security.AuthUser wraps the native provider. It check the following
+             1. Permissions and Password Expiration, 
+             2. Permissions to login today. Raise the PermissionExpired exception if user cannot login
+             3. Checksum's and CRC for the License Info (Handled at object level.)
+             4. Check number of seat licences against number of currently logged in machines.
+             It do the following,
+             1. Write a row into the MACHINE_LOGIN table (if necessary).
+             2. Load User Security settings.
+             3. Apply any Organizational Security (aka "BES") Login Settings (Handled at object level.)
+            </summary>
+            <param name="databaseName">Databasename name</param>
+            <param name="username">User Name</param>
+            <param name="password">Users password </param>
+            <returns>It returns the object of class UserLogin</returns>
+        </member>
+        <member name="M:Riskmaster.Security.Login.Dispose">
+            <summary>
+            Riskmaster.Security.Dispose is used to clean up File Mapping Object.
+            </summary>
+            <returns>None</returns>
+        </member>
+        <member name="M:Riskmaster.Security.Login.Finalize">
+            <summary>
+            Riskmaster.Security.Login is class destructor.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.Login.SecurityDsn">
+            <summary>
+            Gets the Riskmaster Security DSN
+            </summary>
+            <returns>string containing the Riskmaster Security DSN</returns>
+        </member>
+        <member name="P:Riskmaster.Security.Login.LoginsActive">
+            <summary>
+            Riskmaster.Security.LoginsActive is the read only property assign new object to the struct LoginDlgInfo. 
+            </summary>
+            <returns>It returns the sared memory map name with refference to the object of memory mapped data structure</returns>
+        </member>
+        <member name="T:Riskmaster.Security.LoginDlgInfo">
+             <summary>
+             Memory Mapped Data Structure 
+             </summary>
+            <remarks>Data is maintained as ascii by previous login component.  Hence, we must 
+             store as ascii instead of the default UTF16 of the CLR.  
+             IFF this is maintained as is - it will interoperate with older compnonents using the same 
+             memory maps.
+             </remarks>
+        </member>
+        <member name="M:Riskmaster.Security.LoginDlgInfo.FillBuffer(System.Void*,System.String,System.Int32)">
+            <summary>
+            This method sets the pointer reference to the byte data of the content. 
+            </summary>
+            <param name="vpBuff">Pointer to the  buffer content </param>
+            <param name="Content">Content</param>
+            <param name="MaxLength">Length of the content</param>
+        </member>
+        <member name="M:Riskmaster.Security.LoginDlgInfo.ReadBuffer(System.SByte*,System.Int32)">
+            <summary>
+            Returns string value at the Buffer pointer.
+            </summary>
+            <param name="Buff">Pointer to the buffer </param>
+            <param name="MaxLength">Lenth of the content of buffer.</param>
+            <returns>It returns pointer to the string</returns>
+        </member>
+        <member name="P:Riskmaster.Security.LoginDlgInfo.szDSN">
+            <summary>
+            This internal property contain string value for DSN.
+            </summary>
+            <returns>It return the pointer to the buffer</returns>
+        </member>
+        <member name="P:Riskmaster.Security.LoginDlgInfo.szUserName">
+            <summary>
+            This internal property contain string value for user name.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.LoginDlgInfo.szPassword">
+            <summary>
+            This internal property contain string value for password.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.LoginDlgInfo.bSecureLogin">
+            <summary>
+            This internal property which return the secure login and sets the secure login.
+            </summary>
+        </member>
+        <member name="T:Riskmaster.Security.Global">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.Global.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.Global.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.Global.frmChgPassword_cmdCancel_Text">
+            <summary>
+              Looks up a localized string similar to Cancel.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.Global.frmChgPassword_cmdOK_Click_ChgPwdError">
+            <summary>
+              Looks up a localized string similar to Change Password Error.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.Global.frmChgPassword_cmdOK_Click_InvalidNewPwdLen">
+            <summary>
+              Looks up a localized string similar to New password cannot be less than 3 characters long..
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.Global.frmChgPassword_cmdOK_Click_NewOldPwdSame">
+            <summary>
+              Looks up a localized string similar to New password and old password cannot be  the same..
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.Global.frmChgPassword_cmdOK_Click_NewPwdsNotMatched">
+            <summary>
+              Looks up a localized string similar to New passwords entered do not match each other..
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.Global.frmChgPassword_cmdOK_Click_OldPwdNA">
+            <summary>
+              Looks up a localized string similar to Old password not available for confirmation..
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.Global.frmChgPassword_cmdOK_Click_OldPwdNotMatched">
+            <summary>
+              Looks up a localized string similar to Old password entered does not match the existing password..
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.Global.frmChgPassword_cmdOK_Text">
+            <summary>
+              Looks up a localized string similar to OK.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.Global.frmChgPassword_lblConfirmPwd_Text">
+            <summary>
+              Looks up a localized string similar to Confirm Password.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.Global.frmChgPassword_lblNewPwd_Text">
+            <summary>
+              Looks up a localized string similar to New Password.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.Global.frmChgPassword_lblOldPwd_Text">
+            <summary>
+              Looks up a localized string similar to Old Password.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.Global.frmLogin_cmdCancel_Text">
+            <summary>
+              Looks up a localized string similar to Cancel.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.Global.frmLogin_cmdOK_Text">
+            <summary>
+              Looks up a localized string similar to OK.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.Global.frmLogin_lblDataSource_Text">
+            <summary>
+              Looks up a localized string similar to Date Source.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.Global.frmLogin_lblMultiDSN_Text">
+            <summary>
+              Looks up a localized string similar to You Have Access to More Than One Datasource. Please Choose Which to Login To..
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.Global.frmLogin_lblPwd_Text">
+            <summary>
+              Looks up a localized string similar to Password.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.Global.frmLogin_lblUser_Text">
+            <summary>
+              Looks up a localized string similar to User.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.Global.Login_AuthUser_InvalidUNamePwd">
+            <summary>
+              Looks up a localized string similar to Invalid user name or password..
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.Global.Login_AuthUser_LoginError">
+            <summary>
+              Looks up a localized string similar to An error has occured while processing of login,refer to innerException exception for more details..
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.Global.Login_AuthUser_MaxUsersExceeded">
+            <summary>
+              Looks up a localized string similar to The maximum number of licensed users are already logged in.  Login Failed..
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.Global.Login_AuthUser_PrivilegesExpired">
+            <summary>
+              Looks up a localized string similar to Privileges have expired. Login Failed.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.Global.Login_AuthUser_PwdExpired">
+            <summary>
+              Looks up a localized string similar to Password has expired. Login Failed.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.Global.Login_AuthUser_TimeNotInRange">
+            <summary>
+              Looks up a localized string similar to The current time is not within the working range set up in Security Management System. Login Failed..
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.Global.Login_RegisterApplication_DateNotY2KCompliant">
+            <summary>
+              Looks up a localized string similar to This computer&apos;s date settings are not Year 2000 compliant.  Riskmaster requires a 4 digit year.  \nPlease change the Short Date style to MM/dd/yyyy in the Control Panel - Regional or International Settings..
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.Global.Login_RegisterApplication_FailedLogin">
+            <summary>
+              Looks up a localized string similar to Failed RISKMASTER/World login attempt on machine .
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.Global.Login_RegisterApplication_InvalidUNamePwd">
+            <summary>
+              Looks up a localized string similar to Invalid username and/or password..
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.Global.Login_RegisterApplication_LoginError">
+            <summary>
+              Looks up a localized string similar to Login Error.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.Global.Login_RegisterApplication_LoginFailure">
+            <summary>
+              Looks up a localized string similar to RISKMASTER/World Login Failure Notification.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.Global.Login_RegisterApplication_ProcDeniedInteractiveLogon">
+            <summary>
+              Looks up a localized string similar to Only processes allowing direct user interaction may request an interactive logon to Riskmaster/World..
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.Global.Login_RegisterApplication_UsingUID">
+            <summary>
+              Looks up a localized string similar to  using user id .
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.Global.RiskmasterDatabase_GrantLicence_CheckFailed">
+            <summary>
+              Looks up a localized string similar to Licence check failed..
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.Global.RiskmasterDatabase_Load_DBNotFound">
+            <summary>
+              Looks up a localized string similar to RiskmasterDatabase with specified DsnId could not be found..
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.Global.RiskmasterDatabase_LoadData_InvalidDataSourceInfo">
+            <summary>
+              Looks up a localized string similar to The Riskmaster datasource information is not correct. It may have been altered or may need a security upgrade. Please contact Product Support for assistance..
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.Global.RiskmasterDatabase_LoadData_InvalidLicenceInfo">
+            <summary>
+              Looks up a localized string similar to The Riskmaster license information is not correct. It may have been altered or may need a security upgrade. Please contact Product Support for assistance..
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.Global.User_Load_UserNotFound">
+            <summary>
+              Looks up a localized string similar to User with specified UserId could not be found..
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.Global.User_LoadData_InvalidUserInfo">
+            <summary>
+              Looks up a localized string similar to The Riskmaster user information is not correct. It may have been altered or may need a security upgrade. Please contact Product Support for assistance..
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.Global.UserLogin_LoadData_BusEntitySecurityEnabled">
+            <summary>
+              Looks up a localized string similar to Business Entity Security is enabled.  Please see your system administrator for access to the system..
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.Global.UserLogin_LoadData_InvalidSecurityLoginInfo">
+            <summary>
+              Looks up a localized string similar to The Riskmaster security login information is not correct. It may have been altered or may need a security upgrade. Please contact Product Support for assistance..
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.Global.UserLogin_PopulateSecurityHashTable_CannotGetSecSettings">
+            <summary>
+              Looks up a localized string similar to Error retrieving security settings.  Login Failed..
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.Global.UserLogin_SaveData_ReqDbExit">
+            <summary>
+              Looks up a localized string similar to UserLogin save aborted, Database must exist first..
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.Global.UserLogin_SaveData_ReqUserExit">
+            <summary>
+              Looks up a localized string similar to UserLogin save aborted, User must exist first..
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.Global.UserLogin_UserLogin_InvalidUNamePwd">
+            <summary>
+              Looks up a localized string similar to Invalid user name or password..
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Security.Global.UserLoginLimits_Consructor_LoadFailedException">
+            <summary>
+              Looks up a localized string similar to UserLimits could not be loaded for user {0}..
+            </summary>
+        </member>
+        <member name="T:Riskmaster.Security.frmLogin">
+            <summary>
+            Riskmaster.Security.frmLogin is used to login into the system by entering userid,password and users database.
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Security.frmLogin.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Security.frmLogin.#ctor">
+            <summary>
+            Riskmaster.Security.frmLogin is the constructor without parameter which initialize the components.
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Security.frmLogin.#ctor(Riskmaster.Security.LoginDlgInfo*)">
+            <summary>
+            Riskmaster.Security.frmLogin is the constructor with parameter which passes the objects of the struct LoginDlgInfo. 
+            It takes the username , password from login form and passes it to the object DialogInfo and also shows the data source 
+            associated with the user. 
+            </summary>
+            <param name="DialogInfo">Pinter to LoginDlgInfo</param>
+        </member>
+        <member name="M:Riskmaster.Security.frmLogin.GetLogo">
+            <summary>
+            Retrieves the log from the Resource file
+            </summary>
+            <returns>returns the logo from the Global resource file</returns>
+        </member>
+        <member name="M:Riskmaster.Security.frmLogin.Dispose(System.Boolean)">
+            <summary>
+            Riskmaster.Security.Dispose clean up any resources being used.
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Security.frmLogin.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Security.frmLogin.cmdOK_Click(System.Object,System.EventArgs)">
+            <summary>
+            Private utility Riskmaster.Security.cmdOK_Click allows he user to enter into the application. 
+            </summary>
+            <param name="sender">Sender</param>
+            <param name="e">Event argument</param>
+        </member>
+        <member name="M:Riskmaster.Security.frmLogin.cmdCancel_Click(System.Object,System.EventArgs)">
+            <summary>
+            private utility Riskmaster.Security.cmdCancel_Click cancel the operation by user.
+            </summary>
+            <param name="sender">Sender</param>
+            <param name="e">Event argument</param>
+        </member>
+        <member name="T:Riskmaster.Security.frmChgPassword">
+            <summary>
+            Riskmaster.Security.frmChgPassword class is used to change the existing pasword.
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Security.frmChgPassword.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Security.frmChgPassword.#ctor(System.String,System.String,System.String)">
+            <summary>
+            Riskmaster.Security.frmChgPassword constructor with parameters.
+            </summary>
+            <param name="sOldPassword">Old Password</param>
+            <param name="sDSN">DSN Name</param>
+            <param name="sUsername">User Name</param>
+        </member>
+        <member name="M:Riskmaster.Security.frmChgPassword.Dispose(System.Boolean)">
+            <summary>
+            Riskmaster.Security.Dispose clean up any resources being used.
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Security.frmChgPassword.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Security.frmChgPassword.cmdOK_Click(System.Object,System.EventArgs)">
+            <summary>
+            Private utility Riskmaster.Security.cmdOK_Click confirms the user action and it change the user password, it also checks for the old password entered by the user.
+            </summary>
+            <param name="sender">Sender</param>
+            <param name="e">Event argument</param>
+        </member>
+        <member name="M:Riskmaster.Security.frmChgPassword.cmdCancel_Click(System.Object,System.EventArgs)">
+            <summary>
+            Private utility Riskmaster.Security.cmdCancel_Click cancel the user action.
+            </summary>
+            <param name="sender">Sender</param>
+            <param name="e">Event argument</param>
+        </member>
+        <member name="P:Riskmaster.Security.frmChgPassword.NewPassword">
+            <summary>
+            Riskmaster.Security.NewPassword is the readonly property, gets the new password.
+            </summary>
+        </member>
+    </members>
+</doc>

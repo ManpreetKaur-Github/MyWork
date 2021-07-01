@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Riskmaster.Security.Encryption</name>
+    </assembly>
+    <members>
+        <member name="T:Riskmaster.Security.Encryption.DTGCryptException">
+            <summary>
+            Summary description for Class1.
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "T:Riskmaster.Security.Encryption.CSCMD5" -->
+    </members>
+</doc>

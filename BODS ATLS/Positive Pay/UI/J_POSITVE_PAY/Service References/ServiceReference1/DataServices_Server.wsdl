@@ -1,0 +1,1521 @@
+<?xml version="1.0" encoding="utf-8"?>
+<definitions xmlns:di_Cancel_Profiling_Task_Input="http://www.businessobjects.com/profiling/PF_CancelTask_Request" xmlns:di_Get_Repo_Info_Output="http://www.businessobjects.com/profiling/PF_RepoInfo_Response" xmlns:di_Get_Repo_Info_Input="http://www.businessobjects.com/profiling/PF_RepoInfo_Request" xmlns:di_Get_Profiling_Task_List_Input="http://www.businessobjects.com/profiling/PF_TaskList_Request" xmlns:di_Profiling_Job_Completed_Output="http://www.businessobjects.com/profiling/PF_JobCompleted_Response" xmlns:di_Get_TaskInfo_By_Sources_Output="http://www.businessobjects.com/profiling/PF_TaskInfo_By_Sources_Response" xmlns:di_Get_Task_By_Name_Output="http://www.businessobjects.com/profiling/PF_Task_Request" xmlns:di_Get_TaskInfo_By_Sources_Input="http://www.businessobjects.com/profiling/PF_TaskInfo_By_Sources_Request" xmlns:di_Get_User_List_Input="http://www.businessobjects.com/profiling/PF_UserList_Request" xmlns:di_Wait_Profiling_Task_Input="http://www.businessobjects.com/profiling/PF_WaitTask_Request" xmlns:di_Profiling_Job_Completed_Input="http://www.businessobjects.com/profiling/PF_JobCompleted_Request" xmlns:di_Get_Profiling_Task_List_Output="http://www.businessobjects.com/profiling/PF_TaskList_Response" xmlns:di_Get_User_List_Output="http://www.businessobjects.com/profiling/PF_UserList_Response" xmlns:di_Wait_Profiling_Task_Output="http://www.businessobjects.com/profiling/PF_Task_Response" xmlns:tns="http://www.businessobjects.com" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:aw_RT_Service_Admin="http://www.businessobjects.com/rtServiceAdmin" xmlns:localtypes="http://www.businessobjects.com/DataServices/ServerX.xsd" xmlns:di_Cancel_Profiling_Task_Output="http://www.businessobjects.com/profiling/PF_CancelTask_Response" xmlns:di_Get_Task_By_Name_Input="http://www.businessobjects.com/profiling/PF_GetTask_Request" name="DataServices_Server" targetNamespace="http://www.businessobjects.com" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <tns:documentation>Web Services published by BusinessObjects Data Services Version 12.0.0.0, using Apache Axis 1.1  </tns:documentation>
+  <types>
+    <xsd:schema xmlns:mstns="http://www.businessobjects.com/profiling/PF_UserList_Request" xmlns="http://www.businessobjects.com/profiling/PF_UserList_Request" elementFormDefault="qualified" targetNamespace="http://www.businessobjects.com/profiling/PF_UserList_Request">
+      <xsd:element name="PF_UserList_Request">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="1" maxOccurs="1" name="ClientID" type="mstns:UserListRequestType" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:simpleType name="UserListRequestType">
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="Designer" />
+          <xsd:enumeration value="Composer" />
+        </xsd:restriction>
+      </xsd:simpleType>
+    </xsd:schema>
+    <xsd:schema xmlns:mstns="http://www.businessobjects.com/profiling/PF_UserList_Response" xmlns="http://www.businessobjects.com/profiling/PF_UserList_Response" elementFormDefault="qualified" targetNamespace="http://www.businessobjects.com/profiling/PF_UserList_Response">
+      <xsd:element name="PF_UserList_Response">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="unbounded" name="UserName" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:schema>
+    <xsd:schema xmlns:mstns="http://www.businessobjects.com/profiling/PF_CancelTask_Request" xmlns="http://www.businessobjects.com/profiling/PF_CancelTask_Request" elementFormDefault="qualified" targetNamespace="http://www.businessobjects.com/profiling/PF_CancelTask_Request">
+      <xsd:element name="PF_CancelTask_Request">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="1" maxOccurs="unbounded" name="TaskInfo" type="mstns:TaskIDType" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:complexType name="TaskIDType">
+        <xsd:sequence>
+          <xsd:element minOccurs="1" maxOccurs="1" name="TaskID" type="xsd:int" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="RunID" type="xsd:int" />
+        </xsd:sequence>
+      </xsd:complexType>
+    </xsd:schema>
+    <xsd:schema xmlns:mstns="http://www.businessobjects.com/profiling/PF_CancelTask_Response" xmlns="http://www.businessobjects.com/profiling/PF_CancelTask_Response" elementFormDefault="qualified" targetNamespace="http://www.businessobjects.com/profiling/PF_CancelTask_Response">
+      <xsd:element name="PF_CancelTask_Response">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="1" maxOccurs="1" name="SucceedTasks" type="mstns:SucceedsType" />
+            <xsd:element minOccurs="1" maxOccurs="1" name="FailedTasks" type="mstns:FailedsType" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:complexType name="TaskInfoType">
+        <xsd:sequence>
+          <xsd:element minOccurs="1" maxOccurs="1" name="TaskID" type="xsd:int" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="RunID" type="xsd:int" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="SucceedType">
+        <xsd:sequence>
+          <xsd:element minOccurs="1" maxOccurs="1" name="TaskInfo" type="mstns:TaskInfoType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="SucceedsType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="SucceedTask" type="mstns:SucceedType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="FailedsType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="FailedTask" type="mstns:FailedType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="FailedType">
+        <xsd:sequence>
+          <xsd:element minOccurs="1" maxOccurs="1" name="TaskInfo" type="mstns:TaskInfoType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="ErrorCode" type="xsd:int" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="ErrorMessage" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+    </xsd:schema>
+    <xsd:schema xmlns:mstns="http://www.businessobjects.com/profiling/PF_WaitTask_Request" xmlns="http://www.businessobjects.com/profiling/PF_WaitTask_Request" elementFormDefault="qualified" targetNamespace="http://www.businessobjects.com/profiling/PF_WaitTask_Request">
+      <xsd:element name="PF_WaitTask_Request">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="1" maxOccurs="unbounded" name="TaskInfo" type="mstns:TaskIDType1" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:complexType name="TaskIDType1">
+        <xsd:sequence>
+          <xsd:element minOccurs="1" maxOccurs="1" name="TaskID" type="xsd:int" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="RunID" type="xsd:int" />
+        </xsd:sequence>
+      </xsd:complexType>
+    </xsd:schema>
+    <xsd:schema xmlns:mstns="http://www.businessobjects.com/profiling/PF_RepoInfo_Request" xmlns="http://www.businessobjects.com/profiling/PF_RepoInfo_Request" elementFormDefault="qualified" targetNamespace="http://www.businessobjects.com/profiling/PF_RepoInfo_Request">
+      <xsd:element name="PF_RepoInfo_Request">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="1" maxOccurs="1" name="UserName" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:schema>
+    <xsd:schema xmlns:mstns="http://www.businessobjects.com/profiling/PF_RepoInfo_Response" xmlns="http://www.businessobjects.com/profiling/PF_RepoInfo_Response" elementFormDefault="qualified" targetNamespace="http://www.businessobjects.com/profiling/PF_RepoInfo_Response">
+      <xsd:element name="PF_RepoInfo_Response">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="NativeConnectionInfo" type="mstns:NativeConntionInfoType" />
+            <xsd:element name="JDBCConnectionInfo" type="mstns:JDBCConnectionInfoType" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:simpleType name="DatabasType">
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="Microsoft_SQL_Server" />
+          <xsd:enumeration value="Oracle" />
+          <xsd:enumeration value="DB2" />
+          <xsd:enumeration value="Sybase" />
+          <xsd:enumeration value="Informix" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:complexType name="NativeConntionInfoType">
+        <xsd:sequence>
+          <xsd:element name="DatabaseType" type="xsd:string" />
+          <xsd:element name="UserName" type="xsd:string" />
+          <xsd:element name="Password" type="xsd:string" />
+          <xsd:element name="ConnectionString" type="xsd:string" />
+          <xsd:element name="DatabaseName" type="xsd:string" />
+          <xsd:element name="WindowsAuthentication" type="xsd:boolean" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="JDBCConnectionInfoType">
+        <xsd:sequence>
+          <xsd:element name="DatabaseType" type="xsd:string" />
+          <xsd:element name="DatabaseName" type="xsd:string" />
+          <xsd:element name="MachineName" type="xsd:string" />
+          <xsd:element name="DatabasePort" type="xsd:string" />
+          <xsd:element name="DatabaseServer" type="xsd:string" />
+          <xsd:element name="UserName" type="xsd:string" />
+          <xsd:element name="Password" type="xsd:string" />
+          <xsd:element name="WindowsAuthentication" type="xsd:boolean" />
+        </xsd:sequence>
+      </xsd:complexType>
+    </xsd:schema>
+    <xsd:schema xmlns:mstns="http://www.businessobjects.com/profiling/PF_TaskList_Request" xmlns="http://www.businessobjects.com/profiling/PF_TaskList_Request" elementFormDefault="qualified" targetNamespace="http://www.businessobjects.com/profiling/PF_TaskList_Request">
+      <xsd:element name="PF_TaskList_Request">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="1" maxOccurs="1" name="TaskStatus" type="mstns:TaskStatusType" />
+            <xsd:element minOccurs="1" maxOccurs="1" name="Count" type="xsd:int" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:simpleType name="TaskStatusType">
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="All" />
+          <xsd:enumeration value="Done" />
+          <xsd:enumeration value="Pending" />
+          <xsd:enumeration value="Scheduled" />
+          <xsd:enumeration value="Error" />
+        </xsd:restriction>
+      </xsd:simpleType>
+    </xsd:schema>
+    <xsd:schema xmlns:mstns="http://www.businessobjects.com/profiling/PF_TaskList_Response" xmlns="http://www.businessobjects.com/profiling/PF_TaskList_Response" elementFormDefault="qualified" targetNamespace="http://www.businessobjects.com/profiling/PF_TaskList_Response">
+      <xsd:element name="PF_TaskList_Response">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="unbounded" name="Task" type="mstns:TaskInfoType1" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:complexType name="TaskInfoType1">
+        <xsd:sequence>
+          <xsd:element minOccurs="1" maxOccurs="1" name="TaskID" type="xsd:int" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="RunID" type="xsd:int" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Name" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Desciption" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="status" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="ErrorMessage" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="LastUpdated" type="xsd:dateTime" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Schedule" type="mstns:ScheduleType1" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="ProfilingType" type="mstns:ProfilingTypeType3" />
+          <xsd:element name="Subtype" type="mstns:ProfilingsubTypeType2" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="ScheduleType1">
+        <xsd:sequence>
+          <xsd:element minOccurs="1" maxOccurs="1" name="ScheduleMethod" type="mstns:ScheduleMethodType1" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="DayOfMonth" type="xsd:int" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="DayOfWeek" type="xsd:int" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Year" type="xsd:int" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Month" type="xsd:int" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Day" type="xsd:int" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Hour" type="xsd:int" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Minute" type="xsd:int" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Second" type="xsd:int" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:simpleType name="ScheduleMethodType1">
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="Now" />
+          <xsd:enumeration value="Monthly" />
+          <xsd:enumeration value="Weekly" />
+          <xsd:enumeration value="Daily" />
+          <xsd:enumeration value="OneTimeOnly" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="ProfilingTypeType3">
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="SingleTable" />
+          <xsd:enumeration value="ViewData" />
+          <xsd:enumeration value="Structural" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="ProfilingsubTypeType2">
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="Basic" />
+          <xsd:enumeration value="Full" />
+        </xsd:restriction>
+      </xsd:simpleType>
+    </xsd:schema>
+    <xsd:schema xmlns:mstns="http://www.businessobjects.com/profiling/PF_JobCompleted_Request" xmlns="http://www.businessobjects.com/profiling/PF_JobCompleted_Request" elementFormDefault="qualified" targetNamespace="http://www.businessobjects.com/profiling/PF_JobCompleted_Request">
+      <xsd:element name="PF_JobCompleted_Request">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="1" maxOccurs="1" name="TaskID" type="xsd:int" />
+            <xsd:element minOccurs="1" maxOccurs="1" name="RunID" type="xsd:int" />
+            <xsd:element minOccurs="1" maxOccurs="1" name="ItemID" type="xsd:int" />
+            <xsd:element name="repoInfo" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:schema>
+    <xsd:schema xmlns:mstns="http://www.businessobjects.com/profiling/PF_JobCompleted_Response" xmlns="http://www.businessobjects.com/profiling/PF_JobCompleted_Response" elementFormDefault="qualified" targetNamespace="http://www.businessobjects.com/profiling/PF_JobCompleted_Response">
+      <xsd:element name="PF_JobCompleted_Response">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="Acknowlegement" type="mstns:AcknowlegementType" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:simpleType name="AcknowlegementType">
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="OK" />
+        </xsd:restriction>
+      </xsd:simpleType>
+    </xsd:schema>
+    <xsd:schema xmlns:mstns="http://www.businessobjects.com/profiling/PF_GetTask_Request" xmlns="http://www.businessobjects.com/profiling/PF_GetTask_Request" elementFormDefault="qualified" targetNamespace="http://www.businessobjects.com/profiling/PF_GetTask_Request">
+      <xsd:element name="PF_GetTask_Request">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="1" maxOccurs="1" name="TaskName" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:schema>
+    <xsd:schema xmlns:mstns="http://www.businessobjects.com/profiling/PF_Task_Request" xmlns="http://www.businessobjects.com/profiling/PF_Task_Request" elementFormDefault="qualified" targetNamespace="http://www.businessobjects.com/profiling/PF_Task_Request">
+      <xsd:complexType name="DBSpecType">
+        <xsd:sequence>
+          <xsd:element name="database_type" type="mstns:DatabaseTypeType" />
+          <xsd:choice>
+            <xsd:element name="Microsoft_SQL_ServerSpecification" type="mstns:MSSQLSpecType" />
+            <xsd:element name="OracleSpecification" type="mstns:OracleSpecType" />
+            <xsd:element name="DB2Specification" type="mstns:DB2SpecType" />
+            <xsd:element name="SybaseSpecification" type="mstns:SybaseSpecType" />
+            <xsd:element name="InformixSpecification" type="mstns:InformixSpecType" />
+            <xsd:element name="TeradataSpecification" type="mstns:TeradataSpecType" />
+            <xsd:element name="IBM_ConnectorSpecification" type="mstns:IBMSpecType" />
+            <xsd:element name="ODBCSpecification" type="mstns:ODBCpecType" />
+            <xsd:element name="Attunity_ConnectorSpecification" type="mstns:AttunitySpecType" />
+            <xsd:element name="SybaseIQSpecification" type="mstns:SybaseIQSpecType" />
+          </xsd:choice>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="Specification">
+        <xsd:sequence>
+          <xsd:element name="application_type" type="mstns:ApplicationTypeType" />
+          <xsd:choice>
+            <xsd:element name="FileSpecification" type="mstns:FileSpecType" />
+            <xsd:element name="SAPSpecification" type="mstns:SAPSpecType" />
+            <xsd:element name="PSFTSpecification" type="mstns:PSFTSpecType" />
+            <xsd:element name="DatabaseSpecification" type="mstns:DBSpecType" />
+            <xsd:element name="JDESpecification" type="mstns:JDESpecType" />
+            <xsd:element name="OASpecification" type="mstns:OASpecType" />
+            <xsd:element name="SIEBELSpecification" type="mstns:SiebelSpecType" />
+          </xsd:choice>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="FileSpecType">
+        <xsd:sequence>
+          <xsd:element name="file_type" type="mstns:FileTypeType" />
+          <xsd:choice>
+            <xsd:element name="positional_fileSpecification" type="mstns:PositionalFileSpectype" />
+            <xsd:element name="delim_file" type="mstns:DelimFileSpecType" />
+          </xsd:choice>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="CobolSpecType">
+        <xsd:sequence />
+      </xsd:complexType>
+      <xsd:complexType name="SAPSpecType">
+        <xsd:sequence>
+          <xsd:element minOccurs="1" maxOccurs="1" name="sap_host_name" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="sap_client" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="locale_codepage" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="locale_language" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="locale_territory" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="sap_language" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="sap_system_number" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="DB_connection_retry_count" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="DB_retry_interval" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="ecurity_profile" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="user" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="password" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="PSFTSpecType">
+        <xsd:sequence>
+          <xsd:element minOccurs="1" maxOccurs="1" name="DatabaseSpecification" type="mstns:DBSpecType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="OASpecType">
+        <xsd:sequence>
+          <xsd:element minOccurs="1" maxOccurs="1" name="OracleSpecification" type="mstns:OracleSpecType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="oa_process_flexfields" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="oa_schema_owner" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="JDESpecType">
+        <xsd:sequence>
+          <xsd:element minOccurs="1" maxOccurs="1" name="DatabaseSpecification" type="mstns:DBSpecType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="jde_OneW_DataDict_location" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="jde_OneW_System_location" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="jde_OneW_System_owner" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="jde_OneW_local_location" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="jde_OneW_objLib_location" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="jde_environment" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="jde_W_Security_location" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="DataStoreType">
+        <xsd:sequence>
+          <xsd:element minOccurs="1" maxOccurs="1" name="Name" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="Specification" type="mstns:Specification" />
+          <xsd:choice minOccurs="1" maxOccurs="1">
+            <xsd:element name="TableSchemas" type="mstns:TableSchemasType" />
+            <xsd:element name="FileSchema" type="mstns:FileSchemaType" />
+          </xsd:choice>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="ColumnSchemaType">
+        <xsd:sequence>
+          <xsd:element minOccurs="1" maxOccurs="1" name="ColumnName" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="datatype" type="mstns:dataTypeType" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="size" type="xsd:int" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="scale" type="xsd:int" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="precision" type="xsd:int" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="ColumnPhysicalName" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="SequenceNumber" type="xsd:int" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="ColumnSchemasType">
+        <xsd:sequence>
+          <xsd:element minOccurs="1" maxOccurs="unbounded" name="ColumnSchema" type="mstns:ColumnSchemaType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="TableSchemaType">
+        <xsd:sequence>
+          <xsd:element minOccurs="1" maxOccurs="1" name="TableType" type="mstns:TableTypeType" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="OwnerName" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="TableName" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="ColumnSchemas" type="mstns:ColumnSchemasType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="TablePhysicalName" type="mstns:ColumnSchemasType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="TableOptions" type="mstns:TableOptionsType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="TableSchemasType">
+        <xsd:sequence>
+          <xsd:element minOccurs="1" maxOccurs="unbounded" name="TableSchema" type="mstns:TableSchemaType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="MetadataType">
+        <xsd:sequence>
+          <xsd:element minOccurs="1" maxOccurs="2" name="Datastore" type="mstns:DataStoreType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:simpleType name="TableTypeType">
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="Table" />
+          <xsd:enumeration value="PeopleSoftTree" />
+          <xsd:enumeration value="SAPTree" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="ProfilingsubTypeType">
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="Basic" />
+          <xsd:enumeration value="Full" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:complexType name="ProfilingColumnType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="Subtype" type="mstns:ProfilingsubTypeType" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="ColumnName" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="SequenceNumber" type="xsd:int" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="ProfilingColumnsType">
+        <xsd:sequence>
+          <xsd:element minOccurs="1" maxOccurs="unbounded" name="Column" type="mstns:ProfilingColumnType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="SourceType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="TableType" type="mstns:TableTypeType" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="DatastoreName" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="OwnerName" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="SourceName" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="Columns" type="mstns:ProfilingColumnsType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="SourcesType">
+        <xsd:sequence>
+          <xsd:element minOccurs="1" maxOccurs="unbounded" name="Source" type="mstns:SourceType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="TaskType">
+        <xsd:sequence>
+          <xsd:element minOccurs="1" maxOccurs="1" name="ProfilingType" type="mstns:ProfilingTypeType" />
+          <xsd:element name="Subtype" type="mstns:ProfilingsubTypeType" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="Sources" type="mstns:SourcesType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:simpleType name="ProfilingTypeType">
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="SingleTable" />
+          <xsd:enumeration value="ViewData" />
+          <xsd:enumeration value="Structural" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:element name="PF_Task_Request">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="1" maxOccurs="1" name="Name" type="xsd:string" />
+            <xsd:element minOccurs="1" maxOccurs="1" name="Description" type="xsd:string" />
+            <xsd:element minOccurs="1" maxOccurs="1" name="UserName" type="xsd:string" />
+            <xsd:element minOccurs="0" maxOccurs="1" name="ForceUpdate" type="xsd:boolean" />
+            <xsd:element minOccurs="1" maxOccurs="1" name="Metadata" type="mstns:MetadataType" />
+            <xsd:element minOccurs="1" maxOccurs="1" name="Task" type="mstns:TaskType" />
+            <xsd:element name="Schedule" type="mstns:ScheduleType" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:complexType name="DB2SpecType">
+        <xsd:sequence>
+          <xsd:element minOccurs="1" maxOccurs="1" name="locale_codepage" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="locale_language" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="locale_territory" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="odbc_data_source" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="DB2_version" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="user" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="password" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="case_sensitive" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="SybaseIQSpecType">
+        <xsd:sequence>
+          <xsd:element minOccurs="1" maxOccurs="1" name="locale_codepage" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="locale_language" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="locale_territory" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="odbc_data_source" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="user" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="password" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="sybase_iq_version" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="case_sensitive" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="ODBCpecType">
+        <xsd:sequence>
+          <xsd:element minOccurs="1" maxOccurs="1" name="locale_codepage" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="locale_language" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="locale_territory" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="odbc_data_source" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="user" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="password" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="db_date_format" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="db_time_format" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="db_datetime_format" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="db_decimal_separator" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="db_driver_supports_array_fetch" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="db_driver_supports_param_sql" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="case_sensitive" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="AttunitySpecType">
+        <xsd:sequence>
+          <xsd:element minOccurs="1" maxOccurs="1" name="locale_codepage" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="locale_language" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="locale_territory" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="odbc_data_source" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="user" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="password" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="attunity_host_location" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="attunity_host_port" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="attunity_workspace" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="case_sensitive" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="SybaseSpecType">
+        <xsd:sequence>
+          <xsd:element minOccurs="1" maxOccurs="1" name="locale_codepage" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="locale_language" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="locale_territory" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="sql_server_dataserver" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="sql_server_database" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="sybase_version" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="user" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="password" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="case_sensitive" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="IBMSpecType">
+        <xsd:sequence>
+          <xsd:element minOccurs="1" maxOccurs="1" name="locale_codepage" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="locale_language" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="locale_territory" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="odbc_data_source" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="user" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="password" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="case_sensitive" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="OracleSpecType">
+        <xsd:sequence>
+          <xsd:element minOccurs="1" maxOccurs="1" name="locale_codepage" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="locale_language" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="locale_territory" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="oracle_host_string" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="oracle_version" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="user" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="password" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="case_sensitive" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="TeradataSpecType">
+        <xsd:sequence>
+          <xsd:element minOccurs="1" maxOccurs="1" name="locale_codepage" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="locale_language" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="locale_territory" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="odbc_data_source" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="teradata_version" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="user" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="password" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="case_sensitive" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="InformixSpecType">
+        <xsd:sequence>
+          <xsd:element minOccurs="1" maxOccurs="1" name="locale_codepage" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="locale_language" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="locale_territory" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="odbc_data_source" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="informix_version" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="user" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="password" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="case_sensitive" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="MSSQLSpecType">
+        <xsd:sequence>
+          <xsd:element minOccurs="1" maxOccurs="1" name="locale_codepage" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="locale_language" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="locale_territory" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="mssql_windows_authentication" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="sql_server_dataserver" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="sql_server_database" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="sql_server_version" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="user" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="password" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="case_sensitive" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="FileSchemaType">
+        <xsd:sequence>
+          <xsd:element name="FileName" type="xsd:string" />
+          <xsd:element name="ColumnSchemas" type="mstns:ColumnSchemasType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="TableOptionType">
+        <xsd:sequence>
+          <xsd:element name="OptionName" type="xsd:string" />
+          <xsd:element name="OptionValue" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="TableOptionsType">
+        <xsd:sequence>
+          <xsd:element name="option" type="mstns:TableOptionType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="PositionalFileSpectype">
+        <xsd:sequence>
+          <xsd:element minOccurs="1" maxOccurs="1" name="locale_codepage" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="locale_language" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="locale_territory" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="row_delimiter" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="root_dir" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="escape_character" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="ignore_row_markers" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="null_indicator" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="file_name" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="date_format" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="time_format" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="datetime_format" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="blank_pad" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="column_widthes" type="mstns:ColumnWidthesType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="reader_capture_data_conversion_errors" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="reader_capture_row_format_errors" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="reader_log_data_conversion_warnings" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="reader_log_row_format_warnings" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="reader_write_error_rows_to_file" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="reader_maximum_warnings_to_log" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="reader_error_file_root_dir" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="reader_error_file_name" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="number_of_rows_to_skip" type="xsd:int" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="skip_row_header" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="begining_of_file_string" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="end_of_file_string" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="ColumnWidthesType">
+        <xsd:sequence>
+          <xsd:element minOccurs="1" maxOccurs="unbounded" name="column_width" type="mstns:ColumnWidthType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="ColumnWidthType">
+        <xsd:sequence>
+          <xsd:element minOccurs="1" maxOccurs="1" name="SequenceNumber" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="unbounded" name="width" type="xsd:int" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:simpleType name="FileTypeType">
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="positional_file" />
+          <xsd:enumeration value="delimited_file" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="DatabaseTypeType">
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="Microsoft_SQL_Server" />
+          <xsd:enumeration value="Oracle" />
+          <xsd:enumeration value="DB2" />
+          <xsd:enumeration value="Sybase" />
+          <xsd:enumeration value="Informix" />
+          <xsd:enumeration value="Teradata" />
+          <xsd:enumeration value="IBM_Connector" />
+          <xsd:enumeration value="Attunity_Connector" />
+          <xsd:enumeration value="ODBC" />
+          <xsd:enumeration value="Sybase IQ" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="dataTypeType">
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="int" />
+          <xsd:enumeration value="varchar" />
+          <xsd:enumeration value="double" />
+          <xsd:enumeration value="real" />
+          <xsd:enumeration value="datetime" />
+          <xsd:enumeration value="date" />
+          <xsd:enumeration value="time" />
+          <xsd:enumeration value="long" />
+          <xsd:enumeration value="interval" />
+          <xsd:enumeration value="nvarchar" />
+          <xsd:enumeration value="decimal" />
+          <xsd:enumeration value="timestamp" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:complexType name="ScheduleType">
+        <xsd:sequence>
+          <xsd:element minOccurs="1" maxOccurs="1" name="ScheduleMethod" type="mstns:ScheduleMethodType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="DayOfMonth" type="xsd:int" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="DayOfWeek" type="xsd:int" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Year" type="xsd:int" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Month" type="xsd:int" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Day" type="xsd:int" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Hour" type="xsd:int" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Minute" type="xsd:int" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="Second" type="xsd:int" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:simpleType name="ScheduleMethodType">
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="Now" />
+          <xsd:enumeration value="Monthly" />
+          <xsd:enumeration value="Weekly" />
+          <xsd:enumeration value="Daily" />
+          <xsd:enumeration value="OneTimeOnly" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="ApplicationTypeType">
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="FlatFile" />
+          <xsd:enumeration value="CopyBookCobol" />
+          <xsd:enumeration value="Database" />
+          <xsd:enumeration value="PeopleSoft" />
+          <xsd:enumeration value="R/3" />
+          <xsd:enumeration value="SAP_BW" />
+          <xsd:enumeration value="BW_extraction" />
+          <xsd:enumeration value="JDE_World" />
+          <xsd:enumeration value="JDE_One_World" />
+          <xsd:enumeration value="BW_extraction" />
+          <xsd:enumeration value="Oracle_Applications" />
+          <xsd:enumeration value="Siebel" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:complexType name="SiebelSpecType">
+        <xsd:sequence>
+          <xsd:element minOccurs="1" maxOccurs="1" name="DatabaseSpecification" type="mstns:DBSpecType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="DelimFileSpecType">
+        <xsd:sequence>
+          <xsd:element minOccurs="1" maxOccurs="1" name="locale_codepage" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="locale_language" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="locale_territory" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="row_delimiter" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="column_delimiter" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="text_delimiter" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="root_dir" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="file_name" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="date_format" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="time_format" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="escape_character" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="ignore_row_markers" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="null_indicator" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="datetime_format" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="blank_pad" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="reader_capture_data_conversion_errors" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="reader_capture_row_format_errors" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="reader_log_data_conversion_warnings" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="reader_log_row_format_warnings" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="reader_write_error_rows_to_file" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="reader_maximum_warnings_to_log" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="reader_error_file_root_dir" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="reader_error_file_name" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="number_of_rows_to_skip" type="xsd:int" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="skip_row_header" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="begining_of_file_string" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="end_of_file_string" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+    </xsd:schema>
+    <xsd:schema xmlns:mstns="http://www.businessobjects.com/profiling/PF_Task_Response" xmlns="http://www.businessobjects.com/profiling/PF_Task_Response" elementFormDefault="qualified" targetNamespace="http://www.businessobjects.com/profiling/PF_Task_Response">
+      <xsd:element name="PF_Task_Response">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:choice>
+              <xsd:element name="Succeed" type="mstns:SucceedType1" />
+              <xsd:element name="Failed" type="mstns:Failedtype1" />
+            </xsd:choice>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:complexType name="SucceedType1">
+        <xsd:sequence>
+          <xsd:element minOccurs="1" maxOccurs="1" name="TaskID" type="xsd:int" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="RunID" type="xsd:int" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="Failedtype1">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="ErrorCode" type="xsd:int" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="ErrorMessage" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+    </xsd:schema>
+    <xsd:schema xmlns:mstns="http://www.businessobjects.com/profiling/PF_TaskInfo_By_Sources_Request" xmlns="http://www.businessobjects.com/profiling/PF_TaskInfo_By_Sources_Request" elementFormDefault="qualified" targetNamespace="http://www.businessobjects.com/profiling/PF_TaskInfo_By_Sources_Request">
+      <xsd:element name="PF_TaskInfo_By_Sources_Request">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="1" maxOccurs="1" name="Task" type="mstns:TaskType2" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:complexType name="TaskType2">
+        <xsd:sequence>
+          <xsd:element minOccurs="1" maxOccurs="1" name="ProfilingType" type="mstns:ProfilingTypeType1" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="Sources" type="mstns:SourcesType1" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:simpleType name="ProfilingTypeType1">
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="SingleTable" />
+          <xsd:enumeration value="ViewData" />
+          <xsd:enumeration value="Structural" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:complexType name="SourcesType1">
+        <xsd:sequence>
+          <xsd:element minOccurs="1" maxOccurs="unbounded" name="Source" type="mstns:SourceType1" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="SourceType1">
+        <xsd:sequence>
+          <xsd:element minOccurs="1" maxOccurs="1" name="DatastoreName" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="OwnerName" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="SourceName" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+    </xsd:schema>
+    <xsd:schema xmlns:mstns="http://www.businessobjects.com/profiling/PF_TaskInfo_By_Sources_Response" xmlns="http://www.businessobjects.com/profiling/PF_TaskInfo_By_Sources_Response" elementFormDefault="qualified" targetNamespace="http://www.businessobjects.com/profiling/PF_TaskInfo_By_Sources_Response">
+      <xsd:element name="PF_TaskInfo_By_Sources_Response">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="1" maxOccurs="1" name="Task" type="mstns:TaskType3" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:complexType name="TaskType3">
+        <xsd:sequence>
+          <xsd:element minOccurs="1" maxOccurs="1" name="ProfilingType" type="mstns:ProfilingTypeType2" />
+          <xsd:element name="Subtype" type="mstns:ProfilingsubTypeType1" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="Sources" type="mstns:SourcesType2" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:simpleType name="TableTypeType1">
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="Table" />
+          <xsd:enumeration value="PeopleSoftTree" />
+          <xsd:enumeration value="SAPTree" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="ProfilingTypeType2">
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="SingleTable" />
+          <xsd:enumeration value="ViewData" />
+          <xsd:enumeration value="Structural" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:complexType name="SourcesType2">
+        <xsd:sequence>
+          <xsd:element minOccurs="1" maxOccurs="unbounded" name="Source" type="mstns:SourceType3" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="SourceType3">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="TableType" type="mstns:TableTypeType1" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="DatastoreName" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="OwnerName" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="SourceName" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="Columns" type="mstns:ProfilingColumnsType1" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="ProfilingColumnsType1">
+        <xsd:sequence>
+          <xsd:element minOccurs="1" maxOccurs="unbounded" name="Column" type="mstns:ProfilingColumnType1" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="ProfilingColumnType1">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="Subtype" type="mstns:ProfilingsubTypeType1" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="ColumnName" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="SequenceNumber" type="xsd:int" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:simpleType name="ProfilingsubTypeType1">
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="Basic" />
+          <xsd:enumeration value="Full" />
+        </xsd:restriction>
+      </xsd:simpleType>
+    </xsd:schema>
+    <xsd:schema targetNamespace="http://www.businessobjects.com/DataServices/ServerX.xsd">
+      <xsd:element name="BatchJobResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="pid" type="xsd:int" />
+            <xsd:element name="cid" type="xsd:int" />
+            <xsd:element name="rid" type="xsd:int" />
+            <xsd:element name="repoName" type="xsd:string" />
+            <xsd:element minOccurs="0" name="errorMessage" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="Ping_Input">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" name="Ping_Input" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="pingVersion">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="version" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="LogonRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="username" type="xsd:string" />
+            <xsd:element name="password" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="session">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="SessionID" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="responseStatus">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="status" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:simpleType name="TracingTypeType">
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="job_trace_all" />
+          <xsd:enumeration value="job_trace_row" />
+          <xsd:enumeration value="job_trace_session" />
+          <xsd:enumeration value="job_trace_workflow" />
+          <xsd:enumeration value="job_trace_dataflow" />
+          <xsd:enumeration value="job_trace_transform" />
+          <xsd:enumeration value="job_trace_usertransform" />
+          <xsd:enumeration value="job_trace_userfunction" />
+          <xsd:enumeration value="job_trace_abapquery" />
+          <xsd:enumeration value="job_trace_sqlfunctions" />
+          <xsd:enumeration value="job_trace_sqlreaders" />
+          <xsd:enumeration value="job_trace_sqlloaders" />
+          <xsd:enumeration value="job_trace_optimized_dataflow" />
+          <xsd:enumeration value="job_trace_table" />
+          <xsd:enumeration value="job_trace_script" />
+          <xsd:enumeration value="job_trace_ascomm" />
+          <xsd:enumeration value="job_trace_rfc_function" />
+          <xsd:enumeration value="job_trace_table_reader" />
+          <xsd:enumeration value="job_trace_idoc_file" />
+          <xsd:enumeration value="job_trace_adapter" />
+          <xsd:enumeration value="job_trace_communication" />
+          <xsd:enumeration value="job_trace_parallel_execution" />
+          <xsd:enumeration value="job_trace_audit" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:complexType xmlns="http://www.businessobjects.com/DataServices/ServerX.xsd" name="job_param_type">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="job_system_profile" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="sampling_rate" type="xsd:int" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="auditing" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="recovery" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="job_server" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="trace" type="localtypes:TracingTypeType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="distribution_level">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:enumeration value="Job" />
+                <xsd:enumeration value="Data flow" />
+                <xsd:enumeration value="Sub data flow" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" maxOccurs="1" name="substitutionParameters">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element minOccurs="1" maxOccurs="unbounded" name="parameter">
+                  <xsd:complexType>
+                    <xsd:simpleContent>
+                      <xsd:extension base="xsd:string">
+                        <xsd:attribute name="name" type="xsd:string" />
+                      </xsd:extension>
+                    </xsd:simpleContent>
+                  </xsd:complexType>
+                </xsd:element>
+              </xsd:sequence>
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="J_POSITVE_PAY_GlobalVariables">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" name="Banks_Header" type="xsd:string" />
+            <xsd:element minOccurs="0" name="gAccountNumber" type="xsd:string" />
+            <xsd:element minOccurs="0" name="gBankFormat" type="xsd:string" />
+            <xsd:element minOccurs="0" name="gFileDirectory" type="xsd:string" />
+            <xsd:element minOccurs="0" name="gFileName" type="xsd:string" />
+            <xsd:element minOccurs="0" name="gFromDate" type="xsd:string" />
+            <xsd:element minOccurs="0" name="gJobID" type="xsd:string" />
+            <xsd:element minOccurs="0" name="gNumberofAccount" type="xsd:string" />
+            <xsd:element minOccurs="0" name="gRowNumber" type="xsd:string" />
+            <xsd:element minOccurs="0" name="gTargetFile" type="xsd:string" />
+            <xsd:element minOccurs="0" name="gTemp" type="xsd:string" />
+            <xsd:element minOccurs="0" name="gToDate" type="xsd:string" />
+            <xsd:element minOccurs="0" name="x" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="ErrorLogRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="runID" type="xsd:int" />
+            <xsd:element name="repoName" type="xsd:string" />
+            <xsd:element minOccurs="0" name="page" type="xsd:int" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="TraceLogRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="runID" type="xsd:int" />
+            <xsd:element name="repoName" type="xsd:string" />
+            <xsd:element minOccurs="0" name="page" type="xsd:int" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="MonitorLogRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="runID" type="xsd:int" />
+            <xsd:element name="repoName" type="xsd:string" />
+            <xsd:element minOccurs="0" name="page" type="xsd:int" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="batchJobStatusRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="runID" type="xsd:int" />
+            <xsd:element name="repoName" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="stopBatchJobRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="runID" type="xsd:int" />
+            <xsd:element name="repoName" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="batchJobRunIDsRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="jobName" type="xsd:string" />
+            <xsd:element minOccurs="0" name="status" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="ErrorLogResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="returnCode" type="xsd:int" />
+            <xsd:element name="error" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="TraceLogResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="returnCode" type="xsd:int" />
+            <xsd:element name="trace" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="MonitorLogResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="returnCode" type="xsd:int" />
+            <xsd:element name="monitor" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="batchJobStatusResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="returnCode" type="xsd:int" />
+            <xsd:element name="status" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="stopBatchJobResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="returnCode" type="xsd:int" />
+            <xsd:element name="errorMessage" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="batchJobRunIDsResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="unbounded" name="run">
+              <xsd:complexType>
+                <xsd:sequence>
+                  <xsd:element name="runID" type="xsd:int" />
+                  <xsd:element name="status" type="xsd:string" />
+                  <xsd:element name="repoName" type="xsd:string" />
+                </xsd:sequence>
+              </xsd:complexType>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="errorMessage" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:schema>
+  </types>
+  <message name="Stop_Batch_Job_Input">
+    <part name="stopBatchJobRequest" element="localtypes:stopBatchJobRequest" />
+  </message>
+  <message name="Submit_Profiling_Task_Output">
+    <part name="PF_Task_Response" element="di_Wait_Profiling_Task_Output:PF_Task_Response" />
+  </message>
+  <message name="Cancel_Profiling_Task_Input">
+    <part name="PF_CancelTask_Request" element="di_Cancel_Profiling_Task_Input:PF_CancelTask_Request" />
+  </message>
+  <message name="Wait_Profiling_Task_Input">
+    <part name="PF_WaitTask_Request" element="di_Wait_Profiling_Task_Input:PF_WaitTask_Request" />
+  </message>
+  <message name="Get_BatchJob_Status_Output">
+    <part name="batchJobStatusResponse" element="localtypes:batchJobStatusResponse" />
+  </message>
+  <message name="Get_BatchJob_Status_Input">
+    <part name="batchJobStatusRequest" element="localtypes:batchJobStatusRequest" />
+  </message>
+  <message name="Get_Monitor_Log_Input">
+    <part name="MonitorLogRequest" element="localtypes:MonitorLogRequest" />
+  </message>
+  <message name="Get_TaskInfo_By_Sources_Input">
+    <part name="PF_TaskInfo_By_Sources_Request" element="di_Get_TaskInfo_By_Sources_Input:PF_TaskInfo_By_Sources_Request" />
+  </message>
+  <message name="Cancel_Profiling_Task_Output">
+    <part name="PF_CancelTask_Response" element="di_Cancel_Profiling_Task_Output:PF_CancelTask_Response" />
+  </message>
+  <message name="Get_Repo_Info_Output">
+    <part name="PF_RepoInfo_Response" element="di_Get_Repo_Info_Output:PF_RepoInfo_Response" />
+  </message>
+  <message name="Logon_Output">
+    <part name="session" element="localtypes:session" />
+  </message>
+  <message name="Ping_Output">
+    <part name="pingVersion" element="localtypes:pingVersion" />
+  </message>
+  <message name="J_POSITVE_PAY_Input">
+    <part name="J_POSITVE_PAY_GlobalVariables" element="localtypes:J_POSITVE_PAY_GlobalVariables" />
+  </message>
+  <message name="Get_Repo_Info_Input">
+    <part name="PF_RepoInfo_Request" element="di_Get_Repo_Info_Input:PF_RepoInfo_Request" />
+  </message>
+  <message name="SecureConnection">
+    <part name="session" element="localtypes:session" />
+  </message>
+  <message name="Get_User_List_Input">
+    <part name="PF_UserList_Request" element="di_Get_User_List_Input:PF_UserList_Request" />
+  </message>
+  <message name="Get_Trace_Log_Input">
+    <part name="TraceLogRequest" element="localtypes:TraceLogRequest" />
+  </message>
+  <message name="Logout_Output">
+    <part name="responseStatus" element="localtypes:responseStatus" />
+  </message>
+  <message name="Get_Trace_Log_Output">
+    <part name="TraceLogResponse" element="localtypes:TraceLogResponse" />
+  </message>
+  <message name="Submit_Profiling_Task_Input">
+    <part name="PF_Task_Request" element="di_Get_Task_By_Name_Output:PF_Task_Request" />
+  </message>
+  <message name="Profiling_Job_Completed_Input">
+    <part name="PF_JobCompleted_Request" element="di_Profiling_Job_Completed_Input:PF_JobCompleted_Request" />
+  </message>
+  <message name="Get_BatchJob_RunIDs_Input">
+    <part name="batchJobRunIDsRequest" element="localtypes:batchJobRunIDsRequest" />
+  </message>
+  <message name="Wait_Profiling_Task_Output">
+    <part name="PF_Task_Response" element="di_Wait_Profiling_Task_Output:PF_Task_Response" />
+  </message>
+  <message name="Ping_Input">
+    <part name="Ping_Input" element="localtypes:Ping_Input" />
+  </message>
+  <message name="Get_Monitor_Log_Output">
+    <part name="MonitorLogResponse" element="localtypes:MonitorLogResponse" />
+  </message>
+  <message name="Get_BatchJob_RunIDs_Output">
+    <part name="batchJobRunIDsResponse" element="localtypes:batchJobRunIDsResponse" />
+  </message>
+  <message name="Get_Error_Log_Input">
+    <part name="ErrorLogRequest" element="localtypes:ErrorLogRequest" />
+  </message>
+  <message name="Get_User_List_Output">
+    <part name="PF_UserList_Response" element="di_Get_User_List_Output:PF_UserList_Response" />
+  </message>
+  <message name="Stop_Batch_Job_Output">
+    <part name="stopBatchJobResponse" element="localtypes:stopBatchJobResponse" />
+  </message>
+  <message name="Logon_Input">
+    <part name="LogonRequest" element="localtypes:LogonRequest" />
+  </message>
+  <message name="Profiling_Job_Completed_Output">
+    <part name="PF_JobCompleted_Response" element="di_Profiling_Job_Completed_Output:PF_JobCompleted_Response" />
+  </message>
+  <message name="Get_Task_By_Name_Output">
+    <part name="PF_Task_Request" element="di_Get_Task_By_Name_Output:PF_Task_Request" />
+  </message>
+  <message name="J_POSITVE_PAY_Output">
+    <part name="BatchJobResponse" element="localtypes:BatchJobResponse" />
+  </message>
+  <message name="Get_Profiling_Task_List_Input">
+    <part name="PF_TaskList_Request" element="di_Get_Profiling_Task_List_Input:PF_TaskList_Request" />
+  </message>
+  <message name="Get_Error_Log_Output">
+    <part name="ErrorLogResponse" element="localtypes:ErrorLogResponse" />
+  </message>
+  <message name="Get_TaskInfo_By_Sources_Output">
+    <part name="PF_TaskInfo_By_Sources_Response" element="di_Get_TaskInfo_By_Sources_Output:PF_TaskInfo_By_Sources_Response" />
+  </message>
+  <message name="Get_Task_By_Name_Input">
+    <part name="PF_GetTask_Request" element="di_Get_Task_By_Name_Input:PF_GetTask_Request" />
+  </message>
+  <message name="Get_Profiling_Task_List_Output">
+    <part name="PF_TaskList_Response" element="di_Get_Profiling_Task_List_Output:PF_TaskList_Response" />
+  </message>
+  <message name="Logout_Input" />
+  <portType name="Profiling">
+    <operation name="Get_User_List">
+      <input message="tns:Get_User_List_Input" />
+      <output message="tns:Get_User_List_Output" />
+    </operation>
+    <operation name="Cancel_Profiling_Task">
+      <input message="tns:Cancel_Profiling_Task_Input" />
+      <output message="tns:Cancel_Profiling_Task_Output" />
+    </operation>
+    <operation name="Wait_Profiling_Task">
+      <input message="tns:Wait_Profiling_Task_Input" />
+      <output message="tns:Wait_Profiling_Task_Output" />
+    </operation>
+    <operation name="Get_Repo_Info">
+      <input message="tns:Get_Repo_Info_Input" />
+      <output message="tns:Get_Repo_Info_Output" />
+    </operation>
+    <operation name="Get_Profiling_Task_List">
+      <input message="tns:Get_Profiling_Task_List_Input" />
+      <output message="tns:Get_Profiling_Task_List_Output" />
+    </operation>
+    <operation name="Profiling_Job_Completed">
+      <input message="tns:Profiling_Job_Completed_Input" />
+      <output message="tns:Profiling_Job_Completed_Output" />
+    </operation>
+    <operation name="Get_Task_By_Name">
+      <input message="tns:Get_Task_By_Name_Input" />
+      <output message="tns:Get_Task_By_Name_Output" />
+    </operation>
+    <operation name="Submit_Profiling_Task">
+      <input message="tns:Submit_Profiling_Task_Input" />
+      <output message="tns:Submit_Profiling_Task_Output" />
+    </operation>
+    <operation name="Get_TaskInfo_By_Sources">
+      <input message="tns:Get_TaskInfo_By_Sources_Input" />
+      <output message="tns:Get_TaskInfo_By_Sources_Output" />
+    </operation>
+  </portType>
+  <portType name="Real-time_Services" />
+  <portType name="Batch_Jobs">
+    <operation name="J_POSITVE_PAY">
+      <input message="tns:J_POSITVE_PAY_Input" />
+      <output message="tns:J_POSITVE_PAY_Output" />
+    </operation>
+  </portType>
+  <portType name="Batch_Job_Admin">
+    <operation name="Get_Error_Log">
+      <input message="tns:Get_Error_Log_Input" />
+      <output message="tns:Get_Error_Log_Output" />
+    </operation>
+    <operation name="Get_Trace_Log">
+      <input message="tns:Get_Trace_Log_Input" />
+      <output message="tns:Get_Trace_Log_Output" />
+    </operation>
+    <operation name="Get_Monitor_Log">
+      <input message="tns:Get_Monitor_Log_Input" />
+      <output message="tns:Get_Monitor_Log_Output" />
+    </operation>
+    <operation name="Get_BatchJob_Status">
+      <input message="tns:Get_BatchJob_Status_Input" />
+      <output message="tns:Get_BatchJob_Status_Output" />
+    </operation>
+    <operation name="Stop_Batch_Job">
+      <input message="tns:Stop_Batch_Job_Input" />
+      <output message="tns:Stop_Batch_Job_Output" />
+    </operation>
+    <operation name="Get_BatchJob_RunIDs">
+      <input message="tns:Get_BatchJob_RunIDs_Input" />
+      <output message="tns:Get_BatchJob_RunIDs_Output" />
+    </operation>
+  </portType>
+  <portType name="Connection_Operations">
+    <operation name="Ping">
+      <input message="tns:Ping_Input" />
+      <output message="tns:Ping_Output" />
+    </operation>
+    <operation name="Logon">
+      <input message="tns:Logon_Input" />
+      <output message="tns:Logon_Output" />
+    </operation>
+    <operation name="Logout">
+      <input message="tns:Logout_Input" />
+      <output message="tns:Logout_Output" />
+    </operation>
+  </portType>
+  <binding name="Profiling" type="tns:Profiling">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <operation name="Get_User_List">
+      <soap:operation soapAction="profiler=Get_User_List" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="Cancel_Profiling_Task">
+      <soap:operation soapAction="profiler=Cancel_Profiling_Task" />
+      <input>
+        <soap:body use="literal" />
+        <soap:header message="tns:SecureConnection" part="session" use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="Wait_Profiling_Task">
+      <soap:operation soapAction="profiler=Wait_Profiling_Task" />
+      <input>
+        <soap:body use="literal" />
+        <soap:header message="tns:SecureConnection" part="session" use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="Get_Repo_Info">
+      <soap:operation soapAction="profiler=Get_Repo_Info" />
+      <input>
+        <soap:body use="literal" />
+        <soap:header message="tns:SecureConnection" part="session" use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="Get_Profiling_Task_List">
+      <soap:operation soapAction="profiler=Get_Profiling_Task_List" />
+      <input>
+        <soap:body use="literal" />
+        <soap:header message="tns:SecureConnection" part="session" use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="Profiling_Job_Completed">
+      <soap:operation soapAction="profiler=Profiling_Job_Completed" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="Get_Task_By_Name">
+      <soap:operation soapAction="profiler=Get_Task_By_Name" />
+      <input>
+        <soap:body use="literal" />
+        <soap:header message="tns:SecureConnection" part="session" use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="Submit_Profiling_Task">
+      <soap:operation soapAction="profiler=Submit_Profiling_Task" />
+      <input>
+        <soap:body use="literal" />
+        <soap:header message="tns:SecureConnection" part="session" use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="Get_TaskInfo_By_Sources">
+      <soap:operation soapAction="profiler=Get_TaskInfo_By_Sources" />
+      <input>
+        <soap:body use="literal" />
+        <soap:header message="tns:SecureConnection" part="session" use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+  </binding>
+  <binding name="Real-time_Services" type="tns:Real-time_Services">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+  </binding>
+  <binding name="Batch_Jobs" type="tns:Batch_Jobs">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <operation name="J_POSITVE_PAY">
+      <soap:operation soapAction="job=J_POSITVE_PAY" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+  </binding>
+  <binding name="Batch_Job_Admin" type="tns:Batch_Job_Admin">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <operation name="Get_Error_Log">
+      <soap:operation soapAction="jobAdmin=Get_Error_Log" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="Get_Trace_Log">
+      <soap:operation soapAction="jobAdmin=Get_Trace_Log" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="Get_Monitor_Log">
+      <soap:operation soapAction="jobAdmin=Get_Monitor_Log" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="Get_BatchJob_Status">
+      <soap:operation soapAction="jobAdmin=Get_BatchJob_Status" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="Stop_Batch_Job">
+      <soap:operation soapAction="jobAdmin=Stop_Batch_Job" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="Get_BatchJob_RunIDs">
+      <soap:operation soapAction="jobAdmin=Get_BatchJob_RunIDs" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+  </binding>
+  <binding name="Connection_Operations" type="tns:Connection_Operations">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <operation name="Ping">
+      <soap:operation soapAction="function=Ping" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="Logon">
+      <soap:operation soapAction="function=Logon" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="Logout">
+      <soap:operation soapAction="function=Logout" />
+      <input>
+        <soap:body use="literal" />
+        <soap:header message="tns:SecureConnection" part="session" use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+  </binding>
+  <service name="DataServices_Server">
+    <port name="Connection_Operations" binding="tns:Connection_Operations">
+      <soap:address location="http://mcapps3-2:28080/DataServices/servlet/webservices?ver=2.0" />
+    </port>
+    <port name="Batch_Jobs" binding="tns:Batch_Jobs">
+      <soap:address location="http://mcapps3-2:28080/DataServices/servlet/webservices?ver=2.0" />
+    </port>
+    <port name="Real-time_Services" binding="tns:Real-time_Services">
+      <soap:address location="http://mcapps3-2:28080/DataServices/servlet/webservices?ver=2.0" />
+    </port>
+    <port name="Batch_Job_Admin" binding="tns:Batch_Job_Admin">
+      <soap:address location="http://mcapps3-2:28080/DataServices/servlet/webservices?ver=2.0" />
+    </port>
+    <port name="Profiling" binding="tns:Profiling">
+      <soap:address location="http://mcapps3-2:28080/DataServices/servlet/webservices?ver=2.0" />
+    </port>
+  </service>
+</definitions>

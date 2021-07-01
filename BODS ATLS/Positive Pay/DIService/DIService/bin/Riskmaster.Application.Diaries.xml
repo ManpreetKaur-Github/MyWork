@@ -1,0 +1,516 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Riskmaster.Application.Diaries</name>
+    </assembly>
+    <members>
+        <!-- Badly formed XML comment ignored for member "T:Riskmaster.Application.Diaries.WPA" -->
+        <member name="F:Riskmaster.Application.Diaries.WPA.IMG_USER">
+            <summary>
+            Stores user image path
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.Diaries.WPA.IMG_USER_OVERDUE">
+            <summary>
+            Stores user overdue image path
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.Diaries.WPA.ALT_USER">
+            <summary>
+            Alternate text for user image
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.Diaries.WPA.IMG_USERS">
+            <summary>
+            Stores users image path
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.Diaries.WPA.IMG_USERS_OVERDUE">
+            <summary>
+            Stores users overdue image path
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.Diaries.WPA.ALT_USERS">
+            <summary>
+            Stores alternate text for users image
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.Diaries.WPA.IMG_SYSTEM">
+            <summary>
+            Stores system image path
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.Diaries.WPA.IMG_SYSTEM_OVERDUE">
+            <summary>
+            Stores system overdue image path
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.Diaries.WPA.ALT_SYSTEM">
+            <summary>
+            Stores alternate text for system image
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.Diaries.WPA.DISABLE_MAIL">
+            <summary>
+            Disable Mail options
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.Diaries.WPA.AUTO_DIARY">
+            <summary>
+            Auto Diary option
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.Diaries.WPA.LOAD_TO_DO">
+            <summary>
+            To Do list option
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.Diaries.WPA.MAIL_CHECKING">
+            <summary>
+            Mail checking option
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.Diaries.WPA.CLAIM">
+            <summary>
+            Constant representing CLAIM
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.Diaries.WPA.EVENT">
+            <summary>
+            Constant representing EVENT
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.Diaries.WPA.ENTITY">
+            <summary>
+            Constant representing ENTITY
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.Diaries.WPA.CLAIMANT">
+            <summary>
+            Constant representing CLAIMANT
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.Diaries.WPA.PERSON_INVOLVED">
+            <summary>
+            Constant representing PERSON_INVOLVED
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.Diaries.WPA.POLICY_ENH">
+            <summary>
+            Constant representing POLICY_ENH
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.Diaries.WPA.POLICY">
+            <summary>
+            Constant representing POLICY
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.Diaries.WPA.m_sConnectionString">
+            <summary>
+            Represents the connection string for the underlying Riskmaster Database.
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.Diaries.WPA.m_sSecConnectString">
+            <summary>
+            The connection string used by the database layer for connection with the security database.
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.Diaries.WPA.m_lUserId">
+            <summary>
+            Represents the User Id.
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.Diaries.WPA.m_lDSNId">
+            <summary>
+            Represents the DSN Id.
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.Diaries.WPA.m_iGroupId">
+            <summary>
+            The Group id 
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.Diaries.WPA.m_lPageSize">
+            <summary>
+            The Page Size
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.Diaries.WPA.m_sLoginName">
+            <summary>
+            User Login Name
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.Diaries.WPA.m_sPassword">
+            <summary>
+            User Password
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.Diaries.WPA.m_sDSNName">
+            <summary>
+            User Data Source Name
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Application.Diaries.WPA.#ctor">
+            <summary>
+            This is default constructor.
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Application.Diaries.WPA.#ctor(System.String)">
+            <summary>
+            Overloaded constructor, which sets the connection string.
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Application.Diaries.WPA.GetSingleString(System.String,System.String,System.String,System.String)">
+            <summary>
+            Creates a dynamic query and executes it against the database and returns result as a String value
+            </summary>
+            <param name="p_sFieldName">Field Name</param>
+            <param name="p_sTableName">Table Name</param>
+            <param name="p_sCriteria">Criteria i.e. Where clause</param>
+            <param name="p_sConnectString">Connection string</param>
+            <returns>string</returns>
+        </member>
+        <member name="M:Riskmaster.Application.Diaries.WPA.GetSingleLong(System.String,System.String,System.String,System.String)">
+            <summary>
+            Creates a dynamic query and executes it against the database and returns result as a Long value
+            </summary>
+            <param name="p_sFieldName">Field Name</param>
+            <param name="p_sTableName">Table Name</param>
+            <param name="p_sCriteria">Criteria ie. where clause</param>
+            <param name="p_sConnectString">Connection string</param>
+            <returns>long</returns>
+        </member>
+        <member name="M:Riskmaster.Application.Diaries.WPA.GetAvailablePeekList">
+            <summary>
+            This function returns the list of users/subordinates under a manager
+            </summary>
+            <returns>string as list of users separated by "~"</returns>
+        </member>
+        <member name="M:Riskmaster.Application.Diaries.WPA.GetDiaryHistoryDom(System.Int32,System.String,System.Int64,System.Int64,System.Int64,System.String,System.String)">
+            <summary>
+            This function returns Diary records based on passed parameter values
+            </summary>
+            <param name="p_iSortOrder">Sort order i.e. ASC_COMPLETE_DATE</param>
+            <param name="p_sUserName">User name</param>
+            <param name="p_lRecordCount">No of records returned</param>
+            <param name="p_lPageCount">Total number of Pages</param>
+            <param name="p_lPageNumber">Current Page number</param>
+            <param name="p_sAttachTable">Attach table i.e. Claim,Event</param>
+            <param name="p_sAttachRecordId">Attached Record id</param>
+            <returns>Return Diary History list as string</returns>
+        </member>
+        <member name="M:Riskmaster.Application.Diaries.WPA.GetPiXMLFormName(System.Int64,System.String@)">
+            <summary>
+            This function fetches information like person involved from the database
+            </summary>
+            <param name="p_lPiRowId">Person involved id</param>
+            <param name="p_sPrompt">Stores Prompt string i.e Person involved : Last name</param>
+            <returns>person involved as string</returns>
+        </member>
+        <member name="M:Riskmaster.Application.Diaries.WPA.GetClaimStatus(System.String)">
+            <summary>
+            Gets Claim status for a given claim id
+            </summary>
+            <param name="p_sClaimId">claim id</param>
+            <returns>claim status</returns>
+        </member>
+        <member name="M:Riskmaster.Application.Diaries.WPA.DeleteAllDiaries(System.Int32)">
+            <summary>
+            This function Deletes diaries related to Claim.
+            </summary>
+            <param name="p_iClaimId">Attached Claim id</param>
+            <returns>Returns boolean success.</returns>
+        </member>
+        <member name="M:Riskmaster.Application.Diaries.WPA.GetDiaryDom(System.Int32,System.String,System.String,System.Int64,System.Int64,System.Int64,System.Boolean,System.Boolean,System.String,System.String,System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            This function returns Diary's list based on parameters
+            </summary>
+            <param name="p_iSortOrder">Sort order i.e ASC_COMPLETE_DATE</param>
+            <param name="p_sUserName">User name</param>
+            <param name="p_lRecordCount">Total No of records</param>
+            <param name="p_lPageCount">Total Page number</param>
+            <param name="p_lPageNumber">Current Page number</param>
+            <param name="p_sAttachTable">Attach table i.e Claim,Event</param>
+            <param name="p_sAttachRecordId">Attached Record id</param>
+            <returns>Returns Diary list as string</returns>
+        </member>
+        <member name="M:Riskmaster.Application.Diaries.WPA.VoidDiary(System.String,System.String,System.String,System.Int64)">
+            <summary>
+            This function is use to make diary VOID
+            </summary>
+            <param name="p_sFromDate">From date</param>
+            <param name="p_sToDate">To date</param>
+            <param name="p_sAssignUser">Assigned User</param>
+            <param name="p_lDiaryId">Diary Id</param>
+        </member>
+        <member name="M:Riskmaster.Application.Diaries.WPA.AttachDiary(System.String)">
+            <summary>
+            This function returns list of users having a common dsn id
+            </summary>
+            <param name="p_sDsnId">dsn id</param>
+            <returns>Returns diaries attached as xml string</returns>
+        </member>
+        <member name="M:Riskmaster.Application.Diaries.WPA.DiaryCalender(System.String,System.String,System.String,System.String,System.String,System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            This function returns Diary Calendar based on passed parameters
+            </summary>
+            <param name="p_sAssignedUser">Passed Assigned User name</param>
+            <param name="p_sCompleteDate">Passed Complete date</param>
+            <param name="p_sSortBy">Order by clause of sql query</param>
+            <param name="p_sSortOrder">Order by clause ASC/DESC</param>
+            <returns>Returns diary calendar in XML string</returns>
+        </member>
+        <member name="M:Riskmaster.Application.Diaries.WPA.DiaryList(System.String,System.Int32,System.String,System.String,System.String,System.String)">
+            <summary>
+            This function returns Diary List based on passed parameters
+            </summary>
+            <param name="p_sAssignedUser">Passed Assigned User name</param>
+            <param name="p_iDiarySel"></param>
+            <param name="p_sFromDate">Passed From date</param>
+            /// <param name="p_sToDate">Passed To date</param>
+            <param name="p_sSortBy">Order by clause</param>
+            <param name="p_sTaskDesciption">Task Description</param>
+            <returns>Returns Xml string containing Diary list</returns>
+        </member>
+        <member name="M:Riskmaster.Application.Diaries.WPA.GetActivityCodes">
+            <summary>
+            Fetches the activity codes from the Database.
+            </summary>
+            <returns>XmlDocument</returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.Application.Diaries.WPA.RouteDiary(System.Xml.XmlDocument@,System.String,System.String,System.String,System.Boolean,System.String,System.String,System.String)" -->
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.Application.Diaries.WPA.SaveDiary(System.Xml.XmlDocument@,System.String,System.String,System.String,System.Boolean,System.String,System.String)" -->
+        <member name="M:Riskmaster.Application.Diaries.WPA.LoadDiary(System.Int32,System.String,System.String,System.String)">
+            <summary>
+            Load the Diary information for a given Diary
+            </summary>
+            <param name="p_iEntryId">Entry Id</param>
+            <param name="p_sUserName">User name</param>
+            <param name="p_sPassword">Password</param>
+            <param name="p_sDsnName">DSN Name</param>
+            <returns>XML string containing Diary data</returns>
+        </member>
+        <member name="M:Riskmaster.Application.Diaries.WPA.AppendChildWithText(System.Xml.XmlDocument@,System.String,System.String)">
+            <summary>
+            Appends XML element to the XML Document
+            </summary>
+            <param name="p_objXMLDoc">XML document containing data for the Diary</param>
+            <param name="p_sName">Name of the element</param>
+            <param name="p_sVal">Value of the element</param>
+        </member>
+        <member name="M:Riskmaster.Application.Diaries.WPA.CreateXML(System.Xml.XmlDocument@,System.String,System.String,System.String,System.Int32)">
+            <summary>
+            Create XML from the data received from DB.
+            </summary>
+            <param name="p_objXML">Main document element</param>
+            <param name="p_sTagName">Name of the element</param>
+            <param name="p_sTagValue">Value of the element</param>
+            <param name="p_sParentTag">Parent element</param>
+            <param name="p_iLevel">Level at which to put an element</param>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.Application.Diaries.WPA.GetClaimantsName(System.Int64)" -->
+        <member name="M:Riskmaster.Application.Diaries.WPA.GetDeptName(System.Int64,System.Int64,System.String@)">
+            <summary>
+            Gets the department name.
+            </summary>
+            <param name="p_lTmpEventID">Event Id</param>
+            <param name="p_lTmpClaimID">Claim Id</param>
+            <param name="p_sOrgLevel">Organizational level</param>
+            <returns>Name of the department</returns>
+        </member>
+        <member name="M:Riskmaster.Application.Diaries.WPA.GetDiaryOrgName(System.Boolean,System.Int64,System.Int64,System.String)">
+            <summary>
+            Gets the name of the Organization
+            </summary>
+            <param name="p_bClaimID">Claim Id</param>
+            <param name="p_lThisID">Name of the Event or Claim Id</param>
+            <param name="p_lThisOrgLevel">Organizational level for the given Claim or Event</param>
+            <param name="p_sOrgLevel">Organizational level</param>
+            <returns>Name of the Organization</returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.Application.Diaries.WPA.GetEntityName(System.Int64)" -->
+        <member name="M:Riskmaster.Application.Diaries.WPA.GetOption(System.String)">
+            <summary>
+            Gets the options from config file
+            </summary>
+            <param name="p_sKey">key representing XML element</param>
+            <returns></returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.Application.Diaries.WPA.LoadOptions(System.Collections.Hashtable@)" -->
+        <member name="M:Riskmaster.Application.Diaries.WPA.CreateUserPreferXML(System.Xml.XmlDocument)">
+            <summary>
+            Create Default User Prefernce Xml.
+            </summary>
+            <param name="p_objUserPrefXML">User Preference Xml Doc</param>
+            
+        </member>
+        <member name="M:Riskmaster.Application.Diaries.WPA.GetMailId(System.String)">
+            <summary>
+            Gets the e-mail id
+            </summary>
+            <param name="p_sLogInName">Log-in name of the user</param>
+            <returns>E-mail id of the user</returns>
+        </member>
+        <member name="M:Riskmaster.Application.Diaries.WPA.DeleteDiary(System.Int64)">
+            <summary>
+            Delete Diary
+            </summary>
+            <param name="p_lDiaryId">Diary Id</param>
+        </member>
+        <member name="M:Riskmaster.Application.Diaries.WPA.GetWpaTaskList(System.String,System.Xml.XmlDocument)">
+            <summary>
+            Tom Regan, MITS 9398.  Get list of Wpa Tasks (codes) when creating a diary.
+            </summary>
+            <param name="userLogin"></param>
+            <param name="doc">Node "WpaTaskList" is appended to this node</param>
+            <returns><WpaTaskList><WpaTask code_id="[n]" code_desc="[a code description]"/></WpaTaskList></returns>
+        </member>
+        <member name="M:Riskmaster.Application.Diaries.WPA.GetUsers(System.String,System.Int32,System.String@,Riskmaster.Security.UserLogin)">
+             Name			: GetUsers
+             Author			: Rahul SHarma
+             Date Created	: 12-May-2006
+             ************************************************************
+             Amendment History
+             ************************************************************
+             Date Amended	*   Amendment   *    Author
+            					*				*
+            					*				*	
+             ************************************************************
+             <summary>
+             WPA.GetUsers of Application layer that Loads the users details 
+             that are allowed to login to a current datasource.
+             </summary>
+            
+             <param name="p_sCurrentDSN">An current DSN.</param>
+             <param name="p_objXmlDocOut">An current DSN.</param>
+             <param name="iPSID">Security ID.</param>
+             Structure of the output XML is:
+            		<user id="" firstname="" lastname="" username="" email=""/>
+             <returns>A boolean values that represents the success/failure.</returns>
+            	<returns>A XML with user details.</returns>	
+        </member>
+        <member name="M:Riskmaster.Application.Diaries.WPA.GetUserInfo(System.String,System.Xml.XmlDocument@)">
+            <summary>
+            create the xml element for all related users
+            </summary>
+            <param name="sSQL">SQL command used to retrieve the user information</param>
+            <param name="objXmlDocOut">output XML document</param>
+        </member>
+        <member name="M:Riskmaster.Application.Diaries.WPA.SplitForStringPattern(System.String,System.String,System.Collections.ArrayList@)">
+            Name			: SplitForStringPattern
+            Author			: Rahul Sharma
+            Date Created	: 12-June-2006
+            ************************************************************
+            Amendment History
+            ************************************************************
+            Date Amended	*   Amendment   *    Author
+            				*				*
+            				*				*	
+            ************************************************************
+            <summary>
+            Split a string based on some string pattern.
+            </summary>
+            <param name="p_sString">String to be splitted.</param>
+            <param name="p_sPattern">Pattern with in the string.</param>
+            <param name="p_arrlstSplit">Array containing the splitted sub strings.</param>
+            <returns>A boolean values that represents the success/failure.</returns>
+        </member>
+        <member name="M:Riskmaster.Application.Diaries.WPA.GetDiaryListing">
+            <summary>
+            Fetches the task description items
+            </summary>        
+            <returns></returns>
+        </member>
+        <member name="M:Riskmaster.Application.Diaries.WPA.SetCalendarView(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="code"></param>
+        </member>
+        <member name="M:Riskmaster.Application.Diaries.WPA.GetOnLoadInformation(System.Boolean)">
+            <summary>
+            
+            </summary>
+            <param name="isBESEnabled"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Riskmaster.Application.Diaries.WPA.GetCalendarView">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Riskmaster.Application.Diaries.WPA.CreateAndSetElement(System.Xml.XmlElement,System.String,System.String)">
+            <summary>
+            Create and Set the Text of the New Node.
+            </summary>
+            <param name="p_objParentNode">Parent node</param>
+            <param name="p_sNodeName">Node Name</param>
+            <param name="p_sText">Inner Text.</param>
+        </member>
+        <member name="M:Riskmaster.Application.Diaries.WPA.CreateAndSetElement(System.Xml.XmlElement,System.String,System.String,System.Xml.XmlElement@)">
+            <summary>
+            Create and Set the Text of the New Node.
+            </summary>
+            <param name="p_objParentNode">Parent node</param>
+            <param name="p_sNodeName">Node Name</param>
+            <param name="p_sText">Inner Text.</param>
+            <param name="p_objChildNode">Child Node Refrence</param>
+        </member>
+        <member name="M:Riskmaster.Application.Diaries.WPA.GetDiaryDomForDiaryCalender(System.Int32,System.String,System.String,System.Int64,System.Int64,System.Int64,System.Boolean,System.Boolean,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            Created By Nitin for DiaryCalender
+            This function returns Diary's list based on parameters 
+            </summary>
+            <param name="p_iSortOrder"></param>
+            <param name="p_sUserName"></param>
+            <param name="p_sDueDate"></param>
+            <param name="p_lRecordCount"></param>
+            <param name="p_lPageCount"></param>
+            <param name="p_lPageNumber"></param>
+            <param name="p_bOpen"></param>
+            <param name="p_bReqActDiary"></param>
+            <param name="p_sAttachTable"></param>
+            <param name="p_sAttachRecordId"></param>
+            <param name="sFunction"></param>
+            <param name="p_sActiveDiaryChecked"></param>
+            <param name="showNotes"></param>
+            <param name="sAllClaimDiaries"></param>
+            <param name="sShowAllDiariesForActiveRec"></param>
+            <param name="p_sNavigationMonth"></param>
+            <param name="p_sNavigationYear"></param>
+            <param name="p_sCurrentScheduleControl"></param>
+            <param name="p_sCurrentActiveDate"></param>
+            <param name="p_sWeekViewFromDate"></param>
+            <param name="p_sWeekViewToDate"></param>
+            <returns>Returns Diary list as string</returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "P:Riskmaster.Application.Diaries.WPA.UserId" -->
+        <!-- Badly formed XML comment ignored for member "P:Riskmaster.Application.Diaries.WPA.DSNId" -->
+        <member name="P:Riskmaster.Application.Diaries.WPA.PageSize">
+            <summary>
+            Set the Page Size
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Application.Diaries.WPA.GroupId">
+            <summary>
+            Set the Group Id Property
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Application.Diaries.WPA.SecureDSN">
+            <summary>
+            SecureDSN Property
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Application.Diaries.WPA.DSN">
+            <summary>
+            DSN Property
+            </summary>
+        </member>
+        <member name="T:Riskmaster.Application.Diaries.WPA.DIARYSORTORDER">
+            <summary>
+            Enum for display order (order by clause)
+            </summary>
+        </member>
+    </members>
+</doc>

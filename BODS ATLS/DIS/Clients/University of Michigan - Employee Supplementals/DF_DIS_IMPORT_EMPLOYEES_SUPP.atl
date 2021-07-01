@@ -1,0 +1,863 @@
+#__AW_Repository_Version '12.2.0.0000';
+#__AW_Product_Version '12.2.3.5';
+#__AW_ATL_Locale 'eng_us.utf-8';
+ALGUICOMMENT( x = '-1', y = '-1' , "ActaName_1" = 'RSavedAfterCheckOut' , "ActaValue_1" = 'YES' , "ActaName_2" = 'RDate_created' , "ActaValue_2" = 'Fri Dec 13 17:10:47 2013' , "ActaName_3" = 'Rcolumn_mapping_calculated' , "ActaValue_3" = 'error' , "ActaName_4" = 'RDate_modified' , "ActaValue_4" = 'Wed Feb 12 23:48:16 2014' )
+CREATE DATAFLOW DF_DIS_IMPORT_EMPLOYEES_SUPP::'be4fcb73-19de-43bb-9b5a-434f7f05ed08'
+
+BEGIN 
+ALGUICOMMENT( x = '72', y = '-69',UI_DATA_XML='<UIDATA><MAINICON><LOCATION><X>0</X><Y>0</Y></LOCATION><SIZE><CX>569</CX><CY>-182</CY></SIZE></MAINICON><DESCRIPTION><LOCATION><X>0</X><Y>-174</Y></LOCATION><SIZE><CX>200</CX><CY>200</CY></SIZE><VISIBLE>0</VISIBLE></DESCRIPTION></UIDATA>', UpperContainer_HeightProp = '48', InputSchema_WidthProp = '50', Input_Width_Description = '130', Output_Width_Decsription = '130', Input_Width_Type = '85', Output_Width_Type = '80', Output_Width_Mapping = '85', Input_Column_Width_3 = '100', Output_Column_Width_4 = '100', Input_Column_Width_4 = '100', Output_Column_Width_5 = '100', Input_1st_Column_Name = 'Description', Input_2nd_Column_Name = 'Type', Input_Column_Name_3 = 'Content_Type', Input_Column_Name_4 = 'Business_Name', Output_1st_Column_Name = 'Type', Output_2nd_Column_Name = 'Mapping', Output_3rd_Column_Name = 'Description', Output_Column_Name_4 = 'Content_Type', Output_Column_Name_5 = '' )
+GUID::'ab5a89c9-77d4-4661-b25e-8edfa5325509' READ TABLE DS_RMX_STAGING.DBO.EMP_SUPP  OUTPUT ( EMP_SUPP ) SET (
+"array_fetch_size" = '1000',
+"cache" = 'yes',
+"connection_port" = 'no',
+"enable_partitioning" = 'no',
+"name" = 'DS_RMX_STAGING',
+"package_size" = '0',
+"reader_is_DB2CDC_table" = 'no',
+"reader_overflow_file" = 'overflow_file',
+"reader_template_table" = 'no',
+"reader_use_overflow_file" = 'no',
+"reader_use_trex_transaction" = 'no',
+"table_weight" = '0');
+ALGUICOMMENT( x = '66', y = '-306',UI_DATA_XML='<UIDATA><MAINICON><LOCATION><X>0</X><Y>0</Y></LOCATION><SIZE><CX>516</CX><CY>-182</CY></SIZE></MAINICON><DESCRIPTION><LOCATION><X>0</X><Y>-174</Y></LOCATION><SIZE><CX>200</CX><CY>200</CY></SIZE><VISIBLE>0</VISIBLE></DESCRIPTION></UIDATA>', UpperContainer_HeightProp = '48', InputSchema_WidthProp = '58', Input_Width_Description = '130', Output_Width_Decsription = '130', Input_Width_Type = '85', Output_Width_Type = '80', Output_Width_Mapping = '85', Input_Column_Width_3 = '100', Output_Column_Width_4 = '100', Input_Column_Width_4 = '100', Output_Column_Width_5 = '100', Input_1st_Column_Name = 'Type', Input_2nd_Column_Name = 'Description', Input_Column_Name_3 = 'Content_Type', Input_Column_Name_4 = 'Business_Name', Output_1st_Column_Name = 'Type', Output_2nd_Column_Name = 'Mapping', Output_3rd_Column_Name = 'Description', Output_Column_Name_4 = 'Content_Type', Output_Column_Name_5 = 'Business_Name' )
+GUID::'09347d44-4011-491e-9d09-cd0b28bb1f40' READ TABLE DS_RMX_STAGING.DBO.ENTITY  OUTPUT ( ENTITY ) SET (
+"array_fetch_size" = '1000',
+"cache" = 'yes',
+"connection_port" = 'no',
+"enable_partitioning" = 'no',
+"name" = 'DS_RMX_STAGING',
+"package_size" = '0',
+"reader_is_DB2CDC_table" = 'no',
+"reader_overflow_file" = 'overflow_file',
+"reader_template_table" = 'no',
+"reader_use_overflow_file" = 'no',
+"reader_use_trex_transaction" = 'no',
+"table_weight" = '0');
+ALGUICOMMENT( x = '75', y = '-547',UI_DATA_XML='<UIDATA><MAINICON><LOCATION><X>0</X><Y>0</Y></LOCATION><SIZE><CX>575</CX><CY>-182</CY></SIZE></MAINICON><DESCRIPTION><LOCATION><X>0</X><Y>-174</Y></LOCATION><SIZE><CX>200</CX><CY>200</CY></SIZE><VISIBLE>0</VISIBLE></DESCRIPTION></UIDATA>', UpperContainer_HeightProp = '48', InputSchema_WidthProp = '58', Input_Width_Description = '130', Output_Width_Decsription = '130', Input_Width_Type = '85', Output_Width_Type = '80', Output_Width_Mapping = '85', Input_Column_Width_3 = '100', Output_Column_Width_4 = '100', Input_Column_Width_4 = '100', Output_Column_Width_5 = '100', Input_1st_Column_Name = 'Type', Input_2nd_Column_Name = 'Description', Input_Column_Name_3 = 'Content_Type', Input_Column_Name_4 = 'Business_Name', Output_1st_Column_Name = 'Type', Output_2nd_Column_Name = 'Mapping', Output_3rd_Column_Name = 'Description', Output_Column_Name_4 = 'Content_Type', Output_Column_Name_5 = 'Business_Name' )
+GUID::'24db21f3-390f-4799-9f69-370ded293717' READ TABLE DS_RMX_STAGING.DBO.EMPLOYEE  OUTPUT ( EMPLOYEE ) SET (
+"array_fetch_size" = '1000',
+"cache" = 'yes',
+"connection_port" = 'no',
+"enable_partitioning" = 'no',
+"name" = 'DS_RMX_STAGING',
+"package_size" = '0',
+"reader_is_DB2CDC_table" = 'no',
+"reader_overflow_file" = 'overflow_file',
+"reader_template_table" = 'no',
+"reader_use_overflow_file" = 'no',
+"reader_use_trex_transaction" = 'no',
+"table_weight" = '0');
+ALGUICOMMENT( x = '447', y = '-332' , ui_acta_from_schema_0 = 'EMP_SUPP'  , ui_acta_from_schema_1 = 'ENTITY'  , ui_acta_from_schema_2 = 'EMPLOYEE'  , ui_acta_from_schema_3 = 'T_DIS_EMPLOYEE'  , ui_acta_from_schema_4 = 'T_DIS_ENTITY'  , ui_display_name = 'Q_Valid_Only'  , ui_where_text = 'EMP_SUPP.JOBID = $gJobId and
+
+EMPLOYEE.INVALID_ROW = 0 and 
+ENTITY.INVALID_ROW = 0 and 
+EMP_SUPP.INVALID_ROW = 0 and 
+
+EMPLOYEE.JOBID = EMP_SUPP.JOBID and 
+T_DIS_EMPLOYEE.DA_ROW_ID = EMPLOYEE.DA_ROW_ID and 
+
+ENTITY.JOBID = EMP_SUPP.JOBID and 
+T_DIS_ENTITY.DA_ROW_ID = ENTITY.DA_ROW_ID and 
+
+T_DIS_EMPLOYEE.EMPLOYEE_EID = T_DIS_ENTITY.ENTITY_ID and 
+EMP_SUPP.EMPLOYEE_EID = T_DIS_EMPLOYEE.EMPLOYEE_EID' ,UI_DATA_XML='<UIDATA><MAINICON><LOCATION><X>0</X><Y>0</Y></LOCATION><SIZE><CX>260</CX><CY>-163</CY></SIZE></MAINICON><DESCRIPTION><LOCATION><X>0</X><Y>-174</Y></LOCATION><SIZE><CX>200</CX><CY>200</CY></SIZE><VISIBLE>0</VISIBLE></DESCRIPTION></UIDATA>', UpperContainer_HeightProp = '65', InputSchema_WidthProp = '41', Input_Width_Name = '269', Output_Width_Name = '247', Input_Width_Description = '130', Output_Width_Decsription = '130', Input_Width_Type = '85', Output_Width_Type = '80', Output_Width_Mapping = '85', Input_Column_Width_3 = '100', Output_Column_Width_4 = '100', Input_Column_Width_4 = '100', Output_Column_Width_5 = '100', Input_1st_Column_Name = 'Type', Input_2nd_Column_Name = 'Description', Input_Column_Name_3 = 'Content_Type', Input_Column_Name_4 = 'Business_Name', Output_1st_Column_Name = 'Type', Output_2nd_Column_Name = 'Mapping', Output_3rd_Column_Name = 'Description', Output_Column_Name_4 = 'Content_Type', Output_Column_Name_5 = 'Business_Name', UI_PASSTHRU_VSPLIT_PCT = '50' )
+GUID::'a8d2a8e3-e6c6-400b-9bed-d66bf4879568' CREATE VIEW Q_Valid_Only ( UPDATE_ROW int SET("ui_mapping_text"='EMPLOYEE.UPDATE_ROW') ,
+ EMPLOYEE_EID int KEY  SET("ui_mapping_text"='EMPLOYEE.EMPLOYEE_EID') ,
+ REG_TEMP_CODE int SET("ui_mapping_text"='EMP_SUPP.REG_TEMP_CODE') ,
+ ACTION_DATE varchar(8) SET("ui_mapping_text"='EMP_SUPP.ACTION_DATE') ,
+ ANNUAL_AMT double SET("ui_mapping_text"='0') ,
+ EMPLMNT_STA_CODE int SET("ui_mapping_text"='0') ,
+ HIRE_DATE varchar(8) SET("ui_mapping_text"='\'\'') ,
+ HIRE_STATE int SET("ui_mapping_text"='EMP_SUPP.HIRE_STATE') ,
+ JOB_FAMILY_CODE int SET("ui_mapping_text"='EMP_SUPP.JOB_FAMILY_CODE') ,
+ UNION_CODE int SET("ui_mapping_text"='EMP_SUPP.UNION_CODE') ,
+ ADDR3RD_TEXT varchar(50) SET("ui_mapping_text"='EMP_SUPP.ADDR3RD_TEXT') ,
+ MEDICAL_COS_AMT double SET("ui_mapping_text"='EMP_SUPP.MED_COST_AMT') ,
+ MED_COST_AMT double SET("ui_mapping_text"='EMP_SUPP.MED_COST_AMT') ,
+ DENTAL_COST_AMT double SET("ui_mapping_text"='EMP_SUPP.DENTAL_COST_AMT') ,
+ LIFE_COST_AMT double SET("ui_mapping_text"='EMP_SUPP.LIFE_COST_AMT') ,
+ SPOUSE_COST_AMT double SET("ui_mapping_text"='EMP_SUPP.SPOUSE_COST_AMT') ,
+ DPNDNT_COST_AMT double SET("ui_mapping_text"='EMP_SUPP.DPNDNT_COST_AMT') ,
+ VISION_COST_AMT double SET("ui_mapping_text"='EMP_SUPP.VISION_COST_AMT') ,
+ LEGAL_COST_AMT double SET("ui_mapping_text"='EMP_SUPP.LEGAL_COST_AMT') ,
+ RETIRE_DATE varchar(8) SET("ui_mapping_text"='EMP_SUPP.RETIRE_DATE') ,
+ LTD_APPRVL_DATE varchar(8) SET("ui_mapping_text"='\'\'') ,
+ LTD_DENIED_DATE varchar(8) SET("ui_mapping_text"='\'\'') ,
+ EXT_SK_FULL_NUM double SET("ui_mapping_text"='EMP_SUPP.EXT_SK_FULL_NUM') ,
+ EXT_SK_HALF_NUM double SET("ui_mapping_text"='EMP_SUPP.EXT_SK_HALF_NUM') ,
+ SICK_BAL_NUM double SET("ui_mapping_text"='EMP_SUPP.SICK_BAL_NUM') ,
+ VACA_BAL_NUM double SET("ui_mapping_text"='EMP_SUPP.VACA_BAL_NUM') ,
+ PTO_BAL_NUM double SET("ui_mapping_text"='EMP_SUPP.PTO_BAL_NUM') ,
+ EMP_STATUS__CODE int SET("ui_mapping_text"='EMP_SUPP.EMP_STATUS__CODE') ,
+ PRE_DIS_BEN_CODE int SET("ui_mapping_text"='0') ,
+ LTD_COST_AMT double SET("ui_mapping_text"='EMP_SUPP.LTD_COST_AMT')  ) 
+AS SELECT  EMPLOYEE.UPDATE_ROW
+ 
+ ,
+ EMPLOYEE.EMPLOYEE_EID
+ 
+ ,
+ EMP_SUPP.REG_TEMP_CODE
+ 
+ ,
+ EMP_SUPP.ACTION_DATE
+ 
+ ,
+ 0
+ 
+ ,
+ 0
+ 
+ ,
+ ''
+ 
+ ,
+ EMP_SUPP.HIRE_STATE
+ 
+ ,
+ EMP_SUPP.JOB_FAMILY_CODE
+ 
+ ,
+ EMP_SUPP.UNION_CODE
+ 
+ ,
+ EMP_SUPP.ADDR3RD_TEXT
+ 
+ ,
+ EMP_SUPP.MED_COST_AMT
+ 
+ ,
+ EMP_SUPP.MED_COST_AMT
+ 
+ ,
+ EMP_SUPP.DENTAL_COST_AMT
+ 
+ ,
+ EMP_SUPP.LIFE_COST_AMT
+ 
+ ,
+ EMP_SUPP.SPOUSE_COST_AMT
+ 
+ ,
+ EMP_SUPP.DPNDNT_COST_AMT
+ 
+ ,
+ EMP_SUPP.VISION_COST_AMT
+ 
+ ,
+ EMP_SUPP.LEGAL_COST_AMT
+ 
+ ,
+ EMP_SUPP.RETIRE_DATE
+ 
+ ,
+ ''
+ 
+ ,
+ ''
+ 
+ ,
+ EMP_SUPP.EXT_SK_FULL_NUM
+ 
+ ,
+ EMP_SUPP.EXT_SK_HALF_NUM
+ 
+ ,
+ EMP_SUPP.SICK_BAL_NUM
+ 
+ ,
+ EMP_SUPP.VACA_BAL_NUM
+ 
+ ,
+ EMP_SUPP.PTO_BAL_NUM
+ 
+ ,
+ EMP_SUPP.EMP_STATUS__CODE
+ 
+ ,
+ 0
+ 
+ ,
+ EMP_SUPP.LTD_COST_AMT
+ 
+ 
+	FROM EMP_SUPP, ENTITY, EMPLOYEE, T_DIS_ENTITY, T_DIS_EMPLOYEE
+	WHERE EMP_SUPP.JOBID = $gJobId and
+
+EMPLOYEE.INVALID_ROW = 0 and 
+ENTITY.INVALID_ROW = 0 and 
+EMP_SUPP.INVALID_ROW = 0 and 
+
+EMPLOYEE.JOBID = EMP_SUPP.JOBID and 
+T_DIS_EMPLOYEE.DA_ROW_ID = EMPLOYEE.DA_ROW_ID and 
+
+ENTITY.JOBID = EMP_SUPP.JOBID and 
+T_DIS_ENTITY.DA_ROW_ID = ENTITY.DA_ROW_ID and 
+
+T_DIS_EMPLOYEE.EMPLOYEE_EID = T_DIS_ENTITY.ENTITY_ID and 
+EMP_SUPP.EMPLOYEE_EID = T_DIS_EMPLOYEE.EMPLOYEE_EID
+ 
+ SET (
+"distinct_run_as_separate_process" = 'no',
+"group_by_run_as_separate_process" = 'no',
+"join_run_as_separate_process" = 'no',
+"order_by_run_as_separate_process" = 'no',
+"run_as_separate_process" = 'no');
+ALGUICOMMENT( x = '78', y = '-772',UI_DATA_XML='<UIDATA><MAINICON><LOCATION><X>0</X><Y>0</Y></LOCATION><SIZE><CX>622</CX><CY>-182</CY></SIZE></MAINICON><DESCRIPTION><LOCATION><X>0</X><Y>-174</Y></LOCATION><SIZE><CX>200</CX><CY>200</CY></SIZE><VISIBLE>0</VISIBLE></DESCRIPTION></UIDATA>', UpperContainer_HeightProp = '39', InputSchema_WidthProp = '35', Input_Width_Description = '130', Output_Width_Decsription = '130', Input_Width_Type = '85', Output_Width_Type = '80', Output_Width_Mapping = '85', Input_Column_Width_3 = '100', Output_Column_Width_4 = '100', Input_Column_Width_4 = '100', Output_Column_Width_5 = '100', Input_1st_Column_Name = 'Type', Input_2nd_Column_Name = 'Description', Input_Column_Name_3 = 'Content_Type', Input_Column_Name_4 = 'Business_Name', Output_1st_Column_Name = 'Type', Output_2nd_Column_Name = 'Mapping', Output_3rd_Column_Name = 'Description', Output_Column_Name_4 = 'Content_Type', Output_Column_Name_5 = 'Business_Name' )
+GUID::'a5e82af7-7fa0-4531-a382-73690ca23ca9' READ TABLE DS_RMX_STAGING.DBO.T_DIS_ENTITY  OUTPUT ( T_DIS_ENTITY ) SET (
+"array_fetch_size" = '1000',
+"cache" = 'yes',
+"connection_port" = 'no',
+"enable_partitioning" = 'no',
+"name" = 'DS_RMX_STAGING',
+"package_size" = '0',
+"reader_is_DB2CDC_table" = 'no',
+"reader_overflow_file" = 'overflow_file',
+"reader_template_table" = 'no',
+"reader_use_overflow_file" = 'no',
+"reader_use_trex_transaction" = 'no',
+"table_weight" = '0');
+ALGUICOMMENT( x = '88', y = '-1012',UI_DATA_XML='<UIDATA><MAINICON><LOCATION><X>0</X><Y>0</Y></LOCATION><SIZE><CX>681</CX><CY>-182</CY></SIZE></MAINICON><DESCRIPTION><LOCATION><X>0</X><Y>-174</Y></LOCATION><SIZE><CX>200</CX><CY>200</CY></SIZE><VISIBLE>0</VISIBLE></DESCRIPTION></UIDATA>', UpperContainer_HeightProp = '39', InputSchema_WidthProp = '35', Input_Width_Description = '130', Output_Width_Decsription = '130', Input_Width_Type = '85', Output_Width_Type = '80', Output_Width_Mapping = '85', Input_Column_Width_3 = '100', Output_Column_Width_4 = '100', Input_Column_Width_4 = '100', Output_Column_Width_5 = '100', Input_1st_Column_Name = 'Type', Input_2nd_Column_Name = 'Description', Input_Column_Name_3 = 'Content_Type', Input_Column_Name_4 = 'Business_Name', Output_1st_Column_Name = 'Type', Output_2nd_Column_Name = 'Mapping', Output_3rd_Column_Name = 'Description', Output_Column_Name_4 = 'Content_Type', Output_Column_Name_5 = 'Business_Name' )
+GUID::'3180880b-0b6b-42b3-be92-30b3b929397a' READ TABLE DS_RMX_STAGING.DBO.T_DIS_EMPLOYEE  OUTPUT ( T_DIS_EMPLOYEE ) SET (
+"array_fetch_size" = '1000',
+"cache" = 'yes',
+"connection_port" = 'no',
+"enable_partitioning" = 'no',
+"name" = 'DS_RMX_STAGING',
+"package_size" = '0',
+"reader_is_DB2CDC_table" = 'no',
+"reader_overflow_file" = 'overflow_file',
+"reader_template_table" = 'no',
+"reader_use_overflow_file" = 'no',
+"reader_use_trex_transaction" = 'no',
+"table_weight" = '0');
+ALGUICOMMENT( x = '2304', y = '-104',UI_DATA_XML='<UIDATA><MAINICON><LOCATION><X>0</X><Y>0</Y></LOCATION><SIZE><CX>472</CX><CY>-182</CY></SIZE></MAINICON><DESCRIPTION><LOCATION><X>0</X><Y>-174</Y></LOCATION><SIZE><CX>200</CX><CY>200</CY></SIZE><VISIBLE>0</VISIBLE></DESCRIPTION></UIDATA>', UpperContainer_HeightProp = '37', InputSchema_WidthProp = '35', Input_Width_Description = '130', Output_Width_Decsription = '130', Input_Width_Type = '85', Output_Width_Type = '80', Output_Width_Mapping = '85', Input_Column_Width_3 = '100', Output_Column_Width_4 = '100', Input_Column_Width_4 = '100', Output_Column_Width_5 = '100', Input_1st_Column_Name = 'Type', Input_2nd_Column_Name = 'Description', Input_Column_Name_3 = 'Content_Type', Input_Column_Name_4 = 'Business_Name', Output_1st_Column_Name = 'Type', Output_2nd_Column_Name = 'Mapping', Output_3rd_Column_Name = 'Description', Output_Column_Name_4 = 'Content_Type', Output_Column_Name_5 = 'Business_Name', UI_PASSTHRU_VSPLIT_PCT = '50' )
+GUID::'c31f3009-3bee-4212-9ee0-be2d18b50fbb' LOAD TABLE DS_RMDB.DBO.EMP_SUPP  INPUT ( MO_UPDATE ) SET (
+"LDRLiveLoad" = 'no',
+"Table_Type" = 'TABLE',
+"connection_port" = 'no',
+"ldr_configuration_enabled" = 'yes',
+"ldr_configurations" = '<?xml version="1.0" encoding="UTF-8"?>
+<LDRConfigurations>
+<LDRConfiguration database_type="Microsoft_SQL_Server" database_version="Microsoft SQL Server 2005">
+<auto_correct_using_merge>yes</auto_correct_using_merge>
+<bulk_ldr_all_rows></bulk_ldr_all_rows>
+<bulk_ldr_max_errors></bulk_ldr_max_errors>
+<bulk_ldr_rows_per_commit>1000</bulk_ldr_rows_per_commit>
+<enable_partitioning>no</enable_partitioning>
+<ignore_column_case>yes</ignore_column_case>
+<ignore_columns_null>no</ignore_columns_null>
+<ignore_columns_value></ignore_columns_value>
+<loader_auto_correct>no</loader_auto_correct>
+<loader_bulk_load></loader_bulk_load>
+<loader_compare_column>compare_by_name</loader_compare_column>
+<loader_delete_map></loader_delete_map>
+<loader_drop_and_create_table>yes</loader_drop_and_create_table>
+<loader_insert_map></loader_insert_map>
+<loader_load_choice>append</loader_load_choice>
+<loader_num_parallel_loaders>1</loader_num_parallel_loaders>
+<loader_overflow_file></loader_overflow_file>
+<loader_post_load1></loader_post_load1>
+<loader_pre_load1></loader_pre_load1>
+<loader_quote_names>0</loader_quote_names>
+<loader_transactional>no</loader_transactional>
+<loader_transactional_order>0</loader_transactional_order>
+<loader_update_key_columns>no</loader_update_key_columns>
+<loader_update_map></loader_update_map>
+<loader_use_user_defined_keys>no</loader_use_user_defined_keys>
+<loader_xact_size>1000</loader_xact_size>
+<mssql_bulk_ldr_mode>append</mssql_bulk_ldr_mode>
+<mssql_bulk_ldr_packet_size>4</mssql_bulk_ldr_packet_size>
+<overflow_file_format>write_data</overflow_file_format>
+<use_overflow_file>no</use_overflow_file>
+<use_unicode_varchar>no</use_unicode_varchar>
+<sql_text></sql_text>
+</LDRConfiguration>
+</LDRConfigurations>',
+"loader_template_table" = 'no',
+"name" = 'DS_RMDB',
+"use_unicode_varchar" = 'no');
+ALGUICOMMENT( x = '1306', y = '-332' , ui_acta_from_schema_0 = 'Q_SUPP_Update'  , ui_display_name = 'C_UPDATE' ,UI_DATA_XML='<UIDATA><MAINICON><LOCATION><X>0</X><Y>0</Y></LOCATION><SIZE><CX>238</CX><CY>-163</CY></SIZE></MAINICON><DESCRIPTION><LOCATION><X>0</X><Y>-174</Y></LOCATION><SIZE><CX>200</CX><CY>200</CY></SIZE><VISIBLE>0</VISIBLE></DESCRIPTION></UIDATA>', UpperContainer_HeightProp = '46', InputSchema_WidthProp = '41', Input_Width_Description = '130', Output_Width_Decsription = '130', Input_Width_Type = '85', Output_Width_Type = '80', Output_Width_Mapping = '85', Input_Column_Width_3 = '100', Output_Column_Width_4 = '100', Input_Column_Width_4 = '100', Output_Column_Width_5 = '100', Input_1st_Column_Name = 'Type', Input_2nd_Column_Name = 'Description', Input_Column_Name_3 = 'Content_Type', Input_Column_Name_4 = 'Business_Name', Output_1st_Column_Name = 'Description', Output_2nd_Column_Name = 'Type', Output_3rd_Column_Name = 'Content_Type', Output_Column_Name_4 = 'Business_Name', Output_Column_Name_5 = '' ,  C_UPDATE_UPDATE = 'Q_Valid_Only.UPDATE_ROW = 1',  C_UPDATE_INSERT = 'Q_Valid_Only.UPDATE_ROW = 0' )
+GUID::'3dabf43d-6360-4f18-8abf-b027a5e4eb58' CREATE VIEW C_UPDATE () 
+AS SELECT 
+	FROM Q_SUPP_Update
+ 
+CASE 	 (Q_Valid_Only.UPDATE_ROW = 1) output C_UPDATE_UPDATE,
+	 (Q_Valid_Only.UPDATE_ROW = 0) output C_UPDATE_INSERT SET (
+"Mutually_Exclusive" = 'yes',
+"Preserve_Expression_Order" = 'no');
+ALGUICOMMENT( x = '1679', y = '-103' , ui_acta_from_schema_0 = 'C_UPDATE_UPDATE'  , ui_display_name = 'Q_UPDATE' ,UI_DATA_XML='<UIDATA><MAINICON><LOCATION><X>0</X><Y>0</Y></LOCATION><SIZE><CX>238</CX><CY>-163</CY></SIZE></MAINICON><DESCRIPTION><LOCATION><X>0</X><Y>-174</Y></LOCATION><SIZE><CX>200</CX><CY>200</CY></SIZE><VISIBLE>0</VISIBLE></DESCRIPTION></UIDATA>', UpperContainer_HeightProp = '65', InputSchema_WidthProp = '41', Input_Width_Description = '130', Output_Width_Decsription = '130', Input_Width_Type = '85', Output_Width_Type = '80', Output_Width_Mapping = '85', Input_Column_Width_3 = '100', Output_Column_Width_4 = '100', Input_Column_Width_4 = '100', Output_Column_Width_5 = '100', Input_1st_Column_Name = 'Type', Input_2nd_Column_Name = 'Description', Input_Column_Name_3 = 'Content_Type', Input_Column_Name_4 = 'Business_Name', Output_1st_Column_Name = 'Type', Output_2nd_Column_Name = 'Mapping', Output_3rd_Column_Name = 'Description', Output_Column_Name_4 = 'Content_Type', Output_Column_Name_5 = 'Business_Name', UI_PASSTHRU_VSPLIT_PCT = '50' )
+GUID::'e7ce083f-9bc6-4118-ad0d-42e08c4417cc' CREATE VIEW Q_UPDATE ( EMPLOYEE_EID int KEY  SET("ui_mapping_text"='C_UPDATE_UPDATE.EMPLOYEE_EID') ,
+ REG_TEMP_CODE int SET("ui_mapping_text"='C_UPDATE_UPDATE.REG_TEMP_CODE') ,
+ ACTION_DATE varchar(8) SET("ui_mapping_text"='C_UPDATE_UPDATE.ACTION_DATE') ,
+ ANNUAL_AMT double SET("ui_mapping_text"='C_UPDATE_UPDATE.ANNUAL_AMT') ,
+ EMPLMNT_STA_CODE int SET("ui_mapping_text"='C_UPDATE_UPDATE.EMPLMNT_STA_CODE') ,
+ HIRE_DATE varchar(8) SET("ui_mapping_text"='C_UPDATE_UPDATE.HIRE_DATE') ,
+ HIRE_STATE int SET("ui_mapping_text"='C_UPDATE_UPDATE.HIRE_STATE') ,
+ JOB_FAMILY_CODE int SET("ui_mapping_text"='C_UPDATE_UPDATE.JOB_FAMILY_CODE') ,
+ UNION_CODE int SET("ui_mapping_text"='C_UPDATE_UPDATE.UNION_CODE') ,
+ ADDR3RD_TEXT varchar(50) SET("ui_mapping_text"='C_UPDATE_UPDATE.ADDR3RD_TEXT') ,
+ MEDICAL_COS_AMT double SET("ui_mapping_text"='C_UPDATE_UPDATE.MEDICAL_COS_AMT') ,
+ MED_COST_AMT double SET("ui_mapping_text"='C_UPDATE_UPDATE.MED_COST_AMT') ,
+ DENTAL_COST_AMT double SET("ui_mapping_text"='C_UPDATE_UPDATE.DENTAL_COST_AMT') ,
+ LIFE_COST_AMT double SET("ui_mapping_text"='C_UPDATE_UPDATE.LIFE_COST_AMT') ,
+ SPOUSE_COST_AMT double SET("ui_mapping_text"='C_UPDATE_UPDATE.SPOUSE_COST_AMT') ,
+ DPNDNT_COST_AMT double SET("ui_mapping_text"='C_UPDATE_UPDATE.DPNDNT_COST_AMT') ,
+ VISION_COST_AMT double SET("ui_mapping_text"='C_UPDATE_UPDATE.VISION_COST_AMT') ,
+ LEGAL_COST_AMT double SET("ui_mapping_text"='C_UPDATE_UPDATE.LEGAL_COST_AMT') ,
+ RETIRE_DATE varchar(8) SET("ui_mapping_text"='C_UPDATE_UPDATE.RETIRE_DATE') ,
+ LTD_APPRVL_DATE varchar(8) SET("ui_mapping_text"='C_UPDATE_UPDATE.LTD_APPRVL_DATE') ,
+ LTD_DENIED_DATE varchar(8) SET("ui_mapping_text"='C_UPDATE_UPDATE.LTD_DENIED_DATE') ,
+ EXT_SK_FULL_NUM double SET("ui_mapping_text"='C_UPDATE_UPDATE.EXT_SK_FULL_NUM') ,
+ EXT_SK_HALF_NUM double SET("ui_mapping_text"='C_UPDATE_UPDATE.EXT_SK_HALF_NUM') ,
+ SICK_BAL_NUM double SET("ui_mapping_text"='C_UPDATE_UPDATE.SICK_BAL_NUM') ,
+ VACA_BAL_NUM double SET("ui_mapping_text"='C_UPDATE_UPDATE.VACA_BAL_NUM') ,
+ PTO_BAL_NUM double SET("ui_mapping_text"='C_UPDATE_UPDATE.PTO_BAL_NUM') ,
+ EMP_STATUS__CODE int SET("ui_mapping_text"='C_UPDATE_UPDATE.EMP_STATUS__CODE') ,
+ PRE_DIS_BEN_CODE int SET("ui_mapping_text"='C_UPDATE_UPDATE.PRE_DIS_BEN_CODE') ,
+ LTD_COST_AMT double SET("ui_mapping_text"='C_UPDATE_UPDATE.LTD_COST_AMT')  ) 
+AS SELECT  C_UPDATE_UPDATE.EMPLOYEE_EID
+ 
+ ,
+ C_UPDATE_UPDATE.REG_TEMP_CODE
+ 
+ ,
+ C_UPDATE_UPDATE.ACTION_DATE
+ 
+ ,
+ C_UPDATE_UPDATE.ANNUAL_AMT
+ 
+ ,
+ C_UPDATE_UPDATE.EMPLMNT_STA_CODE
+ 
+ ,
+ C_UPDATE_UPDATE.HIRE_DATE
+ 
+ ,
+ C_UPDATE_UPDATE.HIRE_STATE
+ 
+ ,
+ C_UPDATE_UPDATE.JOB_FAMILY_CODE
+ 
+ ,
+ C_UPDATE_UPDATE.UNION_CODE
+ 
+ ,
+ C_UPDATE_UPDATE.ADDR3RD_TEXT
+ 
+ ,
+ C_UPDATE_UPDATE.MEDICAL_COS_AMT
+ 
+ ,
+ C_UPDATE_UPDATE.MED_COST_AMT
+ 
+ ,
+ C_UPDATE_UPDATE.DENTAL_COST_AMT
+ 
+ ,
+ C_UPDATE_UPDATE.LIFE_COST_AMT
+ 
+ ,
+ C_UPDATE_UPDATE.SPOUSE_COST_AMT
+ 
+ ,
+ C_UPDATE_UPDATE.DPNDNT_COST_AMT
+ 
+ ,
+ C_UPDATE_UPDATE.VISION_COST_AMT
+ 
+ ,
+ C_UPDATE_UPDATE.LEGAL_COST_AMT
+ 
+ ,
+ C_UPDATE_UPDATE.RETIRE_DATE
+ 
+ ,
+ C_UPDATE_UPDATE.LTD_APPRVL_DATE
+ 
+ ,
+ C_UPDATE_UPDATE.LTD_DENIED_DATE
+ 
+ ,
+ C_UPDATE_UPDATE.EXT_SK_FULL_NUM
+ 
+ ,
+ C_UPDATE_UPDATE.EXT_SK_HALF_NUM
+ 
+ ,
+ C_UPDATE_UPDATE.SICK_BAL_NUM
+ 
+ ,
+ C_UPDATE_UPDATE.VACA_BAL_NUM
+ 
+ ,
+ C_UPDATE_UPDATE.PTO_BAL_NUM
+ 
+ ,
+ C_UPDATE_UPDATE.EMP_STATUS__CODE
+ 
+ ,
+ C_UPDATE_UPDATE.PRE_DIS_BEN_CODE
+ 
+ ,
+ C_UPDATE_UPDATE.LTD_COST_AMT
+ 
+ 
+	FROM C_UPDATE_UPDATE SET (
+"distinct_run_as_separate_process" = 'no',
+"group_by_run_as_separate_process" = 'no',
+"join_run_as_separate_process" = 'no',
+"order_by_run_as_separate_process" = 'no',
+"run_as_separate_process" = 'no');
+ALGUICOMMENT( x = '1669', y = '-535' , ui_acta_from_schema_0 = 'C_UPDATE_INSERT'  , ui_display_name = 'Q_INSERT' ,UI_DATA_XML='<UIDATA><MAINICON><LOCATION><X>0</X><Y>0</Y></LOCATION><SIZE><CX>238</CX><CY>-163</CY></SIZE></MAINICON><DESCRIPTION><LOCATION><X>0</X><Y>-174</Y></LOCATION><SIZE><CX>200</CX><CY>200</CY></SIZE><VISIBLE>0</VISIBLE></DESCRIPTION></UIDATA>', UpperContainer_HeightProp = '65', InputSchema_WidthProp = '41', Input_Width_Description = '130', Output_Width_Decsription = '130', Input_Width_Type = '85', Output_Width_Type = '80', Output_Width_Mapping = '85', Input_Column_Width_3 = '100', Output_Column_Width_4 = '100', Input_Column_Width_4 = '100', Output_Column_Width_5 = '100', Input_1st_Column_Name = 'Type', Input_2nd_Column_Name = 'Description', Input_Column_Name_3 = 'Content_Type', Input_Column_Name_4 = 'Business_Name', Output_1st_Column_Name = 'Type', Output_2nd_Column_Name = 'Mapping', Output_3rd_Column_Name = 'Description', Output_Column_Name_4 = 'Content_Type', Output_Column_Name_5 = 'Business_Name', UI_PASSTHRU_VSPLIT_PCT = '50' )
+GUID::'93bfd715-da2d-4f91-be82-c6826a0b703b' CREATE VIEW Q_INSERT ( EMPLOYEE_EID int KEY  SET("ui_mapping_text"='C_UPDATE_INSERT.EMPLOYEE_EID') ,
+ REG_TEMP_CODE int SET("ui_mapping_text"='C_UPDATE_INSERT.REG_TEMP_CODE') ,
+ ACTION_DATE varchar(8) SET("ui_mapping_text"='C_UPDATE_INSERT.ACTION_DATE') ,
+ ANNUAL_AMT double SET("ui_mapping_text"='C_UPDATE_INSERT.ANNUAL_AMT') ,
+ EMPLMNT_STA_CODE int SET("ui_mapping_text"='C_UPDATE_INSERT.EMPLMNT_STA_CODE') ,
+ HIRE_DATE varchar(8) SET("ui_mapping_text"='C_UPDATE_INSERT.HIRE_DATE') ,
+ HIRE_STATE int SET("ui_mapping_text"='C_UPDATE_INSERT.HIRE_STATE') ,
+ JOB_FAMILY_CODE int SET("ui_mapping_text"='C_UPDATE_INSERT.JOB_FAMILY_CODE') ,
+ UNION_CODE int SET("ui_mapping_text"='C_UPDATE_INSERT.UNION_CODE') ,
+ ADDR3RD_TEXT varchar(50) SET("ui_mapping_text"='C_UPDATE_INSERT.ADDR3RD_TEXT') ,
+ MEDICAL_COS_AMT double SET("ui_mapping_text"='C_UPDATE_INSERT.MEDICAL_COS_AMT') ,
+ MED_COST_AMT double SET("ui_mapping_text"='C_UPDATE_INSERT.MED_COST_AMT') ,
+ DENTAL_COST_AMT double SET("ui_mapping_text"='C_UPDATE_INSERT.DENTAL_COST_AMT') ,
+ LIFE_COST_AMT double SET("ui_mapping_text"='C_UPDATE_INSERT.LIFE_COST_AMT') ,
+ SPOUSE_COST_AMT double SET("ui_mapping_text"='C_UPDATE_INSERT.SPOUSE_COST_AMT') ,
+ DPNDNT_COST_AMT double SET("ui_mapping_text"='C_UPDATE_INSERT.DPNDNT_COST_AMT') ,
+ VISION_COST_AMT double SET("ui_mapping_text"='C_UPDATE_INSERT.VISION_COST_AMT') ,
+ LEGAL_COST_AMT double SET("ui_mapping_text"='C_UPDATE_INSERT.LEGAL_COST_AMT') ,
+ RETIRE_DATE varchar(8) SET("ui_mapping_text"='C_UPDATE_INSERT.RETIRE_DATE') ,
+ LTD_APPRVL_DATE varchar(8) SET("ui_mapping_text"='C_UPDATE_INSERT.LTD_APPRVL_DATE') ,
+ LTD_DENIED_DATE varchar(8) SET("ui_mapping_text"='C_UPDATE_INSERT.LTD_DENIED_DATE') ,
+ EXT_SK_FULL_NUM double SET("ui_mapping_text"='C_UPDATE_INSERT.EXT_SK_FULL_NUM') ,
+ EXT_SK_HALF_NUM double SET("ui_mapping_text"='C_UPDATE_INSERT.EXT_SK_HALF_NUM') ,
+ SICK_BAL_NUM double SET("ui_mapping_text"='C_UPDATE_INSERT.SICK_BAL_NUM') ,
+ VACA_BAL_NUM double SET("ui_mapping_text"='C_UPDATE_INSERT.VACA_BAL_NUM') ,
+ PTO_BAL_NUM double SET("ui_mapping_text"='C_UPDATE_INSERT.PTO_BAL_NUM') ,
+ EMP_STATUS__CODE int SET("ui_mapping_text"='C_UPDATE_INSERT.EMP_STATUS__CODE') ,
+ PRE_DIS_BEN_CODE int SET("ui_mapping_text"='C_UPDATE_INSERT.PRE_DIS_BEN_CODE') ,
+ LTD_COST_AMT double SET("ui_mapping_text"='C_UPDATE_INSERT.LTD_COST_AMT')  ) 
+AS SELECT  C_UPDATE_INSERT.EMPLOYEE_EID
+ 
+ ,
+ C_UPDATE_INSERT.REG_TEMP_CODE
+ 
+ ,
+ C_UPDATE_INSERT.ACTION_DATE
+ 
+ ,
+ C_UPDATE_INSERT.ANNUAL_AMT
+ 
+ ,
+ C_UPDATE_INSERT.EMPLMNT_STA_CODE
+ 
+ ,
+ C_UPDATE_INSERT.HIRE_DATE
+ 
+ ,
+ C_UPDATE_INSERT.HIRE_STATE
+ 
+ ,
+ C_UPDATE_INSERT.JOB_FAMILY_CODE
+ 
+ ,
+ C_UPDATE_INSERT.UNION_CODE
+ 
+ ,
+ C_UPDATE_INSERT.ADDR3RD_TEXT
+ 
+ ,
+ C_UPDATE_INSERT.MEDICAL_COS_AMT
+ 
+ ,
+ C_UPDATE_INSERT.MED_COST_AMT
+ 
+ ,
+ C_UPDATE_INSERT.DENTAL_COST_AMT
+ 
+ ,
+ C_UPDATE_INSERT.LIFE_COST_AMT
+ 
+ ,
+ C_UPDATE_INSERT.SPOUSE_COST_AMT
+ 
+ ,
+ C_UPDATE_INSERT.DPNDNT_COST_AMT
+ 
+ ,
+ C_UPDATE_INSERT.VISION_COST_AMT
+ 
+ ,
+ C_UPDATE_INSERT.LEGAL_COST_AMT
+ 
+ ,
+ C_UPDATE_INSERT.RETIRE_DATE
+ 
+ ,
+ C_UPDATE_INSERT.LTD_APPRVL_DATE
+ 
+ ,
+ C_UPDATE_INSERT.LTD_DENIED_DATE
+ 
+ ,
+ C_UPDATE_INSERT.EXT_SK_FULL_NUM
+ 
+ ,
+ C_UPDATE_INSERT.EXT_SK_HALF_NUM
+ 
+ ,
+ C_UPDATE_INSERT.SICK_BAL_NUM
+ 
+ ,
+ C_UPDATE_INSERT.VACA_BAL_NUM
+ 
+ ,
+ C_UPDATE_INSERT.PTO_BAL_NUM
+ 
+ ,
+ C_UPDATE_INSERT.EMP_STATUS__CODE
+ 
+ ,
+ C_UPDATE_INSERT.PRE_DIS_BEN_CODE
+ 
+ ,
+ C_UPDATE_INSERT.LTD_COST_AMT
+ 
+ 
+	FROM C_UPDATE_INSERT SET (
+"distinct_run_as_separate_process" = 'no',
+"group_by_run_as_separate_process" = 'no',
+"join_run_as_separate_process" = 'no',
+"order_by_run_as_separate_process" = 'no',
+"run_as_separate_process" = 'no');
+ALGUICOMMENT( x = '2291', y = '-535',UI_DATA_XML='<UIDATA><MAINICON><LOCATION><X>0</X><Y>0</Y></LOCATION><SIZE><CX>472</CX><CY>-182</CY></SIZE></MAINICON><DESCRIPTION><LOCATION><X>0</X><Y>-174</Y></LOCATION><SIZE><CX>200</CX><CY>200</CY></SIZE><VISIBLE>0</VISIBLE></DESCRIPTION></UIDATA>', UpperContainer_HeightProp = '65', InputSchema_WidthProp = '41', Input_Width_Description = '130', Output_Width_Decsription = '130', Input_Width_Type = '85', Output_Width_Type = '80', Output_Width_Mapping = '85', Input_Column_Width_3 = '100', Output_Column_Width_4 = '100', Input_Column_Width_4 = '100', Output_Column_Width_5 = '100', Input_1st_Column_Name = 'Type', Input_2nd_Column_Name = 'Description', Input_Column_Name_3 = 'Content_Type', Input_Column_Name_4 = 'Business_Name', Output_1st_Column_Name = 'Type', Output_2nd_Column_Name = 'Mapping', Output_3rd_Column_Name = 'Description', Output_Column_Name_4 = 'Content_Type', Output_Column_Name_5 = 'Business_Name', UI_PASSTHRU_VSPLIT_PCT = '50' )
+GUID::'44cd84bc-7240-41d4-9048-8e3b0b875365' LOAD TABLE DS_RMDB.DBO.EMP_SUPP  INPUT ( MO_INSERT ) SET (
+"LDRLiveLoad" = 'no',
+"Table_Type" = 'TABLE',
+"connection_port" = 'no',
+"ldr_configuration_enabled" = 'yes',
+"ldr_configurations" = '<?xml version="1.0" encoding="UTF-8"?>
+<LDRConfigurations>
+<LDRConfiguration database_type="Microsoft_SQL_Server" database_version="Microsoft SQL Server 2005">
+<auto_correct_using_merge>yes</auto_correct_using_merge>
+<bulk_ldr_all_rows></bulk_ldr_all_rows>
+<bulk_ldr_max_errors></bulk_ldr_max_errors>
+<bulk_ldr_rows_per_commit>1000</bulk_ldr_rows_per_commit>
+<enable_partitioning>no</enable_partitioning>
+<ignore_column_case>yes</ignore_column_case>
+<ignore_columns_null>no</ignore_columns_null>
+<ignore_columns_value></ignore_columns_value>
+<loader_auto_correct>no</loader_auto_correct>
+<loader_bulk_load></loader_bulk_load>
+<loader_compare_column>compare_by_name</loader_compare_column>
+<loader_delete_map></loader_delete_map>
+<loader_drop_and_create_table>yes</loader_drop_and_create_table>
+<loader_insert_map></loader_insert_map>
+<loader_load_choice>append</loader_load_choice>
+<loader_num_parallel_loaders>1</loader_num_parallel_loaders>
+<loader_overflow_file></loader_overflow_file>
+<loader_post_load1></loader_post_load1>
+<loader_pre_load1></loader_pre_load1>
+<loader_quote_names>0</loader_quote_names>
+<loader_transactional>no</loader_transactional>
+<loader_transactional_order>0</loader_transactional_order>
+<loader_update_key_columns>no</loader_update_key_columns>
+<loader_update_map></loader_update_map>
+<loader_use_user_defined_keys>no</loader_use_user_defined_keys>
+<loader_xact_size>1000</loader_xact_size>
+<mssql_bulk_ldr_mode>append</mssql_bulk_ldr_mode>
+<mssql_bulk_ldr_packet_size>4</mssql_bulk_ldr_packet_size>
+<overflow_file_format>write_data</overflow_file_format>
+<use_overflow_file>no</use_overflow_file>
+<use_unicode_varchar>no</use_unicode_varchar>
+<sql_text></sql_text>
+</LDRConfiguration>
+</LDRConfigurations>',
+"loader_template_table" = 'no',
+"name" = 'DS_RMDB',
+"use_unicode_varchar" = 'no');
+ALGUICOMMENT( x = '1983', y = '-103' , ui_display_name = 'MO_UPDATE',UI_DATA_XML='<UIDATA><MAINICON><LOCATION><X>0</X><Y>0</Y></LOCATION><SIZE><CX>247</CX><CY>-163</CY></SIZE></MAINICON><DESCRIPTION><LOCATION><X>0</X><Y>-174</Y></LOCATION><SIZE><CX>200</CX><CY>200</CY></SIZE><VISIBLE>0</VISIBLE></DESCRIPTION></UIDATA>', UpperContainer_HeightProp = '65', InputSchema_WidthProp = '41', Input_Width_Description = '130', Output_Width_Decsription = '130', Input_Width_Type = '85', Output_Width_Type = '80', Output_Width_Mapping = '85', Input_Column_Width_3 = '100', Output_Column_Width_4 = '100', Input_Column_Width_4 = '100', Output_Column_Width_5 = '100', Input_1st_Column_Name = 'Type', Input_2nd_Column_Name = 'Description', Input_Column_Name_3 = 'Content_Type', Input_Column_Name_4 = 'Business_Name', Output_1st_Column_Name = 'Type', Output_2nd_Column_Name = 'Mapping', Output_3rd_Column_Name = 'Description', Output_Column_Name_4 = 'Content_Type', Output_Column_Name_5 = '' )
+GUID::'4adb3482-3221-485e-b360-2664f4066d58' CALL TRANSFORM Map_Operation ( ) 
+INPUT ( Q_UPDATE )
+OUTPUT ( MO_UPDATE() )
+SET ("delete" = 'discard',
+"insert" = 'discard',
+"normal" = 'update',
+"update" = 'discard');
+ALGUICOMMENT( x = '1978', y = '-534' , ui_display_name = 'MO_INSERT',UI_DATA_XML='<UIDATA><MAINICON><LOCATION><X>0</X><Y>0</Y></LOCATION><SIZE><CX>238</CX><CY>-163</CY></SIZE></MAINICON><DESCRIPTION><LOCATION><X>0</X><Y>-174</Y></LOCATION><SIZE><CX>200</CX><CY>200</CY></SIZE><VISIBLE>0</VISIBLE></DESCRIPTION></UIDATA>', UpperContainer_HeightProp = '65', InputSchema_WidthProp = '41', Input_Width_Description = '130', Output_Width_Decsription = '130', Input_Width_Type = '85', Output_Width_Type = '80', Output_Width_Mapping = '85', Input_Column_Width_3 = '100', Output_Column_Width_4 = '100', Input_Column_Width_4 = '100', Output_Column_Width_5 = '100', Input_1st_Column_Name = 'Type', Input_2nd_Column_Name = 'Description', Input_Column_Name_3 = 'Content_Type', Input_Column_Name_4 = 'Business_Name', Output_1st_Column_Name = 'Type', Output_2nd_Column_Name = 'Mapping', Output_3rd_Column_Name = 'Description', Output_Column_Name_4 = 'Content_Type', Output_Column_Name_5 = '' )
+GUID::'d0673991-001e-47fc-a310-d49ca6dfb6a7' CALL TRANSFORM Map_Operation ( ) 
+INPUT ( Q_INSERT )
+OUTPUT ( MO_INSERT() )
+SET ("delete" = 'discard',
+"insert" = 'discard',
+"normal" = 'insert',
+"update" = 'discard');
+ALGUICOMMENT( x = '728', y = '-331' , ui_acta_from_schema_0 = 'Q_Valid_Only'  , ui_display_name = 'Q_Supp_Exist' ,UI_DATA_XML='<UIDATA><MAINICON><LOCATION><X>0</X><Y>0</Y></LOCATION><SIZE><CX>266</CX><CY>-163</CY></SIZE></MAINICON><DESCRIPTION><LOCATION><X>0</X><Y>-174</Y></LOCATION><SIZE><CX>200</CX><CY>200</CY></SIZE><VISIBLE>0</VISIBLE></DESCRIPTION></UIDATA>', UpperContainer_HeightProp = '46', InputSchema_WidthProp = '46', Input_Width_Description = '130', Output_Width_Decsription = '130', Input_Width_Type = '85', Output_Width_Type = '80', Output_Width_Mapping = '85', Input_Column_Width_3 = '100', Output_Column_Width_4 = '100', Input_Column_Width_4 = '100', Output_Column_Width_5 = '100', Input_1st_Column_Name = 'Type', Input_2nd_Column_Name = 'Description', Input_Column_Name_3 = 'Content_Type', Input_Column_Name_4 = 'Business_Name', Output_1st_Column_Name = 'Type', Output_2nd_Column_Name = 'Mapping', Output_3rd_Column_Name = 'Description', Output_Column_Name_4 = 'Content_Type', Output_Column_Name_5 = 'Business_Name', UI_PASSTHRU_VSPLIT_PCT = '50' )
+GUID::'bcc11bb8-e4d9-464a-bb0b-3ca18dd78852' CREATE VIEW Q_Supp_Exist ( lookup_ext al_rfc_schema_group ( EMP_SUPP_EID int KEY  ) ,
+ UPDATE_ROW int SET("ui_mapping_text"='Q_Valid_Only.UPDATE_ROW') ,
+ EMPLOYEE_EID int KEY  SET("ui_mapping_text"='Q_Valid_Only.EMPLOYEE_EID') ,
+ REG_TEMP_CODE int SET("ui_mapping_text"='Q_Valid_Only.REG_TEMP_CODE') ,
+ ACTION_DATE varchar(8) SET("ui_mapping_text"='Q_Valid_Only.ACTION_DATE') ,
+ ANNUAL_AMT double SET("ui_mapping_text"='Q_Valid_Only.ANNUAL_AMT') ,
+ EMPLMNT_STA_CODE int SET("ui_mapping_text"='Q_Valid_Only.EMPLMNT_STA_CODE') ,
+ HIRE_DATE varchar(8) SET("ui_mapping_text"='Q_Valid_Only.HIRE_DATE') ,
+ HIRE_STATE int SET("ui_mapping_text"='Q_Valid_Only.HIRE_STATE') ,
+ JOB_FAMILY_CODE int SET("ui_mapping_text"='Q_Valid_Only.JOB_FAMILY_CODE') ,
+ UNION_CODE int SET("ui_mapping_text"='Q_Valid_Only.UNION_CODE') ,
+ ADDR3RD_TEXT varchar(50) SET("ui_mapping_text"='Q_Valid_Only.ADDR3RD_TEXT') ,
+ MEDICAL_COS_AMT double SET("ui_mapping_text"='Q_Valid_Only.MEDICAL_COS_AMT') ,
+ MED_COST_AMT double SET("ui_mapping_text"='Q_Valid_Only.MED_COST_AMT') ,
+ DENTAL_COST_AMT double SET("ui_mapping_text"='Q_Valid_Only.DENTAL_COST_AMT') ,
+ LIFE_COST_AMT double SET("ui_mapping_text"='Q_Valid_Only.LIFE_COST_AMT') ,
+ SPOUSE_COST_AMT double SET("ui_mapping_text"='Q_Valid_Only.SPOUSE_COST_AMT') ,
+ DPNDNT_COST_AMT double SET("ui_mapping_text"='Q_Valid_Only.DPNDNT_COST_AMT') ,
+ VISION_COST_AMT double SET("ui_mapping_text"='Q_Valid_Only.VISION_COST_AMT') ,
+ LEGAL_COST_AMT double SET("ui_mapping_text"='Q_Valid_Only.LEGAL_COST_AMT') ,
+ RETIRE_DATE varchar(8) SET("ui_mapping_text"='Q_Valid_Only.RETIRE_DATE') ,
+ LTD_APPRVL_DATE varchar(8) SET("ui_mapping_text"='Q_Valid_Only.LTD_APPRVL_DATE') ,
+ LTD_DENIED_DATE varchar(8) SET("ui_mapping_text"='Q_Valid_Only.LTD_DENIED_DATE') ,
+ EXT_SK_FULL_NUM double SET("ui_mapping_text"='Q_Valid_Only.EXT_SK_FULL_NUM') ,
+ EXT_SK_HALF_NUM double SET("ui_mapping_text"='Q_Valid_Only.EXT_SK_HALF_NUM') ,
+ SICK_BAL_NUM double SET("ui_mapping_text"='Q_Valid_Only.SICK_BAL_NUM') ,
+ VACA_BAL_NUM double SET("ui_mapping_text"='Q_Valid_Only.VACA_BAL_NUM') ,
+ PTO_BAL_NUM double SET("ui_mapping_text"='Q_Valid_Only.PTO_BAL_NUM') ,
+ EMP_STATUS__CODE int SET("ui_mapping_text"='Q_Valid_Only.EMP_STATUS__CODE') ,
+ PRE_DIS_BEN_CODE int SET("ui_mapping_text"='Q_Valid_Only.PRE_DIS_BEN_CODE') ,
+ LTD_COST_AMT double SET("ui_mapping_text"='Q_Valid_Only.LTD_COST_AMT')  ) 
+AS SELECT __AL_LOOKUPEX_TRAN lookup_ext ([DS_RMDB.DBO.EMP_SUPP, 'PRE_LOAD_CACHE', 'MAX'], [EMPLOYEE_EID], [ NULL ], [EMPLOYEE_EID, '=', Q_Valid_Only.EMPLOYEE_EID])  SET ("output_cols_info" = '<?xml version="1.0" encoding="UTF-8"?><output_cols_info><col index="1" expression="no"/>
+</output_cols_info>', "run_as_separate_process" = 'no') ,
+ Q_Valid_Only.UPDATE_ROW
+ 
+ ,
+ Q_Valid_Only.EMPLOYEE_EID
+ 
+ ,
+ Q_Valid_Only.REG_TEMP_CODE
+ 
+ ,
+ Q_Valid_Only.ACTION_DATE
+ 
+ ,
+ Q_Valid_Only.ANNUAL_AMT
+ 
+ ,
+ Q_Valid_Only.EMPLMNT_STA_CODE
+ 
+ ,
+ Q_Valid_Only.HIRE_DATE
+ 
+ ,
+ Q_Valid_Only.HIRE_STATE
+ 
+ ,
+ Q_Valid_Only.JOB_FAMILY_CODE
+ 
+ ,
+ Q_Valid_Only.UNION_CODE
+ 
+ ,
+ Q_Valid_Only.ADDR3RD_TEXT
+ 
+ ,
+ Q_Valid_Only.MEDICAL_COS_AMT
+ 
+ ,
+ Q_Valid_Only.MED_COST_AMT
+ 
+ ,
+ Q_Valid_Only.DENTAL_COST_AMT
+ 
+ ,
+ Q_Valid_Only.LIFE_COST_AMT
+ 
+ ,
+ Q_Valid_Only.SPOUSE_COST_AMT
+ 
+ ,
+ Q_Valid_Only.DPNDNT_COST_AMT
+ 
+ ,
+ Q_Valid_Only.VISION_COST_AMT
+ 
+ ,
+ Q_Valid_Only.LEGAL_COST_AMT
+ 
+ ,
+ Q_Valid_Only.RETIRE_DATE
+ 
+ ,
+ Q_Valid_Only.LTD_APPRVL_DATE
+ 
+ ,
+ Q_Valid_Only.LTD_DENIED_DATE
+ 
+ ,
+ Q_Valid_Only.EXT_SK_FULL_NUM
+ 
+ ,
+ Q_Valid_Only.EXT_SK_HALF_NUM
+ 
+ ,
+ Q_Valid_Only.SICK_BAL_NUM
+ 
+ ,
+ Q_Valid_Only.VACA_BAL_NUM
+ 
+ ,
+ Q_Valid_Only.PTO_BAL_NUM
+ 
+ ,
+ Q_Valid_Only.EMP_STATUS__CODE
+ 
+ ,
+ Q_Valid_Only.PRE_DIS_BEN_CODE
+ 
+ ,
+ Q_Valid_Only.LTD_COST_AMT
+ 
+ 
+	FROM Q_Valid_Only SET (
+"distinct_run_as_separate_process" = 'no',
+"group_by_run_as_separate_process" = 'no',
+"join_run_as_separate_process" = 'no',
+"order_by_run_as_separate_process" = 'no',
+"run_as_separate_process" = 'no');
+ALGUICOMMENT( x = '1019', y = '-330' , ui_acta_from_schema_0 = 'Q_Supp_Exist'  , ui_display_name = 'Q_SUPP_Update' ,UI_DATA_XML='<UIDATA><MAINICON><LOCATION><X>0</X><Y>0</Y></LOCATION><SIZE><CX>303</CX><CY>-163</CY></SIZE></MAINICON><DESCRIPTION><LOCATION><X>0</X><Y>-174</Y></LOCATION><SIZE><CX>200</CX><CY>200</CY></SIZE><VISIBLE>0</VISIBLE></DESCRIPTION></UIDATA>', UpperContainer_HeightProp = '46', InputSchema_WidthProp = '46', Input_Width_Description = '130', Output_Width_Decsription = '130', Input_Width_Type = '85', Output_Width_Type = '80', Output_Width_Mapping = '85', Input_Column_Width_3 = '100', Output_Column_Width_4 = '100', Input_Column_Width_4 = '100', Output_Column_Width_5 = '100', Input_1st_Column_Name = 'Type', Input_2nd_Column_Name = 'Description', Input_Column_Name_3 = 'Content_Type', Input_Column_Name_4 = 'Business_Name', Output_1st_Column_Name = 'Type', Output_2nd_Column_Name = 'Mapping', Output_3rd_Column_Name = 'Description', Output_Column_Name_4 = 'Content_Type', Output_Column_Name_5 = 'Business_Name', UI_PASSTHRU_VSPLIT_PCT = '50' )
+GUID::'b2b3ea26-4a4c-4b1d-84cd-39b6c68ae017' CREATE VIEW Q_SUPP_Update ( UPDATE_ROW int SET("ui_mapping_text"='ifthenelse( Q_Supp_Exist.EMP_SUPP_EID is null, 0, 1)') ,
+ EMPLOYEE_EID int KEY  SET("ui_mapping_text"='Q_Supp_Exist.EMPLOYEE_EID') ,
+ REG_TEMP_CODE int SET("ui_mapping_text"='Q_Supp_Exist.REG_TEMP_CODE') ,
+ ACTION_DATE varchar(8) SET("ui_mapping_text"='Q_Supp_Exist.ACTION_DATE') ,
+ ANNUAL_AMT double SET("ui_mapping_text"='Q_Supp_Exist.ANNUAL_AMT') ,
+ EMPLMNT_STA_CODE int SET("ui_mapping_text"='Q_Supp_Exist.EMPLMNT_STA_CODE') ,
+ HIRE_DATE varchar(8) SET("ui_mapping_text"='Q_Supp_Exist.HIRE_DATE') ,
+ HIRE_STATE int SET("ui_mapping_text"='Q_Supp_Exist.HIRE_STATE') ,
+ JOB_FAMILY_CODE int SET("ui_mapping_text"='Q_Supp_Exist.JOB_FAMILY_CODE') ,
+ UNION_CODE int SET("ui_mapping_text"='Q_Supp_Exist.UNION_CODE') ,
+ ADDR3RD_TEXT varchar(50) SET("ui_mapping_text"='Q_Supp_Exist.ADDR3RD_TEXT') ,
+ MEDICAL_COS_AMT double SET("ui_mapping_text"='Q_Supp_Exist.MEDICAL_COS_AMT') ,
+ MED_COST_AMT double SET("ui_mapping_text"='Q_Supp_Exist.MED_COST_AMT') ,
+ DENTAL_COST_AMT double SET("ui_mapping_text"='Q_Supp_Exist.DENTAL_COST_AMT') ,
+ LIFE_COST_AMT double SET("ui_mapping_text"='Q_Supp_Exist.LIFE_COST_AMT') ,
+ SPOUSE_COST_AMT double SET("ui_mapping_text"='Q_Supp_Exist.SPOUSE_COST_AMT') ,
+ DPNDNT_COST_AMT double SET("ui_mapping_text"='Q_Supp_Exist.DPNDNT_COST_AMT') ,
+ VISION_COST_AMT double SET("ui_mapping_text"='Q_Supp_Exist.VISION_COST_AMT') ,
+ LEGAL_COST_AMT double SET("ui_mapping_text"='Q_Supp_Exist.LEGAL_COST_AMT') ,
+ RETIRE_DATE varchar(8) SET("ui_mapping_text"='Q_Supp_Exist.RETIRE_DATE') ,
+ LTD_APPRVL_DATE varchar(8) SET("ui_mapping_text"='Q_Supp_Exist.LTD_APPRVL_DATE') ,
+ LTD_DENIED_DATE varchar(8) SET("ui_mapping_text"='Q_Supp_Exist.LTD_DENIED_DATE') ,
+ EXT_SK_FULL_NUM double SET("ui_mapping_text"='Q_Supp_Exist.EXT_SK_FULL_NUM') ,
+ EXT_SK_HALF_NUM double SET("ui_mapping_text"='Q_Supp_Exist.EXT_SK_HALF_NUM') ,
+ SICK_BAL_NUM double SET("ui_mapping_text"='Q_Supp_Exist.SICK_BAL_NUM') ,
+ VACA_BAL_NUM double SET("ui_mapping_text"='Q_Supp_Exist.VACA_BAL_NUM') ,
+ PTO_BAL_NUM double SET("ui_mapping_text"='Q_Supp_Exist.PTO_BAL_NUM') ,
+ EMP_STATUS__CODE int SET("ui_mapping_text"='Q_Supp_Exist.EMP_STATUS__CODE') ,
+ PRE_DIS_BEN_CODE int SET("ui_mapping_text"='Q_Supp_Exist.PRE_DIS_BEN_CODE') ,
+ LTD_COST_AMT double SET("ui_mapping_text"='Q_Supp_Exist.LTD_COST_AMT')  ) 
+AS SELECT  ifthenelse( Q_Supp_Exist.EMP_SUPP_EID is null, 0, 1)
+ 
+ ,
+ Q_Supp_Exist.EMPLOYEE_EID
+ 
+ ,
+ Q_Supp_Exist.REG_TEMP_CODE
+ 
+ ,
+ Q_Supp_Exist.ACTION_DATE
+ 
+ ,
+ Q_Supp_Exist.ANNUAL_AMT
+ 
+ ,
+ Q_Supp_Exist.EMPLMNT_STA_CODE
+ 
+ ,
+ Q_Supp_Exist.HIRE_DATE
+ 
+ ,
+ Q_Supp_Exist.HIRE_STATE
+ 
+ ,
+ Q_Supp_Exist.JOB_FAMILY_CODE
+ 
+ ,
+ Q_Supp_Exist.UNION_CODE
+ 
+ ,
+ Q_Supp_Exist.ADDR3RD_TEXT
+ 
+ ,
+ Q_Supp_Exist.MEDICAL_COS_AMT
+ 
+ ,
+ Q_Supp_Exist.MED_COST_AMT
+ 
+ ,
+ Q_Supp_Exist.DENTAL_COST_AMT
+ 
+ ,
+ Q_Supp_Exist.LIFE_COST_AMT
+ 
+ ,
+ Q_Supp_Exist.SPOUSE_COST_AMT
+ 
+ ,
+ Q_Supp_Exist.DPNDNT_COST_AMT
+ 
+ ,
+ Q_Supp_Exist.VISION_COST_AMT
+ 
+ ,
+ Q_Supp_Exist.LEGAL_COST_AMT
+ 
+ ,
+ Q_Supp_Exist.RETIRE_DATE
+ 
+ ,
+ Q_Supp_Exist.LTD_APPRVL_DATE
+ 
+ ,
+ Q_Supp_Exist.LTD_DENIED_DATE
+ 
+ ,
+ Q_Supp_Exist.EXT_SK_FULL_NUM
+ 
+ ,
+ Q_Supp_Exist.EXT_SK_HALF_NUM
+ 
+ ,
+ Q_Supp_Exist.SICK_BAL_NUM
+ 
+ ,
+ Q_Supp_Exist.VACA_BAL_NUM
+ 
+ ,
+ Q_Supp_Exist.PTO_BAL_NUM
+ 
+ ,
+ Q_Supp_Exist.EMP_STATUS__CODE
+ 
+ ,
+ Q_Supp_Exist.PRE_DIS_BEN_CODE
+ 
+ ,
+ Q_Supp_Exist.LTD_COST_AMT
+ 
+ 
+	FROM Q_Supp_Exist SET (
+"distinct_run_as_separate_process" = 'no',
+"group_by_run_as_separate_process" = 'no',
+"join_run_as_separate_process" = 'no',
+"order_by_run_as_separate_process" = 'no',
+"run_as_separate_process" = 'no');
+END
+
+SET("Cache_type" = 'pageable_cache',
+"Parallelism_degree" = '0',
+"allows_both_input_and_output" = 'yes',
+"run_once" = 'no',
+"use_dataflow_links" = 'no',
+"use_datastore_links" = 'yes',
+"validation_xform_exists" = 'no',
+"validation_xform_stats" = 'no')

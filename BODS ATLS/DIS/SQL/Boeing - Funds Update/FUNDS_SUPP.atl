@@ -1,0 +1,3398 @@
+#__AW_Repository_Version '12.2.2.0000';
+#__AW_Product_Version '12.2.3.5';
+#__AW_ATL_Locale 'eng_us.utf-8';
+
+ AlGUIComment (ActaName_1 = 'RTable_Type',ActaValue_1 = 'TABLE' , 
+ActaName_2 = 'RDescription',ActaValue_2 = '' , 
+ActaName_3 = 'REstimated_Row_Count',ActaValue_3 = '50000' , 
+ActaName_4 = 'RSavedAfterCheckOut',ActaValue_4 = 'YES' , 
+ActaName_5 = 'RLoader_Is_Template_Table',ActaValue_5 = 'no' , 
+ActaName_6 = 'RDate_created',ActaValue_6 = 'Tue May 20 11:55:35 2014' , 
+ActaName_7 = 'RDate_last_loaded',ActaValue_7 = 'NotYetLoaded' , 
+ActaName_8 = 'RTotal_Number_Of_Rows_Processed',ActaValue_8 = '1' , 
+ActaName_9 = 'RNumber_Of_Rows_Rejected',ActaValue_9 = '0' , 
+ActaName_10 = 'RNumber_Of_Inserts',ActaValue_10 = '0' , 
+ActaName_11 = 'RNumber_Of_Updates',ActaValue_11 = '1' , 
+ActaName_12 = 'RNumber_Of_Deletes',ActaValue_12 = '0' , 
+ActaName_13 = 'RElapsed_Time_For_Load',ActaValue_13 = '1 Seconds' )
+CREATE TABLE DS_RMX_STAGING.dbo.FUNDS(DA_ROW_ID INT  KEY  NOT NULL , 
+JOBID INT  KEY  NOT NULL , 
+INPUT_ROW_ID INT  NULL , 
+INVALID_ROW INT  NULL , 
+UPDATE_ROW INT  NULL , 
+AUTO_CHECK_DETAIL VARCHAR(30)  NULL , 
+ROLLUP_ID INT  NULL , 
+VOID_DATE VARCHAR(8)  NULL , 
+ADDR1 VARCHAR(50)  NULL , 
+ADDR2 VARCHAR(50)  NULL , 
+AUTO_CHECK_FLAG INT  NULL , 
+CITY VARCHAR(50)  NULL , 
+CLAIMANT_EID INT  NULL , 
+COUNTRY_CODE INT  NULL , 
+FIRST_NAME VARCHAR(50)  NULL , 
+LAST_NAME VARCHAR(255)  NULL , 
+PRECHECK_FLAG INT  NULL , 
+STATE_ID INT  NULL , 
+UNIT_ID INT  NULL , 
+ZIP_CODE VARCHAR(10)  NULL , 
+TRANS_ID INT  NULL , 
+CLAIM_ID INT  NULL , 
+CLAIM_NUMBER VARCHAR(25)  NULL , 
+CTL_NUMBER VARCHAR(25)  NULL , 
+VOID_FLAG INT  NULL , 
+DATE_OF_CHECK VARCHAR(8)  NULL , 
+CHECK_MEMO VARCHAR(255)  NULL , 
+TRANS_NUMBER DECIMAL(19, 0)  NULL , 
+TRANS_DATE VARCHAR(8)  NULL , 
+PAYEE_EID INT  NULL , 
+PAYEE_TYPE_CODE INT  NULL , 
+ACCOUNT_ID INT  NULL , 
+AMOUNT DOUBLE  NULL , 
+STATUS_CODE INT  NULL , 
+FILED_1099_FLAG INT  NULL , 
+CLEARED_FLAG INT  NULL , 
+PAYMENT_FLAG INT  NULL , 
+COLLECTION_FLAG INT  NULL , 
+COMMENTS VARCHAR(8000)  NULL , 
+NOTES VARCHAR(8000)  NULL , 
+CRC INT  NULL , 
+DTTM_RCD_LAST_UPD VARCHAR(14)  NULL , 
+DTTM_RCD_ADDED VARCHAR(14)  NULL , 
+UPDATED_BY_USER VARCHAR(50)  NULL , 
+ADDED_BY_USER VARCHAR(50)  NULL , 
+BATCH_NUMBER INT  NULL , 
+SEC_DEPT_EID INT  NULL , 
+ENCLOSURE_FLAG INT  NULL , 
+APPROVE_USER VARCHAR(8)  NULL , 
+DTTM_APPROVAL VARCHAR(14)  NULL , 
+SUB_ACCOUNT_ID INT  NULL , 
+SETTLEMENT_FLAG INT  NULL , 
+APPROVER_ID INT  NULL , 
+VOUCHER_FLAG INT  NULL , 
+WEEKS_PAID_CODE INT  NULL , 
+NUM_OF_PAID_DAYS INT  NULL , 
+TAX_PAYMENT_FLAG INT  NULL , 
+RESUBMIT_EDI INT  NULL , 
+SUPP_PAYMENT_FLAG INT  NULL , 
+HTMLCOMMENTS VARCHAR(8000)  NULL , 
+REISSUE_FLAG INT  NULL , 
+REISSUE_BY VARCHAR(25)  NULL , 
+REISSUE_DATE VARCHAR(8)  NULL , 
+REISSUE_PARENT_ID INT  NULL , 
+NOTES_HTMLCOMMENTS VARCHAR(8000)  NULL , 
+REISSUE_REASON_CODE INT  NULL , 
+MIDDLE_NAME VARCHAR(50)  NULL , 
+STAGING_ID INT  NULL ) 
+PRIMARY KEY (DA_ROW_ID, JOBID) 
+CREATE_INDEX PK_FUNDS ON (DA_ROW_ID, JOBID) PRIMARY 
+SET("db_alias_name" = 'DBO')
+;
+
+ AlGUIComment (ActaName_1 = 'RTable_Type',ActaValue_1 = 'TABLE' , 
+ActaName_2 = 'RDescription',ActaValue_2 = '' , 
+ActaName_3 = 'REstimated_Row_Count',ActaValue_3 = '50000' , 
+ActaName_4 = 'RSavedAfterCheckOut',ActaValue_4 = 'YES' , 
+ActaName_5 = 'RLoader_Is_Template_Table',ActaValue_5 = 'no' , 
+ActaName_6 = 'RDate_created',ActaValue_6 = 'Tue May 20 11:55:35 2014' , 
+ActaName_7 = 'RDate_last_loaded',ActaValue_7 = 'NotYetLoaded' , 
+ActaName_8 = 'RTotal_Number_Of_Rows_Processed',ActaValue_8 = '0' , 
+ActaName_9 = 'RNumber_Of_Rows_Rejected',ActaValue_9 = '0' , 
+ActaName_10 = 'RNumber_Of_Inserts',ActaValue_10 = '0' , 
+ActaName_11 = 'RNumber_Of_Updates',ActaValue_11 = '0' , 
+ActaName_12 = 'RNumber_Of_Deletes',ActaValue_12 = '0' , 
+ActaName_13 = 'RElapsed_Time_For_Load',ActaValue_13 = '0 Seconds' )
+CREATE TABLE DS_RMX_STAGING.dbo.FUNDS_SUPP(DA_ROW_ID INT  KEY  NOT NULL , 
+JOBID INT  KEY  NOT NULL , 
+TRANS_ID INT  NOT NULL , 
+INPUT_ROW_ID INT  NULL , 
+INVALID_ROW INT  NULL , 
+UPDATE_ROW INT  NULL , 
+INT_CLAIM_TEXT VARCHAR(21)  NULL , 
+ACCT_PER_CODE INT  NULL , 
+SOURCE_CODE INT  NULL , 
+IBAN_TEXT VARCHAR(200)  NULL , 
+COMMENT_ACC_MEMO LONG  NULL  SET("Long Type" = 'CLOB', "Native Type" = 'text'), 
+MATTER_NO_TEXT VARCHAR(50)  NULL , 
+TOT_INVOICE_AMT DOUBLE  NULL , 
+CLM_MAJ_CAT_TEXT VARCHAR(50)  NULL , 
+CLMT_NM_OTH_TEXT VARCHAR(255)  NULL , 
+CLAIMANT_TEXT VARCHAR(100)  NULL , 
+FIRM_TEXT VARCHAR(50)  NULL , 
+STATUS_CODE INT  NULL , 
+PER_TOT_INV_NUM DOUBLE  NULL , 
+TYPE_OF_CLM_TEXT VARCHAR(50)  NULL , 
+DEDUCTIBLE_AMT DOUBLE  NULL , 
+RECV_SUBMIT_AMT DOUBLE  NULL , 
+OTHER_FEES_AMT DOUBLE  NULL , 
+ACCT_YR_CODE INT  NULL , 
+INVOICE_NBR_TEXT VARCHAR(50)  NULL , 
+TYPE_CODE_CODE INT  NULL , 
+GROUP_ID_TEXT VARCHAR(50)  NULL , 
+FCAST_CAT_CODE INT  NULL , 
+SPNN_INV_TEXT VARCHAR(50)  NULL , 
+INVOICE_DT_DATE VARCHAR(8)  NULL , 
+BROKER_DUE_DATE VARCHAR(8)  NULL , 
+INS_DUE_DATE VARCHAR(8)  NULL , 
+PREMIUM_AMT DOUBLE  NULL , 
+COMMENTS_MEMO LONG  NULL  SET("Long Type" = 'CLOB', "Native Type" = 'text'), 
+INVOICED_BY_TEXT VARCHAR(100)  NULL , 
+MATTER_ID_TEXT VARCHAR(100)  NULL , 
+MATTER_NAME_TEXT VARCHAR(100)  NULL , 
+AUTH_FIRM_TEXT VARCHAR(100)  NULL , 
+CHARGELINE_TEXT VARCHAR(100)  NULL , 
+COMPANY_TEXT VARCHAR(200)  NULL , 
+VN_BK_ACCT_TEXT VARCHAR(200)  NULL , 
+VN_BK_EID INT  NULL , 
+VN_BK_1ADDR_TEXT VARCHAR(200)  NULL , 
+VN_BK_2ADDR_TEXT VARCHAR(200)  NULL , 
+VN_BK_CITY_TEXT VARCHAR(200)  NULL , 
+VN_BK_STATE_TEXT VARCHAR(200)  NULL , 
+VN_BK_ABA_TEXT VARCHAR(200)  NULL , 
+VN_BK_SWIFT_TEXT VARCHAR(200)  NULL , 
+BN_BK_EID INT  NULL , 
+BN_BK_ADDR_TEXT VARCHAR(200)  NULL , 
+ACC_ACT_REQ_CODE INT  NULL , 
+BN_BK_ABA_TEXT VARCHAR(200)  NULL , 
+BN_BK_SWIFT_TEXT VARCHAR(200)  NULL , 
+BN_BK_ACCNO_TEXT VARCHAR(200)  NULL , 
+TRANS_TYPE_CODE INT  NULL , 
+PRGRAM_TYPE_EID INT  NULL , 
+SPECIAL_INS_TEXT VARCHAR(100)  NULL , 
+REFERENCE_TEXT VARCHAR(100)  NULL , 
+INVOICE_ID_TEXT VARCHAR(100)  NULL , 
+REV_ALC_TEXT VARCHAR(15)  NULL , 
+FUTURE_SRC_CODE INT  NULL , 
+INVOICE_DUE_DATE VARCHAR(8)  NULL , 
+BN_BK_ACC_TEXT VARCHAR(100)  NULL , 
+RECV_SUB_DT_DATE VARCHAR(8)  NULL , 
+PAY_TERMS_CODE INT  NULL , 
+LSS_INVOICE_ID DOUBLE  NULL ) 
+PRIMARY KEY (DA_ROW_ID, JOBID) 
+CREATE_INDEX PK_FUNDS_SUPP ON (DA_ROW_ID, JOBID) PRIMARY 
+SET("db_alias_name" = 'DBO')
+;
+
+ AlGUIComment (ActaName_1 = 'RTable_Type',ActaValue_1 = 'TABLE' , 
+ActaName_2 = 'RDescription',ActaValue_2 = '' , 
+ActaName_3 = 'REstimated_Row_Count',ActaValue_3 = '50000' , 
+ActaName_4 = 'RSavedAfterCheckOut',ActaValue_4 = 'YES' , 
+ActaName_5 = 'RLoader_Is_Template_Table',ActaValue_5 = 'no' , 
+ActaName_6 = 'RDate_created',ActaValue_6 = 'Tue May 20 11:55:38 2014' , 
+ActaName_7 = 'RDate_last_loaded',ActaValue_7 = 'NotYetLoaded' , 
+ActaName_8 = 'RTotal_Number_Of_Rows_Processed',ActaValue_8 = '0' , 
+ActaName_9 = 'RNumber_Of_Rows_Rejected',ActaValue_9 = '0' , 
+ActaName_10 = 'RNumber_Of_Inserts',ActaValue_10 = '0' , 
+ActaName_11 = 'RNumber_Of_Updates',ActaValue_11 = '0' , 
+ActaName_12 = 'RNumber_Of_Deletes',ActaValue_12 = '0' , 
+ActaName_13 = 'RElapsed_Time_For_Load',ActaValue_13 = '1 Seconds' )
+CREATE TABLE DS_RMX_STAGING.dbo.T_DIS_FUNDS(DA_ROW_ID INT  KEY  NOT NULL , 
+JOBID INT  KEY  NOT NULL , 
+UNIT_VIN VARCHAR(50)  NULL , 
+ACCOUNT_DESC VARCHAR(20)  NULL , 
+TRANS_TYPE_DESC CHAR(1)  NULL , 
+TAX_ID VARCHAR(11)  NULL , 
+UPDATE_RESERVES CHAR(1)  NULL , 
+CLAIMANT_FIRST VARCHAR(50)  NULL , 
+CLAIMANT_LAST VARCHAR(50)  NULL , 
+COUNTY VARCHAR(30)  NULL , 
+CLAIM_STATUS_CODE INT  NULL , 
+LINE_OF_BUS_CODE INT  NULL , 
+TRANS_ID_SOURCE INT  NULL ) 
+PRIMARY KEY (DA_ROW_ID, JOBID) 
+CREATE_INDEX PK_T_DIS_FUNDS ON (DA_ROW_ID, JOBID) PRIMARY 
+SET("db_alias_name" = 'DBO')
+;
+
+ AlGUIComment (ActaName_1 = 'RTable_Type',ActaValue_1 = 'TABLE' , 
+ActaName_2 = 'RDescription',ActaValue_2 = '' , 
+ActaName_3 = 'REstimated_Row_Count',ActaValue_3 = '50000' , 
+ActaName_4 = 'RSavedAfterCheckOut',ActaValue_4 = 'YES' , 
+ActaName_5 = 'RLoader_Is_Template_Table',ActaValue_5 = 'no' , 
+ActaName_6 = 'RDate_created',ActaValue_6 = 'Tue May 20 11:55:43 2014' , 
+ActaName_7 = 'RDate_last_loaded',ActaValue_7 = 'NotYetLoaded' , 
+ActaName_8 = 'RTotal_Number_Of_Rows_Processed',ActaValue_8 = '4' , 
+ActaName_9 = 'RNumber_Of_Rows_Rejected',ActaValue_9 = '0' , 
+ActaName_10 = 'RNumber_Of_Inserts',ActaValue_10 = '4' , 
+ActaName_11 = 'RNumber_Of_Updates',ActaValue_11 = '0' , 
+ActaName_12 = 'RNumber_Of_Deletes',ActaValue_12 = '0' , 
+ActaName_13 = 'RElapsed_Time_For_Load',ActaValue_13 = '0 Seconds' )
+CREATE TABLE DS_RMDB.dbo.FUNDS_SUPP(TRANS_ID INT  NOT NULL , 
+ACCT_PER_CODE INT  NULL , 
+SOURCE_CODE INT  NULL , 
+IBAN_TEXT VARCHAR(200)  NULL , 
+COMMENT_ACC_MEMO LONG  NULL  SET("Long Type" = 'CLOB', "Native Type" = 'text'), 
+MATTER_NO_TEXT VARCHAR(50)  NULL , 
+TOT_INVOICE_AMT DOUBLE  NULL , 
+CLM_MAJ_CAT_TEXT VARCHAR(50)  NULL , 
+CLMT_NM_OTH_TEXT VARCHAR(255)  NULL , 
+CLAIMANT_TEXT VARCHAR(100)  NULL , 
+FIRM_TEXT VARCHAR(50)  NULL , 
+STATUS_CODE INT  NULL , 
+PER_TOT_INV_NUM DOUBLE  NULL , 
+TYPE_OF_CLM_TEXT VARCHAR(50)  NULL , 
+DEDUCTIBLE_AMT DOUBLE  NULL , 
+RECV_SUBMIT_AMT DOUBLE  NULL , 
+OTHER_FEES_AMT DOUBLE  NULL , 
+ACCT_YR_CODE INT  NULL , 
+INVOICE_NBR_TEXT VARCHAR(50)  NULL , 
+TYPE_CODE_CODE INT  NULL , 
+GROUP_ID_TEXT VARCHAR(50)  NULL , 
+FCAST_CAT_CODE INT  NULL , 
+SPNN_INV_TEXT VARCHAR(50)  NULL , 
+INVOICE_DT_DATE VARCHAR(8)  NULL , 
+BROKER_DUE_DATE VARCHAR(8)  NULL , 
+INS_DUE_DATE VARCHAR(8)  NULL , 
+PREMIUM_AMT DOUBLE  NULL , 
+COMMENTS_MEMO LONG  NULL  SET("Long Type" = 'CLOB', "Native Type" = 'text'), 
+INVOICED_BY_TEXT VARCHAR(100)  NULL , 
+MATTER_ID_TEXT VARCHAR(100)  NULL , 
+MATTER_NAME_TEXT VARCHAR(100)  NULL , 
+AUTH_FIRM_TEXT VARCHAR(100)  NULL , 
+CHARGELINE_TEXT VARCHAR(100)  NULL , 
+COMPANY_TEXT VARCHAR(200)  NULL , 
+VN_BK_ACCT_TEXT VARCHAR(200)  NULL , 
+VN_BK_EID INT  NULL , 
+VN_BK_1ADDR_TEXT VARCHAR(200)  NULL , 
+VN_BK_2ADDR_TEXT VARCHAR(200)  NULL , 
+VN_BK_CITY_TEXT VARCHAR(200)  NULL , 
+VN_BK_STATE_TEXT VARCHAR(200)  NULL , 
+VN_BK_ABA_TEXT VARCHAR(200)  NULL , 
+VN_BK_SWIFT_TEXT VARCHAR(200)  NULL , 
+BN_BK_EID INT  NULL , 
+BN_BK_ADDR_TEXT VARCHAR(200)  NULL , 
+ACC_ACT_REQ_CODE INT  NULL , 
+BN_BK_ABA_TEXT VARCHAR(200)  NULL , 
+BN_BK_SWIFT_TEXT VARCHAR(200)  NULL , 
+BN_BK_ACCNO_TEXT VARCHAR(200)  NULL , 
+TRANS_TYPE_CODE INT  NULL , 
+PRGRAM_TYPE_EID INT  NULL , 
+SPECIAL_INS_TEXT VARCHAR(100)  NULL , 
+REFERENCE_TEXT VARCHAR(100)  NULL , 
+INVOICE_ID_TEXT VARCHAR(100)  NULL , 
+REV_ALC_TEXT VARCHAR(15)  NULL , 
+FUTURE_SRC_CODE INT  NULL , 
+INVOICE_DUE_DATE VARCHAR(8)  NULL , 
+BN_BK_ACC_TEXT VARCHAR(100)  NULL , 
+RECV_SUB_DT_DATE VARCHAR(8)  NULL , 
+PAY_TERMS_CODE INT  NULL , 
+LSS_INVOICE_ID DOUBLE  NULL ) 
+SET("db_alias_name" = 'DBO')
+;
+
+ AlGUIComment (ActaName_1 = 'RTable_Type',ActaValue_1 = 'TABLE' , 
+ActaName_2 = 'RDescription',ActaValue_2 = '' , 
+ActaName_3 = 'REstimated_Row_Count',ActaValue_3 = '50000' , 
+ActaName_4 = 'RSavedAfterCheckOut',ActaValue_4 = 'YES' , 
+ActaName_5 = 'RLoader_Is_Template_Table',ActaValue_5 = 'no' , 
+ActaName_6 = 'RDate_created',ActaValue_6 = 'Tue May 20 11:55:47 2014' , 
+ActaName_7 = 'RDate_last_loaded',ActaValue_7 = 'NotYetLoaded' )
+CREATE TABLE DS_MSACCESS_STAGING.dbo.FUNDS_SUPP(OPTIONSET_ID INT  NULL , 
+TRANS_ID INT  NULL , 
+ACCT_PER_CODE INT  NULL , 
+SOURCE_CODE INT  NULL , 
+IBAN_TEXT VARCHAR(200)  NULL , 
+COMMENT_ACC_MEMO LONG  NULL  SET("Long Type" = 'CLOB', "Native Type" = 'text'), 
+MATTER_NO_TEXT VARCHAR(50)  NULL , 
+TOT_INVOICE_AMT DOUBLE  NULL , 
+CLM_MAJ_CAT_TEXT VARCHAR(50)  NULL , 
+CLMT_NM_OTH_TEXT VARCHAR(255)  NULL , 
+CLAIMANT_TEXT VARCHAR(100)  NULL , 
+FIRM_TEXT VARCHAR(50)  NULL , 
+STATUS_CODE INT  NULL , 
+PER_TOT_INV_NUM DOUBLE  NULL , 
+TYPE_OF_CLM_TEXT VARCHAR(50)  NULL , 
+DEDUCTIBLE_AMT DOUBLE  NULL , 
+RECV_SUBMIT_AMT DOUBLE  NULL , 
+OTHER_FEES_AMT DOUBLE  NULL , 
+ACCT_YR_CODE INT  NULL , 
+INVOICE_NBR_TEXT VARCHAR(50)  NULL , 
+TYPE_CODE_CODE INT  NULL , 
+GROUP_ID_TEXT VARCHAR(50)  NULL , 
+FCAST_CAT_CODE INT  NULL , 
+SPNN_INV_TEXT VARCHAR(50)  NULL , 
+INVOICE_DT_DATE VARCHAR(8)  NULL , 
+BROKER_DUE_DATE VARCHAR(8)  NULL , 
+INS_DUE_DATE VARCHAR(8)  NULL , 
+PREMIUM_AMT DOUBLE  NULL , 
+COMMENTS_MEMO LONG  NULL  SET("Long Type" = 'CLOB', "Native Type" = 'text'), 
+INVOICED_BY_TEXT VARCHAR(100)  NULL , 
+MATTER_ID_TEXT VARCHAR(100)  NULL , 
+MATTER_NAME_TEXT VARCHAR(100)  NULL , 
+AUTH_FIRM_TEXT VARCHAR(100)  NULL , 
+CHARGELINE_TEXT VARCHAR(100)  NULL , 
+COMPANY_TEXT VARCHAR(200)  NULL , 
+VN_BK_ACCT_TEXT VARCHAR(200)  NULL , 
+VN_BK_EID INT  NULL , 
+VN_BK_1ADDR_TEXT VARCHAR(200)  NULL , 
+VN_BK_2ADDR_TEXT VARCHAR(200)  NULL , 
+VN_BK_CITY_TEXT VARCHAR(200)  NULL , 
+VN_BK_STATE_TEXT VARCHAR(200)  NULL , 
+VN_BK_ABA_TEXT VARCHAR(200)  NULL , 
+VN_BK_SWIFT_TEXT VARCHAR(200)  NULL , 
+BN_BK_EID INT  NULL , 
+BN_BK_ADDR_TEXT VARCHAR(200)  NULL , 
+ACC_ACT_REQ_CODE INT  NULL , 
+BN_BK_ABA_TEXT VARCHAR(200)  NULL , 
+BN_BK_SWIFT_TEXT VARCHAR(200)  NULL , 
+BN_BK_ACCNO_TEXT VARCHAR(200)  NULL , 
+TRANS_TYPE_CODE INT  NULL , 
+PRGRAM_TYPE_EID INT  NULL , 
+SPECIAL_INS_TEXT VARCHAR(100)  NULL , 
+REFERENCE_TEXT VARCHAR(100)  NULL , 
+INVOICE_ID_TEXT VARCHAR(100)  NULL , 
+REV_ALC_TEXT VARCHAR(15)  NULL , 
+FUTURE_SRC_CODE INT  NULL , 
+INVOICE_DUE_DATE VARCHAR(8)  NULL , 
+BN_BK_ACC_TEXT VARCHAR(100)  NULL , 
+RECV_SUB_DT_DATE VARCHAR(8)  NULL , 
+PAY_TERMS_CODE INT  NULL , 
+LSS_INVOICE_ID DOUBLE  NULL ) 
+SET("db_alias_name" = 'DBO')
+;
+ALGUICOMMENT( x = '-1', y = '-1' , "ActaName_1" = 'RSavedAfterCheckOut' , "ActaValue_1" = 'YES' , "ActaName_2" = 'RDate_created' , "ActaValue_2" = 'Tue May 20 11:56:27 2014' , "ActaName_3" = 'Rcolumn_mapping_calculated' , "ActaValue_3" = 'no' , "ActaName_4" = 'RDate_modified' , "ActaValue_4" = 'Wed May 14 20:26:43 2014' )
+CREATE DATAFLOW DF_DIS_IMPORT_FUNDS_SUPP::'2cb57ed1-6ad0-4319-b058-34cc0ed69acd'
+
+BEGIN 
+ALGUICOMMENT( x = '246', y = '-547',UI_DATA_XML='<UIDATA><MAINICON><LOCATION><X>0</X><Y>0</Y></LOCATION><SIZE><CX>388</CX><CY>-182</CY></SIZE></MAINICON><DESCRIPTION><LOCATION><X>0</X><Y>-174</Y></LOCATION><SIZE><CX>200</CX><CY>200</CY></SIZE><VISIBLE>0</VISIBLE></DESCRIPTION></UIDATA>', UpperContainer_HeightProp = '58', InputSchema_WidthProp = '50', Input_Width_Description = '130', Output_Width_Decsription = '130', Input_Width_Type = '85', Output_Width_Type = '80', Output_Width_Mapping = '85', Input_Column_Width_3 = '100', Output_Column_Width_4 = '100', Input_Column_Width_4 = '100', Output_Column_Width_5 = '100', Input_1st_Column_Name = 'Description', Input_2nd_Column_Name = 'Type', Input_Column_Name_3 = 'Content_Type', Input_Column_Name_4 = 'Business_Name', Output_1st_Column_Name = 'Type', Output_2nd_Column_Name = 'Mapping', Output_3rd_Column_Name = 'Description', Output_Column_Name_4 = 'Content_Type', Output_Column_Name_5 = '' )
+GUID::'d692123f-7263-468f-9400-007e4e40145a' READ TABLE DS_RMX_STAGING.DBO.FUNDS_SUPP  OUTPUT ( FUNDS_SUPP ) SET (
+"array_fetch_size" = '1000',
+"cache" = 'yes',
+"connection_port" = 'no',
+"enable_partitioning" = 'no',
+"name" = 'DS_RMX_STAGING',
+"package_size" = '0',
+"reader_is_DB2CDC_table" = 'no',
+"reader_overflow_file" = 'overflow_file',
+"reader_template_table" = 'no',
+"reader_use_overflow_file" = 'no',
+"reader_use_trex_transaction" = 'no',
+"table_weight" = '0');
+ALGUICOMMENT( x = '1101', y = '-583' , ui_acta_from_schema_0 = 'Q_DIS_FUNDS_SUPP'  , ui_display_name = 'C_DIS_CASE_FUND_SUPP' ,UI_DATA_XML='<UIDATA><MAINICON><LOCATION><X>0</X><Y>0</Y></LOCATION><SIZE><CX>422</CX><CY>-163</CY></SIZE></MAINICON><DESCRIPTION><LOCATION><X>0</X><Y>-174</Y></LOCATION><SIZE><CX>200</CX><CY>200</CY></SIZE><VISIBLE>0</VISIBLE></DESCRIPTION></UIDATA>', UpperContainer_HeightProp = '58', InputSchema_WidthProp = '50', Input_Width_Description = '130', Output_Width_Decsription = '130', Input_Width_Type = '85', Output_Width_Type = '80', Output_Width_Mapping = '85', Input_Column_Width_3 = '100', Output_Column_Width_4 = '100', Input_Column_Width_4 = '100', Output_Column_Width_5 = '100', Input_1st_Column_Name = 'Type', Input_2nd_Column_Name = 'Description', Input_Column_Name_3 = 'Content_Type', Input_Column_Name_4 = 'Business_Name', Output_1st_Column_Name = 'Description', Output_2nd_Column_Name = 'Type', Output_3rd_Column_Name = 'Content_Type', Output_Column_Name_4 = 'Business_Name', Output_Column_Name_5 = '' ,  C_DIS_CASE_FUND_SUPP_Update_Row = 'Q_DIS_FUNDS_SUPP.UPDATE_ROW != 0',  C_DIS_CASE_FUND_SUPP_DoNot_updateRow = 'DEFAULT' )
+GUID::'baeb2899-2d42-453b-a0a8-6355034dff84' CREATE VIEW C_DIS_CASE_FUND_SUPP () 
+AS SELECT 
+	FROM Q_DIS_FUNDS_SUPP
+ 
+CASE 	 (Q_DIS_FUNDS_SUPP.UPDATE_ROW != 0) output C_DIS_CASE_FUND_SUPP_Update_Row,
+	 DEFAULT output C_DIS_CASE_FUND_SUPP_DoNot_updateRow SET (
+"Mutually_Exclusive" = 'yes',
+"Preserve_Expression_Order" = 'no');
+ALGUICOMMENT( x = '712', y = '-557' , ui_acta_from_schema_0 = 'T_DIS_FUNDS'  , ui_acta_from_schema_1 = 'FUNDS_SUPP'  , ui_acta_from_schema_2 = 'FUNDS'  , ui_display_name = 'Q_DIS_FUNDS_SUPP'  , ui_where_text = 'FUNDS_SUPP.INVALID_ROW = 0 and 
+FUNDS.DA_ROW_ID = T_DIS_FUNDS.DA_ROW_ID and  
+T_DIS_FUNDS.JOBID =FUNDS.JOBID and 
+FUNDS_SUPP.TRANS_ID = T_DIS_FUNDS.TRANS_ID_SOURCE' ,UI_DATA_XML='<UIDATA><MAINICON><LOCATION><X>0</X><Y>0</Y></LOCATION><SIZE><CX>372</CX><CY>-163</CY></SIZE></MAINICON><DESCRIPTION><LOCATION><X>0</X><Y>-174</Y></LOCATION><SIZE><CX>200</CX><CY>200</CY></SIZE><VISIBLE>0</VISIBLE></DESCRIPTION></UIDATA>', UpperContainer_HeightProp = '58', InputSchema_WidthProp = '50', Input_Width_Description = '130', Output_Width_Decsription = '130', Input_Width_Type = '85', Output_Width_Type = '80', Output_Width_Mapping = '85', Input_Column_Width_3 = '100', Output_Column_Width_4 = '100', Input_Column_Width_4 = '100', Output_Column_Width_5 = '100', Input_1st_Column_Name = 'Type', Input_2nd_Column_Name = 'Description', Input_Column_Name_3 = 'Content_Type', Input_Column_Name_4 = 'Business_Name', Output_1st_Column_Name = 'Type', Output_2nd_Column_Name = 'Mapping', Output_3rd_Column_Name = 'Description', Output_Column_Name_4 = 'Content_Type', Output_Column_Name_5 = 'Business_Name', UI_PASSTHRU_VSPLIT_PCT = '50' )
+GUID::'66edab8e-4de5-477d-b234-33d7f0b8a4a7' CREATE VIEW Q_DIS_FUNDS_SUPP ( DA_ROW_ID int KEY  SET("ui_mapping_text"='FUNDS_SUPP.DA_ROW_ID
+ 
+') ,
+ JOBID int KEY  SET("ui_mapping_text"='FUNDS_SUPP.JOBID
+ 
+') ,
+ TRANS_ID int SET("ui_mapping_text"='FUNDS.TRANS_ID') ,
+ INPUT_ROW_ID int SET("ui_mapping_text"='FUNDS_SUPP.INPUT_ROW_ID
+ 
+') ,
+ INVALID_ROW int SET("ui_mapping_text"='FUNDS_SUPP.INVALID_ROW
+ 
+') ,
+ UPDATE_ROW int SET("ui_mapping_text"='FUNDS_SUPP.UPDATE_ROW
+ 
+') ,
+ ACCT_PER_CODE int SET("ui_mapping_text"='FUNDS_SUPP.ACCT_PER_CODE
+ 
+') ,
+ SOURCE_CODE int SET("ui_mapping_text"='FUNDS_SUPP.SOURCE_CODE
+ 
+') ,
+ IBAN_TEXT varchar(200) SET("ui_mapping_text"='FUNDS_SUPP.IBAN_TEXT
+ 
+') ,
+ COMMENT_ACC_MEMO long SET("ui_mapping_text"='FUNDS_SUPP.COMMENT_ACC_MEMO
+ 
+', "Long Type"='CLOB') ,
+ MATTER_NO_TEXT varchar(50) SET("ui_mapping_text"='FUNDS_SUPP.MATTER_NO_TEXT
+ 
+') ,
+ TOT_INVOICE_AMT double SET("ui_mapping_text"='FUNDS_SUPP.TOT_INVOICE_AMT
+ 
+') ,
+ CLM_MAJ_CAT_TEXT varchar(50) SET("ui_mapping_text"='FUNDS_SUPP.CLM_MAJ_CAT_TEXT
+ 
+') ,
+ CLMT_NM_OTH_TEXT varchar(255) SET("ui_mapping_text"='FUNDS_SUPP.CLMT_NM_OTH_TEXT
+ 
+') ,
+ CLAIMANT_TEXT varchar(100) SET("ui_mapping_text"='FUNDS_SUPP.CLAIMANT_TEXT
+ 
+') ,
+ FIRM_TEXT varchar(50) SET("ui_mapping_text"='FUNDS_SUPP.FIRM_TEXT
+ 
+') ,
+ STATUS_CODE int SET("ui_mapping_text"='FUNDS_SUPP.STATUS_CODE
+ 
+') ,
+ PER_TOT_INV_NUM double SET("ui_mapping_text"='FUNDS_SUPP.PER_TOT_INV_NUM
+ 
+') ,
+ TYPE_OF_CLM_TEXT varchar(50) SET("ui_mapping_text"='FUNDS_SUPP.TYPE_OF_CLM_TEXT
+ 
+') ,
+ DEDUCTIBLE_AMT double SET("ui_mapping_text"='FUNDS_SUPP.DEDUCTIBLE_AMT
+ 
+') ,
+ RECV_SUBMIT_AMT double SET("ui_mapping_text"='FUNDS_SUPP.RECV_SUBMIT_AMT
+ 
+') ,
+ OTHER_FEES_AMT double SET("ui_mapping_text"='FUNDS_SUPP.OTHER_FEES_AMT
+ 
+') ,
+ ACCT_YR_CODE int SET("ui_mapping_text"='FUNDS_SUPP.ACCT_YR_CODE
+ 
+') ,
+ INVOICE_NBR_TEXT varchar(50) SET("ui_mapping_text"='FUNDS_SUPP.INVOICE_NBR_TEXT
+ 
+') ,
+ TYPE_CODE_CODE int SET("ui_mapping_text"='FUNDS_SUPP.TYPE_CODE_CODE
+ 
+') ,
+ GROUP_ID_TEXT varchar(50) SET("ui_mapping_text"='FUNDS_SUPP.GROUP_ID_TEXT
+ 
+') ,
+ FCAST_CAT_CODE int SET("ui_mapping_text"='FUNDS_SUPP.FCAST_CAT_CODE
+ 
+') ,
+ SPNN_INV_TEXT varchar(50) SET("ui_mapping_text"='FUNDS_SUPP.SPNN_INV_TEXT
+ 
+') ,
+ INVOICE_DT_DATE varchar(8) SET("ui_mapping_text"='FUNDS_SUPP.INVOICE_DT_DATE
+ 
+') ,
+ BROKER_DUE_DATE varchar(8) SET("ui_mapping_text"='FUNDS_SUPP.BROKER_DUE_DATE
+ 
+') ,
+ INS_DUE_DATE varchar(8) SET("ui_mapping_text"='FUNDS_SUPP.INS_DUE_DATE
+ 
+') ,
+ PREMIUM_AMT double SET("ui_mapping_text"='FUNDS_SUPP.PREMIUM_AMT
+ 
+') ,
+ COMMENTS_MEMO long SET("ui_mapping_text"='FUNDS_SUPP.COMMENTS_MEMO
+ 
+', "Long Type"='CLOB') ,
+ INVOICED_BY_TEXT varchar(100) SET("ui_mapping_text"='FUNDS_SUPP.INVOICED_BY_TEXT
+ 
+') ,
+ MATTER_ID_TEXT varchar(100) SET("ui_mapping_text"='FUNDS_SUPP.MATTER_ID_TEXT
+ 
+') ,
+ MATTER_NAME_TEXT varchar(100) SET("ui_mapping_text"='FUNDS_SUPP.MATTER_NAME_TEXT
+ 
+') ,
+ AUTH_FIRM_TEXT varchar(100) SET("ui_mapping_text"='FUNDS_SUPP.AUTH_FIRM_TEXT
+ 
+') ,
+ CHARGELINE_TEXT varchar(100) SET("ui_mapping_text"='FUNDS_SUPP.CHARGELINE_TEXT
+ 
+') ,
+ COMPANY_TEXT varchar(200) SET("ui_mapping_text"='FUNDS_SUPP.COMPANY_TEXT
+ 
+') ,
+ VN_BK_ACCT_TEXT varchar(200) SET("ui_mapping_text"='FUNDS_SUPP.VN_BK_ACCT_TEXT
+ 
+') ,
+ VN_BK_EID int SET("ui_mapping_text"='FUNDS_SUPP.VN_BK_EID
+ 
+') ,
+ VN_BK_1ADDR_TEXT varchar(200) SET("ui_mapping_text"='FUNDS_SUPP.VN_BK_1ADDR_TEXT
+ 
+') ,
+ VN_BK_2ADDR_TEXT varchar(200) SET("ui_mapping_text"='FUNDS_SUPP.VN_BK_2ADDR_TEXT
+ 
+') ,
+ VN_BK_CITY_TEXT varchar(200) SET("ui_mapping_text"='FUNDS_SUPP.VN_BK_CITY_TEXT
+ 
+') ,
+ VN_BK_STATE_TEXT varchar(200) SET("ui_mapping_text"='FUNDS_SUPP.VN_BK_STATE_TEXT
+ 
+') ,
+ VN_BK_ABA_TEXT varchar(200) SET("ui_mapping_text"='FUNDS_SUPP.VN_BK_ABA_TEXT
+ 
+') ,
+ VN_BK_SWIFT_TEXT varchar(200) SET("ui_mapping_text"='FUNDS_SUPP.VN_BK_SWIFT_TEXT
+ 
+') ,
+ BN_BK_EID int SET("ui_mapping_text"='FUNDS_SUPP.BN_BK_EID
+ 
+') ,
+ BN_BK_ADDR_TEXT varchar(200) SET("ui_mapping_text"='FUNDS_SUPP.BN_BK_ADDR_TEXT
+ 
+') ,
+ ACC_ACT_REQ_CODE int SET("ui_mapping_text"='FUNDS_SUPP.ACC_ACT_REQ_CODE
+ 
+') ,
+ BN_BK_ABA_TEXT varchar(200) SET("ui_mapping_text"='FUNDS_SUPP.BN_BK_ABA_TEXT
+ 
+') ,
+ BN_BK_SWIFT_TEXT varchar(200) SET("ui_mapping_text"='FUNDS_SUPP.BN_BK_SWIFT_TEXT
+ 
+') ,
+ BN_BK_ACCNO_TEXT varchar(200) SET("ui_mapping_text"='FUNDS_SUPP.BN_BK_ACCNO_TEXT
+ 
+') ,
+ TRANS_TYPE_CODE int SET("ui_mapping_text"='FUNDS_SUPP.TRANS_TYPE_CODE
+ 
+') ,
+ PRGRAM_TYPE_EID int SET("ui_mapping_text"='FUNDS_SUPP.PRGRAM_TYPE_EID
+ 
+') ,
+ SPECIAL_INS_TEXT varchar(100) SET("ui_mapping_text"='FUNDS_SUPP.SPECIAL_INS_TEXT
+ 
+') ,
+ REFERENCE_TEXT varchar(100) SET("ui_mapping_text"='FUNDS_SUPP.REFERENCE_TEXT
+ 
+') ,
+ INVOICE_ID_TEXT varchar(100) SET("ui_mapping_text"='FUNDS_SUPP.INVOICE_ID_TEXT
+ 
+') ,
+ REV_ALC_TEXT varchar(15) SET("ui_mapping_text"='FUNDS_SUPP.REV_ALC_TEXT
+ 
+') ,
+ FUTURE_SRC_CODE int SET("ui_mapping_text"='FUNDS_SUPP.FUTURE_SRC_CODE
+ 
+') ,
+ INVOICE_DUE_DATE varchar(8) SET("ui_mapping_text"='FUNDS_SUPP.INVOICE_DUE_DATE
+ 
+') ,
+ BN_BK_ACC_TEXT varchar(100) SET("ui_mapping_text"='FUNDS_SUPP.BN_BK_ACC_TEXT
+ 
+') ,
+ RECV_SUB_DT_DATE varchar(8) SET("ui_mapping_text"='FUNDS_SUPP.RECV_SUB_DT_DATE
+ 
+') ,
+ PAY_TERMS_CODE int SET("ui_mapping_text"='FUNDS_SUPP.PAY_TERMS_CODE
+ 
+') ,
+ LSS_INVOICE_ID double SET("ui_mapping_text"='FUNDS_SUPP.LSS_INVOICE_ID
+ 
+')  ) 
+AS SELECT  FUNDS_SUPP.DA_ROW_ID
+ 
+ ,
+ FUNDS_SUPP.JOBID
+ 
+ ,
+ FUNDS.TRANS_ID
+ 
+ ,
+ FUNDS_SUPP.INPUT_ROW_ID
+ 
+ ,
+ FUNDS_SUPP.INVALID_ROW
+ 
+ ,
+ FUNDS_SUPP.UPDATE_ROW
+ 
+ ,
+ FUNDS_SUPP.ACCT_PER_CODE
+ 
+ ,
+ FUNDS_SUPP.SOURCE_CODE
+ 
+ ,
+ FUNDS_SUPP.IBAN_TEXT
+ 
+ ,
+ FUNDS_SUPP.COMMENT_ACC_MEMO
+ 
+ ,
+ FUNDS_SUPP.MATTER_NO_TEXT
+ 
+ ,
+ FUNDS_SUPP.TOT_INVOICE_AMT
+ 
+ ,
+ FUNDS_SUPP.CLM_MAJ_CAT_TEXT
+ 
+ ,
+ FUNDS_SUPP.CLMT_NM_OTH_TEXT
+ 
+ ,
+ FUNDS_SUPP.CLAIMANT_TEXT
+ 
+ ,
+ FUNDS_SUPP.FIRM_TEXT
+ 
+ ,
+ FUNDS_SUPP.STATUS_CODE
+ 
+ ,
+ FUNDS_SUPP.PER_TOT_INV_NUM
+ 
+ ,
+ FUNDS_SUPP.TYPE_OF_CLM_TEXT
+ 
+ ,
+ FUNDS_SUPP.DEDUCTIBLE_AMT
+ 
+ ,
+ FUNDS_SUPP.RECV_SUBMIT_AMT
+ 
+ ,
+ FUNDS_SUPP.OTHER_FEES_AMT
+ 
+ ,
+ FUNDS_SUPP.ACCT_YR_CODE
+ 
+ ,
+ FUNDS_SUPP.INVOICE_NBR_TEXT
+ 
+ ,
+ FUNDS_SUPP.TYPE_CODE_CODE
+ 
+ ,
+ FUNDS_SUPP.GROUP_ID_TEXT
+ 
+ ,
+ FUNDS_SUPP.FCAST_CAT_CODE
+ 
+ ,
+ FUNDS_SUPP.SPNN_INV_TEXT
+ 
+ ,
+ FUNDS_SUPP.INVOICE_DT_DATE
+ 
+ ,
+ FUNDS_SUPP.BROKER_DUE_DATE
+ 
+ ,
+ FUNDS_SUPP.INS_DUE_DATE
+ 
+ ,
+ FUNDS_SUPP.PREMIUM_AMT
+ 
+ ,
+ FUNDS_SUPP.COMMENTS_MEMO
+ 
+ ,
+ FUNDS_SUPP.INVOICED_BY_TEXT
+ 
+ ,
+ FUNDS_SUPP.MATTER_ID_TEXT
+ 
+ ,
+ FUNDS_SUPP.MATTER_NAME_TEXT
+ 
+ ,
+ FUNDS_SUPP.AUTH_FIRM_TEXT
+ 
+ ,
+ FUNDS_SUPP.CHARGELINE_TEXT
+ 
+ ,
+ FUNDS_SUPP.COMPANY_TEXT
+ 
+ ,
+ FUNDS_SUPP.VN_BK_ACCT_TEXT
+ 
+ ,
+ FUNDS_SUPP.VN_BK_EID
+ 
+ ,
+ FUNDS_SUPP.VN_BK_1ADDR_TEXT
+ 
+ ,
+ FUNDS_SUPP.VN_BK_2ADDR_TEXT
+ 
+ ,
+ FUNDS_SUPP.VN_BK_CITY_TEXT
+ 
+ ,
+ FUNDS_SUPP.VN_BK_STATE_TEXT
+ 
+ ,
+ FUNDS_SUPP.VN_BK_ABA_TEXT
+ 
+ ,
+ FUNDS_SUPP.VN_BK_SWIFT_TEXT
+ 
+ ,
+ FUNDS_SUPP.BN_BK_EID
+ 
+ ,
+ FUNDS_SUPP.BN_BK_ADDR_TEXT
+ 
+ ,
+ FUNDS_SUPP.ACC_ACT_REQ_CODE
+ 
+ ,
+ FUNDS_SUPP.BN_BK_ABA_TEXT
+ 
+ ,
+ FUNDS_SUPP.BN_BK_SWIFT_TEXT
+ 
+ ,
+ FUNDS_SUPP.BN_BK_ACCNO_TEXT
+ 
+ ,
+ FUNDS_SUPP.TRANS_TYPE_CODE
+ 
+ ,
+ FUNDS_SUPP.PRGRAM_TYPE_EID
+ 
+ ,
+ FUNDS_SUPP.SPECIAL_INS_TEXT
+ 
+ ,
+ FUNDS_SUPP.REFERENCE_TEXT
+ 
+ ,
+ FUNDS_SUPP.INVOICE_ID_TEXT
+ 
+ ,
+ FUNDS_SUPP.REV_ALC_TEXT
+ 
+ ,
+ FUNDS_SUPP.FUTURE_SRC_CODE
+ 
+ ,
+ FUNDS_SUPP.INVOICE_DUE_DATE
+ 
+ ,
+ FUNDS_SUPP.BN_BK_ACC_TEXT
+ 
+ ,
+ FUNDS_SUPP.RECV_SUB_DT_DATE
+ 
+ ,
+ FUNDS_SUPP.PAY_TERMS_CODE
+ 
+ ,
+ FUNDS_SUPP.LSS_INVOICE_ID
+ 
+ 
+	FROM FUNDS_SUPP, FUNDS, T_DIS_FUNDS
+	WHERE FUNDS_SUPP.INVALID_ROW = 0 and 
+FUNDS.DA_ROW_ID = T_DIS_FUNDS.DA_ROW_ID and  
+T_DIS_FUNDS.JOBID =FUNDS.JOBID and 
+FUNDS_SUPP.TRANS_ID = T_DIS_FUNDS.TRANS_ID_SOURCE
+ 
+ SET (
+"distinct_run_as_separate_process" = 'no',
+"group_by_run_as_separate_process" = 'no',
+"join_run_as_separate_process" = 'no',
+"order_by_run_as_separate_process" = 'no',
+"run_as_separate_process" = 'no');
+ALGUICOMMENT( x = '1303', y = '-812' , ui_acta_from_schema_0 = 'C_DIS_CASE_FUND_SUPP_DoNot_updateRow'  , ui_display_name = 'Q_DIS_FUNS_NEW_ROW' ,UI_DATA_XML='<UIDATA><MAINICON><LOCATION><X>0</X><Y>0</Y></LOCATION><SIZE><CX>435</CX><CY>-163</CY></SIZE></MAINICON><DESCRIPTION><LOCATION><X>0</X><Y>-174</Y></LOCATION><SIZE><CX>200</CX><CY>200</CY></SIZE><VISIBLE>0</VISIBLE></DESCRIPTION></UIDATA>', UpperContainer_HeightProp = '58', InputSchema_WidthProp = '50', Input_Width_Description = '130', Output_Width_Decsription = '130', Input_Width_Type = '85', Output_Width_Type = '80', Output_Width_Mapping = '85', Input_Column_Width_3 = '100', Output_Column_Width_4 = '100', Input_Column_Width_4 = '100', Output_Column_Width_5 = '100', Input_1st_Column_Name = 'Type', Input_2nd_Column_Name = 'Description', Input_Column_Name_3 = 'Content_Type', Input_Column_Name_4 = 'Business_Name', Output_1st_Column_Name = 'Type', Output_2nd_Column_Name = 'Mapping', Output_3rd_Column_Name = 'Description', Output_Column_Name_4 = 'Content_Type', Output_Column_Name_5 = 'Business_Name', UI_PASSTHRU_VSPLIT_PCT = '50' )
+GUID::'f13180b6-34d4-4a6c-9e43-211c5ba2c6c0' CREATE VIEW Q_DIS_FUNS_NEW_ROW ( DA_ROW_ID int KEY  SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_DoNot_updateRow.DA_ROW_ID') ,
+ JOBID int KEY  SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_DoNot_updateRow.JOBID') ,
+ TRANS_ID int SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_DoNot_updateRow.TRANS_ID') ,
+ INPUT_ROW_ID int SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_DoNot_updateRow.INPUT_ROW_ID') ,
+ INVALID_ROW int SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_DoNot_updateRow.INVALID_ROW') ,
+ UPDATE_ROW int SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_DoNot_updateRow.UPDATE_ROW') ,
+ ACCT_PER_CODE int SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_DoNot_updateRow.ACCT_PER_CODE') ,
+ SOURCE_CODE int SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_DoNot_updateRow.SOURCE_CODE') ,
+ IBAN_TEXT varchar(200) SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_DoNot_updateRow.IBAN_TEXT') ,
+ COMMENT_ACC_MEMO long SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_DoNot_updateRow.COMMENT_ACC_MEMO', "Long Type"='CLOB') ,
+ MATTER_NO_TEXT varchar(50) SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_DoNot_updateRow.MATTER_NO_TEXT') ,
+ TOT_INVOICE_AMT double SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_DoNot_updateRow.TOT_INVOICE_AMT') ,
+ CLM_MAJ_CAT_TEXT varchar(50) SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_DoNot_updateRow.CLM_MAJ_CAT_TEXT') ,
+ CLMT_NM_OTH_TEXT varchar(255) SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_DoNot_updateRow.CLMT_NM_OTH_TEXT') ,
+ CLAIMANT_TEXT varchar(100) SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_DoNot_updateRow.CLAIMANT_TEXT') ,
+ FIRM_TEXT varchar(50) SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_DoNot_updateRow.FIRM_TEXT') ,
+ STATUS_CODE int SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_DoNot_updateRow.STATUS_CODE') ,
+ PER_TOT_INV_NUM double SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_DoNot_updateRow.PER_TOT_INV_NUM') ,
+ TYPE_OF_CLM_TEXT varchar(50) SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_DoNot_updateRow.TYPE_OF_CLM_TEXT') ,
+ DEDUCTIBLE_AMT double SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_DoNot_updateRow.DEDUCTIBLE_AMT') ,
+ RECV_SUBMIT_AMT double SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_DoNot_updateRow.RECV_SUBMIT_AMT') ,
+ OTHER_FEES_AMT double SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_DoNot_updateRow.OTHER_FEES_AMT') ,
+ ACCT_YR_CODE int SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_DoNot_updateRow.ACCT_YR_CODE') ,
+ INVOICE_NBR_TEXT varchar(50) SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_DoNot_updateRow.INVOICE_NBR_TEXT') ,
+ TYPE_CODE_CODE int SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_DoNot_updateRow.TYPE_CODE_CODE') ,
+ GROUP_ID_TEXT varchar(50) SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_DoNot_updateRow.GROUP_ID_TEXT') ,
+ FCAST_CAT_CODE int SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_DoNot_updateRow.FCAST_CAT_CODE') ,
+ SPNN_INV_TEXT varchar(50) SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_DoNot_updateRow.SPNN_INV_TEXT') ,
+ INVOICE_DT_DATE varchar(8) SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_DoNot_updateRow.INVOICE_DT_DATE') ,
+ BROKER_DUE_DATE varchar(8) SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_DoNot_updateRow.BROKER_DUE_DATE') ,
+ INS_DUE_DATE varchar(8) SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_DoNot_updateRow.INS_DUE_DATE') ,
+ PREMIUM_AMT double SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_DoNot_updateRow.PREMIUM_AMT') ,
+ COMMENTS_MEMO long SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_DoNot_updateRow.COMMENTS_MEMO', "Long Type"='CLOB') ,
+ INVOICED_BY_TEXT varchar(100) SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_DoNot_updateRow.INVOICED_BY_TEXT') ,
+ MATTER_ID_TEXT varchar(100) SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_DoNot_updateRow.MATTER_ID_TEXT') ,
+ MATTER_NAME_TEXT varchar(100) SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_DoNot_updateRow.MATTER_NAME_TEXT') ,
+ AUTH_FIRM_TEXT varchar(100) SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_DoNot_updateRow.AUTH_FIRM_TEXT') ,
+ CHARGELINE_TEXT varchar(100) SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_DoNot_updateRow.CHARGELINE_TEXT') ,
+ COMPANY_TEXT varchar(200) SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_DoNot_updateRow.COMPANY_TEXT') ,
+ VN_BK_ACCT_TEXT varchar(200) SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_DoNot_updateRow.VN_BK_ACCT_TEXT') ,
+ VN_BK_EID int SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_DoNot_updateRow.VN_BK_EID') ,
+ VN_BK_1ADDR_TEXT varchar(200) SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_DoNot_updateRow.VN_BK_1ADDR_TEXT') ,
+ VN_BK_2ADDR_TEXT varchar(200) SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_DoNot_updateRow.VN_BK_2ADDR_TEXT') ,
+ VN_BK_CITY_TEXT varchar(200) SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_DoNot_updateRow.VN_BK_CITY_TEXT') ,
+ VN_BK_STATE_TEXT varchar(200) SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_DoNot_updateRow.VN_BK_STATE_TEXT') ,
+ VN_BK_ABA_TEXT varchar(200) SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_DoNot_updateRow.VN_BK_ABA_TEXT') ,
+ VN_BK_SWIFT_TEXT varchar(200) SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_DoNot_updateRow.VN_BK_SWIFT_TEXT') ,
+ BN_BK_EID int SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_DoNot_updateRow.BN_BK_EID') ,
+ BN_BK_ADDR_TEXT varchar(200) SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_DoNot_updateRow.BN_BK_ADDR_TEXT') ,
+ ACC_ACT_REQ_CODE int SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_DoNot_updateRow.ACC_ACT_REQ_CODE') ,
+ BN_BK_ABA_TEXT varchar(200) SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_DoNot_updateRow.BN_BK_ABA_TEXT') ,
+ BN_BK_SWIFT_TEXT varchar(200) SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_DoNot_updateRow.BN_BK_SWIFT_TEXT') ,
+ BN_BK_ACCNO_TEXT varchar(200) SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_DoNot_updateRow.BN_BK_ACCNO_TEXT') ,
+ TRANS_TYPE_CODE int SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_DoNot_updateRow.TRANS_TYPE_CODE') ,
+ PRGRAM_TYPE_EID int SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_DoNot_updateRow.PRGRAM_TYPE_EID') ,
+ SPECIAL_INS_TEXT varchar(100) SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_DoNot_updateRow.SPECIAL_INS_TEXT') ,
+ REFERENCE_TEXT varchar(100) SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_DoNot_updateRow.REFERENCE_TEXT') ,
+ INVOICE_ID_TEXT varchar(100) SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_DoNot_updateRow.INVOICE_ID_TEXT') ,
+ REV_ALC_TEXT varchar(15) SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_DoNot_updateRow.REV_ALC_TEXT') ,
+ FUTURE_SRC_CODE int SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_DoNot_updateRow.FUTURE_SRC_CODE') ,
+ INVOICE_DUE_DATE varchar(8) SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_DoNot_updateRow.INVOICE_DUE_DATE') ,
+ BN_BK_ACC_TEXT varchar(100) SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_DoNot_updateRow.BN_BK_ACC_TEXT') ,
+ RECV_SUB_DT_DATE varchar(8) SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_DoNot_updateRow.RECV_SUB_DT_DATE') ,
+ PAY_TERMS_CODE int SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_DoNot_updateRow.PAY_TERMS_CODE') ,
+ LSS_INVOICE_ID double SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_DoNot_updateRow.LSS_INVOICE_ID')  ) 
+AS SELECT  C_DIS_CASE_FUND_SUPP_DoNot_updateRow.DA_ROW_ID
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_DoNot_updateRow.JOBID
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_DoNot_updateRow.TRANS_ID
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_DoNot_updateRow.INPUT_ROW_ID
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_DoNot_updateRow.INVALID_ROW
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_DoNot_updateRow.UPDATE_ROW
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_DoNot_updateRow.ACCT_PER_CODE
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_DoNot_updateRow.SOURCE_CODE
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_DoNot_updateRow.IBAN_TEXT
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_DoNot_updateRow.COMMENT_ACC_MEMO
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_DoNot_updateRow.MATTER_NO_TEXT
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_DoNot_updateRow.TOT_INVOICE_AMT
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_DoNot_updateRow.CLM_MAJ_CAT_TEXT
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_DoNot_updateRow.CLMT_NM_OTH_TEXT
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_DoNot_updateRow.CLAIMANT_TEXT
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_DoNot_updateRow.FIRM_TEXT
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_DoNot_updateRow.STATUS_CODE
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_DoNot_updateRow.PER_TOT_INV_NUM
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_DoNot_updateRow.TYPE_OF_CLM_TEXT
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_DoNot_updateRow.DEDUCTIBLE_AMT
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_DoNot_updateRow.RECV_SUBMIT_AMT
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_DoNot_updateRow.OTHER_FEES_AMT
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_DoNot_updateRow.ACCT_YR_CODE
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_DoNot_updateRow.INVOICE_NBR_TEXT
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_DoNot_updateRow.TYPE_CODE_CODE
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_DoNot_updateRow.GROUP_ID_TEXT
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_DoNot_updateRow.FCAST_CAT_CODE
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_DoNot_updateRow.SPNN_INV_TEXT
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_DoNot_updateRow.INVOICE_DT_DATE
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_DoNot_updateRow.BROKER_DUE_DATE
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_DoNot_updateRow.INS_DUE_DATE
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_DoNot_updateRow.PREMIUM_AMT
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_DoNot_updateRow.COMMENTS_MEMO
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_DoNot_updateRow.INVOICED_BY_TEXT
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_DoNot_updateRow.MATTER_ID_TEXT
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_DoNot_updateRow.MATTER_NAME_TEXT
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_DoNot_updateRow.AUTH_FIRM_TEXT
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_DoNot_updateRow.CHARGELINE_TEXT
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_DoNot_updateRow.COMPANY_TEXT
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_DoNot_updateRow.VN_BK_ACCT_TEXT
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_DoNot_updateRow.VN_BK_EID
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_DoNot_updateRow.VN_BK_1ADDR_TEXT
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_DoNot_updateRow.VN_BK_2ADDR_TEXT
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_DoNot_updateRow.VN_BK_CITY_TEXT
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_DoNot_updateRow.VN_BK_STATE_TEXT
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_DoNot_updateRow.VN_BK_ABA_TEXT
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_DoNot_updateRow.VN_BK_SWIFT_TEXT
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_DoNot_updateRow.BN_BK_EID
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_DoNot_updateRow.BN_BK_ADDR_TEXT
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_DoNot_updateRow.ACC_ACT_REQ_CODE
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_DoNot_updateRow.BN_BK_ABA_TEXT
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_DoNot_updateRow.BN_BK_SWIFT_TEXT
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_DoNot_updateRow.BN_BK_ACCNO_TEXT
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_DoNot_updateRow.TRANS_TYPE_CODE
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_DoNot_updateRow.PRGRAM_TYPE_EID
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_DoNot_updateRow.SPECIAL_INS_TEXT
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_DoNot_updateRow.REFERENCE_TEXT
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_DoNot_updateRow.INVOICE_ID_TEXT
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_DoNot_updateRow.REV_ALC_TEXT
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_DoNot_updateRow.FUTURE_SRC_CODE
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_DoNot_updateRow.INVOICE_DUE_DATE
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_DoNot_updateRow.BN_BK_ACC_TEXT
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_DoNot_updateRow.RECV_SUB_DT_DATE
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_DoNot_updateRow.PAY_TERMS_CODE
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_DoNot_updateRow.LSS_INVOICE_ID
+ 
+ 
+	FROM C_DIS_CASE_FUND_SUPP_DoNot_updateRow SET (
+"distinct_run_as_separate_process" = 'no',
+"group_by_run_as_separate_process" = 'no',
+"join_run_as_separate_process" = 'no',
+"order_by_run_as_separate_process" = 'no',
+"run_as_separate_process" = 'no');
+ALGUICOMMENT( x = '1256', y = '-356' , ui_acta_from_schema_0 = 'C_DIS_CASE_FUND_SUPP_Update_Row'  , ui_display_name = 'Q_DIS_UPDATE_ROW' ,UI_DATA_XML='<UIDATA><MAINICON><LOCATION><X>0</X><Y>0</Y></LOCATION><SIZE><CX>388</CX><CY>-163</CY></SIZE></MAINICON><DESCRIPTION><LOCATION><X>0</X><Y>-174</Y></LOCATION><SIZE><CX>200</CX><CY>200</CY></SIZE><VISIBLE>0</VISIBLE></DESCRIPTION></UIDATA>', UpperContainer_HeightProp = '58', InputSchema_WidthProp = '50', Input_Width_Description = '130', Output_Width_Decsription = '130', Input_Width_Type = '85', Output_Width_Type = '80', Output_Width_Mapping = '85', Input_Column_Width_3 = '100', Output_Column_Width_4 = '100', Input_Column_Width_4 = '100', Output_Column_Width_5 = '100', Input_1st_Column_Name = 'Type', Input_2nd_Column_Name = 'Description', Input_Column_Name_3 = 'Content_Type', Input_Column_Name_4 = 'Business_Name', Output_1st_Column_Name = 'Type', Output_2nd_Column_Name = 'Mapping', Output_3rd_Column_Name = 'Description', Output_Column_Name_4 = 'Content_Type', Output_Column_Name_5 = 'Business_Name', UI_PASSTHRU_VSPLIT_PCT = '50' )
+GUID::'bc2b8302-38fd-4efe-8693-7cc9f7ce3d22' CREATE VIEW Q_DIS_UPDATE_ROW ( DA_ROW_ID int KEY  SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_Update_Row.DA_ROW_ID') ,
+ JOBID int KEY  SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_Update_Row.JOBID') ,
+ TRANS_ID int SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_Update_Row.TRANS_ID') ,
+ INPUT_ROW_ID int SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_Update_Row.INPUT_ROW_ID') ,
+ INVALID_ROW int SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_Update_Row.INVALID_ROW') ,
+ UPDATE_ROW int SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_Update_Row.UPDATE_ROW') ,
+ ACCT_PER_CODE int SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_Update_Row.ACCT_PER_CODE') ,
+ SOURCE_CODE int SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_Update_Row.SOURCE_CODE') ,
+ IBAN_TEXT varchar(200) SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_Update_Row.IBAN_TEXT') ,
+ COMMENT_ACC_MEMO long SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_Update_Row.COMMENT_ACC_MEMO', "Long Type"='CLOB') ,
+ MATTER_NO_TEXT varchar(50) SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_Update_Row.MATTER_NO_TEXT') ,
+ TOT_INVOICE_AMT double SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_Update_Row.TOT_INVOICE_AMT') ,
+ CLM_MAJ_CAT_TEXT varchar(50) SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_Update_Row.CLM_MAJ_CAT_TEXT') ,
+ CLMT_NM_OTH_TEXT varchar(255) SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_Update_Row.CLMT_NM_OTH_TEXT') ,
+ CLAIMANT_TEXT varchar(100) SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_Update_Row.CLAIMANT_TEXT') ,
+ FIRM_TEXT varchar(50) SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_Update_Row.FIRM_TEXT') ,
+ STATUS_CODE int SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_Update_Row.STATUS_CODE') ,
+ PER_TOT_INV_NUM double SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_Update_Row.PER_TOT_INV_NUM') ,
+ TYPE_OF_CLM_TEXT varchar(50) SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_Update_Row.TYPE_OF_CLM_TEXT') ,
+ DEDUCTIBLE_AMT double SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_Update_Row.DEDUCTIBLE_AMT') ,
+ RECV_SUBMIT_AMT double SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_Update_Row.RECV_SUBMIT_AMT') ,
+ OTHER_FEES_AMT double SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_Update_Row.OTHER_FEES_AMT') ,
+ ACCT_YR_CODE int SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_Update_Row.ACCT_YR_CODE') ,
+ INVOICE_NBR_TEXT varchar(50) SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_Update_Row.INVOICE_NBR_TEXT') ,
+ TYPE_CODE_CODE int SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_Update_Row.TYPE_CODE_CODE') ,
+ GROUP_ID_TEXT varchar(50) SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_Update_Row.GROUP_ID_TEXT') ,
+ FCAST_CAT_CODE int SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_Update_Row.FCAST_CAT_CODE') ,
+ SPNN_INV_TEXT varchar(50) SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_Update_Row.SPNN_INV_TEXT') ,
+ INVOICE_DT_DATE varchar(8) SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_Update_Row.INVOICE_DT_DATE') ,
+ BROKER_DUE_DATE varchar(8) SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_Update_Row.BROKER_DUE_DATE') ,
+ INS_DUE_DATE varchar(8) SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_Update_Row.INS_DUE_DATE') ,
+ PREMIUM_AMT double SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_Update_Row.PREMIUM_AMT') ,
+ COMMENTS_MEMO long SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_Update_Row.COMMENTS_MEMO', "Long Type"='CLOB') ,
+ INVOICED_BY_TEXT varchar(100) SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_Update_Row.INVOICED_BY_TEXT') ,
+ MATTER_ID_TEXT varchar(100) SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_Update_Row.MATTER_ID_TEXT') ,
+ MATTER_NAME_TEXT varchar(100) SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_Update_Row.MATTER_NAME_TEXT') ,
+ AUTH_FIRM_TEXT varchar(100) SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_Update_Row.AUTH_FIRM_TEXT') ,
+ CHARGELINE_TEXT varchar(100) SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_Update_Row.CHARGELINE_TEXT') ,
+ COMPANY_TEXT varchar(200) SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_Update_Row.COMPANY_TEXT') ,
+ VN_BK_ACCT_TEXT varchar(200) SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_Update_Row.VN_BK_ACCT_TEXT') ,
+ VN_BK_EID int SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_Update_Row.VN_BK_EID') ,
+ VN_BK_1ADDR_TEXT varchar(200) SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_Update_Row.VN_BK_1ADDR_TEXT') ,
+ VN_BK_2ADDR_TEXT varchar(200) SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_Update_Row.VN_BK_2ADDR_TEXT') ,
+ VN_BK_CITY_TEXT varchar(200) SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_Update_Row.VN_BK_CITY_TEXT') ,
+ VN_BK_STATE_TEXT varchar(200) SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_Update_Row.VN_BK_STATE_TEXT') ,
+ VN_BK_ABA_TEXT varchar(200) SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_Update_Row.VN_BK_ABA_TEXT') ,
+ VN_BK_SWIFT_TEXT varchar(200) SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_Update_Row.VN_BK_SWIFT_TEXT') ,
+ BN_BK_EID int SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_Update_Row.BN_BK_EID') ,
+ BN_BK_ADDR_TEXT varchar(200) SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_Update_Row.BN_BK_ADDR_TEXT') ,
+ ACC_ACT_REQ_CODE int SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_Update_Row.ACC_ACT_REQ_CODE') ,
+ BN_BK_ABA_TEXT varchar(200) SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_Update_Row.BN_BK_ABA_TEXT') ,
+ BN_BK_SWIFT_TEXT varchar(200) SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_Update_Row.BN_BK_SWIFT_TEXT') ,
+ BN_BK_ACCNO_TEXT varchar(200) SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_Update_Row.BN_BK_ACCNO_TEXT') ,
+ TRANS_TYPE_CODE int SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_Update_Row.TRANS_TYPE_CODE') ,
+ PRGRAM_TYPE_EID int SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_Update_Row.PRGRAM_TYPE_EID') ,
+ SPECIAL_INS_TEXT varchar(100) SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_Update_Row.SPECIAL_INS_TEXT') ,
+ REFERENCE_TEXT varchar(100) SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_Update_Row.REFERENCE_TEXT') ,
+ INVOICE_ID_TEXT varchar(100) SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_Update_Row.INVOICE_ID_TEXT') ,
+ REV_ALC_TEXT varchar(15) SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_Update_Row.REV_ALC_TEXT') ,
+ FUTURE_SRC_CODE int SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_Update_Row.FUTURE_SRC_CODE') ,
+ INVOICE_DUE_DATE varchar(8) SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_Update_Row.INVOICE_DUE_DATE') ,
+ BN_BK_ACC_TEXT varchar(100) SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_Update_Row.BN_BK_ACC_TEXT') ,
+ RECV_SUB_DT_DATE varchar(8) SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_Update_Row.RECV_SUB_DT_DATE') ,
+ PAY_TERMS_CODE int SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_Update_Row.PAY_TERMS_CODE') ,
+ LSS_INVOICE_ID double SET("ui_mapping_text"='C_DIS_CASE_FUND_SUPP_Update_Row.LSS_INVOICE_ID')  ) 
+AS SELECT  C_DIS_CASE_FUND_SUPP_Update_Row.DA_ROW_ID
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_Update_Row.JOBID
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_Update_Row.TRANS_ID
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_Update_Row.INPUT_ROW_ID
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_Update_Row.INVALID_ROW
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_Update_Row.UPDATE_ROW
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_Update_Row.ACCT_PER_CODE
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_Update_Row.SOURCE_CODE
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_Update_Row.IBAN_TEXT
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_Update_Row.COMMENT_ACC_MEMO
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_Update_Row.MATTER_NO_TEXT
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_Update_Row.TOT_INVOICE_AMT
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_Update_Row.CLM_MAJ_CAT_TEXT
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_Update_Row.CLMT_NM_OTH_TEXT
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_Update_Row.CLAIMANT_TEXT
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_Update_Row.FIRM_TEXT
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_Update_Row.STATUS_CODE
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_Update_Row.PER_TOT_INV_NUM
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_Update_Row.TYPE_OF_CLM_TEXT
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_Update_Row.DEDUCTIBLE_AMT
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_Update_Row.RECV_SUBMIT_AMT
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_Update_Row.OTHER_FEES_AMT
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_Update_Row.ACCT_YR_CODE
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_Update_Row.INVOICE_NBR_TEXT
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_Update_Row.TYPE_CODE_CODE
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_Update_Row.GROUP_ID_TEXT
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_Update_Row.FCAST_CAT_CODE
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_Update_Row.SPNN_INV_TEXT
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_Update_Row.INVOICE_DT_DATE
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_Update_Row.BROKER_DUE_DATE
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_Update_Row.INS_DUE_DATE
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_Update_Row.PREMIUM_AMT
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_Update_Row.COMMENTS_MEMO
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_Update_Row.INVOICED_BY_TEXT
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_Update_Row.MATTER_ID_TEXT
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_Update_Row.MATTER_NAME_TEXT
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_Update_Row.AUTH_FIRM_TEXT
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_Update_Row.CHARGELINE_TEXT
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_Update_Row.COMPANY_TEXT
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_Update_Row.VN_BK_ACCT_TEXT
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_Update_Row.VN_BK_EID
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_Update_Row.VN_BK_1ADDR_TEXT
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_Update_Row.VN_BK_2ADDR_TEXT
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_Update_Row.VN_BK_CITY_TEXT
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_Update_Row.VN_BK_STATE_TEXT
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_Update_Row.VN_BK_ABA_TEXT
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_Update_Row.VN_BK_SWIFT_TEXT
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_Update_Row.BN_BK_EID
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_Update_Row.BN_BK_ADDR_TEXT
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_Update_Row.ACC_ACT_REQ_CODE
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_Update_Row.BN_BK_ABA_TEXT
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_Update_Row.BN_BK_SWIFT_TEXT
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_Update_Row.BN_BK_ACCNO_TEXT
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_Update_Row.TRANS_TYPE_CODE
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_Update_Row.PRGRAM_TYPE_EID
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_Update_Row.SPECIAL_INS_TEXT
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_Update_Row.REFERENCE_TEXT
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_Update_Row.INVOICE_ID_TEXT
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_Update_Row.REV_ALC_TEXT
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_Update_Row.FUTURE_SRC_CODE
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_Update_Row.INVOICE_DUE_DATE
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_Update_Row.BN_BK_ACC_TEXT
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_Update_Row.RECV_SUB_DT_DATE
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_Update_Row.PAY_TERMS_CODE
+ 
+ ,
+ C_DIS_CASE_FUND_SUPP_Update_Row.LSS_INVOICE_ID
+ 
+ 
+	FROM C_DIS_CASE_FUND_SUPP_Update_Row SET (
+"distinct_run_as_separate_process" = 'no',
+"group_by_run_as_separate_process" = 'no',
+"join_run_as_separate_process" = 'no',
+"order_by_run_as_separate_process" = 'no',
+"run_as_separate_process" = 'no');
+ALGUICOMMENT( x = '2049', y = '-377' , ui_display_name = 'MO_DIS_MAP_OPERATION',UI_DATA_XML='<UIDATA><MAINICON><LOCATION><X>0</X><Y>0</Y></LOCATION><SIZE><CX>435</CX><CY>-163</CY></SIZE></MAINICON><DESCRIPTION><LOCATION><X>0</X><Y>-174</Y></LOCATION><SIZE><CX>200</CX><CY>200</CY></SIZE><VISIBLE>0</VISIBLE></DESCRIPTION></UIDATA>', UpperContainer_HeightProp = '58', InputSchema_WidthProp = '50', Input_Width_Description = '130', Output_Width_Decsription = '130', Input_Width_Type = '85', Output_Width_Type = '80', Output_Width_Mapping = '85', Input_Column_Width_3 = '100', Output_Column_Width_4 = '100', Input_Column_Width_4 = '100', Output_Column_Width_5 = '100', Input_1st_Column_Name = 'Type', Input_2nd_Column_Name = 'Description', Input_Column_Name_3 = 'Content_Type', Input_Column_Name_4 = 'Business_Name', Output_1st_Column_Name = 'Type', Output_2nd_Column_Name = 'Mapping', Output_3rd_Column_Name = 'Description', Output_Column_Name_4 = 'Content_Type', Output_Column_Name_5 = '' )
+GUID::'75f0fe91-4878-42d3-ba64-7ac64177862a' CALL TRANSFORM Map_Operation ( ) 
+INPUT ( Q_DIS_FUNS_SUPP_2 )
+OUTPUT ( MO_DIS_MAP_OPERATION() )
+SET ("delete" = 'update',
+"insert" = 'update',
+"normal" = 'update',
+"update" = 'update');
+ALGUICOMMENT( x = '2330', y = '-716' , ui_display_name = 'M_DIS_MERGE_FUNS_SUPP',UI_DATA_XML='<UIDATA><MAINICON><LOCATION><X>0</X><Y>0</Y></LOCATION><SIZE><CX>425</CX><CY>-163</CY></SIZE></MAINICON><DESCRIPTION><LOCATION><X>0</X><Y>-174</Y></LOCATION><SIZE><CX>200</CX><CY>200</CY></SIZE><VISIBLE>0</VISIBLE></DESCRIPTION></UIDATA>', UpperContainer_HeightProp = '58', InputSchema_WidthProp = '50', Input_Width_Description = '130', Output_Width_Decsription = '130', Input_Width_Type = '85', Output_Width_Type = '80', Output_Width_Mapping = '85', Input_Column_Width_3 = '100', Output_Column_Width_4 = '100', Input_Column_Width_4 = '100', Output_Column_Width_5 = '100', Input_1st_Column_Name = 'Type', Input_2nd_Column_Name = 'Description', Input_Column_Name_3 = 'Content_Type', Input_Column_Name_4 = 'Business_Name', Output_1st_Column_Name = 'Type', Output_2nd_Column_Name = 'Mapping', Output_3rd_Column_Name = 'Description', Output_Column_Name_4 = 'Content_Type', Output_Column_Name_5 = '' )
+GUID::'e770547f-51ae-4f87-a61a-29927e32d831' CALL TRANSFORM Merge ( ) 
+INPUT ( MO_DIS_MAP_OPERATION,
+ Q_DIS_FUNS_SUPP_1 )
+OUTPUT ( M_DIS_MERGE_FUNS_SUPP() )
+SET ();
+ALGUICOMMENT( x = '1669', y = '-824' , ui_acta_from_schema_0 = 'Q_DIS_FUNS_NEW_ROW'  , ui_display_name = 'Q_DIS_FUNS_SUPP_1' ,UI_DATA_XML='<UIDATA><MAINICON><LOCATION><X>0</X><Y>0</Y></LOCATION><SIZE><CX>388</CX><CY>-163</CY></SIZE></MAINICON><DESCRIPTION><LOCATION><X>0</X><Y>-174</Y></LOCATION><SIZE><CX>200</CX><CY>200</CY></SIZE><VISIBLE>0</VISIBLE></DESCRIPTION></UIDATA>', UpperContainer_HeightProp = '58', InputSchema_WidthProp = '50', Input_Width_Description = '130', Output_Width_Decsription = '130', Input_Width_Type = '85', Output_Width_Type = '80', Output_Width_Mapping = '85', Input_Column_Width_3 = '100', Output_Column_Width_4 = '100', Input_Column_Width_4 = '100', Output_Column_Width_5 = '100', Input_1st_Column_Name = 'Type', Input_2nd_Column_Name = 'Description', Input_Column_Name_3 = 'Content_Type', Input_Column_Name_4 = 'Business_Name', Output_1st_Column_Name = 'Type', Output_2nd_Column_Name = 'Mapping', Output_3rd_Column_Name = 'Description', Output_Column_Name_4 = 'Content_Type', Output_Column_Name_5 = 'Business_Name', UI_PASSTHRU_VSPLIT_PCT = '50' )
+GUID::'e064db2b-5403-4c2e-9777-5c73b3d2f21c' CREATE VIEW Q_DIS_FUNS_SUPP_1 ( TRANS_ID int KEY  SET("ui_mapping_text"='Q_DIS_FUNS_NEW_ROW.TRANS_ID
+ 
+') ,
+ ACCT_PER_CODE int SET("ui_mapping_text"='Q_DIS_FUNS_NEW_ROW.ACCT_PER_CODE
+ 
+') ,
+ SOURCE_CODE int SET("ui_mapping_text"='Q_DIS_FUNS_NEW_ROW.SOURCE_CODE
+ 
+') ,
+ IBAN_TEXT varchar(200) SET("ui_mapping_text"='Q_DIS_FUNS_NEW_ROW.IBAN_TEXT
+ 
+') ,
+ COMMENT_ACC_MEMO long SET("ui_mapping_text"='Q_DIS_FUNS_NEW_ROW.COMMENT_ACC_MEMO
+ 
+', "Long Type"='CLOB') ,
+ MATTER_NO_TEXT varchar(50) SET("ui_mapping_text"='Q_DIS_FUNS_NEW_ROW.MATTER_NO_TEXT
+ 
+') ,
+ TOT_INVOICE_AMT double SET("ui_mapping_text"='Q_DIS_FUNS_NEW_ROW.TOT_INVOICE_AMT
+ 
+') ,
+ CLM_MAJ_CAT_TEXT varchar(50) SET("ui_mapping_text"='Q_DIS_FUNS_NEW_ROW.CLM_MAJ_CAT_TEXT
+ 
+') ,
+ CLMT_NM_OTH_TEXT varchar(255) SET("ui_mapping_text"='Q_DIS_FUNS_NEW_ROW.CLMT_NM_OTH_TEXT
+ 
+') ,
+ CLAIMANT_TEXT varchar(100) SET("ui_mapping_text"='Q_DIS_FUNS_NEW_ROW.CLAIMANT_TEXT
+ 
+') ,
+ FIRM_TEXT varchar(50) SET("ui_mapping_text"='Q_DIS_FUNS_NEW_ROW.FIRM_TEXT
+ 
+') ,
+ STATUS_CODE int SET("ui_mapping_text"='Q_DIS_FUNS_NEW_ROW.STATUS_CODE
+ 
+') ,
+ PER_TOT_INV_NUM double SET("ui_mapping_text"='Q_DIS_FUNS_NEW_ROW.PER_TOT_INV_NUM
+ 
+') ,
+ TYPE_OF_CLM_TEXT varchar(50) SET("ui_mapping_text"='Q_DIS_FUNS_NEW_ROW.TYPE_OF_CLM_TEXT
+ 
+') ,
+ DEDUCTIBLE_AMT double SET("ui_mapping_text"='Q_DIS_FUNS_NEW_ROW.DEDUCTIBLE_AMT
+ 
+') ,
+ RECV_SUBMIT_AMT double SET("ui_mapping_text"='Q_DIS_FUNS_NEW_ROW.RECV_SUBMIT_AMT
+ 
+') ,
+ OTHER_FEES_AMT double SET("ui_mapping_text"='Q_DIS_FUNS_NEW_ROW.OTHER_FEES_AMT
+ 
+') ,
+ ACCT_YR_CODE int SET("ui_mapping_text"='Q_DIS_FUNS_NEW_ROW.ACCT_YR_CODE
+ 
+') ,
+ INVOICE_NBR_TEXT varchar(50) SET("ui_mapping_text"='Q_DIS_FUNS_NEW_ROW.INVOICE_NBR_TEXT
+ 
+') ,
+ TYPE_CODE_CODE int SET("ui_mapping_text"='Q_DIS_FUNS_NEW_ROW.TYPE_CODE_CODE
+ 
+') ,
+ GROUP_ID_TEXT varchar(50) SET("ui_mapping_text"='Q_DIS_FUNS_NEW_ROW.GROUP_ID_TEXT
+ 
+') ,
+ FCAST_CAT_CODE int SET("ui_mapping_text"='Q_DIS_FUNS_NEW_ROW.FCAST_CAT_CODE
+ 
+') ,
+ SPNN_INV_TEXT varchar(50) SET("ui_mapping_text"='Q_DIS_FUNS_NEW_ROW.SPNN_INV_TEXT
+ 
+') ,
+ INVOICE_DT_DATE varchar(8) SET("ui_mapping_text"='Q_DIS_FUNS_NEW_ROW.INVOICE_DT_DATE
+ 
+') ,
+ BROKER_DUE_DATE varchar(8) SET("ui_mapping_text"='Q_DIS_FUNS_NEW_ROW.BROKER_DUE_DATE
+ 
+') ,
+ INS_DUE_DATE varchar(8) SET("ui_mapping_text"='Q_DIS_FUNS_NEW_ROW.INS_DUE_DATE
+ 
+') ,
+ PREMIUM_AMT double SET("ui_mapping_text"='Q_DIS_FUNS_NEW_ROW.PREMIUM_AMT
+ 
+') ,
+ COMMENTS_MEMO long SET("ui_mapping_text"='Q_DIS_FUNS_NEW_ROW.COMMENTS_MEMO
+ 
+', "Long Type"='CLOB') ,
+ INVOICED_BY_TEXT varchar(100) SET("ui_mapping_text"='Q_DIS_FUNS_NEW_ROW.INVOICED_BY_TEXT
+ 
+') ,
+ MATTER_ID_TEXT varchar(100) SET("ui_mapping_text"='Q_DIS_FUNS_NEW_ROW.MATTER_ID_TEXT
+ 
+') ,
+ MATTER_NAME_TEXT varchar(100) SET("ui_mapping_text"='Q_DIS_FUNS_NEW_ROW.MATTER_NAME_TEXT
+ 
+') ,
+ AUTH_FIRM_TEXT varchar(100) SET("ui_mapping_text"='Q_DIS_FUNS_NEW_ROW.AUTH_FIRM_TEXT
+ 
+') ,
+ CHARGELINE_TEXT varchar(100) SET("ui_mapping_text"='Q_DIS_FUNS_NEW_ROW.CHARGELINE_TEXT
+ 
+') ,
+ COMPANY_TEXT varchar(200) SET("ui_mapping_text"='Q_DIS_FUNS_NEW_ROW.COMPANY_TEXT
+ 
+') ,
+ VN_BK_ACCT_TEXT varchar(200) SET("ui_mapping_text"='Q_DIS_FUNS_NEW_ROW.VN_BK_ACCT_TEXT
+ 
+') ,
+ VN_BK_EID int SET("ui_mapping_text"='Q_DIS_FUNS_NEW_ROW.VN_BK_EID
+ 
+') ,
+ VN_BK_1ADDR_TEXT varchar(200) SET("ui_mapping_text"='Q_DIS_FUNS_NEW_ROW.VN_BK_1ADDR_TEXT
+ 
+') ,
+ VN_BK_2ADDR_TEXT varchar(200) SET("ui_mapping_text"='Q_DIS_FUNS_NEW_ROW.VN_BK_2ADDR_TEXT
+ 
+') ,
+ VN_BK_CITY_TEXT varchar(200) SET("ui_mapping_text"='Q_DIS_FUNS_NEW_ROW.VN_BK_CITY_TEXT
+ 
+') ,
+ VN_BK_STATE_TEXT varchar(200) SET("ui_mapping_text"='Q_DIS_FUNS_NEW_ROW.VN_BK_STATE_TEXT
+ 
+') ,
+ VN_BK_ABA_TEXT varchar(200) SET("ui_mapping_text"='Q_DIS_FUNS_NEW_ROW.VN_BK_ABA_TEXT
+ 
+') ,
+ VN_BK_SWIFT_TEXT varchar(200) SET("ui_mapping_text"='Q_DIS_FUNS_NEW_ROW.VN_BK_SWIFT_TEXT
+ 
+') ,
+ BN_BK_EID int SET("ui_mapping_text"='Q_DIS_FUNS_NEW_ROW.BN_BK_EID
+ 
+') ,
+ BN_BK_ADDR_TEXT varchar(200) SET("ui_mapping_text"='Q_DIS_FUNS_NEW_ROW.BN_BK_ADDR_TEXT
+ 
+') ,
+ ACC_ACT_REQ_CODE int SET("ui_mapping_text"='Q_DIS_FUNS_NEW_ROW.ACC_ACT_REQ_CODE
+ 
+') ,
+ BN_BK_ABA_TEXT varchar(200) SET("ui_mapping_text"='Q_DIS_FUNS_NEW_ROW.BN_BK_ABA_TEXT
+ 
+') ,
+ BN_BK_SWIFT_TEXT varchar(200) SET("ui_mapping_text"='Q_DIS_FUNS_NEW_ROW.BN_BK_SWIFT_TEXT
+ 
+') ,
+ BN_BK_ACCNO_TEXT varchar(200) SET("ui_mapping_text"='Q_DIS_FUNS_NEW_ROW.BN_BK_ACCNO_TEXT
+ 
+') ,
+ TRANS_TYPE_CODE int SET("ui_mapping_text"='Q_DIS_FUNS_NEW_ROW.TRANS_TYPE_CODE
+ 
+') ,
+ PRGRAM_TYPE_EID int SET("ui_mapping_text"='Q_DIS_FUNS_NEW_ROW.PRGRAM_TYPE_EID
+ 
+') ,
+ SPECIAL_INS_TEXT varchar(100) SET("ui_mapping_text"='Q_DIS_FUNS_NEW_ROW.SPECIAL_INS_TEXT
+ 
+') ,
+ REFERENCE_TEXT varchar(100) SET("ui_mapping_text"='Q_DIS_FUNS_NEW_ROW.REFERENCE_TEXT
+ 
+') ,
+ INVOICE_ID_TEXT varchar(100) SET("ui_mapping_text"='Q_DIS_FUNS_NEW_ROW.INVOICE_ID_TEXT
+ 
+') ,
+ REV_ALC_TEXT varchar(15) SET("ui_mapping_text"='Q_DIS_FUNS_NEW_ROW.REV_ALC_TEXT
+ 
+') ,
+ FUTURE_SRC_CODE int SET("ui_mapping_text"='Q_DIS_FUNS_NEW_ROW.FUTURE_SRC_CODE
+ 
+') ,
+ INVOICE_DUE_DATE varchar(8) SET("ui_mapping_text"='Q_DIS_FUNS_NEW_ROW.INVOICE_DUE_DATE
+ 
+') ,
+ BN_BK_ACC_TEXT varchar(100) SET("ui_mapping_text"='Q_DIS_FUNS_NEW_ROW.BN_BK_ACC_TEXT
+ 
+') ,
+ RECV_SUB_DT_DATE varchar(8) SET("ui_mapping_text"='Q_DIS_FUNS_NEW_ROW.RECV_SUB_DT_DATE
+ 
+') ,
+ PAY_TERMS_CODE int SET("ui_mapping_text"='Q_DIS_FUNS_NEW_ROW.PAY_TERMS_CODE
+ 
+') ,
+ LSS_INVOICE_ID double SET("ui_mapping_text"='Q_DIS_FUNS_NEW_ROW.LSS_INVOICE_ID
+ 
+')  ) 
+AS SELECT  Q_DIS_FUNS_NEW_ROW.TRANS_ID
+ 
+ ,
+ Q_DIS_FUNS_NEW_ROW.ACCT_PER_CODE
+ 
+ ,
+ Q_DIS_FUNS_NEW_ROW.SOURCE_CODE
+ 
+ ,
+ Q_DIS_FUNS_NEW_ROW.IBAN_TEXT
+ 
+ ,
+ Q_DIS_FUNS_NEW_ROW.COMMENT_ACC_MEMO
+ 
+ ,
+ Q_DIS_FUNS_NEW_ROW.MATTER_NO_TEXT
+ 
+ ,
+ Q_DIS_FUNS_NEW_ROW.TOT_INVOICE_AMT
+ 
+ ,
+ Q_DIS_FUNS_NEW_ROW.CLM_MAJ_CAT_TEXT
+ 
+ ,
+ Q_DIS_FUNS_NEW_ROW.CLMT_NM_OTH_TEXT
+ 
+ ,
+ Q_DIS_FUNS_NEW_ROW.CLAIMANT_TEXT
+ 
+ ,
+ Q_DIS_FUNS_NEW_ROW.FIRM_TEXT
+ 
+ ,
+ Q_DIS_FUNS_NEW_ROW.STATUS_CODE
+ 
+ ,
+ Q_DIS_FUNS_NEW_ROW.PER_TOT_INV_NUM
+ 
+ ,
+ Q_DIS_FUNS_NEW_ROW.TYPE_OF_CLM_TEXT
+ 
+ ,
+ Q_DIS_FUNS_NEW_ROW.DEDUCTIBLE_AMT
+ 
+ ,
+ Q_DIS_FUNS_NEW_ROW.RECV_SUBMIT_AMT
+ 
+ ,
+ Q_DIS_FUNS_NEW_ROW.OTHER_FEES_AMT
+ 
+ ,
+ Q_DIS_FUNS_NEW_ROW.ACCT_YR_CODE
+ 
+ ,
+ Q_DIS_FUNS_NEW_ROW.INVOICE_NBR_TEXT
+ 
+ ,
+ Q_DIS_FUNS_NEW_ROW.TYPE_CODE_CODE
+ 
+ ,
+ Q_DIS_FUNS_NEW_ROW.GROUP_ID_TEXT
+ 
+ ,
+ Q_DIS_FUNS_NEW_ROW.FCAST_CAT_CODE
+ 
+ ,
+ Q_DIS_FUNS_NEW_ROW.SPNN_INV_TEXT
+ 
+ ,
+ Q_DIS_FUNS_NEW_ROW.INVOICE_DT_DATE
+ 
+ ,
+ Q_DIS_FUNS_NEW_ROW.BROKER_DUE_DATE
+ 
+ ,
+ Q_DIS_FUNS_NEW_ROW.INS_DUE_DATE
+ 
+ ,
+ Q_DIS_FUNS_NEW_ROW.PREMIUM_AMT
+ 
+ ,
+ Q_DIS_FUNS_NEW_ROW.COMMENTS_MEMO
+ 
+ ,
+ Q_DIS_FUNS_NEW_ROW.INVOICED_BY_TEXT
+ 
+ ,
+ Q_DIS_FUNS_NEW_ROW.MATTER_ID_TEXT
+ 
+ ,
+ Q_DIS_FUNS_NEW_ROW.MATTER_NAME_TEXT
+ 
+ ,
+ Q_DIS_FUNS_NEW_ROW.AUTH_FIRM_TEXT
+ 
+ ,
+ Q_DIS_FUNS_NEW_ROW.CHARGELINE_TEXT
+ 
+ ,
+ Q_DIS_FUNS_NEW_ROW.COMPANY_TEXT
+ 
+ ,
+ Q_DIS_FUNS_NEW_ROW.VN_BK_ACCT_TEXT
+ 
+ ,
+ Q_DIS_FUNS_NEW_ROW.VN_BK_EID
+ 
+ ,
+ Q_DIS_FUNS_NEW_ROW.VN_BK_1ADDR_TEXT
+ 
+ ,
+ Q_DIS_FUNS_NEW_ROW.VN_BK_2ADDR_TEXT
+ 
+ ,
+ Q_DIS_FUNS_NEW_ROW.VN_BK_CITY_TEXT
+ 
+ ,
+ Q_DIS_FUNS_NEW_ROW.VN_BK_STATE_TEXT
+ 
+ ,
+ Q_DIS_FUNS_NEW_ROW.VN_BK_ABA_TEXT
+ 
+ ,
+ Q_DIS_FUNS_NEW_ROW.VN_BK_SWIFT_TEXT
+ 
+ ,
+ Q_DIS_FUNS_NEW_ROW.BN_BK_EID
+ 
+ ,
+ Q_DIS_FUNS_NEW_ROW.BN_BK_ADDR_TEXT
+ 
+ ,
+ Q_DIS_FUNS_NEW_ROW.ACC_ACT_REQ_CODE
+ 
+ ,
+ Q_DIS_FUNS_NEW_ROW.BN_BK_ABA_TEXT
+ 
+ ,
+ Q_DIS_FUNS_NEW_ROW.BN_BK_SWIFT_TEXT
+ 
+ ,
+ Q_DIS_FUNS_NEW_ROW.BN_BK_ACCNO_TEXT
+ 
+ ,
+ Q_DIS_FUNS_NEW_ROW.TRANS_TYPE_CODE
+ 
+ ,
+ Q_DIS_FUNS_NEW_ROW.PRGRAM_TYPE_EID
+ 
+ ,
+ Q_DIS_FUNS_NEW_ROW.SPECIAL_INS_TEXT
+ 
+ ,
+ Q_DIS_FUNS_NEW_ROW.REFERENCE_TEXT
+ 
+ ,
+ Q_DIS_FUNS_NEW_ROW.INVOICE_ID_TEXT
+ 
+ ,
+ Q_DIS_FUNS_NEW_ROW.REV_ALC_TEXT
+ 
+ ,
+ Q_DIS_FUNS_NEW_ROW.FUTURE_SRC_CODE
+ 
+ ,
+ Q_DIS_FUNS_NEW_ROW.INVOICE_DUE_DATE
+ 
+ ,
+ Q_DIS_FUNS_NEW_ROW.BN_BK_ACC_TEXT
+ 
+ ,
+ Q_DIS_FUNS_NEW_ROW.RECV_SUB_DT_DATE
+ 
+ ,
+ Q_DIS_FUNS_NEW_ROW.PAY_TERMS_CODE
+ 
+ ,
+ Q_DIS_FUNS_NEW_ROW.LSS_INVOICE_ID
+ 
+ 
+	FROM Q_DIS_FUNS_NEW_ROW SET (
+"distinct_run_as_separate_process" = 'no',
+"group_by_run_as_separate_process" = 'no',
+"join_run_as_separate_process" = 'no',
+"order_by_run_as_separate_process" = 'no',
+"run_as_separate_process" = 'no');
+ALGUICOMMENT( x = '2637', y = '-954',UI_DATA_XML='<UIDATA><MAINICON><LOCATION><X>0</X><Y>0</Y></LOCATION><SIZE><CX>432</CX><CY>-182</CY></SIZE></MAINICON><DESCRIPTION><LOCATION><X>0</X><Y>-174</Y></LOCATION><SIZE><CX>200</CX><CY>200</CY></SIZE><VISIBLE>0</VISIBLE></DESCRIPTION></UIDATA>', UpperContainer_HeightProp = '91', InputSchema_WidthProp = '50', Input_Width_Description = '130', Output_Width_Decsription = '130', Input_Width_Type = '85', Output_Width_Type = '80', Output_Width_Mapping = '85', Input_Column_Width_3 = '100', Output_Column_Width_4 = '100', Input_Column_Width_4 = '100', Output_Column_Width_5 = '100', Input_1st_Column_Name = 'Type', Input_2nd_Column_Name = 'Description', Input_Column_Name_3 = 'Content_Type', Input_Column_Name_4 = 'Business_Name', Output_1st_Column_Name = 'Type', Output_2nd_Column_Name = 'Mapping', Output_3rd_Column_Name = 'Description', Output_Column_Name_4 = 'Content_Type', Output_Column_Name_5 = '', UI_PASSTHRU_VSPLIT_PCT = '50' )
+GUID::'34172446-9894-4051-967d-c45ceeab845c' LOAD TABLE DS_RMDB.DBO.FUNDS_SUPP  INPUT ( M_DIS_MERGE_FUNS_SUPP ) SET (
+"LDRLiveLoad" = 'no',
+"Table_Type" = 'TABLE',
+"connection_port" = 'no',
+"ldr_configuration_enabled" = 'yes',
+"ldr_configurations" = '<?xml version="1.0" encoding="UTF-8"?>
+<LDRConfigurations>
+<LDRConfiguration database_type="Microsoft_SQL_Server" database_version="Microsoft SQL Server 2008">
+<auto_correct_using_merge>yes</auto_correct_using_merge>
+<bulk_ldr_all_rows></bulk_ldr_all_rows>
+<bulk_ldr_max_errors></bulk_ldr_max_errors>
+<bulk_ldr_rows_per_commit>1000</bulk_ldr_rows_per_commit>
+<enable_partitioning>no</enable_partitioning>
+<ignore_column_case>yes</ignore_column_case>
+<ignore_columns_null>no</ignore_columns_null>
+<ignore_columns_value></ignore_columns_value>
+<loader_auto_correct>no</loader_auto_correct>
+<loader_bulk_load></loader_bulk_load>
+<loader_compare_column>compare_by_name</loader_compare_column>
+<loader_delete_map></loader_delete_map>
+<loader_drop_and_create_table>yes</loader_drop_and_create_table>
+<loader_insert_map></loader_insert_map>
+<loader_load_choice>append</loader_load_choice>
+<loader_num_parallel_loaders>1</loader_num_parallel_loaders>
+<loader_overflow_file></loader_overflow_file>
+<loader_post_load1></loader_post_load1>
+<loader_pre_load1></loader_pre_load1>
+<loader_quote_names>0</loader_quote_names>
+<loader_transactional>no</loader_transactional>
+<loader_transactional_order>0</loader_transactional_order>
+<loader_update_key_columns>no</loader_update_key_columns>
+<loader_update_map></loader_update_map>
+<loader_use_user_defined_keys>no</loader_use_user_defined_keys>
+<loader_xact_size>1000</loader_xact_size>
+<mssql_bulk_ldr_mode>append</mssql_bulk_ldr_mode>
+<mssql_bulk_ldr_packet_size>0</mssql_bulk_ldr_packet_size>
+<overflow_file_format>write_data</overflow_file_format>
+<overriding_substitution_parameter_for_tablename></overriding_substitution_parameter_for_tablename>
+<use_overflow_file>no</use_overflow_file>
+<use_unicode_varchar>no</use_unicode_varchar>
+<sql_text></sql_text>
+</LDRConfiguration>
+<LDRConfiguration database_type="Microsoft_SQL_Server" database_version="Microsoft SQL Server 2005">
+<auto_correct_using_merge>yes</auto_correct_using_merge>
+<bulk_ldr_all_rows></bulk_ldr_all_rows>
+<bulk_ldr_max_errors></bulk_ldr_max_errors>
+<bulk_ldr_rows_per_commit>1000</bulk_ldr_rows_per_commit>
+<enable_partitioning>no</enable_partitioning>
+<ignore_column_case>yes</ignore_column_case>
+<ignore_columns_null>no</ignore_columns_null>
+<ignore_columns_value></ignore_columns_value>
+<loader_auto_correct>no</loader_auto_correct>
+<loader_bulk_load></loader_bulk_load>
+<loader_compare_column>compare_by_name</loader_compare_column>
+<loader_delete_map></loader_delete_map>
+<loader_drop_and_create_table>yes</loader_drop_and_create_table>
+<loader_insert_map></loader_insert_map>
+<loader_load_choice>append</loader_load_choice>
+<loader_num_parallel_loaders>1</loader_num_parallel_loaders>
+<loader_overflow_file></loader_overflow_file>
+<loader_post_load1></loader_post_load1>
+<loader_pre_load1></loader_pre_load1>
+<loader_quote_names>0</loader_quote_names>
+<loader_transactional>no</loader_transactional>
+<loader_transactional_order>0</loader_transactional_order>
+<loader_update_key_columns>no</loader_update_key_columns>
+<loader_update_map></loader_update_map>
+<loader_use_user_defined_keys>no</loader_use_user_defined_keys>
+<loader_xact_size>1000</loader_xact_size>
+<mssql_bulk_ldr_mode>append</mssql_bulk_ldr_mode>
+<mssql_bulk_ldr_packet_size>0</mssql_bulk_ldr_packet_size>
+<overflow_file_format>write_data</overflow_file_format>
+<overriding_substitution_parameter_for_tablename></overriding_substitution_parameter_for_tablename>
+<use_overflow_file>no</use_overflow_file>
+<use_unicode_varchar>no</use_unicode_varchar>
+<sql_text></sql_text>
+</LDRConfiguration>
+</LDRConfigurations>',
+"loader_template_table" = 'no',
+"name" = 'DS_RMDB',
+"use_unicode_varchar" = 'no');
+ALGUICOMMENT( x = '1657', y = '-377' , ui_acta_from_schema_0 = 'Q_DIS_UPDATE_ROW'  , ui_display_name = 'Q_DIS_FUNS_SUPP_2' ,UI_DATA_XML='<UIDATA><MAINICON><LOCATION><X>0</X><Y>0</Y></LOCATION><SIZE><CX>388</CX><CY>-163</CY></SIZE></MAINICON><DESCRIPTION><LOCATION><X>0</X><Y>-174</Y></LOCATION><SIZE><CX>200</CX><CY>200</CY></SIZE><VISIBLE>0</VISIBLE></DESCRIPTION></UIDATA>', UpperContainer_HeightProp = '58', InputSchema_WidthProp = '50', Input_Width_Description = '130', Output_Width_Decsription = '130', Input_Width_Type = '85', Output_Width_Type = '80', Output_Width_Mapping = '85', Input_Column_Width_3 = '100', Output_Column_Width_4 = '100', Input_Column_Width_4 = '100', Output_Column_Width_5 = '100', Input_1st_Column_Name = 'Type', Input_2nd_Column_Name = 'Description', Input_Column_Name_3 = 'Content_Type', Input_Column_Name_4 = 'Business_Name', Output_1st_Column_Name = 'Type', Output_2nd_Column_Name = 'Mapping', Output_3rd_Column_Name = 'Description', Output_Column_Name_4 = 'Content_Type', Output_Column_Name_5 = 'Business_Name', UI_PASSTHRU_VSPLIT_PCT = '50' )
+GUID::'b6ec08f9-3a7f-4169-8353-7b984479c2f8' CREATE VIEW Q_DIS_FUNS_SUPP_2 ( TRANS_ID int KEY  SET("ui_mapping_text"='Q_DIS_UPDATE_ROW.TRANS_ID') ,
+ ACCT_PER_CODE int SET("ui_mapping_text"='Q_DIS_UPDATE_ROW.ACCT_PER_CODE') ,
+ SOURCE_CODE int SET("ui_mapping_text"='Q_DIS_UPDATE_ROW.SOURCE_CODE') ,
+ IBAN_TEXT varchar(200) SET("ui_mapping_text"='Q_DIS_UPDATE_ROW.IBAN_TEXT') ,
+ COMMENT_ACC_MEMO long SET("ui_mapping_text"='Q_DIS_UPDATE_ROW.COMMENT_ACC_MEMO', "Long Type"='CLOB') ,
+ MATTER_NO_TEXT varchar(50) SET("ui_mapping_text"='Q_DIS_UPDATE_ROW.MATTER_NO_TEXT') ,
+ TOT_INVOICE_AMT double SET("ui_mapping_text"='Q_DIS_UPDATE_ROW.TOT_INVOICE_AMT') ,
+ CLM_MAJ_CAT_TEXT varchar(50) SET("ui_mapping_text"='Q_DIS_UPDATE_ROW.CLM_MAJ_CAT_TEXT') ,
+ CLMT_NM_OTH_TEXT varchar(255) SET("ui_mapping_text"='Q_DIS_UPDATE_ROW.CLMT_NM_OTH_TEXT') ,
+ CLAIMANT_TEXT varchar(100) SET("ui_mapping_text"='Q_DIS_UPDATE_ROW.CLAIMANT_TEXT') ,
+ FIRM_TEXT varchar(50) SET("ui_mapping_text"='Q_DIS_UPDATE_ROW.FIRM_TEXT') ,
+ STATUS_CODE int SET("ui_mapping_text"='Q_DIS_UPDATE_ROW.STATUS_CODE') ,
+ PER_TOT_INV_NUM double SET("ui_mapping_text"='Q_DIS_UPDATE_ROW.PER_TOT_INV_NUM') ,
+ TYPE_OF_CLM_TEXT varchar(50) SET("ui_mapping_text"='Q_DIS_UPDATE_ROW.TYPE_OF_CLM_TEXT') ,
+ DEDUCTIBLE_AMT double SET("ui_mapping_text"='Q_DIS_UPDATE_ROW.DEDUCTIBLE_AMT') ,
+ RECV_SUBMIT_AMT double SET("ui_mapping_text"='Q_DIS_UPDATE_ROW.RECV_SUBMIT_AMT') ,
+ OTHER_FEES_AMT double SET("ui_mapping_text"='Q_DIS_UPDATE_ROW.OTHER_FEES_AMT') ,
+ ACCT_YR_CODE int SET("ui_mapping_text"='Q_DIS_UPDATE_ROW.ACCT_YR_CODE') ,
+ INVOICE_NBR_TEXT varchar(50) SET("ui_mapping_text"='Q_DIS_UPDATE_ROW.INVOICE_NBR_TEXT') ,
+ TYPE_CODE_CODE int SET("ui_mapping_text"='Q_DIS_UPDATE_ROW.TYPE_CODE_CODE') ,
+ GROUP_ID_TEXT varchar(50) SET("ui_mapping_text"='Q_DIS_UPDATE_ROW.GROUP_ID_TEXT') ,
+ FCAST_CAT_CODE int SET("ui_mapping_text"='Q_DIS_UPDATE_ROW.FCAST_CAT_CODE') ,
+ SPNN_INV_TEXT varchar(50) SET("ui_mapping_text"='Q_DIS_UPDATE_ROW.SPNN_INV_TEXT') ,
+ INVOICE_DT_DATE varchar(8) SET("ui_mapping_text"='Q_DIS_UPDATE_ROW.INVOICE_DT_DATE') ,
+ BROKER_DUE_DATE varchar(8) SET("ui_mapping_text"='Q_DIS_UPDATE_ROW.BROKER_DUE_DATE') ,
+ INS_DUE_DATE varchar(8) SET("ui_mapping_text"='Q_DIS_UPDATE_ROW.INS_DUE_DATE') ,
+ PREMIUM_AMT double SET("ui_mapping_text"='Q_DIS_UPDATE_ROW.PREMIUM_AMT') ,
+ COMMENTS_MEMO long SET("ui_mapping_text"='Q_DIS_UPDATE_ROW.COMMENTS_MEMO', "Long Type"='CLOB') ,
+ INVOICED_BY_TEXT varchar(100) SET("ui_mapping_text"='Q_DIS_UPDATE_ROW.INVOICED_BY_TEXT') ,
+ MATTER_ID_TEXT varchar(100) SET("ui_mapping_text"='Q_DIS_UPDATE_ROW.MATTER_ID_TEXT') ,
+ MATTER_NAME_TEXT varchar(100) SET("ui_mapping_text"='Q_DIS_UPDATE_ROW.MATTER_NAME_TEXT') ,
+ AUTH_FIRM_TEXT varchar(100) SET("ui_mapping_text"='Q_DIS_UPDATE_ROW.AUTH_FIRM_TEXT') ,
+ CHARGELINE_TEXT varchar(100) SET("ui_mapping_text"='Q_DIS_UPDATE_ROW.CHARGELINE_TEXT') ,
+ COMPANY_TEXT varchar(200) SET("ui_mapping_text"='Q_DIS_UPDATE_ROW.COMPANY_TEXT') ,
+ VN_BK_ACCT_TEXT varchar(200) SET("ui_mapping_text"='Q_DIS_UPDATE_ROW.VN_BK_ACCT_TEXT') ,
+ VN_BK_EID int SET("ui_mapping_text"='Q_DIS_UPDATE_ROW.VN_BK_EID') ,
+ VN_BK_1ADDR_TEXT varchar(200) SET("ui_mapping_text"='Q_DIS_UPDATE_ROW.VN_BK_1ADDR_TEXT') ,
+ VN_BK_2ADDR_TEXT varchar(200) SET("ui_mapping_text"='Q_DIS_UPDATE_ROW.VN_BK_2ADDR_TEXT') ,
+ VN_BK_CITY_TEXT varchar(200) SET("ui_mapping_text"='Q_DIS_UPDATE_ROW.VN_BK_CITY_TEXT') ,
+ VN_BK_STATE_TEXT varchar(200) SET("ui_mapping_text"='Q_DIS_UPDATE_ROW.VN_BK_STATE_TEXT') ,
+ VN_BK_ABA_TEXT varchar(200) SET("ui_mapping_text"='Q_DIS_UPDATE_ROW.VN_BK_ABA_TEXT') ,
+ VN_BK_SWIFT_TEXT varchar(200) SET("ui_mapping_text"='Q_DIS_UPDATE_ROW.VN_BK_SWIFT_TEXT') ,
+ BN_BK_EID int SET("ui_mapping_text"='Q_DIS_UPDATE_ROW.BN_BK_EID') ,
+ BN_BK_ADDR_TEXT varchar(200) SET("ui_mapping_text"='Q_DIS_UPDATE_ROW.BN_BK_ADDR_TEXT') ,
+ ACC_ACT_REQ_CODE int SET("ui_mapping_text"='Q_DIS_UPDATE_ROW.ACC_ACT_REQ_CODE') ,
+ BN_BK_ABA_TEXT varchar(200) SET("ui_mapping_text"='Q_DIS_UPDATE_ROW.BN_BK_ABA_TEXT') ,
+ BN_BK_SWIFT_TEXT varchar(200) SET("ui_mapping_text"='Q_DIS_UPDATE_ROW.BN_BK_SWIFT_TEXT') ,
+ BN_BK_ACCNO_TEXT varchar(200) SET("ui_mapping_text"='Q_DIS_UPDATE_ROW.BN_BK_ACCNO_TEXT') ,
+ TRANS_TYPE_CODE int SET("ui_mapping_text"='Q_DIS_UPDATE_ROW.TRANS_TYPE_CODE') ,
+ PRGRAM_TYPE_EID int SET("ui_mapping_text"='Q_DIS_UPDATE_ROW.PRGRAM_TYPE_EID') ,
+ SPECIAL_INS_TEXT varchar(100) SET("ui_mapping_text"='Q_DIS_UPDATE_ROW.SPECIAL_INS_TEXT') ,
+ REFERENCE_TEXT varchar(100) SET("ui_mapping_text"='Q_DIS_UPDATE_ROW.REFERENCE_TEXT') ,
+ INVOICE_ID_TEXT varchar(100) SET("ui_mapping_text"='Q_DIS_UPDATE_ROW.INVOICE_ID_TEXT') ,
+ REV_ALC_TEXT varchar(15) SET("ui_mapping_text"='Q_DIS_UPDATE_ROW.REV_ALC_TEXT') ,
+ FUTURE_SRC_CODE int SET("ui_mapping_text"='Q_DIS_UPDATE_ROW.FUTURE_SRC_CODE') ,
+ INVOICE_DUE_DATE varchar(8) SET("ui_mapping_text"='Q_DIS_UPDATE_ROW.INVOICE_DUE_DATE') ,
+ BN_BK_ACC_TEXT varchar(100) SET("ui_mapping_text"='Q_DIS_UPDATE_ROW.BN_BK_ACC_TEXT') ,
+ RECV_SUB_DT_DATE varchar(8) SET("ui_mapping_text"='Q_DIS_UPDATE_ROW.RECV_SUB_DT_DATE') ,
+ PAY_TERMS_CODE int SET("ui_mapping_text"='Q_DIS_UPDATE_ROW.PAY_TERMS_CODE') ,
+ LSS_INVOICE_ID double SET("ui_mapping_text"='Q_DIS_UPDATE_ROW.LSS_INVOICE_ID')  ) 
+AS SELECT  Q_DIS_UPDATE_ROW.TRANS_ID
+ 
+ ,
+ Q_DIS_UPDATE_ROW.ACCT_PER_CODE
+ 
+ ,
+ Q_DIS_UPDATE_ROW.SOURCE_CODE
+ 
+ ,
+ Q_DIS_UPDATE_ROW.IBAN_TEXT
+ 
+ ,
+ Q_DIS_UPDATE_ROW.COMMENT_ACC_MEMO
+ 
+ ,
+ Q_DIS_UPDATE_ROW.MATTER_NO_TEXT
+ 
+ ,
+ Q_DIS_UPDATE_ROW.TOT_INVOICE_AMT
+ 
+ ,
+ Q_DIS_UPDATE_ROW.CLM_MAJ_CAT_TEXT
+ 
+ ,
+ Q_DIS_UPDATE_ROW.CLMT_NM_OTH_TEXT
+ 
+ ,
+ Q_DIS_UPDATE_ROW.CLAIMANT_TEXT
+ 
+ ,
+ Q_DIS_UPDATE_ROW.FIRM_TEXT
+ 
+ ,
+ Q_DIS_UPDATE_ROW.STATUS_CODE
+ 
+ ,
+ Q_DIS_UPDATE_ROW.PER_TOT_INV_NUM
+ 
+ ,
+ Q_DIS_UPDATE_ROW.TYPE_OF_CLM_TEXT
+ 
+ ,
+ Q_DIS_UPDATE_ROW.DEDUCTIBLE_AMT
+ 
+ ,
+ Q_DIS_UPDATE_ROW.RECV_SUBMIT_AMT
+ 
+ ,
+ Q_DIS_UPDATE_ROW.OTHER_FEES_AMT
+ 
+ ,
+ Q_DIS_UPDATE_ROW.ACCT_YR_CODE
+ 
+ ,
+ Q_DIS_UPDATE_ROW.INVOICE_NBR_TEXT
+ 
+ ,
+ Q_DIS_UPDATE_ROW.TYPE_CODE_CODE
+ 
+ ,
+ Q_DIS_UPDATE_ROW.GROUP_ID_TEXT
+ 
+ ,
+ Q_DIS_UPDATE_ROW.FCAST_CAT_CODE
+ 
+ ,
+ Q_DIS_UPDATE_ROW.SPNN_INV_TEXT
+ 
+ ,
+ Q_DIS_UPDATE_ROW.INVOICE_DT_DATE
+ 
+ ,
+ Q_DIS_UPDATE_ROW.BROKER_DUE_DATE
+ 
+ ,
+ Q_DIS_UPDATE_ROW.INS_DUE_DATE
+ 
+ ,
+ Q_DIS_UPDATE_ROW.PREMIUM_AMT
+ 
+ ,
+ Q_DIS_UPDATE_ROW.COMMENTS_MEMO
+ 
+ ,
+ Q_DIS_UPDATE_ROW.INVOICED_BY_TEXT
+ 
+ ,
+ Q_DIS_UPDATE_ROW.MATTER_ID_TEXT
+ 
+ ,
+ Q_DIS_UPDATE_ROW.MATTER_NAME_TEXT
+ 
+ ,
+ Q_DIS_UPDATE_ROW.AUTH_FIRM_TEXT
+ 
+ ,
+ Q_DIS_UPDATE_ROW.CHARGELINE_TEXT
+ 
+ ,
+ Q_DIS_UPDATE_ROW.COMPANY_TEXT
+ 
+ ,
+ Q_DIS_UPDATE_ROW.VN_BK_ACCT_TEXT
+ 
+ ,
+ Q_DIS_UPDATE_ROW.VN_BK_EID
+ 
+ ,
+ Q_DIS_UPDATE_ROW.VN_BK_1ADDR_TEXT
+ 
+ ,
+ Q_DIS_UPDATE_ROW.VN_BK_2ADDR_TEXT
+ 
+ ,
+ Q_DIS_UPDATE_ROW.VN_BK_CITY_TEXT
+ 
+ ,
+ Q_DIS_UPDATE_ROW.VN_BK_STATE_TEXT
+ 
+ ,
+ Q_DIS_UPDATE_ROW.VN_BK_ABA_TEXT
+ 
+ ,
+ Q_DIS_UPDATE_ROW.VN_BK_SWIFT_TEXT
+ 
+ ,
+ Q_DIS_UPDATE_ROW.BN_BK_EID
+ 
+ ,
+ Q_DIS_UPDATE_ROW.BN_BK_ADDR_TEXT
+ 
+ ,
+ Q_DIS_UPDATE_ROW.ACC_ACT_REQ_CODE
+ 
+ ,
+ Q_DIS_UPDATE_ROW.BN_BK_ABA_TEXT
+ 
+ ,
+ Q_DIS_UPDATE_ROW.BN_BK_SWIFT_TEXT
+ 
+ ,
+ Q_DIS_UPDATE_ROW.BN_BK_ACCNO_TEXT
+ 
+ ,
+ Q_DIS_UPDATE_ROW.TRANS_TYPE_CODE
+ 
+ ,
+ Q_DIS_UPDATE_ROW.PRGRAM_TYPE_EID
+ 
+ ,
+ Q_DIS_UPDATE_ROW.SPECIAL_INS_TEXT
+ 
+ ,
+ Q_DIS_UPDATE_ROW.REFERENCE_TEXT
+ 
+ ,
+ Q_DIS_UPDATE_ROW.INVOICE_ID_TEXT
+ 
+ ,
+ Q_DIS_UPDATE_ROW.REV_ALC_TEXT
+ 
+ ,
+ Q_DIS_UPDATE_ROW.FUTURE_SRC_CODE
+ 
+ ,
+ Q_DIS_UPDATE_ROW.INVOICE_DUE_DATE
+ 
+ ,
+ Q_DIS_UPDATE_ROW.BN_BK_ACC_TEXT
+ 
+ ,
+ Q_DIS_UPDATE_ROW.RECV_SUB_DT_DATE
+ 
+ ,
+ Q_DIS_UPDATE_ROW.PAY_TERMS_CODE
+ 
+ ,
+ Q_DIS_UPDATE_ROW.LSS_INVOICE_ID
+ 
+ 
+	FROM Q_DIS_UPDATE_ROW SET (
+"distinct_run_as_separate_process" = 'no',
+"group_by_run_as_separate_process" = 'no',
+"join_run_as_separate_process" = 'no',
+"order_by_run_as_separate_process" = 'no',
+"run_as_separate_process" = 'no');
+ALGUICOMMENT( x = '309', y = '-272',UI_DATA_XML='<UIDATA><MAINICON><LOCATION><X>0</X><Y>0</Y></LOCATION><SIZE><CX>397</CX><CY>-182</CY></SIZE></MAINICON><DESCRIPTION><LOCATION><X>0</X><Y>-174</Y></LOCATION><SIZE><CX>200</CX><CY>200</CY></SIZE><VISIBLE>0</VISIBLE></DESCRIPTION></UIDATA>', UpperContainer_HeightProp = '60', InputSchema_WidthProp = '51', Input_Width_Description = '130', Output_Width_Decsription = '130', Input_Width_Type = '85', Output_Width_Type = '80', Output_Width_Mapping = '85', Input_Column_Width_3 = '100', Output_Column_Width_4 = '100', Input_Column_Width_4 = '100', Output_Column_Width_5 = '100', Input_1st_Column_Name = 'Type', Input_2nd_Column_Name = 'Description', Input_Column_Name_3 = 'Content_Type', Input_Column_Name_4 = 'Business_Name', Output_1st_Column_Name = 'Type', Output_2nd_Column_Name = 'Mapping', Output_3rd_Column_Name = 'Description', Output_Column_Name_4 = 'Content_Type', Output_Column_Name_5 = 'Business_Name' )
+GUID::'f109e132-67b8-40bf-88ab-1b0e6abcfd6d' READ TABLE DS_RMX_STAGING.DBO.FUNDS  OUTPUT ( FUNDS ) SET (
+"array_fetch_size" = '1000',
+"cache" = 'yes',
+"connection_port" = 'no',
+"enable_partitioning" = 'no',
+"name" = 'DS_RMX_STAGING',
+"package_size" = '0',
+"reader_is_DB2CDC_table" = 'no',
+"reader_overflow_file" = 'overflow_file',
+"reader_template_table" = 'no',
+"reader_use_overflow_file" = 'no',
+"reader_use_trex_transaction" = 'no',
+"table_weight" = '0');
+ALGUICOMMENT( x = '290', y = '-851',UI_DATA_XML='<UIDATA><MAINICON><LOCATION><X>0</X><Y>0</Y></LOCATION><SIZE><CX>372</CX><CY>-182</CY></SIZE></MAINICON><DESCRIPTION><LOCATION><X>0</X><Y>-174</Y></LOCATION><SIZE><CX>200</CX><CY>200</CY></SIZE><VISIBLE>0</VISIBLE></DESCRIPTION></UIDATA>', UpperContainer_HeightProp = '60', InputSchema_WidthProp = '51', Input_Width_Description = '130', Output_Width_Decsription = '130', Input_Width_Type = '85', Output_Width_Type = '80', Output_Width_Mapping = '85', Input_Column_Width_3 = '100', Output_Column_Width_4 = '100', Input_Column_Width_4 = '100', Output_Column_Width_5 = '100', Input_1st_Column_Name = 'Type', Input_2nd_Column_Name = 'Description', Input_Column_Name_3 = 'Content_Type', Input_Column_Name_4 = 'Business_Name', Output_1st_Column_Name = 'Type', Output_2nd_Column_Name = 'Mapping', Output_3rd_Column_Name = 'Description', Output_Column_Name_4 = 'Content_Type', Output_Column_Name_5 = 'Business_Name' )
+GUID::'4f79e365-ef64-4bbe-adff-7a53f895cdb9' READ TABLE DS_RMX_STAGING.DBO.T_DIS_FUNDS  OUTPUT ( T_DIS_FUNDS ) SET (
+"array_fetch_size" = '1000',
+"cache" = 'yes',
+"connection_port" = 'no',
+"enable_partitioning" = 'no',
+"name" = 'DS_RMX_STAGING',
+"package_size" = '0',
+"reader_is_DB2CDC_table" = 'no',
+"reader_overflow_file" = 'overflow_file',
+"reader_template_table" = 'no',
+"reader_use_overflow_file" = 'no',
+"reader_use_trex_transaction" = 'no',
+"table_weight" = '0');
+END
+
+SET("Cache_type" = 'pageable_cache',
+"Parallelism_degree" = '0',
+"allows_both_input_and_output" = 'yes',
+"run_once" = 'no',
+"use_dataflow_links" = 'no',
+"use_datastore_links" = 'yes',
+"validation_xform_exists" = 'no',
+"validation_xform_stats" = 'no')
+ALGUICOMMENT( x = '-1', y = '-1' , "ActaName_1" = 'RSavedAfterCheckOut' , "ActaValue_1" = 'YES' , "ActaName_2" = 'RDate_created' , "ActaValue_2" = 'Tue May 20 11:55:57 2014' , "ActaName_3" = 'Rcolumn_mapping_calculated' , "ActaValue_3" = 'no' , "ActaName_4" = 'RDate_modified' , "ActaValue_4" = 'Thu May 15 17:16:05 2014' )
+CREATE DATAFLOW DF_DIS_READ_FUNDS_SUPP::'81414e97-1c49-4f8c-bcf0-0b9867dfa84e'
+
+BEGIN 
+ALGUICOMMENT( x = '143', y = '-941',UI_DATA_XML='<UIDATA><MAINICON><LOCATION><X>0</X><Y>0</Y></LOCATION><SIZE><CX>391</CX><CY>-182</CY></SIZE></MAINICON><DESCRIPTION><LOCATION><X>0</X><Y>-174</Y></LOCATION><SIZE><CX>200</CX><CY>200</CY></SIZE><VISIBLE>0</VISIBLE></DESCRIPTION></UIDATA>', UpperContainer_HeightProp = '58', InputSchema_WidthProp = '50', Input_Width_Description = '130', Output_Width_Decsription = '130', Input_Width_Type = '85', Output_Width_Type = '80', Output_Width_Mapping = '85', Input_Column_Width_3 = '100', Output_Column_Width_4 = '100', Input_Column_Width_4 = '100', Output_Column_Width_5 = '100', Input_1st_Column_Name = 'Description', Input_2nd_Column_Name = 'Type', Input_Column_Name_3 = 'Content_Type', Input_Column_Name_4 = 'Business_Name', Output_1st_Column_Name = 'Type', Output_2nd_Column_Name = 'Mapping', Output_3rd_Column_Name = 'Description', Output_Column_Name_4 = 'Content_Type', Output_Column_Name_5 = '' )
+GUID::'c6447952-75a6-4acd-bc97-6dc776db4f9c' READ TABLE DS_MSACCESS_STAGING.DBO.FUNDS_SUPP  OUTPUT ( FUNDS_SUPP ) SET (
+"array_fetch_size" = '1000',
+"cache" = 'yes',
+"connection_port" = 'no',
+"enable_partitioning" = 'no',
+"name" = 'DS_MSACCESS_STAGING',
+"package_size" = '0',
+"reader_is_DB2CDC_table" = 'no',
+"reader_overflow_file" = 'overflow_file',
+"reader_template_table" = 'no',
+"reader_use_overflow_file" = 'no',
+"reader_use_trex_transaction" = 'no',
+"table_weight" = '0');
+ALGUICOMMENT( x = '735', y = '-666' , ui_acta_from_schema_0 = 'FUNDS_SUPP'  , ui_display_name = 'Q_DIS_FUNS_SUPP'  , ui_where_text = 'FUNDS_SUPP.OPTIONSET_ID=$gOptionSet_Id' ,UI_DATA_XML='<UIDATA><MAINICON><LOCATION><X>0</X><Y>0</Y></LOCATION><SIZE><CX>350</CX><CY>-163</CY></SIZE></MAINICON><DESCRIPTION><LOCATION><X>0</X><Y>-174</Y></LOCATION><SIZE><CX>200</CX><CY>200</CY></SIZE><VISIBLE>0</VISIBLE></DESCRIPTION></UIDATA>', UpperContainer_HeightProp = '58', InputSchema_WidthProp = '50', Input_Width_Description = '130', Output_Width_Decsription = '130', Input_Width_Type = '85', Output_Width_Type = '80', Output_Width_Mapping = '85', Input_Column_Width_3 = '100', Output_Column_Width_4 = '100', Input_Column_Width_4 = '100', Output_Column_Width_5 = '100', Input_1st_Column_Name = 'Type', Input_2nd_Column_Name = 'Description', Input_Column_Name_3 = 'Content_Type', Input_Column_Name_4 = 'Business_Name', Output_1st_Column_Name = 'Type', Output_2nd_Column_Name = 'Mapping', Output_3rd_Column_Name = 'Description', Output_Column_Name_4 = 'Content_Type', Output_Column_Name_5 = 'Business_Name', UI_PASSTHRU_VSPLIT_PCT = '50' )
+GUID::'aaa1ea3a-737a-4a57-a036-fc0671c6ba00' CREATE VIEW Q_DIS_FUNS_SUPP ( DA_ROW_ID int KEY  SET("ui_mapping_text"='0') ,
+ JOBID int KEY  SET("ui_mapping_text"='$gJobId ') ,
+ TRANS_ID int SET("ui_mapping_text"='FUNDS_SUPP.TRANS_ID') ,
+ INPUT_ROW_ID int SET("ui_mapping_text"='0') ,
+ INVALID_ROW int SET("ui_mapping_text"='0') ,
+ UPDATE_ROW int SET("ui_mapping_text"='0') ,
+ ACCT_PER_CODE int SET("ui_mapping_text"='FUNDS_SUPP.ACCT_PER_CODE') ,
+ SOURCE_CODE int SET("ui_mapping_text"='FUNDS_SUPP.SOURCE_CODE') ,
+ IBAN_TEXT varchar(200) SET("ui_mapping_text"='FUNDS_SUPP.IBAN_TEXT') ,
+ COMMENT_ACC_MEMO long SET("ui_mapping_text"='FUNDS_SUPP.COMMENT_ACC_MEMO', "Long Type"='CLOB') ,
+ MATTER_NO_TEXT varchar(50) SET("ui_mapping_text"='FUNDS_SUPP.MATTER_NO_TEXT') ,
+ TOT_INVOICE_AMT double SET("ui_mapping_text"='FUNDS_SUPP.TOT_INVOICE_AMT') ,
+ CLM_MAJ_CAT_TEXT varchar(50) SET("ui_mapping_text"='FUNDS_SUPP.CLM_MAJ_CAT_TEXT') ,
+ CLMT_NM_OTH_TEXT varchar(255) SET("ui_mapping_text"='FUNDS_SUPP.CLMT_NM_OTH_TEXT') ,
+ CLAIMANT_TEXT varchar(100) SET("ui_mapping_text"='FUNDS_SUPP.CLAIMANT_TEXT') ,
+ FIRM_TEXT varchar(50) SET("ui_mapping_text"='FUNDS_SUPP.FIRM_TEXT') ,
+ STATUS_CODE int SET("ui_mapping_text"='FUNDS_SUPP.STATUS_CODE') ,
+ PER_TOT_INV_NUM double SET("ui_mapping_text"='FUNDS_SUPP.PER_TOT_INV_NUM') ,
+ TYPE_OF_CLM_TEXT varchar(50) SET("ui_mapping_text"='FUNDS_SUPP.TYPE_OF_CLM_TEXT') ,
+ DEDUCTIBLE_AMT double SET("ui_mapping_text"='FUNDS_SUPP.DEDUCTIBLE_AMT') ,
+ RECV_SUBMIT_AMT double SET("ui_mapping_text"='FUNDS_SUPP.RECV_SUBMIT_AMT') ,
+ OTHER_FEES_AMT double SET("ui_mapping_text"='FUNDS_SUPP.OTHER_FEES_AMT') ,
+ ACCT_YR_CODE int SET("ui_mapping_text"='FUNDS_SUPP.ACCT_YR_CODE') ,
+ INVOICE_NBR_TEXT varchar(50) SET("ui_mapping_text"='FUNDS_SUPP.INVOICE_NBR_TEXT') ,
+ TYPE_CODE_CODE int SET("ui_mapping_text"='FUNDS_SUPP.TYPE_CODE_CODE') ,
+ GROUP_ID_TEXT varchar(50) SET("ui_mapping_text"='FUNDS_SUPP.GROUP_ID_TEXT') ,
+ FCAST_CAT_CODE int SET("ui_mapping_text"='FUNDS_SUPP.FCAST_CAT_CODE') ,
+ SPNN_INV_TEXT varchar(50) SET("ui_mapping_text"='FUNDS_SUPP.SPNN_INV_TEXT') ,
+ INVOICE_DT_DATE varchar(8) SET("ui_mapping_text"='FUNDS_SUPP.INVOICE_DT_DATE') ,
+ BROKER_DUE_DATE varchar(8) SET("ui_mapping_text"='FUNDS_SUPP.BROKER_DUE_DATE') ,
+ INS_DUE_DATE varchar(8) SET("ui_mapping_text"='FUNDS_SUPP.INS_DUE_DATE') ,
+ PREMIUM_AMT double SET("ui_mapping_text"='FUNDS_SUPP.PREMIUM_AMT') ,
+ COMMENTS_MEMO long SET("ui_mapping_text"='FUNDS_SUPP.COMMENTS_MEMO', "Long Type"='CLOB') ,
+ INVOICED_BY_TEXT varchar(100) SET("ui_mapping_text"='FUNDS_SUPP.INVOICED_BY_TEXT') ,
+ MATTER_ID_TEXT varchar(100) SET("ui_mapping_text"='FUNDS_SUPP.MATTER_ID_TEXT') ,
+ MATTER_NAME_TEXT varchar(100) SET("ui_mapping_text"='FUNDS_SUPP.MATTER_NAME_TEXT') ,
+ AUTH_FIRM_TEXT varchar(100) SET("ui_mapping_text"='FUNDS_SUPP.AUTH_FIRM_TEXT') ,
+ CHARGELINE_TEXT varchar(100) SET("ui_mapping_text"='FUNDS_SUPP.CHARGELINE_TEXT') ,
+ COMPANY_TEXT varchar(200) SET("ui_mapping_text"='FUNDS_SUPP.COMPANY_TEXT') ,
+ VN_BK_ACCT_TEXT varchar(200) SET("ui_mapping_text"='FUNDS_SUPP.VN_BK_ACCT_TEXT') ,
+ VN_BK_EID int SET("ui_mapping_text"='FUNDS_SUPP.VN_BK_EID') ,
+ VN_BK_1ADDR_TEXT varchar(200) SET("ui_mapping_text"='FUNDS_SUPP.VN_BK_1ADDR_TEXT') ,
+ VN_BK_2ADDR_TEXT varchar(200) SET("ui_mapping_text"='FUNDS_SUPP.VN_BK_2ADDR_TEXT') ,
+ VN_BK_CITY_TEXT varchar(200) SET("ui_mapping_text"='FUNDS_SUPP.VN_BK_CITY_TEXT') ,
+ VN_BK_STATE_TEXT varchar(200) SET("ui_mapping_text"='FUNDS_SUPP.VN_BK_STATE_TEXT') ,
+ VN_BK_ABA_TEXT varchar(200) SET("ui_mapping_text"='FUNDS_SUPP.VN_BK_ABA_TEXT') ,
+ VN_BK_SWIFT_TEXT varchar(200) SET("ui_mapping_text"='FUNDS_SUPP.VN_BK_SWIFT_TEXT') ,
+ BN_BK_EID int SET("ui_mapping_text"='FUNDS_SUPP.BN_BK_EID') ,
+ BN_BK_ADDR_TEXT varchar(200) SET("ui_mapping_text"='FUNDS_SUPP.BN_BK_ADDR_TEXT') ,
+ ACC_ACT_REQ_CODE int SET("ui_mapping_text"='FUNDS_SUPP.ACC_ACT_REQ_CODE') ,
+ BN_BK_ABA_TEXT varchar(200) SET("ui_mapping_text"='FUNDS_SUPP.BN_BK_ABA_TEXT') ,
+ BN_BK_SWIFT_TEXT varchar(200) SET("ui_mapping_text"='FUNDS_SUPP.BN_BK_SWIFT_TEXT') ,
+ BN_BK_ACCNO_TEXT varchar(200) SET("ui_mapping_text"='FUNDS_SUPP.BN_BK_ACCNO_TEXT') ,
+ TRANS_TYPE_CODE int SET("ui_mapping_text"='FUNDS_SUPP.TRANS_TYPE_CODE') ,
+ PRGRAM_TYPE_EID int SET("ui_mapping_text"='FUNDS_SUPP.PRGRAM_TYPE_EID') ,
+ SPECIAL_INS_TEXT varchar(100) SET("ui_mapping_text"='FUNDS_SUPP.SPECIAL_INS_TEXT') ,
+ REFERENCE_TEXT varchar(100) SET("ui_mapping_text"='FUNDS_SUPP.REFERENCE_TEXT') ,
+ INVOICE_ID_TEXT varchar(100) SET("ui_mapping_text"='FUNDS_SUPP.INVOICE_ID_TEXT') ,
+ REV_ALC_TEXT varchar(15) SET("ui_mapping_text"='FUNDS_SUPP.REV_ALC_TEXT') ,
+ FUTURE_SRC_CODE int SET("ui_mapping_text"='FUNDS_SUPP.FUTURE_SRC_CODE') ,
+ INVOICE_DUE_DATE varchar(8) SET("ui_mapping_text"='FUNDS_SUPP.INVOICE_DUE_DATE') ,
+ BN_BK_ACC_TEXT varchar(100) SET("ui_mapping_text"='FUNDS_SUPP.BN_BK_ACC_TEXT') ,
+ RECV_SUB_DT_DATE varchar(8) SET("ui_mapping_text"='FUNDS_SUPP.RECV_SUB_DT_DATE') ,
+ PAY_TERMS_CODE int SET("ui_mapping_text"='FUNDS_SUPP.PAY_TERMS_CODE') ,
+ LSS_INVOICE_ID double SET("ui_mapping_text"='FUNDS_SUPP.LSS_INVOICE_ID')  ) 
+AS SELECT  0
+ 
+ ,
+ $gJobId
+ 
+ ,
+ FUNDS_SUPP.TRANS_ID
+ 
+ ,
+ 0
+ 
+ ,
+ 0
+ 
+ ,
+ 0
+ 
+ ,
+ FUNDS_SUPP.ACCT_PER_CODE
+ 
+ ,
+ FUNDS_SUPP.SOURCE_CODE
+ 
+ ,
+ FUNDS_SUPP.IBAN_TEXT
+ 
+ ,
+ FUNDS_SUPP.COMMENT_ACC_MEMO
+ 
+ ,
+ FUNDS_SUPP.MATTER_NO_TEXT
+ 
+ ,
+ FUNDS_SUPP.TOT_INVOICE_AMT
+ 
+ ,
+ FUNDS_SUPP.CLM_MAJ_CAT_TEXT
+ 
+ ,
+ FUNDS_SUPP.CLMT_NM_OTH_TEXT
+ 
+ ,
+ FUNDS_SUPP.CLAIMANT_TEXT
+ 
+ ,
+ FUNDS_SUPP.FIRM_TEXT
+ 
+ ,
+ FUNDS_SUPP.STATUS_CODE
+ 
+ ,
+ FUNDS_SUPP.PER_TOT_INV_NUM
+ 
+ ,
+ FUNDS_SUPP.TYPE_OF_CLM_TEXT
+ 
+ ,
+ FUNDS_SUPP.DEDUCTIBLE_AMT
+ 
+ ,
+ FUNDS_SUPP.RECV_SUBMIT_AMT
+ 
+ ,
+ FUNDS_SUPP.OTHER_FEES_AMT
+ 
+ ,
+ FUNDS_SUPP.ACCT_YR_CODE
+ 
+ ,
+ FUNDS_SUPP.INVOICE_NBR_TEXT
+ 
+ ,
+ FUNDS_SUPP.TYPE_CODE_CODE
+ 
+ ,
+ FUNDS_SUPP.GROUP_ID_TEXT
+ 
+ ,
+ FUNDS_SUPP.FCAST_CAT_CODE
+ 
+ ,
+ FUNDS_SUPP.SPNN_INV_TEXT
+ 
+ ,
+ FUNDS_SUPP.INVOICE_DT_DATE
+ 
+ ,
+ FUNDS_SUPP.BROKER_DUE_DATE
+ 
+ ,
+ FUNDS_SUPP.INS_DUE_DATE
+ 
+ ,
+ FUNDS_SUPP.PREMIUM_AMT
+ 
+ ,
+ FUNDS_SUPP.COMMENTS_MEMO
+ 
+ ,
+ FUNDS_SUPP.INVOICED_BY_TEXT
+ 
+ ,
+ FUNDS_SUPP.MATTER_ID_TEXT
+ 
+ ,
+ FUNDS_SUPP.MATTER_NAME_TEXT
+ 
+ ,
+ FUNDS_SUPP.AUTH_FIRM_TEXT
+ 
+ ,
+ FUNDS_SUPP.CHARGELINE_TEXT
+ 
+ ,
+ FUNDS_SUPP.COMPANY_TEXT
+ 
+ ,
+ FUNDS_SUPP.VN_BK_ACCT_TEXT
+ 
+ ,
+ FUNDS_SUPP.VN_BK_EID
+ 
+ ,
+ FUNDS_SUPP.VN_BK_1ADDR_TEXT
+ 
+ ,
+ FUNDS_SUPP.VN_BK_2ADDR_TEXT
+ 
+ ,
+ FUNDS_SUPP.VN_BK_CITY_TEXT
+ 
+ ,
+ FUNDS_SUPP.VN_BK_STATE_TEXT
+ 
+ ,
+ FUNDS_SUPP.VN_BK_ABA_TEXT
+ 
+ ,
+ FUNDS_SUPP.VN_BK_SWIFT_TEXT
+ 
+ ,
+ FUNDS_SUPP.BN_BK_EID
+ 
+ ,
+ FUNDS_SUPP.BN_BK_ADDR_TEXT
+ 
+ ,
+ FUNDS_SUPP.ACC_ACT_REQ_CODE
+ 
+ ,
+ FUNDS_SUPP.BN_BK_ABA_TEXT
+ 
+ ,
+ FUNDS_SUPP.BN_BK_SWIFT_TEXT
+ 
+ ,
+ FUNDS_SUPP.BN_BK_ACCNO_TEXT
+ 
+ ,
+ FUNDS_SUPP.TRANS_TYPE_CODE
+ 
+ ,
+ FUNDS_SUPP.PRGRAM_TYPE_EID
+ 
+ ,
+ FUNDS_SUPP.SPECIAL_INS_TEXT
+ 
+ ,
+ FUNDS_SUPP.REFERENCE_TEXT
+ 
+ ,
+ FUNDS_SUPP.INVOICE_ID_TEXT
+ 
+ ,
+ FUNDS_SUPP.REV_ALC_TEXT
+ 
+ ,
+ FUNDS_SUPP.FUTURE_SRC_CODE
+ 
+ ,
+ FUNDS_SUPP.INVOICE_DUE_DATE
+ 
+ ,
+ FUNDS_SUPP.BN_BK_ACC_TEXT
+ 
+ ,
+ FUNDS_SUPP.RECV_SUB_DT_DATE
+ 
+ ,
+ FUNDS_SUPP.PAY_TERMS_CODE
+ 
+ ,
+ FUNDS_SUPP.LSS_INVOICE_ID
+ 
+ 
+	FROM FUNDS_SUPP
+	WHERE FUNDS_SUPP.OPTIONSET_ID=$gOptionSet_Id
+ 
+ SET (
+"distinct_run_as_separate_process" = 'no',
+"group_by_run_as_separate_process" = 'no',
+"join_run_as_separate_process" = 'no',
+"order_by_run_as_separate_process" = 'no',
+"run_as_separate_process" = 'no');
+ALGUICOMMENT( x = '1818', y = '-822',UI_DATA_XML='<UIDATA><MAINICON><LOCATION><X>0</X><Y>0</Y></LOCATION><SIZE><CX>432</CX><CY>-182</CY></SIZE></MAINICON><DESCRIPTION><LOCATION><X>0</X><Y>-174</Y></LOCATION><SIZE><CX>200</CX><CY>200</CY></SIZE><VISIBLE>0</VISIBLE></DESCRIPTION></UIDATA>', UpperContainer_HeightProp = '84', InputSchema_WidthProp = '50', Input_Width_Description = '130', Output_Width_Decsription = '130', Input_Width_Type = '85', Output_Width_Type = '80', Output_Width_Mapping = '85', Input_Column_Width_3 = '100', Output_Column_Width_4 = '100', Input_Column_Width_4 = '100', Output_Column_Width_5 = '100', Input_1st_Column_Name = 'Type', Input_2nd_Column_Name = 'Description', Input_Column_Name_3 = 'Content_Type', Input_Column_Name_4 = 'Business_Name', Output_1st_Column_Name = 'Type', Output_2nd_Column_Name = 'Mapping', Output_3rd_Column_Name = 'Description', Output_Column_Name_4 = 'Content_Type', Output_Column_Name_5 = '', UI_PASSTHRU_VSPLIT_PCT = '50' )
+GUID::'cc63eb50-340e-4c13-b1cc-9909f6949581' LOAD TABLE DS_RMX_STAGING.DBO.FUNDS_SUPP  INPUT ( KG_DIS_FUND_SUPP ) SET (
+"LDRLiveLoad" = 'no',
+"Table_Type" = 'TABLE',
+"connection_port" = 'no',
+"ldr_configuration_enabled" = 'yes',
+"ldr_configurations" = '<?xml version="1.0" encoding="UTF-8"?>
+<LDRConfigurations>
+<LDRConfiguration database_type="Microsoft_SQL_Server" database_version="Microsoft SQL Server 2008">
+<auto_correct_using_merge>yes</auto_correct_using_merge>
+<bulk_ldr_all_rows></bulk_ldr_all_rows>
+<bulk_ldr_max_errors></bulk_ldr_max_errors>
+<bulk_ldr_rows_per_commit>1000</bulk_ldr_rows_per_commit>
+<enable_partitioning>no</enable_partitioning>
+<ignore_column_case>yes</ignore_column_case>
+<ignore_columns_null>no</ignore_columns_null>
+<ignore_columns_value></ignore_columns_value>
+<loader_auto_correct>no</loader_auto_correct>
+<loader_bulk_load></loader_bulk_load>
+<loader_compare_column>compare_by_name</loader_compare_column>
+<loader_delete_map></loader_delete_map>
+<loader_drop_and_create_table>yes</loader_drop_and_create_table>
+<loader_insert_map></loader_insert_map>
+<loader_load_choice>append</loader_load_choice>
+<loader_num_parallel_loaders>1</loader_num_parallel_loaders>
+<loader_overflow_file></loader_overflow_file>
+<loader_post_load1></loader_post_load1>
+<loader_pre_load1></loader_pre_load1>
+<loader_quote_names>0</loader_quote_names>
+<loader_transactional>no</loader_transactional>
+<loader_transactional_order>0</loader_transactional_order>
+<loader_update_key_columns>no</loader_update_key_columns>
+<loader_update_map></loader_update_map>
+<loader_use_user_defined_keys>no</loader_use_user_defined_keys>
+<loader_xact_size>1000</loader_xact_size>
+<mssql_bulk_ldr_mode>append</mssql_bulk_ldr_mode>
+<mssql_bulk_ldr_packet_size>0</mssql_bulk_ldr_packet_size>
+<overflow_file_format>write_data</overflow_file_format>
+<overriding_substitution_parameter_for_tablename></overriding_substitution_parameter_for_tablename>
+<use_overflow_file>no</use_overflow_file>
+<use_unicode_varchar>no</use_unicode_varchar>
+<sql_text></sql_text>
+</LDRConfiguration>
+<LDRConfiguration database_type="Microsoft_SQL_Server" database_version="Microsoft SQL Server 2005">
+<auto_correct_using_merge>yes</auto_correct_using_merge>
+<bulk_ldr_all_rows></bulk_ldr_all_rows>
+<bulk_ldr_max_errors></bulk_ldr_max_errors>
+<bulk_ldr_rows_per_commit>1000</bulk_ldr_rows_per_commit>
+<enable_partitioning>no</enable_partitioning>
+<ignore_column_case>yes</ignore_column_case>
+<ignore_columns_null>no</ignore_columns_null>
+<ignore_columns_value></ignore_columns_value>
+<loader_auto_correct>no</loader_auto_correct>
+<loader_bulk_load></loader_bulk_load>
+<loader_compare_column>compare_by_name</loader_compare_column>
+<loader_delete_map></loader_delete_map>
+<loader_drop_and_create_table>yes</loader_drop_and_create_table>
+<loader_insert_map></loader_insert_map>
+<loader_load_choice>append</loader_load_choice>
+<loader_num_parallel_loaders>1</loader_num_parallel_loaders>
+<loader_overflow_file></loader_overflow_file>
+<loader_post_load1></loader_post_load1>
+<loader_pre_load1></loader_pre_load1>
+<loader_quote_names>0</loader_quote_names>
+<loader_transactional>no</loader_transactional>
+<loader_transactional_order>0</loader_transactional_order>
+<loader_update_key_columns>no</loader_update_key_columns>
+<loader_update_map></loader_update_map>
+<loader_use_user_defined_keys>no</loader_use_user_defined_keys>
+<loader_xact_size>1000</loader_xact_size>
+<mssql_bulk_ldr_mode>append</mssql_bulk_ldr_mode>
+<mssql_bulk_ldr_packet_size>0</mssql_bulk_ldr_packet_size>
+<overflow_file_format>write_data</overflow_file_format>
+<overriding_substitution_parameter_for_tablename></overriding_substitution_parameter_for_tablename>
+<use_overflow_file>no</use_overflow_file>
+<use_unicode_varchar>no</use_unicode_varchar>
+<sql_text></sql_text>
+</LDRConfiguration>
+</LDRConfigurations>',
+"loader_template_table" = 'no',
+"name" = 'DS_RMX_STAGING',
+"use_unicode_varchar" = 'no');
+ALGUICOMMENT( x = '1323', y = '-847' , ui_display_name = 'KG_DIS_FUND_SUPP',UI_DATA_XML='<UIDATA><MAINICON><LOCATION><X>0</X><Y>0</Y></LOCATION><SIZE><CX>372</CX><CY>-163</CY></SIZE></MAINICON><DESCRIPTION><LOCATION><X>0</X><Y>-174</Y></LOCATION><SIZE><CX>200</CX><CY>200</CY></SIZE><VISIBLE>0</VISIBLE></DESCRIPTION></UIDATA>', UpperContainer_HeightProp = '58', InputSchema_WidthProp = '50', Input_Width_Description = '130', Output_Width_Decsription = '130', Input_Width_Type = '85', Output_Width_Type = '80', Output_Width_Mapping = '85', Input_Column_Width_3 = '100', Output_Column_Width_4 = '100', Input_Column_Width_4 = '100', Output_Column_Width_5 = '100', Input_1st_Column_Name = 'Type', Input_2nd_Column_Name = 'Description', Input_Column_Name_3 = 'Content_Type', Input_Column_Name_4 = 'Business_Name', Output_1st_Column_Name = 'Type', Output_2nd_Column_Name = 'Mapping', Output_3rd_Column_Name = 'Description', Output_Column_Name_4 = 'Content_Type', Output_Column_Name_5 = '' )
+GUID::'1b5de965-eeaf-4cf5-8a28-2898c61b923c' CALL TRANSFORM Key_Generation ( ) 
+INPUT ( Q_DIS_FUNS_SUPP )
+OUTPUT ( KG_DIS_FUND_SUPP() )
+SET ("database_datastore" = 'DS_RMX_STAGING',
+"generated_key_column" = 'DA_ROW_ID',
+"increment_value" = '1',
+"table_name" = 'FUNDS_SUPP',
+"table_owner" = 'DBO');
+END
+
+SET("Cache_type" = 'pageable_cache',
+"Parallelism_degree" = '0',
+"allows_both_input_and_output" = 'yes',
+"run_once" = 'no',
+"use_dataflow_links" = 'no',
+"use_datastore_links" = 'yes',
+"validation_xform_exists" = 'no',
+"validation_xform_stats" = 'no')
+ALGUICOMMENT( x = '-1', y = '-1' , "ActaName_1" = 'RSavedAfterCheckOut' , "ActaValue_1" = 'YES' , "ActaName_2" = 'RDate_created' , "ActaValue_2" = 'Tue May 20 11:56:16 2014' , "ActaName_3" = 'Rcolumn_mapping_calculated' , "ActaValue_3" = 'no' , "ActaName_4" = 'RDate_modified' , "ActaValue_4" = 'Wed May 14 16:36:43 2014' )
+CREATE DATAFLOW DF_DIS_VALIDATION_FUNDS_SUPP::'556a7937-3436-43e4-bbbc-31cf09d1f5ff'
+
+BEGIN 
+ALGUICOMMENT( x = '172', y = '-314',UI_DATA_XML='<UIDATA><MAINICON><LOCATION><X>0</X><Y>0</Y></LOCATION><SIZE><CX>388</CX><CY>-182</CY></SIZE></MAINICON><DESCRIPTION><LOCATION><X>0</X><Y>-174</Y></LOCATION><SIZE><CX>200</CX><CY>200</CY></SIZE><VISIBLE>0</VISIBLE></DESCRIPTION></UIDATA>', UpperContainer_HeightProp = '58', InputSchema_WidthProp = '50', Input_Width_Description = '130', Output_Width_Decsription = '130', Input_Width_Type = '85', Output_Width_Type = '80', Output_Width_Mapping = '85', Input_Column_Width_3 = '100', Output_Column_Width_4 = '100', Input_Column_Width_4 = '100', Output_Column_Width_5 = '100', Input_1st_Column_Name = 'Type', Input_2nd_Column_Name = 'Description', Input_Column_Name_3 = 'Content_Type', Input_Column_Name_4 = 'Business_Name', Output_1st_Column_Name = 'Type', Output_2nd_Column_Name = 'Mapping', Output_3rd_Column_Name = 'Description', Output_Column_Name_4 = 'Content_Type', Output_Column_Name_5 = 'Business_Name' )
+GUID::'54435362-e915-455f-a919-9029ce0d3de5' READ TABLE DS_RMX_STAGING.DBO.FUNDS_SUPP  OUTPUT ( FUNDS_SUPP ) SET (
+"array_fetch_size" = '1000',
+"cache" = 'yes',
+"connection_port" = 'no',
+"enable_partitioning" = 'no',
+"name" = 'DS_RMX_STAGING',
+"package_size" = '0',
+"reader_is_DB2CDC_table" = 'no',
+"reader_overflow_file" = 'overflow_file',
+"reader_template_table" = 'no',
+"reader_use_overflow_file" = 'no',
+"reader_use_trex_transaction" = 'no',
+"table_weight" = '0');
+ALGUICOMMENT( x = '569', y = '-524' , ui_display_name = 'V_DIS_FUNS_SUPP_UPDATE',UI_DATA_XML='<UIDATA><MAINICON><LOCATION><X>0</X><Y>0</Y></LOCATION><SIZE><CX>419</CX><CY>-163</CY></SIZE></MAINICON><DESCRIPTION><LOCATION><X>0</X><Y>-174</Y></LOCATION><SIZE><CX>200</CX><CY>200</CY></SIZE><VISIBLE>0</VISIBLE></DESCRIPTION></UIDATA>', UpperContainer_HeightProp = '44', InputSchema_WidthProp = '50', Output_Width_Name = '308', Input_Width_Description = '130', Output_Width_Decsription = '130', Input_Width_Type = '85', Output_Width_Type = '80', Output_Width_Mapping = '85', Input_Column_Width_3 = '100', Output_Column_Width_4 = '100', Input_Column_Width_4 = '100', Output_Column_Width_5 = '10', Input_1st_Column_Name = 'Type', Input_2nd_Column_Name = 'Description', Input_Column_Name_3 = 'Content_Type', Input_Column_Name_4 = 'Business_Name', Output_1st_Column_Name = 'Type', Output_2nd_Column_Name = 'Mapping', Output_3rd_Column_Name = 'Description', Output_Column_Name_4 = 'Content_Type', Output_Column_Name_5 = '' )
+GUID::'2ec8e101-68bb-4e76-bc13-10398c790cff' CALL TRANSFORM Validation() 
+INPUT(FUNDS_SUPP)
+OUTPUT(V_DIS_FUNS_SUPP_UPDATE_Pass(), V_DIS_FUNS_SUPP_UPDATE_Fail() )
+SET("validation_rules" = '<?xml version="1.0" encoding="UTF-8"?>
+<Rules collectStats="false" collectData="false" >
+<Column name="FUNDS_SUPP.TRANS_ID" enableValidation="true" noValidationWhenNull="false" >
+<RuleName></RuleName>
+<Description></Description>
+<Expression uiSelection="5">
+<UIValue1>DS_RMDB.DBO.FUNDS_SUPP.TRANS_ID</UIValue1>
+<UIValue2></UIValue2>
+<Custom>lookup_ext([DS_RMDB.DBO.FUNDS_SUPP,\'PRE_LOAD_CACHE\',\'MAX\'], [TRANS_ID], [NULL], [TRANS_ID,\'=\', FUNDS_SUPP.TRANS_ID]) IS NOT NULL</Custom>
+</Expression>
+<Action sendTo="0" substOnFail="false" substValue="" />
+</Column>
+</Rules>
+');
+ALGUICOMMENT( x = '1187', y = '-550' , ui_acta_from_schema_0 = 'V_DIS_FUNS_SUPP_UPDATE_Pass'  , ui_display_name = 'Q_DIS_FUNS_SUPP_UPDATE' ,UI_DATA_XML='<UIDATA><MAINICON><LOCATION><X>0</X><Y>0</Y></LOCATION><SIZE><CX>419</CX><CY>-163</CY></SIZE></MAINICON><DESCRIPTION><LOCATION><X>0</X><Y>-174</Y></LOCATION><SIZE><CX>200</CX><CY>200</CY></SIZE><VISIBLE>0</VISIBLE></DESCRIPTION></UIDATA>', UpperContainer_HeightProp = '58', InputSchema_WidthProp = '50', Input_Width_Description = '130', Output_Width_Decsription = '130', Input_Width_Type = '85', Output_Width_Type = '80', Output_Width_Mapping = '85', Input_Column_Width_3 = '100', Output_Column_Width_4 = '100', Input_Column_Width_4 = '100', Output_Column_Width_5 = '100', Input_1st_Column_Name = 'Type', Input_2nd_Column_Name = 'Description', Input_Column_Name_3 = 'Content_Type', Input_Column_Name_4 = 'Business_Name', Output_1st_Column_Name = 'Type', Output_2nd_Column_Name = 'Mapping', Output_3rd_Column_Name = 'Description', Output_Column_Name_4 = 'Content_Type', Output_Column_Name_5 = 'Business_Name', UI_PASSTHRU_VSPLIT_PCT = '50' )
+GUID::'6a108437-3345-4568-bdcf-03b916bab438' CREATE VIEW Q_DIS_FUNS_SUPP_UPDATE ( DA_ROW_ID int KEY  SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Pass.DA_ROW_ID') ,
+ JOBID int KEY  SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Pass.JOBID') ,
+ TRANS_ID int SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Pass.TRANS_ID') ,
+ INPUT_ROW_ID int SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Pass.INPUT_ROW_ID') ,
+ INVALID_ROW int SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Pass.INVALID_ROW') ,
+ UPDATE_ROW int SET("ui_mapping_text"='1') ,
+ ACCT_PER_CODE int SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Pass.ACCT_PER_CODE') ,
+ SOURCE_CODE int SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Pass.SOURCE_CODE') ,
+ IBAN_TEXT varchar(200) SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Pass.IBAN_TEXT') ,
+ COMMENT_ACC_MEMO long SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Pass.COMMENT_ACC_MEMO', "Long Type"='CLOB') ,
+ MATTER_NO_TEXT varchar(50) SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Pass.MATTER_NO_TEXT') ,
+ TOT_INVOICE_AMT double SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Pass.TOT_INVOICE_AMT') ,
+ CLM_MAJ_CAT_TEXT varchar(50) SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Pass.CLM_MAJ_CAT_TEXT') ,
+ CLMT_NM_OTH_TEXT varchar(255) SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Pass.CLMT_NM_OTH_TEXT') ,
+ CLAIMANT_TEXT varchar(100) SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Pass.CLAIMANT_TEXT') ,
+ FIRM_TEXT varchar(50) SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Pass.FIRM_TEXT') ,
+ STATUS_CODE int SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Pass.STATUS_CODE') ,
+ PER_TOT_INV_NUM double SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Pass.PER_TOT_INV_NUM') ,
+ TYPE_OF_CLM_TEXT varchar(50) SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Pass.TYPE_OF_CLM_TEXT') ,
+ DEDUCTIBLE_AMT double SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Pass.DEDUCTIBLE_AMT') ,
+ RECV_SUBMIT_AMT double SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Pass.RECV_SUBMIT_AMT') ,
+ OTHER_FEES_AMT double SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Pass.OTHER_FEES_AMT') ,
+ ACCT_YR_CODE int SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Pass.ACCT_YR_CODE') ,
+ INVOICE_NBR_TEXT varchar(50) SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Pass.INVOICE_NBR_TEXT') ,
+ TYPE_CODE_CODE int SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Pass.TYPE_CODE_CODE') ,
+ GROUP_ID_TEXT varchar(50) SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Pass.GROUP_ID_TEXT') ,
+ FCAST_CAT_CODE int SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Pass.FCAST_CAT_CODE') ,
+ SPNN_INV_TEXT varchar(50) SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Pass.SPNN_INV_TEXT') ,
+ INVOICE_DT_DATE varchar(8) SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Pass.INVOICE_DT_DATE') ,
+ BROKER_DUE_DATE varchar(8) SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Pass.BROKER_DUE_DATE') ,
+ INS_DUE_DATE varchar(8) SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Pass.INS_DUE_DATE') ,
+ PREMIUM_AMT double SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Pass.PREMIUM_AMT') ,
+ COMMENTS_MEMO long SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Pass.COMMENTS_MEMO', "Long Type"='CLOB') ,
+ INVOICED_BY_TEXT varchar(100) SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Pass.INVOICED_BY_TEXT') ,
+ MATTER_ID_TEXT varchar(100) SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Pass.MATTER_ID_TEXT') ,
+ MATTER_NAME_TEXT varchar(100) SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Pass.MATTER_NAME_TEXT') ,
+ AUTH_FIRM_TEXT varchar(100) SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Pass.AUTH_FIRM_TEXT') ,
+ CHARGELINE_TEXT varchar(100) SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Pass.CHARGELINE_TEXT') ,
+ COMPANY_TEXT varchar(200) SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Pass.COMPANY_TEXT') ,
+ VN_BK_ACCT_TEXT varchar(200) SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Pass.VN_BK_ACCT_TEXT') ,
+ VN_BK_EID int SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Pass.VN_BK_EID') ,
+ VN_BK_1ADDR_TEXT varchar(200) SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Pass.VN_BK_1ADDR_TEXT') ,
+ VN_BK_2ADDR_TEXT varchar(200) SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Pass.VN_BK_2ADDR_TEXT') ,
+ VN_BK_CITY_TEXT varchar(200) SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Pass.VN_BK_CITY_TEXT') ,
+ VN_BK_STATE_TEXT varchar(200) SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Pass.VN_BK_STATE_TEXT') ,
+ VN_BK_ABA_TEXT varchar(200) SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Pass.VN_BK_ABA_TEXT') ,
+ VN_BK_SWIFT_TEXT varchar(200) SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Pass.VN_BK_SWIFT_TEXT') ,
+ BN_BK_EID int SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Pass.BN_BK_EID') ,
+ BN_BK_ADDR_TEXT varchar(200) SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Pass.BN_BK_ADDR_TEXT') ,
+ ACC_ACT_REQ_CODE int SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Pass.ACC_ACT_REQ_CODE') ,
+ BN_BK_ABA_TEXT varchar(200) SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Pass.BN_BK_ABA_TEXT') ,
+ BN_BK_SWIFT_TEXT varchar(200) SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Pass.BN_BK_SWIFT_TEXT') ,
+ BN_BK_ACCNO_TEXT varchar(200) SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Pass.BN_BK_ACCNO_TEXT') ,
+ TRANS_TYPE_CODE int SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Pass.TRANS_TYPE_CODE') ,
+ PRGRAM_TYPE_EID int SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Pass.PRGRAM_TYPE_EID') ,
+ SPECIAL_INS_TEXT varchar(100) SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Pass.SPECIAL_INS_TEXT') ,
+ REFERENCE_TEXT varchar(100) SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Pass.REFERENCE_TEXT') ,
+ INVOICE_ID_TEXT varchar(100) SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Pass.INVOICE_ID_TEXT') ,
+ REV_ALC_TEXT varchar(15) SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Pass.REV_ALC_TEXT') ,
+ FUTURE_SRC_CODE int SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Pass.FUTURE_SRC_CODE') ,
+ INVOICE_DUE_DATE varchar(8) SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Pass.INVOICE_DUE_DATE') ,
+ BN_BK_ACC_TEXT varchar(100) SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Pass.BN_BK_ACC_TEXT') ,
+ RECV_SUB_DT_DATE varchar(8) SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Pass.RECV_SUB_DT_DATE') ,
+ PAY_TERMS_CODE int SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Pass.PAY_TERMS_CODE') ,
+ LSS_INVOICE_ID double SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Pass.LSS_INVOICE_ID')  ) 
+AS SELECT  V_DIS_FUNS_SUPP_UPDATE_Pass.DA_ROW_ID
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Pass.JOBID
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Pass.TRANS_ID
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Pass.INPUT_ROW_ID
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Pass.INVALID_ROW
+ 
+ ,
+ 1
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Pass.ACCT_PER_CODE
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Pass.SOURCE_CODE
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Pass.IBAN_TEXT
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Pass.COMMENT_ACC_MEMO
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Pass.MATTER_NO_TEXT
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Pass.TOT_INVOICE_AMT
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Pass.CLM_MAJ_CAT_TEXT
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Pass.CLMT_NM_OTH_TEXT
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Pass.CLAIMANT_TEXT
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Pass.FIRM_TEXT
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Pass.STATUS_CODE
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Pass.PER_TOT_INV_NUM
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Pass.TYPE_OF_CLM_TEXT
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Pass.DEDUCTIBLE_AMT
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Pass.RECV_SUBMIT_AMT
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Pass.OTHER_FEES_AMT
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Pass.ACCT_YR_CODE
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Pass.INVOICE_NBR_TEXT
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Pass.TYPE_CODE_CODE
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Pass.GROUP_ID_TEXT
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Pass.FCAST_CAT_CODE
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Pass.SPNN_INV_TEXT
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Pass.INVOICE_DT_DATE
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Pass.BROKER_DUE_DATE
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Pass.INS_DUE_DATE
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Pass.PREMIUM_AMT
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Pass.COMMENTS_MEMO
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Pass.INVOICED_BY_TEXT
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Pass.MATTER_ID_TEXT
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Pass.MATTER_NAME_TEXT
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Pass.AUTH_FIRM_TEXT
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Pass.CHARGELINE_TEXT
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Pass.COMPANY_TEXT
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Pass.VN_BK_ACCT_TEXT
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Pass.VN_BK_EID
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Pass.VN_BK_1ADDR_TEXT
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Pass.VN_BK_2ADDR_TEXT
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Pass.VN_BK_CITY_TEXT
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Pass.VN_BK_STATE_TEXT
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Pass.VN_BK_ABA_TEXT
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Pass.VN_BK_SWIFT_TEXT
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Pass.BN_BK_EID
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Pass.BN_BK_ADDR_TEXT
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Pass.ACC_ACT_REQ_CODE
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Pass.BN_BK_ABA_TEXT
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Pass.BN_BK_SWIFT_TEXT
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Pass.BN_BK_ACCNO_TEXT
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Pass.TRANS_TYPE_CODE
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Pass.PRGRAM_TYPE_EID
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Pass.SPECIAL_INS_TEXT
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Pass.REFERENCE_TEXT
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Pass.INVOICE_ID_TEXT
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Pass.REV_ALC_TEXT
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Pass.FUTURE_SRC_CODE
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Pass.INVOICE_DUE_DATE
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Pass.BN_BK_ACC_TEXT
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Pass.RECV_SUB_DT_DATE
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Pass.PAY_TERMS_CODE
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Pass.LSS_INVOICE_ID
+ 
+ 
+	FROM V_DIS_FUNS_SUPP_UPDATE_Pass SET (
+"distinct_run_as_separate_process" = 'no',
+"group_by_run_as_separate_process" = 'no',
+"join_run_as_separate_process" = 'no',
+"order_by_run_as_separate_process" = 'no',
+"run_as_separate_process" = 'no');
+ALGUICOMMENT( x = '1201', y = '-862' , ui_acta_from_schema_0 = 'V_DIS_FUNS_SUPP_UPDATE_Fail'  , ui_display_name = 'Q_DIS_FUNS_SUPP_NO_UPDATE' ,UI_DATA_XML='<UIDATA><MAINICON><LOCATION><X>0</X><Y>0</Y></LOCATION><SIZE><CX>419</CX><CY>-163</CY></SIZE></MAINICON><DESCRIPTION><LOCATION><X>0</X><Y>-174</Y></LOCATION><SIZE><CX>200</CX><CY>200</CY></SIZE><VISIBLE>0</VISIBLE></DESCRIPTION></UIDATA>', UpperContainer_HeightProp = '58', InputSchema_WidthProp = '50', Input_Width_Description = '130', Output_Width_Decsription = '130', Input_Width_Type = '85', Output_Width_Type = '80', Output_Width_Mapping = '85', Input_Column_Width_3 = '100', Output_Column_Width_4 = '100', Input_Column_Width_4 = '100', Output_Column_Width_5 = '100', Input_1st_Column_Name = 'Type', Input_2nd_Column_Name = 'Description', Input_Column_Name_3 = 'Content_Type', Input_Column_Name_4 = 'Business_Name', Output_1st_Column_Name = 'Type', Output_2nd_Column_Name = 'Mapping', Output_3rd_Column_Name = 'Description', Output_Column_Name_4 = 'Content_Type', Output_Column_Name_5 = 'Business_Name', UI_PASSTHRU_VSPLIT_PCT = '50' )
+GUID::'ec9c6d2e-f29b-4ed3-bc53-84a56097e0c7' CREATE VIEW Q_DIS_FUNS_SUPP_NO_UPDATE ( DA_ROW_ID int KEY  SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Fail.DA_ROW_ID') ,
+ JOBID int KEY  SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Fail.JOBID') ,
+ TRANS_ID int SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Fail.TRANS_ID') ,
+ INPUT_ROW_ID int SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Fail.INPUT_ROW_ID') ,
+ INVALID_ROW int SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Fail.INVALID_ROW') ,
+ UPDATE_ROW int SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Fail.UPDATE_ROW') ,
+ ACCT_PER_CODE int SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Fail.ACCT_PER_CODE') ,
+ SOURCE_CODE int SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Fail.SOURCE_CODE') ,
+ IBAN_TEXT varchar(200) SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Fail.IBAN_TEXT') ,
+ COMMENT_ACC_MEMO long SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Fail.COMMENT_ACC_MEMO', "Long Type"='CLOB') ,
+ MATTER_NO_TEXT varchar(50) SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Fail.MATTER_NO_TEXT') ,
+ TOT_INVOICE_AMT double SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Fail.TOT_INVOICE_AMT') ,
+ CLM_MAJ_CAT_TEXT varchar(50) SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Fail.CLM_MAJ_CAT_TEXT') ,
+ CLMT_NM_OTH_TEXT varchar(255) SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Fail.CLMT_NM_OTH_TEXT') ,
+ CLAIMANT_TEXT varchar(100) SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Fail.CLAIMANT_TEXT') ,
+ FIRM_TEXT varchar(50) SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Fail.FIRM_TEXT') ,
+ STATUS_CODE int SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Fail.STATUS_CODE') ,
+ PER_TOT_INV_NUM double SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Fail.PER_TOT_INV_NUM') ,
+ TYPE_OF_CLM_TEXT varchar(50) SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Fail.TYPE_OF_CLM_TEXT') ,
+ DEDUCTIBLE_AMT double SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Fail.DEDUCTIBLE_AMT') ,
+ RECV_SUBMIT_AMT double SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Fail.RECV_SUBMIT_AMT') ,
+ OTHER_FEES_AMT double SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Fail.OTHER_FEES_AMT') ,
+ ACCT_YR_CODE int SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Fail.ACCT_YR_CODE') ,
+ INVOICE_NBR_TEXT varchar(50) SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Fail.INVOICE_NBR_TEXT') ,
+ TYPE_CODE_CODE int SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Fail.TYPE_CODE_CODE') ,
+ GROUP_ID_TEXT varchar(50) SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Fail.GROUP_ID_TEXT') ,
+ FCAST_CAT_CODE int SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Fail.FCAST_CAT_CODE') ,
+ SPNN_INV_TEXT varchar(50) SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Fail.SPNN_INV_TEXT') ,
+ INVOICE_DT_DATE varchar(8) SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Fail.INVOICE_DT_DATE') ,
+ BROKER_DUE_DATE varchar(8) SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Fail.BROKER_DUE_DATE') ,
+ INS_DUE_DATE varchar(8) SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Fail.INS_DUE_DATE') ,
+ PREMIUM_AMT double SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Fail.PREMIUM_AMT') ,
+ COMMENTS_MEMO long SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Fail.COMMENTS_MEMO', "Long Type"='CLOB') ,
+ INVOICED_BY_TEXT varchar(100) SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Fail.INVOICED_BY_TEXT') ,
+ MATTER_ID_TEXT varchar(100) SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Fail.MATTER_ID_TEXT') ,
+ MATTER_NAME_TEXT varchar(100) SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Fail.MATTER_NAME_TEXT') ,
+ AUTH_FIRM_TEXT varchar(100) SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Fail.AUTH_FIRM_TEXT') ,
+ CHARGELINE_TEXT varchar(100) SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Fail.CHARGELINE_TEXT') ,
+ COMPANY_TEXT varchar(200) SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Fail.COMPANY_TEXT') ,
+ VN_BK_ACCT_TEXT varchar(200) SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Fail.VN_BK_ACCT_TEXT') ,
+ VN_BK_EID int SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Fail.VN_BK_EID') ,
+ VN_BK_1ADDR_TEXT varchar(200) SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Fail.VN_BK_1ADDR_TEXT') ,
+ VN_BK_2ADDR_TEXT varchar(200) SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Fail.VN_BK_2ADDR_TEXT') ,
+ VN_BK_CITY_TEXT varchar(200) SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Fail.VN_BK_CITY_TEXT') ,
+ VN_BK_STATE_TEXT varchar(200) SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Fail.VN_BK_STATE_TEXT') ,
+ VN_BK_ABA_TEXT varchar(200) SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Fail.VN_BK_ABA_TEXT') ,
+ VN_BK_SWIFT_TEXT varchar(200) SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Fail.VN_BK_SWIFT_TEXT') ,
+ BN_BK_EID int SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Fail.BN_BK_EID') ,
+ BN_BK_ADDR_TEXT varchar(200) SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Fail.BN_BK_ADDR_TEXT') ,
+ ACC_ACT_REQ_CODE int SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Fail.ACC_ACT_REQ_CODE') ,
+ BN_BK_ABA_TEXT varchar(200) SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Fail.BN_BK_ABA_TEXT') ,
+ BN_BK_SWIFT_TEXT varchar(200) SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Fail.BN_BK_SWIFT_TEXT') ,
+ BN_BK_ACCNO_TEXT varchar(200) SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Fail.BN_BK_ACCNO_TEXT') ,
+ TRANS_TYPE_CODE int SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Fail.TRANS_TYPE_CODE') ,
+ PRGRAM_TYPE_EID int SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Fail.PRGRAM_TYPE_EID') ,
+ SPECIAL_INS_TEXT varchar(100) SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Fail.SPECIAL_INS_TEXT') ,
+ REFERENCE_TEXT varchar(100) SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Fail.REFERENCE_TEXT') ,
+ INVOICE_ID_TEXT varchar(100) SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Fail.INVOICE_ID_TEXT') ,
+ REV_ALC_TEXT varchar(15) SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Fail.REV_ALC_TEXT') ,
+ FUTURE_SRC_CODE int SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Fail.FUTURE_SRC_CODE') ,
+ INVOICE_DUE_DATE varchar(8) SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Fail.INVOICE_DUE_DATE') ,
+ BN_BK_ACC_TEXT varchar(100) SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Fail.BN_BK_ACC_TEXT') ,
+ RECV_SUB_DT_DATE varchar(8) SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Fail.RECV_SUB_DT_DATE') ,
+ PAY_TERMS_CODE int SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Fail.PAY_TERMS_CODE') ,
+ LSS_INVOICE_ID double SET("ui_mapping_text"='V_DIS_FUNS_SUPP_UPDATE_Fail.LSS_INVOICE_ID')  ) 
+AS SELECT  V_DIS_FUNS_SUPP_UPDATE_Fail.DA_ROW_ID
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Fail.JOBID
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Fail.TRANS_ID
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Fail.INPUT_ROW_ID
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Fail.INVALID_ROW
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Fail.UPDATE_ROW
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Fail.ACCT_PER_CODE
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Fail.SOURCE_CODE
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Fail.IBAN_TEXT
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Fail.COMMENT_ACC_MEMO
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Fail.MATTER_NO_TEXT
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Fail.TOT_INVOICE_AMT
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Fail.CLM_MAJ_CAT_TEXT
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Fail.CLMT_NM_OTH_TEXT
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Fail.CLAIMANT_TEXT
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Fail.FIRM_TEXT
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Fail.STATUS_CODE
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Fail.PER_TOT_INV_NUM
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Fail.TYPE_OF_CLM_TEXT
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Fail.DEDUCTIBLE_AMT
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Fail.RECV_SUBMIT_AMT
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Fail.OTHER_FEES_AMT
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Fail.ACCT_YR_CODE
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Fail.INVOICE_NBR_TEXT
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Fail.TYPE_CODE_CODE
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Fail.GROUP_ID_TEXT
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Fail.FCAST_CAT_CODE
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Fail.SPNN_INV_TEXT
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Fail.INVOICE_DT_DATE
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Fail.BROKER_DUE_DATE
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Fail.INS_DUE_DATE
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Fail.PREMIUM_AMT
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Fail.COMMENTS_MEMO
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Fail.INVOICED_BY_TEXT
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Fail.MATTER_ID_TEXT
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Fail.MATTER_NAME_TEXT
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Fail.AUTH_FIRM_TEXT
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Fail.CHARGELINE_TEXT
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Fail.COMPANY_TEXT
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Fail.VN_BK_ACCT_TEXT
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Fail.VN_BK_EID
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Fail.VN_BK_1ADDR_TEXT
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Fail.VN_BK_2ADDR_TEXT
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Fail.VN_BK_CITY_TEXT
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Fail.VN_BK_STATE_TEXT
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Fail.VN_BK_ABA_TEXT
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Fail.VN_BK_SWIFT_TEXT
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Fail.BN_BK_EID
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Fail.BN_BK_ADDR_TEXT
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Fail.ACC_ACT_REQ_CODE
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Fail.BN_BK_ABA_TEXT
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Fail.BN_BK_SWIFT_TEXT
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Fail.BN_BK_ACCNO_TEXT
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Fail.TRANS_TYPE_CODE
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Fail.PRGRAM_TYPE_EID
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Fail.SPECIAL_INS_TEXT
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Fail.REFERENCE_TEXT
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Fail.INVOICE_ID_TEXT
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Fail.REV_ALC_TEXT
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Fail.FUTURE_SRC_CODE
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Fail.INVOICE_DUE_DATE
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Fail.BN_BK_ACC_TEXT
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Fail.RECV_SUB_DT_DATE
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Fail.PAY_TERMS_CODE
+ 
+ ,
+ V_DIS_FUNS_SUPP_UPDATE_Fail.LSS_INVOICE_ID
+ 
+ 
+	FROM V_DIS_FUNS_SUPP_UPDATE_Fail SET (
+"distinct_run_as_separate_process" = 'no',
+"group_by_run_as_separate_process" = 'no',
+"join_run_as_separate_process" = 'no',
+"order_by_run_as_separate_process" = 'no',
+"run_as_separate_process" = 'no');
+ALGUICOMMENT( x = '1662', y = '-687' , ui_display_name = 'M_DIS_MERGE_FUNS_SUPP',UI_DATA_XML='<UIDATA><MAINICON><LOCATION><X>0</X><Y>0</Y></LOCATION><SIZE><CX>425</CX><CY>-163</CY></SIZE></MAINICON><DESCRIPTION><LOCATION><X>0</X><Y>-174</Y></LOCATION><SIZE><CX>200</CX><CY>200</CY></SIZE><VISIBLE>0</VISIBLE></DESCRIPTION></UIDATA>', UpperContainer_HeightProp = '58', InputSchema_WidthProp = '50', Input_Width_Description = '130', Output_Width_Decsription = '130', Input_Width_Type = '85', Output_Width_Type = '80', Output_Width_Mapping = '85', Input_Column_Width_3 = '100', Output_Column_Width_4 = '100', Input_Column_Width_4 = '100', Output_Column_Width_5 = '100', Input_1st_Column_Name = 'Type', Input_2nd_Column_Name = 'Description', Input_Column_Name_3 = 'Content_Type', Input_Column_Name_4 = 'Business_Name', Output_1st_Column_Name = 'Type', Output_2nd_Column_Name = 'Mapping', Output_3rd_Column_Name = 'Description', Output_Column_Name_4 = 'Content_Type', Output_Column_Name_5 = '' )
+GUID::'a9f81a9f-864f-4ec0-8aa5-d1ac2e00a868' CALL TRANSFORM Merge ( ) 
+INPUT ( Q_DIS_FUNS_SUPP_NO_UPDATE,
+ Q_DIS_FUNS_SUPP_UPDATE )
+OUTPUT ( M_DIS_MERGE_FUNS_SUPP() )
+SET ();
+ALGUICOMMENT( x = '2171', y = '-668' , ui_acta_from_schema_0 = 'M_DIS_MERGE_FUNS_SUPP'  , ui_display_name = 'Q_DIS_FUNS_SUPP_INVALID_ROW' ,UI_DATA_XML='<UIDATA><MAINICON><LOCATION><X>0</X><Y>0</Y></LOCATION><SIZE><CX>403</CX><CY>-163</CY></SIZE></MAINICON><DESCRIPTION><LOCATION><X>0</X><Y>-174</Y></LOCATION><SIZE><CX>200</CX><CY>200</CY></SIZE><VISIBLE>0</VISIBLE></DESCRIPTION></UIDATA>', UpperContainer_HeightProp = '58', InputSchema_WidthProp = '50', Input_Width_Description = '130', Output_Width_Decsription = '130', Input_Width_Type = '85', Output_Width_Type = '80', Output_Width_Mapping = '85', Input_Column_Width_3 = '100', Output_Column_Width_4 = '100', Input_Column_Width_4 = '100', Output_Column_Width_5 = '100', Input_1st_Column_Name = 'Type', Input_2nd_Column_Name = 'Description', Input_Column_Name_3 = 'Content_Type', Input_Column_Name_4 = 'Business_Name', Output_1st_Column_Name = 'Type', Output_2nd_Column_Name = 'Mapping', Output_3rd_Column_Name = 'Description', Output_Column_Name_4 = 'Content_Type', Output_Column_Name_5 = 'Business_Name', UI_PASSTHRU_VSPLIT_PCT = '50' )
+GUID::'ec788947-95b3-49bf-9af5-2a64529ad89a' CREATE VIEW Q_DIS_FUNS_SUPP_INVALID_ROW ( DA_ROW_ID int KEY  SET("ui_mapping_text"='M_DIS_MERGE_FUNS_SUPP.DA_ROW_ID') ,
+ JOBID int KEY  SET("ui_mapping_text"='M_DIS_MERGE_FUNS_SUPP.JOBID') ,
+ TRANS_ID int SET("ui_mapping_text"='M_DIS_MERGE_FUNS_SUPP.TRANS_ID') ,
+ INPUT_ROW_ID int SET("ui_mapping_text"='M_DIS_MERGE_FUNS_SUPP.INPUT_ROW_ID') ,
+ INVALID_ROW int SET("ui_mapping_text"='lookup_ext([DS_RMX_STAGING.DBO.FUNDS,\'PRE_LOAD_CACHE\',\'MAX\'], [INVALID_ROW],[0],[TRANS_ID,\'=\',M_DIS_MERGE_FUNS_SUPP.TRANS_ID]) SET ("run_as_separate_process"=\'no\', "output_cols_info"=\'<?xml version="1.0" encoding="UTF-8"?><output_cols_info><col index="1" expression="no"/>
+</output_cols_info>\' )') ,
+ UPDATE_ROW int SET("ui_mapping_text"='M_DIS_MERGE_FUNS_SUPP.UPDATE_ROW') ,
+ ACCT_PER_CODE int SET("ui_mapping_text"='M_DIS_MERGE_FUNS_SUPP.ACCT_PER_CODE') ,
+ SOURCE_CODE int SET("ui_mapping_text"='M_DIS_MERGE_FUNS_SUPP.SOURCE_CODE') ,
+ IBAN_TEXT varchar(200) SET("ui_mapping_text"='M_DIS_MERGE_FUNS_SUPP.IBAN_TEXT') ,
+ COMMENT_ACC_MEMO long SET("ui_mapping_text"='M_DIS_MERGE_FUNS_SUPP.COMMENT_ACC_MEMO', "Long Type"='CLOB') ,
+ MATTER_NO_TEXT varchar(50) SET("ui_mapping_text"='M_DIS_MERGE_FUNS_SUPP.MATTER_NO_TEXT') ,
+ TOT_INVOICE_AMT double SET("ui_mapping_text"='M_DIS_MERGE_FUNS_SUPP.TOT_INVOICE_AMT') ,
+ CLM_MAJ_CAT_TEXT varchar(50) SET("ui_mapping_text"='M_DIS_MERGE_FUNS_SUPP.CLM_MAJ_CAT_TEXT') ,
+ CLMT_NM_OTH_TEXT varchar(255) SET("ui_mapping_text"='M_DIS_MERGE_FUNS_SUPP.CLMT_NM_OTH_TEXT') ,
+ CLAIMANT_TEXT varchar(100) SET("ui_mapping_text"='M_DIS_MERGE_FUNS_SUPP.CLAIMANT_TEXT') ,
+ FIRM_TEXT varchar(50) SET("ui_mapping_text"='M_DIS_MERGE_FUNS_SUPP.FIRM_TEXT') ,
+ STATUS_CODE int SET("ui_mapping_text"='M_DIS_MERGE_FUNS_SUPP.STATUS_CODE') ,
+ PER_TOT_INV_NUM double SET("ui_mapping_text"='M_DIS_MERGE_FUNS_SUPP.PER_TOT_INV_NUM') ,
+ TYPE_OF_CLM_TEXT varchar(50) SET("ui_mapping_text"='M_DIS_MERGE_FUNS_SUPP.TYPE_OF_CLM_TEXT') ,
+ DEDUCTIBLE_AMT double SET("ui_mapping_text"='M_DIS_MERGE_FUNS_SUPP.DEDUCTIBLE_AMT') ,
+ RECV_SUBMIT_AMT double SET("ui_mapping_text"='M_DIS_MERGE_FUNS_SUPP.RECV_SUBMIT_AMT') ,
+ OTHER_FEES_AMT double SET("ui_mapping_text"='M_DIS_MERGE_FUNS_SUPP.OTHER_FEES_AMT') ,
+ ACCT_YR_CODE int SET("ui_mapping_text"='M_DIS_MERGE_FUNS_SUPP.ACCT_YR_CODE') ,
+ INVOICE_NBR_TEXT varchar(50) SET("ui_mapping_text"='M_DIS_MERGE_FUNS_SUPP.INVOICE_NBR_TEXT') ,
+ TYPE_CODE_CODE int SET("ui_mapping_text"='M_DIS_MERGE_FUNS_SUPP.TYPE_CODE_CODE') ,
+ GROUP_ID_TEXT varchar(50) SET("ui_mapping_text"='M_DIS_MERGE_FUNS_SUPP.GROUP_ID_TEXT') ,
+ FCAST_CAT_CODE int SET("ui_mapping_text"='M_DIS_MERGE_FUNS_SUPP.FCAST_CAT_CODE') ,
+ SPNN_INV_TEXT varchar(50) SET("ui_mapping_text"='M_DIS_MERGE_FUNS_SUPP.SPNN_INV_TEXT') ,
+ INVOICE_DT_DATE varchar(8) SET("ui_mapping_text"='M_DIS_MERGE_FUNS_SUPP.INVOICE_DT_DATE') ,
+ BROKER_DUE_DATE varchar(8) SET("ui_mapping_text"='M_DIS_MERGE_FUNS_SUPP.BROKER_DUE_DATE') ,
+ INS_DUE_DATE varchar(8) SET("ui_mapping_text"='M_DIS_MERGE_FUNS_SUPP.INS_DUE_DATE') ,
+ PREMIUM_AMT double SET("ui_mapping_text"='M_DIS_MERGE_FUNS_SUPP.PREMIUM_AMT') ,
+ COMMENTS_MEMO long SET("ui_mapping_text"='M_DIS_MERGE_FUNS_SUPP.COMMENTS_MEMO', "Long Type"='CLOB') ,
+ INVOICED_BY_TEXT varchar(100) SET("ui_mapping_text"='M_DIS_MERGE_FUNS_SUPP.INVOICED_BY_TEXT') ,
+ MATTER_ID_TEXT varchar(100) SET("ui_mapping_text"='M_DIS_MERGE_FUNS_SUPP.MATTER_ID_TEXT') ,
+ MATTER_NAME_TEXT varchar(100) SET("ui_mapping_text"='M_DIS_MERGE_FUNS_SUPP.MATTER_NAME_TEXT') ,
+ AUTH_FIRM_TEXT varchar(100) SET("ui_mapping_text"='M_DIS_MERGE_FUNS_SUPP.AUTH_FIRM_TEXT') ,
+ CHARGELINE_TEXT varchar(100) SET("ui_mapping_text"='M_DIS_MERGE_FUNS_SUPP.CHARGELINE_TEXT') ,
+ COMPANY_TEXT varchar(200) SET("ui_mapping_text"='M_DIS_MERGE_FUNS_SUPP.COMPANY_TEXT') ,
+ VN_BK_ACCT_TEXT varchar(200) SET("ui_mapping_text"='M_DIS_MERGE_FUNS_SUPP.VN_BK_ACCT_TEXT') ,
+ VN_BK_EID int SET("ui_mapping_text"='M_DIS_MERGE_FUNS_SUPP.VN_BK_EID') ,
+ VN_BK_1ADDR_TEXT varchar(200) SET("ui_mapping_text"='M_DIS_MERGE_FUNS_SUPP.VN_BK_1ADDR_TEXT') ,
+ VN_BK_2ADDR_TEXT varchar(200) SET("ui_mapping_text"='M_DIS_MERGE_FUNS_SUPP.VN_BK_2ADDR_TEXT') ,
+ VN_BK_CITY_TEXT varchar(200) SET("ui_mapping_text"='M_DIS_MERGE_FUNS_SUPP.VN_BK_CITY_TEXT') ,
+ VN_BK_STATE_TEXT varchar(200) SET("ui_mapping_text"='M_DIS_MERGE_FUNS_SUPP.VN_BK_STATE_TEXT') ,
+ VN_BK_ABA_TEXT varchar(200) SET("ui_mapping_text"='M_DIS_MERGE_FUNS_SUPP.VN_BK_ABA_TEXT') ,
+ VN_BK_SWIFT_TEXT varchar(200) SET("ui_mapping_text"='M_DIS_MERGE_FUNS_SUPP.VN_BK_SWIFT_TEXT') ,
+ BN_BK_EID int SET("ui_mapping_text"='M_DIS_MERGE_FUNS_SUPP.BN_BK_EID') ,
+ BN_BK_ADDR_TEXT varchar(200) SET("ui_mapping_text"='M_DIS_MERGE_FUNS_SUPP.BN_BK_ADDR_TEXT') ,
+ ACC_ACT_REQ_CODE int SET("ui_mapping_text"='M_DIS_MERGE_FUNS_SUPP.ACC_ACT_REQ_CODE') ,
+ BN_BK_ABA_TEXT varchar(200) SET("ui_mapping_text"='M_DIS_MERGE_FUNS_SUPP.BN_BK_ABA_TEXT') ,
+ BN_BK_SWIFT_TEXT varchar(200) SET("ui_mapping_text"='M_DIS_MERGE_FUNS_SUPP.BN_BK_SWIFT_TEXT') ,
+ BN_BK_ACCNO_TEXT varchar(200) SET("ui_mapping_text"='M_DIS_MERGE_FUNS_SUPP.BN_BK_ACCNO_TEXT') ,
+ TRANS_TYPE_CODE int SET("ui_mapping_text"='M_DIS_MERGE_FUNS_SUPP.TRANS_TYPE_CODE') ,
+ PRGRAM_TYPE_EID int SET("ui_mapping_text"='M_DIS_MERGE_FUNS_SUPP.PRGRAM_TYPE_EID') ,
+ SPECIAL_INS_TEXT varchar(100) SET("ui_mapping_text"='M_DIS_MERGE_FUNS_SUPP.SPECIAL_INS_TEXT') ,
+ REFERENCE_TEXT varchar(100) SET("ui_mapping_text"='M_DIS_MERGE_FUNS_SUPP.REFERENCE_TEXT') ,
+ INVOICE_ID_TEXT varchar(100) SET("ui_mapping_text"='M_DIS_MERGE_FUNS_SUPP.INVOICE_ID_TEXT') ,
+ REV_ALC_TEXT varchar(15) SET("ui_mapping_text"='M_DIS_MERGE_FUNS_SUPP.REV_ALC_TEXT') ,
+ FUTURE_SRC_CODE int SET("ui_mapping_text"='M_DIS_MERGE_FUNS_SUPP.FUTURE_SRC_CODE') ,
+ INVOICE_DUE_DATE varchar(8) SET("ui_mapping_text"='M_DIS_MERGE_FUNS_SUPP.INVOICE_DUE_DATE') ,
+ BN_BK_ACC_TEXT varchar(100) SET("ui_mapping_text"='M_DIS_MERGE_FUNS_SUPP.BN_BK_ACC_TEXT') ,
+ RECV_SUB_DT_DATE varchar(8) SET("ui_mapping_text"='M_DIS_MERGE_FUNS_SUPP.RECV_SUB_DT_DATE') ,
+ PAY_TERMS_CODE int SET("ui_mapping_text"='M_DIS_MERGE_FUNS_SUPP.PAY_TERMS_CODE') ,
+ LSS_INVOICE_ID double SET("ui_mapping_text"='M_DIS_MERGE_FUNS_SUPP.LSS_INVOICE_ID')  ) 
+AS SELECT  M_DIS_MERGE_FUNS_SUPP.DA_ROW_ID
+ 
+ ,
+ M_DIS_MERGE_FUNS_SUPP.JOBID
+ 
+ ,
+ M_DIS_MERGE_FUNS_SUPP.TRANS_ID
+ 
+ ,
+ M_DIS_MERGE_FUNS_SUPP.INPUT_ROW_ID
+ 
+ ,
+ lookup_ext([DS_RMX_STAGING.DBO.FUNDS,'PRE_LOAD_CACHE','MAX'], [INVALID_ROW],[0],[TRANS_ID,'=',M_DIS_MERGE_FUNS_SUPP.TRANS_ID]) SET ("run_as_separate_process"='no', "output_cols_info"='<?xml version="1.0" encoding="UTF-8"?><output_cols_info><col index="1" expression="no"/>
+</output_cols_info>' )
+ 
+ ,
+ M_DIS_MERGE_FUNS_SUPP.UPDATE_ROW
+ 
+ ,
+ M_DIS_MERGE_FUNS_SUPP.ACCT_PER_CODE
+ 
+ ,
+ M_DIS_MERGE_FUNS_SUPP.SOURCE_CODE
+ 
+ ,
+ M_DIS_MERGE_FUNS_SUPP.IBAN_TEXT
+ 
+ ,
+ M_DIS_MERGE_FUNS_SUPP.COMMENT_ACC_MEMO
+ 
+ ,
+ M_DIS_MERGE_FUNS_SUPP.MATTER_NO_TEXT
+ 
+ ,
+ M_DIS_MERGE_FUNS_SUPP.TOT_INVOICE_AMT
+ 
+ ,
+ M_DIS_MERGE_FUNS_SUPP.CLM_MAJ_CAT_TEXT
+ 
+ ,
+ M_DIS_MERGE_FUNS_SUPP.CLMT_NM_OTH_TEXT
+ 
+ ,
+ M_DIS_MERGE_FUNS_SUPP.CLAIMANT_TEXT
+ 
+ ,
+ M_DIS_MERGE_FUNS_SUPP.FIRM_TEXT
+ 
+ ,
+ M_DIS_MERGE_FUNS_SUPP.STATUS_CODE
+ 
+ ,
+ M_DIS_MERGE_FUNS_SUPP.PER_TOT_INV_NUM
+ 
+ ,
+ M_DIS_MERGE_FUNS_SUPP.TYPE_OF_CLM_TEXT
+ 
+ ,
+ M_DIS_MERGE_FUNS_SUPP.DEDUCTIBLE_AMT
+ 
+ ,
+ M_DIS_MERGE_FUNS_SUPP.RECV_SUBMIT_AMT
+ 
+ ,
+ M_DIS_MERGE_FUNS_SUPP.OTHER_FEES_AMT
+ 
+ ,
+ M_DIS_MERGE_FUNS_SUPP.ACCT_YR_CODE
+ 
+ ,
+ M_DIS_MERGE_FUNS_SUPP.INVOICE_NBR_TEXT
+ 
+ ,
+ M_DIS_MERGE_FUNS_SUPP.TYPE_CODE_CODE
+ 
+ ,
+ M_DIS_MERGE_FUNS_SUPP.GROUP_ID_TEXT
+ 
+ ,
+ M_DIS_MERGE_FUNS_SUPP.FCAST_CAT_CODE
+ 
+ ,
+ M_DIS_MERGE_FUNS_SUPP.SPNN_INV_TEXT
+ 
+ ,
+ M_DIS_MERGE_FUNS_SUPP.INVOICE_DT_DATE
+ 
+ ,
+ M_DIS_MERGE_FUNS_SUPP.BROKER_DUE_DATE
+ 
+ ,
+ M_DIS_MERGE_FUNS_SUPP.INS_DUE_DATE
+ 
+ ,
+ M_DIS_MERGE_FUNS_SUPP.PREMIUM_AMT
+ 
+ ,
+ M_DIS_MERGE_FUNS_SUPP.COMMENTS_MEMO
+ 
+ ,
+ M_DIS_MERGE_FUNS_SUPP.INVOICED_BY_TEXT
+ 
+ ,
+ M_DIS_MERGE_FUNS_SUPP.MATTER_ID_TEXT
+ 
+ ,
+ M_DIS_MERGE_FUNS_SUPP.MATTER_NAME_TEXT
+ 
+ ,
+ M_DIS_MERGE_FUNS_SUPP.AUTH_FIRM_TEXT
+ 
+ ,
+ M_DIS_MERGE_FUNS_SUPP.CHARGELINE_TEXT
+ 
+ ,
+ M_DIS_MERGE_FUNS_SUPP.COMPANY_TEXT
+ 
+ ,
+ M_DIS_MERGE_FUNS_SUPP.VN_BK_ACCT_TEXT
+ 
+ ,
+ M_DIS_MERGE_FUNS_SUPP.VN_BK_EID
+ 
+ ,
+ M_DIS_MERGE_FUNS_SUPP.VN_BK_1ADDR_TEXT
+ 
+ ,
+ M_DIS_MERGE_FUNS_SUPP.VN_BK_2ADDR_TEXT
+ 
+ ,
+ M_DIS_MERGE_FUNS_SUPP.VN_BK_CITY_TEXT
+ 
+ ,
+ M_DIS_MERGE_FUNS_SUPP.VN_BK_STATE_TEXT
+ 
+ ,
+ M_DIS_MERGE_FUNS_SUPP.VN_BK_ABA_TEXT
+ 
+ ,
+ M_DIS_MERGE_FUNS_SUPP.VN_BK_SWIFT_TEXT
+ 
+ ,
+ M_DIS_MERGE_FUNS_SUPP.BN_BK_EID
+ 
+ ,
+ M_DIS_MERGE_FUNS_SUPP.BN_BK_ADDR_TEXT
+ 
+ ,
+ M_DIS_MERGE_FUNS_SUPP.ACC_ACT_REQ_CODE
+ 
+ ,
+ M_DIS_MERGE_FUNS_SUPP.BN_BK_ABA_TEXT
+ 
+ ,
+ M_DIS_MERGE_FUNS_SUPP.BN_BK_SWIFT_TEXT
+ 
+ ,
+ M_DIS_MERGE_FUNS_SUPP.BN_BK_ACCNO_TEXT
+ 
+ ,
+ M_DIS_MERGE_FUNS_SUPP.TRANS_TYPE_CODE
+ 
+ ,
+ M_DIS_MERGE_FUNS_SUPP.PRGRAM_TYPE_EID
+ 
+ ,
+ M_DIS_MERGE_FUNS_SUPP.SPECIAL_INS_TEXT
+ 
+ ,
+ M_DIS_MERGE_FUNS_SUPP.REFERENCE_TEXT
+ 
+ ,
+ M_DIS_MERGE_FUNS_SUPP.INVOICE_ID_TEXT
+ 
+ ,
+ M_DIS_MERGE_FUNS_SUPP.REV_ALC_TEXT
+ 
+ ,
+ M_DIS_MERGE_FUNS_SUPP.FUTURE_SRC_CODE
+ 
+ ,
+ M_DIS_MERGE_FUNS_SUPP.INVOICE_DUE_DATE
+ 
+ ,
+ M_DIS_MERGE_FUNS_SUPP.BN_BK_ACC_TEXT
+ 
+ ,
+ M_DIS_MERGE_FUNS_SUPP.RECV_SUB_DT_DATE
+ 
+ ,
+ M_DIS_MERGE_FUNS_SUPP.PAY_TERMS_CODE
+ 
+ ,
+ M_DIS_MERGE_FUNS_SUPP.LSS_INVOICE_ID
+ 
+ 
+	FROM M_DIS_MERGE_FUNS_SUPP SET (
+"distinct_run_as_separate_process" = 'no',
+"group_by_run_as_separate_process" = 'no',
+"join_run_as_separate_process" = 'no',
+"order_by_run_as_separate_process" = 'no',
+"run_as_separate_process" = 'no');
+ALGUICOMMENT( x = '2587', y = '-787' , ui_display_name = 'MO_DIS_MAP_OPERATION_FUNDS_SUPP',UI_DATA_XML='<UIDATA><MAINICON><LOCATION><X>0</X><Y>0</Y></LOCATION><SIZE><CX>435</CX><CY>-163</CY></SIZE></MAINICON><DESCRIPTION><LOCATION><X>0</X><Y>-174</Y></LOCATION><SIZE><CX>200</CX><CY>200</CY></SIZE><VISIBLE>0</VISIBLE></DESCRIPTION></UIDATA>', UpperContainer_HeightProp = '58', InputSchema_WidthProp = '50', Input_Width_Description = '130', Output_Width_Decsription = '130', Input_Width_Type = '85', Output_Width_Type = '80', Output_Width_Mapping = '85', Input_Column_Width_3 = '100', Output_Column_Width_4 = '100', Input_Column_Width_4 = '100', Output_Column_Width_5 = '100', Input_1st_Column_Name = 'Type', Input_2nd_Column_Name = 'Description', Input_Column_Name_3 = 'Content_Type', Input_Column_Name_4 = 'Business_Name', Output_1st_Column_Name = 'Type', Output_2nd_Column_Name = 'Mapping', Output_3rd_Column_Name = 'Description', Output_Column_Name_4 = 'Content_Type', Output_Column_Name_5 = '' )
+GUID::'f77e7c04-e3cc-4e3a-9ebb-7d7461314760' CALL TRANSFORM Map_Operation ( ) 
+INPUT ( Q_DIS_FUNS_SUPP_INVALID_ROW )
+OUTPUT ( MO_DIS_MAP_OPERATION_FUNDS_SUPP() )
+SET ("delete" = 'discard',
+"insert" = 'discard',
+"normal" = 'discard',
+"update" = 'discard');
+ALGUICOMMENT( x = '2436', y = '-1219',UI_DATA_XML='<UIDATA><MAINICON><LOCATION><X>0</X><Y>0</Y></LOCATION><SIZE><CX>432</CX><CY>-182</CY></SIZE></MAINICON><DESCRIPTION><LOCATION><X>0</X><Y>-174</Y></LOCATION><SIZE><CX>200</CX><CY>200</CY></SIZE><VISIBLE>0</VISIBLE></DESCRIPTION></UIDATA>', UpperContainer_HeightProp = '58', InputSchema_WidthProp = '50', Input_Width_Description = '130', Output_Width_Decsription = '130', Input_Width_Type = '85', Output_Width_Type = '80', Output_Width_Mapping = '85', Input_Column_Width_3 = '100', Output_Column_Width_4 = '100', Input_Column_Width_4 = '100', Output_Column_Width_5 = '100', Input_1st_Column_Name = 'Type', Input_2nd_Column_Name = 'Description', Input_Column_Name_3 = 'Content_Type', Input_Column_Name_4 = 'Business_Name', Output_1st_Column_Name = 'Type', Output_2nd_Column_Name = 'Mapping', Output_3rd_Column_Name = 'Description', Output_Column_Name_4 = 'Content_Type', Output_Column_Name_5 = 'Business_Name', UI_PASSTHRU_VSPLIT_PCT = '50' )
+GUID::'b018587f-3585-483b-9503-04e102c922be' LOAD TABLE DS_RMX_STAGING.DBO.FUNDS_SUPP  INPUT ( MO_DIS_MAP_OPERATION_FUNDS_SUPP ) SET (
+"LDRLiveLoad" = 'no',
+"Table_Type" = 'TABLE',
+"connection_port" = 'no',
+"ldr_configuration_enabled" = 'yes',
+"ldr_configurations" = '<?xml version="1.0" encoding="UTF-8"?>
+<LDRConfigurations>
+<LDRConfiguration database_type="Microsoft_SQL_Server" database_version="Microsoft SQL Server 2008">
+<auto_correct_using_merge>yes</auto_correct_using_merge>
+<bulk_ldr_all_rows></bulk_ldr_all_rows>
+<bulk_ldr_max_errors></bulk_ldr_max_errors>
+<bulk_ldr_rows_per_commit>1000</bulk_ldr_rows_per_commit>
+<enable_partitioning>no</enable_partitioning>
+<ignore_column_case>yes</ignore_column_case>
+<ignore_columns_null>no</ignore_columns_null>
+<ignore_columns_value></ignore_columns_value>
+<loader_auto_correct>no</loader_auto_correct>
+<loader_bulk_load></loader_bulk_load>
+<loader_compare_column>compare_by_name</loader_compare_column>
+<loader_delete_map></loader_delete_map>
+<loader_drop_and_create_table>yes</loader_drop_and_create_table>
+<loader_insert_map></loader_insert_map>
+<loader_load_choice>append</loader_load_choice>
+<loader_num_parallel_loaders>1</loader_num_parallel_loaders>
+<loader_overflow_file></loader_overflow_file>
+<loader_post_load1></loader_post_load1>
+<loader_pre_load1></loader_pre_load1>
+<loader_quote_names>0</loader_quote_names>
+<loader_transactional>no</loader_transactional>
+<loader_transactional_order>0</loader_transactional_order>
+<loader_update_key_columns>no</loader_update_key_columns>
+<loader_update_map></loader_update_map>
+<loader_use_user_defined_keys>no</loader_use_user_defined_keys>
+<loader_xact_size>1000</loader_xact_size>
+<mssql_bulk_ldr_mode>append</mssql_bulk_ldr_mode>
+<mssql_bulk_ldr_packet_size>0</mssql_bulk_ldr_packet_size>
+<overflow_file_format>write_data</overflow_file_format>
+<overriding_substitution_parameter_for_tablename></overriding_substitution_parameter_for_tablename>
+<use_overflow_file>no</use_overflow_file>
+<use_unicode_varchar>no</use_unicode_varchar>
+<sql_text></sql_text>
+</LDRConfiguration>
+<LDRConfiguration database_type="Microsoft_SQL_Server" database_version="Microsoft SQL Server 2005">
+<auto_correct_using_merge>yes</auto_correct_using_merge>
+<bulk_ldr_all_rows></bulk_ldr_all_rows>
+<bulk_ldr_max_errors></bulk_ldr_max_errors>
+<bulk_ldr_rows_per_commit>1000</bulk_ldr_rows_per_commit>
+<enable_partitioning>no</enable_partitioning>
+<ignore_column_case>yes</ignore_column_case>
+<ignore_columns_null>no</ignore_columns_null>
+<ignore_columns_value></ignore_columns_value>
+<loader_auto_correct>no</loader_auto_correct>
+<loader_bulk_load></loader_bulk_load>
+<loader_compare_column>compare_by_name</loader_compare_column>
+<loader_delete_map></loader_delete_map>
+<loader_drop_and_create_table>yes</loader_drop_and_create_table>
+<loader_insert_map></loader_insert_map>
+<loader_load_choice>append</loader_load_choice>
+<loader_num_parallel_loaders>1</loader_num_parallel_loaders>
+<loader_overflow_file></loader_overflow_file>
+<loader_post_load1></loader_post_load1>
+<loader_pre_load1></loader_pre_load1>
+<loader_quote_names>0</loader_quote_names>
+<loader_transactional>no</loader_transactional>
+<loader_transactional_order>0</loader_transactional_order>
+<loader_update_key_columns>no</loader_update_key_columns>
+<loader_update_map></loader_update_map>
+<loader_use_user_defined_keys>no</loader_use_user_defined_keys>
+<loader_xact_size>1000</loader_xact_size>
+<mssql_bulk_ldr_mode>append</mssql_bulk_ldr_mode>
+<mssql_bulk_ldr_packet_size>0</mssql_bulk_ldr_packet_size>
+<overflow_file_format>write_data</overflow_file_format>
+<overriding_substitution_parameter_for_tablename></overriding_substitution_parameter_for_tablename>
+<use_overflow_file>no</use_overflow_file>
+<use_unicode_varchar>no</use_unicode_varchar>
+<sql_text></sql_text>
+</LDRConfiguration>
+</LDRConfigurations>',
+"loader_template_table" = 'no',
+"name" = 'DS_RMX_STAGING',
+"use_unicode_varchar" = 'no');
+END
+
+SET("Cache_type" = 'pageable_cache',
+"Parallelism_degree" = '0',
+"allows_both_input_and_output" = 'yes',
+"run_once" = 'no',
+"use_dataflow_links" = 'no',
+"use_datastore_links" = 'yes',
+"validation_xform_exists" = 'yes',
+"validation_xform_stats" = 'no')

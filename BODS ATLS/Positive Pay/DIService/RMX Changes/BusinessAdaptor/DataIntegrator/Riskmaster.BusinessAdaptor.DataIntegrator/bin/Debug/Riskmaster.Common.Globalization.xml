@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Riskmaster.Common.Globalization</name>
+    </assembly>
+    <members>
+        <member name="T:Riskmaster.Common.Globalization">
+            <summary>
+            Riskmaster.Common.Globalization provides access to methods to ease internationalization efforts.</summary>
+            <remarks>none</remarks>
+        </member>
+        <member name="F:Riskmaster.Common.Globalization.m_resourceManagers">
+            <summary>
+            m_resourceManagers stores a pool of resource managers to ease internationalization efforts.
+            Using this method to get a ResourceManager in Riskmaster code 
+            minimizes memory requirements.</summary>
+        </member>
+        <member name="M:Riskmaster.Common.Globalization.GetResourceManager(System.Reflection.Assembly)">
+            <summary>
+            Riskmaster.Common.Globalization.GetResourceManager provides internal access to a single
+            ResourceManager object for internal use by the GetString and GetObject static methods.</summary>
+        </member>
+        <member name="M:Riskmaster.Common.Globalization.GetString(System.String)">
+            <summary>
+            Riskmaster.Common.Globalization.GetString provides simplified resource string retrieval 
+            for all Riskmaster assemblies.</summary>
+        </member>
+        <member name="M:Riskmaster.Common.Globalization.GetObject(System.String)">
+            <summary>
+            Riskmaster.Common.Globalization.GetObject provides simplified resource object retrieval 
+            for all Riskmaster assemblies.</summary>
+        </member>
+        <member name="P:Riskmaster.Common.Globalization.ResourceManager">
+            <summary>
+            Riskmaster.Common.Globalization.ResourceManager provides simplified access to a single
+            ResourceManager object to ease internationalization efforts.</summary>
+            <remarks>none</remarks>
+        </member>
+    </members>
+</doc>

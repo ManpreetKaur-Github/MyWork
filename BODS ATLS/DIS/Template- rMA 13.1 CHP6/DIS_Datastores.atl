@@ -1,0 +1,606 @@
+#__AW_Repository_Version '12.2.0.0000';
+#__AW_Product_Version '12.2.2.0';
+#__AW_ATL_Locale 'eng_us.utf-8';
+ALGUICOMMENT( x = '-1', y = '-1' , "ActaName_1" = 'RSavedAfterCheckOut' , "ActaValue_1" = 'YES' , "ActaName_2" = 'RDate_created' , "ActaValue_2" = 'Thu Jun 03 10:38:57 2010' , "ActaName_3" = 'RDate_modified' , "ActaValue_3" = 'Wed Jun 02 14:20:43 2010' )
+CREATE DATABASE DATASTORE DS_MSACCESS_STAGING::'e702fb67-5871-4d0f-b162-adfb175c5107' SET ("DB2_version" = 'DB2 UDB 9.x',
+"DBLiveLoad" = 'no',
+"DB_connection_retry_count" = '3',
+"DB_retry_interval" = '10000',
+"Oracle_default_number_precision" = '28',
+"Oracle_default_number_scale" = '7',
+"abap_execution_mode" = 'generate_and_execute',
+"abap_job_class" = 'C',
+"abap_upload_application" = 'S',
+"abap_upload_package" = '$TMP',
+"abap_upload_status" = 'T',
+"application_type" = 'Custom',
+"attunity_workspace" = 'Navigator',
+"case_sensitive" = 'yes',
+"cdc_enabled" = 'no',
+"data_federator_version" = 'Data Federator 11.x',
+"database_type" = 'Microsoft_SQL_Server',
+"datastore_repotype" = 'local',
+"db_date_format" = 'yyyy-mm-dd',
+"db_datetime_format" = 'yyyy-mm-dd hh:mi:ss',
+"db_decimal_separator" = '.',
+"db_driver_supports_array_fetch" = 'odbc_automatic',
+"db_driver_supports_param_sql" = 'odbc_automatic',
+"db_time_format" = 'hh:mi:ss',
+"ds_configuration_enabled" = 'yes',
+"ds_configurations" = '<?xml version="1.0" encoding="WINDOWS-1252" ?>
+<DSConfigurations>
+<DSConfiguration default="$DEFAULT_SQL2005_CONFIG" name="SQL2005">
+<case_sensitive>yes</case_sensitive>
+<database_type>Microsoft_SQL_Server</database_type>
+<loader_xact_size>1000</loader_xact_size>
+<locale_codepage>&lt;default&gt;</locale_codepage>
+<locale_language>&lt;default&gt;</locale_language>
+<locale_territory>&lt;default&gt;</locale_territory>
+<mssql_windows_authentication>no</mssql_windows_authentication>
+<password>$DEFAULT_DS_MSACCESS_STAGING_PASSWORD<password>
+<server_codepage>&lt;default&gt;</server_codepage>
+<sql_server_database>$DEFAULT_DS_MSACCESS_STAGING_NAME</sql_server_database>
+<sql_server_dataserver>$DEFAULT_DS_MSACCESS_STAGING_SERVER</sql_server_dataserver>
+<sql_server_version>$DEFAULT_DB_VERSION</sql_server_version>
+<user>$DEFAULT_DS_MSACCESS_STAGING_USER</user>
+</DSConfiguration>
+<DSConfiguration default="$DEFAULT_ORACLE_CONFIG" name="ORACLE11G">
+<Oracle_default_number_precision>28</Oracle_default_number_precision>
+<Oracle_default_number_scale>7</Oracle_default_number_scale>
+<database_type>Oracle</database_type>
+<loader_xact_size>1000</loader_xact_size>
+<locale_codepage>&lt;default&gt;</locale_codepage>
+<locale_language>&lt;default&gt;</locale_language>
+<locale_territory>&lt;default&gt;</locale_territory>
+<oracle_host_string>$DEFAULT_DS_MSACCESS_STAGING_SERVER</oracle_host_string>
+<oracle_version>$DEFAULT_DB_VERSION</oracle_version>
+<password>$DEFAULT_DS_MSACCESS_STAGING_PASSWORD<password>
+<server_codepage>&lt;default&gt;</server_codepage>
+<user>$DEFAULT_DS_MSACCESS_STAGING_USER</user>
+</DSConfiguration>
+<DSConfiguration default="$DEFAULT_SQL2008_CONFIG" name="SQL2008">
+<database_type>Microsoft_SQL_Server</database_type>
+<loader_xact_size>1000</loader_xact_size>
+<locale_codepage>&lt;default&gt;</locale_codepage>
+<locale_language>&lt;default&gt;</locale_language>
+<locale_territory>&lt;default&gt;</locale_territory>
+<password>$DEFAULT_DS_MSACCESS_STAGING_PASSWORD<password>
+<mssql_windows_authentication>no</mssql_windows_authentication>
+<server_codepage>&lt;default&gt;</server_codepage>
+<sql_server_database>$DEFAULT_DS_MSACCESS_STAGING_NAME</sql_server_database>
+<sql_server_dataserver>$DEFAULT_DS_MSACCESS_STAGING_SERVER</sql_server_dataserver>
+<sql_server_version>$DEFAULT_DB_VERSION</sql_server_version>
+<user>$DEFAULT_DS_MSACCESS_STAGING_USER</user>
+</DSConfiguration>
+</DSConfigurations>
+',
+"enable_data_transfer" = 'yes',
+"ftp_passwd" = ';56B34249C25EFB450F3F0E95049630C365626540693C88868248A685EF262C05',
+"import_unknown_type" = 'yes',
+"informix_version" = 'Informix IDS 11.x',
+"js_db_on_same_machine" = 'no',
+"loader_file_location" = 'shared_directory',
+"loader_xact_size" = '1000',
+"locale_codepage" = '<default>',
+"locale_language" = '<default>',
+"locale_territory" = '<default>',
+"mssql_windows_authentication" = 'no',
+"mysql_version" = 'MySQL 5.0',
+"name" = 'DS_DS_MS_ACCESS_STAGING,
+"neoview_datasource" = 'Admin_Load_DataSource',
+"neoview_version" = 'HP Neoview 2.4',
+"netezza_version" = 'Netezza NPS 5.x',
+"odbc_autocommit_support" = 'odbc_automatic',
+"odbc_convert_func_support" = 'odbc_automatic',
+"odbc_func_absolute" = 'odbc_automatic',
+"odbc_func_avg" = 'odbc_automatic',
+"odbc_func_ceiling" = 'odbc_automatic',
+"odbc_func_count" = 'odbc_automatic',
+"odbc_func_count_distinct" = 'odbc_automatic',
+"odbc_func_dayofmonth" = 'odbc_automatic',
+"odbc_func_dayofyear" = 'odbc_automatic',
+"odbc_func_floor" = 'odbc_automatic',
+"odbc_func_lcase" = 'odbc_automatic',
+"odbc_func_length" = 'odbc_automatic',
+"odbc_func_ln" = 'odbc_automatic',
+"odbc_func_log" = 'odbc_automatic',
+"odbc_func_ltrim_blanks" = 'odbc_automatic',
+"odbc_func_max" = 'odbc_automatic',
+"odbc_func_min" = 'odbc_automatic',
+"odbc_func_mod" = 'odbc_automatic',
+"odbc_func_month" = 'odbc_automatic',
+"odbc_func_power" = 'odbc_automatic',
+"odbc_func_quarter" = 'odbc_automatic',
+"odbc_func_round" = 'odbc_automatic',
+"odbc_func_rtrim_blanks" = 'odbc_automatic',
+"odbc_func_soundex" = 'odbc_automatic',
+"odbc_func_sqrt" = 'odbc_automatic',
+"odbc_func_substring" = 'odbc_automatic',
+"odbc_func_sum" = 'odbc_automatic',
+"odbc_func_sysdate" = 'odbc_automatic',
+"odbc_func_systime" = 'odbc_automatic',
+"odbc_func_truncate" = 'odbc_automatic',
+"odbc_func_ucase" = 'odbc_automatic',
+"odbc_func_week" = 'odbc_automatic',
+"odbc_func_year" = 'odbc_automatic',
+"odbc_ifthenelse_func_support" = 'no',
+"odbc_ms_access" = 'no',
+"odbc_nvarchar_type_name" = '<unknown>',
+"odbc_nvl_func_support" = 'odbc_automatic',
+"odbc_outer_join_support" = 'odbc_automatic',
+"oracle_version" = 'Oracle 11g',
+"password" = ';56B34249C25EFB450F3F0E95049630C372553C25EE658E64844692D18F223B01',
+"pcache_force_utf16" = 'no',
+"rem_repo_passwd" = 'no',
+"runtime_in_utf16" = '1',
+"sap_language" = 'E - English',
+"sap_system_number" = '00',
+"sap_use_rfc_ini" = 'no',
+"secure_repo" = 'no',
+"server_codepage" = '<default>',
+"server_sorts_in_binary" = 'yes',
+"sql_server_database" = '$DEFAULT_DS_MSACCESS_STAGING_NAME',
+"sql_server_dataserver" = '$DEFAULT_DS_MSACCESS_STAGING_SERVER',
+"sql_server_version" = 'Microsoft SQL Server 2005',
+"sybase_iq_version" = 'Sybase IQ 12.7',
+"sybase_version" = 'Sybase ASE 15.x',
+"teradata_version" = 'Teradata 12',
+"transaction_isolation_level" = 'Database default',
+"transfer_password" = ';56B34249C25EFB450F3F0E95049630C3ED1CCE06A2C048AE82F85061745DFF10',
+"trex_version" = 'TREX 7.x',
+"unknown_type_size" = '255',
+"use_named_pipe" = 'no',
+"user" = '$DEFAULT_DS_MSACCESS_STAGING_USER',
+"xml_recursion_level" = '0');
+ALGUICOMMENT( x = '-1', y = '-1' , "ActaName_1" = 'RSavedAfterCheckOut' , "ActaValue_1" = 'YES' , "ActaName_2" = 'RDate_created' , "ActaValue_2" = 'Thu Jun 03 10:38:57 2010' , "ActaName_3" = 'RDate_modified' , "ActaValue_3" = 'Wed Jun 02 13:51:32 2010' )
+CREATE DATABASE DATASTORE DS_RMDB::'2a603d1e-24a8-40b4-acb7-991a73b99bd9' SET ("DB2_version" = 'DB2 UDB 9.x',
+"DBLiveLoad" = 'no',
+"DB_connection_retry_count" = '3',
+"DB_retry_interval" = '10000',
+"Oracle_default_number_precision" = '28',
+"Oracle_default_number_scale" = '7',
+"abap_execution_mode" = 'generate_and_execute',
+"abap_job_class" = 'C',
+"abap_upload_application" = 'S',
+"abap_upload_package" = '$TMP',
+"abap_upload_status" = 'T',
+"application_type" = 'Custom',
+"attunity_workspace" = 'Navigator',
+"case_sensitive" = 'yes',
+"cdc_enabled" = 'no',
+"data_federator_version" = 'Data Federator 11.x',
+"database_type" = 'Microsoft_SQL_Server',
+"datastore_repotype" = 'local',
+"db_date_format" = 'yyyy-mm-dd',
+"db_datetime_format" = 'yyyy-mm-dd hh:mi:ss',
+"db_decimal_separator" = '.',
+"db_driver_supports_array_fetch" = 'odbc_automatic',
+"db_driver_supports_param_sql" = 'odbc_automatic',
+"db_time_format" = 'hh:mi:ss',
+"ds_configuration_enabled" = 'yes',
+"ds_configurations" = '<?xml version="1.0" encoding="WINDOWS-1252" ?>
+<DSConfigurations>
+<DSConfiguration default="$DEFAULT_ORACLE_CONFIG" name="ORACLE_Config">
+<Oracle_default_number_precision>28</Oracle_default_number_precision>
+<Oracle_default_number_scale>7</Oracle_default_number_scale>
+<case_sensitive>no</case_sensitive>
+<database_type>Oracle</database_type>
+<loader_xact_size>1000</loader_xact_size>
+<locale_codepage>&lt;default&gt;</locale_codepage>
+<locale_language>&lt;default&gt;</locale_language>
+<locale_territory>&lt;default&gt;</locale_territory>
+<oracle_host_string>$DEFAULT_RMX_SERVER</oracle_host_string>
+<oracle_version>$DEFAULT_DB_VERSION</oracle_version>
+<password>$DEFAULT_RMX_PASSWORD<password>
+<server_codepage>&lt;default&gt;</server_codepage>
+<user>$DEFAULT_RMX_USER</user>
+</DSConfiguration>
+<DSConfiguration default="$DEFAULT_SQL2005_CONFIG" name="SQL2005">
+<case_sensitive>yes</case_sensitive>
+<database_type>Microsoft_SQL_Server</database_type>
+<loader_xact_size>1000</loader_xact_size>
+<locale_codepage>&lt;default&gt;</locale_codepage>
+<locale_language>&lt;default&gt;</locale_language>
+<locale_territory>&lt;default&gt;</locale_territory>
+<mssql_windows_authentication>no</mssql_windows_authentication>
+<password>$DEFAULT_RMX_PASSWORD<password>
+<server_codepage>&lt;default&gt;</server_codepage>
+<sql_server_database>$DEFAULT_RMX_NAME</sql_server_database>
+<sql_server_dataserver>$DEFAULT_RMX_SERVER</sql_server_dataserver>
+<sql_server_version>$DEFAULT_DB_VERSION</sql_server_version>
+<user>$DEFAULT_RMX_USER</user>
+</DSConfiguration>
+<DSConfiguration default="$DEFAULT_SQL2008_CONFIG" name="SQL2008">
+<database_type>Microsoft_SQL_Server</database_type>
+<loader_xact_size>1000</loader_xact_size>
+<locale_codepage>&lt;default&gt;</locale_codepage>
+<locale_language>&lt;default&gt;</locale_language>
+<locale_territory>&lt;default&gt;</locale_territory>
+<mssql_windows_authentication>no</mssql_windows_authentication>
+<password>$DEFAULT_RMX_PASSWORD<password>
+<server_codepage>&lt;default&gt;</server_codepage>
+<sql_server_database>$DEFAULT_RMX_NAME</sql_server_database>
+<sql_server_dataserver>$DEFAULT_RMX_SERVER</sql_server_dataserver>
+<sql_server_version>$DEFAULT_DB_VERSION</sql_server_version>
+<user>$DEFAULT_RMX_USER</user>
+</DSConfiguration>
+</DSConfigurations>
+',
+"enable_data_transfer" = 'yes',
+"ftp_passwd" = ';56B34249C25EFB450F3F0E95049630C3ED1CCE06A2C048AE82F85061745DFF10',
+"import_unknown_type" = 'no',
+"informix_version" = 'Informix IDS 11.x',
+"js_db_on_same_machine" = 'no',
+"loader_file_location" = 'shared_directory',
+"loader_xact_size" = '1000',
+"locale_codepage" = '<default>',
+"locale_language" = '<default>',
+"locale_territory" = '<default>',
+"mssql_windows_authentication" = 'no',
+"mysql_version" = 'MySQL 5.0',
+"name" = 'DS_RMDB',
+"neoview_datasource" = 'Admin_Load_DataSource',
+"neoview_version" = 'HP Neoview 2.4',
+"netezza_version" = 'Netezza NPS 5.x',
+"odbc_autocommit_support" = 'odbc_automatic',
+"odbc_convert_func_support" = 'odbc_automatic',
+"odbc_func_absolute" = 'odbc_automatic',
+"odbc_func_avg" = 'odbc_automatic',
+"odbc_func_ceiling" = 'odbc_automatic',
+"odbc_func_count" = 'odbc_automatic',
+"odbc_func_count_distinct" = 'odbc_automatic',
+"odbc_func_dayofmonth" = 'odbc_automatic',
+"odbc_func_dayofyear" = 'odbc_automatic',
+"odbc_func_floor" = 'odbc_automatic',
+"odbc_func_lcase" = 'odbc_automatic',
+"odbc_func_length" = 'odbc_automatic',
+"odbc_func_ln" = 'odbc_automatic',
+"odbc_func_log" = 'odbc_automatic',
+"odbc_func_ltrim_blanks" = 'odbc_automatic',
+"odbc_func_max" = 'odbc_automatic',
+"odbc_func_min" = 'odbc_automatic',
+"odbc_func_mod" = 'odbc_automatic',
+"odbc_func_month" = 'odbc_automatic',
+"odbc_func_power" = 'odbc_automatic',
+"odbc_func_quarter" = 'odbc_automatic',
+"odbc_func_round" = 'odbc_automatic',
+"odbc_func_rtrim_blanks" = 'odbc_automatic',
+"odbc_func_soundex" = 'odbc_automatic',
+"odbc_func_sqrt" = 'odbc_automatic',
+"odbc_func_substring" = 'odbc_automatic',
+"odbc_func_sum" = 'odbc_automatic',
+"odbc_func_sysdate" = 'odbc_automatic',
+"odbc_func_systime" = 'odbc_automatic',
+"odbc_func_truncate" = 'odbc_automatic',
+"odbc_func_ucase" = 'odbc_automatic',
+"odbc_func_week" = 'odbc_automatic',
+"odbc_func_year" = 'odbc_automatic',
+"odbc_ifthenelse_func_support" = 'no',
+"odbc_ms_access" = 'no',
+"odbc_nvarchar_type_name" = '<unknown>',
+"odbc_nvl_func_support" = 'odbc_automatic',
+"odbc_outer_join_support" = 'odbc_automatic',
+"oracle_version" = 'Oracle 11g',
+"password" = ';93852D65327695FF9DB372E206AC0B9C07452563E74E33CF7CD0A0446F32EBF45E86FBA8DFDEA769D262D129F472C871',
+"pcache_force_utf16" = 'no',
+"rem_repo_passwd" = 'no',
+"runtime_in_utf16" = '1',
+"sap_language" = 'E - English',
+"sap_system_number" = '00',
+"sap_use_rfc_ini" = 'no',
+"secure_repo" = 'no',
+"server_codepage" = '<default>',
+"server_sorts_in_binary" = 'yes',
+"sql_server_database" = '$DEFAULT_RMX_NAME',
+"sql_server_dataserver" = '$DEFAULT_RMX_SERVER',
+"sql_server_version" = 'Microsoft SQL Server 2005',
+"sybase_iq_version" = 'Sybase IQ 12.7',
+"sybase_version" = 'Sybase ASE 15.x',
+"teradata_version" = 'Teradata 12',
+"transaction_isolation_level" = 'Database default',
+"transfer_password" = ';56B34249C25EFB450F3F0E95049630C3ED1CCE06A2C048AE82F85061745DFF10',
+"trex_version" = 'TREX 7.x',
+"unknown_type_size" = '255',
+"use_named_pipe" = 'no',
+"user" = '$DEFAULT_RMX_USER',
+"xml_recursion_level" = '0');
+ALGUICOMMENT( x = '-1', y = '-1' , "ActaName_1" = 'RSavedAfterCheckOut' , "ActaValue_1" = 'YES' , "ActaName_2" = 'RDate_created' , "ActaValue_2" = 'Thu Jun 03 10:38:57 2010' , "ActaName_3" = 'RDate_modified' , "ActaValue_3" = 'Wed Jun 02 13:54:41 2010' )
+CREATE DATABASE DATASTORE DS_RMSECURITY32::'ff8269a3-d01e-40ab-840a-3ad10ea217ba' SET ("DB2_version" = 'DB2 UDB 9.x',
+"DBLiveLoad" = 'no',
+"DB_connection_retry_count" = '3',
+"DB_retry_interval" = '10000',
+"Oracle_default_number_precision" = '28',
+"Oracle_default_number_scale" = '7',
+"abap_execution_mode" = 'generate_and_execute',
+"abap_job_class" = 'C',
+"abap_upload_application" = 'S',
+"abap_upload_package" = '$TMP',
+"abap_upload_status" = 'T',
+"application_type" = 'Custom',
+"attunity_workspace" = 'Navigator',
+"case_sensitive" = 'yes',
+"cdc_enabled" = 'no',
+"data_federator_version" = 'Data Federator 11.x',
+"database_type" = 'Microsoft_SQL_Server',
+"datastore_repotype" = 'local',
+"db_date_format" = 'yyyy-mm-dd',
+"db_datetime_format" = 'yyyy-mm-dd hh:mi:ss',
+"db_decimal_separator" = '.',
+"db_driver_supports_array_fetch" = 'odbc_automatic',
+"db_driver_supports_param_sql" = 'odbc_automatic',
+"db_time_format" = 'hh:mi:ss',
+"ds_configuration_enabled" = 'yes',
+"ds_configurations" = '<?xml version="1.0" encoding="WINDOWS-1252" ?>
+<DSConfigurations>
+<DSConfiguration default="$DEFAULT_SQL2005_CONFIG" name="SecuritySQL">
+<case_sensitive>yes</case_sensitive>
+<database_type>Microsoft_SQL_Server</database_type>
+<loader_xact_size>1000</loader_xact_size>
+<locale_codepage>&lt;default&gt;</locale_codepage>
+<locale_language>&lt;default&gt;</locale_language>
+<locale_territory>&lt;default&gt;</locale_territory>
+<mssql_windows_authentication>no</mssql_windows_authentication>
+<password>$DEFAULT_SECURITY_PASSWORD<password>
+<server_codepage>&lt;default&gt;</server_codepage>
+<sql_server_database>$DEFAULT_SECURITY_NAME</sql_server_database>
+<sql_server_dataserver>$DEFAULT_SECURITY_SERVER</sql_server_dataserver>
+<sql_server_version>$DEFAULT_DB_VERSION</sql_server_version>
+<user>$DEFAULT_SECURITY_USER</user>
+</DSConfiguration>
+<DSConfiguration default="$DEFAULT_SQL2005_CONFIG" name="SQL2008">
+<database_type>Microsoft_SQL_Server</database_type>
+<loader_xact_size>1000</loader_xact_size>
+<locale_codepage>&lt;default&gt;</locale_codepage>
+<locale_language>&lt;default&gt;</locale_language>
+<locale_territory>&lt;default&gt;</locale_territory>
+<mssql_windows_authentication>no</mssql_windows_authentication>
+<password>$DEFAULT_SECURITY_PASSWORD<password>
+<server_codepage>&lt;default&gt;</server_codepage>
+<sql_server_database>$DEFAULT_SECURITY_NAME</sql_server_database>
+<sql_server_dataserver>$DEFAULT_SECURITY_SERVER</sql_server_dataserver>
+<sql_server_version>$DEFAULT_DB_VERSION</sql_server_version>
+<user>$DEFAULT_SECURITY_USER</user>
+</DSConfiguration>
+<DSConfiguration default="$DEFAULT_ORACLE_CONFIG" name="ORACLE11G">
+<Oracle_default_number_precision>28</Oracle_default_number_precision>
+<Oracle_default_number_scale>7</Oracle_default_number_scale>
+<database_type>Oracle</database_type>
+<loader_xact_size>1000</loader_xact_size>
+<locale_codepage>&lt;default&gt;</locale_codepage>
+<locale_language>&lt;default&gt;</locale_language>
+<locale_territory>&lt;default&gt;</locale_territory>
+<oracle_host_string>$DEFAULT_SECURITY_SERVER</oracle_host_string>
+<oracle_version>$DEFAULT_DB_VERSION</oracle_version>
+<password>$DEFAULT_SECURITY_PASSWORD<password>
+<server_codepage>&lt;default&gt;</server_codepage>
+<user>$DEFAULT_SECURITY_USER</user>
+</DSConfiguration>
+</DSConfigurations>
+',
+"enable_data_transfer" = 'yes',
+"ftp_passwd" = ';56B34249C25EFB450F3F0E95049630C3ED1CCE06A2C048AE82F85061745DFF10',
+"import_unknown_type" = 'yes',
+"informix_version" = 'Informix IDS 11.x',
+"js_db_on_same_machine" = 'no',
+"loader_file_location" = 'shared_directory',
+"loader_xact_size" = '1000',
+"locale_codepage" = '<default>',
+"locale_language" = '<default>',
+"locale_territory" = '<default>',
+"mssql_windows_authentication" = 'no',
+"mysql_version" = 'MySQL 5.0',
+"name" = 'DS_RMSECURITY32',
+"neoview_datasource" = 'Admin_Load_DataSource',
+"neoview_version" = 'HP Neoview 2.4',
+"netezza_version" = 'Netezza NPS 5.x',
+"odbc_autocommit_support" = 'odbc_automatic',
+"odbc_convert_func_support" = 'odbc_automatic',
+"odbc_func_absolute" = 'odbc_automatic',
+"odbc_func_avg" = 'odbc_automatic',
+"odbc_func_ceiling" = 'odbc_automatic',
+"odbc_func_count" = 'odbc_automatic',
+"odbc_func_count_distinct" = 'odbc_automatic',
+"odbc_func_dayofmonth" = 'odbc_automatic',
+"odbc_func_dayofyear" = 'odbc_automatic',
+"odbc_func_floor" = 'odbc_automatic',
+"odbc_func_lcase" = 'odbc_automatic',
+"odbc_func_length" = 'odbc_automatic',
+"odbc_func_ln" = 'odbc_automatic',
+"odbc_func_log" = 'odbc_automatic',
+"odbc_func_ltrim_blanks" = 'odbc_automatic',
+"odbc_func_max" = 'odbc_automatic',
+"odbc_func_min" = 'odbc_automatic',
+"odbc_func_mod" = 'odbc_automatic',
+"odbc_func_month" = 'odbc_automatic',
+"odbc_func_power" = 'odbc_automatic',
+"odbc_func_quarter" = 'odbc_automatic',
+"odbc_func_round" = 'odbc_automatic',
+"odbc_func_rtrim_blanks" = 'odbc_automatic',
+"odbc_func_soundex" = 'odbc_automatic',
+"odbc_func_sqrt" = 'odbc_automatic',
+"odbc_func_substring" = 'odbc_automatic',
+"odbc_func_sum" = 'odbc_automatic',
+"odbc_func_sysdate" = 'odbc_automatic',
+"odbc_func_systime" = 'odbc_automatic',
+"odbc_func_truncate" = 'odbc_automatic',
+"odbc_func_ucase" = 'odbc_automatic',
+"odbc_func_week" = 'odbc_automatic',
+"odbc_func_year" = 'odbc_automatic',
+"odbc_ifthenelse_func_support" = 'no',
+"odbc_ms_access" = 'no',
+"odbc_nvarchar_type_name" = '<unknown>',
+"odbc_nvl_func_support" = 'odbc_automatic',
+"odbc_outer_join_support" = 'odbc_automatic',
+"oracle_version" = 'Oracle 11g',
+"password" = ';C175B8F0FE75E73F307BB5E20D128DBBF9731D2013531ECC94A138C56A415E36B3942B06A9838FBE01B2D9E70F1385DA',
+"pcache_force_utf16" = 'no',
+"rem_repo_passwd" = 'no',
+"runtime_in_utf16" = '1',
+"sap_language" = 'E - English',
+"sap_system_number" = '00',
+"sap_use_rfc_ini" = 'no',
+"secure_repo" = 'no',
+"server_codepage" = '<default>',
+"server_sorts_in_binary" = 'yes',
+"sql_server_database" = '$DEFAULT_SECURITY_NAME',
+"sql_server_dataserver" = '$DEFAULT_SECURITY_SERVER',
+"sql_server_version" = 'Microsoft SQL Server 2005',
+"sybase_iq_version" = 'Sybase IQ 12.7',
+"sybase_version" = 'Sybase ASE 15.x',
+"teradata_version" = 'Teradata 12',
+"transaction_isolation_level" = 'Database default',
+"transfer_password" = ';56B34249C25EFB450F3F0E95049630C3ED1CCE06A2C048AE82F85061745DFF10',
+"trex_version" = 'TREX 7.x',
+"unknown_type_size" = '255',
+"use_named_pipe" = 'no',
+"user" = '$DEFAULT_SECURITY_USER',
+"xml_recursion_level" = '0');
+ALGUICOMMENT( x = '-1', y = '-1' , "ActaName_1" = 'RSavedAfterCheckOut' , "ActaValue_1" = 'YES' , "ActaName_2" = 'RDate_created' , "ActaValue_2" = 'Thu Jun 03 10:38:58 2010' , "ActaName_3" = 'RDate_modified' , "ActaValue_3" = 'Thu May 27 12:35:52 2010' )
+CREATE DATABASE DATASTORE DS_RMX_STAGING::'97365922-a204-4dab-a159-52b66449a188' SET ("DB2_version" = 'DB2 UDB 9.x',
+"DBLiveLoad" = 'no',
+"DB_connection_retry_count" = '3',
+"DB_retry_interval" = '10000',
+"Oracle_default_number_precision" = '28',
+"Oracle_default_number_scale" = '7',
+"abap_execution_mode" = 'generate_and_execute',
+"abap_job_class" = 'C',
+"abap_upload_application" = 'S',
+"abap_upload_package" = '$TMP',
+"abap_upload_status" = 'T',
+"application_type" = 'Custom',
+"attunity_workspace" = 'Navigator',
+"cdc_enabled" = 'no',
+"data_federator_version" = 'Data Federator 11.x',
+"database_type" = 'Microsoft_SQL_Server',
+"datastore_repotype" = 'local',
+"db_date_format" = 'yyyy-mm-dd',
+"db_datetime_format" = 'yyyy-mm-dd hh:mi:ss',
+"db_decimal_separator" = '.',
+"db_driver_supports_array_fetch" = 'odbc_automatic',
+"db_driver_supports_param_sql" = 'odbc_automatic',
+"db_time_format" = 'hh:mi:ss',
+"ds_configuration_enabled" = 'yes',
+"ds_configurations" = '<?xml version="1.0" encoding="UTF-8"?>
+<DSConfigurations>
+<DSConfiguration default="$DEFAULT_SQL2005_CONFIG" name="SQL2005">
+<database_type>Microsoft_SQL_Server</database_type>
+<loader_xact_size>1000</loader_xact_size>
+<locale_codepage>&lt;default&gt;</locale_codepage>
+<locale_language>&lt;default&gt;</locale_language>
+<locale_territory>&lt;default&gt;</locale_territory>
+<mssql_windows_authentication>no</mssql_windows_authentication>
+<password>$DEFAULT_RMX_STAGING_PASSWORD<password>
+<server_codepage>&lt;default&gt;</server_codepage>
+<sql_server_database>$DEFAULT_RMX_STAGING_NAME</sql_server_database>
+<sql_server_dataserver>$DEFAULT_RMX_STAGING_SERVER</sql_server_dataserver>
+<sql_server_version>$DEFAULT_DB_VERSION</sql_server_version>
+<user>$DEFAULT_RMX_STAGING_USER</user>
+</DSConfiguration>
+<DSConfiguration default="$DEFAULT_SQL2008_CONFIG" name="SQL2008">
+<database_type>Microsoft_SQL_Server</database_type>
+<loader_xact_size>1000</loader_xact_size>
+<locale_codepage>&lt;default&gt;</locale_codepage>
+<locale_language>&lt;default&gt;</locale_language>
+<locale_territory>&lt;default&gt;</locale_territory>
+<mssql_windows_authentication>no</mssql_windows_authentication>
+<password>$DEFAULT_RMX_STAGING_PASSWORD<password>
+<server_codepage>&lt;default&gt;</server_codepage>
+<sql_server_database>$DEFAULT_RMX_STAGING_NAME</sql_server_database>
+<sql_server_dataserver>$DEFAULT_RMX_STAGING_SERVER</sql_server_dataserver>
+<sql_server_version>$DEFAULT_DB_VERSION</sql_server_version>
+<user>$DEFAULT_RMX_STAGING_USER</user>
+</DSConfiguration>
+<DSConfiguration default="$DEFAULT_ORACLE_CONFIG" name="ORACLE11G">
+<Oracle_default_number_precision>28</Oracle_default_number_precision>
+<Oracle_default_number_scale>7</Oracle_default_number_scale>
+<database_type>Oracle</database_type>
+<loader_xact_size>1000</loader_xact_size>
+<locale_codepage>&lt;default&gt;</locale_codepage>
+<locale_language>&lt;default&gt;</locale_language>
+<locale_territory>&lt;default&gt;</locale_territory>
+<oracle_host_string>$DEFAULT_RMX_STAGING_SERVER</oracle_host_string>
+<oracle_version>$DEFAULT_DB_VERSION</oracle_version>
+<password>$DEFAULT_RMX_STAGING_PASSWORD<password>
+<server_codepage>&lt;default&gt;</server_codepage>
+<user>$DEFAULT_RMX_STAGING_USER</user>
+</DSConfiguration>
+</DSConfigurations>
+',
+"enable_data_transfer" = 'yes',
+"ftp_passwd" = ';8AB2B7CCE28A966FFE89525F7C0E1F0FC056D78F3CA1B153EC43B41609E6A992',
+"import_unknown_type" = 'no',
+"informix_version" = 'Informix IDS 11.x',
+"js_db_on_same_machine" = 'no',
+"loader_file_location" = 'shared_directory',
+"loader_xact_size" = '1000',
+"locale_codepage" = '<default>',
+"locale_language" = '<default>',
+"locale_territory" = '<default>',
+"mssql_windows_authentication" = 'no',
+"mysql_version" = 'MySQL 5.0',
+"name" = 'DS_RMX_STAGING',
+"neoview_datasource" = 'Admin_Load_DataSource',
+"neoview_version" = 'HP Neoview 2.4',
+"netezza_version" = 'Netezza NPS 5.x',
+"odbc_autocommit_support" = 'odbc_automatic',
+"odbc_convert_func_support" = 'odbc_automatic',
+"odbc_func_absolute" = 'odbc_automatic',
+"odbc_func_avg" = 'odbc_automatic',
+"odbc_func_ceiling" = 'odbc_automatic',
+"odbc_func_count" = 'odbc_automatic',
+"odbc_func_count_distinct" = 'odbc_automatic',
+"odbc_func_dayofmonth" = 'odbc_automatic',
+"odbc_func_dayofyear" = 'odbc_automatic',
+"odbc_func_floor" = 'odbc_automatic',
+"odbc_func_lcase" = 'odbc_automatic',
+"odbc_func_length" = 'odbc_automatic',
+"odbc_func_ln" = 'odbc_automatic',
+"odbc_func_log" = 'odbc_automatic',
+"odbc_func_ltrim_blanks" = 'odbc_automatic',
+"odbc_func_max" = 'odbc_automatic',
+"odbc_func_min" = 'odbc_automatic',
+"odbc_func_mod" = 'odbc_automatic',
+"odbc_func_month" = 'odbc_automatic',
+"odbc_func_power" = 'odbc_automatic',
+"odbc_func_quarter" = 'odbc_automatic',
+"odbc_func_round" = 'odbc_automatic',
+"odbc_func_rtrim_blanks" = 'odbc_automatic',
+"odbc_func_soundex" = 'odbc_automatic',
+"odbc_func_sqrt" = 'odbc_automatic',
+"odbc_func_substring" = 'odbc_automatic',
+"odbc_func_sum" = 'odbc_automatic',
+"odbc_func_sysdate" = 'odbc_automatic',
+"odbc_func_systime" = 'odbc_automatic',
+"odbc_func_truncate" = 'odbc_automatic',
+"odbc_func_ucase" = 'odbc_automatic',
+"odbc_func_week" = 'odbc_automatic',
+"odbc_func_year" = 'odbc_automatic',
+"odbc_ifthenelse_func_support" = 'no',
+"odbc_ms_access" = 'no',
+"odbc_nvarchar_type_name" = '<unknown>',
+"odbc_nvl_func_support" = 'odbc_automatic',
+"odbc_outer_join_support" = 'odbc_automatic',
+"oracle_version" = 'Oracle 11g',
+"password" = ';6AF396D9BFA64430FE504BAFBFCB6D60BFF95661E1C1D0B930325CA2311A9953',
+"pcache_force_utf16" = 'no',
+"rem_repo_passwd" = 'no',
+"runtime_in_utf16" = '1',
+"sap_language" = 'E - English',
+"sap_system_number" = '00',
+"sap_use_rfc_ini" = 'no',
+"secure_repo" = 'no',
+"server_codepage" = '<default>',
+"server_sorts_in_binary" = 'yes',
+"sql_server_database" = '$DEFAULT_RMX_STAGING_NAME',
+"sql_server_dataserver" = '$DEFAULT_RMX_STAGING_SERVER',
+"sql_server_version" = 'Microsoft SQL Server 2005',
+"sybase_iq_version" = 'Sybase IQ 12.7',
+"sybase_version" = 'Sybase ASE 15.x',
+"teradata_version" = 'Teradata 12',
+"transaction_isolation_level" = 'Database default',
+"transfer_password" = ';8AB2B7CCE28A966FFE89525F7C0E1F0F0A076E543AD0FCD910978175083A950B',
+"trex_version" = 'TREX 7.x',
+"unknown_type_size" = '255',
+"use_named_pipe" = 'no',
+"user" = '$DEFAULT_RMX_STAGING_USER',
+"xml_recursion_level" = '0');

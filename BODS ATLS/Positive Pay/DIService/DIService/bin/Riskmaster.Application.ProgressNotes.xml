@@ -1,0 +1,388 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Riskmaster.Application.ProgressNotes</name>
+    </assembly>
+    <members>
+        <member name="M:Riskmaster.Application.ProgressNotes.Functions.StartDocument(System.Xml.XmlDocument@,System.Xml.XmlElement@,System.String)">
+            Name		: StartDocument
+            Author		: Vaibhav Kaushik
+            Date Created: 4 Oct 2005
+            ************************************************************
+            Amendment History
+            ************************************************************
+            Date Amended   *   Amendment   *    Author
+            ************************************************************
+            <summary>		
+            This method is basically used for XML operations
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Application.ProgressNotes.Functions.CreateElement(System.Xml.XmlElement,System.String)">
+            Name		: CreateElement
+            Author		: Vaibhav Kaushik
+            Date Created: 4 Oct 2005
+            ************************************************************
+            Amendment History
+            ************************************************************
+            Date Amended   *   Amendment   *    Author
+            ************************************************************
+            <summary>		
+            This method is basically used for XML operations
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Application.ProgressNotes.Functions.CreateElement(System.Xml.XmlElement,System.String,System.Xml.XmlElement@)">
+            Name		: CreateElement
+            Author		: Vaibhav Kaushik
+            Date Created: 4 Oct 2005
+            ************************************************************
+            Amendment History
+            ************************************************************
+            Date Amended   *   Amendment   *    Author
+            ************************************************************
+            <summary>		
+            This method is basically used for XML operations
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Application.ProgressNotes.Functions.CreateAndSetElement(System.Xml.XmlElement,System.String,System.String)">
+            Name		: CreateAndSetElement
+            Author		: Vaibhav Kaushik
+            Date Created: 4 Oct 2005
+            ************************************************************
+            Amendment History
+            ************************************************************
+            Date Amended   *   Amendment   *    Author
+            ************************************************************
+            <summary>		
+            This method is basically used for XML operations
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Application.ProgressNotes.Functions.CreateAndSetElement(System.Xml.XmlElement,System.String,System.String,System.Xml.XmlElement@)">
+            Name		: CreateAndSetElement
+            Author		: Vaibhav Kaushik
+            Date Created: 4 Oct 2005
+            ************************************************************
+            Amendment History
+            ************************************************************
+            Date Amended   *   Amendment   *    Author
+            ************************************************************
+            <summary>		
+            This method is basically used for XML operations
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.Application.ProgressNotes.Functions.ConvertToTextForPrinting(System.String)" -->
+        <member name="M:Riskmaster.Application.ProgressNotes.Functions.ReadConfigFile(System.String)">
+            Name		: ReadConfigFile
+            Author		: Vaibhav Kaushik
+            Date Created: 4 Oct 2005
+            ************************************************************
+            Amendment History
+            ************************************************************
+            Date Amended   *   Amendment   *    Author
+            ************************************************************
+            <summary>		
+            This method is basically used to read the config file
+            </summary>
+            <remarks>		
+            </remarks>
+            <param name="p_sNodeName">The Node Name</param>
+        </member>
+        <member name="T:Riskmaster.Application.ProgressNotes.ProgressNotesManager">
+            ************************************************************** 
+            * $File		: ProgressNotesManager.cs 
+            * $Revision	: 1.0.0.0 
+            * $Date		: 2-Oct-2005 
+            * $Author	: Raman Bhatia and Vaibhav Kaushik
+            * $Comment	: ProgressNotes Class used for ClaimProgressNotes Module
+            * $Source	: 
+            **************************************************************
+        </member>
+        <member name="F:Riskmaster.Application.ProgressNotes.ProgressNotesManager.m_sUserName">
+            <summary>
+            Private variable to store user name
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.ProgressNotes.ProgressNotesManager.m_sPassword">
+            <summary>
+            Private variable to store password
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.ProgressNotes.ProgressNotesManager.m_sDsnName">
+            <summary>
+            Private variable to store DSN Name
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.ProgressNotes.ProgressNotesManager.m_sConnectionString">
+            <summary>
+            Private variable to store connection string
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.ProgressNotes.ProgressNotesManager.m_objDataModelFactory">
+            <summary>
+            Private variable to store the instance of Datamodel factory object
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.ProgressNotes.ProgressNotesManager.m_objDocument">
+            <summary>
+            Private variable to store the instance of XmlDocument object
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.ProgressNotes.ProgressNotesManager.m_objLocalCache">
+            <summary>
+            Private variable to store the instance of LocalCache object
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.ProgressNotes.ProgressNotesManager.p_sDbType">
+            <summary>
+            Private variable to store the Db Type
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.ProgressNotes.ProgressNotesManager.m_sReportHeader">
+            <summary>
+            Private variable to store the header of the report
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.ProgressNotes.ProgressNotesManager.m_bClaimSelected">
+            <summary>
+            Private variable to store the Claim Selected Flag
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Application.ProgressNotes.ProgressNotesManager.#ctor(System.String,System.String,System.String)">
+            <summary>
+            Constructor, initializes the variables to the default value
+            </summary>
+            <param name="p_sUserName">UserName</param>
+            <param name="p_sPassword">Password</param>
+            <param name="p_sDsnName">DsnName</param>
+        </member>
+        <member name="M:Riskmaster.Application.ProgressNotes.ProgressNotesManager.NewPage(C1.C1PrintDocument.C1PrintDocument,C1.C1PrintDocument.NewPageStartedEventArgs)">
+            Name		: NewPage
+            Author		: Vaibhav Kaushik
+            Date Created: 4 Oct 2005
+            ************************************************************
+            Amendment History
+            ************************************************************
+            Date Amended   *   Amendment   *    Author
+            ************************************************************
+            <summary>		
+            This method is basically used for printing notes
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Application.ProgressNotes.ProgressNotesManager.PrintProgressNotesReport(System.Int32,System.Int32,System.Boolean,System.String,System.String@,System.Boolean,System.Int32)">
+            Name		: PrintProgressNotesReport
+            Author		: Vaibhav Kaushik
+            Date Created: 4 Oct 2005
+            ************************************************************
+            Amendment History
+            ************************************************************
+            Date Amended   *   Amendment   *    Author
+            ************************************************************
+            <summary>		
+            This method is basically used for printing notes
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Application.ProgressNotes.ProgressNotesManager.DeleteNote(System.Int32,System.Int32,System.Int32)">
+            MITS 11403
+             Name		: DelteNote
+             Author		: Abhishek Rathore
+             Date Created: 12 March 2008
+             ************************************************************
+             Amendment History
+             ************************************************************
+             Date Amended   *   Amendment   *    Author
+             ************************************************************
+             <summary>		
+             This method delete the select note
+             </summary>
+             
+        </member>
+        <member name="M:Riskmaster.Application.ProgressNotes.ProgressNotesManager.GetNotes(System.Int32,System.Int32,System.Boolean,System.String)">
+            Name		: GetNotes
+            Author		: Vaibhav Kaushik
+            Date Created: 4 Oct 2005
+            ************************************************************
+            Amendment History
+            ************************************************************
+            Date Amended   *   Amendment   *    Author
+            ************************************************************
+            <summary>		
+            This method is basically used for fetching notes
+            </summary>
+            
+        </member>
+        <member name="M:Riskmaster.Application.ProgressNotes.ProgressNotesManager.OnLoad(System.Int32,System.Int32,System.Boolean,System.String)">
+            Name		: OnLoad
+            Author		: Vaibhav Kaushik
+            Date Created: 4 Oct 2005
+            ************************************************************
+            Amendment History
+            ************************************************************
+            Date Amended   *   Amendment   *    Author
+            ************************************************************
+            <summary>		
+            This method is basically used for fetching notes
+            </summary>
+            
+        </member>
+        <member name="M:Riskmaster.Application.ProgressNotes.ProgressNotesManager.CreateJoinSQL(System.String@,System.String@,System.String,System.String,System.String,System.String)">
+            Name		: CreateJoinSQL
+            Author		: Vaibhav Kaushik
+            Date Created: 4 Oct 2005
+            ************************************************************
+            Amendment History
+            ************************************************************
+            Date Amended   *   Amendment   *    Author
+            ************************************************************
+            <summary>		
+            This method is basically used for generating SQL
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Application.ProgressNotes.ProgressNotesManager.GetClaimName(System.Int32)">
+            Name		: GetClaimName
+            Author		: Vaibhav Kaushik
+            Date Created: 4 Oct 2005
+            ************************************************************
+            Amendment History
+            ************************************************************
+            Date Amended   *   Amendment   *    Author
+            ************************************************************
+            <summary>		
+            This method is basically used for fetching claim name
+            </summary>
+            
+        </member>
+        <member name="M:Riskmaster.Application.ProgressNotes.ProgressNotesManager.GetEventName(System.Int32)">
+            Name		: GetEventName
+            Author		: Vaibhav Kaushik
+            Date Created: 4 Oct 2005
+            ************************************************************
+            Amendment History
+            ************************************************************
+            Date Amended   *   Amendment   *    Author
+            ************************************************************
+            <summary>		
+            This method is basically used for fetching event name
+            </summary>
+            
+        </member>
+        <member name="M:Riskmaster.Application.ProgressNotes.ProgressNotesManager.GetSQLWithFirstRow(System.String,System.String,System.String)">
+            Name		: GetSQLWithFirstRow
+            Author		: Vaibhav Kaushik
+            Date Created: 4 Oct 2005
+            ************************************************************
+            Amendment History
+            ************************************************************
+            Date Amended   *   Amendment   *    Author
+            ************************************************************
+            <summary>		
+            This method is basically used for generating SQL
+            </summary>
+            
+        </member>
+        <member name="M:Riskmaster.Application.ProgressNotes.ProgressNotesManager.SelectClaim(System.Int64)">
+            Name		: SelectClaim
+            Author		: Raman Bhatia
+            Date Created: 4 Oct 2005
+            ************************************************************
+            Amendment History
+            ************************************************************
+            Date Amended   *   Amendment   *    Author
+            ************************************************************
+            <summary>		
+            This method is basically used for fetching claims for a particular event
+            </summary>
+            
+        </member>
+        <member name="M:Riskmaster.Application.ProgressNotes.ProgressNotesManager.GetClaimantName(System.String)">
+            <summary>
+            Get the claimant name. 
+            If primary claimant exists, get its name
+            If no primary claimant and more than one, get the last claimant's name
+            </summary>
+            <param name="p_sClaimId">claim ID</param>
+            <returns></returns>
+        </member>
+        <member name="M:Riskmaster.Application.ProgressNotes.ProgressNotesManager.CreateFilterString(System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String)">
+            Name		: CreateFilterString
+            Author		: Raman Bhatia
+            Date Created: 4 Oct 2005
+            ************************************************************
+            Amendment History
+            ************************************************************
+            Date Amended   *   Amendment   *    Author
+            ************************************************************
+            <summary>		
+            This method is used to create the filter string of advanced search
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Application.ProgressNotes.ProgressNotesManager.SaveNotesIntegrate(System.Int32,System.Int32,System.Int32,System.String,System.Int32,System.Int32,System.String,System.String,System.String,System.Int32)">
+            <summary>
+            returns the claimProgressNoteId generated 
+            created by: Parijat For R5
+            </summary>
+            <param name="p_iEventID"></param>
+            <param name="p_iClaimID"></param>
+            <param name="p_iEnteredBy"></param>
+            <param name="p_sDateEntered"></param>
+            <param name="p_iNoteTypeCode"></param>
+            <param name="p_iUserID"></param>
+            <param name="p_sNoteMemo"></param>
+            <param name="p_sNoteMemoCareTech"></param>
+            <param name="p_sEnteredByName"></param>
+            <param name="p_iClaimProgressNoteId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Riskmaster.Application.ProgressNotes.ProgressNotesManager.SaveNotes(System.Int32,System.Int32,System.Int32,System.String,System.Int32,System.Int32,System.String,System.String,System.String,System.Int32)">
+            Name		: SaveNotes
+            Author		: Raman Bhatia
+            Date Created: 4 Oct 2005
+            ************************************************************
+            Amendment History
+            ************************************************************
+            Date Amended   *   Amendment   *    Author
+            ************************************************************
+            <summary>		
+            This method is basically used for saving notes
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Application.ProgressNotes.ProgressNotesManager.RemoveSpecialDivID(System.String,System.String,System.String)">
+            <summary>
+            Remove <div id="NoteMemoDiv"></div> which comes from copy/paste of 
+            another enhanced note.
+            </summary>
+            <param name="sInput">input string</param>
+            <param name="sSearchedAttribute">the attribute name and value to be searched</param>
+            <param name="sTag">Html tab name</param>
+            <returns></returns>
+        </member>
+        <member name="M:Riskmaster.Application.ProgressNotes.ProgressNotesManager.GetGroupID(System.Int32)">
+            Name		: GetGroupID
+            Author		: Raman Bhatia
+            Date Created: 4 Oct 2005
+            ************************************************************
+            Amendment History
+            ************************************************************
+            Date Amended   *   Amendment   *    Author
+            ************************************************************
+            <summary>		
+            This method is basically used to fetch the user group ID
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Application.ProgressNotes.ProgressNotesManager.GetNoteDetails(System.Int32)">
+            <summary>
+            This Function would fetch text and html contents for a given progress note
+            </summary>
+            <param name="p_iClaimProgressNoteId"></param>
+            <returns></returns>
+        </member>
+        <member name="P:Riskmaster.Application.ProgressNotes.ProgressNotesManager.LocalCache">
+            <summary>
+            Read Property for LocalCache.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Application.ProgressNotes.ProgressNotesManager.DBType">
+            <summary>
+            Read/Write property for DBType.
+            </summary>
+        </member>
+    </members>
+</doc>

@@ -1,0 +1,3266 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Riskmaster.BusinessAdaptor.RMUtilities</name>
+    </assembly>
+    <members>
+        <member name="T:Riskmaster.BusinessAdaptor.RMUtilities.PVListAdaptor">
+            <summary>	
+            This class is used to call the application layer component for PVList class  
+            </summary>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.PVListAdaptor.Get(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            This function xml containing data to be shown on screen
+            </summary>
+            <param name="p_objXmlIn">Input parameters as xml</param>
+            <param name="p_objXmlOut">Result as Output xml
+            Output structure is as follows-:
+            See Xml file named PVList.xml in Xml folder
+            </param>
+            <param name="p_objErrOut">Error(s) encountered while executing the function</param>
+            <returns>Success -True or Failure -false in execution of the function</returns>
+        </member>
+        <member name="T:Riskmaster.BusinessAdaptor.RMUtilities.PVFormEditAdaptor">
+            ************************************************************** 
+            * $File		: PVFormEditAdaptor.cs 
+            * $Revision	: 1.0.0.0 
+            * $Date		: 25-May-2005
+            * $Author	: Anurag Agarwal
+            * $Comment	: 
+            * $Source	: 
+            **************************************************************
+             <summary>	
+            	This class is used to call the application layer component for PVFormEdit class  
+             </summary>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.PVFormEditAdaptor.Get(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            This function xml containing data to be shown on screen
+            </summary>
+            <param name="p_objXmlIn">
+            	Input parameters as xml
+            	<Document>
+            		<Reset></Reset>
+            		<FormName></FormName>
+            		<RowId></RowId>
+            	</Document>
+            </param>
+            <param name="p_objXmlOut">Result as Output xml
+            	Output structure is as follows-:
+            	See Xml file named PVFormEdit.xml in Xml folder
+            </param>
+            <param name="p_objErrOut">Error(s) encountered while executing the function</param>
+            <returns>Success -True or Failure -false in execution of the function</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.PVFormEditAdaptor.Save(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            T	his function Saves Layout data
+            </summary>
+            <param name="p_objXmlIn">Input parameters as xml</param>
+            <param name="p_objXmlOut">Result as Output xml</param>
+            <param name="p_objErrOut">Error(s) encountered while executing the function</param>
+            <returns>Success -True or Failure -false in execution of the function</returns>
+        </member>
+        <member name="T:Riskmaster.BusinessAdaptor.RMUtilities.FROIBatchPrintingAdaptor">
+            ************************************************************** 
+            * $File		: FROIBatchPrintingAdaptor.cs 
+            * $Revision	: 1.0.0.0 
+            * $Date		: 26/05/2005
+            * $Author	: Pankaj
+            * $Comment	: 
+            * $Source	: 
+            **************************************************************
+             <summary>	
+            	This class is used to call the application layer component for RM Utilities
+            	which implements the functionality of FROI Batch Printing.
+             </summary>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.FROIBatchPrintingAdaptor.#ctor">
+            <summary>
+            Default Constructor
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.BusinessAdaptor.RMUtilities.FROIBatchPrintingAdaptor.Get(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)" -->
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.BusinessAdaptor.RMUtilities.FROIBatchPrintingAdaptor.Save(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)" -->
+        <member name="T:Riskmaster.BusinessAdaptor.RMUtilities.ClaimTypeChangeOptionAdaptor">
+            <summary>	
+            This class is used to call the application layer component for ClaimTypeChangeOption class  
+            </summary>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.ClaimTypeChangeOptionAdaptor.Get(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            This function xml containing data to be shown on screen
+            </summary>
+            <param name="p_objXmlIn">Input parameters as xml</param>
+            <param name="p_objXmlOut">Result as Output xml
+            Input structure is as follows-:
+            <ClaimTypeChangeOption><RowId></RowId></ClaimTypeChangeOption>
+            </param>
+            <param name="p_objErrOut">Error(s) encountered while executing the function</param>
+            <returns>Success -True or Failure -false in execution of the function</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.ClaimTypeChangeOptionAdaptor.Delete(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            Deletes the Claim type options information
+            </summary>
+            <param name="p_objXmlIn">Input parameters as xml</param>
+            <param name="p_objXmlOut">Result as Output xml
+            Output structure is as follows-:
+            See Xml file named ClaimTypeChangeOption.xml in Xml folder
+            </param>
+            <param name="p_objErrOut">Error(s) encountered while executing the function</param>
+            <returns>Success -True or Failure -false in execution of the function</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.ClaimTypeChangeOptionAdaptor.Save(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            Saves the claim type information
+            </summary>
+            <param name="p_objXmlIn">Input parameters as xml</param>
+            <param name="p_objXmlOut">Result as Output xml
+            Input structure is as follows-:
+            See Xml file named ClaimTypeChangeOption.xml in Xml folder
+            </param>
+            <param name="p_objErrOut">Error(s) encountered while executing the function</param>
+            <returns>Success -True or Failure -false in execution of the function</returns>
+        </member>
+        <member name="T:Riskmaster.BusinessAdaptor.WorkCompAgentServiceAreaAdaptor">
+            <summary>	
+            This class is used to call the application layer component for WorkCompAgentServiceArea class  
+            </summary>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.WorkCompAgentServiceAreaAdaptor.Get(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            This function xml containing data to be shown on screen
+            </summary>
+            <param name="p_objXmlIn">Input parameters as xml</param>
+            <param name="p_objXmlOut">Result as Output xml
+            Input structure is as follows-:
+            <WorkCompAgentServiceArea><Jurisdictions></Jurisdictions><OfficeFunction></OfficeFunction><Agents></Agents></WorkCompAgentServiceArea>
+            </param>
+            <param name="p_objErrOut">Error(s) encountered while executing the function</param>
+            <returns>Success -True or Failure -false in execution of the function</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.WorkCompAgentServiceAreaAdaptor.FindZip(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            Retrieves the Zip information
+            </summary>
+            <param name="p_objXmlIn">Input parameters as xml</param>
+            <param name="p_objXmlOut">Result as Output xml
+            Input structure is as follows-:
+            See Xml file named WorkCompAgentServiceArea.xml in Xml folder
+            </param>
+            <param name="p_objErrOut">Error(s) encountered while executing the function</param>
+            <returns>Success -True or Failure -false in execution of the function</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.WorkCompAgentServiceAreaAdaptor.DeleteAgency(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            Deletes the Agency information
+            </summary>
+            <param name="p_objXmlIn">Input parameters as xml</param>
+            <param name="p_objXmlOut">Result as Output xml
+            Input structure is as follows-:
+            See Xml file named WorkCompAgentServiceArea.xml in Xml folder
+            </param>
+            <param name="p_objErrOut">Error(s) encountered while executing the function</param>
+            <returns>Success -True or Failure -false in execution of the function</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.WorkCompAgentServiceAreaAdaptor.AddJurisPostalCodes(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            Adds Postal Codes information
+            </summary>
+            <param name="p_objXmlIn">Input parameters as xml</param>
+            <param name="p_objXmlOut">Result as Output xml
+            Input structure is as follows-:
+            See Xml file named WorkCompAgentServiceArea.xml in Xml folder
+            </param>
+            <param name="p_objErrOut">Error(s) encountered while executing the function</param>
+            <returns>Success -True or Failure -false in execution of the function</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.WorkCompAgentServiceAreaAdaptor.DeleteJurisPostalCodes(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            Deletes the Postal Codes information
+            </summary>
+            <param name="p_objXmlIn">Input parameters as xml</param>
+            <param name="p_objXmlOut">Result as Output xml
+            Input structure is as follows-:
+            See Xml file named WorkCompAgentServiceArea.xml in Xml folder
+            </param>
+            <param name="p_objErrOut">Error(s) encountered while executing the function</param>
+            <returns>Success -True or Failure -false in execution of the function</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.WorkCompAgentServiceAreaAdaptor.Save(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            Saves the Agency/Agent information
+            </summary>
+            <param name="p_objXmlIn">Input parameters as xml</param>
+            <param name="p_objXmlOut">Result as Output xml
+            Input structure is as follows-:
+            See Xml file named WorkCompAgentServiceArea.xml in Xml folder
+            </param>
+            <param name="p_objErrOut">Error(s) encountered while executing the function</param>
+            <returns>Success -True or Failure -false in execution of the function</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.WorkCompAgentServiceAreaAdaptor.SaveZips(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            Saves the Zip information
+            </summary>
+            <param name="p_objXmlIn">Input parameters as xml</param>
+            <param name="p_objXmlOut">Result as Output xml
+            Input structure is as follows-:
+            See Xml file named WorkCompAgentServiceArea.xml in Xml folder
+            </param>
+            <param name="p_objErrOut">Error(s) encountered while executing the function</param>
+            <returns>Success -True or Failure -false in execution of the function</returns>
+        </member>
+        <member name="T:Riskmaster.BusinessAdaptor.RMUtilities.TransTypeChangeAdaptor">
+            ************************************************************** 
+            * $File		: TransTypeChangeAdaptor.cs 
+            * $Revision	: 1.0.0.0 
+            * $Date		: 31/05/2005
+            * $Author	: Pankaj
+            * $Comment	: 
+            * $Source	: 
+            **************************************************************
+             <summary>	
+            	This class is used to call the application layer component for RM Utilities
+            	which implements the functionality of Trans Type Change form.
+             </summary>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.TransTypeChangeAdaptor.#ctor">
+            <summary>
+            Default Constructor
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.BusinessAdaptor.RMUtilities.TransTypeChangeAdaptor.Get(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)" -->
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.BusinessAdaptor.RMUtilities.TransTypeChangeAdaptor.Save(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)" -->
+        <member name="T:Riskmaster.BusinessAdaptor.RMUtilities.SupplementalGridParameterSetupAdaptor">
+            <summary>	
+            This class is used to call the application layer component for SupplementalGridParameterSetup class  
+            </summary>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.SupplementalGridParameterSetupAdaptor.Get(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            This function gets the Grid Parameters
+            </summary>
+            <param name="p_objXmlIn">Input parameters as xml</param>
+            <param name="p_objXmlOut">Result as Output xml</param>
+            <param name="p_objErrOut">Error(s) encountered while executing the function</param>
+            <returns>Success -True or Failure -false in execution of the function</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.SupplementalGridParameterSetupAdaptor.Save(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            This function saves the Grid Parameters
+            </summary>
+            <param name="p_objXmlIn">Input parameters as xml</param>
+            <param name="p_objXmlOut">Result as Output xml</param>
+            <param name="p_objErrOut">Error(s) encountered while executing the function</param>
+            <returns>Success -True or Failure -false in execution of the function</returns>
+        </member>
+        <member name="T:Riskmaster.BusinessAdaptor.RMUtilities.RMXPortalCustomizationAdaptor">
+            ************************************************************** 
+            * $File		: RMXPortalCustomizationAdaptor.cs 
+            * $Revision	: 1.0.0.0 
+            * $Date		: 08/15/2006
+            * $Author	: Raman
+            * $Comment	: 
+            * $Source	: 
+            **************************************************************
+             <summary>	
+            	This class is used to call the application layer component for RM Utilities
+            	which implements the Acrosoft Pre-Fill Folder Strucure
+             </summary>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.RMXPortalCustomizationAdaptor.#ctor">
+            <summary>
+            Default Constructor
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.BusinessAdaptor.RMUtilities.RMXPortalCustomizationAdaptor.GetUserList(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)" -->
+        <member name="T:Riskmaster.BusinessAdaptor.RMUtilities.QueryDesignerAdaptor">
+            ************************************************************** 
+            * $File		: QueryDesignerAdaptor.cs 
+            * $Revision	: 1.0.0.0 
+            * $Date		: 27/05/2005
+            * $Author	: Pankaj
+            * $Comment	: 
+            * $Source	: 
+            **************************************************************
+             <summary>	
+            	This class is used to call the application layer component for RM Utilities
+            	which implements the functionality of Query Designer Form.
+             </summary>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.QueryDesignerAdaptor.#ctor">
+            <summary>
+            Default Constructor
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.BusinessAdaptor.RMUtilities.QueryDesignerAdaptor.Get(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)" -->
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.BusinessAdaptor.RMUtilities.QueryDesignerAdaptor.Delete(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)" -->
+        <member name="T:Riskmaster.BusinessAdaptor.RMUtilities.DiscountParmsAdaptor">
+            ************************************************************** 
+            * $File		: DiscountParmsAdaptor.cs 
+            * $Revision	: 1.0.0.0 
+            * $Date		: 31-May-2005
+            * $Author	: Anurag Agarwal
+            * $Comment	: 
+            * $Source	: 
+            **************************************************************
+             <summary>	
+            	This class is used to call the application layer component for DiscountParms class  
+             </summary>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.DiscountParmsAdaptor.Get(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            This function xml containing data to be shown on screen
+            </summary>
+            <param name="p_objXmlIn">
+            	Input parameters as xml
+            		<Document>
+            			<discount>
+            				<discountname></discountname>
+            				<lob></lob>
+            				<state></state>
+            				<discounttype></discounttype>
+            				<amount></amount>
+            				<expirationdate></expirationdate>
+            				<effectivedate></effectivedate>
+            				<discountrowid>4</discountrowid>
+            			</discount>					
+            		</Document>
+            </param>
+            <param name="p_objXmlOut">
+            	Result as Output xml Output structure is as follows-: 
+            		<Document>
+            			<discount>
+            				<discountname></discountname>
+            				<lob></lob>
+            				<state></state>
+            				<discounttype></discounttype>
+            				<amount></amount>
+            				<expirationdate></expirationdate>
+            				<effectivedate></effectivedate>
+            				<discountrowid>4</discountrowid>
+            				<discountrangelist>
+            					<discountrange>
+            						<addedbyuser></addedbyuser>
+            						<dttmrcdadded></dttmrcdadded>
+            						<updatedbyuser></updatedbyuser>
+            						<dttmrcdlastupd></dttmrcdlastupd>
+            						<amount></amount>
+            						<beginningrange></beginningrange>
+            						<discountrangerowid></discountrangerowid>
+            						<endrange></endrange>
+            					</discountrange>
+            				</discountrangelist>
+            			</discount>
+            		</Document>
+            </param>
+            <param name="p_objErrOut">Error(s) encountered while executing the function</param>
+            <returns>Success -True or Failure -false in execution of the function</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.DiscountParmsAdaptor.Save(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            This function xml containing data to be shown on screen
+            </summary>
+            <param name="p_objXmlIn">
+            	Input parameters as xml
+            		<Document>
+            			<discount>
+            				<discountname></discountname>
+            				<lob></lob>
+            				<state></state>
+            				<discounttype></discounttype>
+            				<amount></amount>
+            				<expirationdate></expirationdate>
+            				<effectivedate></effectivedate>
+            				<discountrowid>4</discountrowid>
+            			</discount>
+            		</Document>
+            </param>
+            <param name="p_objXmlOut">Result as Output xml</param>
+            <param name="p_objErrOut">Error(s) encountered while executing the function</param>
+            <returns>Success -True or Failure -false in execution of the function</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.DiscountParmsAdaptor.Delete(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            This function Deletes Discount Range List
+            </summary>
+            <param name="p_objXmlIn">
+            	Input parameters as xml
+            		<Document>
+            			<discountrangerowid></discountrangerowid>
+            		</Document>
+            </param>
+            <param name="p_objXmlOut">Result as Output xml</param>
+            <param name="p_objErrOut">Error(s) encountered while executing the function</param>
+            <returns>Success -True or Failure -false in execution of the function</returns>
+        </member>
+        <member name="T:Riskmaster.BusinessAdaptor.RMUtilities.BRSModifierValueAdaptor">
+            ************************************************************** 
+            * $File		: BRSModifierValueAdaptor.cs 
+            * $Revision	: 1.0.0.0 
+            * $Date		: 26/05/2005
+            * $Author	: Pankaj
+            * $Comment	: 
+            * $Source	: 
+            **************************************************************
+             <summary>	
+            	This class is used to call the application layer component for RM Utilities
+            	which implements the functionality of BRS Modifier Value.
+             </summary>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.BRSModifierValueAdaptor.#ctor">
+            <summary>
+            Default Constructor
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.BusinessAdaptor.RMUtilities.BRSModifierValueAdaptor.New(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)" -->
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.BusinessAdaptor.RMUtilities.BRSModifierValueAdaptor.Save(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)" -->
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.BusinessAdaptor.RMUtilities.BRSModifierValueAdaptor.Delete(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)" -->
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.BusinessAdaptor.RMUtilities.BRSModifierValueAdaptor.Get(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)" -->
+        <member name="T:Riskmaster.BusinessAdaptor.RMUtilities.UserPrivilegesAdaptor">
+            ************************************************************** 
+            * $File		: UserPrivilegesAdaptor.cs 
+            * $Revision	: 1.0.0.0 
+            * $Date		: 31/05/2005
+            * $Author	: Pankaj
+            * $Comment	: 
+            * $Source	: 
+            **************************************************************
+             <summary>	
+            	This class is used to call the application layer component for RM Utilities
+            	which implements the functionality of User Privileges Setup form.
+             </summary>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.UserPrivilegesAdaptor.#ctor">
+            <summary>
+            Default Constructor
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.BusinessAdaptor.RMUtilities.UserPrivilegesAdaptor.Get(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)" -->
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.BusinessAdaptor.RMUtilities.UserPrivilegesAdaptor.Save(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)" -->
+        <member name="T:Riskmaster.BusinessAdaptor.RMUtilities.RMUtilitiesAdaptor">
+            ************************************************************** 
+            * $File		: RMUtilitiesAdaptor.cs 
+            * $Revision	: 1.0.0.0 
+            * $Date		: 
+            * $Author	: Anurag,Pankaj,Parag
+            * $Comment	: 
+            * $Source	: 
+            **************************************************************
+             <summary>	
+            	This class is used to call the application layer component for RM Utilities
+            	which implements the functionality of RM Utilities Forms.
+             </summary>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.RMUtilitiesAdaptor.#ctor">
+            <summary>
+            Default Constructor
+            </summary>
+        </member>
+        <member name="T:Riskmaster.BusinessAdaptor.RMUtilities.FROIPreparerInfoAdaptor">
+            <summary>
+            Summary description for FROIPreparerInfoAdaptor.
+            </summary>
+        </member>
+        <member name="T:Riskmaster.BusinessAdaptor.RMUtilities.FiscalYearWizardAdaptor">
+            <summary>	
+            This class is used to call the application layer component for FiscalYearWizard class
+            </summary>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.FiscalYearWizardAdaptor.Get(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <param name="p_objErrOut">Error(s) encountered while executing the function</param>
+            <returns>Success -True or Failure -false in execution of the function</returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.BusinessAdaptor.RMUtilities.FiscalYearWizardAdaptor.Save(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)" -->
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.BusinessAdaptor.RMUtilities.FiscalYearWizardAdaptor.BuildPeriods(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)" -->
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.BusinessAdaptor.RMUtilities.FiscalYearWizardAdaptor.BuildQuaters(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)" -->
+        <member name="T:Riskmaster.BusinessAdaptor.CPCredentialsAdaptor">
+            ************************************************************** 
+            * $File		: CPCredentialsAdaptor.cs 
+            * $Revision	: 1.0.0.0 
+            * $Date		: 1-June-2005
+            * $Author	: Anurag Agarwal
+            * $Comment	: 
+            * $Source	: 
+            **************************************************************
+             <summary>	
+            	This class is used to call the application layer component for CPCredentials class  
+             </summary>
+        </member>
+        <member name="T:Riskmaster.BusinessAdaptor.RMUtilities.ClientInformationAdaptor">
+            ************************************************************** 
+            * $File		: ClientInformationAdaptor.cs 
+            * $Revision	: 1.0.0.0 
+            * $Date		: 26/05/2005
+            * $Author	: Pankaj
+            * $Comment	: 
+            * $Source	: 
+            **************************************************************
+             <summary>	
+            	This class is used to call the application layer component for RM Utilities
+            	which implements the functionality of Client Information Form.
+             </summary>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.ClientInformationAdaptor.#ctor">
+            <summary>
+            Default Constructor
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.BusinessAdaptor.RMUtilities.ClientInformationAdaptor.Get(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)" -->
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.BusinessAdaptor.RMUtilities.ClientInformationAdaptor.Save(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)" -->
+        <member name="T:Riskmaster.BusinessAdaptor.AssignLayoutsAdaptor">
+            <summary>	
+            This class is used to call the application layer component for AssignLayouts class
+            </summary>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.AssignLayoutsAdaptor.Get(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+             <summary>
+             This function xml containing data to be shown on screen
+             </summary>
+             <param name="p_objXmlIn">Input parameters as xml</param>
+             <param name="p_objXmlOut">Result as Output xml
+            	Output structure is as follows-:
+            <LayoutUsers>
+            		<TopDownUsers>
+            			<option value="u2">sarin parag (p)</option>
+            		</TopDownUsers>
+            		<TabLayoutUsers>
+            			<option value="u3">test test (test)</option>
+            		</TabLayoutUsers>
+            </LayoutUsers>
+             </param>
+             <param name="p_objErrOut">Error(s) encountered while executing the function</param>
+             <returns>Success -True or Failure -false in execution of the function</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.AssignLayoutsAdaptor.Save(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+             <summary>
+             This function Saves Layout data
+             </summary>
+             <param name="p_objXmlIn">Input parameters as xml</param>
+             <param name="p_objXmlOut">Result as Output xml
+            	Output structure is as follows-:
+            <LayoutUsers>
+            		<TopDownUsers>
+            			<option value="u2">sarin parag (p)</option>
+            		</TopDownUsers>
+            		<TabLayoutUsers>
+            			<option value="u3">test test (test)</option>
+            		</TabLayoutUsers>
+            </LayoutUsers>
+             </param>
+             <param name="p_objErrOut">Error(s) encountered while executing the function</param>
+             <returns>Success -True or Failure -false in execution of the function</returns>
+        </member>
+        <member name="T:Riskmaster.BusinessAdaptor.RMUtilities.WPABestAdaptor">
+            ************************************************************** 
+            * $File		: WPABestAdaptor.cs 
+            * $Revision	: 1.0.0.0 
+            * $Date		: 18-Jul-2005
+            * $Author	: Nikhil Garg
+            * $Comment	: 
+            * $Source	: 
+            **************************************************************
+             <summary>	
+            	This class is used to call the application layer component for RM Utilities
+            	which implements the functionality of WPA Best Practice form.
+             </summary>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.WPABestAdaptor.#ctor">
+            <summary>
+            Default Constructor
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.BusinessAdaptor.RMUtilities.WPABestAdaptor.Get(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)" -->
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.BusinessAdaptor.RMUtilities.WPABestAdaptor.Save(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)" -->
+        <member name="T:Riskmaster.BusinessAdaptor.RMUtilities.WorkersCompTransMappingAdaptor">
+            <summary>	
+            This class is used to call the application layer component for WorkersCompTransMapping class  
+            </summary>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.WorkersCompTransMappingAdaptor.Get(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            This function xml containing data to be shown on screen
+            </summary>
+            <param name="p_objXmlIn">Input parameters as xml</param>
+            <param name="p_objXmlOut">Result as Output xml
+            Output structure is as follows-:
+            Input Xml format is
+            <WorkersCompTransMapping><WCJurisdictions></WCJurisdictions></WorkersCompTransMapping>
+            </param>
+            <param name="p_objErrOut">Error(s) encountered while executing the function</param>
+            <returns>Success -True or Failure -false in execution of the function</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.WorkersCompTransMappingAdaptor.DeleteMapping(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            Deletes the Mapping information
+            </summary>
+            <param name="p_objXmlIn">Input parameters as xml</param>
+            <param name="p_objXmlOut">Result as Output xml
+            Input structure is as follows-:
+            See Xml file named WorkersCompTransMapping.xml in Xml folder
+            </param>
+            <param name="p_objErrOut">Error(s) encountered while executing the function</param>
+            <returns>Success -True or Failure -false in execution of the function</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.WorkersCompTransMappingAdaptor.Save(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            Saves the Mapping information
+            </summary>
+            <param name="p_objXmlIn">Input parameters as xml</param>
+            <param name="p_objXmlOut">Result as Output xml
+            Input structure is as follows-:
+            See Xml file named WorkersCompTransMapping.xml in Xml folder
+            </param>
+            <param name="p_objErrOut">Error(s) encountered while executing the function</param>
+            <returns>Success -True or Failure -false in execution of the function</returns>
+        </member>
+        <member name="T:Riskmaster.BusinessAdaptor.RMUtilities.TableManagerAdaptor">
+            ************************************************************** 
+            * $File		: TableManagerAdaptor.cs 
+            * $Revision	: 1.0.0.0 
+            * $Date		: 07/08/2005
+            * $Author	: Pankaj
+            * $Comment	: 
+            * $Source	: 
+            **************************************************************
+             <summary>	
+            	This class is used to call the application layer component for RM Utilities
+            	which implements the functionality of Administrative Tracking.
+             </summary>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.TableManagerAdaptor.#ctor">
+            <summary>
+            Default Constructor
+            </summary>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.TableManagerAdaptor.CreateTable(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            	This method is a wrapper to Riskmaster.Application.RMUtilities.TableManager.CreateTable() method.
+            	Creates table in the Database
+            </summary>
+            <param name="p_objXmlIn">XML containing the input parameters needed
+            	The structure of input XML document would be:
+            </param>
+            <param name="p_objXmlOut">Null</param>
+            <param name="p_objErrOut">Collection of Errors/Messages</param>		
+            <returns>True/False for success or failure of the function</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.TableManagerAdaptor.DeleteTable(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            	This method is a wrapper to Riskmaster.Application.RMUtilities.TableManager.DeleteTable() method.
+            	deletes table in the Database
+            </summary>
+            <param name="p_objXmlIn">XML containing the input parameters needed
+            	The structure of input XML document would be:
+            </param>
+            <param name="p_objXmlOut">Null</param>
+            <param name="p_objErrOut">Collection of Errors/Messages</param>		
+            <returns>True/False for success or failure of the function</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.TableManagerAdaptor.GetFieldList(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            	This method is a wrapper to Riskmaster.Application.RMUtilities.FieldList.Get() method.
+            	deletes table in the Database
+            </summary>
+            <param name="p_objXmlIn">XML containing the input parameters needed
+            	The structure of input XML document would be:
+            </param>
+            <param name="p_objXmlOut">Null</param>
+            <param name="p_objErrOut">Collection of Errors/Messages</param>		
+            <returns>True/False for success or failure of the function</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.TableManagerAdaptor.GetField(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            	This method is a wrapper to Riskmaster.Application.RMUtilities.TableField.Get() method.
+            	deletes table in the Database
+            </summary>
+            <param name="p_objXmlIn">XML containing the input parameters needed
+            	The structure of input XML document would be:
+            </param>
+            <param name="p_objXmlOut">Null</param>
+            <param name="p_objErrOut">Collection of Errors/Messages</param>		
+            <returns>True/False for success or failure of the function</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.TableManagerAdaptor.SaveField(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            	This method is a wrapper to Riskmaster.Application.RMUtilities.TableField.Save() method.
+            	deletes table in the Database
+            </summary>
+            <param name="p_objXmlIn">XML containing the input parameters needed
+            	The structure of input XML document would be:
+            </param>
+            <param name="p_objXmlOut">Null</param>
+            <param name="p_objErrOut">Collection of Errors/Messages</param>		
+            <returns>True/False for success or failure of the function</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.TableManagerAdaptor.GetAddIndex(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            	This method is a wrapper to Riskmaster.Application.RMUtilities.FieldList.GetAddIndex() method.
+            	deletes table in the Database
+            </summary>
+            <param name="p_objXmlIn">XML containing the input parameters needed
+            	The structure of input XML document would be:
+            </param>
+            <param name="p_objXmlOut">Null</param>
+            <param name="p_objErrOut">Collection of Errors/Messages</param>		
+            <returns>True/False for success or failure of the function</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.TableManagerAdaptor.CreateIndex(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            	This method is a wrapper to Riskmaster.Application.RMUtilities.FieldList.CreateIndex() method.
+            	deletes table in the Database
+            </summary>
+            <param name="p_objXmlIn">XML containing the input parameters needed
+            	The structure of input XML document would be:
+            </param>
+            <param name="p_objXmlOut">Null</param>
+            <param name="p_objErrOut">Collection of Errors/Messages</param>		
+            <returns>True/False for success or failure of the function</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.TableManagerAdaptor.SwapField(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            	This method is a wrapper to Riskmaster.Application.RMUtilities.TableField.Get() method.
+            	deletes table in the Database
+            </summary>
+            <param name="p_objXmlIn">XML containing the input parameters needed
+            	The structure of input XML document would be:
+            </param>
+            <param name="p_objXmlOut">Null</param>
+            <param name="p_objErrOut">Collection of Errors/Messages</param>		
+            <returns>True/False for success or failure of the function</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.TableManagerAdaptor.GetGridInformation(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            Added by Shivendu for Supplemental Grid.
+            Gets Max Min Rows,Grid Columns in edit mode
+            </summary>
+            <param name="p_objXmlIn">Input XML</param>
+            <param name="p_objXmlOut">Output XML</param>
+            <param name="p_objErrOut">true/false for success/failure</param>
+            <returns></returns>
+        </member>
+        <member name="T:Riskmaster.BusinessAdaptor.RMUtilities.RMAdminSettingsAdaptor">
+            ************************************************************** 
+            * $File		: RMAdminSettingsAdaptor.cs 
+            * $Revision	: 1.0.0.0 
+            * $Date		: 27/05/2005
+            * $Author	: Pankaj
+            * $Comment	: 
+            * $Source	: 
+            **************************************************************
+             <summary>	
+            	This class is used to call the application layer component for RM Utilities
+            	which implements the functionality of Admin Customization Setting Form.
+             </summary>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.RMAdminSettingsAdaptor.#ctor">
+            <summary>
+            Default Constructor
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.BusinessAdaptor.RMUtilities.RMAdminSettingsAdaptor.GetAdminConfig(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)" -->
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.BusinessAdaptor.RMUtilities.RMAdminSettingsAdaptor.SaveAdminConfig(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)" -->
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.BusinessAdaptor.RMUtilities.RMAdminSettingsAdaptor.GetImage(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)" -->
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.BusinessAdaptor.RMUtilities.RMAdminSettingsAdaptor.SetImage(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)" -->
+        <member name="T:Riskmaster.BusinessAdaptor.RMUtilities.FROIOptionsAdaptor">
+            <summary>
+            This class is used to call the application layer component for FROI Options
+            </summary>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.FROIOptionsAdaptor.GetFROIOptions(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            Wrapper to Application layer function GetFROIOptions()
+            </summary>
+            <param name="p_objXmlIn">Input parameters as xml</param>
+            <param name="p_objXmlOut">Result as Output xml
+            </param>
+            <param name="p_objErrOut">Error(s) encountered while executing the function</param>
+            <returns>Success -True or Failure -false in execution of the function</returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.BusinessAdaptor.RMUtilities.FROIOptionsAdaptor.Save(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)" -->
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.BusinessAdaptor.RMUtilities.FROIOptionsAdaptor.Delete(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)" -->
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.BusinessAdaptor.RMUtilities.FROIOptionsAdaptor.New(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)" -->
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.BusinessAdaptor.RMUtilities.FROIOptionsAdaptor.GetFROIHistory(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)" -->
+        <member name="T:Riskmaster.BusinessAdaptor.RMUtilities.FiscalYearsListAdaptor">
+            <summary>	
+            This class is used to call the application layer component for FiscalYearsList class
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.BusinessAdaptor.RMUtilities.FiscalYearsListAdaptor.Get(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)" -->
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.BusinessAdaptor.RMUtilities.FiscalYearsListAdaptor.PrintFiscalYearList(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)" -->
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.FiscalYearsListAdaptor.GetLobOrg(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <param name="p_objErrOut">Error(s) encountered while executing the function</param>
+            <returns>Success -True or Failure -false in execution of the function</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.FiscalYearsListAdaptor.DeleteFiscalYear(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+             <summary>
+             This function deletes a fiscal year
+             </summary>
+             <param name="p_objXmlIn">Input parameters as xml</param>
+             <param name="p_objXmlOut">Result as Output xml
+            	Input structure is as follows-:
+            <FiscalYearsList><RowId></RowId><LineOfBusiness></LineOfBusiness><Organization></Organization></FiscalYearsList>	
+             </param>
+             <param name="p_objErrOut">Error(s) encountered while executing the function</param>
+             <returns>Success -True or Failure -false in execution of the function</returns>
+        </member>
+        <member name="T:Riskmaster.BusinessAdaptor.RMUtilities.ExpConParmsAdaptor">
+            ************************************************************** 
+            * $File		: ExpConParmsAdaptor.cs 
+            * $Revision	: 1.0.0.0 
+            * $Date		: 30-May-2005
+            * $Author	: Anurag Agarwal
+            * $Comment	: 
+            * $Source	: 
+            **************************************************************
+             <summary>	
+            	This class is used to call the application layer component for ExpConParms class  
+             </summary>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.ExpConParmsAdaptor.Get(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            This function xml containing data to be shown on screen
+            </summary>
+            <param name="p_objXmlIn">
+            	Input parameters as xml
+            		<Document>
+            			<ExpCon>
+            				<use></use>
+            				<amount></amount>
+            				<effectivedate></effectivedate>
+            				<expirationdate></expirationdate>
+            				<expcontype></expcontype>
+            				<lob></lob>
+            				<state></state>
+            				<expconrowid>4</expconrowid>
+            			</ExpCon>
+            		</Document>
+            </param>
+            <param name="p_objXmlOut">
+            	Result as Output xml Output structure is as follows-: 
+            		<Document>
+            			<ExpCon>
+            				<use></use>
+            				<amount></amount>
+            				<effectivedate></effectivedate>
+            				<expirationdate></expirationdate>
+            				<expcontype></expcontype>
+            				<lob></lob>
+            				<state></state>
+            				<expconrowid>4</expconrowid>
+            			</ExpCon>
+            		</Document>
+            </param>
+            <param name="p_objErrOut">Error(s) encountered while executing the function</param>
+            <returns>Success -True or Failure -false in execution of the function</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.ExpConParmsAdaptor.Save(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            This function xml containing data to be shown on screen
+            </summary>
+            <param name="p_objXmlIn">
+            	Input parameters as xml
+            		<Document>
+            			<ExpCon>
+            				<use>1</use>
+            				<amount>28</amount>
+            				<effectivedate>20050406</effectivedate>
+            				<expirationdate>20050418</expirationdate>
+            				<expcontype>5237</expcontype>
+            				<lob>5188</lob>
+            				<state>73</state>
+            				<expconrowid>4</expconrowid> OR <expconrowid></expconrowid>(for new record)
+            			</ExpCon>
+            		</Document>
+            </param>
+            <param name="p_objXmlOut">Result as Output xml</param>
+            <param name="p_objErrOut">Error(s) encountered while executing the function</param>
+            <returns>Success -True or Failure -false in execution of the function</returns>
+        </member>
+        <member name="T:Riskmaster.BusinessAdaptor.RMUtilities.BillingRuleListAdaptor">
+            ************************************************************** 
+            * $File		: BillingRuleListAdaptor.cs 
+            * $Revision	: 1.0.0.0 
+            * $Date		: 24/05/2005
+            * $Author	: Pankaj
+            * $Comment	: 
+            * $Source	: 
+            **************************************************************
+             <summary>	
+            	This class is used to call the application layer component for RM Utilities
+            	which implements the functionality of BillingRuleList.
+             </summary>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.BillingRuleListAdaptor.#ctor">
+            <summary>
+            Default Constructor
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.BusinessAdaptor.RMUtilities.BillingRuleListAdaptor.Get(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)" -->
+        <member name="T:Riskmaster.BusinessAdaptor.RMUtilities.WPAAutoDiarySetupAdaptor">
+            ************************************************************** 
+            * $File		: WPAAutoDiarySetupAdaptor.cs 
+            * $Revision	: 1.0.0.0 
+            * $Date		: 01/06/2005
+            * $Author	: Pankaj
+            * $Comment	: 
+            * $Source	: 
+            **************************************************************
+             <summary>	
+            	This class is used to call the application layer component for RM Utilities
+            	which implements the functionality of WPA Auto Diary Setup form.
+             </summary>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.WPAAutoDiarySetupAdaptor.#ctor">
+            <summary>
+            Default Constructor
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.BusinessAdaptor.RMUtilities.WPAAutoDiarySetupAdaptor.Get(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)" -->
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.BusinessAdaptor.RMUtilities.WPAAutoDiarySetupAdaptor.Save(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)" -->
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.BusinessAdaptor.RMUtilities.WPAAutoDiarySetupAdaptor.LoadInfoDef(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)" -->
+        <member name="T:Riskmaster.BusinessAdaptor.ReportAccessMgmtAdaptor">
+            <summary>	
+            This class is used to call the application layer component for ReportAccessMgmt class
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.BusinessAdaptor.ReportAccessMgmtAdaptor.Get(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)" -->
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.BusinessAdaptor.ReportAccessMgmtAdaptor.Save(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)" -->
+        <member name="T:Riskmaster.BusinessAdaptor.RMUtilities.IAIABCFundsTransMappingAdaptor">
+            <summary>	
+            This class is used to call the application layer component for IAIABCFundsTransMapping class
+            </summary>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.IAIABCFundsTransMappingAdaptor.Get(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            This function xml containing data to be shown on screen
+            </summary>
+            <param name="p_objXmlIn">Input parameters as xml</param>
+            <param name="p_objXmlOut">Result as Output xml
+            Output structure is as follows-:
+            See Xml file named IAIABCFundsTransMapping.xml in Xml folder
+            </param>
+            <param name="p_objErrOut">Error(s) encountered while executing the function</param>
+            <returns>Success -True or Failure -false in execution of the function</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.IAIABCFundsTransMappingAdaptor.DeleteBenefitsMapping(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            This function Saves acord and claim type setup data
+            </summary>
+            <param name="p_objXmlIn">Input parameters as xml</param>
+            <param name="p_objXmlOut">Result as Output xml
+            Input structure is as follows-:
+            See Xml file named IAIABCFundsTransMapping.xml in Xml folder
+            </param>
+            <param name="p_objErrOut">Error(s) encountered while executing the function</param>
+            <returns>Success -True or Failure -false in execution of the function</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.IAIABCFundsTransMappingAdaptor.DeletePaidToDateMapping(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            This function Saves acord and claim type setup data
+            </summary>
+            <param name="p_objXmlIn">Input parameters as xml</param>
+            <param name="p_objXmlOut">Result as Output xml
+            Input structure is as follows-:
+            See Xml file named IAIABCFundsTransMapping.xml in Xml folder
+            </param>
+            <param name="p_objErrOut">Error(s) encountered while executing the function</param>
+            <returns>Success -True or Failure -false in execution of the function</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.IAIABCFundsTransMappingAdaptor.SavePaidToDate(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            This function saves paid to date mapping data
+            </summary>
+            <param name="p_objXmlIn">Input parameters as xml</param>
+            <param name="p_objXmlOut">Result as Output xml
+            Input structure is as follows-:
+            See Xml file named IAIABCFundsTransMapping.xml in Xml folder
+            </param>
+            <param name="p_objErrOut">Error(s) encountered while executing the function</param>
+            <returns>Success -True or Failure -false in execution of the function</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.IAIABCFundsTransMappingAdaptor.SaveBenefits(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            This function benefits mapping data
+            </summary>
+            <param name="p_objXmlIn">Input parameters as xml</param>
+            <param name="p_objXmlOut">Result as Output xml
+            Input structure is as follows-:
+            See Xml file named IAIABCFundsTransMapping.xml in Xml folder
+            </param>
+            <param name="p_objErrOut">Error(s) encountered while executing the function</param>
+            <returns>Success -True or Failure -false in execution of the function</returns>
+        </member>
+        <member name="T:Riskmaster.BusinessAdaptor.RMUtilities.ClaimTypeChangeOptionsAdaptor">
+            ************************************************************** 
+            * $File		: ClaimTypeChangeOptionsAdaptor.cs 
+            * $Revision	: 1.0.0.0 
+            * $Date		: 26/05/2005
+            * $Author	: Pankaj
+            * $Comment	: 
+            * $Source	: 
+            **************************************************************
+             <summary>	
+            	This class is used to call the application layer component for RM Utilities
+            	which implements the functionality of Claim Type Change Options List.
+             </summary>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.ClaimTypeChangeOptionsAdaptor.#ctor">
+            <summary>
+            Default Constructor
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.BusinessAdaptor.RMUtilities.ClaimTypeChangeOptionsAdaptor.Get(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)" -->
+        <member name="T:Riskmaster.BusinessAdaptor.RMUtilities.AdministrativeTrackingAdaptor">
+            ************************************************************** 
+            * $File		: AdministrativeTrackingAdaptor.cs 
+            * $Revision	: 1.0.0.0 
+            * $Date		: 24/05/2005
+            * $Author	: Pankaj
+            * $Comment	: 
+            * $Source	: 
+            **************************************************************
+             <summary>	
+            	This class is used to call the application layer component for RM Utilities
+            	which implements the functionality of Administrative Tracking.
+             </summary>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.AdministrativeTrackingAdaptor.#ctor">
+            <summary>
+            Default Constructor
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.BusinessAdaptor.RMUtilities.AdministrativeTrackingAdaptor.Get(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)" -->
+        <member name="T:Riskmaster.BusinessAdaptor.RMUtilities.AcrosoftUtilitiesAdaptor">
+            ************************************************************** 
+            * $File		: AcrosoftUtilitiesAdaptor.cs 
+            * $Revision	: 1.0.0.0 
+            * $Date		: 08/15/2006
+            * $Author	: Raman
+            * $Comment	: 
+            * $Source	: 
+            **************************************************************
+             <summary>	
+            	This class is used to call the application layer component for RM Utilities
+            	which implements the Acrosoft Pre-Fill Folder Strucure
+             </summary>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.AcrosoftUtilitiesAdaptor.#ctor">
+            <summary>
+            Default Constructor
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.BusinessAdaptor.RMUtilities.AcrosoftUtilitiesAdaptor.PreFillFolders(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)" -->
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.BusinessAdaptor.RMUtilities.AcrosoftUtilitiesAdaptor.VerifyAcrosoftStatus(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)" -->
+        <member name="T:Riskmaster.BusinessAdaptor.RMUtilities.JurisPreparerInfoAdaptor">
+            <summary>
+            Summary description for JurisPreparerInfoAdaptor.
+            </summary>
+        </member>
+        <member name="T:Riskmaster.BusinessAdaptor.RMUtilities.CheckOptionsAdaptor">
+            <summary>	
+            This class is used to call the application layer component for CheckOptions class  
+            </summary>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.CheckOptionsAdaptor.Get(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            This function xml containing data to be shown on screen
+            </summary>
+            <param name="p_objXmlIn">Input parameters as xml</param>
+            <param name="p_objXmlOut">Result as Output xml
+            Output structure is as follows-:
+            See Xml file named CheckOptions.xml in Xml folder
+            </param>
+            <param name="p_objErrOut">Error(s) encountered while executing the function</param>
+            <returns>Success -True or Failure -false in execution of the function</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.CheckOptionsAdaptor.GetAddNotifyValues(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            This function xml containing data to be shown on screen
+            </summary>
+            <param name="p_objXmlIn">Input parameters as xml</param>
+            <param name="p_objXmlOut">Result as Output xml
+            Output structure is as follows-:
+            See Xml file named CheckOptions.xml in Xml folder
+            </param>
+            <param name="p_objErrOut">Error(s) encountered while executing the function</param>
+            <returns>Success -True or Failure -false in execution of the function</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.CheckOptionsAdaptor.DeletePaymentNotification(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            Deletes the Payment Notification information
+            </summary>
+            <param name="p_objXmlIn">Input parameters as xml</param>
+            <param name="p_objXmlOut">Result as Output xml
+            Output structure is as follows-:
+            See Xml file named CheckOptions.xml in Xml folder
+            </param>
+            <param name="p_objErrOut">Error(s) encountered while executing the function</param>
+            <returns>Success -True or Failure -false in execution of the function</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.CheckOptionsAdaptor.AddPaymentNotification(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            Adds the Payment Notification information
+            </summary>
+            <param name="p_objXmlIn">Input parameters as xml</param>
+            <param name="p_objXmlOut">Result as Output xml
+            Output structure is as follows-:
+            See Xml file named CheckOptions.xml in Xml folder
+            </param>
+            <param name="p_objErrOut">Error(s) encountered while executing the function</param>
+            <returns>Success -True or Failure -false in execution of the function</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.CheckOptionsAdaptor.SetDuplicateCriteria(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            Sets the Duplicate Criteria information
+            </summary>
+            <param name="p_objXmlIn">Input parameters as xml</param>
+            <param name="p_objXmlOut">Result as Output xml
+            Output structure is as follows-:
+            See Xml file named CheckOptions.xml in Xml folder
+            </param>
+            <param name="p_objErrOut">Error(s) encountered while executing the function</param>
+            <returns>Success -True or Failure -false in execution of the function</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.CheckOptionsAdaptor.Save(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            Saves the check options information
+            </summary>
+            <param name="p_objXmlIn">Input parameters as xml</param>
+            <param name="p_objXmlOut">Result as Output xml
+            Output structure is as follows-:
+            See Xml file named CheckOptions.xml in Xml folder
+            </param>
+            <param name="p_objErrOut">Error(s) encountered while executing the function</param>
+            <returns>Success -True or Failure -false in execution of the function</returns>
+        </member>
+        <member name="T:Riskmaster.BusinessAdaptor.RMUtilities.AdjusterTransferAdaptor">
+            <summary>	
+            This class is used to call the application layer component for Adjuster Transfer which 
+            contains methods to transfer adjusters.	
+            </summary>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.AdjusterTransferAdaptor.Get(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            This function returns xml containing data to be shown on screen
+            </summary>
+            <param name="p_objXmlIn">Input parameters as xml</param>
+            <param name="p_objXmlOut">Result as Output xml
+            Output structure is as follows-:
+            <Adjuster>
+            	<control name="AvailClaims" type="combobox" title="Available Claims:">
+            	<option value="295">DI2003000295</option>
+            	</control>
+            	<control name="FromAdjuster" type="combobox" title="From Adjuster" value="168">
+            	<option value="">
+            		</option>
+            		<option value="168">Adjuster, Anna</option>
+            		 
+            	</control>
+            	<control name="ToAdjuster" type="combobox" title="To Adjuster" value="218">
+            	<option value="">
+            		</option>
+            		<option value="168">Adjuster, Anna</option>
+            	</control>
+            	<control name="SelectedClaims" type="combobox" title="Selected Claims" value="295">
+            	</control>
+            	<control name="OnlyOpenClaims" type="checkbox" title="Only Open Claims" value="1" />
+            </Adjuster>
+            </param>
+            <param name="p_objErrOut">Error(s) encountered while executing the function</param>
+            <returns>Success -True or Failure -false in execution of the function</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.AdjusterTransferAdaptor.GetAvailableClaims(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            This function retrieves Claims data to load on to the screen
+            </summary>
+            <param name="p_objXmlIn">Input parameters as xml</param>
+            <param name="p_objXmlOut">Result as Output xml
+            Output structure is as follows-:
+            <Adjuster>
+            	<control name="AvailClaims" type="combobox" title="Available Claims:">
+            	<option value="295">DI2003000295</option>
+            	</control>
+            	<control name="FromAdjuster" type="combobox" title="From Adjuster" value="168">
+            	<option value="">
+            		</option>
+            		<option value="168">Adjuster, Anna</option>
+            		 
+            	</control>
+            	<control name="ToAdjuster" type="combobox" title="To Adjuster" value="218">
+            	<option value="">
+            		</option>
+            		<option value="168">Adjuster, Anna</option>
+            	</control>
+            	<control name="SelectedClaims" type="combobox" title="Selected Claims" value="295">
+            	</control>
+            	<control name="OnlyOpenClaims" type="checkbox" title="Only Open Claims" value="1" />
+            </Adjuster>
+            </param>
+            <param name="p_objErrOut">Error(s) encountered while executing the function</param>
+            <returns>Success -True or Failure -false in execution of the function</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.AdjusterTransferAdaptor.Save(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            This function transfers Adjusters
+            </summary>
+            <param name="p_objXmlIn">Input parameters as xml</param>
+            <param name="p_objXmlOut">Result as Output xml
+            Output structure is as follows-:
+            <Adjuster>
+            	<control name="AvailClaims" type="combobox" title="Available Claims:">
+            	<option value="295">DI2003000295</option>
+            	</control>
+            	<control name="FromAdjuster" type="combobox" title="From Adjuster" value="168">
+            	<option value="">
+            		</option>
+            		<option value="168">Adjuster, Anna</option>
+            		 
+            	</control>
+            	<control name="ToAdjuster" type="combobox" title="To Adjuster" value="218">
+            	<option value="">
+            		</option>
+            		<option value="168">Adjuster, Anna</option>
+            	</control>
+            	<control name="SelectedClaims" type="combobox" title="Selected Claims" value="295">
+            	</control>
+            	<control name="OnlyOpenClaims" type="checkbox" title="Only Open Claims" value="1" />
+            </Adjuster>
+            </param>
+            <param name="p_objErrOut">Error(s) encountered while executing the function</param>
+            <returns>Success -True or Failure -false in execution of the function</returns>
+        </member>
+        <member name="T:Riskmaster.BusinessAdaptor.ActivityLogAdaptor">
+            <summary>
+            Summary description for ActivityLogAdaptor.
+            </summary>
+        </member>
+        <member name="T:Riskmaster.BusinessAdaptor.RMUtilities.SysParmTnEAdaptor">
+            ************************************************************** 
+            * $File		: SysParmTnEAdaptor.cs 
+            * $Revision	: 1.0.0.0 
+            * $Date		: 30/05/2005
+            * $Author	: Pankaj
+            * $Comment	: 
+            * $Source	: 
+            **************************************************************
+             <summary>	
+            	This class is used to call the application layer component for RM Utilities
+            	which implements the functionality of Sysparms Time and Expense data.
+             </summary>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.SysParmTnEAdaptor.#ctor">
+            <summary>
+            Default Constructor
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.BusinessAdaptor.RMUtilities.SysParmTnEAdaptor.SavePermission(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)" -->
+        <member name="T:Riskmaster.BusinessAdaptor.GrantReportAccessAdaptor">
+            <summary>	
+            This class is used to call the application layer component for GrantReportAccess class
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.BusinessAdaptor.GrantReportAccessAdaptor.Get(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)" -->
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.BusinessAdaptor.GrantReportAccessAdaptor.Save(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)" -->
+        <member name="T:Riskmaster.BusinessAdaptor.ClaimTypeVsAcordFormSetupAdaptor">
+            <summary>	
+            This class is used to call the application layer component for ClaimTypeVsAcordFormSetup class
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.BusinessAdaptor.ClaimTypeVsAcordFormSetupAdaptor.Get(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)" -->
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.BusinessAdaptor.ClaimTypeVsAcordFormSetupAdaptor.DeleteMapping(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)" -->
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.BusinessAdaptor.ClaimTypeVsAcordFormSetupAdaptor.Save(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)" -->
+        <member name="T:Riskmaster.BusinessAdaptor.RMUtilities.BRSFeeTableDetailAdaptor">
+            ************************************************************** 
+            * $File		: BRSFeeTableDetailAdaptor.cs 
+            * $Revision	: 1.0.0.0 
+            * $Date		: 24/05/2005
+            * $Author	: Pankaj
+            * $Comment	: 
+            * $Source	: 
+            **************************************************************
+             <summary>	
+            	This class is used to call the application layer component for RM Utilities
+            	which implements the functionality of BRSFactors List.
+             </summary>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.BRSFeeTableDetailAdaptor.#ctor">
+            <summary>
+            Default Constructor
+            </summary>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.BRSFeeTableDetailAdaptor.Get(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            This method is a wrapper to Riskmaster.Application.RMUtilities.BRSFeeTableDetail.Get() method.
+            </summary>
+            <param name="p_objXmlIn">Input XML document</param>
+            <param name="p_objXmlOut">XML containing the results.The structure of the output XML document would be as in  in Riskmaster.Application.RMUtilities.BRSFeeTableDetail.xml</param>
+            <param name="p_objErrOut">Collection of Errors/Messages</param>
+            <returns>True/False for success or failure of the function</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.BRSFeeTableDetailAdaptor.Save(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            This method is a wrapper to Riskmaster.Application.RMUtilities.BRSFeeTableDetail.Save() method.
+            </summary>
+            <param name="p_objXmlIn">Input XML document</param>
+            <param name="p_objXmlOut">XML containing the results.The structure of the output XML document would be as in  in Riskmaster.Application.RMUtilities.BRSFeeTableDetail.xml</param>
+            <param name="p_objErrOut">Collection of Errors/Messages</param>
+            <returns>True/False for success or failure of the function</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.BRSFeeTableDetailAdaptor.FillODBCNames(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            This method is a wrapper to Riskmaster.Application.RMUtilities.BRSFeeTableDetail.FillODBCNames() method.
+            </summary>
+            <param name="p_objXmlIn">Input XML document</param>
+            <param name="p_objXmlOut">XML containing the results.The structure of the output XML document would be as in  in Riskmaster.Application.RMUtilities.BRSFeeTableDetail.xml</param>
+            <param name="p_objErrOut">Collection of Errors/Messages</param>
+            <returns>True/False for success or failure of the function</returns>
+        </member>
+        <member name="T:Riskmaster.BusinessAdaptor.RMUtilities.TopLevelApprovalAdaptor">
+            ************************************************************** 
+            * $File		: TopLevelApprovalAdaptor.cs 
+            * $Revision	: 1.0.0.0 
+            * $Date		: 02-June-2005
+            * $Author	: Anurag Agarwal
+            * $Comment	: 
+            * $Source	: 
+            **************************************************************
+             <summary>	
+            	This class is used to call the application layer component for TopLevelApproval class  
+             </summary>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.TopLevelApprovalAdaptor.Get(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            This function xml containing data to be shown on screen
+            </summary>
+            <param name="p_objXmlIn">
+            	Input parameters as xml
+            	<document>
+            		<RowId></RowId>
+            	</document>
+            </param>
+            <param name="p_objXmlOut">Result as Output xml
+            	Output structure is as follows-:
+            	See Xml file named TopLevelApproval.xml in Xml folder
+            </param>
+            <param name="p_objErrOut">Error(s) encountered while executing the function</param>
+            <returns>Success -True or Failure -false in execution of the function</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.TopLevelApprovalAdaptor.Save(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            	This function Saves Layout data
+            </summary>
+            <param name="p_objXmlIn">Input parameters as xml</param>
+            <param name="p_objXmlOut">Result as Output xml</param>
+            <param name="p_objErrOut">Error(s) encountered while executing the function</param>
+            <returns>Success -True or Failure -false in execution of the function</returns>
+        </member>
+        <member name="T:Riskmaster.BusinessAdaptor.RMUtilities.TaskManagementAdaptor">
+            ************************************************************** 
+            * $File		: TaskManagementAdaptor.cs 
+            * $Revision	: 1.0.0.0 
+            * $Date		: 31-Oct-2007
+            * $Author	: Shruti Choudhary
+            * $Comment	: 
+            * $Source	: 
+            **************************************************************
+             <summary>	
+            	This class is used to call the application layer component for TaskManagement.
+             </summary>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.TaskManagementAdaptor.SaveOneTimeSettings(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            This method saves the user entered settings in case of OneTime Schedule Type.
+            </summary>
+            <param name="p_objXmlIn">
+            The structure of input XML document would be:
+                <Details> 
+                    <TaskType /> 
+                    <TaskTypeText /> 
+                    <ScheduleType /> 
+                    <ScheduleTypeText></ScheduleTypeText>
+                    <Date></Date> 
+                    <Time></Time>
+                </Details>
+            </param>
+            <param name="p_objXmlOut">
+            The structure of output XML document would be same as input
+            </param>
+            <param name="p_objErrOut">Collection of Error Messages</param>
+            <returns>True/False for success or failure of the function</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.TaskManagementAdaptor.SavePeriodicalSettings(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            This method saves the user entered settings in case of Monthly Schedule Type.
+            </summary>
+            <param name="p_objXmlIn">
+            The structure of input XML document would be:
+                <Details> 
+                    <IntervalType></IntervalType>
+                    <TaskType /> 
+                    <TaskTypeText /> 
+                    <ScheduleType /> 
+                    <ScheduleTypeText></ScheduleTypeText>
+                    <Date></Date> 
+                    <Time></Time>
+                    <IntervalTypeId></IntervalTypeId>
+                    <Interval></Interval>
+                </Details>
+            </param>
+            <param name="p_objXmlOut">
+            The structure of output XML document would be same as input
+            </param>
+            <param name="p_objErrOut">Collection of Error Messages</param>
+            <returns>True/False for success or failure of the function</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.TaskManagementAdaptor.SaveWeeklySettings(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            This method saves the user entered settings in case of Weekly Schedule Type.
+            </summary>
+            <param name="p_objXmlIn">
+            The structure of input XML document would be:
+                <Details> 
+                    <TaskType /> 
+                    <TaskTypeText /> 
+                    <ScheduleType /> 
+                    <ScheduleTypeText></ScheduleTypeText>
+                    <Date></Date> 
+                    <Time></Time>
+                    <Mon_Run></Mon_Run>
+                    <Tue_Run></Tue_Run>
+                    <Wed_Run></Wed_Run>
+                    <Thu_Run></Thu_Run>
+                    <Fri_Run></Fri_Run>
+                    <Sat_Run></Sat_Run>
+                    <Sun_Run></Sun_Run>
+                </Details>
+            </param>
+            <param name="p_objXmlOut">
+            The structure of output XML document would be same as input
+            </param>
+            <param name="p_objErrOut">Collection of Error Messages</param>
+            <returns>True/False for success or failure of the function</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.TaskManagementAdaptor.SaveYearlySettings(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            This method saves the user entered settings in case of Yearly Schedule Type.
+            </summary>
+            <param name="p_objXmlIn">
+            The structure of input XML document would be:
+                <Details> 
+                    <TaskType /> 
+                    <TaskTypeText /> 
+                    <ScheduleType /> 
+                    <ScheduleTypeText></ScheduleTypeText>
+                    <Date></Date> 
+                    <Time></Time>
+                    <Jan_Run></Jan_Run>
+                    <Feb_Run></Feb_Run>
+                    <Mar_Run></Mar_Run>
+                    <Apr_Run></Apr_Run>
+                    <May_Run></May_Run>
+                    <Jun_Run></Jun_Run>
+                    <Jul_Run></Jul_Run>
+                    <Aug_Run></Aug_Run>
+                    <Sep_Run></Sep_Run>
+                    <Oct_Run></Oct_Run>
+                    <Nov_Run></Nov_Run>
+                    <Dec_Run></Dec_Run>
+                </Details>
+            </param>
+            <param name="p_objXmlOut">
+            The structure of output XML document would be same as input
+            </param>
+            <param name="p_objErrOut">Collection of Error Messages</param>
+            <returns>True/False for success or failure of the function</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.TaskManagementAdaptor.SaveMonthlySettings(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            This method saves the user entered settings in case of Monthly Schedule Type.
+            </summary>
+            <param name="p_objXmlIn">
+            The structure of input XML document would be:
+                <Details> 
+                    <TaskType /> 
+                    <TaskTypeText /> 
+                    <ScheduleType /> 
+                    <ScheduleTypeText></ScheduleTypeText>
+                    <DayOfMonth></DayOfMonth> 
+                    <Time></Time>
+                    <Month></Month>
+                </Details>
+            </param>
+            <param name="p_objXmlOut">
+            The structure of output XML document would be same as input
+            </param>
+            <param name="p_objErrOut">Collection of Error Messages</param>
+            <returns>True/False for success or failure of the function</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.TaskManagementAdaptor.GetDetails(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            This method gets the available task types and schedule types from db.
+            </summary>
+            <param name="p_objXmlIn">Not useful here</param>
+            <param name="p_objXmlOut">
+            The structure of output XML document would be:
+            <Data>
+                <TaskType>
+                    <option id="" /> 
+                    <option id="0">Process WPA Diaries</option> 
+                </TaskType>
+                <ScheduleType>
+                    <option id="" /> 
+                    <option id="1">OneTime</option> 
+                    <option id="2">Periodically</option> 
+                    <option id="3">Weekly</option> 
+                    <option id="4">Monthly</option> 
+                    <option id="5">Yearly</option> 
+                    <option id="6">Directory Triggered</option> 
+                </ScheduleType>
+            </Data>
+            </param>
+            <param name="p_objErrOut">Collection of Error Messages</param>
+            <returns>True/False for success or failure of the function</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.TaskManagementAdaptor.GetIntervalType(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            This method gets the interval types
+            in case of schedule type Periodical.
+            </summary>
+            <param name="p_objXmlIn">
+            The structure of input XML document would be:
+                <Details> 
+                    <IntervalType /> 
+                    <IntervalTypeId /> 
+                    <Interval /> 
+                    <TaskTypeText></TaskTypeText>
+                    <ScheduleTypeText></ScheduleTypeText> 
+                    <TaskType></TaskType>
+                    <ScheduleType>2</ScheduleType>
+                    <Time /> 
+                    <Date />
+                </Details>
+            </param>
+            <param name="p_objXmlOut">
+            The structure of output XML document would be:
+                <Details> 
+                    <IntervalType> 
+                        <option id="" /> 
+                        <option id="1">Minutes</option> 
+                        <option id="2">Days</option>
+                        <option id="3">Weeks</option>
+                        <option id="4">Months</option>
+                    </IntervalType>
+                    <IntervalTypeId /> 
+                    <Interval /> 
+                    <TaskTypeText></TaskTypeText>
+                    <ScheduleTypeText></ScheduleTypeText> 
+                    <TaskType></TaskType>
+                    <ScheduleType>2</ScheduleType>
+                    <Time /> 
+                    <Date />
+                </Details>
+            </param>
+            <param name="p_objErrOut">Collection of Error Messages</param>
+            <returns>True/False for success or failure of the function</returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.BusinessAdaptor.RMUtilities.TaskManagementAdaptor.GetJobs(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)" -->
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.BusinessAdaptor.RMUtilities.TaskManagementAdaptor.GetScheduledJobs(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)" -->
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.TaskManagementAdaptor.EditOneTime(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            This method gets the xml for editing a schedule.
+            </summary>
+            <param name="p_objXmlIn">
+            The structure of input XML document would be:
+                <Document> 
+                    <ScheduleId>34</ScheduleId>
+                </Document>
+            </param>
+            <param name="p_objXmlOut">
+            The structure of output XML document would be:
+                <Data> 
+                    <ScheduleId>34</ScheduleId>
+                    <TaskType>0</TaskType>
+                    <ScheduleTypeId>1</ScheduleTypeId>
+                    <Date>11/20/2007</Date>
+                    <Time>4:00 AM</Time>
+                    <TaskTypeText>Process WPA Diaries</TaskTypeText>
+                    <ScheduleTypeText>OneTime</ScheduleTypeText>
+                    <ScheduleType>
+                        <option id="1">OneTime</option>
+                        <option id="2">Periodically</option>
+                        <option id="3">Weekly</option>
+                        <option id="4">Monthly</option>
+                        <option id="5">Yearly</option>
+                        <option id="6">Directory Triggered</option>
+                    </ScheduleType>
+                </Data>
+            </param>
+            <param name="p_objErrOut">Collection of Error Messages</param>
+            <returns>True/False for success or failure of the function</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.TaskManagementAdaptor.EditWeekly(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            This method gets the xml for editing a Weekly schedule.
+            </summary>
+            <param name="p_objXmlIn">
+            The structure of input XML document would be:
+                <Document> 
+                    <ScheduleId>34</ScheduleId>
+                </Document>
+            </param>
+            <param name="p_objXmlOut">
+            The structure of output XML document would be:
+                <Data> 
+                    <ScheduleId>34</ScheduleId>
+                    <TaskType>0</TaskType>
+                    <ScheduleTypeId>3</ScheduleTypeId>
+                    <Date>11/20/2007</Date>
+                    <Time>4:00 AM</Time>
+                    <Mon_Run>False</Mon_Run>
+                    <Tue_Run>False</Tue_Run>
+                    <Wed_Run>False</Wed_Run>
+                    <Thu_Run>False</Thu_Run>
+                    <Fri_Run>False</Fri_Run>
+                    <Sat_Run>True</Sat_Run>
+                    <Sun_Run>False</Sun_Run>
+                    <TaskTypeText>Process WPA Diaries</TaskTypeText>
+                    <ScheduleTypeText>Weekly</ScheduleTypeText>
+                    <ScheduleType>
+                        <option id="1">OneTime</option>
+                        <option id="2">Periodically</option>
+                        <option id="3">Weekly</option>
+                        <option id="4">Monthly</option>
+                        <option id="5">Yearly</option>
+                        <option id="6">Directory Triggered</option>
+                    </ScheduleType>
+                </Data>
+            </param>
+            <param name="p_objErrOut">Collection of Error Messages</param>
+            <returns>True/False for success or failure of the function</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.TaskManagementAdaptor.EditYearly(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            This method gets the xml for editing an Yearly schedule.
+            </summary>
+            <param name="p_objXmlIn">
+            The structure of input XML document would be:
+                <Document> 
+                    <ScheduleId>34</ScheduleId>
+                </Document>
+            </param>
+            <param name="p_objXmlOut">
+            The structure of output XML document would be:
+                <Data> 
+                    <ScheduleId>34</ScheduleId>
+                    <TaskType>0</TaskType>
+                    <ScheduleTypeId>5</ScheduleTypeId>
+                    <Date>11/20/2007</Date>
+                    <Time>4:00 AM</Time>
+                    <Jan_Run>False</Jan_Run>
+                    <Feb_Run>False</Feb_Run>
+                    <Mar_Run>False</Mar_Run>
+                    <Apr_Run>False</Apr_Run>
+                    <May_Run>False</May_Run>
+                    <Jun_Run>False</Jun_Run>
+                    <Jul_Run>True</Jul_Run>
+                    <Aug_Run>False</Aug_Run>
+                    <Sep_Run>False</Sep_Run>
+                    <Oct_Run>False</Oct_Run>
+                    <Nov_Run>False</Nov_Run>
+                    <Dec_Run>False</Dec_Run>
+                    <TaskTypeText>Process WPA Diaries</TaskTypeText>
+                    <ScheduleTypeText>Yearly</ScheduleTypeText>
+                    <ScheduleType>
+                        <option id="1">OneTime</option>
+                        <option id="2">Periodically</option>
+                        <option id="3">Weekly</option>
+                        <option id="4">Monthly</option>
+                        <option id="5">Yearly</option>
+                        <option id="6">Directory Triggered</option>
+                    </ScheduleType>
+                </Data>
+            </param>
+            <param name="p_objErrOut">Collection of Error Messages</param>
+            <returns>True/False for success or failure of the function</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.TaskManagementAdaptor.EditMonthly(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            This method gets the xml for editing a Monthly schedule.
+            </summary>
+            <param name="p_objXmlIn">
+            The structure of input XML document would be:
+                <Document> 
+                    <ScheduleId>34</ScheduleId>
+                </Document>
+            </param>
+            <param name="p_objXmlOut">
+            The structure of output XML document would be:
+                <Data> 
+                    <ScheduleId>34</ScheduleId>
+                    <TaskType>0</TaskType>
+                    <ScheduleTypeId>5</ScheduleTypeId>
+                    <Month>7</Month>
+                    <DayOfMonth>24</DayOfMonth>
+                    <Time>4:00 AM</Time>
+                    <TaskTypeText>Process WPA Diaries</TaskTypeText>
+                    <ScheduleTypeText>Yearly</ScheduleTypeText>
+                    <ScheduleType>
+                        <option id="1">OneTime</option>
+                        <option id="2">Periodically</option>
+                        <option id="3">Weekly</option>
+                        <option id="4">Monthly</option>
+                        <option id="5">Yearly</option>
+                        <option id="6">Directory Triggered</option>
+                    </ScheduleType>
+                </Data>
+            </param>
+            <param name="p_objErrOut">Collection of Error Messages</param>
+            <returns>True/False for success or failure of the function</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.TaskManagementAdaptor.EditPeriodical(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            This method gets the xml for editing a Periodical schedule.
+            </summary>
+            <param name="p_objXmlIn">
+            The structure of input XML document would be:
+                <Document> 
+                    <ScheduleId>34</ScheduleId>
+                </Document>
+            </param>
+            <param name="p_objXmlOut">
+            The structure of output XML document would be:
+                <Data> 
+                    <ScheduleId>34</ScheduleId>
+                    <TaskType>0</TaskType>
+                    <ScheduleTypeId>5</ScheduleTypeId>
+                    <Date>7/24/2008</Date>
+                    <Time>4:00 AM</Time>
+                    <IntervalTypeId>1</IntervalTypeId>
+                    <Interval>3</Interval>
+                    <TaskTypeText>Process WPA Diaries</TaskTypeText>
+                    <ScheduleTypeText>Yearly</ScheduleTypeText>
+                    <ScheduleType>
+                        <option id="1">OneTime</option>
+                        <option id="2">Periodically</option>
+                        <option id="3">Weekly</option>
+                        <option id="4">Monthly</option>
+                        <option id="5">Yearly</option>
+                        <option id="6">Directory Triggered</option>
+                    </ScheduleType>
+                    <IntervalType>
+                        <option id="1">Minutes</option>
+                        <option id="2">Days</option>
+                        <option id="3">Weeks</option>
+                        <option id="4">Months</option>
+                    </IntervalType>
+                </Data>
+            </param>
+            <param name="p_objErrOut">Collection of Error Messages</param>
+            <returns>True/False for success or failure of the function</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.TaskManagementAdaptor.KillTask(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            This method changes the status of the task to schedule to run.
+            </summary>
+            <param name="p_objXmlIn">
+            The input XML document.
+            </param>
+            <param name="p_objXmlOut">
+            The output XML document.
+            </param>
+            <param name="p_objErrOut">Collection of Error Messages</param>
+            <returns>True/False for success or failure of the function</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.TaskManagementAdaptor.GetStatusDetails(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            This method gets the Status Details for a specific job id.
+            </summary>
+            <param name="p_objXmlIn">Contains the job id for which the status is to be retrieved.</param>
+            <param name="p_objXmlOut">Contains the Status Details for the job id</param>
+            <param name="p_objErrOut">Collection of Error Messages</param>
+            <returns>True/False for success or failure of the function</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.TaskManagementAdaptor.DeleteSchedule(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            Deletes the selected schedule.
+            </summary>
+            <param name="p_objXmlIn">Input xml</param>
+            <param name="p_objXmlOut">output xml</param>
+            <param name="p_objErrOut">Collection of Error Messages</param>
+            <returns>True/False for success or failure of the function</returns>
+        </member>
+        <member name="T:Riskmaster.BusinessAdaptor.RMUtilities.SelectedDiscAdaptor">
+            ************************************************************** 
+            * $File		: SelectedDiscAdaptor.cs 
+            * $Revision	: 1.0.0.0 
+            * $Date		: 02-June-2005
+            * $Author	: Anurag Agarwal
+            * $Comment	: 
+            * $Source	: 
+            **************************************************************
+             <summary>	
+            	This class is used to call the application layer component for SelectedDisc class  
+             </summary>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.SelectedDiscAdaptor.Get(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            This function xml containing data to be shown on screen
+            </summary>
+            <param name="p_objXmlIn">
+            	Input parameters as xml
+            	<document>
+            		<RowId></RowId>
+            		<DiscountRowId></DiscountRowId>
+            		<ParentLevel></ParentLevel>
+            	</document>
+            </param>
+            <param name="p_objXmlOut">Result as Output xml
+            	Output structure is as follows-:
+            	See Xml file named SelectedDisc.xml in Xml folder
+            </param>
+            <param name="p_objErrOut">Error(s) encountered while executing the function</param>
+            <returns>Success -True or Failure -false in execution of the function</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.SelectedDiscAdaptor.Save(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            	This function Saves Layout data
+            </summary>
+            <param name="p_objXmlIn">Input parameters as xml</param>
+            <param name="p_objXmlOut">Result as Output xml</param>
+            <param name="p_objErrOut">Error(s) encountered while executing the function</param>
+            <returns>Success -True or Failure -false in execution of the function</returns>
+        </member>
+        <member name="T:Riskmaster.BusinessAdaptor.RMUtilities.PVCreateAdaptor">
+            ************************************************************** 
+            * $File		: PVCreateAdaptor.cs 
+            * $Revision	: 1.0.0.0 
+            * $Date		: 27-May-2005
+            * $Author	: Anurag Agarwal
+            * $Comment	: 
+            * $Source	: 
+            **************************************************************
+             <summary>	
+            	This class is used to call the application layer component for PVCreate class  
+             </summary>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.PVCreateAdaptor.Get(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            This function xml containing data to be shown on screen
+            </summary>
+            <param name="p_objXmlIn">
+            	Input parameters as xml
+            	<Document>
+            		<RowId></RowId>
+            	</Document>
+            </param>
+            <param name="p_objXmlOut">Result as Output xml
+            	Output structure is as follows-:
+            	See Xml file named PVCreate.xml in Xml folder
+            </param>
+            <param name="p_objErrOut">Error(s) encountered while executing the function</param>
+            <returns>Success -True or Failure -false in execution of the function</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.PVCreateAdaptor.Save(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            	This function Saves Layout data
+            </summary>
+            <param name="p_objXmlIn">Input parameters as xml</param>
+            <param name="p_objXmlOut">Result as Output xml</param>
+            <param name="p_objErrOut">Error(s) encountered while executing the function</param>
+            <returns>Success -True or Failure -false in execution of the function</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.PVCreateAdaptor.Delete(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            This function deletes the Power View selected
+            </summary>
+            <param name="p_objXmlIn">
+            	Input parameters as xml
+            	<Document>
+            		<RowId></RowId>
+            	</Document>
+            </param>
+            <param name="p_objXmlOut">Result as Output xml
+            	Output structure is as follows-:
+            	See Xml file named PVCreate.xml in Xml folder
+            </param>
+            <param name="p_objErrOut">Error(s) encountered while executing the function</param>
+            <returns>Success -True or Failure -false in execution of the function</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.PVCreateAdaptor.Clone(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            This function clones the Power View selected
+            </summary>
+            <param name="p_objXmlIn">
+            	Input parameters as xml
+            	<Document>
+            		<RowId></RowId>
+            		<ViewName></ViewName>
+            	</Document>
+            </param>
+            <param name="p_objXmlOut">Result as Output xml
+            	Output structure is as follows-:
+            	See Xml file named PVCreate.xml in Xml folder
+            </param>
+            <param name="p_objErrOut">Error(s) encountered while executing the function</param>
+            <returns>Success -True or Failure -false in execution of the function</returns>
+        </member>
+        <member name="T:Riskmaster.BusinessAdaptor.RMUtilities.MinBillThresholdAdaptor">
+            ************************************************************** 
+            * $File		: MinBillThresholdAdaptor.cs 
+            * $Revision	: 1.0.0.0 
+            * $Date		: 02-June-2005
+            * $Author	: Anurag Agarwal
+            * $Comment	: 
+            * $Source	: 
+            **************************************************************
+             <summary>	
+            	This class is used to call the application layer component for MinBillThreshold class  
+             </summary>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.MinBillThresholdAdaptor.Get(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            This function xml containing data to be shown on screen
+            </summary>
+            <param name="p_objXmlIn">
+            	Input parameters as xml
+            	<document>
+            		<RowId></RowId>
+            	</document>
+            </param>
+            <param name="p_objXmlOut">Result as Output xml
+            	Output structure is as follows-:
+            	See Xml file named MinBillThreshold.xml in Xml folder
+            </param>
+            <param name="p_objErrOut">Error(s) encountered while executing the function</param>
+            <returns>Success -True or Failure -false in execution of the function</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.MinBillThresholdAdaptor.Save(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            	This function Saves Layout data
+            </summary>
+            <param name="p_objXmlIn">Input parameters as xml</param>
+            <param name="p_objXmlOut">Result as Output xml</param>
+            <param name="p_objErrOut">Error(s) encountered while executing the function</param>
+            <returns>Success -True or Failure -false in execution of the function</returns>
+        </member>
+        <member name="T:Riskmaster.BusinessAdaptor.RMUtilities.JurisdictionalDataAdaptor">
+            ************************************************************** 
+            * $File		: JurisdictionalDataAdaptor.cs 
+            * $Revision	: 1.0.0.0 
+            * $Date		: 27/05/2005
+            * $Author	: Pankaj
+            * $Comment	: 
+            * $Source	: 
+            **************************************************************
+             <summary>	
+            	This class is used to call the application layer component for RM Utilities
+            	which implements the functionality of Jurisdictional data.
+             </summary>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.JurisdictionalDataAdaptor.#ctor">
+            <summary>
+            Default Constructor
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.BusinessAdaptor.RMUtilities.JurisdictionalDataAdaptor.Get(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)" -->
+        <member name="T:Riskmaster.BusinessAdaptor.RMUtilities.DiscountListAdaptor">
+            ************************************************************** 
+            * $File		: DiscountListAdaptor.cs 
+            * $Revision	: 1.0.0.0 
+            * $Date		: 26/05/2005
+            * $Author	: Pankaj
+            * $Comment	: 
+            * $Source	: 
+            **************************************************************
+             <summary>	
+            	This class is used to call the application layer component for RM Utilities
+            	which implements the functionality of Discount List.
+             </summary>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.DiscountListAdaptor.#ctor">
+            <summary>
+            Default Constructor
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.BusinessAdaptor.RMUtilities.DiscountListAdaptor.Get(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)" -->
+        <member name="T:Riskmaster.BusinessAdaptor.RMUtilities.BillingRuleAdaptor">
+            <summary>	
+            This class is used to call the application layer component for BillingRule class  
+            </summary>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.BillingRuleAdaptor.Get(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            This function xml containing data to be shown on screen
+            </summary>
+            <param name="p_objXmlIn">Input parameters as xml</param>
+            <param name="p_objXmlOut">Result as Output xml
+            Input structure is as follows-:
+            <BillingRule><RowId></RowId></BillingRule>
+            </param>
+            <param name="p_objErrOut">Error(s) encountered while executing the function</param>
+            <returns>Success -True or Failure -false in execution of the function</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.BillingRuleAdaptor.Save(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            Deletes the Billing Rule information
+            </summary>
+            <param name="p_objXmlIn">Input parameters as xml</param>
+            <param name="p_objXmlOut">Result as Output xml
+            Output structure is as follows-:
+            See Xml file named BillingRule.xml in Xml folder
+            </param>
+            <param name="p_objErrOut">Error(s) encountered while executing the function</param>
+            <returns>Success -True or Failure -false in execution of the function</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.BillingRuleAdaptor.Delete(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            Deletes the Billing Rule information
+            </summary>
+            <param name="p_objXmlIn">Input parameters as xml</param>
+            <param name="p_objXmlOut">Result as Output xml
+            Output structure is as follows-:
+            See Xml file named BRPayPlan.xml in Xml folder
+            </param>
+            <param name="p_objErrOut">Error(s) encountered while executing the function</param>
+            <returns>Success -True or Failure -false in execution of the function</returns>
+        </member>
+        <member name="T:Riskmaster.BusinessAdaptor.RMUtilities.SystemParameterAdaptor">
+            ************************************************************** 
+            * $File		: SystemParameterAdaptor.cs 
+            * $Revision	: 1.0.0.0 
+            * $Date		: 30/05/2005
+            * $Author	: Pankaj
+            * $Comment	: 
+            * $Source	: 
+            **************************************************************
+             <summary>	
+            	This class is used to call the application layer component for RM Utilities
+            	which implements the functionality of System Parameter Setup data.
+             </summary>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.SystemParameterAdaptor.#ctor">
+            <summary>
+            Default Constructor
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.BusinessAdaptor.RMUtilities.SystemParameterAdaptor.Get(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)" -->
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.BusinessAdaptor.RMUtilities.SystemParameterAdaptor.Save(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)" -->
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.BusinessAdaptor.RMUtilities.SystemParameterAdaptor.UseCaseMgt(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)" -->
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.BusinessAdaptor.RMUtilities.SystemParameterAdaptor.UseScriptEditor(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)" -->
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.BusinessAdaptor.RMUtilities.SystemParameterAdaptor.UseEnhPol(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)" -->
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.BusinessAdaptor.RMUtilities.SystemParameterAdaptor.UsePolicyBilling(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)" -->
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.BusinessAdaptor.RMUtilities.SystemParameterAdaptor.UseAcrosoftInterface(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)" -->
+        <member name="T:Riskmaster.BusinessAdaptor.RMUtilities.ORGSECAdaptor">
+            ************************************************************** 
+            * $File		: ORGSECAdaptor.cs 
+            * $Revision	: 1.0.0.0 
+            * $Date		: 27-May-2005
+            * $Author	: Anurag Agarwal
+            * $Comment	: 
+            * $Source	: 
+            **************************************************************
+             <summary>	
+            	This class is used to call the application layer component for ORGSEC class  
+             </summary>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.ORGSECAdaptor.LoadOrgSet(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            This function is used to execute a setup for BES
+            </summary>
+            <param name="p_objXmlIn">Input parameters as xml</param>
+            <param name="p_objXmlOut">Result as Output xml</param>
+            <param name="p_objErrOut">Error(s) encountered while executing the function</param>
+            <returns>Success -True or Failure -false in execution of the function</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.ORGSECAdaptor.LoadOrgSetAdmin(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            This function is used to execute a setup for BES
+            </summary>
+            <param name="p_objXmlIn">Input parameters as xml</param>
+            <param name="p_objXmlOut">Result as Output xml</param>
+            <param name="p_objErrOut">Error(s) encountered while executing the function</param>
+            <returns>Success -True or Failure -false in execution of the function</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.ORGSECAdaptor.LoadGroupDef(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            This function is used to Load Group def
+            </summary>
+            <param name="p_objXmlIn">
+            	Input parameters as xml
+            	<document>
+            		<RowId></RowId>
+            	</document>
+            </param>
+            <param name="p_objXmlOut">Result as Output xml</param>
+            <param name="p_objErrOut">Error(s) encountered while executing the function</param>
+            <returns>Success -True or Failure -false in execution of the function</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.ORGSECAdaptor.SaveGroupDef(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            This function is used to save a new group
+            </summary>
+            <param name="p_objXmlIn">Input parameters as xml</param>
+            <param name="p_objXmlOut">Result as Output xml</param>
+            <param name="p_objErrOut">Error(s) encountered while executing the function</param>
+            <returns>Success -True or Failure -false in execution of the function</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.ORGSECAdaptor.UpdateGroupDef(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            This function is used to Update a Group
+            </summary>
+            <param name="p_objXmlIn">Input parameters as xml</param>
+            <param name="p_objXmlOut">Result as Output xml</param>
+            <param name="p_objErrOut">Error(s) encountered while executing the function</param>
+            <returns>Success -True or Failure -false in execution of the function</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.ORGSECAdaptor.DeleteGroupDef(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            This function is used to Delete a Group
+            </summary>
+            <param name="p_objXmlIn">
+            	Input parameters as xml
+            	<document>
+            		<RowId></RowId>
+            	</document>
+            </param>
+            <param name="p_objXmlOut">Result as Output xml</param>
+            <param name="p_objErrOut">Error(s) encountered while executing the function</param>
+            <returns>Success -True or Failure -false in execution of the function</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.ORGSECAdaptor.DisableOrgSec(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            This function is used to Load Group def
+            </summary>
+            <param name="p_objXmlIn">
+            	Input parameters as xml
+            	<document>
+            		<RowId></RowId>
+            	</document>
+            </param>
+            <param name="p_objXmlOut">Result as Output xml</param>
+            <param name="p_objErrOut">Error(s) encountered while executing the function</param>
+            <returns>Success -True or Failure -false in execution of the function</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.ORGSECAdaptor.IsOrgSetFirstTime(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            This function is used to execute a setup for BES
+            </summary>
+            <param name="p_objXmlIn">Input parameters as xml</param>
+            <param name="p_objXmlOut">Result as Output xml</param>
+            <param name="p_objErrOut">Error(s) encountered while executing the function</param>
+            <returns>Success -True or Failure -false in execution of the function</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.ORGSECAdaptor.PrintOrgSec(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            This function is used to execute a setup for BES
+            </summary>
+            <param name="p_objXmlIn">Input parameters as xml</param>
+            <param name="p_objXmlOut">Result as Output xml</param>
+            <param name="p_objErrOut">Error(s) encountered while executing the function</param>
+            <returns>Success -True or Failure -false in execution of the function</returns>
+        </member>
+        <member name="T:Riskmaster.BusinessAdaptor.RMUtilities.MedicalInfoAdaptor">
+            ************************************************************** 
+            * $File		: MedicalInfoAdaptor.cs 
+            * $Revision	: 1.0.0.0 
+            * $Date		: 27/05/2005
+            * $Author	: Pankaj
+            * $Comment	: 
+            * $Source	: 
+            **************************************************************
+             <summary>	
+            	This class is used to call the application layer component for RM Utilities
+            	which implements the functionality of Medical Info Form.
+             </summary>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.MedicalInfoAdaptor.#ctor">
+            <summary>
+            Default Constructor
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.BusinessAdaptor.RMUtilities.MedicalInfoAdaptor.Get(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)" -->
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.BusinessAdaptor.RMUtilities.MedicalInfoAdaptor.Save(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)" -->
+        <member name="T:Riskmaster.BusinessAdaptor.LSSInterfaceLogAdaptor">
+            <summary>
+            Summary description for LSSInterfaceLogAdaptor.
+            </summary>
+        </member>
+        <member name="T:Riskmaster.BusinessAdaptor.RMUtilities.BRSFeeTableAdaptor">
+            ************************************************************** 
+            * $File		: BRSFeeTableAdaptor.cs 
+            * $Revision	: 1.0.0.0 
+            * $Date		: 24/05/2005
+            * $Author	: Pankaj
+            * $Comment	: 
+            * $Source	: 
+            **************************************************************
+             <summary>	
+            	This class is used to call the application layer component for RM Utilities
+            	which implements the functionality of BRS Fee Table.
+             </summary>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.BRSFeeTableAdaptor.#ctor">
+            <summary>
+            Default Constructor
+            </summary>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.BRSFeeTableAdaptor.Get(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            This method is a wrapper to Riskmaster.Application.RMUtilities.BRSFeeTable.Get() method.
+            </summary>
+            <param name="p_objXmlIn">Input XML document</param>
+            <param name="p_objXmlOut">XML containing the results.The structure of the output XML document would be as in  in Riskmaster.Application.RMUtilities.BRSFeeTable.xml</param>
+            <param name="p_objErrOut">Collection of Errors/Messages</param>
+            <returns>True/False for success or failure of the function</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.BRSFeeTableAdaptor.Delete(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            This method is a wrapper to Riskmaster.Application.RMUtilities.BRSFeeTable.Delete() method.
+            </summary>
+            <param name="p_objXmlIn">Input XML document</param>
+            <param name="p_objXmlOut">XML containing the results.The structure of the output XML document would be as in  in Riskmaster.Application.RMUtilities.BRSFeeTable.xml</param>
+            <param name="p_objErrOut">Collection of Errors/Messages</param>
+            <returns>True/False for success or failure of the function</returns>
+        </member>
+        <member name="T:Riskmaster.BusinessAdaptor.RMUtilities.BRSCPTCodesListingAdaptor">
+            ************************************************************** 
+            * $File		: BRSCPTCodesListingAdaptor.cs 
+            * $Revision	: 1.0.0.0 
+            * $Date		: 24/05/2005
+            * $Author	: Pankaj
+            * $Comment	: 
+            * $Source	: 
+            **************************************************************
+             <summary>	
+            	This class is used to call the application layer component for RM Utilities
+            	which implements the functionality of BRS CPT Codes Listing.
+             </summary>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.BRSCPTCodesListingAdaptor.#ctor">
+            <summary>
+            Default Constructor
+            </summary>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.BRSCPTCodesListingAdaptor.Get(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            This method is a wrapper to Riskmaster.Application.RMUtilities.BRSCPTCodesListing.Get() method.
+            </summary>
+            <param name="p_objXmlIn">Input XML document</param>
+            <param name="p_objXmlOut">XML containing the results.The structure of the output XML document would be as in  in Riskmaster.Application.RMUtilities.BRSCPTCodesListing.xml</param>
+            <param name="p_objErrOut">Collection of Errors/Messages</param>
+            <returns>True/False for success or failure of the function</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.BRSCPTCodesListingAdaptor.Delete(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            This method is a wrapper to Riskmaster.Application.RMUtilities.BRSCPTCodesListing.Delete() method.
+            </summary>
+            <param name="p_objXmlIn">Input XML document</param>
+            <param name="p_objXmlOut">XML containing the results.The structure of the output XML document would be as in  in Riskmaster.Application.RMUtilities.BRSCPTCodesListing.xml</param>
+            <param name="p_objErrOut">Collection of Errors/Messages</param>
+            <returns>True/False for success or failure of the function</returns>
+        </member>
+        <member name="T:Riskmaster.BusinessAdaptor.RMUtilities.BillingOptionsAdaptor">
+            <summary>	
+            This class is used to call the application layer component for BillingOptions class  
+            </summary>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.BillingOptionsAdaptor.Get(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            This function xml containing data to be shown on screen
+            </summary>
+            <param name="p_objXmlIn">Input parameters as xml</param>
+            <param name="p_objXmlOut">Result as Output xml
+            Output structure is as follows-:
+            See Xml file named BillingOptions.xml in Xml folder
+            </param>
+            <param name="p_objErrOut">Error(s) encountered while executing the function</param>
+            <returns>Success -True or Failure -false in execution of the function</returns>
+        </member>
+        <member name="T:Riskmaster.BusinessAdaptor.RMUtilities.ActivityAddAdaptor">
+            ************************************************************** 
+            * $File		: ActivityAddAdaptor.cs 
+            * $Revision	: 1.0.0.0 
+            * $Date		: 01/06/2005
+            * $Author	: Pankaj
+            * $Comment	: 
+            * $Source	: 
+            **************************************************************
+             <summary>	
+            	This class is used to call the application layer component for RM Utilities
+            	which implements the functionality of Add Activity form.
+             </summary>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.ActivityAddAdaptor.#ctor">
+            <summary>
+            Default Constructor
+            </summary>
+        </member>
+        <member name="T:Riskmaster.BusinessAdaptor.RMUtilities.WPAAutoDiaryFilterSetupAdaptor">
+            ************************************************************** 
+            * $File		: WPAAutoDiaryFilterSetupAdaptor.cs 
+            * $Revision	: 1.0.0.0 
+            * $Date		: 12/07/2005
+            * $Author	: Nikhil Garg
+            * $Comment	: 
+            * $Source	: 
+            **************************************************************
+             <summary>	
+            	This class is used to call the application layer component for RM Utilities
+            	which implements the functionality of WPA Auto Diary Setup form.
+             </summary>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.WPAAutoDiaryFilterSetupAdaptor.#ctor">
+            <summary>
+            Default Constructor
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.BusinessAdaptor.RMUtilities.WPAAutoDiaryFilterSetupAdaptor.Get(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)" -->
+        <member name="T:Riskmaster.BusinessAdaptor.RMUtilities.RenewalInfoAdaptor">
+            ************************************************************** 
+            * $File		: RenewalInfoAdaptor.cs 
+            * $Revision	: 1.0.0.0 
+            * $Date		: 02-June-2005
+            * $Author	: Anurag Agarwal
+            * $Comment	: 
+            * $Source	: 
+            **************************************************************
+             <summary>	
+            	This class is used to call the application layer component for RenewalInfo class  
+             </summary>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.RenewalInfoAdaptor.Get(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            This function xml containing data to be shown on screen
+            </summary>
+            <param name="p_objXmlIn">
+            	Input parameters as xml
+            	<document>
+            		<RowId></RowId>
+            	</document>
+            </param>
+            <param name="p_objXmlOut">Result as Output xml
+            	Output structure is as follows-:
+            	See Xml file named RenewalInfo.xml in Xml folder
+            </param>
+            <param name="p_objErrOut">Error(s) encountered while executing the function</param>
+            <returns>Success -True or Failure -false in execution of the function</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.RenewalInfoAdaptor.Save(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            	This function Saves Layout data
+            </summary>
+            <param name="p_objXmlIn">Input parameters as xml</param>
+            <param name="p_objXmlOut">Result as Output xml</param>
+            <param name="p_objErrOut">Error(s) encountered while executing the function</param>
+            <returns>Success -True or Failure -false in execution of the function</returns>
+        </member>
+        <member name="T:Riskmaster.BusinessAdaptor.RMUtilities.FLMaxRateSetupAdaptor">
+            <summary>	
+            This class is used to call the application layer component for FLMaxRateSetup class  
+            </summary>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.FLMaxRateSetupAdaptor.Get(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            This function xml containing data to be shown on screen
+            </summary>
+            <param name="p_objXmlIn">Input parameters as xml</param>
+            <param name="p_objXmlOut">Result as Output xml
+            </param>
+            <param name="p_objErrOut">Error(s) encountered while executing the function</param>
+            <returns>Success -True or Failure -false in execution of the function</returns>
+        </member>
+        <member name="T:Riskmaster.BusinessAdaptor.RMUtilities.ExpRateParmsAdaptor">
+            ************************************************************** 
+            * $File		: ExpRateParmsAdaptor.cs 
+            * $Revision	: 1.0.0.0 
+            * $Date		: 30-May-2005
+            * $Author	: Anurag Agarwal
+            * $Comment	: 
+            * $Source	: 
+            **************************************************************
+             <summary>	
+            	This class is used to call the application layer component for ExpRateParms class  
+             </summary>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.ExpRateParmsAdaptor.Get(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            This function xml containing data to be shown on screen
+            </summary>
+            <param name="p_objXmlIn">
+            	Input parameters as xml
+            		<Document>
+            			<ExpRates>
+            				<amount></amount>
+            				<exposureid></exposureid>
+            				<effectivedate></effectivedate>
+            				<expirationdate></expirationdate>
+            				<expratetype></expratetype>
+            				<state></state>
+            				<fixedorprorate></fixedorprorate>
+            				<baserate></baserate>
+            				<expraterowid>4</expraterowid>
+            			</ExpRates>
+            		</Document>
+            </param>
+            <param name="p_objXmlOut">
+            	Result as Output xml Output structure is as follows-: 
+            		<Document>
+            			<ExpRates>
+            				<amount>23</amount>
+            				<exposureid>5266</exposureid>
+            				<effectivedate>20050428</effectivedate>
+            				<expirationdate>20050429</expirationdate>
+            				<expratetype>5238</expratetype>
+            				<state>5</state>
+            				<fixedorprorate>5236</fixedorprorate>
+            				<baserate>12</baserate>
+            				<expraterowid>4</expraterowid>
+            			</ExpRates>
+            		</Document>
+            </param>
+            <param name="p_objErrOut">Error(s) encountered while executing the function</param>
+            <returns>Success -True or Failure -false in execution of the function</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.ExpRateParmsAdaptor.Save(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            This function xml containing data to be shown on screen
+            </summary>
+            <param name="p_objXmlIn">
+            	Input parameters as xml
+            		<Document>
+            			<ExpRates>
+            				<amount>23</amount>
+            				<exposureid>5266</exposureid>
+            				<effectivedate>20050428</effectivedate>
+            				<expirationdate>20050429</expirationdate>
+            				<expratetype>5238</expratetype>
+            				<state>5</state>
+            				<fixedorprorate>5236</fixedorprorate>
+            				<baserate>12</baserate>
+            				<expraterowid>4</expraterowid> OR <expraterowid></expraterowid>(for new record)
+            			</ExpRates>
+            		</Document>
+            </param>
+            <param name="p_objXmlOut">Result as Output xml</param>
+            <param name="p_objErrOut">Error(s) encountered while executing the function</param>
+            <returns>Success -True or Failure -false in execution of the function</returns>
+        </member>
+        <member name="T:Riskmaster.BusinessAdaptor.RMUtilities.BRSCPTBasicCodeDetailsAdaptor">
+            ************************************************************** 
+            * $File		: BRSCPTBasicCodeDetailsAdaptor.cs 
+            * $Revision	: 1.0.0.0 
+            * $Date		: 24/05/2005
+            * $Author	: Pankaj
+            * $Comment	: 
+            * $Source	: 
+            **************************************************************
+             <summary>	
+            	This class is used to call the application layer component for RM Utilities
+            	which implements the functionality of BRS CPT Basic Code Details.
+             </summary>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.BRSCPTBasicCodeDetailsAdaptor.#ctor">
+            <summary>
+            Default Constructor
+            </summary>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.BRSCPTBasicCodeDetailsAdaptor.Get(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            This method is a wrapper to Riskmaster.Application.RMUtilities.BRSCPTBasicCodeDetailsAdaptor.Get() method.
+            </summary>
+            <param name="p_objXmlIn">Input XML document</param>
+            <param name="p_objXmlOut">XML containing the results.The structure of the output XML document would be as in  in Riskmaster.Application.RMUtilities.BRSCPTBasicCodeDetails.xml</param>
+            <param name="p_objErrOut">Collection of Errors/Messages</param>
+            <returns>True/False for success or failure of the function</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.BRSCPTBasicCodeDetailsAdaptor.Save(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            This method is a wrapper to Riskmaster.Application.RMUtilities.BRSCPTBasicCodeDetailsAdaptor.Save() method.
+            </summary>
+            <param name="p_objXmlIn">Input XML document</param>
+            <param name="p_objXmlOut">XML containing the results.The structure of the output XML document would be as in  in Riskmaster.Application.RMUtilities.BRSCPTBasicCodeDetails.xml</param>
+            <param name="p_objErrOut">Collection of Errors/Messages</param>
+            <returns>True/False for success or failure of the function</returns>
+        </member>
+        <member name="T:Riskmaster.BusinessAdaptor.RMUtilities.HolidayAdaptor">
+            ************************************************************** 
+            * $File		: HolidayAdaptor.cs 
+            * $Revision	: 1.0.0.0 
+            * $Date		: 26/05/2005
+            * $Author	: Pankaj
+            * $Comment	: 
+            * $Source	: 
+            **************************************************************
+             <summary>	
+            	This class is used to call the application layer component for RM Utilities
+            	which implements the functionality of Holiday form.
+             </summary>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.HolidayAdaptor.#ctor">
+            <summary>
+            Default Constructor
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.BusinessAdaptor.RMUtilities.HolidayAdaptor.New(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)" -->
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.BusinessAdaptor.RMUtilities.HolidayAdaptor.Get(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)" -->
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.BusinessAdaptor.RMUtilities.HolidayAdaptor.Save(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)" -->
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.BusinessAdaptor.RMUtilities.HolidayAdaptor.Delete(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)" -->
+        <member name="T:Riskmaster.BusinessAdaptor.RMUtilities.FLMaxRateAdaptor">
+            <summary>	
+            This class is used to call the application layer component for FLMaxRate class  
+            </summary>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.FLMaxRateAdaptor.Get(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            This function xml containing data to be shown on screen
+            </summary>
+            <param name="p_objXmlIn">Input parameters as xml</param>
+            <param name="p_objXmlOut">Result as Output xml
+            Input structure is as follows-:
+            <FLMaxRate><MaxRateId></MaxRateId></FLMaxRate>
+            </param>
+            <param name="p_objErrOut">Error(s) encountered while executing the function</param>
+            <returns>Success -True or Failure -false in execution of the function</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.FLMaxRateAdaptor.Save(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            Deletes the Max Rate information
+            </summary>
+            <param name="p_objXmlIn">Input parameters as xml</param>
+            <param name="p_objXmlOut">Result as Output xml
+            </param>
+            <param name="p_objErrOut">Error(s) encountered while executing the function</param>
+            <returns>Success -True or Failure -false in execution of the function</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.FLMaxRateAdaptor.Delete(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            Deletes the Max Rate information
+            </summary>
+            <param name="p_objXmlIn">Input parameters as xml</param>
+            <param name="p_objXmlOut">Result as Output xml
+            </param>
+            <param name="p_objErrOut">Error(s) encountered while executing the function</param>
+            <returns>Success -True or Failure -false in execution of the function</returns>
+        </member>
+        <member name="T:Riskmaster.BusinessAdaptor.RMUtilities.BRSImportScheduleAdaptor">
+            ************************************************************** 
+            * $File		: BRSImportScheduleAdaptor.cs 
+            * $Revision	: 1.0.0.0 
+            * $Date		: 25/05/2005
+            * $Author	: Pankaj
+            * $Comment	: 
+            * $Source	: 
+            **************************************************************
+             <summary>	
+            	This class is used to call the application layer component for RM Utilities
+            	which implements the functionality of BRS Import Schedule.
+             </summary>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.BRSImportScheduleAdaptor.#ctor">
+            <summary>
+            Default Constructor
+            </summary>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.BRSImportScheduleAdaptor.ImportSchedule(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            This method is a wrapper to Riskmaster.Application.RMUtilities.BRSImportSchedule.ImportSchedule() method.
+            </summary>
+            <param name="p_objXmlIn">Input XML document</param>
+            <param name="p_objXmlOut">XML containing the results.The structure of the output XML document would be as in  in Riskmaster.Application.RMUtilities.BRSImportSchedule.xml</param>
+            <param name="p_objErrOut">Collection of Errors/Messages</param>
+            <returns>True/False for success or failure of the function</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.BRSImportScheduleAdaptor.DeleteFiles(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            DeleteFiles
+            abisht MITS 10623 11/15/2007
+            </summary>
+        </member>
+        <member name="T:Riskmaster.BusinessAdaptor.RMUtilities.BRSFactorsAdaptor">
+            ************************************************************** 
+            * $File		: BRSFactorsAdaptor.cs 
+            * $Revision	: 1.0.0.0 
+            * $Date		: 24/05/2005
+            * $Author	: Pankaj
+            * $Comment	: 
+            * $Source	: 
+            **************************************************************
+             <summary>	
+            	This class is used to call the application layer component for RM Utilities
+            	which implements the functionality of BRSFactors List.
+             </summary>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.BRSFactorsAdaptor.#ctor">
+            <summary>
+            Default Constructor
+            </summary>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.BRSFactorsAdaptor.Get(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            This method is a wrapper to Riskmaster.Application.RMUtilities.BRSFactors.Get() method.
+            </summary>
+            <param name="p_objXmlIn">Input XML document</param>
+            <param name="p_objXmlOut">XML containing the results.The structure of the output XML document would be as in  in Riskmaster.Application.RMUtilities.BRSFactors.xml</param>
+            <param name="p_objErrOut">Collection of Errors/Messages</param>
+            <returns>True/False for success or failure of the function</returns>
+        </member>
+        <member name="T:Riskmaster.BusinessAdaptor.RMUtilities.BRSModifierValuesAdaptor">
+            ************************************************************** 
+            * $File		: BRSModifierValuesAdaptor.cs 
+            * $Revision	: 1.0.0.0 
+            * $Date		: 26/05/2005
+            * $Author	: Pankaj
+            * $Comment	: 
+            * $Source	: 
+            **************************************************************
+             <summary>	
+            	This class is used to call the application layer component for RM Utilities
+            	which implements the functionality of BRS Modifier Values List.
+             </summary>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.BRSModifierValuesAdaptor.#ctor">
+            <summary>
+            Default Constructor
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.BusinessAdaptor.RMUtilities.BRSModifierValuesAdaptor.Get(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)" -->
+        <member name="T:Riskmaster.BusinessAdaptor.RMUtilities.BRSHospitalPerDiemValuesAdaptor">
+            ************************************************************** 
+            * $File		: BRSHospitalPerDiemValuesAdaptor.cs 
+            * $Revision	: 1.0.0.0 
+            * $Date		: 10/4/2007
+            * $Author	: Umesh P Kusvaha
+            * $Comment	: 
+            * $Source	: 
+            **************************************************************
+             <summary>	
+            	This class is used to call the application layer component for RM Utilities
+            	which implements the functionality to set the Per Diem's values .
+             </summary>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.BRSHospitalPerDiemValuesAdaptor.#ctor">
+            <summary>
+            Default Constructor
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.BusinessAdaptor.RMUtilities.BRSHospitalPerDiemValuesAdaptor.Get(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)" -->
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.BusinessAdaptor.RMUtilities.BRSHospitalPerDiemValuesAdaptor.Save(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)" -->
+        <member name="T:Riskmaster.BusinessAdaptor.RMUtilities.BRSCPTExtendedCodeDetailsAdaptor">
+            ************************************************************** 
+            * $File		: BRSCPTExtendedCodeDetailsAdaptor.cs 
+            * $Revision	: 1.0.0.0 
+            * $Date		: 24/05/2005
+            * $Author	: Pankaj
+            * $Comment	: 
+            * $Source	: 
+            **************************************************************
+             <summary>	
+            	This class is used to call the application layer component for RM Utilities
+            	which implements the functionality of BRS CPT Extended Code Details.
+             </summary>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.BRSCPTExtendedCodeDetailsAdaptor.#ctor">
+            <summary>
+            Default Constructor
+            </summary>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.BRSCPTExtendedCodeDetailsAdaptor.Get(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            This method is a wrapper to Riskmaster.Application.RMUtilities.BRSCPTExtendedCodeDetailsAdaptor.Get() method.
+            </summary>
+            <param name="p_objXmlIn">Input XML document</param>
+            <param name="p_objXmlOut">XML containing the results.The structure of the output XML document would be as in  in Riskmaster.Application.RMUtilities.BRSCPTExtendedCodeDetails.xml</param>
+            <param name="p_objErrOut">Collection of Errors/Messages</param>
+            <returns>True/False for success or failure of the function</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.BRSCPTExtendedCodeDetailsAdaptor.Save(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            This method is a wrapper to Riskmaster.Application.RMUtilities.BRSCPTExtendedCodeDetailsAdaptor.Save() method.
+            </summary>
+            <param name="p_objXmlIn">Input XML document</param>
+            <param name="p_objXmlOut">XML containing the results.The structure of the output XML document would be as in  in Riskmaster.Application.RMUtilities.BRSCPTExtendedCodeDetails.xml</param>
+            <param name="p_objErrOut">Collection of Errors/Messages</param>
+            <returns>True/False for success or failure of the function</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.BRSCPTExtendedCodeDetailsAdaptor.New(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            This method is a wrapper to Riskmaster.Application.RMUtilities.BRSCPTExtendedCodeDetailsAdaptor.New() method.
+            </summary>
+            <param name="p_objXmlIn">Input XML document</param>
+            <param name="p_objXmlOut">XML containing the results.The structure of the output XML document would be as in  in Riskmaster.Application.RMUtilities.BRSCPTExtendedCodeDetails.xml</param>
+            <param name="p_objErrOut">Collection of Errors/Messages</param>
+            <returns>True/False for success or failure of the function</returns>
+        </member>
+        <member name="T:Riskmaster.BusinessAdaptor.RMUtilities.BRPayPlanAdaptor">
+            <summary>	
+            This class is used to call the application layer component for BRPayPlan class  
+            </summary>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.BRPayPlanAdaptor.Get(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            This function xml containing data to be shown on screen
+            </summary>
+            <param name="p_objXmlIn">Input parameters as xml</param>
+            <param name="p_objXmlOut">Result as Output xml
+            Input structure is as follows-:
+            <BRPayPlan><RowId></RowId></BRPayPlan>
+            </param>
+            <param name="p_objErrOut">Error(s) encountered while executing the function</param>
+            <returns>Success -True or Failure -false in execution of the function</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.BRPayPlanAdaptor.Delete(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            Deletes the Billing Rule information
+            </summary>
+            <param name="p_objXmlIn">Input parameters as xml</param>
+            <param name="p_objXmlOut">Result as Output xml
+            Output structure is as follows-:
+            See Xml file named BRPayPlan.xml in Xml folder
+            </param>
+            <param name="p_objErrOut">Error(s) encountered while executing the function</param>
+            <returns>Success -True or Failure -false in execution of the function</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.BRPayPlanAdaptor.Save(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            Deletes the Billing Rule information
+            </summary>
+            <param name="p_objXmlIn">Input parameters as xml</param>
+            <param name="p_objXmlOut">Result as Output xml
+            Output structure is as follows-:
+            See Xml file named BRPayPlan.xml in Xml folder
+            </param>
+            <param name="p_objErrOut">Error(s) encountered while executing the function</param>
+            <returns>Success -True or Failure -false in execution of the function</returns>
+        </member>
+        <member name="T:Riskmaster.BusinessAdaptor.RMUtilities.WPAAutoDiaryAdaptor">
+            ************************************************************** 
+            * $File		: WPAAutoDiaryAdaptor.cs 
+            * $Revision	: 1.0.0.0 
+            * $Date		: 31/05/2005
+            * $Author	: Pankaj
+            * $Comment	: 
+            * $Source	: 
+            **************************************************************
+             <summary>	
+            	This class is used to call the application layer component for RM Utilities
+            	which implements the functionality of WPA Auto Diary Setup form.
+             </summary>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.WPAAutoDiaryAdaptor.#ctor">
+            <summary>
+            Default Constructor
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.BusinessAdaptor.RMUtilities.WPAAutoDiaryAdaptor.Get(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)" -->
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.BusinessAdaptor.RMUtilities.WPAAutoDiaryAdaptor.Delete(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)" -->
+        <member name="T:Riskmaster.BusinessAdaptor.RMUtilities.TierListAdaptor">
+            <summary>	
+            This class is used to call the application layer component for TierList class  
+            </summary>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.TierListAdaptor.Get(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            This function xml containing data to be shown on screen
+            </summary>
+            <param name="p_objXmlIn">Input parameters as xml</param>
+            <param name="p_objXmlOut">Result as Output xml
+            Output structure is as follows-:
+            See Xml file named TierList.xml in Xml folder
+            </param>
+            <param name="p_objErrOut">Error(s) encountered while executing the function</param>
+            <returns>Success -True or Failure -false in execution of the function</returns>
+        </member>
+        <member name="T:Riskmaster.BusinessAdaptor.RMUtilities.TaxMappingAdaptor">
+            <summary>	
+            This class is used to call the application layer component for FiscalYearsList class
+            </summary>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.TaxMappingAdaptor.Get(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <param name="p_objErrOut">Error(s) encountered while executing the function</param>
+            <returns>Success -True or Failure -false in execution of the function</returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.BusinessAdaptor.RMUtilities.TaxMappingAdaptor.DeleteStateTaxInfo(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)" -->
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.BusinessAdaptor.RMUtilities.TaxMappingAdaptor.SaveFederalTaxInfo(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)" -->
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.BusinessAdaptor.RMUtilities.TaxMappingAdaptor.SaveOffsets(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)" -->
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.BusinessAdaptor.RMUtilities.TaxMappingAdaptor.SaveStateTaxInfo(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)" -->
+        <member name="T:Riskmaster.BusinessAdaptor.RMUtilities.PVDefinationAdaptor">
+            ************************************************************** 
+            * $File		: PVDefinationAdaptor.cs 
+            * $Revision	: 1.0.0.0 
+            * $Date		: 27-May-2005
+            * $Author	: Anurag Agarwal
+            * $Comment	: 
+            * $Source	: 
+            **************************************************************
+             <summary>	
+            	This class is used to call the application layer component for PVDefination class  
+             </summary>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.PVDefinationAdaptor.Get(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            This function xml containing data to be shown on screen
+            </summary>
+            <param name="p_objXmlIn">
+            	Input parameters as xml
+            	<Document>
+            		<RowId></RowId>
+            	</Document>
+            </param>
+            <param name="p_objXmlOut">Result as Output xml
+            	Output structure is as follows-:
+            	See Xml file named PVDefination.xml in Xml folder
+            </param>
+            <param name="p_objErrOut">Error(s) encountered while executing the function</param>
+            <returns>Success -True or Failure -false in execution of the function</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.PVDefinationAdaptor.Save(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            	This function Saves Layout data
+            </summary>
+            <param name="p_objXmlIn">
+            Input parameters as xml
+            	<Document>
+            		<RowId>69</RowId>
+            		<SelectedForms>eventdatedtext.xml|concomitant.xml|osha.xml|</SelectedForms>
+            		<SelectedFormsCaption>___Event Dated Text|___Concomitant Products|___OSHA|</SelectedFormsCaption>
+            		<SelectedUsers>___Event Dated Text|___Concomitant Products|___OSHA|</SelectedUsers>
+            	</Document>
+            </param>
+            <param name="p_objXmlOut">Result as Output xml</param>
+            <param name="p_objErrOut">Error(s) encountered while executing the function</param>
+            <returns>Success -True or Failure -false in execution of the function</returns>
+        </member>
+        <member name="T:Riskmaster.BusinessAdaptor.RMUtilities.FiscalCopyAdaptor">
+            <summary>	
+            This class is used to call the application layer component for FiscalCopy class
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.BusinessAdaptor.RMUtilities.FiscalCopyAdaptor.Get(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)" -->
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.BusinessAdaptor.RMUtilities.FiscalCopyAdaptor.Save(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)" -->
+        <member name="T:Riskmaster.BusinessAdaptor.RMUtilities.LOBParmsAdaptor">
+            <summary>	
+            This class is used to call the application layer component for LOCParms class  
+            </summary>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.LOBParmsAdaptor.Get(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            This function xml containing data to be shown on screen
+            </summary>
+            <param name="p_objXmlIn">Input parameters as xml</param>
+            <param name="p_objXmlOut">Result as Output xml
+            Output structure is as follows-:
+            See Xml file named LOCParms.xml in Xml folder
+            </param>
+            <param name="p_objErrOut">Error(s) encountered while executing the function</param>
+            <returns>Success -True or Failure -false in execution of the function</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.LOBParmsAdaptor.Save(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            Saves the LOB information
+            </summary>
+            <param name="p_objXmlIn">Input parameters as xml</param>
+            <param name="p_objXmlOut">Result as Output xml
+            Output structure is as follows-:
+            See Xml file named LOCParms.xml in Xml folder
+            </param>
+            <param name="p_objErrOut">Error(s) encountered while executing the function</param>
+            <returns>Success -True or Failure -false in execution of the function</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.LOBParmsAdaptor.UpdateSysClaimTypeReserve(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            Saves the Claim Type Reserve information
+            </summary>
+            <param name="p_objXmlIn">Input parameters as xml</param>
+            <param name="p_objXmlOut">Result as Output xml
+            Output structure is as follows-:
+            See Xml file named LOCParms.xml in Xml folder
+            </param>
+            <param name="p_objErrOut">Error(s) encountered while executing the function</param>
+            <returns>Success -True or Failure -false in execution of the function</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.LOBParmsAdaptor.SaveDupNoOfDays(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            Saves the LOB information
+            </summary>
+            <param name="p_objXmlIn">Input parameters as xml</param>
+            <param name="p_objXmlOut">Result as Output xml
+            Output structure is as follows-:
+            See Xml file named LOCParms.xml in Xml folder
+            </param>
+            <param name="p_objErrOut">Error(s) encountered while executing the function</param>
+            <returns>Success -True or Failure -false in execution of the function</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.LOBParmsAdaptor.GetReserveType(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            Retrieves the LOB information
+            </summary>
+            <param name="p_objXmlIn">Input parameters as xml</param>
+            <param name="p_objXmlOut">Result as Output xml
+            Output structure is as follows-:
+            See Xml file named LOCParms.xml in Xml folder
+            </param>
+            <param name="p_objErrOut">Error(s) encountered while executing the function</param>
+            <returns>Success -True or Failure -false in execution of the function</returns>
+        </member>
+        <member name="T:Riskmaster.BusinessAdaptor.RMUtilities.HolidaysAdaptor">
+            ************************************************************** 
+            * $File		: HolidaysAdaptor.cs 
+            * $Revision	: 1.0.0.0 
+            * $Date		: 26/05/2005
+            * $Author	: Pankaj
+            * $Comment	: 
+            * $Source	: 
+            **************************************************************
+             <summary>	
+            	This class is used to call the application layer component for RM Utilities
+            	which implements the functionality of Holidays List.
+             </summary>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.HolidaysAdaptor.#ctor">
+            <summary>
+            Default Constructor
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.BusinessAdaptor.RMUtilities.HolidaysAdaptor.Get(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)" -->
+        <member name="T:Riskmaster.BusinessAdaptor.RMUtilities.DiscTierAdaptor">
+            ************************************************************** 
+            * $File		: DiscTierAdaptor.cs 
+            * $Revision	: 1.0.0.0 
+            * $Date		: 02-June-2005
+            * $Author	: Anurag Agarwal
+            * $Comment	: 
+            * $Source	: 
+            **************************************************************
+             <summary>	
+            	This class is used to call the application layer component for DiscTier class  
+             </summary>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.DiscTierAdaptor.Get(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            This function xml containing data to be shown on screen
+            </summary>
+            <param name="p_objXmlIn">
+            	Input parameters as xml
+            	<document>
+            		<RowId></RowId>
+            	</document>
+            </param>
+            <param name="p_objXmlOut">Result as Output xml
+            	Output structure is as follows-:
+            	See Xml file named DiscTier.xml in Xml folder
+            </param>
+            <param name="p_objErrOut">Error(s) encountered while executing the function</param>
+            <returns>Success -True or Failure -false in execution of the function</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.DiscTierAdaptor.Save(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            	This function Saves Layout data
+            </summary>
+            <param name="p_objXmlIn">Input parameters as xml</param>
+            <param name="p_objXmlOut">Result as Output xml</param>
+            <param name="p_objErrOut">Error(s) encountered while executing the function</param>
+            <returns>Success -True or Failure -false in execution of the function</returns>
+        </member>
+        <member name="T:Riskmaster.BusinessAdaptor.RMUtilities.BRSFactorAdaptor">
+            ************************************************************** 
+            * $File		: BRSFactorAdaptor.cs 
+            * $Revision	: 1.0.0.0 
+            * $Date		: 24/05/2005
+            * $Author	: Pankaj
+            * $Comment	: 
+            * $Source	: 
+            **************************************************************
+             <summary>	
+            	This class is used to call the application layer component for RM Utilities
+            	which implements the functionality of BRS factor Details.
+             </summary>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.BRSFactorAdaptor.#ctor">
+            <summary>
+            Default Constructor
+            </summary>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.BRSFactorAdaptor.Get(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            This method is a wrapper to Riskmaster.Application.RMUtilities.BRSFactor.Get() method.
+            </summary>
+            <param name="p_objXmlIn">Input XML document</param>
+            <param name="p_objXmlOut">XML containing the results.The structure of the output XML document would be as in  in Riskmaster.Application.RMUtilities.BRSFactor.xml</param>
+            <param name="p_objErrOut">Collection of Errors/Messages</param>
+            <returns>True/False for success or failure of the function</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.BRSFactorAdaptor.New(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            This method is a wrapper to Riskmaster.Application.RMUtilities.BRSFactor.New() method.
+            </summary>
+            <param name="p_objXmlIn">Input XML document</param>
+            <param name="p_objXmlOut">XML containing the results.The structure of the output XML document would be as in  in Riskmaster.Application.RMUtilities.BRSFactor.xml</param>
+            <param name="p_objErrOut">Collection of Errors/Messages</param>
+            <returns>True/False for success or failure of the function</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.BRSFactorAdaptor.Save(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            This method is a wrapper to Riskmaster.Application.RMUtilities.BRSFactor.Save() method.
+            </summary>
+            <param name="p_objXmlIn">Input XML document</param>
+            <param name="p_objXmlOut">XML containing the results.The structure of the output XML document would be as in  in Riskmaster.Application.RMUtilities.BRSFactor.xml</param>
+            <param name="p_objErrOut">Collection of Errors/Messages</param>
+            <returns>True/False for success or failure of the function</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.BRSFactorAdaptor.Delete(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            This method is a wrapper to Riskmaster.Application.RMUtilities.BRSFactor.Delete() method.
+            </summary>
+            <param name="p_objXmlIn">Input XML document</param>
+            <param name="p_objXmlOut">XML containing the results.The structure of the output XML document would be as in  in Riskmaster.Application.RMUtilities.BRSFactor.xml</param>
+            <param name="p_objErrOut">Collection of Errors/Messages</param>
+            <returns>True/False for success or failure of the function</returns>
+        </member>
+        <member name="T:Riskmaster.BusinessAdaptor.RMUtilities.WPAUtilAdaptor">
+            <summary>	
+            This class is used to call the application layer component for WPAUtil class
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.BusinessAdaptor.RMUtilities.WPAUtilAdaptor.Get(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)" -->
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.BusinessAdaptor.RMUtilities.WPAUtilAdaptor.SaveDiaryTransfer(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)" -->
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.BusinessAdaptor.RMUtilities.WPAUtilAdaptor.SaveDiaryPurge(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)" -->
+        <member name="T:Riskmaster.BusinessAdaptor.RMUtilities.SystemAdminLoginAdaptor">
+            <summary>	
+            This class is used to call the application layer component for SystemAdminLogin class  
+            </summary>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.SystemAdminLoginAdaptor.Get(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            This function xml containing data to be shown on screen
+            </summary>
+            <param name="p_objXmlIn">Input parameters as xml</param>
+            <param name="p_objXmlOut">Result as Output xml
+            Output structure is as follows-:
+            See Xml file named SystemAdminLogin.xml in Xml folder
+            </param>
+            <param name="p_objErrOut">Error(s) encountered while executing the function</param>
+            <returns>Success -True or Failure -false in execution of the function</returns>
+        </member>
+        <member name="T:Riskmaster.BusinessAdaptor.OrgEntitySecuritySetupAdaptor">
+            <summary>	
+            This class is used to call the application layer component for OrgEntitySecuritySetup class  
+            </summary>
+        </member>
+        <member name="T:Riskmaster.BusinessAdaptor.RMUtilities.LoggedInUserListAdaptor">
+            <summary>	
+            This class is used to call the application layer component for LoggedInUserList class
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.BusinessAdaptor.RMUtilities.LoggedInUserListAdaptor.Get(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)" -->
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.BusinessAdaptor.RMUtilities.LoggedInUserListAdaptor.DeleteSession(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)" -->
+        <member name="T:Riskmaster.BusinessAdaptor.RMUtilities.SearchWizardAdaptor">
+            ************************************************************** 
+            * $File		: SearchWizardAdaptor.cs 
+            * $Revision	: 1.0.0.0 
+            * $Date		: 30/05/2005
+            * $Author	: Pankaj
+            * $Comment	: 
+            * $Source	: 
+            **************************************************************
+             <summary>	
+            	This class is used to call the application layer component for RM Utilities
+            	which implements the functionality of Search Wizard Form.
+             </summary>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.SearchWizardAdaptor.#ctor">
+            <summary>
+            Default Constructor
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.BusinessAdaptor.RMUtilities.SearchWizardAdaptor.GetStep1(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)" -->
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.BusinessAdaptor.RMUtilities.SearchWizardAdaptor.GetStep2n3(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)" -->
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.BusinessAdaptor.RMUtilities.SearchWizardAdaptor.GetStep4(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)" -->
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.BusinessAdaptor.RMUtilities.SearchWizardAdaptor.GetAdmTrckStep(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)" -->
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.BusinessAdaptor.RMUtilities.SearchWizardAdaptor.Save(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)" -->
+        <member name="T:Riskmaster.BusinessAdaptor.RMUtilities.RMUTILAdaptor">
+            ************************************************************** 
+            * $File		: RMUTILAdaptor.cs 
+            * $Revision	: 1.0.0.0 
+            * $Date		: 27/05/2005
+            * $Author	: Pankaj
+            * $Comment	: 
+            * $Source	: 
+            **************************************************************
+             <summary>	
+            	This class is used to call the application layer component for RM Utilities
+            	which implements the functionality of Techician.
+             </summary>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.RMUTILAdaptor.#ctor">
+            <summary>
+            Default Constructor
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.BusinessAdaptor.RMUtilities.RMUTILAdaptor.FixSoundexValues(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)" -->
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.BusinessAdaptor.RMUtilities.RMUTILAdaptor.RebuildOrgHierarchy(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)" -->
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.BusinessAdaptor.RMUtilities.RMUTILAdaptor.RebuildGlossValues(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)" -->
+        <member name="T:Riskmaster.BusinessAdaptor.RMUtilities.PolicyOptionsAdaptor">
+            <summary>	
+            This class is used to call the application layer component for PolicyOptions class  
+            </summary>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.PolicyOptionsAdaptor.Get(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <param name="p_objErrOut">Error(s) encountered while executing the function</param>
+            <returns>Success -True or Failure -false in execution of the function</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.PolicyOptionsAdaptor.Save(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            This function xml containing data to be shown on screen
+            </summary>
+            <param name="p_objXmlIn">
+            	Input parameters as xml
+            	<Document>
+            		<PolOptRowId></PolOptRowId>
+            		<RoundAmounts>0</RoundAmounts>
+            		<UseYear>1</UseYear>
+            		<Placement>5239</Placement>
+            	</Document>
+            </param>
+            <param name="p_objXmlOut">Result as Output xml</param>
+            <param name="p_objErrOut">Error(s) encountered while executing the function</param>
+            <returns>Success -True or Failure -false in execution of the function</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.PolicyOptionsAdaptor.Delete(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            This function xml containing data to be shown on screen
+            </summary>
+            <param name="p_objXmlIn">
+            	Input parameters as xml
+            	<Document>
+            		<DeletionListName></DeletionListName>
+            		<DeletionId></DeletionId>
+            	</Document>
+            </param>
+            <param name="p_objXmlOut">Result as Output xml</param>
+            <param name="p_objErrOut">Error(s) encountered while executing the function</param>
+            <returns>Success -True or Failure -false in execution of the function</returns>
+        </member>
+        <member name="T:Riskmaster.BusinessAdaptor.RMUtilities.OccurrenceParmsAdaptor">
+            ************************************************************** 
+            * $File		: OccurrenceParmsAdaptor.cs 
+            * $Revision	: 1.0.0.0 
+            * $Date		: 03-June-2005
+            * $Author	: Anurag Agarwal
+            * $Comment	: 
+            * $Source	: 
+            **************************************************************
+             <summary>	
+            	This class is used to call the application layer component for OccurrenceParms class  
+             </summary>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.OccurrenceParmsAdaptor.Get(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            This function xml containing data to be shown on screen
+            </summary>
+            <param name="p_objXmlIn">
+            	Input parameters as xml
+            	<document>
+            		<RowId></RowId>
+            	</document>
+            </param>
+            <param name="p_objXmlOut">Result as Output xml
+            	Output structure is as follows-:
+            	See Xml file named OccurrenceParms.xml in Xml folder
+            </param>
+            <param name="p_objErrOut">Error(s) encountered while executing the function</param>
+            <returns>Success -True or Failure -false in execution of the function</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.OccurrenceParmsAdaptor.Save(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            	This function Saves Layout data
+            </summary>
+            <param name="p_objXmlIn">Input parameters as xml</param>
+            <param name="p_objXmlOut">Result as Output xml</param>
+            <param name="p_objErrOut">Error(s) encountered while executing the function</param>
+            <returns>Success -True or Failure -false in execution of the function</returns>
+        </member>
+        <member name="T:Riskmaster.BusinessAdaptor.RMUtilities.EarlyPayDiscountsAdaptor">
+            <summary>	
+            This class is used to call the application layer component for EarlyPayDiscounts class  
+            </summary>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.EarlyPayDiscountsAdaptor.Get(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            This function xml containing data to be shown on screen
+            </summary>
+            <param name="p_objXmlIn">Input parameters as xml</param>
+            <param name="p_objXmlOut">Result as Output xml
+            Output structure is as follows-:
+            <EarlyPayDiscounts><RowId>1</RowId></EarlyPayDiscounts>
+            </param>
+            <param name="p_objErrOut">Error(s) encountered while executing the function</param>
+            <returns>Success -True or Failure -false in execution of the function</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.EarlyPayDiscountsAdaptor.Delete(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            Deletes the Claim type options information
+            </summary>
+            <param name="p_objXmlIn">Input parameters as xml</param>
+            <param name="p_objXmlOut">Result as Output xml
+            Output structure is as follows-:
+            See Xml file named EarlyPayDiscounts.xml in Xml folder
+            </param>
+            <param name="p_objErrOut">Error(s) encountered while executing the function</param>
+            <returns>Success -True or Failure -false in execution of the function</returns>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.EarlyPayDiscountsAdaptor.Save(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            Saves the claim type information
+            </summary>
+            <param name="p_objXmlIn">Input parameters as xml</param>
+            <param name="p_objXmlOut">Result as Output xml
+            Input structure is as follows-:
+            See Xml file named EarlyPayDiscounts.xml in Xml folder
+            </param>
+            <param name="p_objErrOut">Error(s) encountered while executing the function</param>
+            <returns>Success -True or Failure -false in execution of the function</returns>
+        </member>
+        <member name="T:Riskmaster.BusinessAdaptor.RMUtilities.SupplementalDataAdaptor">
+            ************************************************************** 
+            * $File		: SupplementalDataAdaptor.cs 
+            * $Revision	: 1.0.0.0 
+            * $Date		: 30/05/2005
+            * $Author	: Pankaj
+            * $Comment	: 
+            * $Source	: 
+            **************************************************************
+             <summary>	
+            	This class is used to call the application layer component for RM Utilities
+            	which implements the functionality of Supplemental data.
+             </summary>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.SupplementalDataAdaptor.#ctor">
+            <summary>
+            Default Constructor
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.BusinessAdaptor.RMUtilities.SupplementalDataAdaptor.Get(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)" -->
+        <member name="T:Riskmaster.BusinessAdaptor.RMUtilities.CustomizeUserListAdaptor">
+            <summary>	
+            This class is used to call the application layer component for CustomizeUserList class  
+            </summary>
+        </member>
+        <member name="M:Riskmaster.BusinessAdaptor.RMUtilities.CustomizeUserListAdaptor.GetUserList(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.BusinessAdaptor.Common.BusinessAdaptorErrors@)">
+            <summary>
+            This function returns xml containing user list to be shown on screen
+            </summary>
+            <param name="p_objXmlIn">Input parameters as xml</param>
+            <param name="p_objXmlOut">Result as Output xml
+            Output structure is as follows-:
+            Input Xml format is
+            <WorkersCompTransMapping><WCJurisdictions></WCJurisdictions></WorkersCompTransMapping>
+            </param>
+            <param name="p_objErrOut">Error(s) encountered while executing the function</param>
+            <returns>Success -True or Failure -false in execution of the function</returns>	
+        </member>
+    </members>
+</doc>

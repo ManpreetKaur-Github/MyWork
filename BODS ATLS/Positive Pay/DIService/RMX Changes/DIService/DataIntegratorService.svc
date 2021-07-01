@@ -1,0 +1,1 @@
+﻿<%@ ServiceHost Language="C#" Debug="true" Service="RiskmasterService.DataIntegratorService" CodeBehind="DataIntegratorService.svc.cs" %>

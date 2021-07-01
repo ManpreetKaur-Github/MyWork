@@ -1,0 +1,2183 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Riskmaster.Application.SecurityManagement</name>
+    </assembly>
+    <members>
+        <member name="T:Riskmaster.Application.SecurityManagement.RMWinSecurity">
+             <summary>
+            Author  :   Aashish Bhateja
+            Dated   :   7th,July 2004
+            Purpose :   Contains general functions related to Security.
+             </summary>
+        </member>
+        <member name="F:Riskmaster.Application.SecurityManagement.RMWinSecurity.REG_ODBC_SYSTEM_ROOT">
+            <summary>
+            Used to get the Driver file name in LoadODBCDrivers function.
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.SecurityManagement.RMWinSecurity.REG_ODBC_DRIVERFILENAME_KEY">
+            <summary>
+            Used to get the Driver file name in LoadODBCDrivers function.
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.SecurityManagement.RMWinSecurity.REG_ODBC_DBFILEEXTENSION_KEY">
+            <summary>
+            Used to get the file extension in LoadODBCDrivers function.
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.SecurityManagement.RMWinSecurity.REG_ODBC_DBFILEUSAGE_KEY">
+            <summary>
+            Used to get the file usage in LoadODBCDrivers function.
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.SecurityManagement.RMWinSecurity.USE_DSN">
+            <summary>
+            This constant is used while establishing connection through a pre-defined 
+            DSN instead of ODBC Driver.
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.RMWinSecurity.#ctor">
+            <summary>
+            Default constructor.
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.RMWinSecurity.CheckUsers(System.String)">
+            <summary>
+            Used in LoadModuleGroups() function to check whether Users exist in 
+            USER_MEMBERSHIP table in underlying RM DB.
+            </summary>
+            <param name="p_sConnectStr">Connection String to connect to RM DB.</param>
+            <returns>A boolean values that represents the success/failure.</returns>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.RMWinSecurity.ClearLicenseHistory(System.String,System.String@)">
+            <summary>
+            Clears the License History.
+            </summary>
+            <param name="p_sCode">Code required to clear the License History.</param>
+            <param name="p_sMessage">Message, represents whether the License history
+            has been cleared or not.
+            </param>
+            <returns>A boolean values that represents the success/failure.</returns>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.RMWinSecurity.LoadODBCDrivers(System.Collections.ArrayList@)">
+            <summary>
+            Loads the ODBC Drivers for DB Connection Wizard.
+            </summary>
+            <param name="p_arrlstODBCDrivers">ODBC Drivers.</param>
+            <returns>A boolean values that represents the success/failure.</returns>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.RMWinSecurity.LoadPreDefinedDataSources(System.Collections.ArrayList@)">
+            <summary>
+            Loads the pre-defined datasources for DB Connection Wizard. 
+            </summary>
+            <param name="p_arrlstSQLDataSources">Pre-defined datasources.</param>
+            <returns>A boolean values that represents the success/failure.</returns>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.RMWinSecurity.Finish(System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.Int32@,System.Int32,System.DateTime)">
+            <summary>
+            Used to save the datasource related information once the user creates the
+            datasource.
+            </summary>
+            <param name="p_sUseDSN">Represents whether the ODBC Driver/Predefined
+            datasource is being used.
+            </param>
+            <param name="p_sDSName">DS Name.</param>
+            <param name="p_sODBCDriverName">Driver Name.</param>
+            <param name="p_sUserName">User Name.</param>
+            <param name="p_sPassword">Password.</param>
+            <param name="p_sServerName">ServerName.</param>
+            <param name="p_sDBFileName">DB FileName.</param>
+            <param name="p_sView">Whether server/file view is being used.</param>
+            <param name="p_sAdditionalParams">Additional Parameters.</param>
+            <param name="p_sAdditionalParamsChecked">Whether Additional Parameters
+            checked or not.
+            </param>
+            <param name="p_iDSNID">DSN ID.</param>
+            <param name="p_iNumLicenses">Number of Licenses.</param>
+            <param name="p_datLicenseUpdtDate">License update date.</param>
+            <returns>A boolean values that represents the success/failure.</returns>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.RMWinSecurity.IsConnectionValid(System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String@,System.String@)">
+            <summary>
+            This function is used to check the validity of the DSN created.
+            </summary>
+            <param name="p_sUseDSN">Represents whether the ODBC Driver/Predefined
+            datasource is being used.
+            </param>
+            <param name="p_sODBCDriverName">ODBC DriverName.</param>
+            <param name="p_sUserName">User Name.</param>
+            <param name="p_sPassword">Password.</param>
+            <param name="p_sServerName">ServerName.</param>
+            <param name="p_sDBFileName">DB FileName.</param>
+            <param name="p_sView">Whether server/file view is being used.</param>
+            <param name="p_sCallingMethod">Represents the calling method.</param>
+            <param name="p_sAdditionalParams">Additional Parameters.</param>
+            <param name="p_sAdditionalParamsChecked">Whether Additional Parameters
+            checked or not.
+            </param>
+            <param name="p_sMessage">Represents the message, if connection is valid/not
+            </param>
+            <param name="p_sConnectionStr">Connection string.</param>
+            <returns>A boolean values that represents the success/failure.</returns>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.RMWinSecurity.LoadAllModules(System.String,System.Int32,System.Collections.ArrayList@,System.Collections.ArrayList@,System.Collections.ArrayList@)">
+            <summary>
+            Used to load all the modules.
+            </summary>
+            <param name="p_sRMDSN">The underlying RM DB DSN.</param>
+            <param name="p_iGroupID">Group ID for which modules are to be loaded.</param>
+            <param name="p_arrlstAllModules">An array of all the loaded modules.</param>
+            <param name="p_arrlstIsAllowed">An array representing whether a module is granted
+            access or not.
+            </param>
+            <param name="p_arrlstIsParent">An array representing whether a module is a 
+            parent/not.
+            </param>
+            <returns>A boolean values that represents the success/failure.</returns>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.RMWinSecurity.LoadDataSources(System.Collections.ArrayList@)">
+            <summary>
+            Used to load the datasources.
+            </summary>
+            <param name="p_arrlstAllDataSources">An array of loaded datasources.</param>
+            <returns>A boolean values that represents the success/failure.</returns>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.RMWinSecurity.LoadLanguages(System.Collections.ArrayList@)">
+            <summary>
+            Used to load the languages.
+            </summary>
+            <param name="p_arrlstLanguages">An array of loaded languages.</param>
+            <returns>A boolean values that represents the success/failure.</returns>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.RMWinSecurity.LoadModuleGroups(System.Int32,System.Collections.ArrayList@,System.Collections.ArrayList@)">
+            <summary>
+            Used to load the module groups.
+            </summary>
+            <param name="p_arrlstAllModuleGroups">An array of Loaded module groups.</param>
+            <param name="p_arrlstUsersAllowed">An array of the users allowed in the respective
+            module groups.
+            </param>
+            <returns>A boolean values that represents the success/failure.</returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.Application.SecurityManagement.RMWinSecurity.LoadUserLoginData(System.String,System.String)" -->
+        <member name="M:Riskmaster.Application.SecurityManagement.RMWinSecurity.LoadUsers(System.Collections.ArrayList@)">
+            <summary>
+            Loads the users.
+            </summary>
+            <param name="p_arrlstAllUsers">An array of loaded users.</param>
+            <returns>A boolean values that represents the success/failure.</returns>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.RMWinSecurity.LoadUsersLogins(System.Collections.ArrayList@)">
+            <summary>
+            Loads the users that are allowed to login to a datasource.
+            </summary>
+            <param name="p_arrlstPermToLogin">An array of loaded users.</param>
+            <returns>A boolean values that represents the success/failure.</returns>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.RMWinSecurity.SaveEmailData(System.String,System.String,System.Boolean)">
+            <summary>
+            Used to save the e-mail related data.
+            </summary>
+            <param name="p_sSMTP">SMTP Server.</param>
+            <param name="p_sEMail">E-mail address.</param>
+            <param name="p_bSecureDSN">Secure DSN/Not.</param>
+            <returns>A boolean values that represents the success/failure.</returns>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.RMWinSecurity.SaveDomainAuthenticationData(System.Boolean)">
+            <summary>
+            Used Enable/Disable Domain authentication on the whole
+            </summary>      
+            <returns>A boolean values that represents the success/failure.</returns>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.RMWinSecurity.AddEditDomain(System.String,System.String,System.Boolean)">
+            <summary>
+            Used for adding/editing new Domain names 
+            </summary>      
+            <returns>A boolean values that represents the success/failure.</returns>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.RMWinSecurity.DeleteDomainName(System.String)">
+            <summary>
+            Delete Domain Name
+            </summary>     
+            <returns>A boolean values that represents the success/failure.</returns>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.RMWinSecurity.SaveUserLoginData(System.String,System.String)">
+            <summary>
+            Used to save the user name and password.
+            </summary>
+            <param name="p_sUserName">User name.</param>
+            <param name="p_sPassword">Password.</param>
+            <returns>A boolean values that represents the success/failure.</returns>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.RMWinSecurity.SetupData(System.Int32,System.String@,System.String@,System.String@,System.String@,Riskmaster.Application.SecurityManagement.DataSources@)">
+            <summary>
+            Used to retrieve various information related to a datasource.
+            </summary>
+            <param name="p_iDSNID">DSN ID.</param>
+            <param name="p_sServer">Server name.</param>
+            <param name="p_sDatabase">Database name.</param>
+            <param name="p_sDriver">Driver name.</param>
+            <returns>A boolean values that represents the success/failure.</returns>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.RMWinSecurity.UpdateLicenseInfo(System.String,System.Int32,System.String@)">
+            <summary>
+            Used to update the license information.
+            </summary>
+            <param name="p_sCode">Code provided to update the information.</param>
+            <param name="p_iDSNID">DSN ID.</param>
+            <param name="p_sMessage">Message representing whether the information has
+            been updated/not.
+            </param>
+            <returns>A boolean values that represents the success/failure.</returns>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.RMWinSecurity.ValidateLicenseInfo(System.String,System.String,System.Int32@,System.String@,System.String@)">
+            <summary>
+            Used to validate the license information.
+            </summary>
+            <param name="p_sLicenseCode">License Code.</param>
+            <param name="p_sDSName">DS Name.</param>
+            <param name="p_iNumLicenses">Number of licenses.</param>
+            <param name="p_sLicenseUpdateDate">License update date.</param>
+            <param name="p_sMessage">Message showing whether the code entered is correct
+            or not.
+            </param>
+            <returns>A boolean values that represents the success/failure.</returns>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.RMWinSecurity.QueryValue(System.String,System.String)">
+            <summary>
+            Returns the query value from the registry based on the key name and the value
+            passed.
+            </summary>
+            <param name="p_sKeyName">Key name.</param>
+            <param name="p_sValueName">Value name.</param>
+            <returns>A string for the query based on sKeyName and sValueName</returns>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.RMWinSecurity.SplitForStringPattern(System.String,System.String,System.Collections.ArrayList@)">
+            <summary>
+            Split a string based on some string pattern.
+            </summary>
+            <param name="p_sString">String to be splitted.</param>
+            <param name="p_sPattern">Pattern with in the string.</param>
+            <param name="p_arrlstSplit">Array containing the splitted sub strings.</param>
+            <returns>A boolean values that represents the success/failure.</returns>
+        </member>
+        <member name="T:Riskmaster.Application.SecurityManagement.Security">
+             <summary> 
+            Author  :   Tanuj Narula
+            Dated   :   3rd,July 2004
+            Purpose :   Contains the functions related to XML processing.
+             </summary>
+        </member>
+        <member name="F:Riskmaster.Application.SecurityManagement.Security.CODE_ACCESS_PUBLIC_KEY">
+            <summary>
+            This is code access key control.
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.Security.#ctor">
+            <summary>
+            This is the default constructor.
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.SecurityManagement.Security.m_iID">
+            <summary>
+            Contains UserId.
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.SecurityManagement.Security.m_iDSNID">
+            <summary>
+            Contains DSN ID.
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.Security.GetXMLData(System.String,System.Xml.XmlDocument@)">
+            <summary>
+            This function acts as a wrapper over actual functions for filling various XmlDocuments.
+            If some error occurs while processing Xml,it throws that error back to client application with appropriate message. 
+            </summary>
+            <param name="p_sFormName">Name of the form for which Xml to be filled in.</param>
+            <param name="p_objXMLForm">Xml document to be filled in.</param>
+            <returns>True if successful else throws error back to client application.</returns>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.Security.GetUserInfoData(System.Xml.XmlDocument@)">
+            <summary>
+            This function acts as wrapper over actual function call of FillUserInfoDOM() function which fills XmlDocument corresponding to a user.
+            </summary>
+            <param name="p_objXMLForm">XmlDocument to be filled.</param>
+            <returns>True if successful else throw custom exception.</returns>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.Security.GetDataSourceInfoData(System.Xml.XmlDocument@)">
+            <summary>
+            This function acts as wrapper over actual function call of FillDataSourceInfoDOM() function which actually fills XmlDocument corresponding to a DataSource.
+            </summary>
+            <param name="p_objXMLForm">XmlDocument to be filled.</param>
+            <returns>True if successful else throws custom exception.</returns>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.Security.GetUserAccessPermData(System.Xml.XmlDocument@)">
+            <summary>
+             This function acts as wrapper over actual function call of 
+             FillUserAccessPermDOM() function which actually fills XmlDocument corresponding to a DataSource.
+            </summary>
+            <param name="p_objXMLForm">XmlDocument to be filled.</param>
+            <returns>True if successful else throws custom exception.</returns>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.Security.FillUserInfoDOM(System.Xml.XmlDocument@)">
+            <summary>
+             This function actually fills XmlDocument corresponding to a User.
+            </summary>
+            <param name="p_objXMLForm">XmlDocument to be filled in.</param>
+            <returns>True if successful else throws custom exception.</returns>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.Security.FillDataSourceInfoDOM(System.Xml.XmlDocument@)">
+            <summary>
+             This function actually fills XmlDocument corresponding to a DataSource.
+            </summary>
+            <param name="p_objXMLForm">XmlDocument to be filled in.</param>
+            <returns>True if successful else throws custom exception.</returns>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.Security.getDomainNames">
+            <summary>
+             This function fills XmlDocument corresponding to DomainOptions.
+            </summary>
+            <param name="p_objXMLForm">XmlDocument to be filled in.</param>
+            <returns>True if successful else throws custom exception.</returns>
+            
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.Security.FillEmailOptionsDOM(System.Xml.XmlDocument@)">
+            <summary>
+             This function fills XmlDocument corresponding to EmailOptions.
+            </summary>
+            <param name="p_objXMLForm">XmlDocument to be filled in.</param>
+            <returns>True if successful else throws custom exception.</returns>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.Security.GetODBCDrivers(System.Xml.XmlDocument@)">
+            <summary>
+            This function gets the xml for ODBC drivers.
+            </summary>
+            <param name="p_objXMLForm">Xml document contains the xml.</param>
+            <returns>True or false.</returns>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.Security.GetPredefinedDSNXml(System.Xml.XmlDocument@)">
+            <summary>
+            This function gets the xml for Predefined dsns.
+            </summary>
+            <param name="p_objXMLForm">Contains the xml for Prdefined dsns.</param>
+            <returns>True or false.</returns>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.Security.GetDBValidateXml(System.Xml.XmlDocument@)">
+            <summary>
+            This function validates the database connection and returns the related data.
+            </summary>
+            <param name="p_objXMLForm">Contains the connection related data.</param>
+            <returns>True or false.</returns>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.Security.GetValidateLicenseXml(System.Xml.XmlDocument@)">
+            <summary>
+            This function checks for licence information  
+            </summary>
+            <param name="p_objXMLForm">Contains licence related information.</param>
+            <returns>True or false.</returns>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.Security.FillDSNWizardServerLoginDOM(System.Xml.XmlDocument@,System.String,System.String,System.String,System.String)">
+            <summary>
+             This function fills XmlDocument corresponding to DSNWizardServerLogin.
+            </summary>
+            <param name="p_objXMLForm">Xmldocument to be filled.</param>
+            <param name="p_sServerName">Server Name,pass either "-1" or some appropriate value.</param>
+            <param name="p_sDBName">Database name,pass either "-1" or some appropriate value.</param>
+            <param name="p_sLoginName">Login name,pass either "-1" or some appropriate value.</param>
+            <param name="p_sLoginPassword">Password,pass either "-1" or some appropriate value.</param>
+            <returns>True if successful else throws custom exception.</returns>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.Security.FillDSNWizardDSNLoginDOM(System.Xml.XmlDocument@,System.String,System.String)">
+            <summary>
+            This function fills XmlDocument corresponding to DSNWizardDSNLogin.
+            </summary>
+            <param name="p_objXMLForm">Xmldocument to be filled</param>
+            <param name="p_sLoginName">Login name,pass either "-1" or some appropriate value.</param>
+            <param name="p_sLoginPassword">Password,pass either "-1" or some appropriate value.</param>
+            <returns>True if successful else throws custom exception.</returns>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.Security.FillDSNWizardFileLoginDOM(System.Xml.XmlDocument@,System.String,System.String,System.String)">
+            <summary>
+            This function fills XmlDocument corresponding to DSNWizardFileLogin.
+            </summary>
+            <param name="p_objXMLForm">Xmldocument to be filled.</param>
+            <param name="p_sDbFileName">>DbFileName,pass either "-1" or some appropriate value.</param>
+            <param name="p_sLoginName">>LoginName,pass either "-1" or some appropriate value.</param>
+            <param name="p_sLoginPassword">>Password,pass either "-1" or some appropriate value.</param>
+            <returns>True if successful else throws custom exception.</returns>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.Security.GetSelectedDataSource(System.Xml.XmlDocument@,System.Int32)">
+            <summary>
+            This function fills the selected datasource xmldocument.
+            </summary>
+            <param name="p_objXMLForm">XmlDocument to be filled.</param>
+            <param name="p_iId">Item id to be selected from XmlDocument.</param>
+            <returns>>True if successful else throws custom exception.</returns>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.Security.FillUserAccessPermDOM(System.Xml.XmlDocument@)">
+            <summary>
+            This function fills XmlDocument corresponding to UserAccessPermissions.
+            </summary>
+            <param name="p_objXMLForm">Xmldocument to be filled</param>
+            <returns>True if successful else throws custom exception.</returns>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.Security.PopulateSMSAccessValue(System.Xml.XmlElement,System.Int32,System.Xml.XmlElement)">
+            <summary>PopulateSMSAccessValue()
+            This method searches for records from the SMS_USERS table depending upon the record_id, user_id
+            and login_name. If the record is found then it sets the SMSAccess checkbox's value as true else
+            false. It also searches the conditions for a user to be an admin user
+            </summary>
+            <param name="p_objElement">It represents the SMSAccess checkbox value from instance</param>
+            <param name="iUserID">User ID from USER_TABLE</param>
+            <param name="p_objSMSSdminFlag">Admin flag</param>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.Security.GetEmailOptionData(System.Xml.XmlDocument@)">
+            <summary>
+            This function acts as wrapper over actual function call of FillEmailOptionsDOM() function which actually fills XmlDocument corresponding to EmailOptions.
+            </summary>
+            <param name="p_objXMLForm">Xmldocument to be filled.</param>
+            <returns>True if successful else throws custom exception.</returns>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.Security.GetDomainAuthenticationData(System.Xml.XmlDocument@)">
+            <summary>
+            This function acts as wrapper over actual function call of FillDomainAuthenticationDOM() function which actually fills XmlDocument corresponding to DomainAuthentication.
+            </summary>
+            <param name="p_objXMLForm">Xmldocument to be filled.</param>
+            <returns>True if successful else throws custom exception.</returns>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.Security.ContainsNull(System.String)">
+            <summary>
+            It determines whether the input string is empty/null string or not
+            </summary>
+            <param name="p_sStrVal">Input string to this function either empty/null or with some value. </param>
+            <returns>Returns true,if the input string is empty/null or returns false,if input string has some value contained in it.</returns>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.Security.CreateOptionList(System.Xml.XmlDocument@,System.Xml.XmlElement,Riskmaster.Application.SecurityManagement.CreateOptionsFor)">
+            <summary>
+            This function creates the option list for various drop down boxes.
+            </summary>
+            <param name="p_objXMLForm">Xml doc.</param>
+            <param name="p_objParentNode">Option list will be appended to this node.</param>
+            <param name="enumOption">Option for creating option lists.</param>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.Security.GetQueryForAllDsns">
+            <summary>
+            This function returns the qury for getting all dsns.
+            </summary>
+            <returns>Query string.</returns>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.Security.GetQueryForDSNSpecificModuleGrps(System.Int32,System.String@)">
+            <summary>
+            This function returns query string for dsn specific module grps.
+            </summary>
+            <param name="p_iDsnId">Dsn id</param>
+            <param name="p_sConnStr">Conn str.</param>
+            <returns>Qury string.</returns>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.Security.GetQueryForUserSpecificDsns">
+            <summary>
+            This function returns the query string for User specific dsns.
+            </summary>
+            <returns>Query string.</returns>
+        </member>
+        <member name="P:Riskmaster.Application.SecurityManagement.Security.ID">
+            <summary>
+            This represents the UserId. 
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Application.SecurityManagement.Security.DSNID">
+            <summary>
+            DSNID, Key in database
+            </summary>
+        </member>
+        <member name="T:Riskmaster.Application.SecurityManagement.CreateOptionsFor">
+            <summary>
+             Enum containing options for creating option lists. 
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "T:Riskmaster.Application.SecurityManagement.RMModules" -->
+        <member name="F:Riskmaster.Application.SecurityManagement.RMModules.m_sConnectionString">
+            <summary>
+            Represents the connection string for the underlying RM DB.
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.SecurityManagement.RMModules.m_iID">
+            <summary>
+            Represents the Module ID.
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.SecurityManagement.RMModules.m_iParentID">
+            <summary>
+            Represents the Parent Module ID.
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.SecurityManagement.RMModules.m_sModuleName">
+            <summary>
+            Represents the Module Name.
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.SecurityManagement.RMModules.m_iEntryType">
+            <summary>
+            Represents the entry type for a particular module/submodule.
+            viz. 0=base module, 1=standard permission, 2=specific permission.
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.RMModules.#ctor(System.String)">
+            <summary>
+            Constructor for CRMModules class. 
+            </summary>
+            <param name="p_sConnectionstring">
+            Connection string, to be used to connect to the underlying RM Database.
+            </param>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.RMModules.Load(System.Collections.ArrayList@)">
+            <summary>
+            Loads various modules/submodules based on certain conditions.
+            </summary>
+            <returns>
+            Boolean value representing success/failure.
+            </returns>
+        </member>
+        <member name="P:Riskmaster.Application.SecurityManagement.RMModules.EntryType">
+            <summary>
+            Represents the entry type for a particular module/submodule.
+            viz. 0=base module, 1=standard permission, 2=specific permission.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Application.SecurityManagement.RMModules.ModuleName">
+            <summary>
+            Represents the name of the module.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Application.SecurityManagement.RMModules.ParentID">
+            <summary>
+            Represents the parent ID for a module.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Application.SecurityManagement.RMModules.ID">
+            <summary>
+            Represents the ID for a module.
+            </summary>
+        </member>
+        <member name="T:Riskmaster.Application.SecurityManagement.DataSources">
+             <summary>
+            Author  :   Tanuj Narula
+            Dated   :   24th,June 2004
+            Purpose :   Riskmaster.Application.SecurityManagement.DataSources class is a Public class and is used for connecting,identifying 
+                        and setting various parameters for riskmaster DataSources.
+             </summary>
+        </member>
+        <member name="F:Riskmaster.Application.SecurityManagement.DataSources.CODE_ACCESS_PUBLIC_KEY">
+            <summary>
+            This is code access public key.
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.DataSources.#ctor">
+            <summary>
+            Riskmaster.Application.SecurityManagement.DataSources is default constructor.
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.DataSources.#ctor(System.Int32,System.Boolean)">
+             <summary>
+             Riskmaster.Application.SecurityManagement.DataSources is the constructor with parameter. Constructor call after the attribute 
+             [System.Security.Permissions.StrongNameIdentityPermission(System.Security.Permissions.SecurityAction.LinkDemand, PublicKey=CODE_ACCESS_PUBLIC_KEY)].
+             This constructor calls the function Load() and serves as a wrapper.
+             First Code Access Security Usage.
+             This attribute requires that any caller to have a strongname proving that it's CSC Riskmaster Code. 
+             To ensure that your assembly has an appropriate strongname, place the following line in the 
+             AssemblyInfo.cs file:
+            [assembly: AssemblyKeyFile("..\\..\\..\\Riskmaster.snk")].Here the path of the .snk file has to be specified relative to your project.
+             </summary>
+             <param name="p_iDsnId">DsnId,corresponding to which object will be populated.</param>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.DataSources.Load(System.Collections.ArrayList@)">
+             <summary>
+            This function call loads the DataSource collection(m_arrlstDataSourcesCol) defined in PublicFunctions.cs. 
+            First Code Access Security Usage.
+            This attribute requires that any caller to have a strongname proving that it's CSC Riskmaster Code. 
+            To ensure that your assembly has an appropriate strongname, place the following line in the 
+            AssemblyInfo.cs file:
+            [assembly: AssemblyKeyFile("..\\..\\..\\Riskmaster.snk")].Here the path of the .snk file has to be specified relative to your project.
+             </summary>
+             <returns></returns>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.DataSources.Remove(System.Int32)">
+            <summary>
+            This function call actually removes the DataSource from database.One can directly call this function by passing in the DataSource_Id to be deleted 
+            or load this class with Datasource_Id and call its Remove() function to do the same job.
+            </summary>
+            <param name="p_iDataSourceId"></param>
+            <returns>True if successful else throws error.</returns>
+        </member>
+        <member name="T:Riskmaster.Application.SecurityManagement.Users">
+             <summary>
+            Author  :   Tanuj Narula
+            Dated   :   18th,June 2004
+            Purpose :   Riskmaster.Application.SecurityManagement.Users class classifies User’s details on context of Riskmaster, 
+                        it contain all the information about the user like Name,City,Country Phone etc
+             </summary>
+        </member>
+        <member name="F:Riskmaster.Application.SecurityManagement.Users.CODE_ACCESS_PUBLIC_KEY">
+            <summary>
+            This is code access public key.
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.Users.#ctor">
+            <summary>
+            Riskmaster.Application.SecurityManagement.Users is the default constructor.
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.Users.#ctor(System.Int32)">
+            <summary>
+            Riskmaster.Application.SecurityManagement.User constructor with parameter. 
+            This constructor calls the function Load() and serves as a wrapper.
+            </summary>
+            <param name="p_iUserId">Value of the userid corresponding to which object will be populated.</param>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.Users.Load(System.Collections.ArrayList@)">
+            <summary>
+            This function call loads the user collection(m_arrlstUserCol) defined in PublicFunctions.cs. 
+            First Code Access Security Usage.
+            This attribute requires that any caller to have a strongname proving that it's CSC Riskmaster Code. 
+            To ensure that your assembly has an appropriate strongname, place the following line in the 
+            AssemblyInfo.cs file:
+            [assembly: AssemblyKeyFile("..\\..\\..\\Riskmaster.snk")].Here the path of the .snk file has to be specified relative to your project.
+            </summary>
+            <returns>True if successful else throws error.</returns>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.Users.Remove(System.Int32)">
+            <summary>
+            This function call actually removes the user from database.One can directly call this function by passing in the User_Id to be deleted 
+            or load this class with User_Id and call its Remove() function to do the same job.
+            </summary>
+            <param name="p_iUserId"></param>
+            <returns>True if successful else throws error.</returns>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.Users.SaveUserLayout(System.Int32,System.Int32)">
+            <summary>
+            This function call saves the user default screen layout in the database.
+            </summary>
+            <param name="p_iUserId"></param>
+            <param name="p_iDsnId"></param>
+            <returns>Nothing</returns>
+        </member>
+        <member name="T:Riskmaster.Application.SecurityManagement.SMSAccessManager">
+            <summary>
+            Summary description for SMSAccessManager. Tanuj
+            </summary>
+        </member>
+        <member name="T:Riskmaster.Application.SecurityManagement.PublicFunctions">
+             <summary>
+            Author  :   Tanuj Narula
+            Dated   :   26th,June 2004
+            Purpose :   This class contains the functions which are common across security framework.
+             </summary>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.PublicFunctions.#ctor">
+            <summary>
+            This is the default constructor.
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.SecurityManagement.PublicFunctions.m_Security">
+            <summary>
+            This object will contain the instance of RMWinSecurity class.
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.PublicFunctions.IsEmptyStr(System.String)">
+            <summary>
+            This function flags whether the string is empty or not.
+            </summary>
+            <param name="p_sVal">Input string</param>
+            <returns>True if input string is empty,false if it is not.</returns>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.PublicFunctions.WorkerForException(System.Exception,System.Exception@)">
+            <summary>
+            This function retrieves the inner most exception. 
+            </summary>
+            <param name="p_objException">Occured Exception.</param>
+            <param name="p_objRetException">Inner most exception.</param>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.PublicFunctions.CheckAndSetDefaultVal(System.String)">
+            <summary>
+            This function checks the time value and returns the appropriate valu.
+            </summary>
+            <param name="p_sTime">Input time.</param>
+            <returns>Fomatted time</returns>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.PublicFunctions.FormatTimeToDbTime(System.String)">
+            <summary>
+            This function formats time to DB type time.
+            </summary>
+            <param name="p_sTimeString">String to be formatted.</param>
+            <returns>Formatted time.</returns>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.PublicFunctions.Decrypt(System.String)">
+            <summary>
+            This call decrypts the input string.
+            </summary>
+            <param name="p_sVal">String to be decrypted.</param>
+            <returns>Object containing decrypted value.</returns>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.PublicFunctions.Encrypt(System.String)">
+            <summary>
+            This call encrypts the input string.
+            </summary>
+            <param name="p_sVal">String to be encrypted.</param>
+            <returns>Object containing encrypted string.</returns>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.PublicFunctions.GetFromDbTime(System.String)">
+            <summary>
+            This function call will convert one time format to another.
+            </summary>
+            <example>Input string time->2100.Output time string->21:00</example>
+            <param name="p_sVal">Input time string.</param>
+            <returns>Formatted time.</returns>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.PublicFunctions.GetFormattedTime(System.String)">
+            <summary>
+            This function converts one time format to another format.
+            </summary>
+            <example>Input time string->13:00.Output time string->1:00 PM</example>
+            <param name="p_sVal">String time whose format to be changed.</param>
+            <returns>Formatted time</returns>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.PublicFunctions.GetTimeFromDbTime(System.String)">
+            <summary>
+            This call will convert time from one format to another format.
+            </summary>
+            <param name="p_sVal">Input string time to be converted</param>
+            <returns>String time in the required format.</returns>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.PublicFunctions.IsDSNValid(System.String,System.String,System.String@)">
+            <summary>
+            Determines whether the DSN is valid or not.
+            </summary>
+            <param name="p_sConnectStr">The connection string to be validated.</param>
+            <param name="p_sCallMethod">The calling method for validating the DSN.</param>
+            <returns>A string representing whether the connection string is valid or not.</returns>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.PublicFunctions.ProcessButtons(System.Xml.XmlDocument@,System.Collections.Hashtable@,System.Boolean)">
+            <summary>
+            This function adds attributes onto buttons.
+            </summary>
+            <param name="p_objDoc">Doc containing button tags.</param>
+            <param name="htAttributes">Hashtable containing attributes to be applied.</param>
+            <param name="p_bExistingdsn">Flag for existing dsn.</param>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.PublicFunctions.FindRecentlyAddedEntity(System.String,System.String)">
+            <summary>
+            This function returns the most recently added entity. 
+            </summary>
+            <param name="p_sEntityType">Type of the entity to search.</param>
+            <param name="p_sConnStr">Connection string for DB.</param>
+            <returns>Id of the entity.</returns>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.PublicFunctions.BreakDbId(System.String)">
+            <summary>
+            This  function breaks the string into string array. 
+            </summary>
+            <param name="p_iIdDB">String containing comma seperated ids.</param>
+            <returns>String array.</returns>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.PublicFunctions.GetConnStr(System.Int32)">
+            <summary>
+            This function gets the conn str for given Dsn id.
+            </summary>
+            <param name="p_iDsnId">Dsn for which conn str to be fetched.</param>
+            <returns>Conn str.</returns>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.PublicFunctions.GetPmAmTimeFromDbTimeFormat(System.String)">
+            <summary>
+            This function gets the time in AmPm time from db type time.
+            </summary>
+            <param name="p_sVal">Db time format string.</param>
+            <returns>AmPm time. </returns>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.PublicFunctions.GetDateFrmCalDate(System.String)">
+            <summary>
+            This function returns the system date time from calendar date. 
+            </summary>
+            <param name="p_sCalDate">Calendar date.</param>
+            <returns>System date time</returns>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.PublicFunctions.GetConnStr(System.Int32,Riskmaster.Application.SecurityManagement.DataSources@)">
+            <summary>
+            This function gets the conn str for for given dsn id.
+            </summary>
+            <param name="p_iDsnId">Dsn id.</param>
+            <param name="p_objDatasource">outputs datasource object as well.</param>
+            <returns>Conn str.</returns>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.PublicFunctions.LogError(Riskmaster.Common.LogItem@)">
+            <summary>
+            This function logs the exception.
+            </summary>
+            <param name="p_objLog">Log item.</param>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.PublicFunctions.CreateElement(System.Xml.XmlElement@,System.String,System.String,System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            This function populates the a xmlelement object with values passed as parameters.
+            </summary>
+            <param name="p_objElement">Xmlelement object to populate</param>
+            <param name="text">Text value</param>
+            <param name="title">Title of the node</param>
+            <param name="url">Url of the node</param>
+            <param name="icon">Icon of the node</param>
+            <param name="type">Type of the node</param>
+            <param name="entityType">EntityType of the node</param>
+            <param name="idDb">Database id of the node</param>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.PublicFunctions.CreateElement(System.Xml.XmlElement@,System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            This function populates the a xmlelement object with values passed as parameters.
+            </summary>
+            <param name="p_objElement">Xmlelement object to populate</param>
+            <param name="text">Text value</param>
+            <param name="title">Title of the node</param>
+            <param name="url">Url of the node</param>
+            <param name="icon">Icon of the node</param>
+            <param name="type">Type of the node</param>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.PublicFunctions.CheckUserMembership(System.Int32@,System.Int32,System.String)">
+            <summary>
+            This function checks for user existence in USER_MEMBERSHIP table.
+            </summary>
+            <param name="p_iGroupID">Grp id.</param>
+            <param name="p_iUserID">user id.</param>
+            <param name="p_sConnectionString">Conn str.</param>
+            <returns>True or false; depending upon existence.</returns>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.PublicFunctions.IsPwdPolEnabled">
+            Name		: IsPwdPolEnabled
+            Author		: Anurag Agarwal
+            Date Created	: 11 Jul 2006		
+            ************************************************************
+            Amendment History
+            ************************************************************
+            Date Amended   *   Amendment   *    Author
+                           *               *
+                           *               *
+            ************************************************************
+            <summary>
+            Function will check whether the password policy is enforced or not.
+            It will read this from Config file.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.PublicFunctions.IsScriptEditorEnabled(System.String)">
+            Name		: IsScriptEditorEnabled
+            Author		: Nitesh Deedwania
+            Date Created	: 06 Oct 2006		
+            ************************************************************
+            Amendment History
+            ************************************************************
+            Date Amended   *   Amendment   *    Author
+                           *               *
+                           *               *
+            ************************************************************
+            <summary>
+            Function will check whether the Script Editor is enabled or not.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.PublicFunctions.IsBillingSysEnabled(System.String)">
+            Name		: IsBillingSysEnabled
+            Author		: Shruti Choudhary
+            Date Created	: 03/20/2007		
+            ************************************************************
+            Amendment History
+            ************************************************************
+            Date Amended   *   Amendment   *    Author
+                           *               *
+                           *               *
+            ************************************************************
+            <summary>
+            Function will check whether the Billing System is enabled or not.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.PublicFunctions.IsEnhPolEnabled(System.String)">
+            Name		: IsEnhPolEnabled
+            Author		: Divya
+            Date Created	: 03/21/2007		
+            ************************************************************
+            Amendment History
+            ************************************************************
+            Date Amended   *   Amendment   *    Author
+                           *               *
+                           *               *
+            ************************************************************
+            <summary>
+            Function will check whether the Billing System is enabled or not.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.PublicFunctions.IsPasswordComplex(System.String,System.Int32,System.String,System.String)">
+            Name		: IsPasswordComplex
+            Author		: Anurag Agarwal
+            Date Created	: 10 Jul 2006		
+            ************************************************************
+            Amendment History
+            ************************************************************
+            Date Amended   *   Amendment   *    Author
+                           *               *
+                           *               *
+            ************************************************************
+            <summary>
+            Function will check the complexity of Password passed. The rules of complexity checking will be
+            1) The Password length must be in between 8 to 20 chars
+            2) User can not choose previous passwords, The number is stored in Security database. 
+            	Table PASSWORD_POLICY_PARMS -> Field PREVIOUS_PWDS_TO_KEEP
+            3) The password should not contain user full name or account name
+            4) Should contain any of the three kind of literals out of four
+            	a) English Uppercase letters (A to Z)
+            	b) English Lowercase letters (a to z)
+            	c) Numerals (0 to 9)
+            	d) Non-alphabetic chars (such as !, $, #, %)
+            </summary>
+            <param name="p_iUserId"></param>
+            <param name="p_sPassword"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Riskmaster.Application.SecurityManagement.Constants">
+            <summary>
+            Author  :   Tanuj Narula
+            Dated   :   26th,June 2004
+            Purpose :  This is used for setting the constant values.All the constant values should be added in here.
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.SecurityManagement.Constants.CRYPTKEY">
+            <summary>
+            This is crypt key's value.
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.Constants.#ctor">
+            <summary>
+            This is the default constructor
+            </summary>
+        </member>
+        <member name="T:Riskmaster.Application.SecurityManagement.PwdPolicyParms">
+             Name		: PwdPolicyParms
+             Author		: Anurag Agarwal
+             Date Created: 07/10/2006		
+            ************************************************************
+             Amendment History
+            ************************************************************
+             Date Amended    *  Amendment   *    Author
+            ************************************************************
+             <summary>
+             This class handles the Password Parms table. Also looks for Account Locked/Unlocked features
+             </summary>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.PwdPolicyParms.LoadParmsData(System.Xml.XmlDocument)">
+            Name		: LoadParmsData
+            Author		: Anurag Agarwal
+            Date Created	: 10 Jul 2006		
+            ************************************************************
+            Amendment History
+            ************************************************************
+            Date Amended   *   Amendment   *    Author
+                           *               *
+                           *               *
+            ************************************************************
+            <summary>
+            Function will load the data from Password Parms Table
+            </summary>
+            <param name="p_objXMLDocument">Instance Document</param>
+            <returns>Document filled with database values</returns>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.PwdPolicyParms.SaveParmsData(System.Xml.XmlDocument)">
+            Name		: SaveParmsData
+            Author		: Anurag Agarwal
+            Date Created	: 10 Jul 2006		
+            ************************************************************
+            Amendment History
+            ************************************************************
+            Date Amended   *   Amendment   *    Author
+                           *               *
+                           *               *
+            ************************************************************
+            <summary>
+            Function will save the data from Password Parms Table
+            </summary>
+            <param name="p_objXMLDocument">Instance Document</param>
+            <returns>Document filled with database values</returns>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.PwdPolicyParms.GetUsersList(System.Xml.XmlDocument@)">
+            Name		: GetUsersList
+            Author		: Anurag Agarwal
+            Date Created	: 10 Jul 2006		
+            ************************************************************
+            Amendment History
+            ************************************************************
+            Date Amended   *   Amendment   *    Author
+                           *               *
+                           *               *
+            ************************************************************
+            <summary>
+            Function will Load the list of Users with there status of locked/Unlocked
+            </summary>
+            <param name="p_objXMLDocument">Instance Document</param>
+            <returns>Document filled with User list</returns>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.PwdPolicyParms.UnlockUserAccount(System.Xml.XmlDocument@)">
+            Name		: UnlockUserAccount
+            Author		: Anurag Agarwal
+            Date Created	: 10 Jul 2006		
+            ************************************************************
+            Amendment History
+            ************************************************************
+            Date Amended   *   Amendment   *    Author
+                           *               *
+                           *               *
+            ************************************************************
+            <summary>
+            Function will Unlock the selected list of Users 
+            </summary>
+            <param name="p_objXMLDocument">Instance Document</param>
+            <returns>returns success or failure</returns>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.PwdPolicyParms.LockUserAccount(System.Xml.XmlDocument@)">
+            Name		: LockUserAccount
+            Author		: Anurag Agarwal
+            Date Created	: 10 Jul 2006		
+            ************************************************************
+            Amendment History
+            ************************************************************
+            Date Amended   *   Amendment   *    Author
+                           *               *
+                           *               *
+            ************************************************************
+            <summary>
+            Function will Lock the selected list of Users 
+            </summary>
+            <param name="p_objXMLDocument">Instance Document</param>
+            <returns>returns success or failure</returns>
+        </member>
+        <member name="T:Riskmaster.Application.SecurityManagement.UserPermissions">
+            <summary>
+            Summary description for UserPermissions.
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.SecurityManagement.UserPermissions.RMB_RISKMASTER">
+            <summary>
+            Constants for security
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.SecurityManagement.UserPermissions.m_sDSN">
+            <summary>
+            Private Connection String variable
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.SecurityManagement.UserPermissions.m_sSecureDSN">
+            <summary>
+            Private Security Connection  String variable
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.SecurityManagement.UserPermissions.m_sUserId">
+            <summary>
+            Private string for UserId
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.UserPermissions.RemoveNode(System.Xml.XmlDocument,System.String)">
+            Name			: RemoveNode
+            Date Created	: 15-Dec-2005
+            ************************************************************
+            Amendment History
+            ************************************************************
+            Date Amended	*   Amendment   *    Author
+            				*				*
+            				*				*	
+            ************************************************************
+            <summary>
+            Removes nodes from the XML.
+            </summary>
+            <param name="p_objDocument">
+            	Input Xml from which the node will be removed.
+            </param>
+            <param name="p_sNodeName">
+            	Node to be removed.
+            </param>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.UserPermissions.SearchRemoveAttributeNode(System.Xml.XmlDocument,System.Xml.XmlDocument,System.String,System.String)">
+            Name			: SearchRemoveAttributeNode
+            Date Created	: 02-Mar-2006
+            ************************************************************
+            Amendment History
+            ************************************************************
+            Date Amended	*   Amendment   *    Author
+            				*				*
+            				*				*	
+            ************************************************************
+            <summary>
+            Removes nodes from the XML.
+            </summary>
+            <param name="p_objDocument">
+            	Input Xml from which the node will be removed.
+            </param>
+            <param name="p_sNodeName">
+            	Node to be removed.
+            </param>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.UserPermissions.SearchRemoveNode(System.Xml.XmlDocument,System.Xml.XmlDocument,System.String,System.String)">
+            Name			: SearchRemoveNode
+            Date Created	: 02-Mar-2006
+            ************************************************************
+            Amendment History
+            ************************************************************
+            Date Amended	*   Amendment   *    Author
+            				*				*
+            				*				*	
+            ************************************************************
+            <summary>
+            Removes nodes from the XML.
+            </summary>
+            <param name="p_objDocument">
+            	Input Xml from which the node will be removed.
+            </param>
+            <param name="p_sNodeName">
+            	Node to be removed.
+            </param>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.UserPermissions.GetSecuredNavTreeForUser(System.Xml.XmlDocument,Riskmaster.Security.UserLogin)">
+            Name			: GetSecuredNavTreeForUser
+            Date Created	: 15-Dec-2005
+            ************************************************************
+            Amendment History
+            ************************************************************
+            Date Amended	*   Amendment   *    Author
+            				*				*
+            				*				*	
+            ************************************************************
+            <summary>
+            Get security details in Xml format.
+            </summary>
+            <param name="p_sDocument">
+            	Out Parameter. Returns security details in Xml format.
+            </param>
+            <returns>0 - Success</returns>		
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.Application.SecurityManagement.UserPermissions.GetAdminConfig(System.String)" -->
+        <member name="M:Riskmaster.Application.SecurityManagement.UserPermissions.AppendToNodeAttribute(System.Xml.XmlDocument,System.String,System.String,System.String)">
+            Name			: AppendToNodeAttribute
+            Date Created	: 03-Feb-2005
+            Created By		: Nikhil Garg
+            ************************************************************
+            Amendment History
+            ************************************************************
+            Date Amended	*   Amendment   *    Author
+            				*				*
+            				*				*	
+            ************************************************************
+            <summary>
+            	Appends a string to a node atribute
+            </summary>
+            <param name="p_objDocument">
+            	Input Xml which contains the node.
+            </param>
+            <param name="p_sNodeName">
+            	Node whose attribute has to be updated
+            </param>
+            <param name="p_sAttributeName">
+            	Attribute whose value has to be updated
+            </param>
+            <param name="p_sAppendString">
+            	String to be appended to the attribute value
+            </param>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.UserPermissions.ApplyPowerViewPermissions(System.Xml.XmlDocument,Riskmaster.Security.UserLogin,System.String)">
+            <summary>
+            Applies the powerview permissions no the nav-tree
+            TR#1158 Pankaj 01/03/06 If the system is within a Powerview, the navtree should show only the forms added to the view
+            </summary>
+            <param name="p_objXmlDoc">nav-tree xml</param>
+            <param name="p_objUserLogin">Userlogin object</param>
+            <param name="p_sView">view name</param>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.UserPermissions.AppendAttribute(System.Xml.XmlDocument,System.Xml.XmlDocument,System.String,System.String,System.String)">
+            Name			: AppendAttribute
+            Date Created	: 17-jan-2007
+            Created By		: Umesh Kusvaha
+            ************************************************************
+            Amendment History
+            ************************************************************
+            Date Amended	*   Amendment   *    Author
+            				*				*
+            				*				*	
+            ************************************************************
+            <summary>
+            	Appends  atribute to given node and set its value
+            </summary>
+             <param name="p_objSearchDocument">
+            	Input Xml from which the value of added attribute is decided.
+            </param>
+            <param name="p_objDocument">
+            	Input Xml in which attirbute has to be added.
+            </param>
+            <param name="p_sNodeSearchName">
+            	Node which decide the value of added attribute
+            </param>
+            <param name="p_sNodeName">
+            	Node to which the attribute has to be added
+            </param>
+            <param name="p_sAttributeName">
+            	name of attribute which is to be added 
+            </param>
+        </member>
+        <member name="T:Riskmaster.Application.SecurityManagement.PostbackHandler">
+            <summary>
+            This class handles the security tree postbacks.
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.PostbackHandler.#ctor">
+            <summary>
+            This is the default constructor.
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.PostbackHandler.LoadModuleGrpsHandlerForLeftTree(System.Xml.XmlDocument@,System.Xml.XmlDocument@,Riskmaster.Application.SecurityManagement.DataSources,System.Xml.XmlElement@,System.Xml.XmlElement@)">
+            <summary>
+            This function loads the module groups.
+            </summary>
+            <param name="p_objPostedDoc">The document to which module groups will be appended.</param>
+            <param name="objLeftTreeTemplate">Tree template</param>
+            <param name="p_objContextDsn">Dsn for which module groups to be appended</param>
+            <param name="p_objNodeToBeLoaded">Xmlelement object to which modules will be appended.</param>
+            <param name="objDataSource">Datasource Xmlelement object.</param>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.PostbackHandler.AddNewUserHandler(System.Xml.XmlDocument@,System.Xml.XmlDocument@)">
+            <summary>
+            This function handles the postback eventfor adding new user.
+            </summary>
+            <param name="p_objPostedDoc">Contains the parameters for new user.</param>
+            <param name="objLeftTreeTemplate">Security left tree structure.</param>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.PostbackHandler.UpdateUserHandler(System.Xml.XmlDocument@,System.Xml.XmlDocument@)">
+            <summary>
+            This function handles the update user functionality.
+            </summary>
+            <param name="p_objPostedDoc">Contains the parameters for updating the user.</param>
+            <param name="objLeftTreeTemplate">Security left tree structure.</param>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.PostbackHandler.CheckForExistingModuleGrps(System.Int32,System.Xml.XmlElement@)">
+            <summary>
+            This function checks whether a dsn has module groups or not.
+            </summary>
+            <param name="p_iDsnId">Dsn id</param>
+            <param name="p_objModuleSecGroupsElement">Module groups node.</param>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.PostbackHandler.AppendModuleGroups(System.Xml.XmlElement@,System.Int32,System.Xml.XmlDocument@,System.Boolean)">
+            <summary>
+            This functin appends the module groups for a particular Dsn.
+            </summary>
+            <param name="p_objModuleSecGroupsElement">Module security groups element</param>
+            <param name="p_iDsnId">Dsn id; to which module groups will be appended.</param>
+            <param name="p_objXmlDoc">Contains the parameters for appending the module groups.</param>
+            <param name="bInvokedByLoadModuleGrpsHandler">Flags whether this function is invoked from LoadModuleGroups function or not.</param>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.PostbackHandler.UpdateUserPermHandler(System.Xml.XmlDocument@,System.Xml.XmlDocument@,Riskmaster.Application.SecurityManagement.DataSources,System.Xml.XmlElement@,System.Xml.XmlElement@)">
+            <summary>
+            This function handles the update permitted user postback.
+            </summary>
+            <param name="p_objPostedDoc">Contains the parameters for updating the permitted user</param>
+            <param name="objLeftTreeTemplate">Security left tree structure.</param>
+            <param name="p_objContextDsn">Datasource object.</param>
+            <param name="p_objNodeToBeLoaded">Node to which information to be appended.</param>
+            <param name="objDataSource">Datasource element.</param>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.PostbackHandler.AddNewDatasourceHandler(System.Xml.XmlDocument@,System.Xml.XmlDocument@)">
+            <summary>
+            This function handles the add new datasource functionality.
+            </summary>
+            <param name="p_objPostedDoc">Contains the parameters for adding a new datasource.</param>
+            <param name="objLeftTreeTemplate">Security left tree structure.</param>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.PostbackHandler.DeleteDBEntities(System.Xml.XmlDocument@)">
+            <summary>
+            This function handles the delete functionality.
+            </summary>
+            <param name="p_objPostedDoc">Contains the parameters for deleting entity.</param>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.PostbackHandler.DeleteHandler(System.Xml.XmlDocument@,System.Xml.XmlDocument@)">
+            <summary>
+            This function handles the postback done by delete button. 
+            </summary>
+            <param name="p_objPostedDoc">Contains the parameters for delete functionality.</param>
+            <param name="objLeftTreeTemplate">Security left tree structure.</param>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.PostbackHandler.Delete(System.String,System.String)">
+            <summary>
+            This function actually deletes the entries from the database.
+            </summary>
+            <param name="p_sEntityToBeDeleted">Type of the entity to be deleted</param>
+            <param name="p_sIdDB">Database id.</param>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.PostbackHandler.AddNewModuleGroupHandler(System.Xml.XmlDocument@,System.Xml.XmlDocument@,Riskmaster.Application.SecurityManagement.DataSources,System.Xml.XmlElement@,System.Xml.XmlElement@)">
+            <summary>
+            This function handles add new module group functionality.
+            </summary>
+            <param name="p_objPostedDoc">Contains the parameters for adding new module group.</param>
+            <param name="objLeftTreeTemplate">Security left tree structure.</param>
+            <param name="p_objContextDsn">Datasource object</param>
+            <param name="p_objNodeToBeLoaded">Node to which data will be appended.</param>
+            <param name="objDataSource">Datasource element to be highlighted.</param>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.PostbackHandler.RenameModuleGroupHandler(System.Xml.XmlDocument@,System.Xml.XmlDocument@,Riskmaster.Application.SecurityManagement.DataSources,System.Xml.XmlElement@,System.Xml.XmlElement@)">
+            <summary>
+            This function handles the rename functionality for module group.
+            </summary>
+            <param name="p_objPostedDoc">Contains the parameters for adding new module group.</param>
+            <param name="objLeftTreeTemplate">Security left tree structure.</param>
+            <param name="p_objContextDsn">Datasource object</param>
+            <param name="p_objNodeToBeLoaded">Node to which data will be appended.</param>
+            <param name="objDataSource">Datasource element to be highlighted.</param>
+        </member>
+        <member name="T:Riskmaster.Application.SecurityManagement.Helper">
+            <summary>
+            This class contains utility functions.
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.Helper.#ctor">
+            <summary>
+            This is the default constructor.
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.Helper.CrackModuleGrpInfo(System.String,System.Collections.ArrayList@)">
+            <summary>
+            This function breaks the concatenated string into array.
+            </summary>
+            <param name="p_sConcatenatedStr">String with seperator</param>
+            <param name="p_objObjectModule"></param>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.Helper.CreateElement(System.Xml.XmlElement@,System.String,System.String,System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            This function populates the a xmlelement object with values passed as parameters.
+            </summary>
+            <param name="p_objElement">Xmlelement object to populate</param>
+            <param name="text">Text value</param>
+            <param name="title">Title of the node</param>
+            <param name="url">Url of the node</param>
+            <param name="icon">Icon of the node</param>
+            <param name="type">Type of the node</param>
+            <param name="entityType">EntityType of the node</param>
+            <param name="idDb">Database id of the node</param>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.Helper.SetPostBackValues(System.Xml.XmlDocument@,System.String,System.String,System.String)">
+            <summary>
+            This function sets the values for postback.
+            </summary>
+            <param name="p_objPostedDoc">Postback document</param>
+            <param name="p_sUrl">Url to be shown in the Main Frame</param>
+            <param name="p_sEntityType">Entity type on which focus to be set.</param>
+            <param name="p_sIdDb">Database id of the node.</param>
+        </member>
+        <member name="T:Riskmaster.Application.SecurityManagement.UserLogins">
+             <summary> 
+            Author  :   Tanuj Narula
+            Dated   :   18th,June 2004
+            Purpose :   Riskmaster.Application.SecurityManagement.UserLogin is used to retrieve the user information,it also check for the user 
+                        Privilege to use the application.
+             </summary>
+        </member>
+        <member name="F:Riskmaster.Application.SecurityManagement.UserLogins.CODE_ACCESS_PUBLIC_KEY">
+            <summary>
+            This is code access key control.
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.SecurityManagement.UserLogins.DEF_TIME_START">
+            <summary>
+            Represents the start time for user access permissions.
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.SecurityManagement.UserLogins.DEF_TIME_END">
+            <summary>
+            Represents the end time for user access permissions.
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.SecurityManagement.UserLogins.m_bMonAccess">
+            <summary>
+            This variable flags the MonAccess permission.
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.SecurityManagement.UserLogins.m_bTueAccess">
+            <summary>
+            This variable flags the TueAccess permission.
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.SecurityManagement.UserLogins.m_bWedAccess">
+            <summary>
+            This variable flags the WedAccess permission.
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.SecurityManagement.UserLogins.m_bThuAccess">
+            <summary>
+            This variable flags the ThuAccess permission.
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.SecurityManagement.UserLogins.m_bFriAccess">
+            <summary>
+            This variable flags the FriAccess permission.
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.SecurityManagement.UserLogins.m_bSatAccess">
+            <summary>
+            This variable flags the SatAccess permission.
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.SecurityManagement.UserLogins.m_bSunAccess">
+            <summary>
+            This variable flags the SunAccess permission.
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.SecurityManagement.UserLogins.m_bPermissionExpires">
+            <summary>
+            This variable handles the Permission Expires flag.
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.SecurityManagement.UserLogins.m_bIsDeleted">
+            <summary>
+            This variable flags whether the object is in deleted state or not.
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.UserLogins.#ctor(System.Boolean)">
+            <summary>
+            Riskmaster.Application.SecurityManagement.UserLogins is the default constructor.
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.UserLogins.#ctor(System.Int32,System.Int32)">
+            <summary>
+            Riskmaster.Application.SecurityManagement.UserLogins constructor with parameter. 
+            This constructor calls the function Load() and serves as a wrapper.
+            </summary>
+            <param name="p_iUserId">Value of the User_Id corresponding to which object will be populated.</param>
+            <param name="p_iDataSourceId">Value of the DataSourceId corresponding to which object will be populated.</param>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.UserLogins.Load(System.Collections.ArrayList@)">
+            <summary>
+            This function call loads the Login collection(m_arrlstLoginCol) defined in PublicFunctions.cs. 
+            First Code Access Security Usage.
+            This attribute requires that any caller to have a strongname proving that it's CSC Riskmaster Code. 
+            To ensure that your assembly has an appropriate strongname, place the following line in the 
+            AssemblyInfo.cs file:
+            [assembly: AssemblyKeyFile("..\\..\\..\\Riskmaster.snk")].Here the path of the .snk file has to be specified relative to your project.
+            </summary>
+            <returns>True if successful else throws error.</returns>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.UserLogins.Load(System.Int32,System.Int32)">
+            <summary>
+            Riskmaster.Application.SecurityManagement.Load uses p_iUserId and p_iDataSourceId
+            to retrieve information from USER_DETAILS_TABLE through DbReader 
+            object, that is further passed to LoadData(). 
+            If it is unable to retrieve the data, InvalidUserNameOrPasswordException is thrown.
+            </summary>
+            <param name="p_iUserId">Value of the User_Id column</param>
+            <param name="p_iDataSourceId">Value of the DataSourceId column</param>
+            <returns>True if successful else throws error.</returns>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.UserLogins.LoadData(Riskmaster.Db.DbReader)">
+            <summary>
+            Riskmaster.Application.SecurityManagement.LoadData populates the attributes for the UserLogin class, from the input 
+            DbReader object.
+            Sets the flag m_bDataChanged to false.
+            </summary>
+            <param name="p_objReader">The native reader to wrap</param>
+            <returns>True if successful else throws error.</returns>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.UserLogins.Remove(System.Int32,System.Int32)">
+            <summary>
+            This function call actually removes the Login from database.One can directly call this function by passing in the User_Id and DataSourceId to be deleted 
+            or load this class with User_Id,DataSourceId and call its Remove() function to do the same job.
+            </summary>
+            <param name="p_iUserId">User_Id to be deleted.</param>
+            <param name="p_iDataSourceId">DataSourceId to be deleted.</param>
+            <returns>True if successful else throws error.</returns>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.UserLogins.UpdateUserPassword(Riskmaster.Application.SecurityManagement.UpdatePasswordInfo,System.Boolean)">
+            <summary>
+            This functon will update the password in SMS DB and AD.
+            </summary>
+            <param name="p_stUpdatePasswordInfo">Update password related info struct.</param>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.UserLogins.UpdateUsersLoginAndPassword(Riskmaster.Application.SecurityManagement.UserLogins@)">
+            <summary>
+            This function will update the user login and password for specified user id.
+            </summary>
+            <param name="p_objUserLogin">user login object.</param>
+        </member>
+        <member name="P:Riskmaster.Application.SecurityManagement.UserLogins.MonAccess">
+            <summary>
+            Riskmaster.Application.SecurityManagement.MonAccess flags the MonAccess permission and is set to true or false while this class gets loaded.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Application.SecurityManagement.UserLogins.TueAccess">
+            <summary>
+            Riskmaster.Application.SecurityManagement.TueAccess flags the TueAccess permission and is set to true or false while this class gets loaded.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Application.SecurityManagement.UserLogins.WedAccess">
+            <summary>
+            Riskmaster.Application.SecurityManagement.WedAccess flags the WedAccess permission and is set to true or false while this class gets loaded.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Application.SecurityManagement.UserLogins.ThuAccess">
+            <summary>
+            Riskmaster.Application.SecurityManagement.ThuAccess flags the ThuAccess permission and is set to true or false while this class gets loaded.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Application.SecurityManagement.UserLogins.FriAccess">
+            <summary>
+            Riskmaster.Application.SecurityManagement.FriAccess flags the FriAccess permission and is set to true or false while this class gets loaded.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Application.SecurityManagement.UserLogins.SatAccess">
+            <summary>
+            Riskmaster.Application.SecurityManagement.SatAccess flags the SatAccess permission and is set to true or false while this class gets loaded.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Application.SecurityManagement.UserLogins.SunAccess">
+            <summary>
+            Riskmaster.Application.SecurityManagement.SunAccess flags the SunAccess permission and is set to true or false while this class gets loaded.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Application.SecurityManagement.UserLogins.PermissionExpires">
+            <summary>
+            Riskmaster.Application.SecurityManagement.PermissionExpires flags the PermissionExpires permission and is set to true or false while this class gets loaded.
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.SecurityManagement.GroupModulePermission.m_sFuncIdDelimiter">
+            <summary>
+            delimiter for separating function id
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.GroupModulePermission.#ctor">
+            <summary>
+            gagnihotri MITS 11995 Changes made for Audit table
+            Default Constructor
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.GroupModulePermission.#ctor(System.String)">
+            <summary>
+            gagnihotri MITS 11995 Changes made for Audit table
+            Overloaded Constructor
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.GroupModulePermission.GetChildPermissions(System.Xml.XmlDocument,System.Xml.XmlDocument@)">
+            <summary>
+            get the permissions for child function nodes.
+            </summary>
+            <param name="p_objDocIn"></param>
+            <param name="p_objXmlOut"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.GroupModulePermission.UpdateModulePermissions(System.Xml.XmlDocument,System.Xml.XmlDocument@)">
+            <summary>
+            Update permissions for the module.
+            </summary>
+            <param name="p_objDocIn"></param>
+            <param name="p_objXmlOut"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.GroupModulePermission.GrantIndividualPermissions(System.Xml.XmlDocument,System.String,System.String,System.String)">
+            <summary>
+            Save permission changes caused by granting each individual
+            permissions by the user. A user could revoke and then grant the same
+            permissions, so we may need to delete the permission entry before inserting
+            it.
+            </summary>
+            <param name="p_objDocIn">input message</param>
+            <param name="sGroupId">The module group permissions</param>
+            <param name="sSecConnectionString">security databasea connection string</param>
+            <param name="sRMConnectionString">Riskmaster database connection string</param>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.GroupModulePermission.RevokeIndividualPermissions(System.Xml.XmlDocument,System.String,System.String,System.String)">
+            <summary>
+            Save permission changes caused by revoking each individual
+            permissions by the user. A user could revoke and then grant the same
+            permissions, so we may need to delete the permission entry before inserting
+            it.
+            </summary>
+            <param name="p_objDocIn">input message</param>
+            <param name="sGroupId">The module group permissions</param>
+            <param name="sSecConnectionString">security databasea connection string</param>
+            <param name="sRMConnectionString">Riskmaster database connection string</param>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.GroupModulePermission.GrantBatchPermissions(System.Xml.XmlDocument,System.String,System.String,System.String)">
+            <summary>
+            Save permission changes caused by granting all child
+            permissions of a node by the user.
+            </summary>
+            <param name="p_objDocIn">input message</param>
+            <param name="sGroupId">The module group permissions</param>
+            <param name="sSecConnectionString">security databasea connection string</param>
+            <param name="sRMConnectionString">Riskmaster database connection string</param>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.GroupModulePermission.RevokeBatchPermissions(System.Xml.XmlDocument,System.String,System.String,System.String)">
+            <summary>
+            Save permission changes caused by revoking all child
+            permissions of a node by the user.
+            </summary>
+            <param name="p_objDocIn">input message</param>
+            <param name="sGroupId">The module group permissions</param>
+            <param name="sSecConnectionString">security databasea connection string</param>
+            <param name="sRMConnectionString">Riskmaster database connection string</param>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.GroupModulePermission.GrantAllChildPermissions(System.String,System.String,System.String,System.String)">
+            <summary>
+            Grant permissions for this function and all child functions
+            </summary>
+            <param name="sFunctionId">Current function id</param>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.GroupModulePermission.RevokeAllChildPermissions(System.String,System.String,System.String,System.String)">
+            <summary>
+            Revoke permissions for this function and all child functions
+            </summary>
+            <param name="sFunctionId">Current function id</param>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.GroupModulePermission.GetGrantRevokeFunctionIDs(System.Xml.XmlDocument,System.String)">
+            <summary>
+            get the granted/revoked function ids from the input document
+            </summary>
+            <param name="sPath"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.GroupModulePermission.GetDirectChildren(System.Int32,System.String,System.String,System.String@,System.Collections.Generic.List{System.Int32}@)">
+            <summary>
+            get direct children of the parent node
+            </summary>
+            <param name="iParentID"></param>
+            <param name="sSecConnectionString"></param>
+            <param name="?"></param>
+            <param name="lstFunctionIDs"></param>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.GroupModulePermission.ResetParentFuncId(System.Int32,System.Xml.XmlDocument)">
+            <summary>
+            Reset parent functoin id to top level after permission update
+            </summary>
+            <param name="iParantId"></param>
+            <param name="oDocIn"></param>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.GroupModulePermission.GetDsnGroupIDs(System.Xml.XmlDocument,System.Int32@,System.String@)">
+            <summary>
+            get the DSN ID and Group ID from the input document
+            </summary>
+            <param name="p_objDocIn">The input document</param>
+            <param name="iDsnID">DSN ID</param>
+            <param name="sGroupID">Module group ID</param>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.Application.SecurityManagement.OpenLdapExporter.GetUsersFromSMSDB(System.Xml.XmlDocument@)" -->
+        <member name="M:Riskmaster.Application.SecurityManagement.OpenLdapExporter.ExportUsersToOpenLdap(System.Xml.XmlDocument,System.Xml.XmlDocument@,Riskmaster.Application.AsyncManagement.AsyncWorkerThread)">
+            <summary>
+            Exception should not be thrown out of the following function, as this an independent thread, instead catch 
+            the exception and update it in output xml(to be stored in database), polling function should take care of it. 
+            </summary>
+        </member>
+        <member name="T:Riskmaster.Application.SecurityManagement.DomainUserHandler">
+            <summary>
+            SSO authentication implementation.
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.SecurityManagement.DomainUserHandler.m_sServerPath">
+            <summary>
+            Variable to Server path.
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.SecurityManagement.DomainUserHandler.m_sUserName">
+            <summary>
+            Variable to hold user name.
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.SecurityManagement.DomainUserHandler.m_sPassword">
+            <summary>
+            Variable to hold password.
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.SecurityManagement.DomainUserHandler.m_objADUsersContext">
+            <summary>
+            Variable to hold Users node.
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.DomainUserHandler.#ctor">
+            <summary>
+            Default constructor; it initializes this class.
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.DomainUserHandler.Init">
+            <summary>
+            This method reads various parameters and helps to initialize this class.
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.DomainUserHandler.AddUser(Riskmaster.Application.SecurityManagement.UserLogins@)">
+            <summary>
+            This method adds an user to AD.
+            </summary>
+            <param name="p_objUserLogin">User login object.</param>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.DomainUserHandler.ModifyUser(System.DirectoryServices.DirectoryEntry@,Riskmaster.Application.SecurityManagement.UserLogins@)">
+            <summary>
+            This function modifies an User.
+            </summary>
+            <param name="p_objExistingADUser">Reference to a Directory entry.</param>
+            <param name="p_objUserLogin">User login object.</param>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.DomainUserHandler.DeleteUser(Riskmaster.Application.SecurityManagement.UserLogins@)">
+            <summary>
+            This function deletes an User from AD.
+            </summary>
+            <param name="p_objUserLogin">User login object.</param>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.DomainUserHandler.EncryptedPlainTextPassword(System.String)">
+            <summary>
+            This function encypt password.
+            </summary>
+            <param name="p_sPassword">Password to be encrypted.</param>
+            <returns>Encrypted password.</returns>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.DomainUserHandler.UserExistsInAD(Riskmaster.Application.SecurityManagement.UserLogins@,System.DirectoryServices.DirectoryEntry@)">
+            <summary>
+            This function tests whether an User exists in AD or not.
+            </summary>
+            <param name="p_objUserLogin">User login object.</param>
+            <param name="p_objExistingUser">Reference to Directory entry.</param>
+            <returns>true or false.</returns>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.DomainUserHandler.UserIDExistsInAD(Riskmaster.Application.SecurityManagement.UserLogins@,System.DirectoryServices.DirectoryEntry@)">
+            <summary>
+             This function tests whether an User exists in AD or not.
+            </summary>
+            <param name="p_objUserLogin">User login object.</param>
+            <param name="p_objExistingUser">Reference to Directory entry.</param>
+            <returns>true or false.</returns>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.DomainUserHandler.SetAttributesOnADUser(System.DirectoryServices.DirectoryEntry@,Riskmaster.Application.SecurityManagement.UserLogins@)">
+            <summary>
+            This function sets various properties for Directory entry object.
+            </summary>
+            <param name="p_objADUser">Dirctory entry</param>
+            <param name="p_objUserLogin">User login object.</param>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.DomainUserHandler.ParseObjectDataForUserId(System.String)">
+            <summary>
+            This function parses an object for User id value.
+            </summary>
+            <param name="p_sObjectDataValue">Object to be parsed.</param>
+            <returns>User id.</returns>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.DomainUserHandler.Dispose">
+            <summary>
+            This function disposes this class. 
+            </summary>
+        </member>
+        <member name="T:Riskmaster.Application.SecurityManagement.ADController">
+            <summary>
+            This class controls all AD related functions and invoked by Worker threads.
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.SecurityManagement.ADController.m_objUserLogin">
+            <summary>
+            This variable holds the User Login object.
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.ADController.#ctor(Riskmaster.Application.SecurityManagement.UserLogins@)">
+            <summary>
+            This constructor initializes this class.
+            </summary>
+            <param name="p_objUserLogin">User login object.</param>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.ADController.SaveUserToAD">
+            <summary>
+            This function acts as an wrapper over AddUser() function of DomainUserHandler class.
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.ADController.Abort">
+            <summary>
+            This function aborts the current thread.
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.ADController.DeleteUserFromAD">
+            <summary>
+            This function acts as wrapper over Delete function of DomainUserHandler class.
+            </summary>
+        </member>
+        <member name="T:Riskmaster.Application.SecurityManagement.ADSIProviders">
+            <summary>
+            This enum is for ADSI providers and have mappings in .Config file.
+            </summary>
+        </member>
+        <member name="T:Riskmaster.Application.SecurityManagement.ADType">
+            <summary>
+            This enum is for AD type and have mappings in .Config file. 
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "T:Riskmaster.Application.SecurityManagement.ModuleGroups" -->
+        <member name="F:Riskmaster.Application.SecurityManagement.ModuleGroups.m_sConnectionString">
+            <summary>
+            Represents the connection string for the underlying RM DB.
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.SecurityManagement.ModuleGroups.m_sAllowedModules">
+            <summary>
+            Represents a string of allowed modules.
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.SecurityManagement.ModuleGroups.m_iID">
+            <summary>
+            Represents the module ID.
+            </summary>
+        </member>
+        <member name="F:Riskmaster.Application.SecurityManagement.ModuleGroups.m_sGroupName">
+            <summary>
+            Represents the group name.
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.ModuleGroups.#ctor(System.String)">
+            <summary>
+            Constructor for ModuleGroups class.
+            </summary>
+            <param name="p_sConnectionstring">
+            Connection string, to be used to connect to the underlying RM Database.
+            </param>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.ModuleGroups.AddPermissions(System.Int32,System.String@)">
+            <summary>
+            This function is used to get the allowed modules from the 
+            GROUP_PERMISSIONS table.
+            </summary>
+            <param name="p_iGroupID">
+            Allowed modules are retrieved on the basis of group ID.
+            </param>
+            <param name="p_sAllowedModules">
+            Represents the modules that are allowed.
+            </param>
+            <returns>
+            A boolean values that represents the success/failure.
+            </returns>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.ModuleGroups.GetDsnPermissions(System.Int32)">
+            <summary>
+            This function gets the DSN specific permissions.
+            </summary>
+            <param name="p_iGroupID">Group id</param>
+            <returns>Arraylist containing permissions.</returns>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.ModuleGroups.DeleteObject">
+            <summary>
+            Called from Remove(), this function is used to delete the Module Group
+            from all the related tables.
+            </summary>
+            <returns>
+            A boolean values that represents the success/failure.
+            </returns>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.ModuleGroups.GetMaxGroupID(System.Int32@)">
+            <summary>
+            Used to get the maximum group ID from USER_GROUPS table.
+            </summary>
+            <param name="p_iMAXID">
+            The maximum group ID which is obtained from the function.
+            </param>
+            <returns>
+            A boolean values that represents the success/failure.
+            </returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Riskmaster.Application.SecurityManagement.ModuleGroups.Load(System.Collections.ArrayList@,System.Collections.ArrayList@)" -->
+        <member name="M:Riskmaster.Application.SecurityManagement.ModuleGroups.Remove">
+            <summary>
+            Used to remove a particular group from all the related tables.
+            </summary>
+            <returns>A boolean values that represents the success/failure.
+            </returns>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.ModuleGroups.Add(System.String)">
+            <summary>
+            Used to add a module group.
+            </summary>
+            <param name="p_sGroupName">
+            Name of the module group to be added.
+            </param>
+            <returns>A boolean values that represents the success/failure.
+            </returns>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.ModuleGroups.SaveObject(System.String,System.Int32@)">
+            <summary>
+            Called from Add(), used to add a module group.
+            </summary>
+            <param name="p_sMGName">
+            Represents the name of the module group to be added.
+            </param>
+            <returns>A boolean values that represents the success/failure.
+            </returns>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.ModuleGroups.SaveUsers(System.Int32,System.Int32)">
+            <summary>
+            Used to save the users, that are permitted under a given module group.
+            </summary>
+            <param name="p_iGroupID">Represents the ID of a group.</param>
+            <param name="p_iUserID">Represents the user permitted under the group.
+            </param>
+            <returns></returns>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.ModuleGroups.DeleteUsers(System.Int32,System.Int32)">
+            <summary>
+            Used to delete the user permitted under a group.
+            </summary>
+            <param name="p_iGroupID">Group ID whose user is to be deleted.</param>
+            <param name="p_iUserID">User ID to be deleted.</param>
+            <returns>A boolean values that represents the success/failure.
+            </returns>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.ModuleGroups.ModuleGrpAlreadyExists(System.String)">
+            <summary>
+            This function checks for duplicate Modul grp. name
+            </summary>
+            <param name="p_sDesiredMGrpName">Required name</param>
+            <returns>True or false</returns>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.ModuleGroups.GetAllChildNodes(System.String[],System.Int32[],System.Collections.ArrayList,System.String@)">
+            <summary>
+            Used to get all the child nodes.
+            </summary>
+            <param name="arrID"></param>
+            <param name="arrAllID"></param>
+            <param name="arrChildNodes"></param>
+            <param name="p_iChildNodes"></param>
+            <returns>A boolean values that represents the success/failure.
+            </returns>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.ModuleGroups.GetChildNodes(System.Collections.ArrayList@,System.Int32[],System.Int32[])">
+            <summary>
+            Used to get the child nodes for every node.
+            </summary>
+            <param name="arrChildNodes">An array passed by ref, represents the
+            child nodes for every node.
+            </param>
+            <param name="arrAllID">An array representing all the IDs.</param>
+            <param name="arrAllParentID">An array representing all the Parent IDs.</param>
+            <returns>A boolean values that represents the success/failure.
+            </returns>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.ModuleGroups.IsParent(System.Int32,System.String[],System.String[],System.Int32@)">
+            <summary>
+            Used to determine whether the p_iID passed to this function has any parent.
+            If yes, p_iParentID which is passed by ref gives that parent ID.
+            </summary>
+            <param name="p_iID">An ID passed to determine whether parent ID exists
+            for this ID or not.
+            </param>
+            <param name="p_arrChild">An array representing all the Child IDs.</param>
+            <param name="p_arrParent">An array representing all the Parent IDs.</param>
+            <param name="p_iParentID">Represents the Parent ID for the p_iID</param>
+            <returns>A boolean values that represents the success/failure.
+            </returns>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.ModuleGroups.Rename(System.String,System.Int32)">
+            <summary>
+            Used to rename the module group.
+            </summary>
+            <param name="p_iNewMGName">Represents the new name for the group.</param>
+            <param name="p_iGroupID">Represents the group ID whose name is to be
+            changed.</param>
+            <returns>A boolean values that represents the success/failure.</returns>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.ModuleGroups.SaveModuleAccessPermissions(System.Int32,System.String)">
+            <summary>
+            Saves the module access permissions based on the p_sAllowedModules.
+            </summary>
+            <param name="p_iGroupID">Group ID for which allowed modules are to be
+            added.
+            </param>
+            <param name="p_sAllowedModules">A string representing the allowed 
+            modules.</param>
+            <returns>A boolean values that represents the success/failure.</returns>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.ModuleGroups.SetChildNodes(System.Int32,System.Int32[],System.Int32[],System.String@)">
+            <summary>
+            This function is used to set the child nodes for every node in the module
+            access permissions.
+            </summary>
+            <param name="p_iID">Represents the ID of the selected node.</param>
+            <param name="p_arrAllID">An array representing all the IDs.</param>
+            <param name="p_arrAllParentID">An array representing all the Parent IDs.</param>
+            <param name="p_sModules">A comma separated string representing the 
+            allowed modules with their ID and parent ID.
+            </param>
+            <returns>A boolean values that represents the success/failure.</returns>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.ModuleGroups.UpdateModuleAccessPermissions(System.Int32)">
+            <summary>
+            Updates the module access permissions.
+            </summary>
+            <param name="p_iGroupID">Represents the group ID for which module access 
+            permission is to be updated.</param>
+            <returns>A boolean values that represents the success/failure.</returns>
+        </member>
+        <member name="P:Riskmaster.Application.SecurityManagement.ModuleGroups.GroupName">
+            <summary>
+            Represents the name group name.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Application.SecurityManagement.ModuleGroups.ModuleGroupID">
+            <summary>
+            Represents the Module Group ID.
+            </summary>
+        </member>
+        <member name="P:Riskmaster.Application.SecurityManagement.ModuleGroups.GetAllowedModules">
+            <summary>
+            Represents the allowed modules.
+            </summary>
+        </member>
+        <member name="T:Riskmaster.Application.SecurityManagement.LoadModuleGrpException">
+            <summary>
+            This exception is holds load module group errors.
+            </summary>
+        </member>
+        <member name="T:Riskmaster.Application.SecurityManagement.SecurityLeftTreeHandler">
+            <summary>
+            This class handles security trees implementation.
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.SecurityLeftTreeHandler.#ctor">
+            <summary>
+            This is the default constructor.
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.SecurityLeftTreeHandler.GetXmlStructureForLeftTree(System.Xml.XmlDocument@,System.Xml.XmlDocument@)">
+            <summary>
+            This function gets the xml structure for Security left tree.
+            </summary>
+            <param name="p_objDocIn">Contains parameters for tree functionality.</param>
+            <param name="p_objXmlOut">Contains the filled xml document for security left tree.</param>
+            <returns></returns>
+        </member>
+        <member name="T:Riskmaster.Application.SecurityManagement.SecurityPermissionTreeHandler">
+            <summary>
+            This class handles the permissions related functonality. 
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.SecurityPermissionTreeHandler.#cctor">
+            <summary>
+            This constructor will load the cached permissions into memory for further request i.e implementing second level of permission caching. 
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.SecurityPermissionTreeHandler.#ctor">
+            <summary>
+            This is the default constructor.
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.SecurityPermissionTreeHandler.GetXmlStructureForPermissonsTree(System.Xml.XmlDocument@,System.Xml.XmlDocument@)">
+            <summary>
+            This function returns the XMl for security permissions.
+            </summary>
+            <param name="p_objDocIn">Inpuy instance doc.</param>
+            <param name="p_objXmlOut">Output doc containing security permissions.</param>
+            <returns>true or false.</returns>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.SecurityPermissionTreeHandler.InitPermissionTree(System.Int32,System.Int32,System.Xml.XmlDocument@,System.Text.StringBuilder@)">
+            <summary>
+            This function loads the permissions from function_list table and creates xml out of it.
+            </summary>
+            <param name="p_iDsnId">Dsn id for which permissions to be loaded.</param>
+            <param name="p_iModuleGrpId">Grp id for loading permissions</param>
+            <param name="p_objInstance">Instance doc</param>
+            <param name="p_sbAllowedModules">Allowed module data in string format.</param>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.SecurityPermissionTreeHandler.GetTreeForRootNodes(System.Int32,System.Xml.XmlElement@,System.Text.StringBuilder@)">
+            <summary>
+            This function outputs xml tree for supplied node id.
+            </summary>
+            <param name="p_iParentNode">Id of the top level entity.</param>
+            <param name="objNode">This will hold the xml tree.</param>
+            <param name="p_sbAllowedModules">Will hold the allowed mmodules.</param>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.SecurityPermissionTreeHandler.GetTreeForRootNodesForCache(System.Int32,System.Xml.XmlElement@)">
+            <summary>
+            This function is equivalent of GetTreeForRootNodes() function; loads the data from cache.
+            </summary>
+            <param name="p_iParentNode">Id for which xml tree to be created.</param>
+            <param name="objNode">This will contain the outpot xml tree.</param>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.SecurityPermissionTreeHandler.GetAllChildNodes(System.Int32)">
+            <summary>
+            This function retuns the child nodes of a node.
+            </summary>
+            <param name="p_sParentId">Id for which child nodes to be fetched.</param>
+            <returns>Returns the child nodes in arraylist.</returns>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.SecurityPermissionTreeHandler.GetAllChildNodesForCache(System.Int32)">
+            <summary>
+            This function is equivalent of GetAllChildNodes() function; loads the data from cache.
+            </summary>
+            <param name="p_sParentId">Id for which child nodes to be fetched.</param>
+            <returns>Returns the child nodes in arraylist.</returns>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.SecurityPermissionTreeHandler.GetAllChildNodesCacheArrlst(System.Int32)">
+            <summary>
+            This function returns the child nodes of a particular node(for cache.)
+            </summary>
+            <param name="p_sParentId">Id for which child nodes to be fetched.</param>
+            <returns>Returns the child nodes in arraylist.</returns>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.SecurityPermissionTreeHandler.GetPermissionsTreeFromCache(System.Int32,System.Int32,System.Xml.XmlDocument@,System.Text.StringBuilder@)">
+            <summary>
+            This function makes the permission xml from cached xml. 
+            </summary>
+            <param name="p_iDsnId">Dsn id for which permissions to be fetched.</param>
+            <param name="p_iModuleGrpId">Module group id for fetching the permissions.</param>
+            <param name="p_objInstance">Instance doc.</param>
+            <param name="p_sbAllowedModules">Allowed modules for this Dsn.</param>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.SecurityPermissionTreeHandler.GetEmptyElement">
+            <summary>
+            This function creates a empty 'entry' element.
+            </summary>
+            <returns>Empty 'entry' element.</returns>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.SecurityPermissionTreeHandler.GetEmptyControlElement(System.String,System.String)">
+            <summary>
+            This function returns 'control' element 
+            </summary>
+            <param name="p_sSid">Id from function_list table.</param>
+            <param name="p_sParentId">ParentId from function_list table.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.SecurityPermissionTreeHandler.GetAllSubNodes(System.Int32,System.Text.StringBuilder@)">
+            <summary>
+            This function returns the sub nodes for a particular node.
+            </summary>
+            <param name="p_iParentId">Id, for which sub nodes to be fetched.</param>
+            <param name="sbAllSubChilds">Will hold all the sub nodes as the return value of this function.</param>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.SecurityPermissionTreeHandler.GetAllSubNodesForCache(System.Int32,System.Text.StringBuilder@)">
+            <summary>
+            This function is equivalent of GetAllSubNodes() function; implemented for caching functionality.
+            </summary>
+            <param name="p_iParentId">Id, for which sub nodes to be fetched.</param>
+            <param name="sbAllSubChilds">ill hold all the sub nodes as the return value of this function.</param>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.SecurityPermissionTreeHandler.GetIdsRange(System.Xml.XmlDocument@,System.Int32,System.Int32)">
+            <summary>
+            This function helps to create the permission xml for a particular Dsn.
+            Will change when the structure of the function_list will be finalized.
+            </summary>
+            <param name="p_objDoc">Raw permissions document.</param>
+            <param name="iRange1">Starting range.</param>
+            <param name="iRange2">End of the range.</param>
+            <returns>Arraylist containing the xmlnodes with sids between the specified range.</returns>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.SecurityPermissionTreeHandler.GetAdminTrackingXml(System.Collections.ArrayList@,System.Collections.ArrayList@,System.String,System.Xml.XmlDocument@)">
+            <summary>
+            This function generates dsn specific  permission xml. 
+            </summary>
+            <param name="p_arrlstAdminIds">Arraylist of ids for which modules to be fetched dynamically.</param>
+            <param name="p_arrlstRMAllModules">Holds the dsn specific permissions. </param>
+            <param name="p_sConnStr">Conn str for Dsn.</param>
+            <param name="p_objRawFunctionListFrmSecurity">Raw permission doc ;replica of function_list table. </param>
+        </member>
+        <member name="M:Riskmaster.Application.SecurityManagement.SecurityPermissionTreeHandler.ConvertRawPermissionsToDsnSpecificPermissions(System.Xml.XmlDocument@,System.String)">
+            <summary>
+            This function converts Raw permisson set to dsn specific permission set.
+            </summary>
+            <param name="p_objDocRawPerms">Replica of function_list table.</param>
+            <param name="p_sConnStr">Conn str fro Dsn.</param>
+        </member>
+    </members>
+</doc>

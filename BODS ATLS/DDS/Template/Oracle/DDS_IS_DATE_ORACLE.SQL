@@ -1,0 +1,19 @@
+CREATE OR REPLACE FUNCTION DDS_IS_DATE(p_string IN VARCHAR2)
+   RETURN INT
+AUTHID CURRENT_USER 
+IS
+   v_new_num VARCHAR2(10);
+BEGIN
+   v_new_num := to_char(to_date(p_string,'YYYY/MM/DD'));
+   v_new_num := LENGTH(p_string);
+   IF v_new_num = 8 THEN
+      RETURN 1;
+   ELSE
+      RETURN 0;
+   END IF;
+EXCEPTION
+WHEN VALUE_ERROR THEN
+   RETURN 0;
+WHEN OTHERS THEN
+   RETURN 0;
+END DDS_IS_DATE;

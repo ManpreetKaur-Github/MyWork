@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Riskmaster.Application.AsyncManagement</name>
+    </assembly>
+    <members>
+        <member name="T:Riskmaster.Application.AsyncManagement.AsyncDbParams">
+            <summary>
+            Summary description for AsyncHelper.
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Application.AsyncManagement.AsyncDbParams.Deserialize(System.Xml.XmlDocument@)">
+            <summary>
+             Relying on manual serialization/de-serialization, native support for the same may have some performance overhead.
+            </summary>
+            <param name="p_objParamsDoc"></param>
+        </member>
+        <member name="M:Riskmaster.Application.AsyncManagement.AsyncDbParams.Serialize(System.Xml.XmlDocument@)">
+            <summary>
+            Relying on manual serialization/de-serialization, native support for the same may have some performance overhead.
+            </summary>
+            <param name="p_objParamsDoc"></param>
+        </member>
+        <member name="M:Riskmaster.Application.AsyncManagement.AsyncJobParams.Deserialize(System.Xml.XmlDocument@)">
+            <summary>
+             Relying on manual serialization/de-serialization, native support for the same may have some performance overhead, though not tried yet.
+            </summary>
+            <param name="p_objParamsDoc"></param>
+        </member>
+        <member name="T:Riskmaster.Application.AsyncManagement.AsyncWorkerThread">
+            <summary>
+            Summary description for AsyncWorker.
+            </summary>
+        </member>
+        <member name="T:Riskmaster.Application.AsyncManagement.AsyncHandler">
+            <summary>
+            Summary description for AsyncHandler.
+            TO DO -> *******Implement thread pooling else
+            OS may throw errors if number of requested new threads exceed the number of "Parallel threads(AsyncWorkerThread)" OS can handle.
+            </summary>
+        </member>
+        <member name="M:Riskmaster.Application.AsyncManagement.AsyncHandler.ValidateIncomingDoc(System.Xml.XmlDocument@)">
+            <summary>
+            This function will check for various required nodes.
+            </summary>
+            <param name="p_objDoc">Incoming doc.</param>
+        </member>
+    </members>
+</doc>

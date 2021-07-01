@@ -1,0 +1,5154 @@
+-- ============================================================
+--   SCRIPT HEADER (MSSQL RMX_STAGING DATABASE STRUCTURE)
+--   Template_DIS(rmA16.4- rmA17.1)
+--   Module Name: DA2 (All)
+--   Description: 	DDL for Data Analytics DIS
+--   Date:		06/24/2016         
+-- ============================================================= 
+IF ((SELECT COUNT(*) AS isRMDB FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME='SYS_PARMS')=1)
+	BEGIN
+		PRINT 'Error: Script Execution Aborted - Script trying to execute on RISKMASTER database not on DA Staging database. Please open the correct Staging database and execute this script.';
+	END
+ELSE
+BEGIN
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects where object_id = OBJECT_ID(N'[dbo].[ADDRESS_X_PHONEINFO]') AND type in (N'U'))
+DROP TABLE [dbo].[ADDRESS_X_PHONEINFO]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[BOND_ABS]') AND type in (N'U'))
+DROP TABLE [dbo].[BOND_ABS]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[T_DIS_BOND_ABS]') AND type in (N'U'))
+DROP TABLE [dbo].[T_DIS_BOND_ABS]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[BOND_ABS_TEMP_FD]') AND type in (N'U'))
+DROP TABLE [dbo].[BOND_ABS_TEMP_FD]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[CERTIFICATE]') AND type in (N'U'))
+DROP TABLE [dbo].[CERTIFICATE]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[T_DIS_CERTIFICATE]') AND type in (N'U'))
+DROP TABLE [dbo].[T_DIS_CERTIFICATE]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[CERTIFICATE_TEMP_FD]') AND type in (N'U'))
+DROP TABLE [dbo].[CERTIFICATE_TEMP_FD]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[T_DIS_PROCESS_LOG]') AND type in (N'U'))
+DROP TABLE [dbo].[T_DIS_PROCESS_LOG]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[T_DIS_FUNDS_DEPOSIT]') AND type in (N'U'))
+DROP TABLE [dbo].[T_DIS_FUNDS_DEPOSIT]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[CLAIMANT]') AND type in (N'U'))
+DROP TABLE [dbo].[CLAIMANT]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[CLAIMANT_SUPP]') AND type in (N'U'))
+DROP TABLE [dbo].[CLAIMANT_SUPP]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[CODES]') AND type in (N'U'))
+DROP TABLE [dbo].[CODES]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[CODES_TEXT]') AND type in (N'U'))
+DROP TABLE [dbo].[CODES_TEXT]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[COMPL_MGT]') AND type in (N'U'))
+DROP TABLE [dbo].[COMPL_MGT]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[T_DIS_COMPL_MGT]') AND type in (N'U'))
+DROP TABLE [dbo].[T_DIS_COMPL_MGT]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[COMPL_MGT_TEMP_FD]') AND type in (N'U'))
+DROP TABLE [dbo].[COMPL_MGT_TEMP_FD]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[CONTRCT_MGT]') AND type in (N'U'))
+DROP TABLE [dbo].[CONTRCT_MGT]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[T_DIS_CONTRCT_MGT]') AND type in (N'U'))
+DROP TABLE [dbo].[T_DIS_CONTRCT_MGT]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[CONTRCT_MGT_TEMP_FD]') AND type in (N'U'))
+DROP TABLE [dbo].[CONTRCT_MGT_TEMP_FD]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DA_STATISTICS]') AND type in (N'U'))
+DROP TABLE [dbo].[DA_STATISTICS]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DIRECTORY]') AND type in (N'U'))
+DROP TABLE [dbo].[DIRECTORY]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[T_DIS_DIRECTORY]') AND type in (N'U'))
+DROP TABLE [dbo].[T_DIS_DIRECTORY]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DIRECTORY_TEMP_FD]') AND type in (N'U'))
+DROP TABLE [dbo].[DIRECTORY_TEMP_FD]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DIS_OPTIONSET]') AND type in (N'U'))
+DROP TABLE [dbo].[DIS_OPTIONSET]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[EMPLOYEE]') AND type in (N'U'))
+DROP TABLE [dbo].[EMPLOYEE]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[EMP_X_DEPENDENT]') AND type in (N'U'))
+DROP TABLE [dbo].[EMP_X_DEPENDENT]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[EMP_X_VIOLATION]') AND type in (N'U'))
+DROP TABLE [dbo].[EMP_X_VIOLATION]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ENTITY]') AND type in (N'U'))
+DROP TABLE [dbo].[ENTITY]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ENTITY_EXPOSURE]') AND type in (N'U'))
+DROP TABLE [dbo].[ENTITY_EXPOSURE]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ERROR_LOG]') AND type in (N'U'))
+DROP TABLE [dbo].[ERROR_LOG]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[FUNDS]') AND type in (N'U'))
+DROP TABLE [dbo].[FUNDS]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[FUNDS_DEPOSIT]') AND type in (N'U'))
+DROP TABLE [dbo].[FUNDS_DEPOSIT]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[FTS_X_REMARKS]') AND type in (N'U'))
+DROP TABLE [dbo].[FUNDS_TRANS_SPLIT]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[FUNDS_TRANS_SPLIT]') AND type in (N'U'))
+DROP TABLE [dbo].[FUNDS_TRANS_SPLIT]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[MED_STAFF]') AND type in (N'U'))
+DROP TABLE [dbo].[MED_STAFF]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ORG_HIERARCHY]') AND type in (N'U'))
+DROP TABLE [dbo].[ORG_HIERARCHY]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[PATIENT]') AND type in (N'U'))
+DROP TABLE [dbo].[PATIENT]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[PATIENT_ACT_TAKEN]') AND type in (N'U'))
+DROP TABLE [dbo].[PATIENT_ACT_TAKEN]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[PATIENT_ATTN_PHYS]') AND type in (N'U'))
+DROP TABLE [dbo].[PATIENT_ATTN_PHYS]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[PATIENT_DIAGNOSIS]') AND type in (N'U'))
+DROP TABLE [dbo].[PATIENT_DIAGNOSIS]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[PATIENT_DRG_CODES]') AND type in (N'U'))
+DROP TABLE [dbo].[PATIENT_DRG_CODES]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[PATIENT_PROCEDURE]') AND type in (N'U'))
+DROP TABLE [dbo].[PATIENT_PROCEDURE]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[PERSON_INVOLVED]') AND type in (N'U'))
+DROP TABLE [dbo].[PERSON_INVOLVED]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[PHYSICIAN]') AND type in (N'U'))
+DROP TABLE [dbo].[PHYSICIAN]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[PHYS_CERTS]') AND type in (N'U'))
+DROP TABLE [dbo].[PHYS_CERTS]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[PHYS_EDUCATION]') AND type in (N'U'))
+DROP TABLE [dbo].[PHYS_EDUCATION]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[PHYS_PREV_HOSP]') AND type in (N'U'))
+DROP TABLE [dbo].[PHYS_PREV_HOSP]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[PHYS_PRIVS]') AND type in (N'U'))
+DROP TABLE [dbo].[PHYS_PRIVS]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[PHYS_SUB_SPECIALTY]') AND type in (N'U'))
+DROP TABLE [dbo].[PHYS_SUB_SPECIALTY]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[POLICY]') AND type in (N'U'))
+DROP TABLE [dbo].[POLICY]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[POLICY_X_CVG_TYPE]') AND type in (N'U'))
+DROP TABLE [dbo].[POLICY_X_CVG_TYPE]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[POLICY_X_INSURED]') AND type in (N'U'))
+DROP TABLE [dbo].[POLICY_X_INSURED]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[POLICY_X_INSURER]') AND type in (N'U'))
+DROP TABLE [dbo].[POLICY_X_INSURER]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[PROJ_TRACK]') AND type in (N'U'))
+DROP TABLE [dbo].[PROJ_TRACK]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[T_DIS_PROJ_TRACK]') AND type in (N'U'))
+DROP TABLE [dbo].[T_DIS_PROJ_TRACK]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[PROJ_TRACK_TEMP_FD]') AND type in (N'U'))
+DROP TABLE [dbo].[PROJ_TRACK_TEMP_FD]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[PROP_MGT]') AND type in (N'U'))
+DROP TABLE [dbo].[PROP_MGT]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[T_DIS_PROP_MGT]') AND type in (N'U'))
+DROP TABLE [dbo].[T_DIS_PROP_MGT]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[PROP_MGT_TEMP_FD]') AND type in (N'U'))
+DROP TABLE [dbo].[PROP_MGT_TEMP_FD]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[RESERVE_CURRENT]') AND type in (N'U'))
+DROP TABLE [dbo].[RESERVE_CURRENT]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[RESERVE_HISTORY]') AND type in (N'U'))
+DROP TABLE [dbo].[RESERVE_HISTORY]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[STAFF_CERTS]') AND type in (N'U'))
+DROP TABLE [dbo].[STAFF_CERTS]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[STAFF_PRIVS]') AND type in (N'U'))
+DROP TABLE [dbo].[STAFF_PRIVS]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[T_DIS_EMPLOYEE]') AND type in (N'U'))
+DROP TABLE [dbo].[T_DIS_EMPLOYEE]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[T_DIS_EMP_X_DEPENDENT]') AND type in (N'U'))
+DROP TABLE [dbo].[T_DIS_EMP_X_DEPENDENT]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[T_DIS_EMP_X_VIOLATION]') AND type in (N'U'))
+DROP TABLE [dbo].[T_DIS_EMP_X_VIOLATION]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[T_DIS_ENTITY]') AND type in (N'U'))
+DROP TABLE [dbo].[T_DIS_ENTITY]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[T_DIS_ENTITY_EXPOSURE]') AND type in (N'U'))
+DROP TABLE [dbo].[T_DIS_ENTITY_EXPOSURE]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[T_DIS_ADDRESS_X_PHONEINFO]') AND type in (N'U'))
+DROP TABLE [dbo].[T_DIS_ADDRESS_X_PHONEINFO]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[T_DIS_FUNDS]') AND type in (N'U'))
+DROP TABLE [dbo].[T_DIS_FUNDS]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[T_DIS_FUNDS_TRANS_SPLIT]') AND type in (N'U'))
+DROP TABLE [dbo].[T_DIS_FUNDS_TRANS_SPLIT]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[T_DIS_FTS_X_REMARKS]') AND type in (N'U'))
+DROP TABLE [dbo].[T_DIS_FTS_X_REMARKS]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[T_DIS_MED_STAFF]') AND type in (N'U'))
+DROP TABLE [dbo].[T_DIS_MED_STAFF]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[T_DIS_ORG_HIER]') AND type in (N'U'))
+DROP TABLE [dbo].[T_DIS_ORG_HIER]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[T_DIS_PATIENT]') AND type in (N'U'))
+DROP TABLE [dbo].[T_DIS_PATIENT]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[T_DIS_PATIENT_ACT_TAKEN]') AND type in (N'U'))
+DROP TABLE [dbo].[T_DIS_PATIENT_ACT_TAKEN]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[T_DIS_PATIENT_ATTN_PHYS]') AND type in (N'U'))
+DROP TABLE [dbo].[T_DIS_PATIENT_ATTN_PHYS]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[T_DIS_PATIENT_DIAGNOSIS]') AND type in (N'U'))
+DROP TABLE [dbo].[T_DIS_PATIENT_DIAGNOSIS]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[T_DIS_PATIENT_DRG_CODES]') AND type in (N'U'))
+DROP TABLE [dbo].[T_DIS_PATIENT_DRG_CODES]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[T_DIS_PATIENT_PROCEDURE]') AND type in (N'U'))
+DROP TABLE [dbo].[T_DIS_PATIENT_PROCEDURE]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[T_DIS_PHYSICIAN]') AND type in (N'U'))
+DROP TABLE [dbo].[T_DIS_PHYSICIAN]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[T_DIS_PHYS_CERTS]') AND type in (N'U'))
+DROP TABLE [dbo].[T_DIS_PHYS_CERTS]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[T_DIS_PHYS_EDUCATION]') AND type in (N'U'))
+DROP TABLE [dbo].[T_DIS_PHYS_EDUCATION]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[T_DIS_PHYS_PREV_HOSP]') AND type in (N'U'))
+DROP TABLE [dbo].[T_DIS_PHYS_PREV_HOSP]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[T_DIS_PHYS_PRIVS]') AND type in (N'U'))
+DROP TABLE [dbo].[T_DIS_PHYS_PRIVS]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[T_DIS_PHYS_SUB_SPECIALTY]') AND type in (N'U'))
+DROP TABLE [dbo].[T_DIS_PHYS_SUB_SPECIALTY]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[T_DIS_POLICY]') AND type in (N'U'))
+DROP TABLE [dbo].[T_DIS_POLICY]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[T_DIS_POLICY_X_CVG_TYPE]') AND type in (N'U'))
+DROP TABLE [dbo].[T_DIS_POLICY_X_CVG_TYPE]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[T_DIS_POLICY_X_INSURED]') AND type in (N'U'))
+DROP TABLE [dbo].[T_DIS_POLICY_X_INSURED]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[T_DIS_POLICY_X_INSURER]') AND type in (N'U'))
+DROP TABLE [dbo].[T_DIS_POLICY_X_INSURER]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[T_DIS_RESERVE_CURRENT]') AND type in (N'U'))
+DROP TABLE [dbo].[T_DIS_RESERVE_CURRENT]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[T_DIS_STAFF_CERTS]') AND type in (N'U'))
+DROP TABLE [dbo].[T_DIS_STAFF_CERTS]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[T_DIS_STAFF_PRIVS]') AND type in (N'U'))
+DROP TABLE [dbo].[T_DIS_STAFF_PRIVS]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[T_DIS_UNIT_X_CLAIM]') AND type in (N'U'))
+DROP TABLE [dbo].[T_DIS_UNIT_X_CLAIM]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[T_DIS_VEHICLE]') AND type in (N'U'))
+DROP TABLE [dbo].[T_DIS_VEHICLE]
+END
+
+ -- KGUPTA31 -- COMMENTED AS PER DA DIS RESTRUCTURE ACTIVITY REASON THERE IS NO CODE COLUMN IN IT 
+-- DATED: 21-JULY-2016
+/*
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[T_DIS_VEHICLE_X_ACC_DATE]') AND type in (N'U'))
+DROP TABLE [dbo].[T_DIS_VEHICLE_X_ACC_DATE]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[T_DIS_VEHICLE_X_INSPCT]') AND type in (N'U'))
+DROP TABLE [dbo].[T_DIS_VEHICLE_X_INSPCT]
+END
+
+*/
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[UNIQUE_CODE]') AND type in (N'U'))
+DROP TABLE [dbo].[UNIQUE_CODE]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[UNIT_X_CLAIM]') AND type in (N'U'))
+DROP TABLE [dbo].[UNIT_X_CLAIM]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[VEHICLE]') AND type in (N'U'))
+DROP TABLE [dbo].[VEHICLE]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[VEHICLE_X_ACC_DATE]') AND type in (N'U'))
+DROP TABLE [dbo].[VEHICLE_X_ACC_DATE]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[VEHICLE_X_INSPCT]') AND type in (N'U'))
+DROP TABLE [dbo].[VEHICLE_X_INSPCT]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[USER_VERIFICATION]') AND type in (N'U'))
+DROP TABLE [dbo].[USER_VERIFICATION]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[CLAIM_X_PROPERTYLOSS]') AND type in (N'U'))
+DROP TABLE [dbo].[CLAIM_X_PROPERTYLOSS]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[CLAIM_X_SITELOSS]') AND type in (N'U'))
+DROP TABLE [dbo].[CLAIM_X_SITELOSS]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[CLAIM_X_OTHERUNIT]') AND type in (N'U'))
+DROP TABLE [dbo].[CLAIM_X_OTHERUNIT]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[PROPERTY_UNIT]') AND type in (N'U'))
+DROP TABLE [dbo].[PROPERTY_UNIT]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[POINT_UNIT_DATA]') AND type in (N'U'))
+DROP TABLE [dbo].[POINT_UNIT_DATA]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DRIVER]') AND type in (N'U'))
+DROP TABLE [dbo].[DRIVER]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[SITE_UNIT]') AND type in (N'U'))
+DROP TABLE [dbo].[SITE_UNIT]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[T_DIS_SITE_UNIT]') AND type in (N'U'))
+DROP TABLE [dbo].[T_DIS_SITE_UNIT]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[T_DIS_PROPERTY_UNIT]') AND type in (N'U'))
+DROP TABLE [dbo].[T_DIS_PROPERTY_UNIT]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[T_DIS_CLAIM_X_OTHERUNIT]') AND type in (N'U'))
+DROP TABLE [dbo].[T_DIS_CLAIM_X_OTHERUNIT]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[T_DIS_CLAIM_X_SITELOSS]') AND type in (N'U'))
+DROP TABLE [dbo].[T_DIS_CLAIM_X_SITELOSS]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[T_DIS_CLAIM_X_PROPERTYLOSS]') AND type in (N'U'))
+DROP TABLE [dbo].[T_DIS_CLAIM_X_PROPERTYLOSS]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[T_DIS_DRIVER]') AND type in (N'U'))
+DROP TABLE [dbo].[T_DIS_DRIVER]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[T_DIS_PERSON_INVOLVED]') AND type in (N'U'))
+DROP TABLE [dbo].[T_DIS_PERSON_INVOLVED]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[T_DIS_POINT_UNIT_DATA]') AND type in (N'U'))
+DROP TABLE [dbo].[T_DIS_POINT_UNIT_DATA]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[OTHER_UNIT]') AND type in (N'U'))
+DROP TABLE [dbo].[OTHER_UNIT]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[CLAIM_X_POLICY]') AND type in (N'U'))
+DROP TABLE [dbo].[CLAIM_X_POLICY]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[POLICY_X_UNIT]') AND type in (N'U'))
+DROP TABLE [dbo].[POLICY_X_UNIT]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[T_DIS_OTHER_UNIT]') AND type in (N'U'))
+DROP TABLE [dbo].[T_DIS_OTHER_UNIT]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[FUNDS_X_PAYEE]') AND type in (N'U'))
+DROP TABLE [dbo].[FUNDS_X_PAYEE]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DA_JOB_ID]') AND type in (N'U'))
+DROP TABLE [dbo].[DA_JOB_ID]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[T_DIS_FUNDS_X_PAYEE]') AND type in (N'U'))
+DROP TABLE [dbo].[T_DIS_FUNDS_X_PAYEE]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[MRG_CLAIM_IDS]') AND type in (N'U'))
+DROP TABLE [dbo].[MRG_CLAIM_IDS]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[PS_ENDORSEMENT]') AND type in (N'U'))
+DROP TABLE [dbo].[PS_ENDORSEMENT]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[T_DIS_PS_ENDORSEMENT]') AND type in (N'U'))
+DROP TABLE [dbo].[T_DIS_PS_ENDORSEMENT]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[SALVAGE]') AND type in (N'U'))
+DROP TABLE [dbo].[SALVAGE]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[T_DIS_SALVAGE]') AND type in (N'U'))
+DROP TABLE [dbo].[T_DIS_SALVAGE]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[POLICY_X_STATE]') AND type in (N'U'))
+DROP TABLE [dbo].[POLICY_X_STATE]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[T_DIS_POLICY_X_STATE]') AND type in (N'U'))
+DROP TABLE [dbo].[T_DIS_POLICY_X_STATE]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[POL_COV_LIMIT]') AND type in (N'U'))
+DROP TABLE [dbo].[POL_COV_LIMIT ]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[T_DIS_POL_COV_LIMIT]') AND type in (N'U'))
+DROP TABLE [dbo].[T_DIS_POL_COV_LIMIT]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[TEMP_LIMIT]') AND type in (N'U'))
+DROP TABLE [dbo].[TEMP_LIMIT]
+END
+--------------------------mkaur24 HMI -------------------------------
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[INSURED_UNIT]') AND type in (N'U'))
+DROP TABLE [dbo].[INSURED_UNIT]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[COVERAGE_BENEFIT]') AND type in (N'U'))
+DROP TABLE [dbo].[COVERAGE_BENEFIT]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[T_DIS_COVERAGE_BENEFIT]') AND type in (N'U'))
+DROP TABLE [dbo].[T_DIS_COVERAGE_BENEFIT]
+END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[CLAIM_X_INSUREDUNIT]') AND type in (N'U'))
+DROP TABLE [dbo].[CLAIM_X_INSUREDUNIT]
+END
+-------------------------------------------------------------------mkaur24 end---------------------------
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[TEMP_JOBS_DOCUMENT]') AND type in (N'U'))
+DROP TABLE [dbo].[TEMP_JOBS_DOCUMENT]
+END
+
+SET ANSI_NULLS ON
+SET QUOTED_IDENTIFIER ON
+SET ANSI_PADDING ON
+
+IF NOT EXISTS (SELECT name from sys.tables WHERE name ='TEMP_JOBS_DOCUMENT')
+BEGIN
+     CREATE TABLE [dbo].[TEMP_JOBS_DOCUMENT](
+	[TM_FILE_ID] [int] NOT NULL,
+	[JOB_ID] [int] NOT NULL,
+	[FILE_NAME] [varchar](255) NULL,
+	[FILE_DATA] [varbinary](max) NULL,
+	[CONTENT_TYPE] [varchar](50) NULL,
+	[CONTENT_LENGTH] [int] NULL,
+	[OPTIONSET_ID] [int] NULL
+) ON [PRIMARY]
+
+END
+
+IF NOT EXISTS (SELECT name from sys.tables WHERE name = 'ADDRESS_X_PHONEINFO')
+BEGIN
+	CREATE TABLE [dbo].[ADDRESS_X_PHONEINFO](
+		[DA_ROW_ID] [int] NOT NULL,
+		[JOBID] [int] NOT NULL,
+		[INPUT_ROW_ID] [int] NULL,
+		[INVALID_ROW] [int] NULL,
+		[UPDATE_ROW] [int] NULL,
+		[ENTITY_ID] [int] NULL,
+		[PHONE_ID] [int] NOT NULL,
+		[PHONE_CODE] [int] NULL,
+		[PHONE_NO] [varchar](30) NULL,
+	 CONSTRAINT [ADD_PHONEINFO_PK] PRIMARY KEY CLUSTERED 
+	(
+		[DA_ROW_ID] ASC, 
+		[JOBID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'BOND_ABS') 
+BEGIN
+	CREATE TABLE [dbo].[BOND_ABS](
+		[DA_ROW_ID] [int] NOT NULL,
+		[JOBID] [int] NOT NULL,
+		[INPUT_ROW_ID] [int] NULL,
+		[INVALID_ROW] [int] NULL,
+		[UPDATE_ROW] [int] NULL,
+		[BOND_ABS_ID] [int] NULL,
+		[BOND_NUM_TEXT] [varchar](20) NULL,
+		[BOND_TYPE_TXCD] [varchar](8000) NULL,
+		[BOND_LINE_CODE] [int] NULL,
+		[EFF_DATE_DATE] [varchar](8) NULL,
+		[EXPIR_DATE_DATE] [varchar](8) NULL,
+		[BOND_AMT_AMT] [float] NULL,
+		[PREMIUM_AMT] [float] NULL,
+		[BILL_NAME_TEXT] [varchar](50) NULL,
+		[BILL_ADDR_TEXT] [varchar](50) NULL,
+		[BILL_CITY_TEXT] [varchar](25) NULL,
+		[BILL_ZIP_TEXT] [varchar](15) NULL,
+		[BILL_ACCT_TEXT] [varchar](50) NULL,
+		[PRINCIPAL_TXCD] [varchar](8000) NULL,
+		[STATE_TEXT] [varchar](3) NULL,
+		[BILL_STATE_TEXT] [varchar](25) NULL,
+		[OBLIGEE_TXCD] [varchar](8000) NULL,
+		[BOND_CLASS_CODE] [int] NULL,
+		[OLD_BOND_NO_TEXT] [varchar](25) NULL,
+		[REQUESTER_TEXT] [varchar](50) NULL,
+		[REQ_ADDR_TEXT] [varchar](50) NULL,
+		[REQ_CITY_TEXT] [varchar](25) NULL,
+		[REQ_STATE_TEXT] [varchar](25) NULL,
+		[REQ_ZIP_TEXT] [varchar](15) NULL,
+		[REQ_PHONE_TEXT] [varchar](15) NULL,
+		[ORDERED_BY_TEXT] [varchar](50) NULL,
+		[ORDER_ADDR_TEXT] [varchar](50) NULL,
+		[ORDER_CITY_TEXT] [varchar](25) NULL,
+		[ORDER_STATE_TEXT] [varchar](15) NULL,
+		[ORDER_ZIP_TEXT] [varchar](15) NULL,
+		[ORDER_PHONE_TEXT] [varchar](25) NULL,
+		[AUTH_BY_TEXT] [varchar](50) NULL,
+		[AUTH_ADDR_TEXT] [varchar](50) NULL,
+		[AUTH_CITY_TEXT] [varchar](25) NULL,
+		[AUTH_STATE_TEXT] [varchar](15) NULL,
+		[AUTH_ZIP_TEXT] [varchar](15) NULL,
+		[AUTH_PHONE_TEXT] [varchar](15) NULL,
+		[DATE_EXEC_DATE] [varchar](8) NULL,
+		[PAID_DATE_DATE] [varchar](8) NULL,
+		[BOND_STATUS_CODE] [int] NULL,
+		[DATE_CANC_DATE] [varchar](8) NULL,
+		[BOND_DETAIL_TXCD] [varchar](8000) NULL,
+	 CONSTRAINT [PK_BOND_ABS] PRIMARY KEY CLUSTERED 
+	( 	
+		[DA_ROW_ID] ASC,
+		[JOBID] ASC	
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'CERTIFICATE') 
+BEGIN
+	CREATE TABLE [dbo].[CERTIFICATE](
+		[DA_ROW_ID] [int] NOT NULL,
+		[JOBID] [int] NOT NULL,
+		[INPUT_ROW_ID] [int] NULL,
+		[INVALID_ROW] [int] NULL,
+		[UPDATE_ROW] [int] NULL,
+		[CERTIFICATE_ID] [int] NULL,
+		[JOB_NO_TEXT] [varchar](15) NULL,
+		[JOB_DESC_TXCD] [varchar](8000) NULL,
+		[AGENCY_NAME_TEXT] [varchar](50) NULL,
+		[AGENCY_PHON_TEXT] [varchar](20) NULL,
+		[INSURED_NAM_TEXT] [varchar](50) NULL,
+		[INSURED_ADD_TEXT] [varchar](50) NULL,
+		[INSURED_CIT_TEXT] [varchar](25) NULL,
+		[INSURED_ST_TEXT] [varchar](15) NULL,
+		[INSURED_ZIP_TEXT] [varchar](15) NULL,
+		[INSURED_PH_TEXT] [varchar](20) NULL,
+		[GEN_LIAB_TXCD] [varchar](8000) NULL,
+		[INS_NAME_TEXT] [varchar](50) NULL,
+		[POL_NUMBER_NUM] [float] NULL,
+		[EXPIR_DATE_DATE] [varchar](8) NULL,
+		[BI_EA_AGG_TEXT] [varchar](25) NULL,
+		[PD_EA_AGG_TEXT] [varchar](25) NULL,
+		[BI_PD_COMB_NUM] [float] NULL,
+		[PI_AGG_NUM] [float] NULL,
+		[AUTO_LIAB_TEXT] [varchar](25) NULL,
+		[BI_EA_PERS_NUM] [float] NULL,
+		[BI_EA_ACC_NUM] [float] NULL,
+		[PD_EA_OCC_NUM] [float] NULL,
+		[BI_PD_COMB_TEXT] [varchar](15) NULL,
+		[EXCESS_LIAB_TXCD] [varchar](8000) NULL,
+		[BI_PD_AGG_TEXT] [varchar](15) NULL,
+		[WORK_COMP_NUM] [float] NULL,
+		[WORK_COMP_TEXT] [varchar](25) NULL,
+		[WC_EA_ACC_NUM] [float] NULL,
+		[OPER_DESC_TXCD] [varchar](8000) NULL,
+		[ISSUE_DT_DATE] [varchar](8) NULL,
+	 CONSTRAINT [PK_CERTIFICATE] PRIMARY KEY CLUSTERED 
+	(
+		[DA_ROW_ID] ASC,
+		[JOBID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+
+
+
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'CLAIMANT') 
+BEGIN
+	CREATE TABLE [dbo].[CLAIMANT](
+		[DA_ROW_ID] [int] NOT NULL,
+		[JOBID] [int] NOT NULL,
+		[INPUT_ROW_ID] [int] NULL,
+		[INVALID_ROW] [int] NULL,
+		[UPDATE_ROW] [int] NULL,
+		[CLAIMANT_ROW_ID] [int] NULL,
+		[CLAIM_ID] [int] NULL,
+		[CLAIMANT_EID] [int] NULL,
+		[CLAIMANT_TYPE_CODE] [int] NULL,
+		[ATTORNEY_EID] [int] NULL,
+		[PRIMARY_CLMNT_FLAG] [smallint] NULL,
+		[INJURY_DESCRIPTION] [varchar](8000) NULL,
+		[DAMAGE_DESCRIPTION] [varchar](8000) NULL,
+		[SOL_DATE] [varchar](8) NULL,
+		[COMMENTS] [varchar](8000) NULL,
+		[CLAIM_AMOUNT] [float] NULL,
+		[INSURER_EID] [int] NULL,
+		[CLAIMANT_NUMBER] [int] NULL,
+		[SEC_DEPT_EID] [int] NULL,
+		[HTMLCOMMENTS] [varchar](8000) NULL,
+	 CONSTRAINT [PK_CLAIMANT] PRIMARY KEY CLUSTERED 
+	(
+		[DA_ROW_ID] ASC,
+		[JOBID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'CLAIMANT_SUPP') 
+BEGIN
+	CREATE TABLE [dbo].[CLAIMANT_SUPP](
+		[DA_ROW_ID] [int] NOT NULL,
+		[JOBID] [int] NOT NULL,
+		[INPUT_ROW_ID] [int] NULL,
+		[INVALID_ROW] [int] NULL,
+		[UPDATE_ROW] [int] NULL,
+		[CLAIMANT_ROW_ID] [int] NULL,
+		[CLAIMANT_EID] [int] NULL,
+		[CLAIM_ID] [int] NULL,
+	 CONSTRAINT [PK_CLAIMANT_SUPP] PRIMARY KEY CLUSTERED 
+	(
+		[DA_ROW_ID] ASC,
+		[JOBID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'CODES') 
+BEGIN
+	CREATE TABLE [dbo].[CODES](
+		[DA_ROW_ID] [int] NOT NULL,
+		[JOBID] [int] NOT NULL,
+		[INPUT_ROW_ID] [int] NULL,
+		[INVALID_ROW] [int] NULL,
+		[UPDATE_ROW] [int] NULL,
+		[IND_STANDARD_CODE] [int] NULL,
+		[LINE_OF_BUS_CODE] [int] NULL,
+		[CODE_ID] [int] NULL,
+		[TABLE_ID] [int] NULL,
+		[SHORT_CODE] [varchar](25) NULL,
+		[RELATED_CODE_ID] [int] NULL,
+		[DELETED_FLAG] [smallint] NULL,
+		[TRIGGER_DATE_FIELD] [varchar](50) NULL,
+		[EFF_START_DATE] [varchar](8) NULL,
+		[EFF_END_DATE] [varchar](8) NULL,
+		[ORG_GROUP_EID] [int] NULL,
+	 CONSTRAINT [PK_CODES] PRIMARY KEY CLUSTERED 
+	(
+		[DA_ROW_ID] ASC,
+		[JOBID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'CODES_TEXT') 
+BEGIN
+	CREATE TABLE [dbo].[CODES_TEXT](
+		[DA_ROW_ID] [int] NOT NULL,
+		[JOBID] [int] NOT NULL,
+		[INPUT_ROW_ID] [int] NULL,
+		[INVALID_ROW] [int] NULL,
+		[UPDATE_ROW] [int] NULL,
+		[CODE_ID] [int] NULL,
+		[LANGUAGE_CODE] [int] NULL,
+		[SHORT_CODE] [varchar](25) NULL,
+		[CODE_DESC] [varchar](50) NULL,
+	 CONSTRAINT [PK_CODES_TEXT] PRIMARY KEY CLUSTERED 
+	(
+		[DA_ROW_ID] ASC,
+		[JOBID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'COMPL_MGT') 
+BEGIN
+	CREATE TABLE [dbo].[COMPL_MGT](
+		[DA_ROW_ID] [int] NOT NULL,
+		[JOBID] [int] NOT NULL,
+		[INPUT_ROW_ID] [int] NULL,
+		[INVALID_ROW] [int] NULL,
+		[UPDATE_ROW] [int] NULL,
+		[COMPL_MGT_ID] [int] NULL,
+		[COMP_NO_TEXT] [varchar](25) NULL,
+		[DT_RECV_DATE] [varchar](8) NULL,
+		[COMP_TYPE_CODE] [int] NULL,
+		[COMP_SRC_CODE] [int] NULL,
+		[ACT_REQ_TXCD] [varchar](8000) NULL,
+		[FILED_AGNST_TEXT] [varchar](50) NULL,
+		[REF_TO_TXCD] [varchar](8000) NULL,
+	 CONSTRAINT [PK_COMPL_MGT] PRIMARY KEY CLUSTERED 
+	(
+		[DA_ROW_ID] ASC,
+		[JOBID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'CONTRCT_MGT') 
+BEGIN
+	CREATE TABLE [dbo].[CONTRCT_MGT](
+		[DA_ROW_ID] [int] NOT NULL,
+		[JOBID] [int] NOT NULL,
+		[INPUT_ROW_ID] [int] NULL,
+		[INVALID_ROW] [int] NULL,
+		[UPDATE_ROW] [int] NULL,
+		[CONTRCT_MGT_ID] [int] NULL,
+		[CONT_TYPE_CODE] [int] NULL,
+		[CONTR_CAT_TXCD] [varchar](8000) NULL,
+		[SUBJECTOR_TEXT] [varchar](50) NULL,
+		[SUBJECTEE_TEXT] [varchar](50) NULL,
+		[DETAILS_TXCD] [varchar](8000) NULL,
+		[EFF_DATE_DATE] [varchar](8) NULL,
+		[EXPIR_DATE_DATE] [varchar](8) NULL,
+		[RENEW_DATE_DATE] [varchar](8) NULL,
+		[INDEMNITY_TXCD] [varchar](8000) NULL,
+		[SUBROGATION_TXCD] [varchar](8000) NULL,
+		[TERM_INFO_TEXT] [varchar](50) NULL,
+		[CONDITIONS_TXCD] [varchar](8000) NULL,
+		[AUTH_SIGN_TXCD] [varchar](8000) NULL,
+		[PAYMENTS_TXCD] [varchar](8000) NULL,
+		[WARRANTY_TXCD] [varchar](8000) NULL,
+	 CONSTRAINT [PK_CONTRCT_MGT] PRIMARY KEY CLUSTERED 
+	(
+		[DA_ROW_ID] ASC,
+		[JOBID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+
+
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'DIRECTORY') 
+BEGIN
+	CREATE TABLE [dbo].[DIRECTORY](
+		[DA_ROW_ID] [int] NOT NULL,
+		[JOBID] [int] NOT NULL,
+		[INPUT_ROW_ID] [int] NULL,
+		[INVALID_ROW] [int] NULL,
+		[UPDATE_ROW] [int] NULL,
+		[DIRECTORY_ID] [int] NULL,
+		[LAST_NAME_TEXT] [varchar](255) NULL,
+		[FIRST_NAME_TEXT] [varchar](255) NULL,
+		[ADDRESS_TEXT] [varchar](100) NULL,
+		[CITY_TEXT] [varchar](50) NULL,
+		[STATE_TEXT] [varchar](15) NULL,
+		[ZIP_CODE_TEXT] [varchar](15) NULL,
+		[HOME_PHONE_TEXT] [varchar](25) NULL,
+		[WORK_PHONE_TEXT] [varchar](25) NULL,
+		[FAX_TEXT] [varchar](25) NULL,
+		[TITLE_TEXT] [varchar](25) NULL,
+		[ORGANIZ_TEXT] [varchar](50) NULL,
+		[CONTACT_TYP_CODE] [int] NULL,
+		[CONTACT_STA_CODE] [int] NULL,
+		[RECALL_DT_DATE] [varchar](8) NULL,
+		[NOTES_TXCD] [varchar](8000) NULL,
+	 CONSTRAINT [PK_DIRECTORY] PRIMARY KEY CLUSTERED 
+	(
+		[DA_ROW_ID] ASC,
+		[JOBID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'EMP_X_DEPENDENT') 
+BEGIN
+	CREATE TABLE [dbo].[EMP_X_DEPENDENT](
+		[DA_ROW_ID] [int] NOT NULL,
+		[JOBID] [int] NOT NULL,
+		[INPUT_ROW_ID] [int] NULL,
+		[INVALID_ROW] [int] NULL,
+		[UPDATE_ROW] [int] NULL,
+		[EMP_DEP_ROW_ID] [int] NULL,
+		[EMPLOYEE_EID] [int] NULL,
+		[DEPENDENT_EID] [int] NULL,
+		[HEALTH_PLAN_FLAG] [smallint] NULL,
+		[RELATION_CODE] [int] NULL,
+		[DEPENDENT_ROW_ID] [int] NULL,
+		[EMPLOYEE_EID_SOURCE] [int] NULL,  
+		[DEPENDENT_EID_SOURCE] [int] NULL,
+	 CONSTRAINT [PK_EMP_X_DEPENDENT] PRIMARY KEY CLUSTERED 
+	(
+		[DA_ROW_ID] ASC,
+		[JOBID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'EMP_X_VIOLATION') 
+BEGIN
+	CREATE TABLE [dbo].[EMP_X_VIOLATION](
+		[DA_ROW_ID] [int] NOT NULL,
+		[JOBID] [int] NOT NULL,
+		[INPUT_ROW_ID] [int] NULL,
+		[INVALID_ROW] [int] NULL,
+		[UPDATE_ROW] [int] NULL,
+		[VIOLATION_ID] [int] NULL,
+		[EMPLOYEE_EID] [int] NULL,
+		[EMPLOYEE_EID_SOURCE] [int] NULL,
+		[VIOLATION_CODE] [int] NULL,
+		[VIOLATION_DATE] [varchar](8) NULL,
+	 CONSTRAINT [PK_EMP_X_VIOLATION] PRIMARY KEY CLUSTERED 
+	(
+		[DA_ROW_ID] ASC,
+		[JOBID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'EMPLOYEE') 
+BEGIN
+	CREATE TABLE [dbo].[EMPLOYEE](
+		[DA_ROW_ID] [int] NOT NULL,
+		[JOBID] [int] NOT NULL,
+		[INPUT_ROW_ID] [int] NULL,
+		[INVALID_ROW] [int] NULL,
+		[UPDATE_ROW] [int] NULL,
+		[COUNTY_OF_RESIDNC] [varchar](50) NULL,
+		[DRIVLIC_STATE] [int] NULL,
+		[INSURABLE_FLAG] [smallint] NULL,
+		[LAST_VERIFIED_DATE] [varchar](8) NULL,
+		[NUM_OF_VIOLATIONS] [int] NULL,
+		[TERM_DATE] [varchar](8) NULL,
+		[WORK_PERMIT_DATE] [varchar](8) NULL,
+		[WORK_PERMIT_NUMBER] [varchar](50) NULL,
+		[EMPLOYEE_EID] [int] NULL,
+		[ACTIVE_FLAG] [smallint] NULL,
+		[EMPLOYEE_NUMBER] [varchar](20) NULL,
+		[MARITAL_STAT_CODE] [int] NULL,
+		[DATE_HIRED] [varchar](8) NULL,
+		[POSITION_CODE] [int] NULL,
+		[DEPT_ASSIGNED_EID] [int] NULL,
+		[SUPERVISOR_EID] [int] NULL,
+		[EXEMPT_STATUS_FLAG] [smallint] NULL,
+		[NO_OF_EXEMPTIONS] [int] NULL,
+		[FULL_TIME_FLAG] [smallint] NULL,
+		[HOURLY_RATE] [float] NULL,
+		[WEEKLY_HOURS] [float] NULL,
+		[WEEKLY_RATE] [float] NULL,
+		[WORK_SUN_FLAG] [smallint] NULL,
+		[WORK_MON_FLAG] [smallint] NULL,
+		[WORK_TUE_FLAG] [smallint] NULL,
+		[WORK_WED_FLAG] [smallint] NULL,
+		[WORK_THU_FLAG] [smallint] NULL,
+		[WORK_FRI_FLAG] [smallint] NULL,
+		[WORK_SAT_FLAG] [smallint] NULL,
+		[PAY_TYPE_CODE] [int] NULL,
+		[PAY_AMOUNT] [float] NULL,
+		[DRIVERS_LIC_NO] [varchar](20) NULL,
+		[DRIVERSLICTYPECODE] [int] NULL,
+		[DATE_DRIVERSLICEXP] [varchar](8) NULL,
+		[DRIVLIC_RSTRCTCODE] [int] NULL,
+		[NCCI_CLASS_CODE] [int] NULL,
+		[DATE_OF_DEATH] [varchar](8) NULL,
+		[SEC_DEPT_EID] [int] NULL,
+		[JOB_CLASS_CODE] [int] NULL,
+		[MONTHLY_RATE] [float] NULL,
+		[ELIG_DIS_BEN_FLAG] [smallint] NULL,
+		[DIS_OPTION_CODE] [int] NULL,
+		[STAGING_ID] [int] NULL,			
+		[EMPLOYEE_EID_SOURCE] [int] NULL,    
+		[SUPERVISOR_EID_SOURCE]	[int] NULL,  
+		[DEPT_ASSIGNED_EID_SOURCE] [varchar](25) NULL,
+		[EMP_ENTITY_ID_SOURCE] [int] NULL,           
+		[SEC_DEPT_EID_SOURCE] [varchar](25) NULL,  
+	 CONSTRAINT [PK_EMPLOYEE] PRIMARY KEY CLUSTERED 
+	(
+		[DA_ROW_ID] ASC,
+		[JOBID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'ENTITY') 
+BEGIN
+	CREATE TABLE [dbo].[ENTITY](
+		[DA_ROW_ID] [int] NOT NULL,
+		[JOBID] [int] NOT NULL,
+		[INPUT_ROW_ID] [int] NULL,
+		[INVALID_ROW] [int] NULL,
+		[UPDATE_ROW] [int] NULL,
+		[BUSINESS_TYPE_CODE] [int] NULL,
+		[COUNTY] [varchar](30) NULL,
+		[NATURE_OF_BUSINESS] [varchar](50) NULL,
+		[SIC_CODE] [int] NULL,
+		[SIC_CODE_DESC] [varchar](150) NULL,
+		[WC_FILING_NUMBER] [varchar](30) NULL,
+		[ENTITY_ID] [int] NULL,
+		[ENTITY_STAGING_ID] [int] NULL,
+		[ENTITY_TABLE_ID] [int] NULL,
+		[ENTITY_TABLE_ID_SOURCE] [varchar](30) NULL,
+		[LAST_NAME] [varchar](255) NULL,
+		[LAST_NAME_SOUNDEX] [varchar](8) NULL,
+		[FIRST_NAME] [varchar](255) NULL,
+		[ALSO_KNOWN_AS] [varchar](50) NULL,
+		[ABBREVIATION] [varchar](25) NULL,
+		[COST_CENTER_CODE] [int] NULL,
+		[ADDRESS_TYPE_CODE] [int] NULL,			
+		[ADDR1] [varchar](100) NULL,
+		[ADDR2] [varchar](100) NULL,
+		[ADDR3] [varchar](100) NULL,
+		[ADDR4] [varchar](100) NULL,
+		[CITY] [varchar](50) NULL,
+		[COUNTRY_CODE] [int] NULL,
+		[STATE_ID] [int] NULL,
+		[ZIP_CODE] [varchar](10) NULL,
+		[PARENT_EID] [int] NULL,
+		[TAX_ID] [varchar](20) NULL,
+		[CONTACT] [varchar](50) NULL,
+		[COMMENTS]  [varchar](4000) NULL,
+		[EMAIL_TYPE_CODE] [int] NULL,
+		[EMAIL_ADDRESS] [varchar](100) NULL,
+		[SEX_CODE] [int] NULL,
+		[BIRTH_DATE] [varchar](8) NULL,
+		[PHONE1] [varchar](30) NULL,
+		[PHONE2] [varchar](30) NULL,
+		[FAX_NUMBER] [varchar](30) NULL,
+		[CONTACT_NAME] [varchar](255) NULL,           
+		[CONTACT_TITLE] [varchar](50) NULL,
+		[CONTACT_INITIALS] [varchar](10) NULL,
+		[CONTACT_ADDR1] [varchar](100) NULL,
+		[CONTACT_ADDR2] [varchar](100) NULL,
+		[CONTACT_ADDR3] [varchar](100) NULL,
+		[CONTACT_ADDR4] [varchar](100) NULL,
+		[CONTACT_CITY] [varchar](50) NULL,
+		[CONTACT_ZIP_CODE] [varchar](10) NULL,
+		[CONTACT_PHONE] [varchar](30) NULL,
+		[CONTACT_FAX_NUMBER] [varchar](30) NULL,
+		[CONTACT_EMAIL_ADDRESS] [varchar](25) NULL,
+		[CONTACT_TYPE_CODE] [int] NULL,
+		[CONTACT_STATE_ID] [int] NULL,              
+		[DTTM_RCD_ADDED] [varchar](14) NULL,
+		[DTTM_RCD_LAST_UPD] [varchar](14) NULL,
+		[UPDATED_BY_USER] [varchar](50) NULL,
+		[ADDED_BY_USER] [varchar](50) NULL,
+		[DELETED_FLAG] [smallint] NULL,
+		[SEC_DEPT_EID] [int] NULL,
+		[SEC_DEPT_EID_SOURCE] [varchar](25) NULL,
+		[ASSIGNADJ_EID_SOURCE] [varchar](25) NULL,
+		[TRIGGER_DATE_FIELD] [varchar](50) NULL,
+		[EFF_START_DATE] [varchar](8) NULL,
+		[EFF_END_DATE] [varchar](8) NULL,
+		[PARENT_1099_EID] [int] NULL,
+		[PARENT_EID_SOURCE] [int] NULL,
+		[PARENT_1099_EID_SOURCE] [int] NULL,
+		[REPORT_1099_FLAG] [smallint] NULL,
+		[MIDDLE_NAME] [varchar](255) NULL,
+		[TITLE] [varchar](50) NULL,
+		[NAICS_CODE] [int] NULL,
+		[RM_USER_ID] [int] NULL,
+		[FREEZE_PAYMENTS] [int] NULL,
+		[ORGANIZATION_TYPE] [int] NULL,
+		[NPI_NUMBER] [varchar](10) NULL,
+		[HTMLCOMMENTS] [varchar](4000) NULL,
+		[MMSEA_TIN_EDT_FLAG] [smallint] NULL,
+		[AUTO_DISCOUNT] [float] NULL,
+		[DISCOUNT_FLAG] [smallint] NULL,
+		[FROI_ACORD_PASSWORD] [varchar](15) NULL,
+		[MMSEA_REPRTER_TEXT] [varchar](9) NULL,
+		[MMSEA_OFE_STE_TEXT] [varchar](9) NULL,
+		[TIME_ZONE_TRACKING] [smallint] NULL,
+		[TIME_ZONE_CODE] [int] NULL,
+		[CONF_FLAG] [smallint] NULL,
+        [CONF_EVENT_ID] [int] NULL,
+		[ENTITY_APPROVAL_STATUS] [int] NULL,
+		[ENTITY_REJECT_COMMENTS]  [varchar](4000) NULL,
+		[ENTITY_REJECT_HTMLCOMMENTS] [varchar](4000) NULL,
+		[OVERRIDE_OFAC_CHECK] [smallint] NULL,
+		[ORG_CURR_CODE] [int] NULL,
+		[HOSPITAL_AMT] [float] NULL,
+		[HOSPITAL_LINES] [int] NULL,
+		[MEDICAL_AMT] [float] NULL,
+		[MEDICAL_LINES] [int] NULL,
+		[REFERENCE_NUMBER] [varchar](50) NULL,
+		[CLIENT_SEQ_NUM] [varchar](30) NULL, 
+		[ADDRESS_SEQ_NUM] [int] NULL,
+		[PREFIX] [int] NULL,
+		[SUFFIX_COMMON] [int] NULL,
+		[SUFFIX_LEGAL] [varchar](50) NULL,
+		[ID_TYPE] [int] NULL,
+		[LEGAL_NAME] [varchar](255) NULL,
+		[EFFECTIVE_DATE] [varchar](10) NULL,
+		[EXPIRATION_DATE] [varchar](10) NULL,
+		[NAME_TYPE] [int] NULL,
+		[ASSIGNADJ_EID] [int] NULL,
+		[STAGING_ID] [int] NULL,
+		[ENTITY_ID_TYPE] [int] NULL, 			
+		[ENTITY_ID_NUMBER] [varchar](50) NULL,
+		[ENT_EFFECTIVE_DATE] [varchar](8) NULL,
+		[ENT_EXPIRATION_DATE] [varchar](8) NULL,	
+		[ENT_CATEGORY][int] NULL,
+		[ENT_CATEGORY_PRNT][int] NULL,
+		[EXTERNAL_KEY] [varchar](50) NULL,		
+	    [FINANCIAL_KEY_FLAG] [INT] NULL ,
+	 CONSTRAINT [PK_ENTITY] PRIMARY KEY CLUSTERED 
+	(
+		[DA_ROW_ID] ASC,
+		[JOBID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+
+
+
+
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'ENTITY_EXPOSURE') 
+BEGIN
+	CREATE TABLE [dbo].[ENTITY_EXPOSURE](
+		[DA_ROW_ID] [int] NOT NULL,
+		[JOBID] [int] NOT NULL,
+		[INPUT_ROW_ID] [int] NULL,
+		[INVALID_ROW] [int] NULL,
+		[UPDATE_ROW] [int] NULL,
+		[EXPOSURE_ROW_ID] [int] NULL,
+		[ENTITY_ID] [int] NULL,
+		[START_DATE] [varchar](8) NULL,
+		[END_DATE] [varchar](8) NULL,
+		[NO_OF_EMPLOYEES] [int] NULL,
+		[NO_OF_WORK_HOURS] [int] NULL,
+		[PAYROLL_AMOUNT] [float] NULL,
+		[ASSET_VALUE] [float] NULL,
+		[SQUARE_FOOTAGE] [int] NULL,
+		[VEHICLE_COUNT] [int] NULL,
+		[TOTAL_REVENUE] [float] NULL,
+		[OTHER_BASE] [float] NULL,
+		[RISK_MGMT_OVERHEAD] [float] NULL,
+		[ABBREVIATION] [varchar](25) NULL,
+		[ORG_TABLE_ID] [int] NULL,
+		[USER_GENERATD_FLAG] [smallint] NULL,
+	 CONSTRAINT [PK_ENTITY_EXPOSURE] PRIMARY KEY CLUSTERED 
+	(
+		[DA_ROW_ID] ASC,
+		[JOBID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+
+
+
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'FUNDS') 
+BEGIN
+	CREATE TABLE [dbo].[FUNDS](
+		[DA_ROW_ID] [int] NOT NULL,
+		[JOBID] [int] NOT NULL,
+		[INPUT_ROW_ID] [int] NULL,
+		[INVALID_ROW] [int] NULL,
+		[UPDATE_ROW] [int] NULL,
+		[VOID_DATE] [varchar](8) NULL,
+		[ADDR1] [varchar](100) NULL,
+		[ADDR2] [varchar](100) NULL,
+		[ADDR3] [varchar](100) NULL,
+		[ADDR4] [varchar](100) NULL,
+		[DATE_OF_CLAIM] [varchar](8) NULL,
+	        [DATE_OF_EVENT] [varchar](8) NULL,
+		[CITY] [varchar](50) NULL,
+		[CLAIMANT_EID] [int] NULL,
+		[COUNTRY_CODE] [int] NULL,
+		[FIRST_NAME] [varchar](255) NULL,
+		[LAST_NAME] [varchar](255) NULL,
+		[UNIT_VIN] [varchar](20) NULL,
+		[STATE_ID] [int] NULL,
+		[UNIT_ID] [int] NULL,
+		[ZIP_CODE] [varchar](10) NULL,
+		[TRANS_ID] [int]  NULL,
+		[CLAIM_ID] [int] NULL,
+		[CLAIM_NUMBER] [varchar](25) NULL,
+		[CTL_NUMBER] [varchar](25) NULL,
+		[VOID_FLAG] [smallint] NULL,
+		[DATE_OF_CHECK] [varchar](8) NULL,
+		[CHECK_MEMO] [varchar](255) NULL,
+		[TRANS_NUMBER] [bigint] NULL,
+		[TRANS_DATE] [varchar](8) NULL,
+		[PAYEE_EID] [int] NULL,
+		[PAYEE_TYPE_CODE] [int] NULL,
+		[ACCOUNT_ID] [int] NULL,
+		[AMOUNT] [float] NULL,
+		[STATUS_CODE] [int] NULL,
+		[STATUS_CODE_SRC] [varchar](25) NULL,
+		[FILED_1099_FLAG] [smallint] NULL,
+		[CLEARED_FLAG] [smallint] NULL,
+		[PAYMENT_FLAG] [smallint] NULL,
+		[COLLECTION_FLAG] [smallint] NULL,
+		[COMMENTS] [varchar](4000) NULL,
+		[NOTES] [varchar](2000) NULL,
+		[CRC] [int] NULL,
+		[DTTM_RCD_LAST_UPD] [varchar](14) NULL,
+		[DTTM_RCD_ADDED] [varchar](14) NULL,
+		[UPDATED_BY_USER] [varchar](50) NULL,
+		[ADDED_BY_USER] [varchar](50) NULL,
+		[BATCH_NUMBER] [int] NULL,
+		[SEC_DEPT_EID] [int] NULL,
+		[ENCLOSURE_FLAG] [smallint] NULL,
+		[APPROVE_USER] [varchar](50) NULL,
+		[DTTM_APPROVAL] [varchar](14) NULL,
+		[SUB_ACCOUNT_ID] [int] NULL,
+		[SETTLEMENT_FLAG] [smallint] NULL,
+		[APPROVER_ID] [int] NULL,
+		[VOUCHER_FLAG] [smallint] NULL,
+		[WEEKS_PAID_CODE] [int] NULL,
+		[NUM_OF_PAID_DAYS] [int] NULL,
+		[TAX_PAYMENT_FLAG] [smallint] NULL,
+		[RESUBMIT_EDI] [smallint] NULL,
+		[SUPP_PAYMENT_FLAG] [smallint] NULL,
+		[HTMLCOMMENTS] [Varchar] (4000) NULL,
+		[REISSUE_FLAG] [smallint] NULL,
+		[REISSUE_BY] [varchar](25) NULL,
+		[REISSUE_DATE] [varchar](8) NULL,
+		[REISSUE_PARENT_ID] [int] NULL,
+		[NOTES_HTMLCOMMENTS] [Varchar] (4000) NULL,
+		[REISSUE_REASON_CODE] [int] NULL,
+		[MIDDLE_NAME] [varchar](255) NULL,
+		[REASON] [varchar](255) NULL,
+		[CONF_FLAG] [smallint] NULL,
+		[CONF_EVENT_ID] [int] NULL,
+		[VOID_REASON] [varchar](4000) NULL,
+		[VOID_REASON_HTMLCOMMENTS] [varchar](4000) NULL,
+		[DORMANCY_STATUS] [int] NULL,
+		[WITHHOLDING_PMT_FLAG] [smallint] NULL,
+		[WITHHOLDING_TYPE] [int] NULL,
+		[WITHHOLDING_CHILD_FLAG] [smallint] NULL,
+		[PARENT_TRANS_ID] [int] NULL,
+		[COMBINED_PAY_FLAG] [smallint] NULL,
+		[PAY_TO_THE_ORDER_OF] [varchar](4000) NULL,
+		[EFT_FLAG] [smallint] NULL,
+		[EFT_FILE_NAME] [varchar](255) NULL,
+	   	[EFT_DATE] [varchar](8) NULL,
+		[PMT_CURRENCY_CODE] [int]  NULL,
+		[PMT_CURRENCY_AMOUNT] [float] NULL,
+		[PMT_TO_BASE_CUR_RATE] [float] NULL,
+		[CLAIM_CURRENCY_CODE] [int] NULL,
+		[CLAIM_CURRENCY_AMOUNT] [float] NULL,
+		[PMT_TO_CLAIM_CUR_RATE] [float] NULL,
+		[BASE_TO_PMT_CUR_RATE] [float] NULL,
+		[BASE_TO_CLAIM_CUR_RATE] [float] NULL,
+		[DSTRBN_TYPE_SRC] [varchar](25) NULL,
+		[BILL_TYPE] [int] NULL,
+		[MANUAL_CHECK] [int] NULL,
+		[CHECK_MEMO_HTMCOMMENTS] [varchar](4000) NULL,
+		[CHECK_MEMO_HTMLCOMMENTS] [varchar](4000) NULL,
+		[RES_SUPP_PAYMENT_FLAG] [smallint] NULL,
+		[OFFSET_FLAG] [smallint] NULL,
+		[STOP_PAY_FLAG][int] NULL,
+		[STOP_PAY_DATE][varchar](8) NULL,
+		[TRANS_TYPE] [varchar](1) NULL,
+		[DSTRBN_TYPE_CODE] [int] NULL,
+		[MAIL_TO_EID] [int] NULL,
+		[MAIL_TO_ADDRESS_ID][int] NULL,
+		[INC_CLAIMANT] [int] NULL,
+	       	 [INC_RSVTYPE] [int] NULL,
+		[INC_POL_COVERAGE] [int] NULL,
+		[INC_RSVSUBTYPE] [int] NULL,
+		[INC_LOSS_TYPE] [int] NULL,
+		[EOB_PRINT_DATE] [varchar](8) NULL,
+		[EOB_PRINTED_BY_USER] [varchar](50) NULL,
+		[BEN_REVIEW_DATE] [varchar](8) NULL,
+		[STAGING_ID] [int] NULL,
+		[ACCOUNT_SOURCE] [varchar](20) NULL,
+		[TAX_ID] [varchar](20) NULL,
+		[UPDATE_RESERVES] [char](1) NULL,
+		[CLAIMANT_FIRST] [varchar](255) NULL,
+		[CLAIMANT_LAST] [varchar](255) NULL,
+		[SUB_ACCOUNT_SOURCE] [varchar](20) NULL,
+		[COUNTY] [varchar](30) NULL,
+		[CLAIM_STATUS_CODE] [int] NULL,
+		[LINE_OF_BUS_CODE] [int] NULL,
+		[CLAIM_TYPE_CODE][int] NULL,
+		[POLICY_LOB_CODE][int]NULL,
+		[CLAIM_TO_BASE_CUR_RATE][float] NULL,
+		[CLAIM_TO_POLICY_CUR_RATE][float] NULL,
+	 CONSTRAINT [PK_FUNDS] PRIMARY KEY CLUSTERED 
+	(
+		[DA_ROW_ID] ASC,
+		[JOBID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'FUNDS_DEPOSIT') 
+BEGIN
+	CREATE TABLE [dbo].[FUNDS_DEPOSIT](
+		[DA_ROW_ID] [int] NOT NULL,
+		[JOBID] [int] NOT NULL,
+		[INPUT_ROW_ID] [int] NULL,
+		[INVALID_ROW] [int] NULL,
+		[UPDATE_ROW] [int] NULL,
+		[DEPOSIT_ID] [int] NULL,
+		[CTL_NUMBER] [varchar](25) NULL,
+		[BANK_ACC_ID] [int] NULL,
+		[SUB_ACC_ID] [int] NULL,
+		[TRANS_DATE] [varchar](8) NULL,
+		[AMOUNT] [float] NULL,
+		[CLEARED_FLAG] [smallint] NULL,
+		[VOID_FLAG] [smallint] NULL,
+		[ADDED_BY_USER] [varchar](50) NULL,
+		[DTTM_RCD_ADDED] [varchar](14) NULL,
+		[UPDATED_BY_USER] [varchar](50) NULL,
+		[DTTM_RCD_LAST_UPD] [varchar](14) NULL,
+		[DESCRIPTION] [varchar](4000) NULL, 
+		[VOIDCLEAR_DATE] [varchar](8) NULL,
+		[DEPOSIT_TYPE] [smallint] NULL,
+		[ADJUST_CODE] [int] NULL
+	 CONSTRAINT [PK_FUNDS_DEPOSIT] PRIMARY KEY CLUSTERED 
+	(
+		[DA_ROW_ID] ASC,
+		[JOBID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'T_DIS_FUNDS_DEPOSIT') 
+BEGIN
+	CREATE TABLE [dbo].[T_DIS_FUNDS_DEPOSIT](
+		[DA_ROW_ID] [int] NOT NULL,
+		[JOBID] [int] NOT NULL,
+		[ADJUST_CODE]  [varchar](25) NULL,
+		[BANK_ACC_ID] [varchar](20) NULL,
+		[SUB_ACC_ID] [varchar](20) NULL
+	 CONSTRAINT [PK_T_DIS_FUNDS_DEPOSIT] PRIMARY KEY CLUSTERED 
+	(
+		[DA_ROW_ID] ASC,
+		[JOBID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+
+
+
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'FUNDS_TRANS_SPLIT') 
+BEGIN
+	CREATE TABLE [dbo].[FUNDS_TRANS_SPLIT](
+		[DA_ROW_ID] [int] NOT NULL,
+		[JOBID] [int] NOT NULL,
+		[INPUT_ROW_ID] [int] NULL,
+		[INVALID_ROW] [int] NULL,
+		[UPDATE_ROW] [int] NULL,
+		[SPLIT_ROW_ID] [int] NULL,
+		[SPLIT_ROW_ID_SOURCE] [int] NULL,	
+		[TRANS_ID] [int] NULL,
+		[TRANS_TYPE_CODE] [int] NULL,
+		[RESERVE_TYPE_CODE] [int] NULL,
+		[AMOUNT] [float] NULL,
+		[GL_ACCOUNT_CODE] [int] NULL,
+		[FROM_DATE] [varchar](8) NULL,
+		[TO_DATE] [varchar](8) NULL,
+		[INVOICED_BY] [varchar](20) NULL,
+		[INVOICE_AMOUNT] [float] NULL,
+		[INVOICE_NUMBER] [varchar](25) NULL,
+		[PO_NUMBER] [varchar](14) NULL,
+		[CRC] [int] NULL,
+		[DTTM_RCD_LAST_UPD] [varchar](14) NULL,
+		[DTTM_RCD_ADDED] [varchar](14) NULL,
+		[UPDATED_BY_USER] [varchar](50) NULL,
+		[ADDED_BY_USER] [varchar](50) NULL,
+		[INVOICE_DATE] [varchar](8) NULL,
+		[BILL_RCVD_BY_CARRIER_DATE] [varchar](8) NULL,
+		[SUPP_PAYMENT_FLAG] [smallint] NULL,
+		[AUTO_DISCOUNT] [varchar](10) NULL,
+		[POLCVG_ROW_ID] [int] NULL,
+		[IS_FIRST_FINAL] [smallint] NULL,
+		[WITHHOLDING_SPLIT_FLAG] [smallint] NULL,
+		[PARENT_SPLIT_ROW_ID] [int] NULL,
+		[CONTROL_REQ_FLAG] [smallint] NULL,
+		[FUNDS_CR_STATUS] [int] NULL,
+		[PMT_CURRENCY_AMOUNT] [float] NULL,
+		[PMT_CURRENCY_INVOICE_AMOUNT] [float] NULL,
+		[PMT_CURRENCY_AUTO_DISCOUNT] [float] NULL,
+		[CLAIM_CURRENCY_AMOUNT] [float] NULL,
+		[CLAIM_CURRENCY_INVOICE_AMOUNT] [float] NULL,
+		[CLAIM_CURRENCY_AUTO_DISCOUNT] [float] NULL,
+		[UPDATE_POL_SYS] [smallint] NULL,
+	 	[POLICY_SYSTEM_ID] [int] NULL,
+               	 [RESERVE_SUB_TYPE] [int] NULL,
+	       	 [RC_ROW_ID] [int] NULL,
+		[UNIT_TYPE] [varchar](10) NULL,
+		[POLICY_NAME] [varchar](40) NULL,
+		[POLICY_NUMBER] [varchar](40) NULL,
+		[UNIT_NUMBER] [varchar](10) NULL,
+	  	[MODULE_NO] [varchar](10) NULL,
+	        	[POLICY_SYMBOL] [varchar](20) NULL,
+		[MASTER_COMPANY] [varchar](10) NULL,
+		[LOCATION_COMPANY] [varchar](10) NULL,
+		[CLASS_CODE] [varchar](50) NULL,
+		[CVG_SEQUENCE_NO] [varchar](8) NULL,
+		[TRANS_SEQ_NO] [varchar](8) NULL,
+		[CVG_DESC] [varchar](100) NULL,
+		[SUBLINE_DESC] [varchar](50) NULL,
+		[CLASS_DESC] [varchar](100) NULL,
+		[STAT_UNIT_NUMBER] [varchar](10) NULL,
+		[STAGING_ID] [int] NULL,
+		[COVERAGE_CODE] [int] NULL,
+		[LOSS_DISABILITY_CODE] [int] NULL,
+		[DIS_TYPE_CAT_CODE] [int] NULL,
+		[CLAIM_ID] [int] NULL,
+		[CLAIM_LOB] [int] NULL,
+		[POLICY_ID] [int] NULL,
+		[CLAIM_NUMBER] [varchar](25) NULL,
+		[COVERAGE_CODE_SRC] [varchar](25) NULL,
+		[LOSS_DISABILITY_CODE_SRC] [varchar](25) NULL,
+		[DISABILITY_TYPE_CATEGORY_SRC] [varchar](25) NULL,
+		[EXTERNAL_POLICY_KEY] [varchar](50) NULL,
+		[COVERAGE_KEY][varchar](100) NULL,
+		[UNIT_LAST_NAME] [varchar](255) NULL,
+		[UNIT_FIRST_NAME] [varchar](255) NULL,
+		[UNIT_TAX_ID] [varchar](20) NULL,
+		[UNIT_DOB] [varchar](8) NULL,
+[REGION][varchar](10) NULL,
+[PMT_TO_POLICY_CUR_RATE] [float] NULL,
+[POLICY_CURRENCY_AMOUNT] [float] NULL,
+[POLICY_CURRENCY_CODE] [int] NULL,
+	[CLAIM_TO_POLICY_CUR_RATE][float] NULL,
+[CLAIM_CURR_CODE][int] NULL,
+	 CONSTRAINT [PK_FUNDS_TRANS_SPLIT] PRIMARY KEY CLUSTERED 
+	(
+		[DA_ROW_ID] ASC,
+		[JOBID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'MED_STAFF') 
+BEGIN
+	CREATE TABLE [dbo].[MED_STAFF](	
+		[DA_ROW_ID] [int] NOT NULL,
+		[JOBID] [int] NOT NULL,
+		[INPUT_ROW_ID] [int] NULL,
+		[INVALID_ROW] [int] NULL,
+		[UPDATE_ROW] [int] NULL,
+		[STAFF_EID] [int] NULL,
+		[MED_STAFF_NUMBER] [varchar](50) NULL,
+		[PRIMARY_POLICY_ID] [int] NULL,
+		[HOME_ADDR1] [varchar](100) NULL,
+		[HOME_ADDR2] [varchar](100) NULL,
+		[HOME_ADDR3] [varchar](100) NULL,
+		[HOME_ADDR4] [varchar](100) NULL,
+		[HOME_CITY] [varchar](50) NULL,
+		[HOME_STATE_ID] [int] NULL,
+		[HOME_ZIP_CODE] [varchar](10) NULL,
+		[MARITAL_STAT_CODE] [int] NULL,
+		[BEEPER_NUMBER] [varchar](30) NULL,
+		[CELLULAR_NUMBER] [varchar](30) NULL,
+		[EMERGENCY_CONTACT] [varchar](30) NULL,
+		[STAFF_STATUS_CODE] [int] NULL,
+		[STAFF_POS_CODE] [int] NULL,
+		[STAFF_CAT_CODE] [int] NULL,
+		[DEPT_ASSIGNED_EID] [int] NULL,
+		[HIRE_DATE] [varchar](8) NULL,
+		[LIC_NUM] [varchar](20) NULL,
+		[LIC_STATE] [int] NULL,
+		[LIC_ISSUE_DATE] [varchar](8) NULL,
+		[LIC_EXPIRY_DATE] [varchar](8) NULL,
+		[LIC_DEA_NUM] [varchar](20) NULL,
+		[LIC_DEA_EXP_DATE] [varchar](8) NULL,
+		[EXTERNAL_KEY][varchar](50) NULL,
+		[PRIMARY_POLICY_ID_SOURCE] [varchar](50) NULL,  ---neha
+		[DEPT_ASSIGNED_EID_SOURCE] [varchar](25) NULL,  ---neha
+	 CONSTRAINT [PK_MED_STAFF] PRIMARY KEY CLUSTERED 
+	(
+		[DA_ROW_ID] ASC,
+		[JOBID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'MRG_CLAIM_IDS') 
+BEGIN
+	CREATE TABLE [dbo].[MRG_CLAIM_IDS](
+		[DA_ROW_ID] [int] NOT NULL,
+		[JOBID] [int] NOT NULL,
+		[CLAIM_ID] [int] NULL,
+		[CLAIM_LOB][int] NULL,
+		[CLAIM_STATUS_CODE] [varchar](25) NULL,
+		[CLAIMANT_EID][int] NULL,
+		[UNIT_ID][int] NULL,
+		[CLAIM_TO_BASE_CUR_RATE][float] NULL,
+		[CLAIM_TO_POLICY_CUR_RATE][float] NULL,
+	 CONSTRAINT [PK_MRG_CLAIM_IDS] PRIMARY KEY CLUSTERED 
+	(
+		[DA_ROW_ID] ASC,
+		[JOBID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+
+
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'ORG_HIERARCHY') 
+BEGIN
+	CREATE TABLE [dbo].[ORG_HIERARCHY](
+		[DA_ROW_ID] [int] NOT NULL,
+		[JOBID] [int] NOT NULL,
+		[INPUT_ROW_ID] [int] NULL,
+		[INVALID_ROW] [int] NULL,
+		[UPDATE_ROW] [int] NULL,
+		[DEPARTMENT_EID] [int] NULL,
+		[FACILITY_EID] [int] NULL,
+		[LOCATION_EID] [int] NULL,
+		[DIVISION_EID] [int] NULL,
+		[REGION_EID] [int] NULL,
+		[OPERATION_EID] [int] NULL,
+		[COMPANY_EID] [int] NULL,
+		[CLIENT_EID] [int] NULL,
+	 CONSTRAINT [PK_ORG_HIERARCHY] PRIMARY KEY CLUSTERED 
+	(
+		[DA_ROW_ID] ASC,
+		[JOBID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'PATIENT') 
+BEGIN
+	CREATE TABLE [dbo].[PATIENT](
+		[DA_ROW_ID] [int] NOT NULL,
+		[JOBID] [int] NOT NULL,
+		[INPUT_ROW_ID] [int] NULL,
+		[INVALID_ROW] [int] NULL,
+		[UPDATE_ROW] [int] NULL,
+		[PATIENT_ID] [int]  NULL,
+		[PATIENT_EID] [int] NULL,
+		[PATIENT_ACCT_NO] [varchar](20) NULL,
+		[MEDICAL_RCD_NO] [varchar](20) NULL,
+		[DATE_OF_ADMISSION] [varchar](8) NULL,
+		[TIME_OF_ADMISSION] [varchar](6) NULL,
+		[DATE_OF_DISCHARGE] [varchar](8) NULL,
+		[TIME_OF_DISCHARGE] [varchar](6) NULL,
+		[ADMISSION_REASON] [varchar](4000) NULL,
+		[ADM_TYPE_CODE] [int] NULL,
+		[ADM_SOURCE_CODE] [int] NULL,
+		[ACUITY_LEVEL_CODE] [int] NULL,
+		[CARDIAC_ARREST] [smallint] NULL,
+		[PATIENT_STAT_CODE] [int] NULL,
+		[PATIENT_COND_CODE] [int] NULL,
+		[DISCHARGE_DSP_CODE] [int] NULL,
+		[EXP_LENGTH_OF_STAY] [int] NULL,
+		[EXPECTED_COST] [float] NULL,
+		[INS_PLAN_GROUP_NO] [varchar](16) NULL,
+		[QI_SIGNIF_CODE] [int] NULL,
+		[EPISODE_OF_CARE_ID] [varchar](8) NULL,
+		[PATIENT_TYPE_CODE] [int] NULL,
+		[HEIGHT] [float] NULL,
+		[WEIGHT] [float] NULL,
+		[MARITAL_STAT_CODE] [int] NULL,
+		[RACE_ENTH_CODE] [int] NULL,
+		[DATE_OF_DEATH] [varchar](8) NULL,
+		[PRIMARY_PAY_CODE] [int] NULL,
+		[SECOND_PAY_CODE] [int] NULL,
+		[EMERGENCY_CONTACT] [varchar](20) NULL,
+		[EMERGENCY_CONT_NO] [varchar](20) NULL,
+		[PATIENT_ROOM_NO] [varchar](14) NULL,
+		[FACILITY_UNIT_CODE] [int] NULL,
+		[FACILITY_DEPT_EID] [int] NULL,
+		[HCO_ID_NO] [varchar](20) NULL,
+		[HCO_SITE_ID_NO] [varchar](20) NULL,
+		[PRI_PHYSICIAN_EID] [int] NULL,
+		[ADM_PHYSICIAN_EID] [int] NULL,
+		[NB_APGAR_SCORE] [int] NULL,
+		[NB_BIRTH_WEIGHT] [float] NULL,
+		[NB_LEN_OF_GEST] [int] NULL,
+		[NB_NICU_STAY] [int] NULL,
+		[NB_NICU_ADM_DATE] [varchar](8) NULL,
+		[NB_NICU_DISCH_DATE] [varchar](8) NULL,
+		[NB_CEPHALIC_MOLD] [int] NULL,
+		[NB_EPS_OF_CARE_ID] [varchar](8) NULL,
+		[NBM_PARITY] [int] NULL,
+		[NBM_PRIOR_C_SECT] [int] NULL,
+		[NBM_MED_IND_LABOR] [int] NULL,
+		[NBM_LIVE_BIRTHS] [int] NULL,
+		[NBM_STILL_BIRTHS] [int] NULL,
+		[NBM_GRAVIDA] [int] NULL,
+		[NBM_EPS_OF_CARE_ID] [varchar](8) NULL,
+		[DISABILITY_CODE] [int] NULL,
+		[ILLNESS_CODE] [int] NULL,
+		[LOST_CONSC_FLAG] [int] NULL,
+		[WHY_AT_FACILITY] [varchar](255) NULL,
+		[EXTERNAL_KEY][varchar](50) NULL,
+		[FACILITY_DEPT_EID_SOURCE] [varchar](50) NULL, ---neha
+    		[PRI_PHYS_NUMBER] [varchar](50) NULL, ---NEHA
+    		[ADM_PHYS_NUMBER] [varchar](50) NULL,
+    		[PRI_PHYS_LAST_NAME] [varchar](255) NULL,
+    		[PRI_PHYS_FIRST_NAME] [varchar](255) NULL,
+    		[PRI_PHYS_TAX_ID] [varchar](20) NULL,
+    		[ADM_PHYS_LAST_NAME] [varchar](255) NULL,
+    		[ADM_PHYS_FIRST_NAME] [varchar](255) NULL,
+    		[ADM_PHYS_TAX_ID] [varchar](20) NULL,
+    		[ABBREVIATION] [varchar](25) NULL,
+	 CONSTRAINT [PK_PATIENT] PRIMARY KEY CLUSTERED 
+	(
+		[DA_ROW_ID] ASC,
+		[JOBID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'PATIENT_ACT_TAKEN') 
+BEGIN
+	CREATE TABLE [dbo].[PATIENT_ACT_TAKEN](
+		[DA_ROW_ID] [int] NOT NULL,
+		[JOBID] [int] NOT NULL,
+		[INPUT_ROW_ID] [int] NULL,
+		[INVALID_ROW] [int] NULL,
+		[UPDATE_ROW] [int] NULL,
+		[PATIENT_ID] [int] NULL,
+		[ACTION_CODE] [int] NULL,
+		[KEY_FIELD_VALUE] [varchar](50) NULL,
+	 CONSTRAINT [PK_PATIENT_ACT_TAKEN] PRIMARY KEY CLUSTERED 
+	(
+		[DA_ROW_ID] ASC,
+		[JOBID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'PATIENT_ATTN_PHYS') 
+BEGIN
+	CREATE TABLE [dbo].[PATIENT_ATTN_PHYS](
+		[DA_ROW_ID] [int] NOT NULL,
+		[JOBID] [int] NOT NULL,
+		[INPUT_ROW_ID] [int] NULL,
+		[INVALID_ROW] [int] NULL,
+		[UPDATE_ROW] [int] NULL,
+		[PATIENT_ID] [int] NULL,
+		[PHYSICIAN_EID] [int] NULL,
+		[PHYS_LAST_NAME] [varchar](255) NULL,
+		[PHYS_FIRST_NAME] [varchar](255) NULL,
+		[PHYS_TAX_ID] [varchar](20) NULL,
+		[PHYS_NUMBER] [varchar](50) NULL,
+		[KEY_FIELD_VALUE] [varchar](50) NULL,
+	 CONSTRAINT [PK_PATIENT_ATTN_PHYS] PRIMARY KEY CLUSTERED 
+	(
+		[DA_ROW_ID] ASC,
+		[JOBID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'PATIENT_DIAGNOSIS') 
+BEGIN
+	CREATE TABLE [dbo].[PATIENT_DIAGNOSIS](
+		[DA_ROW_ID] [int] NOT NULL,
+		[JOBID] [int] NOT NULL,
+		[INPUT_ROW_ID] [int] NULL,
+		[INVALID_ROW] [int] NULL,
+		[UPDATE_ROW] [int] NULL,
+		[PATIENT_ID] [int] NULL,
+		[DIAGNOSIS_CODE] [int] NULL,
+		[KEY_FIELD_VALUE] [varchar](50) NULL,
+	 CONSTRAINT [PK_PATIENT_DIAGNOSIS] PRIMARY KEY CLUSTERED 
+	(
+		[DA_ROW_ID] ASC,
+		[JOBID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'PATIENT_DRG_CODES') 
+BEGIN
+	CREATE TABLE [dbo].[PATIENT_DRG_CODES](
+		[DA_ROW_ID] [int] NOT NULL,
+		[JOBID] [int] NOT NULL,
+		[INPUT_ROW_ID] [int] NULL,
+		[INVALID_ROW] [int] NULL,
+		[UPDATE_ROW] [int] NULL,
+		[PATIENT_ID] [int] NULL,
+		[DRG_CODE] [int] NULL,
+		[KEY_FIELD_VALUE] [varchar](50) NULL,
+	 CONSTRAINT [PK_PATIENT_DRG_CODES] PRIMARY KEY CLUSTERED 
+	(
+		[DA_ROW_ID] ASC,
+		[JOBID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+
+
+
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'PATIENT_PROCEDURE') 
+BEGIN
+	CREATE TABLE [dbo].[PATIENT_PROCEDURE](
+		[DA_ROW_ID] [int] NOT NULL,
+		[JOBID] [int] NOT NULL,
+		[INPUT_ROW_ID] [int] NULL,
+		[INVALID_ROW] [int] NULL,
+		[UPDATE_ROW] [int] NULL,
+		[PROC_ROW_ID] [int] NULL,
+		[PATIENT_ID] [int] NULL,
+		[PROCEDURE_CODE] [int] NULL,
+		[PROC_TYPE_CODE] [int] NULL,
+		[DATE_OF_PROCEDURE] [varchar](8) NULL,
+		[SURGEON_EID] [int] NULL,
+		[ANESTH_ADMIN_FLAG] [smallint] NULL,
+		[ANESTH_TYPE_CODE] [int] NULL,
+		[ANESTH_EID] [int] NULL,
+		[ASA_PS_CLASS_CODE] [int] NULL,
+		[COMPLICATION_DATE] [varchar](8) NULL,
+		[PRIOR_TO_ANES_FLAG] [smallint] NULL,
+		[ICC_LEVEL_CODE] [int] NULL,
+		[LEN_OF_TIME] [float] NULL,
+		[COMPLICATIONS] [varchar](4000) NULL,
+		[SURGEON_PHYS_NUMBER] [varchar](50) NULL,  ---neha
+    		[SURGEON_LAST_NAME] [varchar](255) NULL,  ---neha
+    		[SURGEON_FIRST_NAME] [varchar](255) NULL, ----Neha
+    		[SURGEON_TAX_ID] [varchar](20) NULL,  ---neha
+    		[ANESTH_LAST_NAME] [varchar](255) NULL,  ---neha
+    		[ANESTH_FIRST_NAME] [varchar](255) NULL,  ---neha
+    		[ANESTH_TAX_ID] [varchar](20) NULL,  ---neha
+		[KEY_FIELD_VALUE] [VARCHAR](50) NULL,
+	 CONSTRAINT [PK_PATIENT_PROCEDURE] PRIMARY KEY CLUSTERED 
+	(
+		[DA_ROW_ID] ASC,
+		[JOBID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+
+
+
+
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'PHYS_CERTS') 
+BEGIN
+	CREATE TABLE [dbo].[PHYS_CERTS](
+		[DA_ROW_ID] [int] NOT NULL,
+		[JOBID] [int] NOT NULL,
+		[INPUT_ROW_ID] [int] NULL,
+		[INVALID_ROW] [int] NULL,
+		[UPDATE_ROW] [int] NULL,
+		[CERT_ID] [int] NULL,
+		[PHYS_EID] [int] NULL,
+		[NAME_CODE] [int] NULL,
+		[STATUS_CODE] [int] NULL,
+		[BOARD_CODE] [int] NULL,
+		[INT_DATE] [varchar](8) NULL,
+		[END_DATE] [varchar](8) NULL,
+		[KEY_FIELD_VALUE] [varchar](50) NULL
+	 CONSTRAINT [PK_PHYS_CERTS] PRIMARY KEY CLUSTERED 
+	(
+		[DA_ROW_ID] ASC,
+		[JOBID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'PHYS_EDUCATION') 
+BEGIN
+	CREATE TABLE [dbo].[PHYS_EDUCATION](
+		[DA_ROW_ID] [int] NOT NULL,
+		[JOBID] [int] NOT NULL,
+		[INPUT_ROW_ID] [int] NULL,
+		[INVALID_ROW] [int] NULL,
+		[UPDATE_ROW] [int] NULL,
+		[EDUC_ID] [int] NULL,
+		[PHYS_EID] [int] NULL,
+		[EDUC_TYPE_CODE] [int] NULL,
+		[INSTITUTION_EID] [int] NULL,
+		[DEGREE_TYPE] [int] NULL,
+		[DEGREE_DATE] [varchar](8) NULL,
+		[KEY_FIELD_VALUE] [varchar](50) NULL,
+		[INSTITUTION_NAME_SOURCE] [VARCHAR](255)
+	 CONSTRAINT [PK_PHYS_EDUCATION] PRIMARY KEY CLUSTERED 
+	(
+		[DA_ROW_ID] ASC,
+		[JOBID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'PHYS_PREV_HOSP') 
+BEGIN
+	CREATE TABLE [dbo].[PHYS_PREV_HOSP](
+		[DA_ROW_ID] [int] NOT NULL,
+		[JOBID] [int] NOT NULL,
+		[INPUT_ROW_ID] [int] NULL,
+		[INVALID_ROW] [int] NULL,
+		[UPDATE_ROW] [int] NULL,
+		[PREV_HOSP_ID] [int] NULL,
+		[PHYS_EID] [int] NULL,
+		[STATUS_CODE] [int] NULL,
+		[HOSPITAL_EID] [int] NULL,
+		[PRIV_CODE] [int] NULL,
+		[INT_DATE] [varchar](8) NULL,
+		[END_DATE] [varchar](8) NULL,
+		[KEY_FIELD_VALUE] [varchar](50) NULL,
+		[HOSPITAL_NAME_SOURCE] [varchar](255)
+	 CONSTRAINT [PK_PHYS_PREV_HOSP] PRIMARY KEY CLUSTERED 
+	(
+		[DA_ROW_ID] ASC,
+		[JOBID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'PHYS_PRIVS') 
+BEGIN
+	CREATE TABLE [dbo].[PHYS_PRIVS](
+		[DA_ROW_ID] [int] NOT NULL,
+		[JOBID] [int] NOT NULL,
+		[INPUT_ROW_ID] [int] NULL,
+		[INVALID_ROW] [int] NULL,
+		[UPDATE_ROW] [int] NULL,
+		[PRIV_ID] [int] NULL,
+		[PHYS_EID] [int] NULL,
+		[CATEGORY_CODE] [int] NULL,
+		[TYPE_CODE] [int] NULL,
+		[STATUS_CODE] [int] NULL,
+		[INT_DATE] [varchar](8) NULL,
+		[END_DATE] [varchar](8) NULL,
+		[KEY_FIELD_VALUE] [varchar](50) NULL
+	 CONSTRAINT [PK_PHYS_PRIVS] PRIMARY KEY CLUSTERED 
+	(
+		[DA_ROW_ID] ASC,
+		[JOBID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'PHYS_SUB_SPECIALTY') 
+BEGIN
+	CREATE TABLE [dbo].[PHYS_SUB_SPECIALTY](
+		[DA_ROW_ID] [int] NOT NULL,
+		[JOBID] [int] NOT NULL,
+		[INPUT_ROW_ID] [int] NULL,
+		[INVALID_ROW] [int] NULL,
+		[UPDATE_ROW] [int] NULL,
+		[PHYS_EID] [int] NULL,
+		[SPECIALTY_CODE] [int] NULL,
+		[KEY_FIELD_VALUE] [varchar](50) NULL
+	 CONSTRAINT [PK_PHYS_SUB_SPECIALTY] PRIMARY KEY CLUSTERED 
+	(
+		[DA_ROW_ID] ASC,
+		[JOBID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+
+
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'PHYSICIAN') 
+BEGIN
+	CREATE TABLE [dbo].[PHYSICIAN](
+		[DA_ROW_ID] [int] NOT NULL,
+		[JOBID] [int] NOT NULL,
+		[INPUT_ROW_ID] [int] NULL,
+		[INVALID_ROW] [int] NULL,
+		[UPDATE_ROW] [int] NULL,
+		[PHYS_EID] [int] NULL,
+		[PHYSICIAN_NUMBER] [varchar](50) NULL,
+		[MED_STAFF_NUMBER] [varchar](50) NULL,
+		[MEDICARE_NUMBER] [varchar](20) NULL,
+		[PRIMARY_SPECIALTY] [int] NULL,
+		[PRIMARY_POLICY_ID] [int] NULL,
+		[HOME_ADDR1] [varchar](100) NULL,
+		[HOME_ADDR2] [varchar](100) NULL,
+		[HOME_ADDR3] [varchar](100) NULL,
+		[HOME_ADDR4] [varchar](100) NULL,
+		[HOME_CITY] [varchar](50) NULL,
+		[HOME_STATE_ID] [int] NULL,
+		[HOME_ZIP_CODE] [varchar](10) NULL,
+		[MARITAL_STAT_CODE] [int] NULL,
+		[BEEPER_NUMBER] [varchar](30) NULL,
+		[CELLULAR_NUMBER] [varchar](30) NULL,
+		[MAILING_ADDR1] [varchar](100) NULL,
+		[MAILING_ADDR2] [varchar](100) NULL,
+		[MAILING_ADDR3] [varchar](100) NULL,
+		[MAILING_ADDR4] [varchar](100) NULL,
+		[MAILING_CITY] [varchar](50) NULL,
+		[MAILING_STATE_ID] [int] NULL,
+		[MAILING_ZIP_CODE] [varchar](10) NULL,
+		[EMERGENCY_CONTACT] [varchar](30) NULL,
+		[STAFF_STATUS_CODE] [int] NULL,
+		[STAFF_TYPE_CODE] [int] NULL,
+		[STAFF_CAT_CODE] [int] NULL,
+		[INTERNAL_NUMBER] [varchar](20) NULL,
+		[DEPT_ASSIGNED_EID] [int] NULL,
+		[APPOINT_DATE] [varchar](8) NULL,
+		[REAPPOINT_DATE] [varchar](8) NULL,
+		[LIC_STATE] [int] NULL,
+		[LIC_NUM] [varchar](20) NULL,
+		[LIC_ISSUE_DATE] [varchar](8) NULL,
+		[LIC_EXPIRY_DATE] [varchar](8) NULL,
+		[LIC_DEA_NUM] [varchar](20) NULL,
+		[LIC_DEA_EXP_DATE] [varchar](8) NULL,
+		[MEMBERSHIP] [varchar](20) NULL,
+		[CONT_EDUCATION] [varchar](20) NULL,
+		[TEACHING_EXP] [varchar](20) NULL,
+		[EXTERNAL_KEY] [varchar](50) NULL,
+		[PARENT_1099_PHYSICIAN_NUMBER] [varchar](50) NULL,
+		[PARENT_1099_TABLE_NAME] [varchar](50) NULL,
+		[PARENT_1099_LAST_NAME] [varchar](255) NULL,
+		[PARENT_1099_TAX_ID] [varchar](50) NULL,
+		[DEPT_ASSIGNED_EID_SOURCE] [varchar](50) NULL,
+		[PRIMARY_POLICY_NUMBER_SOURCE] [varchar](50) NULL,
+		[KEY_FIELD_VALUE] [varchar](50) NULL
+	 CONSTRAINT [PK_PHYSICIAN] PRIMARY KEY CLUSTERED 
+	(	
+		[DA_ROW_ID] ASC,
+		[JOBID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'PROJ_TRACK') 
+BEGIN
+	CREATE TABLE [dbo].[PROJ_TRACK](
+		[DA_ROW_ID] [int] NOT NULL,
+		[JOBID] [int] NOT NULL,
+		[INPUT_ROW_ID] [int] NULL,
+		[INVALID_ROW] [int] NULL,
+		[UPDATE_ROW] [int] NULL,
+		[PROJ_TRACK_ID] [int] NULL,
+		[ACT_TYPE_CODE] [int] NULL,
+		[ACTIV_DESC_TXCD] [varchar](8000) NULL,
+		[ASSIGN_BY_TEXT] [varchar](50) NULL,
+		[ASSIGN_TO_TXCD] [varchar](8000) NULL,
+		[PRIORITY_CODE] [int] NULL,
+		[EST_HOURS_NUM] [float] NULL,
+		[ACT_HOURS_NUM] [float] NULL,
+		[DUE_DATE_DATE] [varchar](8) NULL,
+		[REVIEW_DATE_DATE] [varchar](8) NULL,
+		[COMPLETE_DT_DATE] [varchar](8) NULL,
+		[STATUS_CODE] [int] NULL,
+		[MAT_USED_TXCD] [varchar](8000) NULL,
+		[MAT_COST_AMT] [float] NULL,
+		[NOTES_TXCD] [varchar](8000) NULL,
+	 CONSTRAINT [PK_PROJ_TRACK] PRIMARY KEY CLUSTERED 
+	(
+		[DA_ROW_ID] ASC,
+		[JOBID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'PROP_MGT') 
+BEGIN
+	CREATE TABLE [dbo].[PROP_MGT](
+		[DA_ROW_ID] [int] NOT NULL,
+		[JOBID] [int] NOT NULL,
+		[INPUT_ROW_ID] [int] NULL,
+		[INVALID_ROW] [int] NULL,
+		[UPDATE_ROW] [int] NULL,
+		[PROP_MGT_ID] [int] NULL,
+		[PROP_ID_TEXT] [varchar](50) NULL,
+		[LOCATION_TXCD] [varchar](8000) NULL,
+		[OWNERSHIP_CODE] [int] NULL,
+		[PROP_TYPE_CODE] [int] NULL,
+		[PROP_CAT_TEXT] [varchar](50) NULL,
+		[REPORTED_BY_TXCD] [varchar](8000) NULL,
+		[DT_UPDATE_DATE] [varchar](8) NULL,
+		[REV_DATE_DATE] [varchar](8) NULL,
+		[DETAIL_TXCD] [varchar](8000) NULL,
+		[ORIG_VALUE_AMT] [float] NULL,
+		[CURR_VALUE_AMT] [float] NULL,
+		[REPLACE_VAL_AMT] [float] NULL,
+		[CONT_ORG_VL_AMT] [float] NULL,
+		[CONT_REP_VL_AMT] [float] NULL,
+		[CONT_CUR_VL_AMT] [float] NULL,
+		[INSTALL_DT_DATE] [varchar](8) NULL,
+		[CONTACT_TEXT] [varchar](50) NULL,
+		[CONTACT_ADD_TEXT] [varchar](50) NULL,
+		[CONT_CITY_TEXT] [varchar](25) NULL,
+		[CONT_STATE_TEXT] [varchar](15) NULL,
+		[CONT_ZIP_TEXT] [varchar](15) NULL,
+		[CONT_PHONE_TEXT] [varchar](25) NULL,
+		[COVERAGE_CODE] [int] NULL,
+		[DAMAGES_TXCD] [varchar](8000) NULL,
+		[IMPROVEMENT_TXCD] [varchar](8000) NULL,
+		[NOTES_TXCD] [varchar](8000) NULL,
+	 CONSTRAINT [PK_PROP_MGT] PRIMARY KEY CLUSTERED 
+	(
+		[DA_ROW_ID] ASC,
+		[JOBID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'RESERVE_CURRENT') 
+BEGIN
+	CREATE TABLE [dbo].[RESERVE_CURRENT](
+		[DA_ROW_ID] [int] NOT NULL,
+		[JOBID] [int] NOT NULL,
+		[INPUT_ROW_ID] [int] NULL,
+		[INVALID_ROW] [int] NULL,
+		[UPDATE_ROW] [int] NULL,
+		[CLAIM_NUMBER] [varchar](50) NULL,
+		[CLAIM_ID] [int] NULL,
+		[UNIT_ID] [int] NULL,
+		[CLAIMANT_EID] [int] NULL,
+		[RESERVE_TYPE_CODE_ID] [int] NULL,
+		[RESERVE_AMOUNT] [float] NULL,
+		[DATE_ENTERED] [varchar](8) NULL,
+		[ENTERED_BY_USER] [varchar](50) NULL,
+		[REASON] [varchar](30) NULL,
+		[UPDATED_BY_USER] [varchar](50) NULL,
+		[DTTM_RCD_ADDED] [varchar](14) NULL,
+		[DTTM_RCD_LAST_UPD] [varchar](14) NULL,
+		[ADDED_BY_USER] [varchar](50) NULL,
+		[SEC_DEPT_EID] [int] NULL,
+		[RES_STATUS_CODE_ID] [int] NULL,
+		[ALLOCATED_AMOUNT] [float] NULL,
+		[POLCVG_ROW_ID] [int] NULL,
+		[CLAIM_CURR_CODE] [int] NULL,
+		[CLAIM_TO_BASE_CUR_RATE] [float] NULL,
+		[CLAIM_TO_POL_CUR_RATE] [float] NULL,
+		[POL_CURR_CODE] [int] NULL,	
+		[RESERVE_CATEGORY] [int] NULL,
+		[ASSIGNADJ_EID] [int] NULL,
+		[RESERVE_ID] [int] NULL,
+		[INC_CLAIMANT] [int] NULL,
+		[INC_RSVTYPE] [int] NULL,
+		[INC_POL_COVERAGE] [int] NULL,
+		[INC_RSVSUBTYPE] [int] NULL,
+		[INC_LOSS_TYPE] [int] NULL,
+		[POLICY_SYSTEM_ID] [INT] NULL,
+		[UNIT_VIN] [varchar](50) NULL,
+		[CLAIMANT_FIRST_NAME] [varchar](255) NULL,
+		[CLAIMANT_LAST_NAME] [varchar](255) NULL,
+		[RESERVE_DATE] [varchar](8) NULL,
+		[CHK_DUPLICATE_RSV] [int] NULL,
+		[ADJ_FIRST_NAME] [varchar](255) NULL,
+		[ADJ_LAST_NAME] [varchar](255) NULL,
+		[ADJ_TAX_ID] [varchar](20) NULL,
+		[UNIT_TYPE] [nvarchar](25) NULL,
+		[POLICY_NAME] [nvarchar](30) NULL,
+		[UNIT_NUMBER] [nvarchar](25) NULL,
+		[MODULE_NO] [nvarchar](25) NULL,
+		[CLASS_CODE] [nvarchar](30) NULL,
+		[CVG_SEQUENCE_NO] [nvarchar](8) NULL,
+		[TRANS_SEQ_NO] [nvarchar](8) NULL,
+		[CVG_DESC] [nvarchar](100) NULL,
+		[SUBLINE_DESC] [nvarchar](100) NULL,
+		[CLASS_DESC] [nvarchar](100) NULL,
+		[STAT_UNIT_NUMBER] [nvarchar](10) NULL,
+		[POLICY_CVG_SEQNO] [int] NULL,
+		[POLCVG_LOSS_ROW_ID] [int] NULL,
+		[POLICY_NUMBER] [nvarchar](40) NULL,
+		[POLICY_SYMBOL] [nvarchar](20),
+		[MASTER_COMPANY] [nvarchar](10),
+		[LOCATION_COMPANY] [nvarchar](10),
+		[CLAIM_STATUS_CODE] [int] NULL,
+		[COVERAGE_SHORT_CODE] [nvarchar](25) NULL,
+		[COVERAGE_CODE_ID] [int] NULL,
+		[LOSS_DISABILITY_SHORT_CODE] [nvarchar](25) NULL,
+		[LOSS_DISABILITY_CODE_ID] [int] NULL,
+		[RESERVE_SUB_TYPE_ID] [int] NULL,
+		[DISABILITY_TYPE_CATEGORY_ID] [int] NULL,
+		[LINE_OF_BUS_CODE] [int] NULL,
+		[COLL_IN_RSV_BAL] [int] NULL,
+		[COLL_IN_INCUR_BAL] [int] NULL,
+		[REGION] VARCHAR(10),
+		[UNIT_LAST_NAME] VARCHAR(255),
+		[UNIT_FIRST_NAME] VARCHAR(255),
+		[UNIT_TAX_ID] VARCHAR(20),
+		[UNIT_DOB] VARCHAR(8),
+		[BEN_REVIEW_DATE] VARCHAR(8),
+	 CONSTRAINT [PK_RESERVE_CURRENT] PRIMARY KEY CLUSTERED 
+	(
+		[DA_ROW_ID] ASC,
+		[JOBID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'RESERVE_HISTORY') 
+BEGIN
+	CREATE TABLE [dbo].[RESERVE_HISTORY](
+		[DA_ROW_ID] [int] NOT NULL,
+		[JOBID] [int] NOT NULL,
+		[INPUT_ROW_ID] [int] NULL,
+		[INVALID_ROW] [int] NULL,
+		[UPDATE_ROW] [int] NULL,
+		[BALANCE_AMOUNT] [float] NULL,
+		[CHANGE_AMOUNT] [float] NULL,
+		[RSV_ROW_ID] [int] NULL,
+		[CLAIM_ID] [int] NULL,
+		[CLAIMANT_EID] [int] NULL,
+		[UNIT_ID] [int] NULL,
+		[RESERVE_TYPE_CODE] [int] NULL,
+		[RESERVE_AMOUNT] [float] NULL,
+		[COLLECTION_TOTAL] [float] NULL,
+		[INCURRED_AMOUNT] [float] NULL,
+		[PAID_TOTAL] [float] NULL,
+		[DATE_ENTERED] [varchar](8) NULL,
+		[ENTERED_BY_USER] [varchar](50) NULL,
+		[REASON] [varchar](30) NULL,
+		[UPDATED_BY_USER] [varchar](50) NULL,
+		[DTTM_RCD_ADDED] [varchar](14) NULL,
+		[DTTM_RCD_LAST_UPD] [varchar](14) NULL,
+		[ADDED_BY_USER] [varchar](50) NULL,
+		[CRC] [int] NULL,
+		[SEC_DEPT_EID] [int] NULL,
+		[RES_STATUS_CODE] [int] NULL,
+		[STAGING_ID] [int] NULL,
+		[CLAIM_CURR_CODE] [int] NULL,
+		[CLAIM_TO_BASE_CUR_RATE] [float] NULL,
+		[CLAIM_CURRENCY_RESERVE_AMOUNT] [float] NULL,
+		[CLAIM_CURRENCY_INCURRED_AMT] [float] NULL,
+		[CLAIM_CURR_COLLECTION_TOTAL] [float] NULL,
+		[CLAIM_CURRENCY_PAID_TOTAL] [float] NULL,
+		[CLAIM_CURRENCY_BALANCE_AMT] [float] NULL,
+		[BASE_TO_CLAIM_CUR_RATE] [float] NULL,
+		[RESERVE_CATEGORY] [int] NULL,
+		[POLICY_CVG_SEQNO] [int] NULL,
+		[POLCVG_LOSS_ROW_ID] [int] NULL,
+		[ADJUSTER_ID] [int] NULL,
+		[ASSIGNADJ_EID] [int] NULL,
+	 CONSTRAINT [PK_RESERVE_HISTORY] PRIMARY KEY CLUSTERED 
+	(
+		[DA_ROW_ID] ASC,
+		[JOBID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'STAFF_CERTS') 
+BEGIN
+	CREATE TABLE [dbo].[STAFF_CERTS](
+		[DA_ROW_ID] [int] NOT NULL,
+		[JOBID] [int] NOT NULL,
+		[INPUT_ROW_ID] [int] NULL,
+		[INVALID_ROW] [int] NULL,
+		[UPDATE_ROW] [int] NULL,
+		[STAFF_CERT_ID] [int] NULL,
+		[STAFF_EID] [int] NULL,
+		[NAME_CODE] [int] NULL,
+		[INT_DATE] [varchar](8) NULL,
+		[END_DATE] [varchar](8) NULL,
+		[MED_STAFF_NUMBER] [varchar](50) NULL,  --added by neha
+	 CONSTRAINT [PK_STAFF_CERTS] PRIMARY KEY CLUSTERED 
+	(
+		[DA_ROW_ID] ASC,
+		[JOBID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'STAFF_PRIVS') 
+BEGIN
+	CREATE TABLE [dbo].[STAFF_PRIVS](
+		[DA_ROW_ID] [int] NOT NULL,
+		[JOBID] [int] NOT NULL,
+		[INPUT_ROW_ID] [int] NULL,
+		[INVALID_ROW] [int] NULL,
+		[UPDATE_ROW] [int] NULL,	
+		[STAFF_PRIV_ID] [int] NULL,
+		[STAFF_EID] [int] NULL,
+		[CATEGORY_CODE] [int] NULL,
+		[TYPE_CODE] [int] NULL,
+		[STATUS_CODE] [int] NULL,
+		[INT_DATE] [varchar](8) NULL,
+		[END_DATE] [varchar](8) NULL,
+		[MED_STAFF_NUMBER] [varchar](50) NULL, ---added by neha
+	 CONSTRAINT [PK_STAFF_PRIVS] PRIMARY KEY CLUSTERED 
+	(
+		[DA_ROW_ID] ASC,
+		[JOBID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'VEHICLE_X_ACC_DATE') 
+BEGIN
+	CREATE TABLE [dbo].[VEHICLE_X_ACC_DATE](
+		[DA_ROW_ID] [int] NOT NULL,
+		[JOBID] [int] NOT NULL,
+		[INPUT_ROW_ID] [int] NULL,
+		[INVALID_ROW] [int] NULL,
+		[UPDATE_ROW] [int] NULL,	
+		[UNIT_ID] [int] NULL,
+		[ACCIDENT_DATE] [varchar](8) NULL,
+		[CLAIM_ID] [int] NULL,
+		[VEH_X_ACC_DATE_ROW_ID] [int] NULL,
+		[SOURCE_UNIT_ID] [int] NULL,
+		[CLAIM_ID_SOURCE] [varchar](25) NULL,
+	 CONSTRAINT [PK_VEHICLE_X_ACC_DATE] PRIMARY KEY CLUSTERED 
+	(
+		[DA_ROW_ID] ASC,
+		[JOBID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+
+-- KGUPTA31 -- COMMENTED AS PER DA DIS RESTRUCTURE ACTIVITY REASON THERE IS NO CODE COLUMN IN IT 
+-- DATED: 21-JULY-2016
+/*IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'T_DIS_VEHICLE_X_ACC_DATE') 
+BEGIN
+	CREATE TABLE [dbo].[T_DIS_VEHICLE_X_ACC_DATE](
+		[DA_ROW_ID] [int] NOT NULL,
+		[JOBID] [int] NOT NULL,
+		[SOURCE_UNIT_ID] [int] NULL,
+		[CLAIM_NUMBER] [varchar](25) NULL,
+	 CONSTRAINT [PK_T_DIS_VEHICLE_X_ACC_DATE] PRIMARY KEY CLUSTERED 
+	(
+		[DA_ROW_ID] ASC,
+		[JOBID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+*/
+
+-- KGUPTA31 -- COMMENTED AS PER DA DIS RESTRUCTURE ACTIVITY REASON THERE IS NO CODE COLUMN IN IT 
+-- DATED: 21-JULY-2016
+/*
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'T_DIS_VEHICLE_X_INSPCT') 
+BEGIN
+	CREATE TABLE [dbo].[T_DIS_VEHICLE_X_INSPCT](
+		[DA_ROW_ID] [int] NOT NULL,
+		[JOBID] [int] NOT NULL,
+		[SOURCE_UNIT_ID] [int] NULL,
+	 CONSTRAINT [PK_T_DIS_VEHICLE_X_INSPCT] PRIMARY KEY CLUSTERED 
+	(
+		[DA_ROW_ID] ASC,
+		[JOBID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+*/
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'VEHICLE_X_INSPCT') 
+BEGIN
+	CREATE TABLE [dbo].[VEHICLE_X_INSPCT](
+		[DA_ROW_ID] [int] NOT NULL,
+		[JOBID] [int] NOT NULL,
+		[INPUT_ROW_ID] [int] NULL,
+		[INVALID_ROW] [int] NULL,
+		[UPDATE_ROW] [int] NULL,
+		[UNIT_INSP_ROW_ID] [int] NULL,
+		[UNIT_ID] [int] NULL,
+		[INSPECTION_DATE] [varchar](8) NULL,
+		[INSPECTION_RESULT] [varchar](255) NULL,
+		[SOURCE_UNIT_ID] [int] NULL,
+	 CONSTRAINT [PK_VEHICLE_X_INSPCT] PRIMARY KEY CLUSTERED 
+	(
+		[DA_ROW_ID] ASC,
+		[JOBID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'ERROR_LOG') 
+BEGIN
+	CREATE TABLE [dbo].[ERROR_LOG] (
+		[ERR_LOG_ROW_ID] [int] NOT NULL,
+		[JOBID] [int] NOT NULL,
+		[INPUT_ROW_ID] [int] NULL,
+		[MODULE_NAME] [varchar](50) NULL,
+		[WORK_FLOW_NAME] [varchar](50) NULL,
+		[DATA_FLOW_NAME] [varchar](4000) NULL,
+		[ERROR_TIME] [varchar](14) NULL,
+		[ERROR_TITLE] [varchar](100) NULL,
+		[ERROR_DESC] [varchar](4000) NULL,
+		[IS_VALIDATION] [int] NULL,
+		[ERROR_TABLE] [varchar](50) NULL,
+		[TABLE_ROW_ID] [int] NULL,
+		[ERROR_COLUMNS] [varchar](4000) NULL,
+	 CONSTRAINT [PK_ERROR_LOG] PRIMARY KEY CLUSTERED
+	(
+		[ERR_LOG_ROW_ID] ASC,
+		[JOBID] ASC
+	) WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'DA_STATISTICS') 
+BEGIN
+	CREATE TABLE [dbo].[DA_STATISTICS] (
+		[JOBID] [int] NOT NULL,
+		[PASS_COUNT] [int] NOT NULL,
+		[STAGE] [int] NULL,
+		[IS_VALIDATION] [int] NULL,
+		[IMPORT_MODULE_NAME] [varchar](50) NULL,
+		[TABLE_NAME] [varchar](50) NOT NULL,
+		[INPUT_ROW_COUNT] [int] NULL,
+		[START_VALID_ROW_COUNT] [int] NULL,
+		[START_INVALID_ROW_COUNT] [int] NULL,
+		[END_VALID_ROW_COUNT] [int] NULL,
+		[END_INVALID_ROW_COUNT] [int] NULL,
+		[END_UPDATE_ROW_COUNT] [int] NULL,
+		[TOTAL_ROWS] [int] NULL,
+		[TOTAL_FAILED_VALIDATIONS] [int] NULL,
+		[START_TIME] [varchar](14) NULL,
+		[END_TIME] [varchar](14) NULL,
+	 CONSTRAINT [PK_DA_STATISTICS] PRIMARY KEY CLUSTERED
+	(
+		[JOBID] ASC,
+		[PASS_COUNT] ASC,
+		[TABLE_NAME] ASC
+	) WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+
+
+
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'UNIQUE_CODE') 
+BEGIN
+	CREATE TABLE [dbo].[UNIQUE_CODE](
+		[JOBID] [int] NOT NULL,
+		[DA_ROW_ID] [int] NOT NULL,
+		[TABLE_ID] [int] NULL,
+		[CODE_ID] [int] NULL,
+		[LINE_OF_BUS_CODE] [int] NULL,
+		[RELATED_CODE_ID] [int] NULL,
+		[NEW_CODE] [int] NULL,
+		[SHORT_CODE] [varchar](25) NULL,
+		[CODE_TABLE_NAME] [varchar](30) NULL,
+        [DELETED_FLAG] [int] NULL,
+		[IND_STANDARD_CODE][int] NULL,
+		[GLOSSARY_TYPE_CODE][int] NULL,
+	 CONSTRAINT [PK_UNIQUE_CODE] PRIMARY KEY CLUSTERED 
+	(
+		[JOBID] ASC,
+		[DA_ROW_ID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+
+
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'DIS_OPTIONSET') 
+BEGIN
+	CREATE TABLE [dbo].[DIS_OPTIONSET](
+		[JOBID] [int] NOT NULL,
+		[OPTIONSET_ID] [int] NULL,
+		[OPTIONSET_NAME] [varchar](50) NULL,
+		[VERIFICATION_FLAG] [int] NULL,
+		[chk2GBData] [int] NULL,
+		[txtBatchID] [int] NULL,
+		[NUMBER_OF_AREAS_IMPORTING] [int] NULL,
+		[EMPLOYEES_FLAG] [int] NULL,
+		[EMPLOYEES_IMPORT_SUPP] [int] NULL,
+		[EMPLOYEES_MATCH_EMPLOYEE_ID] [int] NULL,			
+		[EMPLOYEES_UPDATE_BLANK_ZERO] [int] NULL,
+		[EMP_UPDATE_ADDRESS_BLANK_ZERO] [int] NULL,
+		[EMPLOYEES_CREATE_NEW_CODES] [int] NULL,
+		[EMPLOYEES_MATCH_ENTITY_ID] [int] NULL,
+		[ORGHIER_FLAG] [int] NULL,
+		[ORGHIER_IMPORT_SUPP] [int] NULL,
+		[ORGHIER_UPDATE_BLANK_ZERO] [int] NULL,
+		[ORGHIER_CREATE_NEW_CODES] [int] NULL,
+		[FUNDS_FLAG] [int] NULL,
+		[FUNDS_IMPORT_SUPP] [int] NULL,
+		[FUNDS_MATCH_PAYEE_NAME] [int] NULL,
+		[FUNDS_MATCH_PAYEE_TAX_ID] [int] NULL,
+		[FUNDS_MATCH_PAYEE_DOB] [int] NULL,
+		[FUNDS_CREATE_NEW_CODES] [int] NULL,
+		[FUNDS_OPEN_CLAIMS_ONLY] [int] NULL,
+		[FUNDS_CHECK_DUPLICATE_PAYMENTS] [int] NULL,
+ 		[FUNDS_ACCEPT_DUP_CHECK_NUMBER] [int] NULL,
+		[FUNDS_IMPORT_CLEARED_PAYMENTS] [int] NULL,
+		[FUNDS_MATCH_ENTITY_ID] [int] NULL,
+		[FUNDS_IMPORT_MULTIPLE_PAYEES] [int] NULL,
+		[FUNDSDEPOSIT_FLAG] [int] NULL,
+		[FUNDSDEPOSIT_UPDATE_BLANK_ZERO] [int] NULL,
+		[FUNDSDEPOSIT_CREATE_NEW_CODES] [int] NULL,		
+		[VEHICLES_FLAG] [int] NULL,
+		[VEHICLES_IMPORT_SUPP] [int] NULL,
+		[VEHICLES_UPDATE_BLANK_ZERO] [int] NULL,
+		[VEHICLES_CREATE_NEW_CODES] [int] NULL,
+		[ENTITIES_FLAG] [int] NULL,
+		[ENTITIES_IMPORT_SUPP] [int] NULL,
+		[ENTITIES_UPDATE_BLANK_ZERO] [int] NULL,
+		[ENTITIES_CREATE_NEW_CODES] [int] NULL,
+		[POLICIES_FLAG] [int] NULL,
+		[POLICIES_IMPORT_SUPP] [int] NULL,
+		[POLICIES_CREATE_NEW_CODES] [int] NULL,	
+		[POL_INSURED_ENTITYID] [int] NULL,
+		[POL_MATCH_INSURED_TAXID] [int] NULL,
+		[POL_MATCH_INSURED_NAME] [int] NULL,
+		[POL_MATCH_INSURED_ABBREV] [int] NULL,
+		[POL_MATCH_INSURED_DOB] [int] NULL,
+		[POL_INSURER_ENTITYID] [int] NULL,
+		[POL_MATCH_INSURER_TAXID] [int] NULL,
+		[POL_MATCH_INSURER_NAME] [int] NULL,
+		[POL_MATCH_INSURER_ABBREV] [int] NULL,
+		[POL_MATCH_INSURER_DOB] [int] NULL,
+		[POL_INSURED_CLAIMANT] [int] NULL,
+		[POL_IMPRT_ADD_INTRST] [int] NULL,
+		[POL_IMPRT_ADD_INTRST_TAXID] [int] NULL,	
+		[POL_IMPRT_ADD_INTRST_NAME] [int] NULL,	
+		[POL_IMPRT_ADD_INTRST_DOB] [int] NULL,	
+		[RESERVES_FLAG] [int] NULL,
+		[RESERVES_IMPORT_SUPP] [int] NULL,
+		[RESERVES_CREATE_NEW_CODES] [int] NULL,
+		[RESERVES_CHECK_DUPLICATE] [int] NULL,
+		[ORGEXPO_FLAG] [int] NULL,
+		[ORGEXPO_IMPORT_SUPP] [int] NULL,
+		[ORGEXPO_NEW_RECORDS_ONLY] [int] NULL,
+		[ORGEXPO_UPDATE_BLANK_ZERO] [int] NULL,
+		[ORGEXPO_CREATE_NEW_CODES] [int] NULL,
+		[PATIENTS_FLAG] [int] NULL,
+		[PATIENTS_IMPORT_SUPP] [int] NULL,
+		[PATIENTS_VALIDATE_DATA] [int] NULL,
+		[PATIENTS_MATCH_PATIENT] [int] NULL,
+		[PATIENTS_CREATE_NEW_CODES] [int] NULL,
+		[PATIENT_MATCH_PATIENT_NUMBER] [int] NULL,
+		[PHYSICIANS_FLAG] [int] NULL,
+		[PHYSICIANS_IMPORT_SUPP] [int] NULL,
+		[PHYSICIANS_VALIDATE_DATA] [int] NULL,
+		[PHYSICIANS_CREATE_NEW_CODES] [int] NULL,
+		[PHYSICIANS_MATCH_PHY_NUMBER] [int] NULL,
+		[MEDICALSTAFF_FLAG] [int] NULL,
+		[MEDICALSTAFF_IMPORT_SUPP] [int] NULL,
+		[MEDICALSTAFF_VALIDATE_DATA] [int] NULL,
+		[MEDICALSTAFF_CREATE_NEW_CODES] [int] NULL,
+		[ADMINTRACK_FLAG] [int] NULL,
+		[ADMINTRACK_AREA] [varchar](100)NULL,
+		[ADMINTRACK_ADD_UPDATE] [int] NULL,
+		[ADMINTRACK_CREATE_NEW_CODES] [int] NULL,
+		[ADMINTRACK_MATCH_FIELD] [varchar](50) NULL,
+		[ENTITIES_MATCH_BY_TAXID] [int] NULL,
+		[ENTITIES_MATCH_BY_NAME] [int] NULL,
+		[ENTITIES_MATCH_BY_Abbrev] [int] NULL,
+		[ENTITIES_MATCH_BY_DOB] [int] NULL,
+		[DIARY_TO_USERS] [varchar](50) NULL,
+	 CONSTRAINT [PK_DIS_OPTIONSET] PRIMARY KEY CLUSTERED 
+	(
+		[JOBID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'T_DIS_EMP_X_DEPENDENT') 
+BEGIN
+	CREATE TABLE [dbo].[T_DIS_EMP_X_DEPENDENT](
+		[JOBID] [int] NOT NULL,
+		[DA_ROW_ID] [int] NOT NULL,
+		[EMPLOYEE_EID] [int] NULL,
+		[RELATION_CODE] [varchar](25) NULL,
+	 CONSTRAINT [PK_T_DIS_EMP_X_DEPENDENT] PRIMARY KEY CLUSTERED 
+	(
+		[JOBID] ASC,
+		[DA_ROW_ID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'T_DIS_EMP_X_VIOLATION') 
+BEGIN
+	CREATE TABLE [dbo].[T_DIS_EMP_X_VIOLATION](
+		[JOBID] [int] NOT NULL,
+		[DA_ROW_ID] [int] NOT NULL,
+		[EMPLOYEE_EID] [int] NULL,
+		[VIOLATION_CODE] [varchar](25) NULL,
+	 CONSTRAINT [PK_T_DIS_EMP_X_VIOLATION] PRIMARY KEY CLUSTERED 
+	(
+		[JOBID] ASC,
+		[DA_ROW_ID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'T_DIS_EMPLOYEE') 
+BEGIN
+	CREATE TABLE [dbo].[T_DIS_EMPLOYEE](
+		[JOBID] [int] NOT NULL,
+		[DA_ROW_ID] [int] NOT NULL,
+		[EMPLOYEE_EID] [varchar](50) NULL,
+		[DRIVLIC_STATE] [varchar](25) NULL,
+		[MARITAL_STAT_CODE] [varchar](25) NULL,
+		[POSITION_CODE]	[varchar](25) NULL,
+		[PAY_TYPE_CODE] [varchar](25) NULL,
+		[DRIVERSLICTYPECODE] [varchar](25) NULL,
+		[DRIVLIC_RSTRCTCODE] [varchar](25) NULL,
+		[NCCI_CLASS_CODE] [varchar](25) NULL,
+		[JOB_CLASS_CODE] [varchar](25) NULL,
+	 CONSTRAINT [PK_T_DIS_EMPLOYEE] PRIMARY KEY CLUSTERED 
+	(
+		[JOBID] ASC,
+		[DA_ROW_ID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'T_DIS_ENTITY') 
+BEGIN
+	CREATE TABLE [dbo].[T_DIS_ENTITY](
+		[JOBID] [int] NOT NULL,
+		[DA_ROW_ID] [int] NOT NULL,
+		[SIC_CODE] [varchar](25) NULL,
+		[ENTITY_ID] [int] NULL, --mkaur24 for POLICY need this.
+		[EXTERNAL_KEY] [varchar](50) NULL,  ---req for patient
+		[PARENT_ABBREV] [varchar](25) NULL,
+		[BUSINESS_TYPE_CODE] [varchar](25) NULL,
+		[COST_CENTER_CODE] [varchar](25) NULL,
+		[EMAIL_TYPE_CODE] [varchar](25) NULL,
+		[SEX_CODE] [varchar](25) NULL,
+		[STATE_ID] [varchar](25) NULL,
+		[COUNTRY_CODE] [varchar](25) NULL,
+		[NAICS_CODE] [varchar](25) NULL,
+		[TIME_ZONE_CODE] [varchar](25) NULL,
+		[ENTITY_APPROVAL_STATUS] [varchar] (25) NULL,
+		[ORG_CURR_CODE] [varchar] (25) NULL,
+		[PREFIX] [varchar] (25) NULL,
+		[SUFFIX_COMMON] [varchar](25) NULL,
+		[ID_TYPE] [varchar](25) NULL,
+		[NAME_TYPE] [varchar](25) NULL,
+		[ORGANIZATION_TYPE] [varchar](25) NULL,
+		[ADDRESS_TYPE_CODE] [varchar](25) NULL,		
+		[CONTACT_TYPE_CODE] [varchar](25) NULL,		
+		[CONTACT_STATE_ID] [varchar](25) NULL,
+		[ENTITY_ID_TYPE] [varchar](25) NULL,		
+		
+		[ENT_CATEGORY][varchar](25) NULL,
+		[ENT_CATEGORY_PRNT][varchar](25) NULL,	
+ CONSTRAINT [PK_T_DIS_ENTITY] PRIMARY KEY CLUSTERED 
+	(
+		[JOBID] ASC,
+		[DA_ROW_ID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'T_DIS_ADDRESS_X_PHONEINFO') 
+BEGIN
+	CREATE TABLE [dbo].[T_DIS_ADDRESS_X_PHONEINFO](
+		[DA_ROW_ID] [int] NOT NULL,
+		[JOBID] [int] NOT NULL,
+		[ENTITY_ID] [int] NULL,
+		[EXTERNAL_KEY] [varchar] (50) NULL,
+	CONSTRAINT [PK_T_DIS_ADDRESS_X_PHONEINFO] PRIMARY KEY CLUSTERED 
+	(
+		[JOBID] ASC,
+		[DA_ROW_ID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'T_DIS_FUNDS') 
+BEGIN
+	CREATE TABLE [dbo].[T_DIS_FUNDS](
+		[DA_ROW_ID] [int] NOT NULL,
+		[JOBID] [int] NOT NULL,
+
+		[TRANS_ID_SOURCE] [int] NULL,
+		
+		[STATUS_CODE] [varchar](25) NULL,
+		[BILL_TYPE] [varchar](25) NULL,
+		[CLAIM_NUMBER] [varchar](25) NULL,
+		[PAYEE_TYPE_CODE] [varchar](25) NULL,
+		
+		[PMT_CURRENCY_CODE][varchar](25) NULL,
+		[CLAIM_CURRENCY_CODE][varchar](25) NULL,
+		[DORMANCY_STATUS][varchar](25) NULL,
+		[REISSUE_REASON_CODE] [varchar](25) NULL,
+		[WITHHOLDING_TYPE][varchar](25) NULL,
+		[DSTRBN_TYPE_CODE] [varchar](25) NULL,
+		[WEEKS_PAID_CODE][varchar](25) NULL,
+		
+	 CONSTRAINT [PK_T_DIS_FUNDS] PRIMARY KEY CLUSTERED 
+	(
+		[DA_ROW_ID] ASC,
+		[JOBID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'T_DIS_FUNDS_TRANS_SPLIT') 
+BEGIN
+	CREATE TABLE [dbo].[T_DIS_FUNDS_TRANS_SPLIT](
+		[DA_ROW_ID] [int] NOT NULL,
+		[JOBID] [int] NOT NULL,
+		[TRANS_ID_SOURCE] [int] NULL,
+		[TRANS_TYPE_CODE] [varchar](25) NULL,
+		[RESERVE_TYPE_CODE] [varchar](25) NULL,
+		[GL_ACCOUNT_CODE] [varchar](25) NULL,
+		[COVERAGE_CODE] [varchar](25) NULL,
+		[LOSS_DISABILITY_CODE] [varchar](25) NULL,
+		[DISABILITY_TYPE_CATEGORY] [varchar](25) NULL,
+		
+		[SPLIT_ROW_ID][int] NULL,
+		[FUNDS_CR_STATUS][varchar](25)NULL,
+		[RESERVE_SUB_TYPE] [varchar](25) NULL,
+	
+	 CONSTRAINT [PK_T_DIS_FUNDS_TRANS_SPLIT] PRIMARY KEY CLUSTERED 
+	(
+		[DA_ROW_ID] ASC,
+		[JOBID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'T_DIS_MED_STAFF') 
+BEGIN
+	CREATE TABLE [dbo].[T_DIS_MED_STAFF](
+		[DA_ROW_ID] [int] NOT NULL,
+		[JOBID] [int] NOT NULL,
+		[HOME_STATE_ID] [varchar](25) NULL,
+		[LIC_STATE] [varchar](25) NULL,
+		[MARITAL_STAT_CODE] [varchar](25) NULL,
+		[STAFF_STATUS_CODE] [varchar](25) NULL,
+		[STAFF_POS_CODE] [varchar](25) NULL,
+		[STAFF_CAT_CODE] [varchar](25) NULL,
+		
+	 CONSTRAINT [PK_T_DIS_MED_STAFF] PRIMARY KEY CLUSTERED 
+	(
+		[DA_ROW_ID] ASC,
+		[JOBID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'T_DIS_STAFF_CERTS') 
+BEGIN
+	CREATE TABLE [dbo].[T_DIS_STAFF_CERTS](
+		[DA_ROW_ID] [int] NOT NULL,
+		[JOBID] [int] NOT NULL,
+		[MED_STAFF_NUMBER] [varchar](50) NULL,
+		[NAME_CODE] [varchar](25) NULL,
+		 
+	 CONSTRAINT [PK_T_DIS_STAFF_CERTS] PRIMARY KEY CLUSTERED 
+	(
+		[DA_ROW_ID] ASC,
+		[JOBID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'T_DIS_STAFF_PRIVS') 
+BEGIN
+	CREATE TABLE [dbo].[T_DIS_STAFF_PRIVS](
+		[DA_ROW_ID] [int] NOT NULL,
+		[JOBID] [int] NOT NULL,
+		[MED_STAFF_NUMBER] [varchar](50) NULL,
+		[CATEGORY_CODE] [varchar](25) NULL,
+		[TYPE_CODE] [varchar](25) NULL,
+		[STATUS_CODE] [varchar](25) NULL,
+		
+	 CONSTRAINT [PK_T_DIS_STAFF_PRIVS] PRIMARY KEY CLUSTERED 
+	(
+		[DA_ROW_ID] ASC,
+		[JOBID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'T_DIS_ORG_HIER') 
+BEGIN
+	CREATE TABLE [dbo].[T_DIS_ORG_HIER](
+		[DA_ROW_ID] [int] NOT NULL,
+		[JOBID] [int] NOT NULL,
+		[ENTITY_ID_SOURCE] [int] NULL,
+		[ENTITY_TABLE_DESC] [varchar](18) NULL,
+		[PARENT_EID_SOURCE] [int] NULL,
+		[PARENT_ABBREV_DESC] [varchar](25) NULL,
+		[BUSINESS_TYPE_CODE] [varchar](25) NULL,				
+		[COST_CENTER_CODE] [varchar](25) NULL,		
+		[COUNTRY_CODE] [varchar](25) NULL,
+		[EMAIL_TYPE_CODE] [varchar](25) NULL,
+		[STATE_ID] [varchar](25) NULL,		
+		[SIC_CODE] [varchar](25) NULL,
+		[NAICS_CODE] [varchar](25) NULL,		
+		[ORGANIZATION_TYPE] [varchar](25) NULL,
+		[ADDRESS_TYPE_CODE] [varchar](25) NULL,
+		[CONTACT_TYPE_CODE] [varchar](25) NULL,
+		[CONTACT_STATE_ID] [varchar](25) NULL,
+		[ENTITY_ID_TYPE] [varchar](25) NULL,
+		[ENTITY_TABLE_ID] int NULL,
+	 CONSTRAINT [PK_T_DIS_ORG_HIER] PRIMARY KEY CLUSTERED 
+	(
+		[DA_ROW_ID] ASC,
+		[JOBID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+
+--Sdalvi3--
+/*IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'T_DIS_ENTITY_EXPOSURE') 
+BEGIN
+	CREATE TABLE [dbo].[T_DIS_ENTITY_EXPOSURE](
+		[DA_ROW_ID] [int] NOT NULL,
+		[JOBID] [int] NOT NULL,
+		[ABBREVIATION] [varchar](25) NULL,
+		[ORG_TABLE_ID] [int] NULL,
+	 CONSTRAINT [PK_T_DIS_ENTITY_EXPOSURE] PRIMARY KEY CLUSTERED 
+	(
+		[DA_ROW_ID] ASC,
+		[JOBID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+*/
+
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'T_DIS_PATIENT') 
+BEGIN
+	CREATE TABLE [dbo].[T_DIS_PATIENT](
+		[JOBID] [int] NOT NULL,
+		[DA_ROW_ID] [int] NOT NULL,
+		[KEY_FIELD_VALUE] [varchar](50) NULL,
+		[ACUITY_LEVEL_CODE] [varchar](25) NULL,
+		[ADM_SOURCE_CODE] [varchar](25) NULL,
+		[ADM_TYPE_CODE] [varchar](25) NULL,
+		[DISCHARGE_DSP_CODE] [varchar](25) NULL,
+		[FACILITY_UNIT_CODE] [varchar](25) NULL,
+		[MARITAL_STAT_CODE] [varchar](25) NULL,
+		[PATIENT_COND_CODE] [varchar](25) NULL,
+		[PATIENT_STAT_CODE] [varchar](25) NULL,
+		[PATIENT_TYPE_CODE] [varchar](25) NULL,
+		[PRIMARY_PAY_CODE] [varchar](25) NULL,
+		[QI_SIGNIF_CODE] [varchar](25) NULL,
+		[RACE_ENTH_CODE] [varchar](25) NULL,
+		[SECOND_PAY_CODE] [varchar](25) NULL,
+		[NB_NICU_STAY] [varchar](1) NULL,
+		[NB_CEPHALIC_MOLD] [varchar](1) NULL,
+		[NBM_PRIOR_C_SECT] [varchar](1) NULL,
+		[NBM_MED_IND_LABOR] [varchar](1) NULL,
+		[DISABILITY_CODE] [varchar](25) NULL,
+		[ILLNESS_CODE] [varchar](25) NULL,	
+		
+	 CONSTRAINT [PK_T_DIS_PATIENT] PRIMARY KEY CLUSTERED 
+	(
+		[JOBID] ASC,
+		[DA_ROW_ID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'T_DIS_PATIENT_ACT_TAKEN') 
+BEGIN
+	CREATE TABLE [dbo].[T_DIS_PATIENT_ACT_TAKEN](
+		[JOBID] [int] NOT NULL,
+		[DA_ROW_ID] [int] NOT NULL,
+		[KEY_FIELD_VALUE] [varchar](50) NULL,
+		[ACTION_CODE] [varchar](25) NULL,
+		
+	 CONSTRAINT [PK_T_DIS_PATIENT_ACT_TAKEN] PRIMARY KEY CLUSTERED 
+	(
+		[JOBID] ASC,
+		[DA_ROW_ID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'T_DIS_PATIENT_ATTN_PHYS') 
+BEGIN
+	CREATE TABLE [dbo].[T_DIS_PATIENT_ATTN_PHYS](
+		[JOBID] [int] NOT NULL,
+		[DA_ROW_ID] [int] NOT NULL,
+		[KEY_FIELD_VALUE] [varchar](50) NULL,
+	 CONSTRAINT [PK_T_DIS_PATIENT_ATTN_PHYS] PRIMARY KEY CLUSTERED 
+	(
+		[JOBID] ASC,
+		[DA_ROW_ID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'T_DIS_PATIENT_DIAGNOSIS') 
+BEGIN
+	CREATE TABLE [dbo].[T_DIS_PATIENT_DIAGNOSIS](
+		[JOBID] [int] NOT NULL,
+		[DA_ROW_ID] [int] NOT NULL,
+		[KEY_FIELD_VALUE] [varchar](50) NULL,
+		[DIAGNOSIS_CODE] [varchar](25) NULL,
+		
+	 CONSTRAINT [PK_T_DIS_PATIENT_DIAGNOSIS] PRIMARY KEY CLUSTERED 
+	(
+		[JOBID] ASC,
+		[DA_ROW_ID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'T_DIS_PATIENT_DRG_CODES') 
+BEGIN
+	CREATE TABLE [dbo].[T_DIS_PATIENT_DRG_CODES](
+		[JOBID] [int] NOT NULL,
+		[DA_ROW_ID] [int] NOT NULL,
+		[KEY_FIELD_VALUE] [varchar](50) NULL,
+		[DRG_CODE] [varchar](25) NULL,
+		
+	 CONSTRAINT [PK_T_DIS_PATIENT_DRG_CODES] PRIMARY KEY CLUSTERED 
+	(
+		[JOBID] ASC,
+		[DA_ROW_ID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'T_DIS_PATIENT_PROCEDURE') 
+BEGIN
+	CREATE TABLE [dbo].[T_DIS_PATIENT_PROCEDURE](
+		[JOBID] [int] NOT NULL,
+		[DA_ROW_ID] [int] NOT NULL,
+		[KEY_FIELD_VALUE] [varchar](50) NULL,
+		[PROCEDURE_CODE] [varchar](25) NULL,
+		[PROC_TYPE_CODE] [varchar](25) NULL,
+		[ANESTH_TYPE_CODE] [varchar](25) NULL,
+		[ASA_PS_CLASS_CODE] [varchar](25) NULL,
+		[ICC_LEVEL_CODE] [varchar](25) NULL,
+		
+	 CONSTRAINT [PK_T_DIS_PATIENT_PROCEDURE] PRIMARY KEY CLUSTERED 
+	(
+		[JOBID] ASC,
+		[DA_ROW_ID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'T_DIS_PHYSICIAN') 
+BEGIN
+	CREATE TABLE [dbo].[T_DIS_PHYSICIAN](
+		[JOBID] [int] NOT NULL,
+		[DA_ROW_ID] [int] NOT NULL,
+		[KEY_FIELD_VALUE] [varchar](50) NULL,
+		/*[DEPT_ASSIGNED_EID] [varchar](50) NULL,
+		[PRIMARY_POLICY_NUMBER] [varchar](50) NULL,
+		[PARENT_1099_PHYSICIAN_NUMBER] [varchar](50) NULL,
+		[PARENT_1099_TABLE_NAME] [varchar](50) NULL,
+		[PARENT_1099_LAST_NAME] [varchar](255) NULL,
+		[PARENT_1099_TAX_ID] [varchar](50) NULL,*/
+		[MARITAL_STAT_CODE] [varchar](25) NULL,
+		[HOME_STATE_ID] [varchar](25) NULL,
+		[MAILING_STATE_ID] [varchar](25) NULL,
+		[STAFF_STATUS_CODE] [varchar](25) NULL,
+		[STAFF_TYPE_CODE] [varchar](25) NULL,
+		[STAFF_CAT_CODE] [varchar](25) NULL,
+		[LIC_STATE] [varchar](25) NULL,
+		[PRIMARY_SPECIALTY] [varchar](25) NULL,
+	CONSTRAINT [PK_T_DIS_PHYSICIAN] PRIMARY KEY CLUSTERED 
+	(
+		[JOBID] ASC,
+		[DA_ROW_ID] ASC
+	) WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'T_DIS_PHYS_SUB_SPECIALTY') 
+BEGIN
+	CREATE TABLE [dbo].[T_DIS_PHYS_SUB_SPECIALTY](
+		[JOBID] [int] NOT NULL,
+		[DA_ROW_ID] [int] NOT NULL,
+		[KEY_FIELD_VALUE] varchar(50) NULL,
+		[SPECIALTY_CODE] varchar(50) NULL
+	CONSTRAINT [PK_T_DIS_PHYS_SUB_SPECIALTY] PRIMARY KEY CLUSTERED 
+	(
+		[JOBID] ASC,
+		[DA_ROW_ID] ASC
+	) WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'T_DIS_PHYS_PRIVS') 
+BEGIN
+	CREATE TABLE [dbo].[T_DIS_PHYS_PRIVS](
+		[JOBID] [int] NOT NULL,
+		[DA_ROW_ID] [int] NOT NULL,
+		[KEY_FIELD_VALUE] varchar(50) NULL,
+		[CATEGORY_CODE] [nvarchar](25) NULL,
+		[TYPE_CODE] [nvarchar](25) NULL,
+		[STATUS_CODE] [nvarchar](25) NULL,
+	CONSTRAINT [PK_T_DIS_PHYS_PRIVS] PRIMARY KEY CLUSTERED 
+	(
+		[JOBID] ASC,
+		[DA_ROW_ID] ASC
+	) WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'T_DIS_PHYS_CERTS') 
+BEGIN
+	CREATE TABLE [dbo].[T_DIS_PHYS_CERTS](
+		[JOBID] [int] NOT NULL,
+		[DA_ROW_ID] [int] NOT NULL,
+		[KEY_FIELD_VALUE] varchar(50) NULL,
+		[NAME_CODE] [nvarchar](25) NULL,
+		[STATUS_CODE] [nvarchar](25) NULL,
+		[BOARD_CODE] [nvarchar](25) NULL,
+	CONSTRAINT [PK_T_DIS_PHYS_CERTS] PRIMARY KEY CLUSTERED 
+	(
+		[JOBID] ASC,
+		[DA_ROW_ID] ASC
+	) WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'T_DIS_PHYS_EDUCATION') 
+BEGIN
+	CREATE TABLE [dbo].[T_DIS_PHYS_EDUCATION](
+		[JOBID] [int] NOT NULL,
+		[DA_ROW_ID] [int] NOT NULL,
+		[KEY_FIELD_VALUE] [nvarchar](50) NULL,
+		[EDUC_TYPE_CODE] [nvarchar](25) NULL,
+		[INSTITUTION_NAME] varchar(255) NULL,
+		[DEGREE_TYPE] [nvarchar](25) NULL,
+	CONSTRAINT [PK_T_DIS_PHYS_EDUCATION] PRIMARY KEY CLUSTERED 
+	(
+		[JOBID] ASC,
+		[DA_ROW_ID] ASC
+	) WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'T_DIS_PHYS_PREV_HOSP') 
+BEGIN
+	CREATE TABLE [dbo].[T_DIS_PHYS_PREV_HOSP](
+		[JOBID] [int] NOT NULL,
+		[DA_ROW_ID] [int] NOT NULL,
+		[KEY_FIELD_VALUE] [varchar](50) NULL,
+		[STATUS_CODE] [nvarchar](25) NULL,
+		[HOSPITAL_NAME] [nvarchar](255) NULL,
+		[PRIV_CODE] [nvarchar](25) NULL,
+	 CONSTRAINT [PK_T_DIS_PHYS_PREV_HOSP] PRIMARY KEY CLUSTERED 
+	(
+		[JOBID] ASC,
+		[DA_ROW_ID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'T_DIS_RESERVE_CURRENT') 
+BEGIN
+	CREATE TABLE [dbo].[T_DIS_RESERVE_CURRENT](
+		[DA_ROW_ID] [int] NOT NULL,
+		[JOBID] [int] NOT NULL,
+		[RESERVE_ID] [int] NULL,
+		[CLAIM_NUMBER] [varchar](50) NULL,
+		[LINE_OF_BUS_CODE] [int] NULL,
+		[COVERAGE_CODE] [nvarchar](25) NULL,
+		[LOSS_DISABILITY_CODE] [nvarchar](25) NULL,
+		[RESERVE_SUB_TYPE] [nvarchar](25) NULL,
+		[DISABILITY_TYPE_CATEGORY] [nvarchar](25) NULL,
+		[RESERVE_TYPE_CODE] [nvarchar](25) NULL,
+		[RES_STATUS_CODE] [nvarchar](25) NULL
+	 CONSTRAINT [PK_T_DIS_RESERVE_CURRENT] PRIMARY KEY CLUSTERED 
+	(
+		[JOBID] ASC,
+		[DA_ROW_ID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'USER_VERIFICATION') 
+BEGIN
+	CREATE TABLE [dbo].[USER_VERIFICATION](     
+		[JOBID] [int] NULL,
+		[OPTIONSET_ID] [int] NULL,
+		[MODULE_NAME] [varchar](25) NULL,
+		[IMPORT_AREA] [varchar](25) NULL,
+		[TABLE_NAME] [varchar](4000) NULL,
+		[VERIFICATION_FLAG] [int] NULL,
+		[STOP_VERIFICATION] [int] NULL
+	) ON [PRIMARY]
+END
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'T_DIS_PROCESS_LOG') 
+BEGIN
+	CREATE TABLE [dbo].T_DIS_PROCESS_LOG(
+		[JOBID] [int] NOT NULL,
+		[PROCESS_DESC] [varchar](500) NULL,
+        [DISPLAY_ORDER] [int]  NULL,
+        [TRANS_ID] [int]  NULL,
+        [IDENTIFIER] [int] NULL
+		
+	 )
+END
+
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'DA_JOB_ID') 
+BEGIN
+	CREATE TABLE [dbo].[DA_JOB_ID]( 
+		[NEW_JOBID] [int] NULL,
+		[JOBID] [int] NOT NULL,
+		[OPTIONSET_ID] [int] NOT NULL
+	) ON [PRIMARY]
+END
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'T_DIS_FUNDS_X_PAYEE') 
+BEGIN
+CREATE TABLE [dbo].[T_DIS_FUNDS_X_PAYEE](
+	[DA_ROW_ID] [int] NOT NULL,
+	[JOBID] [int] NOT NULL,
+	[TRANS_ID_SOURCE] [int] NULL,
+	[PAYEE_TYPE_CODE] [varchar](25) NULL,
+	[PHRASE_TYPE_CODE] [varchar](25) NULL,
+	[CLAIM_NUMBER] [varchar](25) NULL,
+ CONSTRAINT [PK_T_DIS_FUNDS_X_PAYEE] PRIMARY KEY CLUSTERED 
+(
+	[DA_ROW_ID] ASC,
+	[JOBID] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+) ON [PRIMARY]
+End
+
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'FUNDS_X_PAYEE') 
+BEGIN
+CREATE TABLE [dbo].[FUNDS_X_PAYEE](
+	[DA_ROW_ID] [int] NOT NULL,
+	[JOBID] [int] NOT NULL,
+	[INPUT_ROW_ID] [int] NULL,
+	[INVALID_ROW] [int] NULL,
+	[UPDATE_ROW] [int] NULL,
+	[PAYEE_ROW_ID] [int]  NULL,
+	[PAYEE_EID] [int] NULL,
+	[FUNDS_TRANS_ID] [int] NULL,
+	[PAYEE_1099_FLAG] [smallint] NULL,
+	[DTTM_RCD_ADDED] [varchar](14) NULL,
+	[DTTM_RCD_LAST_UPD] [varchar](14) NULL,
+	[ADDED_BY_USER] [varchar](50) NULL,
+	[UPDATED_BY_USER] [varchar](50) NULL,
+	[PAYEE_TYPE_CODE] [int] NULL,
+	[BEFORE_PAYEE] [int] NULL,
+	[PHRASE_TYPE_CODE] [int] NULL,
+	[STAGING_ID][int] Null
+ CONSTRAINT [PK_FUNDS_X_PAYEE] PRIMARY KEY CLUSTERED 
+(
+	[DA_ROW_ID] ASC,
+	[JOBID] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+) ON [PRIMARY]
+end
+
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'T_DIS_PROP_MGT') 
+BEGIN
+	CREATE TABLE [dbo].[T_DIS_PROP_MGT](
+		[JOBID] [int] NOT NULL,
+		[DA_ROW_ID] [int] NOT NULL,
+		[PROP_MGT_ID] [int]  NULL,
+		[OWNERSHIP_CODE] [varchar] (25) NULL,
+		[PROP_TYPE_CODE] [varchar] (25) NULL,
+		[COVERAGE_CODE] [varchar] (25) NULL,
+		
+			 		
+	 CONSTRAINT [PK_T_DIS_PROP_MGT] PRIMARY KEY CLUSTERED 
+	(
+		[JOBID] ASC,
+		[DA_ROW_ID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'PROP_MGT_TEMP_FD') 
+BEGIN
+	CREATE TABLE [dbo].[PROP_MGT_TEMP_FD](
+		[DA_ROW_ID] [int] NOT NULL,
+		[JOBID] [int] NOT NULL,
+		[INPUT_ROW_ID] [int] NULL,
+		[INVALID_ROW] [int] NULL,
+		[UPDATE_ROW] [int] NULL,
+		[PROP_MGT_ID] [int]  NULL,	
+		[PROP_ID_TEXT] [varchar](50) NULL,
+		[LOCATION_TXCD] [varchar](2000) NULL,
+		[OWNERSHIP_CODE] [int] NULL,
+		[PROP_TYPE_CODE] [int] NULL,
+		[PROP_CAT_TEXT] [varchar](50) NULL,
+		[REPORTED_BY_TXCD] [varchar](2000) NULL,
+		[DT_UPDATE_DATE] [varchar](8) NULL,
+		[REV_DATE_DATE] [varchar](8) NULL,
+		[DETAIL_TXCD] [varchar](2000) NULL,
+		[ORIG_VALUE_AMT] [float] NULL,
+		[CURR_VALUE_AMT] [float] NULL,
+		[REPLACE_VAL_AMT] [float] NULL,
+		[CONT_ORG_VL_AMT] [float] NULL,
+		[CONT_REP_VL_AMT] [float] NULL,
+		[CONT_CUR_VL_AMT] [float] NULL,
+		[INSTALL_DT_DATE] [varchar](8) NULL,
+		[CONTACT_TEXT] [varchar](50) NULL,
+		[CONTACT_ADD_TEXT] [varchar](50) NULL,
+		[CONT_CITY_TEXT] [varchar](25) NULL,
+		[CONT_STATE_TEXT] [varchar](15) NULL,
+		[CONT_ZIP_TEXT] [varchar](15) NULL,
+		[CONT_PHONE_TEXT] [varchar](25) NULL,
+		[COVERAGE_CODE] [int] NULL,
+		[DAMAGES_TXCD] [varchar](2000) NULL,
+		[IMPROVEMENT_TXCD] [varchar](2000) NULL,
+		[NOTES_TXCD] [varchar](2000) NULL,
+		[PROP_MGT_ID_RMDB] [int]  NULL,	
+	
+	) ON [PRIMARY]
+END
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'T_DIS_PROJ_TRACK') 
+BEGIN
+	CREATE TABLE [dbo].[T_DIS_PROJ_TRACK](
+		[JOBID] [int] NOT NULL,
+		[DA_ROW_ID] [int] NOT NULL,
+		[PROJ_TRACK_ID] [int]  NULL,
+		[ACT_TYPE_CODE]  [varchar] (25) NULL,
+		[PRIORITY_CODE]  [varchar] (25) NULL,		
+		[STATUS_CODE] [varchar] (25) NULL,
+			 		
+	 CONSTRAINT [PK_T_DIS_PROJ_TRACK] PRIMARY KEY CLUSTERED 
+	(
+		[JOBID] ASC,
+		[DA_ROW_ID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'PROJ_TRACK_TEMP_FD') 
+BEGIN
+	CREATE TABLE [dbo].[PROJ_TRACK_TEMP_FD](
+		[DA_ROW_ID] [int] NOT NULL,
+		[JOBID] [int] NOT NULL,
+		[INPUT_ROW_ID] [int] NULL,
+		[INVALID_ROW] [int] NULL,
+		[UPDATE_ROW] [int] NULL,
+		[PROJ_TRACK_ID] [int]  NULL,
+		[ACT_TYPE_CODE] [int] NULL,
+		[ACTIV_DESC_TXCD] [varchar](2000) NULL,
+		[ASSIGN_BY_TEXT] [varchar](50) NULL,
+		[ASSIGN_TO_TXCD][varchar](2000) NULL,
+		[PRIORITY_CODE] [int] NULL,
+		[EST_HOURS_NUM] [float] NULL,
+		[ACT_HOURS_NUM] [float] NULL,
+		[DUE_DATE_DATE] [varchar](8) NULL,
+		[REVIEW_DATE_DATE] [varchar](8) NULL,
+		[COMPLETE_DT_DATE] [varchar](8) NULL,
+		[STATUS_CODE] [int] NULL,
+		[MAT_USED_TXCD] [varchar](2000) NULL,
+		[MAT_COST_AMT] [float] NULL,
+		[NOTES_TXCD] [varchar](2000) NULL,
+		[PROJ_TRACK_ID_RMDB] [int]  NULL,	
+		) ON [PRIMARY]
+END
+
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'T_DIS_DIRECTORY') 
+BEGIN
+	CREATE TABLE [dbo].[T_DIS_DIRECTORY](
+		[JOBID] [int] NOT NULL,
+		[DA_ROW_ID] [int] NOT NULL,
+		[DIRECTORY_ID] [int]  NULL,
+		[CONTACT_TYP_CODE] [varchar](25) NULL,
+		[CONTACT_STA_CODE] [varchar](25) NULL,
+			 		
+	 CONSTRAINT [PK_T_DIS_DIRECTORY] PRIMARY KEY CLUSTERED 
+	(
+		[JOBID] ASC,
+		[DA_ROW_ID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'DIRECTORY_TEMP_FD') 
+BEGIN
+	CREATE TABLE [dbo].[DIRECTORY_TEMP_FD](
+		[DA_ROW_ID] [int] NOT NULL,
+		[JOBID] [int] NOT NULL,
+		[INPUT_ROW_ID] [int] NULL,
+		[INVALID_ROW] [int] NULL,
+		[UPDATE_ROW] [int] NULL,
+		[DIRECTORY_ID] [int]  NULL,
+		[LAST_NAME_TEXT] [varchar](255) NULL,
+		[FIRST_NAME_TEXT] [varchar](255) NULL,
+		[ADDRESS_TEXT] [varchar](50) NULL,
+		[CITY_TEXT] [varchar](50) NULL,
+		[STATE_TEXT] [varchar](15) NULL,
+		[ZIP_CODE_TEXT] [varchar](15) NULL,
+		[HOME_PHONE_TEXT] [varchar](25) NULL,
+		[WORK_PHONE_TEXT] [varchar](25) NULL,
+		[FAX_TEXT] [varchar](25) NULL,
+		[TITLE_TEXT] [varchar](25) NULL,
+		[ORGANIZ_TEXT] [varchar](50) NULL,
+		[CONTACT_TYP_CODE] [int] NULL,
+		[CONTACT_STA_CODE] [int] NULL,
+		[RECALL_DT_DATE] [varchar](8) NULL,
+		[NOTES_TXCD] [varchar](2000) NULL,
+		[DIRECTORY_ID_RMDB] [int]  NULL,	
+	) ON [PRIMARY]
+END
+
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'T_DIS_COMPL_MGT') 
+BEGIN
+	CREATE TABLE [dbo].[T_DIS_COMPL_MGT](
+		[JOBID] [int] NOT NULL,
+		[DA_ROW_ID] [int] NOT NULL,
+		[COMPL_MGT_ID] [int]  NULL,
+		[COMP_TYPE_CODE] [varchar](25) NULL,
+	[COMP_SRC_CODE] [varchar](25) NULL,			 		
+	 CONSTRAINT [PK_T_DIS_COMPL_MGT] PRIMARY KEY CLUSTERED 
+	(
+		[JOBID] ASC,
+		[DA_ROW_ID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'COMPL_MGT_TEMP_FD') 
+BEGIN
+	CREATE TABLE [dbo].[COMPL_MGT_TEMP_FD](
+		[DA_ROW_ID] [int] NOT NULL,
+		[JOBID] [int] NOT NULL,
+		[INPUT_ROW_ID] [int] NULL,
+		[INVALID_ROW] [int] NULL,
+		[UPDATE_ROW] [int] NULL,
+		[COMPL_MGT_ID] [int]  NULL,
+		[COMP_NO_TEXT] [varchar](25) NULL,
+		[DT_RECV_DATE] [varchar](8) NULL,
+		[COMP_TYPE_CODE] [int] NULL,
+		[COMP_SRC_CODE] [int] NULL,
+		[ACT_REQ_TXCD] [varchar](2000) NULL,
+		[FILED_AGNST_TEXT] [varchar](50) NULL,
+		[REF_TO_TXCD] [varchar](2000) NULL,
+		[COMPL_MGT_ID_RMDB] [int]  NULL,
+		) ON [PRIMARY]
+END
+
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'T_DIS_CONTRCT_MGT') 
+BEGIN
+	CREATE TABLE [dbo].[T_DIS_CONTRCT_MGT](
+		[JOBID] [int] NOT NULL,
+		[DA_ROW_ID] [int] NOT NULL,
+		[CONTRCT_MGT_ID] [int]  NULL,
+		[CONT_TYPE_CODE] [varchar](25) NULL,					 		
+	 CONSTRAINT [PK_T_DIS_CONTRCT_MGT] PRIMARY KEY CLUSTERED 
+	(
+		[JOBID] ASC,
+		[DA_ROW_ID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'CONTRCT_MGT_TEMP_FD') 
+BEGIN
+	CREATE TABLE [dbo].[CONTRCT_MGT_TEMP_FD](
+		[DA_ROW_ID] [int] NOT NULL,
+		[JOBID] [int] NOT NULL,
+		[INPUT_ROW_ID] [int] NULL,
+		[INVALID_ROW] [int] NULL,
+		[UPDATE_ROW] [int] NULL,
+		[CONTRCT_MGT_ID] [int]  NULL,
+		[CONT_TYPE_CODE] [int] NULL,
+		[CONTR_CAT_TXCD] [varchar](2000) NULL,
+		[SUBJECTOR_TEXT] [varchar](50) NULL,
+		[SUBJECTEE_TEXT] [varchar](50) NULL,
+		[DETAILS_TXCD] [varchar](2000) NULL,
+		[EFF_DATE_DATE] [varchar](8) NULL,
+		[EXPIR_DATE_DATE] [varchar](8) NULL,
+		[RENEW_DATE_DATE] [varchar](8) NULL,
+		[INDEMNITY_TXCD] [varchar](2000) NULL,
+		[SUBROGATION_TXCD][varchar](2000) NULL,
+		[TERM_INFO_TEXT] [varchar](50) NULL,
+		[CONDITIONS_TXCD] [varchar](2000) NULL,
+		[AUTH_SIGN_TXCD] [varchar](2000) NULL,
+		[PAYMENTS_TXCD] [varchar](2000) NULL,
+		[WARRANTY_TXCD] [varchar](2000) NULL,
+		[CONTRCT_MGT_ID_RMDB] [int]  NULL,	
+	) ON [PRIMARY]
+END
+
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'T_DIS_CERTIFICATE') 
+BEGIN
+	CREATE TABLE [dbo].[T_DIS_CERTIFICATE](
+		[JOBID] [int] NOT NULL,
+		[DA_ROW_ID] [int] NOT NULL,
+		[CERTIFICATE_ID] [int]  NULL,						 		
+	 CONSTRAINT [PK_T_DIS_CERTIFICATE] PRIMARY KEY CLUSTERED 
+	(
+		[JOBID] ASC,
+		[DA_ROW_ID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'CERTIFICATE_TEMP_FD') 
+BEGIN
+	CREATE TABLE [dbo].[CERTIFICATE_TEMP_FD](
+		[DA_ROW_ID] [int] NOT NULL,
+		[JOBID] [int] NOT NULL,
+		[INPUT_ROW_ID] [int] NULL,
+		[INVALID_ROW] [int] NULL,
+		[UPDATE_ROW] [int] NULL,
+		[CERTIFICATE_ID] [int]  NULL,
+		[JOB_NO_TEXT] [varchar](15) NULL,
+		[JOB_DESC_TXCD] [varchar](2000) NULL,	
+		[AGENCY_NAME_TEXT] [varchar](50) NULL,
+		[AGENCY_PHON_TEXT] [varchar](20) NULL,
+		[INSURED_NAM_TEXT] [varchar](50) NULL,
+		[INSURED_ADD_TEXT] [varchar](50) NULL,
+		[INSURED_CIT_TEXT] [varchar](25) NULL,
+		[INSURED_ST_TEXT] [varchar](15) NULL,
+		[INSURED_ZIP_TEXT] [varchar](15) NULL,
+		[INSURED_PH_TEXT] [varchar](20) NULL,
+		[GEN_LIAB_TXCD] [varchar](2000) NULL,
+		[INS_NAME_TEXT] [varchar](50) NULL,
+		[POL_NUMBER_NUM] [float] NULL,
+		[EXPIR_DATE_DATE] [varchar](8) NULL,
+		[BI_EA_AGG_TEXT] [varchar](25) NULL,
+		[PD_EA_AGG_TEXT] [varchar](25) NULL,
+		[BI_PD_COMB_NUM] [float] NULL,
+		[PI_AGG_NUM] [float] NULL,
+		[AUTO_LIAB_TEXT] [varchar](25) NULL,
+		[BI_EA_PERS_NUM] [float] NULL,
+		[BI_EA_ACC_NUM] [float] NULL,
+		[PD_EA_OCC_NUM] [float] NULL,
+		[BI_PD_COMB_TEXT] [varchar](15) NULL,
+		[EXCESS_LIAB_TXCD] [varchar](2000) NULL,
+		[BI_PD_AGG_TEXT] [varchar](15) NULL,
+		[WORK_COMP_NUM] [float] NULL,
+		[WORK_COMP_TEXT] [varchar](25) NULL,
+		[WC_EA_ACC_NUM] [float] NULL,
+		[OPER_DESC_TXCD] [varchar](2000) NULL,
+		[ISSUE_DT_DATE] [varchar](8) NULL,
+		[CERTIFICATE_ID_RMDB] [int]  NULL,	
+	) ON [PRIMARY]
+END
+
+
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'T_DIS_BOND_ABS') 
+BEGIN
+	CREATE TABLE [dbo].[T_DIS_BOND_ABS](
+		[JOBID] [int] NOT NULL,
+		[DA_ROW_ID] [int] NOT NULL,
+		[BOND_ABS_ID] [int]  NULL,
+		[BOND_LINE_CODE] [varchar](25) NULL,
+		[BOND_CLASS_CODE] [varchar](25) NULL,
+		[BOND_STATUS_CODE] [varchar](25) NULL,						 		
+	 CONSTRAINT [PK_T_DIS_BOND_ABS] PRIMARY KEY CLUSTERED 
+	(
+		[JOBID] ASC,
+		[DA_ROW_ID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'BOND_ABS_TEMP_FD') 
+BEGIN
+	CREATE TABLE [dbo].[BOND_ABS_TEMP_FD](
+		[DA_ROW_ID] [int] NOT NULL,
+		[JOBID] [int] NOT NULL,
+		[INPUT_ROW_ID] [int] NULL,
+		[INVALID_ROW] [int] NULL,
+		[UPDATE_ROW] [int] NULL,
+		[BOND_ABS_ID] [int]  NULL,
+		[BOND_NUM_TEXT] [varchar](20) NULL,
+		[BOND_TYPE_TXCD] [varchar](2000) NULL,
+		[BOND_LINE_CODE] [int] NULL,
+		[EFF_DATE_DATE] [varchar](8) NULL,
+		[EXPIR_DATE_DATE] [varchar](8) NULL,
+		[BOND_AMT_AMT] [float] NULL,
+		[PREMIUM_AMT] [float] NULL,
+		[BILL_NAME_TEXT] [varchar](50) NULL,
+		[BILL_ADDR_TEXT] [varchar](50) NULL,
+		[BILL_CITY_TEXT] [varchar](25) NULL,
+		[BILL_ZIP_TEXT] [varchar](15) NULL,
+		[BILL_ACCT_TEXT] [varchar](50) NULL,
+		[PRINCIPAL_TXCD] [varchar](2000) NULL,
+		[STATE_TEXT] [varchar](3) NULL,
+		[BILL_STATE_TEXT] [varchar](25) NULL,
+		[OBLIGEE_TXCD] [varchar](2000) NULL,
+		[BOND_CLASS_CODE] [int] NULL,
+		[OLD_BOND_NO_TEXT] [varchar](25) NULL,
+		[REQUESTER_TEXT] [varchar](50) NULL,
+		[REQ_ADDR_TEXT] [varchar](50) NULL,
+		[REQ_CITY_TEXT] [varchar](25) NULL,
+		[REQ_STATE_TEXT] [varchar](25) NULL,
+		[REQ_ZIP_TEXT] [varchar](15) NULL,
+		[REQ_PHONE_TEXT] [varchar](15) NULL,
+		[ORDERED_BY_TEXT] [varchar](50) NULL,
+		[ORDER_ADDR_TEXT] [varchar](50) NULL,
+		[ORDER_CITY_TEXT] [varchar](25) NULL,
+		[ORDER_STATE_TEXT] [varchar](15) NULL,
+		[ORDER_ZIP_TEXT] [varchar](15) NULL,
+		[ORDER_PHONE_TEXT] [varchar](25) NULL,
+		[AUTH_BY_TEXT] [varchar](50) NULL,
+		[AUTH_ADDR_TEXT] [varchar](50) NULL,
+		[AUTH_CITY_TEXT] [varchar](25) NULL,
+		[AUTH_STATE_TEXT] [varchar](15) NULL,
+		[AUTH_ZIP_TEXT] [varchar](15) NULL,
+		[AUTH_PHONE_TEXT] [varchar](15) NULL,
+		[DATE_EXEC_DATE] [varchar](8) NULL,
+		[PAID_DATE_DATE] [varchar](8) NULL,
+		[BOND_STATUS_CODE] [int] NULL,
+		[DATE_CANC_DATE] [varchar](8) NULL,
+		[BOND_DETAIL_TXCD] [varchar](2000) NULL,
+		[BOND_ABS_ID_RMDB] [int]  NULL,
+	
+	) ON [PRIMARY]
+END
+
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'TEMP_LIMIT') 
+BEGIN
+
+CREATE TABLE [dbo].[TEMP_LIMIT](
+	[DA_ROW_ID] [int] NOT NULL,
+	[JOBID] [int] NOT NULL,
+	[INPUT_ROW_ID] [int] NULL,
+	[INVALID_ROW] [int] NULL,
+	[UPDATE_ROW] [int] NULL,
+	[LIMIT_ROW_ID] [int] null,
+	[POLICY_KEY] [VARCHAR] (50) NULL,
+	[COVERAGE_KEY]  [VARCHAR] (100) NULL,
+	[LIMIT_TYPE_CODE] [int] NULL,
+	[LIMIT_AMOUNT] [float] NULL,
+	[STAGING_ID][int] NULL,
+	[FINANCIAL_KEY_FLAG] [INT] NULL ,
+	[POLICY_KEY_SOURCE] [INT] NULL, --RS
+	[COVERAGE_KEY_SOURCE]  [INT] NULL,
+	CONSTRAINT [PK_TEMP_LIMIT] PRIMARY KEY CLUSTERED 
+	(
+		[JOBID] ASC,
+		[DA_ROW_ID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+
+ )
+ 
+ END
+ 
+
+ ---mkaur24 POLICY Restructuring Table Changes Table STARTS
+ 
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'POLICY') 
+BEGIN
+
+	CREATE TABLE [dbo].[POLICY](
+		[DA_ROW_ID] [int] NOT NULL,
+		[JOBID] [int] NOT NULL,
+		[INPUT_ROW_ID] [int] NULL,
+		[INVALID_ROW] [int] NULL,
+		[UPDATE_ROW] [int] NULL,
+		[ADDED_BY_USER] [varchar](50) NULL,
+		[DTTM_RCD_ADDED] [varchar](14) NULL,
+		[UPDATED_BY_USER] [varchar](50) NULL,
+		[POLICY_ID] [int]  NULL,
+		[POLICY_NAME] [varchar](40) NULL, --rs
+		[POLICY_NUMBER] [varchar](40) NULL, --rs
+		[POLICY_STATUS_CODE] [int] NULL,
+		[INSURER_EID] [int] NULL,
+		[ISSUE_DATE] [varchar](8) NULL,
+		[REVIEW_DATE] [varchar](8) NULL,
+		[RENEWAL_DATE] [varchar](8) NULL,
+		[EFFECTIVE_DATE] [varchar](8) NULL,
+		[EXPIRATION_DATE] [varchar](8) NULL,
+		[CANCEL_DATE] [varchar](8) NULL,
+		[PREMIUM] [float] NULL,
+		[TRIGGER_CLAIM_FLAG] [smallint] NULL,
+		[PRIMARY_POLICY_FLG] [smallint] NULL,
+		[COMMENTS] [varchar](255) NULL,--rs
+		[DTTM_RCD_LAST_UPD] [varchar](14) NULL,
+		[BROKER_EID] [int] NULL,
+		[BANK_ACC_ID] [int] NULL,
+		[SUB_ACC_ROW_ID] [int] NULL,
+		[HTMLCOMMENTS] [varchar](255) NULL, --rs
+		[ALL_STATES_FLAG] [smallint] NULL,
+		[POLICY_SYSTEM_ID] [int]  NULL,
+		[POLICY_TYPE] [int]  NULL,
+		[POLICY_SYMBOL] [varchar](20) NULL,
+		[EXTERNAL_POLICY_ID] [varchar](20) NULL,
+		[CURRENCY_CODE] [int]  NULL,
+		[POLICY_LOB_CODE] [int] NULL,
+		[MODULE] [varchar](10) NULL,
+		[MASTER_COMPANY] [varchar](10) NULL,
+		[LOCATION_COMPANY] [varchar](10) NULL,
+		[BRANCH_CODE] [varchar](50) NULL,
+		[DUPLICATE_FLAG][int] NULL,
+		[EXTERNAL_POLICY_KEY][varchar](50) NULL,		
+		[STAGING_ID] [int] NULL,
+		[INC_CLAIMANT] [int] NULL,
+		[INC_POL_COVERAGE] [int] NULL,
+		[INC_LOSS_TYPE] [int] NULL,
+		[INC_RSVTYPE] [int] NULL,
+		[UI_SETTING_FLAG] [INT]		 NULL,			
+		[INSURER_EID_SOURCE][varchar](25)  NULL, --MKAUR24 RS
+		[BROKER_EID_SOURCE] [varchar](25) NULL,
+		[POLICY_SYSTEM_NAME_SOURCE] [varchar](100) NULL,		
+		[CLAIM_NUMBER_SOURCE] [varchar](25) NULL,		
+		[CLAIM_ID][int] NULL,  
+		[CLAIM_POLICY_LOB_CODE] [int] NULL,
+		[EVENT_ID_RMDB] [INT] NULL ,
+		[LINE_OF_BUS_CODE_RMDB] [INT] NULL ,
+		[DATE_OF_CLAIM_RMDB] [varchar](8) NULL ,		
+		[DATE_RPTD_TO_RM_RMDB] [varchar](8) NULL ,  --MKAUR24 END RS
+			[PAID_TO_DATE] [varchar](8) NULL, -- mkaur24 HMI start
+		[REINSURANCE_CODE] [int] NULL,		-- mkaur24 HMI end
+		[POLICY_SYSTEM_NAME_SHORT_CODE] [varchar](25) NULL, --INTERNAL HMI
+		[WS_PARAM_1] [varchar](4) NULL, --INTERNAL HMI
+		
+	 CONSTRAINT [PK_POLICY] PRIMARY KEY CLUSTERED 
+	(
+		[DA_ROW_ID] ASC,
+		[JOBID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'T_DIS_POLICY') 
+BEGIN
+	CREATE TABLE [dbo].[T_DIS_POLICY](
+		[JOBID] [int] NOT NULL,
+		[DA_ROW_ID] [int] NOT NULL,
+		[POLICY_ID] [int]  NULL,
+		[POLICY_STATUS_CODE] [varchar](25) NULL,
+		--[INSURER_EID][varchar](25)  NULL,
+		--[BROKER_EID] [varchar](25) NULL,
+		--[POLICY_SYSTEM_NAME] [varchar](100) NULL,
+		[POLICY_TYPE] [varchar](25) NULL,
+		[CURRENCY_CODE] [varchar](25) NULL,
+		[POLICY_LOB_CODE] [varchar](25) NULL,
+		[CLAIM_NUMBER] [varchar](25) NULL,
+		[BRANCH_CODE] [varchar] (25) NULL, 
+		[CLAIM_ID][int] NULL, 	
+		[REINSURANCE_CODE] [varchar](25) NULL,	 -- mkaur24 HMI		
+	 CONSTRAINT [PK_T_DIS_POLICY] PRIMARY KEY CLUSTERED 
+	(
+		[JOBID] ASC,
+		[DA_ROW_ID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'POLICY_X_CVG_TYPE') 
+BEGIN
+	CREATE TABLE [dbo].[POLICY_X_CVG_TYPE](
+		[DA_ROW_ID] [int] NOT NULL,
+		[JOBID] [int] NOT NULL,
+		[INPUT_ROW_ID] [int] NULL,
+		[INVALID_ROW] [int] NULL,
+		[UPDATE_ROW] [int] NULL,
+		[CLAIM_LIMIT] [float] NULL,
+		[NOTIFICATION_UID] [int] NULL,
+		[POLCVG_ROW_ID] [int] NULL,
+		[POLICY_ID] [int] NULL,
+		[COVERAGE_TYPE_CODE] [int] NULL,
+		[POLICY_LIMIT] [float] NULL,
+		[OCCURRENCE_LIMIT] [float] NULL,
+		[TOTAL_PAYMENTS] [float] NULL,
+		[REMARKS] [varchar](8000) NULL,
+		[EXCEPTIONS] [varchar](2000) NULL,
+		[CANCEL_NOTICE_DAYS] [int] NULL,
+		[SELF_INSURE_DEDUCT] [float] NULL,
+		[NEXT_POLICY_ID] [int] NULL,
+		[BROKER_NAME] [varchar](100) NULL,
+		[SECTION_NUMBER_CODE] [int] NULL,
+		[POLICY_UNIT_ROW_ID] [int] NULL,
+		[PER_PERSON_LIMIT] [float] NULL,
+		[EFFECTIVE_DATE] [varchar](8) NULL,
+		[EXPIRATION_DATE] [varchar](8) NULL,
+		[LIMIT] [float] NULL,
+		[ORIGINAL_PREMIUM] [float] NULL,
+		[WRITTEN_PREMIUM] [float] NULL,
+		[FULL_TERM_PREMIUM] [float] NULL,
+		[TOTAL_WRITTEN_PREMIUM] [float] NULL,
+		[EXPOSURE] [float] NULL,
+		[CHANGE_DATE] [varchar](8) NULL,
+		[CVG_SEQUENCE_NO] [varchar](8) NULL,
+		[TRANS_SEQ_NO] [varchar](8) NULL,
+		[COVERAGE_TEXT] [varchar](250) NULL,
+		[COVERAGE_CLASS_CODE] [varchar](100) NULL,
+		[LIMIT_COVA] [float] NULL,
+		[LIMIT_COVB] [float] NULL,
+		[LIMIT_COVC] [float] NULL,
+		[LIMIT_COVD] [float] NULL,
+		[LIMIT_COVE] [float] NULL,
+		[LIMIT_COVF] [float] NULL,
+		[WC_DED_AMT] [float] NULL,
+		[WC_DED_AGGR] [float] NULL,
+		[PRODLINE] [varchar](50) NULL,
+		[ASLINE] [float] NULL,
+		[SUB_LINE] [varchar](3) NULL,
+		[DED_TYPE_CODE] [int] NULL,
+		[STAGING_ID] [int] NULL,
+		[REINSURANCE_CODE] [int] NULL,
+		[RETRO_DATE][varchar](8) NULL,
+		[TAIL_DATE][varchar](8) NULL,
+		[COVERAGE_KEY][varchar](100) NULL,
+		[FINANCIAL_KEY_FLAG] [INT] NULL ,		
+		[POLICY_ID_SOURCE] [int] NULL,--MKAUR24 RS
+		[POLCVG_ROW_ID_SOURCE] [int] NULL,		
+		[NEXT_POLICY_ID_SOURCE] [int] NULL,		
+		[UNIT_ID_SOURCE] [int] NULL,
+		[COVERAGE_CODE_DESCRIPTION] [varchar](100) NULL,
+		[CLASS_CODE_DESCRIPTION] [varchar](100) NULL,		
+		[SUBLINE_DESCRIPTION] [varchar](100) NULL, 
+		[COVERAGE_TYPE_CODE_SOURCE] [varchar](25) NULL,--MKAUR24 RS		
+		
+	 CONSTRAINT [PK_POLICY_X_CVG_TYPE] PRIMARY KEY CLUSTERED 
+	(
+		[DA_ROW_ID] ASC,
+		[JOBID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'T_DIS_POLICY_X_CVG_TYPE') 
+BEGIN
+	CREATE TABLE [dbo].[T_DIS_POLICY_X_CVG_TYPE](
+		[JOBID] [int] NOT NULL,
+		[DA_ROW_ID] [int] NOT NULL,
+		[POLICY_ID] [int] NULL,
+		[POLCVG_ROW_ID] [int] NULL,
+		[COVERAGE_TYPE_CODE] [varchar](25) NULL,
+		--[NEXT_POLICY_ID] [int] NULL,
+		[SECTION_NUMBER_CODE] [varchar](25) NULL,
+		--[UNIT_ID] [int] NULL,
+		--[COVERAGE_CODE_DESCRIPTION] [varchar](100) NULL,
+		--[CLASS_CODE_DESCRIPTION] [varchar](100) NULL,
+		--[COVERAGE_CLASS_CODE] [varchar](20) NULL,
+		--[SUBLINE_DESCRIPTION] [varchar](100) NULL,
+		[REINSURANCE_CODE] [varchar](25) NULL,
+	 CONSTRAINT [PK_T_POLICY_X_CVG_TYPE] PRIMARY KEY CLUSTERED 
+	(
+		[JOBID] ASC,
+		[DA_ROW_ID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'POLICY_X_INSURED') 
+BEGIN
+	CREATE TABLE [dbo].[POLICY_X_INSURED](
+		[DA_ROW_ID] [int] NOT NULL,
+		[JOBID] [int] NOT NULL,
+		[INPUT_ROW_ID] [int] NULL,
+		[INVALID_ROW] [int] NULL,
+		[UPDATE_ROW] [int] NULL,
+		[POLICY_ID] [int] NULL,
+		[INSURED_EID] [int]  NULL,
+		[STAGING_ID] [int] NULL,
+		[FINANCIAL_KEY_FLAG] [INT] NULL ,			
+		[LAST_NAME] [varchar](255) NULL, --RS
+		[FIRST_NAME] [varchar](255) NULL,	
+		[TAX_ID] [varchar](20) NULL,
+		[ABBREVIATION] [varchar](25) NULL,
+		[ORG_LEVEL] [int]  NULL,
+		[ORG_LEVEL_PARENT_ABBREVIATION] [varchar](25) NULL,
+		[CLIENT_SEQ_NUM] [varchar](30) NULL,  --MKAUR24 RS	
+		[BIRTH_DATE][VARCHAR](8) NULL, --HMI mkaur24
+		[BENEFICIARY_CODE][varchar](25) NULL,  --HMI mkaur24
+		[BENEFICIARY_CODE_value][int] NULL,  --HMI mkaur24
+		
+	 CONSTRAINT [PK_POLICY_X_INSURED] PRIMARY KEY CLUSTERED 
+	(
+		[DA_ROW_ID] ASC,
+		[JOBID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'POLICY_X_INSURER') 
+BEGIN
+	CREATE TABLE [dbo].[POLICY_X_INSURER](
+		[DA_ROW_ID] [int] NOT NULL,
+		[JOBID] [int] NOT NULL,
+		[INPUT_ROW_ID] [int] NULL,
+		[INVALID_ROW] [int] NULL,
+		[UPDATE_ROW] [int] NULL,
+		[IN_ROW_ID] [int] NULL,
+		[POLICY_ID] [int] NULL,
+		[INSURER_CODE] [int] NULL,
+		[RES_PERCENTAGE] [float] NULL,
+		[PRIMARY_INSURER] [smallint] NULL,
+		[PREMIUM_AMOUNT] [float] NULL,
+		[PART_OF_TOTAL_LAYER] [float] NULL,
+		[PORTION_OF_PART_OF_LAYER] [float] NULL,
+		[INSTAL_PAYMENT_AMT] [float] NULL,
+		[INSTAL_SCHEDULE_CODE] [int] NULL,
+		[SPECIAL_CIRCUM_MEMO] [varchar](4000) NULL,
+		[LAYER_NUM_CODE] [int] NULL,
+		[OCCURENCE_LIMIT] [float] NULL,
+		[COVERAGE_DESC] [varchar](100) NULL,
+		[COMMENT_MEMO] [varchar](16) NULL,
+		[STAGING_ID] [int] NULL,
+		[FINANCIAL_KEY_FLAG] [INT] NULL ,
+		[INSURER_CODE_SOURCE] [int] NULL,	--RS	
+		[LAST_NAME] [varchar](255) NULL,
+		[FIRST_NAME] [varchar](255)NULL,	
+		[TAX_ID] [varchar](20) NULL,
+		[ABBREVIATION] [varchar](25) NULL,
+		[PRIMARY_INSURER_SOURCE]	[INT] NULL, --rs 8/1/16
+		[CLIENT_SEQ_NUM] [varchar](30) NULL,  --MKAUR24 RS	
+		[BIRTH_DATE] [VARCHAR](8) NULL, -- mkaur24 HMI
+		
+	 CONSTRAINT [PK_POLICY_X_INSURER] PRIMARY KEY CLUSTERED 
+	(
+		[DA_ROW_ID] ASC,
+		[JOBID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'T_DIS_POLICY_X_INSURER') 
+BEGIN
+	CREATE TABLE [dbo].[T_DIS_POLICY_X_INSURER](
+		[JOBID] [int] NOT NULL,
+		[DA_ROW_ID] [int] NOT NULL,
+		[POLICY_ID] [int] NULL,
+		--[INSURER_CODE] [int] NULL,
+		[INSTAL_SCHEDULE_CODE] [varchar](25) NULL,
+		[LAYER_NUM_CODE] [varchar](25) NULL,
+		--[LAST_NAME] [varchar](255) NULL,
+		--[FIRST_NAME] [varchar](255)NULL,	
+		--[TAX_ID] [varchar](20) NULL,
+		--[ABBREVIATION] [varchar](25) NULL,
+		--[PRIMARY_INSURER] int NULL,
+		--[CLIENT_SEQ_NUM] [varchar](30) NULL, 	
+		
+	 CONSTRAINT [PK_T_DIS_POLICY_X_INSURER] PRIMARY KEY CLUSTERED 
+	(
+		[JOBID] ASC,
+		[DA_ROW_ID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'VEHICLE') 
+BEGIN
+	CREATE TABLE [dbo].[VEHICLE](
+		[DA_ROW_ID] [int] NOT NULL,
+		[JOBID] [int] NOT NULL,
+		[INPUT_ROW_ID] [int] NULL,
+		[INVALID_ROW] [int] NULL,
+		[UPDATE_ROW] [int] NULL,
+		[DISPOSAL_DATE] [varchar](8) NULL,
+		[LEASE_AMOUNT] [float] NULL,
+		[LEASE_EXPIRE_DATE] [varchar](8) NULL,
+		[LEASE_FLAG] [smallint] NULL,
+		[LEASE_NUMBER] [varchar](50) NULL,
+		[LEASE_TERM] [int] NULL,
+		[LEASING_CO_EID] [int] NULL,
+		[LICENSE_RNWL_DATE] [varchar](8) NULL,
+		[VEHICLE_MODEL] [varchar](50) NULL,
+		[UNIT_ID] [int] NULL,
+		[VEHICLE_MAKE] [varchar](20) NULL,
+		[VEHICLE_YEAR] [int] NULL,
+		[UNIT_TYPE_CODE] [int] NULL,
+		[HOME_DEPT_EID] [int] NULL,
+		[LICENSE_NUMBER] [varchar](20) NULL,
+		[STATE_ROW_ID] [int] NULL,
+		[GROSS_WEIGHT] [float] NULL,
+		[VIN] [varchar](20) NULL,
+		[ORIGINAL_COST] [float] NULL,
+		[PURCHASE_DATE] [varchar](8) NULL,
+		[DEDUCTIBLE] [float] NULL,
+		[LAST_SERVICE_DATE] [varchar](8) NULL,
+		[TYPE_OF_SERVICE] [varchar](4000) NULL,   
+		[INSURANCE_COVERAGE] [varchar](4000) NULL,	 
+		[VEH_DESC] [varchar](300) NULL,			 
+		[DELETED_FLAG] [smallint] NULL,
+		[FINANCIAL_KEY_FLAG] [INT] NULL ,
+		[STAGING_ID] [INT] NULL,		
+		[LEASING_CO_EID_DESC_SOURCE] [varchar](50) NULL, --RS
+		[HOME_DEPT_EID_DESC_SOURCE] [varchar](50) NULL,
+	 CONSTRAINT [PK_VEHICLE] PRIMARY KEY CLUSTERED 
+	(
+		[DA_ROW_ID] ASC,
+		[JOBID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'T_DIS_VEHICLE') 
+BEGIN
+	CREATE TABLE [dbo].[T_DIS_VEHICLE](
+		[DA_ROW_ID] [int] NOT NULL,
+		[JOBID] [int] NOT NULL,
+		[SOURCE_UNIT_ID] [int] NULL,
+		--[LEASING_CO_EID_DESC] [varchar](50) NULL,
+		--[HOME_DEPT_EID_DESC] [varchar](50) NULL,
+		[STATE_ID] [varchar](6) NULL,
+		[UNIT_TYPE_CODE] [varchar](25) NULL,
+		--[UNIT_ID][int] NULL,
+	 CONSTRAINT [PK_T_DIS_VEHICLE] PRIMARY KEY CLUSTERED 
+	(
+		[DA_ROW_ID] ASC,
+		[JOBID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+
+
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'SITE_UNIT') 
+BEGIN	
+    CREATE TABLE [dbo].[SITE_UNIT](
+		[DA_ROW_ID] [int] NOT NULL,
+		[JOBID] [int] NOT NULL,
+		[INPUT_ROW_ID] [int] NULL,
+		[INVALID_ROW] [int] NULL,
+		[UPDATE_ROW] [int] NULL,
+		[SITE_ID] [int]  NULL,
+		[SITE_NUMBER] [varchar](50) NULL,
+		[NAME] [varchar](200) NULL,
+		[OPTIONAL] [varchar](200) NULL,
+		[ADDR1] [varchar](100) NULL,
+		[ADDR2] [varchar](100) NULL,
+		[ADDR3] [varchar](100) NULL,
+		[ADDR4] [varchar](100) NULL,
+		[STATE_ID] [int] NULL,
+		[CITY] [varchar](50) NULL,
+		[ZIP_CODE] [varchar](10) NULL,
+		[COUNTRY_ID] [int] NULL,
+		[PHONE_NUMBER] [varchar](50) NULL,
+		[CONTACT] [varchar](50) NULL,
+		[TAX_LOCATION] [varchar](50) NULL,
+		[UNEMPLOYEMENT_NUMBER] [varchar](50) NULL,
+		[NUM_OF_EMP] [int] NULL,
+		[FEIN] [varchar](50) NULL,
+		[SIC] [varchar](50) NULL,
+		[DELETED_FLAG] [smallint] NULL,
+		[DTTM_RCD_ADDED] [varchar](14) NULL,
+		[DTTM_RCD_LAST_UPD] [varchar](14) NULL,
+		[ADDED_BY_USER] [varchar](50) NULL,
+		[UPDATED_BY_USER] [varchar](50) NULL,
+		[STAGING_ID] [int] NULL,
+		[FINANCIAL_KEY_FLAG] [INT] NULL ,
+		--[STATE_ID_SOURCE] [varchar](25)  NULL, --RS
+		
+		
+	 CONSTRAINT [PK_SITE_UNIT] PRIMARY KEY CLUSTERED 
+	(
+		[DA_ROW_ID] ASC,
+		[JOBID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'T_DIS_SITE_UNIT') 
+BEGIN
+	CREATE TABLE [dbo].[T_DIS_SITE_UNIT](
+		[JOBID] [int] NOT NULL,
+		[DA_ROW_ID] [int] NOT NULL,
+		[STATE_ID] [varchar](25)  NULL,
+		[COUNTRY_ID] [varchar](25) NULL,
+		[SITE_ID][int]  NULL,		
+	 CONSTRAINT [PK_T_DIS_SITE_UNIT] PRIMARY KEY CLUSTERED 
+	(
+		[JOBID] ASC,
+		[DA_ROW_ID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'PROPERTY_UNIT') 
+BEGIN
+	CREATE TABLE [dbo].[PROPERTY_UNIT](
+		[DA_ROW_ID] [int] NOT NULL,
+		[JOBID] [int] NOT NULL,
+		[INPUT_ROW_ID] [int] NULL,
+		[INVALID_ROW] [int] NULL,
+		[UPDATE_ROW] [int] NULL,
+		[PROPERTY_ID] [int]  NULL,
+		[PIN] [varchar](300) NULL,
+		[DESCRIPTION] [varchar](50) NULL,
+		[ADDR1] [varchar](100) NULL,
+		[ADDR2] [varchar](100) NULL,
+		[ADDR3] [varchar](100) NULL,
+		[ADDR4] [varchar](100) NULL,
+		[CITY] [varchar](50) NULL,
+		[STATE_ID] [int]  NULL,
+		[ZIP_CODE] [varchar](10) NULL,
+		[CLASS_OF_CONS_CODE] [int]  NULL,
+		[YEAR_OF_CONS] [int]  NULL,
+		[WALL_CONS_CODE] [int]  NULL,
+		[ROOF_CONS_CODE] [int]  NULL,
+		[SQUARE_FOOTAGE] [float] NULL,
+		[NO_OF_STORIES] [int] NULL,
+		[AVG_STORY_HEIGHT] [float] NULL,
+		[HEATING_SYS_CODE] [int]  NULL,
+		[COOLING_SYS_CODE] [int]  NULL,
+		[FIRE_ALARM_CODE] [int]  NULL,
+		[SPRINKLERS_CODE] [int]  NULL,
+		[ENTRY_ALARM_CODE] [int]  NULL,
+		[PLOT_PLANS_CODE] [int]  NULL,
+		[FLOOD_ZONE_CERT_CODE] [int]  NULL,
+		[EARTHQUAKE_ZONE_CODE] [int]  NULL,
+		[GPS_LATITUDE] [float] NULL,
+		[GPS_LONGITUDE] [float]  NULL,
+		[GPS_ALTITUDE] [float]  NULL,
+		[ROOF_ANCHORING_CODE] [int] NULL,
+		[GLASS_STRENGTH_CODE] [int]  NULL,
+		[APPRAISED_VALUE] [float]  NULL,
+		[REPLACEMENT_VALUE] [float]  NULL,
+		[DELETED_FLAG] [smallint] NULL,
+		[APPRAISED_DATE] [varchar](8) NULL,
+		[LAND_VALUE] [float]  NULL,
+		[APPRAISAL_SOURCE_CODE] [int]  NULL,
+		[CATEGORY_CODE] [int]  NULL,
+		[TERRITORY_CODE] [int]  NULL,
+		[DTTM_RCD_ADDED] [varchar](14) NULL,
+		[DTTM_RCD_LAST_UPD] [varchar](14) NULL,
+		[ADDED_BY_USER] [varchar](50) NULL,
+		[UPDATED_BY_USER] [varchar](50) NULL,
+		[COUNTRY_CODE] [int]  NULL,
+		[STAGING_ID] [int] NULL,
+		[FINANCIAL_KEY_FLAG] [INT] NULL ,
+	--	[STATE_ID_SOURCE] [varchar](25)  NULL,		--RS
+	 CONSTRAINT [PK_PROPERTY_UNIT] PRIMARY KEY CLUSTERED 
+	(
+		[DA_ROW_ID] ASC,
+		[JOBID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'T_DIS_PROPERTY_UNIT') 
+BEGIN
+	CREATE TABLE [dbo].[T_DIS_PROPERTY_UNIT](
+		[JOBID] [int] NOT NULL,
+		[DA_ROW_ID] [int] NOT NULL,
+		[STATE_ID] [varchar](25)  NULL,
+		[CLASS_OF_CONS_CODE] [varchar](25) NULL,	
+		[WALL_CONS_CODE] [varchar](25)  NULL,
+		[ROOF_CONS_CODE] [varchar](25)  NULL,
+		[HEATING_SYS_CODE][varchar](25) NULL,
+		[COOLING_SYS_CODE] [varchar](25) NULL,
+		[FIRE_ALARM_CODE][varchar](25)  NULL,
+		[SPRINKLERS_CODE] [varchar](25)  NULL,
+		[ENTRY_ALARM_CODE] [varchar](25)  NULL,
+		[PLOT_PLANS_CODE][varchar](25)  NULL,
+		[FLOOD_ZONE_CERT_CODE] [varchar](25)  NULL,
+		[EARTHQUAKE_ZONE_CODE] [varchar](25)  NULL,
+		[ROOF_ANCHORING_CODE] [varchar](25)  NULL,
+		[GLASS_STRENGTH_CODE][varchar](25)  NULL,
+		[APPRAISAL_SOURCE_CODE] [varchar](25)  NULL,
+		[CATEGORY_CODE] [varchar](25)  NULL,
+		[TERRITORY_CODE] [varchar](25)  NULL,
+		[COUNTRY_CODE] [varchar](25)  NULL,	
+		[PROPERTY_ID] [int] NULL	
+	 CONSTRAINT [PK_T_DIS_PROPERTY_UNIT] PRIMARY KEY CLUSTERED 
+	(
+		[JOBID] ASC,
+		[DA_ROW_ID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'OTHER_UNIT') 
+BEGIN
+
+CREATE TABLE [dbo].[OTHER_UNIT](
+	[JOBID] [int] NOT NULL,
+	[DA_ROW_ID] [int] NOT NULL,
+	[INVALID_ROW] [int] NULL,
+	[UPDATE_ROW] [int] NULL,
+	[INPUT_ROW_ID] [int] NULL,
+	[OTHER_UNIT_ID] [int] NOT NULL,
+	[ENTITY_ID] [int] NULL,
+	[UNIT_TYPE] [varchar](10) NULL,
+	--[DELETED_FLAG] [smallint] NULL,
+	[ADDED_BY_USER] [varchar](10) NULL,
+	[UPDATED_BY_USER] [varchar](10) NULL,
+	[DTTM_RCD_LAST_UPD] [varchar](14) NULL,
+	[DTTM_RCD_ADDED] [varchar](14) NULL,
+[STAGING_ID] [int] NULL,
+[FINANCIAL_KEY_FLAG] [INT] NULL ,
+[OTHER_UNIT_ID_SOURCE] [int]  NULL, --RS
+		[ENTITY_ID_SOURCE] [int] NULL,	 --RS
+
+ CONSTRAINT [PK_OTHER_UNIT] PRIMARY KEY CLUSTERED 
+(
+	[JOBID] ASC,
+	[DA_ROW_ID] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+) ON [PRIMARY]
+END
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'UNIT_X_CLAIM') 
+BEGIN
+	CREATE TABLE [dbo].[UNIT_X_CLAIM](
+		[DA_ROW_ID] [int] NOT NULL,
+		[JOBID] [int] NOT NULL,
+		[INPUT_ROW_ID] [int] NULL,
+		[INVALID_ROW] [int] NULL,
+		[UPDATE_ROW] [int] NULL,
+		[UNIT_ID] [int] NULL,
+		[CLAIM_ID] [int] NULL,
+		[UNIT_ROW_ID] [int] NULL,		
+		[VEHICLE_MAKE] [varchar](20) NULL,
+		[VEHICLE_YEAR] [int] NULL,
+		[HOME_DEPT_EID] [int] NULL,
+		[LICENSE_NUMBER] [varchar](20) NULL,
+		[STATE_ROW_ID] [int] NULL,
+		[DAMAGE] [varchar](4000) NULL,
+		[UNIT_TYPE_CODE] [int] NULL,
+		[VIN] [varchar](20) NULL,
+		[ISINSURED] [int] NULL, 
+		[ESTDAMAGE] [float] NULL,
+		[OWNER_EID] [int] NULL, 
+		[ISDRIVABLE] [int] NULL,
+		[ISNONVEHICLEPROPERTYDAMAGE] [int] NULL,
+		[OTHERINSURANCE] [int] NULL, 
+		[POLHOLDERISPROPERTYOWNER] [int] NULL, 
+		[POLICYHOLDER] [int] NULL, 
+		[COMPANY] [int] NULL, 
+		[SEENAT] [varchar](4000) NULL, 
+		[DATEREPORTED] [varchar](8) NULL, 
+		[TIMEREPORTED] [varchar](6) NULL, 
+		[POLICYNUMBER] [varchar](10) NULL, 
+		[COVERAGES] [varchar](4000) NULL, 
+		[LIMITS] [varchar](50) NULL, 
+		[ASSIGNADJ_EID] [int] NULL,
+		[STAGING_ID] [int] NULL,
+		[FINANCIAL_KEY_FLAG] [INT] NULL ,		
+		[OWNER_LAST_NAME] [nvarchar](255) NULL,  --RS
+		[OWNER_FIRST_NAME] [nvarchar](255) NULL,
+		[OWNER_TAXID] [nvarchar](20) NULL, 
+		[POLICYHOLDER_LAST_NAME] [nvarchar](255) NULL, 
+		[POLICYHOLDER_FIRST_NAME] [nvarchar](255) NULL,
+		[POLICYHOLDER_TAXID] [nvarchar](20) NULL, 
+		[COMPANY_LAST_NAME] [nvarchar](255) NULL, 
+		[COMPANY_FIRST_NAME] [nvarchar](255) NULL,
+		[COMPANY_TAXID] [nvarchar](20) NULL, 
+		[ASSIGNADJ_LAST_NAME] [nvarchar](255) NULL, 
+		[ASSIGNADJ_FIRST_NAME] [nvarchar](255) NULL,
+		[ASSIGNADJ_TAXID] [nvarchar](20) NULL ,		
+		[HOME_DEPT_EID_SOURCE] [varchar](50) NULL,
+		[CLAIM_ID_SOURCE] [varchar](25) NULL,
+		--[STATE_ID_SOURCE] [varchar](6) NULL, --RS			
+	 CONSTRAINT [PK_UNIT_X_CLAIM] PRIMARY KEY CLUSTERED 
+	(
+		[DA_ROW_ID] ASC,
+		[JOBID] ASC
+
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'T_DIS_UNIT_X_CLAIM') 
+BEGIN
+	CREATE TABLE [dbo].[T_DIS_UNIT_X_CLAIM](
+		[DA_ROW_ID] [int] NOT NULL,
+		[JOBID] [int] NOT NULL,
+	--	[SOURCE_UNIT_ID] [int] NULL,		
+		[CLAIM_ID_SOURCE] [varchar](25) NULL,
+		[STATE_ID] [varchar](6) NULL,
+		[UNIT_TYPE_CODE] [varchar](25) NULL,
+		[UNIT_ID] [int] NULL,
+		
+	 CONSTRAINT [PK_T_DIS_UNIT_X_CLAIM] PRIMARY KEY CLUSTERED 
+	(
+		[DA_ROW_ID] ASC,
+		[JOBID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'CLAIM_X_SITELOSS') 
+BEGIN
+	CREATE TABLE [dbo].[CLAIM_X_SITELOSS](
+		[DA_ROW_ID] [int] NOT NULL,
+		[JOBID] [int] NOT NULL,
+		[INPUT_ROW_ID] [int] NULL,
+		[INVALID_ROW] [int] NULL,
+		[UPDATE_ROW] [int] NULL,
+		[ROW_ID] [int]  NULL,
+		[CLAIM_ID] [int]  NULL,
+		[SITE_ID] [int] NOT NULL,
+		[LOSS_PREVENTION_REPRESENTATIVE] [varchar](100) NULL,
+		[LOSS_PREVENTION_CONTACT_NAME] [varchar](100) NULL,--rs
+		[FAX_NUMBER] [varchar](50) NULL,
+		[EMAIL] [varchar](50) NULL,
+		[PRE_QUOTE_SURVEY_ORDERED_DATE] [varchar](20) NULL,
+		[POST_BIND_SURVEY_ORDERED_DATE] [varchar](20) NULL,
+		[LOSS_PREVENTION_RATING] [varchar](20) NULL,
+		[LOSS_PREVENTION_LASTVISITDATE] [varchar](20) NULL,
+		[INTERIM_AUDITOR_ID] [varchar](50) NULL,
+		[INTERIM_AUDITOR] [varchar](100) NULL,
+		[CHECK_AUDITOR_ID] [varchar](50) NULL,
+		[CHECK_AUDITOR] [varchar](100) NULL,
+		[FINAL_AUDITOR_ID] [varchar](50) NULL,
+		[FINAL_AUDITOR] [varchar](100) NULL,
+		[ADDED_BY_USER] [varchar](50)  NULL,
+		[UPDATED_BY_USER] [varchar](50)  NULL,
+		[DTTM_RCD_LAST_UPD] [varchar](14) NULL,
+		[DTTM_RCD_ADDED] [varchar](14) NULL,
+		[ISINSURED] [int] NULL,
+		[ASSIGNADJ_EID] [int] NULL,
+		[STAGING_ID] [int] NULL,
+			[FINANCIAL_KEY_FLAG] [INT] NULL ,
+			[CLAIM_ID_SOURCE] [varchar](25)  NULL, --RS
+		[ASSIGNADJ_LAST_NAME] [varchar](255) NULL,
+		[ASSIGNADJ_FIRST_NAME] [varchar](255) NULL,	
+		[ASSIGNADJ_TAX_ID] [varchar](20) NULL, 
+		
+	 CONSTRAINT [PK_CLAIM_X_SITELOSS] PRIMARY KEY CLUSTERED 
+	(
+		[DA_ROW_ID] ASC,
+		[JOBID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'CLAIM_X_PROPERTYLOSS') 
+BEGIN
+	CREATE TABLE [dbo].[CLAIM_X_PROPERTYLOSS](
+		[DA_ROW_ID] [int] NOT NULL,
+		[JOBID] [int] NOT NULL,
+		[INPUT_ROW_ID] [int] NULL,
+		[INVALID_ROW] [int] NULL,
+		[UPDATE_ROW] [int] NULL,
+		[ROW_ID] [int]  NULL,
+		[PROPERTY_ID] [int]  NULL,
+		[CLAIM_ID] [int] NULL,
+		[INSURED] [int] NULL,
+		[DAMAGE] [varchar](4000) NULL,
+		[PROPERTYTYPE] [int] NULL,
+		[ESTDAMAGE] [float] NULL,
+		[SEENAT] [varchar](4000) NULL,
+		[DATEREPORTED] [varchar](8) NULL,
+		[TIMEREPORTED] [varchar](6) NULL,
+		[DESCRIPTION] [varchar](4000) NULL,
+		[OWNER] [int] NULL,
+		[LOCOFTHEFT] [int] NULL,
+		[INCENDIARYFIRE] [int] NULL,
+		[VACANT] [int] NULL,
+		[UNDERCONSTRUCTION] [int] NULL,
+		[EXPENSEFROM] [varchar](8) NULL,
+		[EXPENSETO] [varchar](8) NULL,
+		[OTHERINSURANCE] [int] NULL,
+		[POLHOLDERISPROPERTYOWNER] [int] NULL,
+		[POLICYHOLDER] [int] NULL,
+		[COMPANY] [int] NULL,
+		[POLICYNUMBER] [varchar](10) NULL,
+		[COVERAGES] [varchar](4000) NULL,
+		[LIMITS] [varchar](50) NULL,
+		[ADDED_BY_USER] [varchar](50)  NULL,
+		[UPDATED_BY_USER] [varchar](50)  NULL,
+		[DTTM_RCD_LAST_UPD] [varchar](14) NULL,
+		[DTTM_RCD_ADDED] [varchar](14) NULL,
+		[ASSIGNADJ_EID] [int] NULL,
+		[STAGING_ID] [int] NULL,
+			[FINANCIAL_KEY_FLAG] [INT] NULL ,			
+		[OWNER_LAST_NAME] [varchar](255) NULL, --RS
+		[OWNER_FIRST_NAME] [varchar](255) NULL,	
+		[OWNER_TAX_ID] [varchar](20) NULL,
+		[POLICYHOLDER_LAST_NAME] [varchar](255) NULL,
+		[POLICYHOLDER_FIRST_NAME] [varchar](255) NULL,	
+		[POLICYHOLDER_TAX_ID] [varchar](20) NULL,
+		[COMPANY_LAST_NAME] [varchar](255) NULL,
+		[COMPANY_FIRST_NAME] [varchar](255)NULL,	
+		[COMPANY_TAX_ID] [varchar](20) NULL,
+		[ASSIGNADJ_LAST_NAME] [varchar](255) NULL,
+		[ASSIGNADJ_FIRST_NAME] [varchar](255) NULL,	
+		[ASSIGNADJ_TAX_ID] [varchar](20) NULL,
+		--[CLAIM_ID_SOURCE] [varchar](25) NULL, --RS
+	 CONSTRAINT [PK_CLAIM_X_PROPERTYLOSS] PRIMARY KEY CLUSTERED 
+	(
+		[DA_ROW_ID] ASC,
+		[JOBID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'T_DIS_CLAIM_X_PROPERTYLOSS') 
+BEGIN
+	CREATE TABLE [dbo].[T_DIS_CLAIM_X_PROPERTYLOSS](
+		[JOBID] [int] NOT NULL,
+		[DA_ROW_ID] [int] NOT NULL,		
+		[CLAIM_ID] [varchar](25) NULL, --RS
+		[PROPERTYTYPE] [varchar](25) NULL,		
+		[LOCOFTHEFT] [varchar](25) NULL,
+	 CONSTRAINT [PK_T_DIS_CLAIM_X_PROPERTYLOSS] PRIMARY KEY CLUSTERED 
+	(
+		[JOBID] ASC,
+		[DA_ROW_ID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'CLAIM_X_OTHERUNIT') 
+BEGIN
+	CREATE TABLE [dbo].[CLAIM_X_OTHERUNIT](
+		[DA_ROW_ID] [int] NOT NULL,
+		[JOBID] [int] NOT NULL,
+		[INPUT_ROW_ID] [int] NULL,
+		[INVALID_ROW] [int] NULL,
+		[UPDATE_ROW] [int] NULL,		
+		[ROW_ID] [int]  NULL,
+		[CLAIM_ID] [int]  NULL,
+		[OTHER_UNIT_ID] [int]  NULL,
+		[UNIT_TYPE] [varchar](10) NULL,
+		[ADDED_BY_USER] [varchar](50)  NULL,
+		[UPDATED_BY_USER] [varchar](50)  NULL,
+		[DTTM_RCD_LAST_UPD] [varchar](14) NULL,
+		[DTTM_RCD_ADDED] [varchar](14) NULL,
+		[ISINSURED] [int] NULL,
+		[STAGING_ID] [int] NULL,
+		[FINANCIAL_KEY_FLAG] [INT] NULL ,
+		[CLAIM_ID_SOURCE] [varchar](25)  NULL,	
+		
+	 CONSTRAINT [PK_CLAIM_X_OTHERUNIT] PRIMARY KEY CLUSTERED 
+	(
+		[DA_ROW_ID] ASC,
+		[JOBID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+
+
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'DRIVER') 
+BEGIN
+	
+    CREATE TABLE [dbo].[DRIVER](
+		[DA_ROW_ID] [int] NOT NULL,
+		[JOBID] [int] NOT NULL,
+		[INPUT_ROW_ID] [int] NULL,
+		[INVALID_ROW] [int] NULL,
+		[UPDATE_ROW] [int] NULL,
+		[DRIVER_ROW_ID] [int]  NULL,
+		[DRIVER_EID] [int]  NULL,
+		[DRIVER_TYPE] [int]  NULL,
+		[LICENCE_DATE] [varchar](8) NULL,
+		[LICENCE_NUMBER] [varchar](50) NULL,
+		[MARITAL_STAT_CODE] [int] NULL,		
+		[STAGING_ID] [int] NULL,
+		[PS_INS_LINE] [varchar](50) NULL,
+		[PS_RISK_LOC][varchar](10) NULL,
+		[PS_RISK_SUB_LOC][varchar](10) NULL,
+		[PS_PRODUCT][varchar](50) NULL,
+		[PS_DRIVER_ID] [int]  NULL, 
+		[PS_RECORD_STATUS][varchar](1) NULL,	
+		[CLAIM_ID] [varchar](25) NULL, --RS
+		[DRIVER_LAST_NAME] [varchar](255) NULL,
+		[DRIVER_FIRST_NAME] [varchar](255) NULL,	
+		[DRIVER_TAX_ID] [varchar](20) NULL,--	RS
+		[POLICY_ID_SOURCE] INT NULL,
+		[FINANCIAL_KEY_FLAG] INT NULL,
+	 CONSTRAINT [PK_DRIVER] PRIMARY KEY CLUSTERED 
+	(
+		[DA_ROW_ID] ASC,
+		[JOBID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'T_DIS_DRIVER') 
+BEGIN
+	CREATE TABLE [dbo].[T_DIS_DRIVER](
+		[JOBID] [int] NOT NULL,
+		[DA_ROW_ID] [int] NOT NULL,		
+		[DRIVER_TYPE] [varchar](25)  NULL,
+		[MARITAL_STAT_CODE] [varchar](25) NULL,
+		[POLICY_ID_SOURCE] INT NULL,
+	 CONSTRAINT [PK_T_DIS_DRIVER] PRIMARY KEY CLUSTERED 
+	(
+		[JOBID] ASC,
+		[DA_ROW_ID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'PERSON_INVOLVED') 
+BEGIN
+	CREATE TABLE [dbo].[PERSON_INVOLVED](
+		[DA_ROW_ID] [int] NOT NULL,
+		[JOBID] [int] NOT NULL,
+		[INPUT_ROW_ID] [int] NULL,
+		[INVALID_ROW] [int] NULL,
+		[UPDATE_ROW] [int] NULL,
+		[COUNTY_OF_RESIDNC] [varchar](50) NULL,
+		[DRIVLIC_STATE] [int] NULL,
+		[EST_LEN_DISABILITY] [int] NULL,
+		[HIRED_IN_STE_FLAG] [smallint] NULL,
+		[INSURABLE_FLAG] [smallint] NULL,
+		[LAST_VERIFIED_DATE] [varchar](8) NULL,
+		[NUM_OF_VIOLATIONS] [int] NULL,
+		[OSHA_ACC_DESC] [varchar](255) NULL,
+		[OSHA_REC_FLAG] [int] NULL,
+		[REGULAR_JOB_FLAG] [smallint] NULL,
+		[TERM_DATE] [varchar](8) NULL,
+		[WORK_PERMIT_DATE] [varchar](8) NULL,
+		[WORK_PERMIT_NUMBER] [varchar](50) NULL,
+		[WORKDAY_START_TIME] [varchar](6) NULL,
+		[PI_ROW_ID] [int] NULL,
+		[EVENT_ID] [int] NULL,
+		[PI_EID] [int] NULL,
+		[PI_TYPE_CODE] [int] NULL,
+		[INJURY_ILLNESS_FLG] [int] NULL,
+		[DATE_OF_DEATH] [varchar](8) NULL,
+		[REHAB_TEXT] [varchar](2000) NULL, --rs
+		[DESC_BY_WITNESS] [varchar](2000) NULL, --rs
+		[PATIENT_ACCT_NO] [varchar](20) NULL,
+		[MEDICAL_RCD_NO] [varchar](12) NULL,
+		[INS_PLAN_GROUP_NO] [varchar](16) NULL,
+		[DATE_OF_ADMISSION] [varchar](8) NULL,
+		[DATE_OF_DISCHARGE] [varchar](8) NULL,
+		[ADM_TYPE_CODE] [int] NULL,
+		[ADM_SOURCE_CODE] [int] NULL,
+		[ADMISSION_REASON] [varchar](2000) NULL, --rs
+		[ACUITY_LEVEL_CODE] [int] NULL,
+		[PATIENT_STAT_CODE] [int] NULL,
+		[PATIENT_COND_CODE] [int] NULL,
+		[DISCHARGE_DSP_CODE] [int] NULL,
+		[EXP_LENGTH_OF_STAY] [int] NULL,
+		[EXPECTED_COST] [float] NULL,
+		[QI_SIGNIF_CODE] [int] NULL,
+		[EPISODE_OF_CARE_ID] [varchar](8) NULL,
+		[PATIENT_TYPE_CODE] [int] NULL,
+		[MARITAL_STAT_CODE] [int] NULL,
+		[RACE_ENTH_CODE] [int] NULL,
+		[WEIGHT] [int] NULL,
+		[PRIMARY_PAY_CODE] [int] NULL,
+		[EMERGENCY_CONTACT] [varchar](20) NULL,
+		[EMERGENCY_CONT_NO] [varchar](20) NULL,
+		[PATIENT_ROOM_NO] [varchar](14) NULL,
+		[FACILITY_UNIT_CODE] [int] NULL,
+		[FACILITY_DEPT_EID] [int] NULL,
+		[HCO_ID_NO] [varchar](20) NULL,
+		[HCO_SITE_ID_NO] [varchar](20) NULL,
+		[WHY_AT_FACILITY] [varchar](2000) NULL, --rs
+		[CLAIM_AMOUNT] [float] NULL,
+		[LOST_WORK_FLAG] [smallint] NULL,
+		[LEN_OF_SVC_DAYS] [int] NULL,
+		[POSITION_CODE] [int] NULL,
+		[DEPT_ASSIGNED_EID] [int] NULL,
+		[SUPERVISOR_EID] [int] NULL,
+		[EXEMPT_STATUS_FLAG] [smallint] NULL,
+		[NO_OF_EXEMPTIONS] [int] NULL,
+		[FULL_TIME_FLAG] [smallint] NULL,
+		[HOURLY_RATE] [float] NULL,
+		[WEEKLY_HOURS] [float] NULL,
+		[WEEKLY_RATE] [float] NULL,
+		[WORK_SUN_FLAG] [smallint] NULL,
+		[WORK_MON_FLAG] [smallint] NULL,
+		[WORK_TUE_FLAG] [smallint] NULL,
+		[WORK_WED_FLAG] [smallint] NULL,
+		[WORK_THU_FLAG] [smallint] NULL,
+		[WORK_FRI_FLAG] [smallint] NULL,
+		[WORK_SAT_FLAG] [smallint] NULL,
+		[DRIVERS_LIC_NO] [varchar](20) NULL,
+		[DRIVERSLICTYPECODE] [int] NULL,
+		[DATE_DRIVERSLICEXP] [varchar](8) NULL,
+		[DRIVLIC_RSTRCTCODE] [int] NULL,
+		[NCCI_CLASS_CODE] [int] NULL,
+		[COMMENTS] [varchar](255) NULL,
+		[INJURY_CAT_CODE] [int] NULL,
+		[PAY_AMOUNT] [float] NULL,
+		[ACTIVE_FLAG] [smallint] NULL,
+		[EMPLOYEE_NUMBER] [varchar](20) NULL,
+		[DATE_HIRED] [varchar](8) NULL,
+		[DISABILITY_CODE] [int] NULL,
+		[ILLNESS_CODE] [int] NULL,
+		[PAY_TYPE_CODE] [int] NULL,
+		[LOST_CONSC_FLAG] [smallint] NULL,
+		[SEC_DEPT_EID] [int] NULL,
+		[PATIENT_ID] [int] NULL,
+		[EST_RTW_DATE] [varchar](8) NULL,
+		[OSHA_ESTAB_EID] [int] NULL,
+		[MAJOR_HAND_CODE] [int] NULL,
+		[HRANGE_START_DATE] [varchar](8) NULL,
+		[HRANGE_END_DATE] [varchar](8) NULL,
+		[JOB_CLASS_CODE] [int] NULL,
+		[OTHER_TREATMENTS] [varchar](255) NULL,
+		[OTHER_MEDCOND] [varchar](255) NULL,
+		[STD_DISABIL_TYPE] [int] NULL,
+		[CUSTOM_FED_TAX_PER] [float] NULL,
+		[CUSTOM_SS_TAX_PER] [float] NULL,
+		[CUSTOM_MED_TAX_PER] [float] NULL,
+		[CUSTOM_ST_TAX_PER] [float] NULL,
+		[MONTHLY_RATE] [float] NULL,
+		[ELIG_DIS_BEN_FLAG] [smallint] NULL,
+		[DIS_OPTION_CODE] [int] NULL,
+		[HTMLCOMMENTS] [varchar](255) NULL,
+		[CONF_FLAG] [smallint] NULL,
+		[CONF_EVENT_ID] [int] NULL,
+		[WHERE_INJ_TAKEN] [varchar](255) NULL,
+		[WHAT_INJ_DOING][varchar](255) NULL,
+		[DATE_DISABILITY_BEGAN] [varchar](8) NULL,
+		[DATE_DISABILITY_END] [varchar](8) NULL,
+		[PRE_EXISTING_COND_FLAG] [smallint] NULL,
+		[PRE_EXISTING_COND] [int] NULL,
+		[DIAGNOSIS_CODE] [int] NULL,
+		[COLLAT_SOURCES_DESC] [int] NULL,
+		[INJ_CON_WITH_POL_RPT_FLAG] [smallint] NULL,
+		[ER_HOSPITAL_FLAG] [smallint] NULL,
+		[CAT_INJURY_FLAG] [smallint] NULL,
+		[MEDICATIONS] [varchar](200) NULL,
+		[FILE_CLOSING_DATE] [varchar](8) NULL,
+		[SYMPTOMS_DESC] [varchar](200) NULL,
+		[INJ_DEPT_EID] [int] NULL,
+		[DELETED_DATE] [varchar](14) NULL,
+		[INJURYCAUSE_CODE] [int] NULL,
+		[PROGNOSIS] [varchar](255) NULL,
+		[IMPAIRMENT_FLAG] [smallint] NULL,
+		[DAILY_HOURS] [float] NULL,
+		[DAILY_RATE] [float] NULL,
+		[WEEKLY_OFFSET] [float] NULL,
+		[GROSS_EARNINGS] [float] NULL,
+		[DRIVER_ROW_ID] [int] NULL,
+		[POLICY_UNIT_ROW_ID] [int] NULL,
+		[PARENT_TABLE_NAME] [varchar](50) NULL,
+		[STAGING_ID] [int] NULL,
+		[Financial_Key_FLAG] [int] NULL,
+		[POLICY_ID] [int] NULL, --RS
+		[LAST_NAME] [varchar](255) NULL,
+		[FIRST_NAME] [varchar](255) NULL,	
+		[TAX_ID] [varchar](20) NULL,
+		[ENTITY_TABLE_ID_SOURCE][varchar](30) NULL,
+		[ABBREVIATION] [varchar](25) NULL,
+		[COUNTY_OF_RESIDNC_SOURCE] [nvarchar](50) NULL,		
+		[PI_LAST_NAME] [nvarchar](255) NULL,
+		[PI_FIRST_NAME] [nvarchar](255) NULL,	
+		[PI_TAX_ID] [nvarchar](20) NULL,
+		[FACILITY_DEPT_EID_SOURCE] [nvarchar](25) NULL,
+		[DEPT_ASSIGNED_EID_SOURCE] [nvarchar](25) NULL,
+		[SUPERVISOR_EID_SOURCE] [nvarchar](25) NULL,
+		[SEC_DEPT_EID_SOURCE] [nvarchar](25) NULL,
+		[PATIENT_ID_SOURCE] [nvarchar](20) NULL,	
+		[OSHA_ESTAB_EID_SOURCE] [nvarchar](25) NULL,
+		[CLIENT_SEQ_NUM_SOURCE]	[nvarchar](30) NULL,
+		[PARENT_TABLE_NAME_SOURCE] [nvarchar](30) NULL,	
+		[MONTHLY_RATE_SOURCE] [float] NULL, --RS END 
+		[STAGING_RECORD] [int] NULL,
+		[PI_TYPE_CODE_SOURCE]  [nvarchar](25) NULL,	
+		[BENEFICIARY_CODE][int] NULL, --hmi makur24
+		[EXTERNAL_ROLE][varchar](20) NULL,
+		[ADD_AS_CLAIMANT][varchar](1) NULL, 
+		[ROLE_TABLE_ID] [int] NULL, 
+		[PARENT_ROW_ID] [int] NULL, 
+		[ENTITY_TABLE_ID] [int] NULL, 
+		[BIRTH_DATE][varchar](8) NULL,--hmi makur24
+		
+	 CONSTRAINT [PK_PERSON_INVOLVED] PRIMARY KEY CLUSTERED 
+	(
+		[DA_ROW_ID] ASC,
+		[JOBID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'T_DIS_PERSON_INVOLVED') 
+BEGIN
+	CREATE TABLE [dbo].[T_DIS_PERSON_INVOLVED](
+		[JOBID] [int] NOT NULL,
+		[DA_ROW_ID] [int] NOT NULL,
+		[POLICY_ID] [int] NULL,		
+	[DRIVLIC_STATE] [nvarchar](25) NULL,
+	[PI_TYPE_CODE] [nvarchar](25) NULL,
+	[ADM_TYPE_CODE] [nvarchar](25) NULL,
+	[ADM_SOURCE_CODE] [nvarchar](25) NULL,	
+	[ACUITY_LEVEL_CODE] [nvarchar](25) NULL,
+	[PATIENT_STAT_CODE] [nvarchar](25) NULL,
+	[PATIENT_COND_CODE] [nvarchar](25) NULL,
+	[DISCHARGE_DSP_CODE] [nvarchar](25) NULL,
+	[QI_SIGNIF_CODE][nvarchar](25) NULL,
+	[PATIENT_TYPE_CODE] [nvarchar](25) NULL,
+	[MARITAL_STAT_CODE] [nvarchar](25) NULL,
+	[RACE_ENTH_CODE] [nvarchar](25) NULL,
+	[PRIMARY_PAY_CODE] [nvarchar](25) NULL,
+	[FACILITY_UNIT_CODE] [nvarchar](25) NULL,		
+	[POSITION_CODE][nvarchar](25)NULL,	
+	[DRIVERSLICTYPECODE][nvarchar](25) NULL,	
+	[DRIVLIC_RSTRCTCODE] [nvarchar](25) NULL,
+	[NCCI_CLASS_CODE] [nvarchar](25) NULL,	
+	[INJURY_CAT_CODE] [nvarchar](25) NULL,	
+	[DISABILITY_CODE] [nvarchar](25) NULL,
+	[ILLNESS_CODE] [nvarchar](25) NULL,
+	[PAY_TYPE_CODE] [nvarchar](25) NULL,	
+	[MAJOR_HAND_CODE] [nvarchar](25) NULL,	
+	[JOB_CLASS_CODE] [nvarchar](25)NULL,
+	[STD_DISABIL_TYPE] [nvarchar](25) NULL,
+	[DIS_OPTION_CODE] [nvarchar](25) NULL,	
+	[DIAGNOSIS_CODE] [nvarchar](25) NULL,	
+	[INJURYCAUSE_CODE] [nvarchar](25) NULL,	
+	[BENEFICIARY_CODE][nvarchar](25) NULL, --hmi makur24				
+	 CONSTRAINT [PK_T_DIS_PERSON_INVOLVED] PRIMARY KEY CLUSTERED 
+	(		[JOBID] ASC,
+		[DA_ROW_ID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'SALVAGE') 
+BEGIN
+CREATE TABLE [dbo].[SALVAGE](
+	[DA_ROW_ID] [int] NOT NULL,
+	[JOBID] [int] NOT NULL,
+	[INPUT_ROW_ID] [int] NULL,
+	[INVALID_ROW] [int] NULL,
+	[UPDATE_ROW] [int] NULL,
+	[SALVAGE_ROW_ID] [int] NULL,
+	[PARENT_NAME] [varchar](50) NULL,
+	[IS_INSURED] [int] NULL,
+	[IS_OWNER_RETAINED] [int] NULL,
+	[SALVAGE_TYPE] [int] NULL,
+	[POSSESSION_OF] [int] NULL,
+	[CONTROLNUMBER] [varchar](50) NULL,
+	[SALVAGE_STATUS] [int] NULL,
+	[MOVE_DATE] [varchar](8) NULL,
+	[CLOSE_DATE] [varchar](8) NULL,
+	[STOCKNUMBER] [varchar](50) NULL,
+	[CUTOFF_DATE] [varchar](8) NULL,
+	[DAILYFEES] [float] NULL,
+	[CUTOFFREASON] [int] NULL,
+	[APPRAISED_DATE] [varchar](8) NULL,
+	[ACT_CASH_VALUE] [float] NULL,
+	[EST_SALVAGE_VALUE] [float] NULL,
+	[TOW_CHARGE] [float] NULL,
+	[STORAGE_VALUE] [float] NULL,
+	[OTHER_CHARGES] [float] NULL,
+	[TOTAL_CHARGES] [float] NULL,
+	[SOLD_DATE] [varchar](8) NULL,
+	[NETRECOVERY] [float] NULL,
+	[SALE_PRICE] [float] NULL,
+	[RECOVERY_RATE] [int] NULL,
+	[PARENT_ID] [int]  NULL,
+	[BUYER_EID] [int] NULL,
+	[SALVAGE_YARD_ADDR_ID] [int] NULL,
+	[MILEAGE] [int] NULL,
+	[TITLE_NUMBER] [varchar](15) NULL,
+	[STATE_BRAND_CODE] [int] NULL,
+	[THEFT_RECOVERED] [int] NULL,
+	[SALVAGE_DSGND_DATE] [varchar](8) NULL,
+	[SALVAGE_REASON] [varchar](4000) NULL,
+ 	[STAGING_ID] [int] NULL,
+	[FINANCIAL_KEY_FLAG] [INT] NULL ,
+	[BUYER_FIRST_NAME] [varchar](255) NULL, --RS
+		[BUYER_LAST_NAME] [varchar](255) NULL,
+		[BUYER_TAX_ID]  [varchar](20) NULL, --RS END
+	
+ CONSTRAINT [PK_SALVAGE] PRIMARY KEY CLUSTERED 
+	(
+		[JOBID] ASC,
+		[DA_ROW_ID] ASC
+		
+		
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+) ON [PRIMARY]
+END
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'T_DIS_SALVAGE') 
+BEGIN
+	CREATE TABLE [dbo].[T_DIS_SALVAGE](
+	[UNIT_ID] [int] NULL,
+		[JOBID] [int] NOT NULL,
+		[DA_ROW_ID] [int] NOT NULL,
+		[CUTOFFREASON] varchar (25) NULL,
+		[SALVAGE_TYPE] varchar (25) NULL,
+		[SALVAGE_STATUS] varchar (25) NULL,		
+		[STATE_BRAND_CODE]varchar (25) NULL,
+ CONSTRAINT [PK_T_SALVAGE] PRIMARY KEY CLUSTERED 
+	(
+		[JOBID] ASC,
+		[DA_ROW_ID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'POL_COV_LIMIT') 
+BEGIN
+
+CREATE TABLE [dbo].[POL_COV_LIMIT](
+	[DA_ROW_ID] [int] NOT NULL,
+	[JOBID] [int] NOT NULL,
+	[INPUT_ROW_ID] [int] NULL,
+	[INVALID_ROW] [int] NULL,
+	[UPDATE_ROW] [int] NULL,
+	[LIMIT_ROW_ID] [int] null,
+	[POLICY_KEY] [VARCHAR] (50) NULL,
+	[COVERAGE_KEY]  [VARCHAR] (100) NULL,
+	[LIMIT_TYPE_CODE] [int] NULL,
+	[LIMIT_AMOUNT] [float] NULL,
+	[STAGING_ID][int] NULL,
+	[FINANCIAL_KEY_FLAG] [INT] NULL ,
+	[POLICY_KEY_SOURCE] [INT] NULL, --RS
+	[COVERAGE_KEY_SOURCE]  [INT] NULL,
+	
+ CONSTRAINT [PK_POL_COV_LIMIT] PRIMARY KEY CLUSTERED 
+	(
+		[JOBID] ASC,
+		[DA_ROW_ID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+
+ )
+ 
+ END
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'T_DIS_POL_COV_LIMIT') 
+BEGIN
+
+CREATE TABLE [dbo].[T_DIS_POL_COV_LIMIT](
+	[DA_ROW_ID] [int] NOT NULL,
+	[JOBID] [int] NOT NULL,	
+	[LIMIT_TYPE_CODE] [varchar] (25) NULL,
+	CONSTRAINT [PK_T_DIS_POL_COV_LIMIT] PRIMARY KEY CLUSTERED 
+	(		[JOBID] ASC,
+		[DA_ROW_ID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+
+ ) 
+ END
+ IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'PS_ENDORSEMENT') 
+BEGIN
+CREATE TABLE [dbo].[PS_ENDORSEMENT](
+	
+	[DA_ROW_ID] [int] NOT NULL,
+	[JOBID] [int] NOT NULL,
+	[INPUT_ROW_ID] [int] NULL,
+	[INVALID_ROW] [int] NULL,
+	[UPDATE_ROW] [int] NULL,	
+	[ENDORSEMENT_ID] [int] NULL,
+	[POLICY_ID] [int] NULL,
+	[TABLE_ID] [int] NULL,
+	[ROW_ID] [int] NULL,
+	[FORM_NUMBER] [varchar](14) NULL,
+	[FORM_DATE] [varchar](14) NULL,
+	[FORM_DESCRIPTION] [varchar](100) NULL,
+	[STAT] [varchar](50) NULL,
+	[INS_LINE] [varchar](50) NULL,
+	[LOC] [varchar](50) NULL,
+	[BLDG] [varchar](50) NULL,
+	[UNIT] [varchar](50) NULL,
+	[FORM_ACTION] [varchar](100) NULL,
+	[EZ_SCM] [varchar](50) NULL,
+	[DATA] [varchar](50) NULL,
+	[ITERATIVE] [varchar](50) NULL,
+	[DTTM_RCD_ADDED] [varchar](50) NULL,
+	[ADDED_BY_USER] [varchar](50) NULL,
+	[EDITIONDATE] [varchar](14) NULL,
+	[RATEOP] [varchar](50) NULL,
+	[ENTRYDTE] [varchar](14) NULL,
+	[STAGING_ID] [int] NULL,
+	[FINANCIAL_KEY_FLAG] [INT] NULL ,
+	[TABLE_NAME] [varchar] (30) NULL,  --RS
+  CONSTRAINT [PK_PS_ENDORSEMENT] PRIMARY KEY CLUSTERED 
+	(
+		[JOBID] ASC,
+		[DA_ROW_ID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+) ON [PRIMARY]
+END
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'POLICY_X_STATE') 
+BEGIN
+CREATE TABLE [dbo].[POLICY_X_STATE](
+	[DA_ROW_ID] [int] NOT NULL,
+	[JOBID] [int] NOT NULL,
+	[INPUT_ROW_ID] [int] NULL,
+	[INVALID_ROW] [int] NULL,
+	[UPDATE_ROW] [int] NULL,
+	[POLICY_ID] [int] NULL,
+	[STATE_ID] [int] NULL,
+	[STAGING_ID] [int] NULL,
+	[FINANCIAL_KEY_FLAG] [INT] NULL ,
+	[STATE_ID_SOURCE] [VARCHAR] (25) NULL, --RS
+ CONSTRAINT [PK_POLICY_X_STATE] PRIMARY KEY CLUSTERED 
+	(		[JOBID] ASC,
+		[DA_ROW_ID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+ )
+ END
+ 
+ IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'POINT_UNIT_DATA') 
+BEGIN
+	
+    CREATE TABLE [dbo].[POINT_UNIT_DATA](
+		[DA_ROW_ID] [int] NOT NULL,
+		[JOBID] [int] NOT NULL,
+		[INPUT_ROW_ID] [int] NULL,
+		[INVALID_ROW] [int] NULL,
+		[UPDATE_ROW] [int] NULL,
+		[ROW_ID] [int]  NULL,
+		[UNIT_ID] [int] NULL,
+		[UNIT_TYPE] [varchar](10) NULL,
+		[UNIT_NUMBER] [varchar](10) NULL,
+		[UNIT_RISK_LOC] [varchar](10) NULL,
+		[UNIT_RISK_SUB_LOC] [varchar](10) NULL,
+		[SITE_SEQ_NUMBER] [varchar](10) NULL,
+		[PRODUCT] [varchar](50) NULL,
+		[INS_LINE] [varchar](50) NULL,
+		[STAT_UNIT_NUMBER] [varchar](10) NULL,
+		[STAGING_ID] [int] NULL,
+		[INC_CLAIMANT] [int] NULL,
+		[INC_POL_COVERAGE] [int] NULL,
+		[INC_LOSS_TYPE] [int] NULL,
+		[INC_RSVTYPE] [int] NULL,	
+		[POLICY_ID_SOURCE] [int]  NULL, --RS
+	 CONSTRAINT [PK_POINT_UNIT_DATA] PRIMARY KEY CLUSTERED 
+	(
+		[DA_ROW_ID] ASC,
+		[JOBID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END 
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'T_DIS_POINT_UNIT_DATA') 
+BEGIN
+	CREATE TABLE [dbo].[T_DIS_POINT_UNIT_DATA](
+		[JOBID] [int] NOT NULL,
+		[DA_ROW_ID] [int] NOT NULL,
+		[POLICY_ID] [int]  NULL,
+		[UNIT_ID] [int]  NULL,
+	CONSTRAINT [PK_T_DIS_POINT_UNIT_DATA] PRIMARY KEY CLUSTERED 
+	(
+		[JOBID] ASC,
+		[DA_ROW_ID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+
+ IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'CLAIM_X_POLICY') 
+BEGIN
+	
+CREATE TABLE [dbo].[CLAIM_X_POLICY](
+	[JOBID] [int] NOT NULL,
+	[DA_ROW_ID] [int] NOT NULL,
+	[ROW_ID] [int] NOT NULL,
+	[CLAIM_ID] [int] NOT NULL,
+	[POLICY_ID] [int] NOT NULL,
+ CONSTRAINT [PK_CLAIM_X_POLICY] PRIMARY KEY CLUSTERED 
+(
+	[JOBID] ASC,
+	[DA_ROW_ID] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+) ON [PRIMARY]
+END
+
+ IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'POLICY_X_UNIT') 
+BEGIN
+
+CREATE TABLE [dbo].[POLICY_X_UNIT](
+[JOBID] [int] NOT NULL,
+[DA_ROW_ID] [int] NOT NULL,
+[UPDATE_ROW][int] NULL,
+[POLICY_UNIT_ROW_ID] [int]  NULL,
+[POLICY_ID] [int] NULL,
+[UNIT_ID] [int] NULL,
+[UNIT_TYPE] [varchar](10) NULL,
+[STAGING_ID][int] NULL
+CONSTRAINT [PK_POLICY_X_UNIT] PRIMARY KEY CLUSTERED 
+(
+[JOBID] ASC,
+[DA_ROW_ID] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+END
+ -----------------------------------------------mkaur24 HMI Related Tables Start -------------------------------
+ IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'COVERAGE_BENEFIT') 
+BEGIN
+
+CREATE TABLE [dbo].[COVERAGE_BENEFIT](
+	[DA_ROW_ID] [int] NOT NULL,
+	[JOBID] [int] NOT NULL,
+	[INPUT_ROW_ID] [int] NULL,
+	[INVALID_ROW] [int] NULL,
+	[UPDATE_ROW] [int] NULL,
+	[CVG_ROW_ID] [int] null,
+	[BENEFIT_AMOUNT] [float] NULL,
+	[BENEFIT_OPTION] [varchar](4) NULL,
+	[BENEFIT_TYPE] [int] NULL,
+	[ACC_BEN_PERIOD_CODE] [int] NULL,
+	[ACC_ELIM_PERIOD_CODE] [int] NULL,
+	[SICK_BEN_PERIOD_CODE] [int] NULL,
+	[SICK_ELIM_PERIOD_CODE] [int] NULL,
+	[CVG_ROW_ID_SOURCE] [int] null,
+	[POLCVG_ROW_ID_SOURCE] [INT] NULL,
+	[FINANCIAL_KEY_FLAG] [INT] NULL ,
+	CONSTRAINT [PK_COVERAGE_BENEFIT] PRIMARY KEY CLUSTERED 
+	(
+		[JOBID] ASC,
+		[DA_ROW_ID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+
+ )
+ 
+ END
+ IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'T_DIS_COVERAGE_BENEFIT') 
+BEGIN
+
+CREATE TABLE [dbo].[T_DIS_COVERAGE_BENEFIT](
+	[DA_ROW_ID] [int] NOT NULL,
+	[JOBID] [int] NOT NULL,
+	[INPUT_ROW_ID] [int] NULL,
+	[INVALID_ROW] [int] NULL,
+	[UPDATE_ROW] [int] NULL,
+	[CVG_ROW_ID] [int] null,
+	[BENEFIT_TYPE] [VARCHAR](25) NULL,
+	[ACC_BEN_PERIOD_CODE] [VARCHAR](25) NULL,
+	[ACC_ELIM_PERIOD_CODE] [VARCHAR](25) NULL,
+	[SICK_BEN_PERIOD_CODE] [VARCHAR](25) NULL,
+	[SICK_ELIM_PERIOD_CODE] [VARCHAR](25) NULL,
+	[POLCVG_ROW_ID_SOURCE] [INT] NULL,
+	CONSTRAINT [PK_T_DIS_COVERAGE_BENEFIT] PRIMARY KEY CLUSTERED 
+	(
+		[JOBID] ASC,
+		[DA_ROW_ID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+
+ )
+ 
+ END
+
+ IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'INSURED_UNIT') 
+BEGIN
+
+CREATE TABLE [dbo].[INSURED_UNIT](
+	[DA_ROW_ID] [int] NOT NULL,
+	[JOBID] [int] NOT NULL,
+	[INPUT_ROW_ID] [int] NULL,
+	[INVALID_ROW] [int] NULL,
+	[UPDATE_ROW] [int] NULL,
+	[POLICY_ID][int] NULL,
+	[ENTITY_ID][int] NULL,
+	[UNIT_ID][int] NULL,
+	[POLICY_ID_SOURCE][int] NULL,
+	[ENTITY_ID_SOURCE][int] NULL,
+	[UNIT_ID_SOURCE][int] NULL,
+	[FINANCIAL_KEY_FLAG] [INT] NULL ,
+	CONSTRAINT [PK_INSURED_UNIT] PRIMARY KEY CLUSTERED 
+	(
+		[JOBID] ASC,
+		[DA_ROW_ID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+
+ )
+ 
+ END
+
+ 
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'CLAIM_X_INSUREDUNIT') 
+BEGIN
+
+CREATE TABLE [dbo].[CLAIM_X_INSUREDUNIT](
+	[DA_ROW_ID] [int] NOT NULL,
+	[JOBID] [int] NOT NULL,
+	[INPUT_ROW_ID] [int] NULL,
+	[INVALID_ROW] [int] NULL,
+	[UPDATE_ROW] [int] NULL,
+	[CLAIM_ID][int] NULL,
+	[INSURED_UNIT_ID][int] NULL,
+	[UNIT_TYPE][VARCHAR](10) NULL,
+	[ADDED_BY_USER] [varchar](50)  NULL,
+	[UPDATED_BY_USER] [varchar](50)  NULL,
+	[DTTM_RCD_LAST_UPD] [varchar](14) NULL,
+	[DTTM_RCD_ADDED] [varchar](14) NULL,
+	[INCIDENT_LOCATION][VARCHAR](100) NULL,
+	[INCIDENT_DESCRIPTION][VARCHAR](100) NULL,
+	[OCCUPATION][VARCHAR](50) NULL,
+	[AGE_LAST_RCD][VARCHAR](50) NULL,
+	[ISINSURED] [int] NULL,
+	[ISSUICIDE] [int] NULL,
+	[CLAIM_ID_SOURCE][VARCHAR](25) NULL,
+	[INSURED_UNIT_ID_SOURCE][int] NULL,	
+	[FINANCIAL_KEY_FLAG] [INT] NULL ,
+	CONSTRAINT [PK_CLAIM_X_INSUREDUNIT] PRIMARY KEY CLUSTERED 
+	(
+		[JOBID] ASC,
+		[DA_ROW_ID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+
+ )
+ 
+END
+
+
+
+  ---mkaur24 POLICY Restructuring Table Changes Table ENDS
+
+ 
+ 
+ 
+  ---mkaur24 POLICY Restructuring Table Changes Table ENDS
+
+--KKAUR25 HMI enhancememts new tables added start
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[FTS_X_REMARKS]') AND type in (N'U'))
+DROP TABLE [dbo].[FTS_X_REMARKS]
+END
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'FTS_X_REMARKS') 
+BEGIN
+
+CREATE TABLE [dbo].[FTS_X_REMARKS](
+	[DA_ROW_ID] [int] NOT NULL,
+	[JOBID] [int] NOT NULL,
+	[INPUT_ROW_ID] [int] NULL,
+	[INVALID_ROW] [int] NULL,
+	[UPDATE_ROW] [int] NULL,
+	[SPLIT_ROW_ID] [int] null,
+	[EOB_REMARKS_CODE] [int] NULL,
+	CONSTRAINT [PK_FTS_X_REMARKS] PRIMARY KEY CLUSTERED 
+	(
+		[JOBID] ASC,
+		[DA_ROW_ID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+
+ )
+ 
+ END
+
+BEGIN
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[T_DIS_FTS_X_REMARKS]') AND type in (N'U'))
+DROP TABLE [dbo].[T_DIS_FTS_X_REMARKS]
+END
+
+IF NOT EXISTS (SELECT name FROM sys.tables WHERE name = 'T_DIS_FTS_X_REMARKS') 
+BEGIN
+
+CREATE TABLE [dbo].[T_DIS_FTS_X_REMARKS](
+	[DA_ROW_ID] [int] NOT NULL,
+	[JOBID] [int] NOT NULL,
+	[INPUT_ROW_ID] [int] NULL,
+	[INVALID_ROW] [int] NULL,
+	[UPDATE_ROW] [int] NULL,
+	[SPLIT_ROW_ID] [int] null,
+	[EOB_REMARKS_CODE] [varchar](25) NULL,
+	CONSTRAINT [PK_T_DIS_FTS_X_REMARKS] PRIMARY KEY CLUSTERED 
+	(
+		[JOBID] ASC,
+		[DA_ROW_ID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+
+ )
+ 
+ END
+
+END
+
